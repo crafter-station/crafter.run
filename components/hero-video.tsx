@@ -19,6 +19,7 @@ export function HeroVideo() {
         loop
         muted
         playsInline
+        poster="/effecto-poster.jpg"
         className="h-full w-full object-cover"
         aria-hidden="true"
       >
