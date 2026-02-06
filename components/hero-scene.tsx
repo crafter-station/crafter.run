@@ -3,173 +3,66 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { EffectComposer } from "@react-three/postprocessing"
-import { Vector2, type Group } from "three"
+import { Vector2, type Mesh } from "three"
 import { AsciiEffect } from "./ascii-effect"
 
-const catMat = { color: "#e0e0e0", roughness: 0.4, metalness: 0.6 }
-const darkMat = { color: "#2a2a2a", roughness: 0.5, metalness: 0.3 }
-const noseMat = { color: "#d4a0a0", roughness: 0.6, metalness: 0.2 }
-
-function CatModel() {
-  const groupRef = useRef<Group>(null)
+function RotatingGeometry() {
+  const meshRef = useRef<Mesh>(null)
 
   useFrame((state) => {
-    if (!groupRef.current) return
-    const t = state.clock.elapsedTime
-    // Gentle floating + slow rotation
-    groupRef.current.rotation.y = Math.sin(t * 0.2) * 0.3
-    groupRef.current.position.y = Math.sin(t * 0.5) * 0.15
-    // Subtle breathing scale
-    const breathe = 1 + Math.sin(t * 1.2) * 0.01
-    groupRef.current.scale.set(breathe, breathe, breathe)
+    if (meshRef.current) {
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.15
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.2
+    }
   })
 
   return (
-    <group ref={groupRef} position={[0, -0.3, 0]}>
-      {/* === HEAD === */}
-      <mesh position={[0, 1.35, 0]}>
-        <sphereGeometry args={[0.7, 32, 32]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-
-      {/* Left ear */}
-      <mesh position={[-0.42, 2.05, 0]} rotation={[0, 0, -0.25]}>
-        <coneGeometry args={[0.25, 0.5, 4]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-      {/* Left inner ear */}
-      <mesh position={[-0.4, 2.0, 0.08]} rotation={[0, 0, -0.25]}>
-        <coneGeometry args={[0.14, 0.35, 4]} />
-        <meshStandardMaterial {...noseMat} />
-      </mesh>
-
-      {/* Right ear */}
-      <mesh position={[0.42, 2.05, 0]} rotation={[0, 0, 0.25]}>
-        <coneGeometry args={[0.25, 0.5, 4]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-      {/* Right inner ear */}
-      <mesh position={[0.4, 2.0, 0.08]} rotation={[0, 0, 0.25]}>
-        <coneGeometry args={[0.14, 0.35, 4]} />
-        <meshStandardMaterial {...noseMat} />
-      </mesh>
-
-      {/* Left eye */}
-      <mesh position={[-0.25, 1.45, 0.58]}>
-        <sphereGeometry args={[0.12, 16, 16]} />
-        <meshStandardMaterial {...darkMat} />
-      </mesh>
-      {/* Right eye */}
-      <mesh position={[0.25, 1.45, 0.58]}>
-        <sphereGeometry args={[0.12, 16, 16]} />
-        <meshStandardMaterial {...darkMat} />
-      </mesh>
-
-      {/* Eye shine left */}
-      <mesh position={[-0.22, 1.48, 0.68]}>
-        <sphereGeometry args={[0.035, 8, 8]} />
-        <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
-      </mesh>
-      {/* Eye shine right */}
-      <mesh position={[0.28, 1.48, 0.68]}>
-        <sphereGeometry args={[0.035, 8, 8]} />
-        <meshStandardMaterial color="#ffffff" emissive="#ffffff" emissiveIntensity={0.5} />
-      </mesh>
-
-      {/* Nose */}
-      <mesh position={[0, 1.2, 0.65]} rotation={[Math.PI, 0, 0]}>
-        <coneGeometry args={[0.06, 0.08, 3]} />
-        <meshStandardMaterial {...noseMat} />
-      </mesh>
-
-      {/* Muzzle */}
-      <mesh position={[0, 1.12, 0.55]}>
-        <sphereGeometry args={[0.2, 16, 16]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-
-      {/* === BODY === */}
-      <mesh position={[0, 0.15, 0]}>
-        <capsuleGeometry args={[0.55, 0.7, 16, 32]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-
-      {/* === LEGS === */}
-      {/* Front left */}
-      <mesh position={[-0.3, -0.7, 0.25]}>
-        <capsuleGeometry args={[0.13, 0.5, 8, 16]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-      {/* Front right */}
-      <mesh position={[0.3, -0.7, 0.25]}>
-        <capsuleGeometry args={[0.13, 0.5, 8, 16]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-      {/* Back left */}
-      <mesh position={[-0.3, -0.7, -0.25]}>
-        <capsuleGeometry args={[0.14, 0.45, 8, 16]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-      {/* Back right */}
-      <mesh position={[0.3, -0.7, -0.25]}>
-        <capsuleGeometry args={[0.14, 0.45, 8, 16]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-
-      {/* Paws (front) */}
-      <mesh position={[-0.3, -1.05, 0.25]}>
-        <sphereGeometry args={[0.14, 12, 12]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-      <mesh position={[0.3, -1.05, 0.25]}>
-        <sphereGeometry args={[0.14, 12, 12]} />
-        <meshStandardMaterial {...catMat} />
-      </mesh>
-
-      {/* === TAIL === */}
-      <TailCurve />
-
-      {/* Whiskers - left */}
-      <mesh position={[-0.45, 1.22, 0.5]} rotation={[0, 0, 0.15]}>
-        <cylinderGeometry args={[0.005, 0.005, 0.5, 4]} />
-        <meshStandardMaterial color="#999999" />
-      </mesh>
-      <mesh position={[-0.48, 1.17, 0.5]} rotation={[0, 0, 0.05]}>
-        <cylinderGeometry args={[0.005, 0.005, 0.5, 4]} />
-        <meshStandardMaterial color="#999999" />
-      </mesh>
-      {/* Whiskers - right */}
-      <mesh position={[0.45, 1.22, 0.5]} rotation={[0, 0, -0.15]}>
-        <cylinderGeometry args={[0.005, 0.005, 0.5, 4]} />
-        <meshStandardMaterial color="#999999" />
-      </mesh>
-      <mesh position={[0.48, 1.17, 0.5]} rotation={[0, 0, -0.05]}>
-        <cylinderGeometry args={[0.005, 0.005, 0.5, 4]} />
-        <meshStandardMaterial color="#999999" />
-      </mesh>
-    </group>
+    <mesh ref={meshRef}>
+      <torusKnotGeometry args={[1.2, 0.4, 128, 32]} />
+      <meshStandardMaterial color="#e8e8e8" roughness={0.3} metalness={0.7} />
+    </mesh>
   )
 }
 
-function TailCurve() {
-  const segments = 8
+function FloatingOrbs() {
+  const orb1Ref = useRef<Mesh>(null)
+  const orb2Ref = useRef<Mesh>(null)
+  const orb3Ref = useRef<Mesh>(null)
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+    if (orb1Ref.current) {
+      orb1Ref.current.position.x = Math.sin(t * 0.3) * 2.5
+      orb1Ref.current.position.y = Math.cos(t * 0.4) * 1.5
+      orb1Ref.current.position.z = Math.sin(t * 0.2) * 1
+    }
+    if (orb2Ref.current) {
+      orb2Ref.current.position.x = Math.cos(t * 0.25) * 3
+      orb2Ref.current.position.y = Math.sin(t * 0.35) * 2
+      orb2Ref.current.position.z = Math.cos(t * 0.15) * 1.5
+    }
+    if (orb3Ref.current) {
+      orb3Ref.current.position.x = Math.sin(t * 0.2 + 2) * 2
+      orb3Ref.current.position.y = Math.cos(t * 0.3 + 1) * 1.8
+      orb3Ref.current.position.z = Math.sin(t * 0.25 + 3) * 0.8
+    }
+  })
+
   return (
-    <group position={[0, 0.1, -0.5]}>
-      {Array.from({ length: segments }).map((_, i) => {
-        const t = i / (segments - 1)
-        const angle = t * Math.PI * 0.8
-        const x = Math.sin(angle) * 0.3
-        const y = t * 0.9 + 0.1
-        const z = -Math.cos(angle) * 0.4 - 0.1
-        const radius = 0.08 - t * 0.03
-        return (
-          <mesh key={i} position={[x, y, z]}>
-            <sphereGeometry args={[radius, 8, 8]} />
-            <meshStandardMaterial {...catMat} />
-          </mesh>
-        )
-      })}
-    </group>
+    <>
+      <mesh ref={orb1Ref}>
+        <sphereGeometry args={[0.3, 32, 32]} />
+        <meshStandardMaterial color="#c0c0c0" roughness={0.2} metalness={0.8} />
+      </mesh>
+      <mesh ref={orb2Ref}>
+        <sphereGeometry args={[0.2, 32, 32]} />
+        <meshStandardMaterial color="#d0d0d0" roughness={0.3} metalness={0.6} />
+      </mesh>
+      <mesh ref={orb3Ref}>
+        <octahedronGeometry args={[0.25, 0]} />
+        <meshStandardMaterial color="#b0b0b0" roughness={0.1} metalness={0.9} />
+      </mesh>
+    </>
   )
 }
 
@@ -225,7 +118,8 @@ export function HeroScene() {
         <directionalLight position={[5, 5, 5]} intensity={0.8} />
         <pointLight position={[-3, 2, 4]} intensity={0.5} color="#ffffff" />
 
-        <CatModel />
+        <RotatingGeometry />
+        <FloatingOrbs />
 
         <EffectComposer>
           <AsciiEffect
