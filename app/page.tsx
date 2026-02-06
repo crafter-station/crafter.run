@@ -8,9 +8,9 @@ export default function Page() {
   return (
     <main>
       <Navbar />
-      <section className="relative h-screen overflow-hidden">
+      <section className="relative min-h-[100dvh] overflow-hidden">
         <HeroVideo />
-        <div className="pointer-events-none absolute inset-0 z-[1] bg-background/70" />
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-background/80 via-background/70 to-background" />
         <HeroContent />
       </section>
       <Gallery />

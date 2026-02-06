@@ -32,6 +32,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="preload"
+          href="/effecto-poster.jpg"
+          as="image"
+          type="image/jpeg"
+        />
+        <link
+          rel="preload"
+          href="/effecto.webm"
+          as="video"
+          type="video/webm"
+        />
+      </head>
       <body
         className={`${_spaceGrotesk.variable} ${_jetbrainsMono.variable} font-sans antialiased`}
       >
