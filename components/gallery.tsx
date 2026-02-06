@@ -1,5 +1,4 @@
 import { ExternalLink } from "lucide-react"
-import Image from "next/image"
 
 const projects = [
   {
@@ -8,7 +7,6 @@ const projects = [
     tags: ["VSCode", "shadcn/ui"],
     stars: "500+",
     href: "https://tinte.railly.dev",
-    image: null,
     color: "#F8BC31",
   },
   {
@@ -17,7 +15,6 @@ const projects = [
     tags: ["AI", "RAG"],
     stars: "New",
     href: "https://github.com/CrafterStation/lupa",
-    image: null,
     color: "#6EE7B7",
   },
   {
@@ -26,7 +23,6 @@ const projects = [
     tags: ["React", "Fullstack"],
     stars: "200+",
     href: "https://github.com/CrafterStation/elements",
-    image: null,
     color: "#93C5FD",
   },
   {
@@ -35,7 +31,6 @@ const projects = [
     tags: ["AI", "Editor"],
     stars: "Winner",
     href: "https://text0.dev",
-    image: null,
     color: "#FCA5A5",
   },
   {
@@ -44,7 +39,6 @@ const projects = [
     tags: ["Gallery", "References"],
     stars: "This site",
     href: "#",
-    image: null,
     color: "#C4B5FD",
   },
   {
@@ -53,7 +47,6 @@ const projects = [
     tags: ["AI", "Design"],
     stars: "New",
     href: "https://github.com/CrafterStation",
-    image: null,
     color: "#FDBA74",
   },
 ]
@@ -62,15 +55,15 @@ export function Gallery() {
   return (
     <section
       id="gallery"
-      className="relative z-10 border-t border-border bg-background px-6 py-24 md:px-12"
+      className="relative z-10 border-t border-border bg-background px-4 py-14 sm:px-6 sm:py-16 md:px-12 md:py-24"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="mb-16 flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+        <div className="mb-8 flex flex-col items-start gap-3 sm:mb-12 sm:gap-4 md:mb-16 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="mb-3 font-mono text-[11px] tracking-[0.35em] text-accent uppercase">
+            <p className="mb-2 font-mono text-[10px] tracking-[0.35em] text-accent uppercase sm:mb-3 sm:text-[11px]">
               {"// projects"}
             </p>
-            <h2 className="text-3xl font-bold tracking-tighter text-foreground md:text-5xl text-balance">
+            <h2 className="text-2xl font-bold tracking-tighter text-foreground sm:text-3xl md:text-5xl text-balance">
               What we{"'"}ve
               <br />
               <span className="font-light text-foreground/60">been crafting</span>
@@ -80,39 +73,39 @@ export function Gallery() {
             href="https://github.com/CrafterStation"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 font-mono text-[11px] tracking-widest text-foreground/40 uppercase transition-colors hover:text-accent"
+            className="flex items-center gap-2 font-mono text-[10px] tracking-widest text-foreground/40 uppercase transition-colors hover:text-accent sm:text-[11px]"
           >
             View all on GitHub
             <ExternalLink className="h-3 w-3" />
           </a>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {projects.map((project) => (
             <a
               key={project.title}
               href={project.href}
               target={project.href.startsWith("http") ? "_blank" : undefined}
               rel={project.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="group flex flex-col border border-border bg-card p-6 transition-all hover:border-foreground/20 hover:bg-card/80"
+              className="group flex flex-col border border-border bg-card p-4 transition-all hover:border-foreground/20 hover:bg-card/80 active:border-foreground/20 sm:p-5 md:p-6"
             >
               <div
-                className="mb-6 flex h-32 w-full items-center justify-center"
+                className="mb-4 flex h-24 w-full items-center justify-center sm:mb-5 sm:h-28 md:mb-6 md:h-32"
                 style={{
                   background: `linear-gradient(135deg, ${project.color}08, ${project.color}15)`,
                 }}
               >
                 <span
-                  className="font-mono text-2xl font-bold tracking-tighter opacity-30 transition-opacity group-hover:opacity-60"
+                  className="font-mono text-xl font-bold tracking-tighter opacity-30 transition-opacity group-hover:opacity-60 sm:text-2xl"
                   style={{ color: project.color }}
                 >
                   {project.title}
                 </span>
               </div>
 
-              <div className="flex items-center gap-2 mb-3">
+              <div className="mb-2 flex flex-wrap items-center gap-1.5 sm:mb-3 sm:gap-2">
                 <span
-                  className="font-mono text-[10px] font-medium tracking-wider px-2 py-0.5"
+                  className="font-mono text-[9px] font-medium tracking-wider px-1.5 py-0.5 sm:text-[10px] sm:px-2"
                   style={{
                     color: project.color,
                     backgroundColor: `${project.color}15`,
@@ -123,22 +116,22 @@ export function Gallery() {
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="font-mono text-[10px] tracking-wider text-foreground/30"
+                    className="font-mono text-[9px] tracking-wider text-foreground/30 sm:text-[10px]"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <h3 className="mb-1.5 text-lg font-semibold tracking-tight text-foreground transition-colors group-hover:text-accent">
+              <h3 className="mb-1 text-base font-semibold tracking-tight text-foreground transition-colors group-hover:text-accent sm:mb-1.5 sm:text-lg">
                 {project.title}
               </h3>
-              <p className="font-mono text-xs font-light leading-relaxed text-foreground/40">
+              <p className="font-mono text-[11px] font-light leading-relaxed text-foreground/40 sm:text-xs">
                 {project.description}
               </p>
 
-              <div className="mt-auto pt-5">
-                <span className="flex items-center gap-1.5 font-mono text-[10px] tracking-widest text-foreground/25 uppercase transition-colors group-hover:text-accent/70">
+              <div className="mt-auto pt-4 sm:pt-5">
+                <span className="flex items-center gap-1.5 font-mono text-[9px] tracking-widest text-foreground/25 uppercase transition-colors group-hover:text-accent/70 sm:text-[10px]">
                   Explore
                   <ExternalLink className="h-2.5 w-2.5" />
                 </span>
