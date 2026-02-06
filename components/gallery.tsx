@@ -57,7 +57,7 @@ export function Gallery() {
       id="gallery"
       className="relative z-10 border-t border-border bg-background px-4 py-14 sm:px-6 sm:py-16 md:px-12 md:py-24"
     >
-      <div className="mx-auto max-w-6xl">
+      <div className="mx-auto max-w-5xl">
         <div className="mb-8 flex flex-col items-start gap-3 sm:mb-12 sm:gap-4 md:mb-16 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="mb-2 font-mono text-[10px] tracking-[0.35em] text-accent uppercase sm:mb-3 sm:text-[11px]">
