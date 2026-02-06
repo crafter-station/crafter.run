@@ -16,9 +16,9 @@ const _jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "Syntex - Design Studio",
+  title: "crafter.run - Visual References by Crafter Station",
   description:
-    "We craft digital experiences that push the boundaries of what's possible on the web.",
+    "Explore the visual portfolio of projects and references produced by Crafter Station. Search, browse, and discover our open source craft.",
 }
 
 export const viewport: Viewport = {

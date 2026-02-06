@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navbar"
 import { HeroContent } from "@/components/hero-content"
 import { HeroVideo } from "@/components/hero-video"
-import { FeaturesSection } from "@/components/features-section"
+import { Gallery } from "@/components/gallery"
 import { Footer } from "@/components/footer"
 
 export default function Page() {
@@ -10,10 +10,10 @@ export default function Page() {
       <Navbar />
       <section className="relative h-screen overflow-hidden">
         <HeroVideo />
-        <div className="pointer-events-none absolute inset-0 z-[1] bg-background/40" />
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-background/70" />
         <HeroContent />
       </section>
-      <FeaturesSection />
+      <Gallery />
       <Footer />
     </main>
   )
