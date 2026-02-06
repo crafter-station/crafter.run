@@ -3,36 +3,36 @@ import { ArrowDown } from "lucide-react"
 export function HeroContent() {
   return (
     <div className="relative z-10 flex h-screen flex-col items-center justify-center px-6 text-center">
-      <p className="text-muted-foreground mb-6 text-xs font-medium tracking-[0.3em] uppercase">
-        Design Studio
+      <p className="mb-6 font-mono text-xs font-light tracking-[0.35em] uppercase text-foreground/60">
+        {"// design studio"}
       </p>
-      <h1 className="text-foreground font-serif text-5xl font-light leading-tight tracking-tight md:text-7xl lg:text-8xl text-balance">
+      <h1 className="text-foreground text-5xl font-bold leading-[1.05] tracking-tighter md:text-7xl lg:text-[5.5rem] text-balance drop-shadow-[0_0_40px_rgba(0,0,0,0.8)]">
         Creation Without
         <br />
-        Limitation
+        <span className="font-light text-foreground/80">Limitation</span>
       </h1>
-      <p className="text-muted-foreground mt-8 max-w-md text-base leading-relaxed md:text-lg">
+      <p className="mt-8 max-w-lg font-mono text-sm font-light leading-relaxed text-foreground/50 md:text-base">
         We craft digital experiences that push the boundaries of what{"'"}s possible on the web.
       </p>
       <div className="mt-12 flex items-center gap-4">
         <a
           href="#work"
-          className="bg-foreground text-background rounded-full px-8 py-3 text-sm font-medium tracking-wide transition-opacity hover:opacity-90"
+          className="bg-foreground text-background px-8 py-3 font-mono text-xs font-medium tracking-wider uppercase transition-all hover:bg-foreground/90 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]"
         >
           View Work
         </a>
         <a
           href="#about"
-          className="border-foreground/20 text-foreground rounded-full border px-8 py-3 text-sm font-medium tracking-wide transition-colors hover:bg-foreground/10"
+          className="border border-foreground/25 text-foreground px-8 py-3 font-mono text-xs font-medium tracking-wider uppercase transition-all hover:border-foreground/50 hover:bg-foreground/5"
         >
           Learn More
         </a>
       </div>
       <div className="absolute bottom-12 flex flex-col items-center gap-2">
-        <span className="text-muted-foreground text-[10px] tracking-[0.3em] uppercase">
-          Scroll to explore
+        <span className="font-mono text-[10px] font-light tracking-[0.35em] uppercase text-foreground/40">
+          Scroll
         </span>
-        <ArrowDown className="text-muted-foreground h-4 w-4 animate-bounce" />
+        <ArrowDown className="h-3.5 w-3.5 animate-bounce text-foreground/40" />
       </div>
     </div>
   )

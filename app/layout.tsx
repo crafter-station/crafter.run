@@ -1,14 +1,18 @@
 import React from "react"
 import type { Metadata, Viewport } from "next"
-import { Inter, Playfair_Display } from "next/font/google"
+import { Space_Grotesk, JetBrains_Mono } from "next/font/google"
 
 import "./globals.css"
 
-const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const _playfair = Playfair_Display({
+const _spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-playfair",
-  weight: ["400", "500", "600"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700"],
+})
+const _jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["300", "400", "500"],
 })
 
 export const metadata: Metadata = {
@@ -29,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${_inter.variable} ${_playfair.variable} font-sans antialiased`}
+        className={`${_spaceGrotesk.variable} ${_jetbrainsMono.variable} font-sans antialiased`}
       >
         {children}
       </body>

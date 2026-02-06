@@ -10,7 +10,7 @@ export default function Page() {
       <Navbar />
       <section className="relative h-screen overflow-hidden">
         <HeroVideo />
-        <div className="pointer-events-none absolute inset-0 z-[1] bg-background/50" />
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-background/40" />
         <HeroContent />
       </section>
       <FeaturesSection />

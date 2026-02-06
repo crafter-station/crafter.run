@@ -23,26 +23,31 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section id="about" className="bg-background relative z-10 px-6 py-32 md:px-12">
+    <section id="about" className="bg-background relative z-10 border-t border-border px-6 py-32 md:px-12">
       <div className="mx-auto max-w-5xl">
-        <p className="text-muted-foreground mb-4 text-xs tracking-[0.3em] uppercase">
-          What We Do
+        <p className="mb-4 font-mono text-[11px] tracking-[0.35em] text-foreground/40 uppercase">
+          {"// what we do"}
         </p>
-        <h2 className="text-foreground font-serif text-3xl font-light tracking-tight md:text-5xl text-balance">
+        <h2 className="text-foreground text-3xl font-bold tracking-tighter md:text-5xl text-balance">
           Built for the
           <br />
-          modern web
+          <span className="font-light text-foreground/70">modern web</span>
         </h2>
         <div className="mt-20 grid gap-12 md:grid-cols-3 md:gap-8">
-          {features.map((feature) => (
+          {features.map((feature, index) => (
             <div key={feature.title} className="group">
-              <div className="border-border mb-6 flex h-12 w-12 items-center justify-center rounded-full border transition-colors group-hover:border-foreground/40">
-                <feature.icon className="text-muted-foreground h-5 w-5 transition-colors group-hover:text-foreground" />
+              <div className="mb-6 flex items-center gap-3">
+                <span className="font-mono text-[10px] text-foreground/30">
+                  {`0${index + 1}`}
+                </span>
+                <div className="flex h-10 w-10 items-center justify-center border border-border transition-colors group-hover:border-foreground/30">
+                  <feature.icon className="h-4 w-4 text-foreground/50 transition-colors group-hover:text-foreground" />
+                </div>
               </div>
-              <h3 className="text-foreground mb-3 text-lg font-medium tracking-tight">
+              <h3 className="text-foreground mb-3 text-lg font-semibold tracking-tight">
                 {feature.title}
               </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+              <p className="font-mono text-xs font-light leading-relaxed text-foreground/45">
                 {feature.description}
               </p>
             </div>
