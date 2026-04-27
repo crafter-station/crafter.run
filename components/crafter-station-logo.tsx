@@ -8,7 +8,7 @@ export function CrafterStationLogo({ ...props }: CrafterStationLogoProps) {
       viewBox="0 0 257 257"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="!text-[#F8BC31]"
+      className="!text-accent"
       {...props}
     >
       <title>Crafter Station Logo</title>
