@@ -1,20 +1,37 @@
-import { Navbar } from "@/components/navbar"
-import { HeroContent } from "@/components/hero-content"
-import { HeroVideo } from "@/components/hero-video"
-import { Gallery } from "@/components/gallery"
-import { Footer } from "@/components/footer"
+import { Capabilities } from "@/components/capabilities"
+import { CTA } from "@/components/cta"
+import { FeaturedProducts } from "@/components/featured-products"
+import { SectionGap } from "@/components/grid-container"
+import { Hero } from "@/components/hero"
+import { OpenSourceStrip } from "@/components/open-source-strip"
+import { SiteFooter } from "@/components/site-footer"
+import { SiteHeader } from "@/components/site-header"
+import { Stack } from "@/components/stack"
+import { Team } from "@/components/team"
+import { Testimonials } from "@/components/testimonials"
 
 export default function Page() {
   return (
-    <main>
-      <Navbar />
-      <section className="relative min-h-[100dvh] overflow-hidden">
-        <HeroVideo />
-        <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-background/80 via-background/70 to-background" />
-        <HeroContent />
-      </section>
-      <Gallery />
-      <Footer />
-    </main>
+    <>
+      <SiteHeader />
+      <main className="flex-1">
+        <Hero />
+        <SectionGap />
+        <Capabilities />
+        <SectionGap />
+        <OpenSourceStrip />
+        <SectionGap />
+        <FeaturedProducts />
+        <SectionGap />
+        <Stack />
+        <SectionGap />
+        <Team />
+        <SectionGap />
+        <Testimonials />
+        <SectionGap />
+        <CTA />
+      </main>
+      <SiteFooter />
+    </>
   )
 }
