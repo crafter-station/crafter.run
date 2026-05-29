@@ -3,8 +3,9 @@ import { stackLogos } from "@/lib/site"
 
 export function Stack() {
   return (
-    <Container innerClassName="overflow-hidden">
-      <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-16 text-center md:py-24">
+    <div id="stack">
+      <Container innerClassName="overflow-hidden">
+        <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-16 text-center md:py-24">
         <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
           Life in the fast lane
         </p>
@@ -35,7 +36,8 @@ export function Stack() {
             </span>
           ))}
         </div>
-      </div>
-    </Container>
+        </div>
+      </Container>
+    </div>
   )
 }
