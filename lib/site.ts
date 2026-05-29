@@ -224,8 +224,8 @@ export const stackLogos = [
 ] as const
 
 export const socials = [
-  { label: "GitHub", href: "https://github.com/CrafterStation" },
+  { label: "GitHub", href: "https://github.com/crafter-station" },
   { label: "X", href: "https://x.com/CrafterStation" },
-  { label: "Discord", href: "https://discord.gg/crafterstation" },
-  { label: "Station", href: "https://www.crafterstation.com/" },
+  { label: "Discord", href: "https://discord.gg/CdnJjDkZy" },
+  { label: "Instagram", href: "https://www.instagram.com/crafter.station/" },
 ] as const
