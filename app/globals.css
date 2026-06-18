@@ -111,6 +111,35 @@
     animation: column-shift-3 0.5s ease-in-out 0.1s;
   }
 
+  @keyframes vote-old-up {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100%); opacity: 0; }
+  }
+  @keyframes vote-new-up {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes vote-old-down {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(100%); opacity: 0; }
+  }
+  @keyframes vote-new-down {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .animate-vote-old-up {
+    animation: vote-old-up 0.18s ease-in forwards;
+  }
+  .animate-vote-new-up {
+    animation: vote-new-up 0.22s ease-out forwards;
+  }
+  .animate-vote-old-down {
+    animation: vote-old-down 0.18s ease-in forwards;
+  }
+  .animate-vote-new-down {
+    animation: vote-new-down 0.22s ease-out forwards;
+  }
+
   .wordmark-crafter {
     font-family: var(--font-mono), monospace;
     font-weight: 700;

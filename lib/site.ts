@@ -10,6 +10,7 @@ export const siteConfig = {
 
 export const navItems = [
   { label: "Work", href: "#work" },
+  { label: "Next", href: "/next" },
   { label: "Open source", href: "#open-source" },
   { label: "Team", href: "#team" },
   { label: "Stack", href: "#stack" },
