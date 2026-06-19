@@ -1,0 +1,145 @@
+{
+  "common": {
+    "workCta": "Work with us",
+    "communityCta": "Join the community",
+    "openCta": "Open"
+  },
+  "home": {
+    "eyebrow": "Crafter Station · LatAm",
+    "line1": "The LatAm",
+    "line2": "network of",
+    "line3": "shippers.",
+    "description": "A community of 800+ builders, a project lab, research, and events helping LatAm shippers meet, learn, and build in public.",
+    "workCta": "Work with us",
+    "communityCta": "Join the community",
+    "eventsCta": "See events",
+    "workPreview": {
+      "section": "LatAm growth partner",
+      "eyebrow": "For devtools and startups",
+      "title": "Launch with the builders you actually want to reach.",
+      "description": "We design hackathons, Code Brews, workshops, product launches, content, and community activations for teams that want real LatAm adoption, not vanity impressions.",
+      "cta": "Work with us",
+      "cardCta": "Start a conversation"
+    },
+    "collaborations": {
+      "eyebrow": "Collaborations",
+      "description": "Collaborated with teams and ecosystems including devtools, AI labs, fintech startups, and infrastructure companies."
+    },
+    "communityPreview": {
+      "eyebrow": "Community first",
+      "title": "The best LatAm builders are already shipping.",
+      "description": "Crafter Station exists to connect them, celebrate their work, and help more people build in public with taste, speed, and ambition.",
+      "communityCta": "Join the community",
+      "eventsCta": "Explore events"
+    },
+    "eventsResearch": {
+      "eventsEyebrow": "Events engine",
+      "eventsTitle": "Meet the shippers.",
+      "researchEyebrow": "Crafter Research",
+      "researchTitle": "Study the next shift.",
+      "researchDescription": "We research AI-first engineering, agents, developer experience, product workflows, and the systems that help teams ship with AI.",
+      "partnerCta": "Partner on events",
+      "openCta": "Open"
+    },
+    "communityQr": {
+      "eyebrow": "Join the community",
+      "title": "Scan to join crafters.chat.",
+      "description": "The WhatsApp-first home for LatAm builders shipping products, finding collaborators, sharing events, and building in public.",
+      "cta": "Open crafters.chat",
+      "alt": "QR code for crafters.chat"
+    },
+    "instagram": {
+      "eyebrow": "Follow along",
+      "title": "See the rooms, demos, and builders we are shipping with.",
+      "description": "Follow @crafter.station and our YouTube channel for event recaps, community moments, builder spotlights, and the work we are shipping across LatAm.",
+      "instagramCta": "Follow us on Instagram",
+      "youtubeCta": "Watch on YouTube"
+    },
+    "openCalendars": {
+      "eyebrow": "Open calendars",
+      "title": "Book free 30-minute time with a Crafter Station member.",
+      "description": "You can book mentorship, career advice, product feedback, or a calm conversation with any Crafter Station member. This is how we give back to the community that made the network possible.",
+      "instructions": "Go to the team page, pick a member, and use the calendar on their profile.",
+      "cta": "See team calendars"
+    }
+  },
+  "nav": {
+    "projects": "Projects",
+    "events": "Events",
+    "research": "Research",
+    "team": "Team",
+    "workCta": "Work with us",
+    "communityCta": "Join the community",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "footer": {
+    "company": "Crafter Station",
+    "build": "Build",
+    "productLab": "Projects",
+    "community": "Community",
+    "social": "Social",
+    "companyLinks": {
+      "events": "Events",
+      "sponsorEvents": "Sponsor events",
+      "projects": "Projects",
+      "team": "Team",
+      "workWithUs": "Work with us",
+      "contact": "Contact"
+    },
+    "buildLinks": {
+      "projects": "Projects",
+      "research": "Research",
+      "next": "Next",
+      "brand": "Brand"
+    },
+    "communityLinks": {
+      "joinCommunity": "Join the community",
+      "lumaEvents": "Luma events",
+      "hack0": "hack0.dev",
+      "shippingBible": "Shipping Bible"
+    },
+    "copyright": "© {year} Crafter Station. Built fast, built well."
+  },
+  "pages": {
+    "work-with-us": {"eyebrow":"Work with us","title":"Work with the team behind Crafter Station.","description":"For companies that want senior product execution, LatAm community activations, event partnerships, product collaborations, and high-signal builder access.","section":"A negotiable LatAm growth partner","sectionDescription":"Every collaboration is shaped around the product, audience, timing, and trust required."},
+    "events": {"eyebrow":"Events","title":"Code Brews, hackathons, launches, and workshops across LatAm.","description":"Events are how we turn online community into real trust. We host formats that help builders meet, learn, demo, and ship together.","section":"Built for participation, not passive attendance.","sectionDescription":"We design events around builders doing the work: trying products, shipping demos, sharing lessons, and meeting collaborators.","all":"All","upcoming":"Upcoming","past":"Past events","register":"Register","noEvents":"[*] No events found. Check back soon.","noFilteredEvents":"No events match this filter."},
+    "events-sponsors": {"eyebrow":"Sponsor events","title":"Sponsor Crafter Station hackathons, meetups, and builder rooms.","description":"Partner with Crafter Station to support high-signal events where LatAm builders try products, ship demos, meet collaborators, and remember the companies that showed up.","section":"For companies that want more than a logo.","sectionDescription":"We work with sponsors on hackathons, Code Brews, workshops, product launches, prizes, venue support, food, developer tools, and hands-on activations."},
+    "projects": {"eyebrow":"Project lab","title":"Projects we ship to learn, teach, and prove the work.","description":"Our projects span event infrastructure, legal data, voice interfaces, AI-native tools, open-source releases, design systems, code search, and community playbooks.","githubEyebrow":"GitHub","githubTitle":"We build in public when the work should be inspectable.","githubDescription":"The Crafter Station GitHub organization is where we publish open-source products, community infrastructure, experiments, and reusable engineering artifacts. Some projects are full products, some are public datasets, and some are the raw material behind the work we ship.","githubCta":"Open GitHub org","section":"The lab is public.","sectionDescription":"Some projects are hosted products, some are open source, some are playbooks, and some are community infrastructure. Open-source projects are tagged in the catalog.","nextEyebrow":"Next projects","nextTitle":"Help choose what the community should build next.","nextDescription":"We run a realtime, community-ranked project board for requests, experiments, and useful ideas the network can work on together. Submit an idea, vote on the queue, and watch priorities move live.","nextCta":"Open next projects"},
+    "research": {"eyebrow":"Research","title":"Researching the systems behind better shipping.","description":"Crafter Research explores AI-first engineering, agents, developer experience, and the practices that help modern teams build with more leverage.","section":"For now, research lives on its own domain.","sectionDescription":"This page features the unit and links to the active research site and GitHub organization."},
+    "team": {"eyebrow":"Team","title":"The people growing the shipping culture.","description":"Crafter Station is built by engineers, designers, researchers, marketers, product people, operators, and community organizers across Latin America.","section":"Small core, large network.","sectionDescription":"The team combines product engineering, AI, design systems, backend, data, growth, automation, project management, and community building.","calendarEyebrow":"Open calendars","calendarTitle":"Book free 30-minute time with a Crafter Station member.","calendarDescription":"You can book mentorship, career advice, product feedback, or a calm conversation with any Crafter Station member. This is how we give back to the community that made the network possible.","calendarInstructions":"Go to the team page, pick a member, and use the calendar on their profile.","calendarCta":"See team calendars"},
+    "blog": {"eyebrow":"Blog","title":"Stories about shipping, AI, community, and product craft.","description":"The unified blog will collect lessons from Crafter Station, Crafter Research, open-source launches, hackathons, and the LatAm community.","section":"Start with the philosophy and research.","sectionDescription":"The full content migration can come next. For now, this page points to the most important writing surfaces."},
+    "brand": {"eyebrow":"Brand","title":"Crafter Station brand assets and usage.","description":"Use this page when referencing Crafter Station in articles, presentations, event pages, or partner materials.","section":"One name, one ecosystem.","sectionDescription":"The asset download section can be expanded when final logos are migrated from the old site."},
+    "contact": {"eyebrow":"Contact","title":"Start with the right path.","description":"Tell us whether you want to partner, build, host an event, sponsor a hackathon, or join the community.","section":"What are you trying to do?","sectionDescription":"Choose the type of conversation and we will reply with the fastest path to start."},
+    "next": {"eyebrow":"/projects/next","title":"Vote on the next thing we should craft.","description":"A live, community-ranked queue for project ideas the community can work on. Submit anonymously, leave an alias if you want, and move the best ideas up in realtime."}
+  },
+  "member": {
+    "back": "Back to team",
+    "skills": "Skills",
+    "connect": "Connect",
+    "projects": "Projects",
+    "joined": "Joined",
+    "calendar": "Book a meeting",
+    "calendarSub": "Schedule a mentoring session, career advice, product feedback, or a chill chat."
+  },
+  "teamWorkCallout": {
+    "eyebrow": "Work with us",
+    "title": "Need the team behind Crafter Station?",
+    "description": "For product engineering, event partnerships, community activations, and LatAm growth collaborations, start here.",
+    "cta": "Work with us"
+  },
+  "cta": {
+    "eyebrow": "Join the network",
+    "title": "Build with the LatAm shipping network",
+    "description": "Join the community, come to an event, follow the projects, or partner with us on the next room full of builders.",
+    "emailLabel": "Email address",
+    "emailPlaceholder": "you@company.com",
+    "submit": "Get in touch",
+    "sending": "Sending",
+    "successTitle": "Got it",
+    "successDescription": "We'll be in touch shortly. Thanks for reaching out.",
+    "invalidEmail": "Enter a valid email address",
+    "genericError": "Something went wrong. Try again in a moment.",
+    "networkError": "Network error. Try again in a moment."
+  }
+}

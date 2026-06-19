@@ -1,31 +1,54 @@
 import Link from "next/link"
+import { getTranslations } from "next-intl/server"
+import { LocalizedLink } from "@/components/localized-link"
 import { SiteWordmark } from "@/components/site-wordmark"
-import { products, openSourceRepos, socials } from "@/lib/site"
+import { type Locale } from "@/lib/i18n"
+import { getProducts, socials } from "@/lib/site"
 
-const studioLinks = [
-  { label: "Work", href: "#work" },
-  { label: "Team", href: "#team" },
-  { label: "Stack", href: "#stack" },
-  { label: "Get in touch", href: "#contact" },
+const companyLinks = [
+  { key: "events", href: "/events" },
+  { key: "sponsorEvents", href: "/events/sponsors" },
+  { key: "projects", href: "/projects" },
+  { key: "team", href: "/team" },
+  { key: "workWithUs", href: "/team/work-with-us" },
+  { key: "contact", href: "/contact" },
 ]
 
-export function SiteFooter() {
+const buildLinks = [
+  { key: "projects", href: "/projects" },
+  { key: "research", href: "/research" },
+  { key: "next", href: "/projects/next" },
+  { key: "brand", href: "/brand" },
+]
+
+const communityLinks = [
+  { key: "joinCommunity", href: "https://crafters.chat" },
+  { key: "lumaEvents", href: "https://luma.com/hack0" },
+  { key: "hack0", href: "https://hack0.dev" },
+  { key: "shippingBible", href: "https://theshippingbible.com/" },
+]
+
+export async function SiteFooter({ locale }: { locale: Locale }) {
+  const t = await getTranslations({ locale, namespace: "footer" })
+  const products = getProducts(locale)
+
   return (
     <footer className="border-t border-line bg-background">
-      <div className="grid gap-12 px-8 py-16 md:grid-cols-4">
+      <div className="grid gap-12 px-8 py-16 md:grid-cols-3 xl:grid-cols-5">
         <div>
           <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-            Studio
+            {t("company")}
           </p>
           <ul className="space-y-3 text-sm">
-            {studioLinks.map((l) => (
-              <li key={l.label}>
-                <Link
+            {companyLinks.map((l) => (
+              <li key={l.key}>
+                <LocalizedLink
                   href={l.href}
+                  locale={locale}
                   className="text-foreground transition-colors hover:text-muted-foreground"
                 >
-                  {l.label}
-                </Link>
+                  {t(`companyLinks.${l.key}`)}
+                </LocalizedLink>
               </li>
             ))}
           </ul>
@@ -33,10 +56,29 @@ export function SiteFooter() {
 
         <div>
           <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-            Products
+            {t("build")}
           </p>
           <ul className="space-y-3 text-sm">
-            {products.map((p) => (
+            {buildLinks.map((l) => (
+              <li key={l.key}>
+                <LocalizedLink
+                  href={l.href}
+                  locale={locale}
+                  className="text-foreground transition-colors hover:text-muted-foreground"
+                >
+                  {t(`buildLinks.${l.key}`)}
+                </LocalizedLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            {t("productLab")}
+          </p>
+          <ul className="space-y-3 text-sm">
+            {products.slice(0, 6).map((p) => (
               <li key={p.slug}>
                 <Link
                   href={p.url}
@@ -53,18 +95,18 @@ export function SiteFooter() {
 
         <div>
           <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-            Open source
+            {t("community")}
           </p>
           <ul className="space-y-3 text-sm">
-            {openSourceRepos.map((r) => (
-              <li key={r.name}>
+            {communityLinks.map((l) => (
+              <li key={l.key}>
                 <Link
-                  href={r.url}
+                  href={l.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-foreground transition-colors hover:text-muted-foreground"
                 >
-                  {r.name}
+                  {t(`communityLinks.${l.key}`)}
                 </Link>
               </li>
             ))}
@@ -73,7 +115,7 @@ export function SiteFooter() {
 
         <div>
           <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-            Social
+            {t("social")}
           </p>
           <ul className="space-y-3 text-sm">
             {socials.map((s) => (
@@ -90,13 +132,12 @@ export function SiteFooter() {
             ))}
           </ul>
         </div>
-
       </div>
       <div className="border-t border-line">
         <div className="flex flex-col items-start justify-between gap-3 px-8 py-6 md:flex-row md:items-center">
           <SiteWordmark />
           <p className="font-mono text-[10px] tracking-wider text-muted-foreground">
-            © {new Date().getFullYear()} Crafter Station. Built fast, built well.
+            {t("copyright", { year: new Date().getFullYear() })}
           </p>
         </div>
       </div>

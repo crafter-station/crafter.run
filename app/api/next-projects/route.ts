@@ -3,6 +3,7 @@ import { generateText, Output } from "ai"
 import { NextResponse } from "next/server"
 import { z } from "zod"
 
+import { env } from "@/env"
 import { createServerSupabaseClient } from "@/lib/supabase/server"
 
 const submissionSchema = z.object({
@@ -16,7 +17,7 @@ const spamResultSchema = z.object({
 })
 
 async function validateIdeaWithAI(idea: string) {
-  if (!process.env.OPENAI_API_KEY) {
+  if (!env.OPENAI_API_KEY) {
     return { allowed: true, reason: "Spam validation skipped: OPENAI_API_KEY is not configured." }
   }
 

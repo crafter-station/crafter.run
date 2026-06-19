@@ -1,0 +1,222 @@
+{
+  "common": {
+    "workCta": "Trabaja con nosotros",
+    "communityCta": "Unete a la comunidad",
+    "openCta": "Abrir"
+  },
+  "home": {
+    "eyebrow": "Crafter Station · LatAm",
+    "line1": "La red",
+    "line2": "LatAm de",
+    "line3": "shippers.",
+    "description": "Una comunidad de 800+ builders, un laboratorio de proyectos, research y eventos para que shippers de LatAm se conozcan, aprendan y construyan en publico.",
+    "workCta": "Trabaja con nosotros",
+    "communityCta": "Unete a la comunidad",
+    "eventsCta": "Ver eventos",
+    "workPreview": {
+      "section": "Partner de crecimiento en LatAm",
+      "eyebrow": "Para devtools y startups",
+      "title": "Lanza con los builders que realmente quieres alcanzar.",
+      "description": "Disenamos hackathons, Code Brews, workshops, lanzamientos de producto, contenido y activaciones de comunidad para equipos que quieren adopcion real en LatAm, no impresiones de vanidad.",
+      "cta": "Trabaja con nosotros",
+      "cardCta": "Empezar una conversacion"
+    },
+    "collaborations": {
+      "eyebrow": "Colaboraciones",
+      "description": "Hemos colaborado con equipos y ecosistemas incluyendo devtools, laboratorios de IA, startups fintech y companias de infraestructura."
+    },
+    "communityPreview": {
+      "eyebrow": "Comunidad primero",
+      "title": "Los mejores builders de LatAm ya estan shipeando.",
+      "description": "Crafter Station existe para conectarlos, celebrar su trabajo y ayudar a mas personas a construir en publico con gusto, velocidad y ambicion.",
+      "communityCta": "Unete a la comunidad",
+      "eventsCta": "Explorar eventos"
+    },
+    "eventsResearch": {
+      "eventsEyebrow": "Motor de eventos",
+      "eventsTitle": "Conoce a los shippers.",
+      "researchEyebrow": "Crafter Research",
+      "researchTitle": "Estudia el proximo cambio.",
+      "researchDescription": "Investigamos ingenieria AI-first, agentes, developer experience, workflows de producto y los sistemas que ayudan a equipos a construir con IA.",
+      "partnerCta": "Haz partnership en eventos",
+      "openCta": "Abrir"
+    },
+    "communityQr": {
+      "eyebrow": "Unete a la comunidad",
+      "title": "Escanea para unirte a crafters.chat.",
+      "description": "El hogar WhatsApp-first para builders de LatAm que shipean productos, encuentran colaboradores, comparten eventos y construyen en publico.",
+      "cta": "Abrir crafters.chat",
+      "alt": "Codigo QR para crafters.chat"
+    },
+    "instagram": {
+      "eyebrow": "Sigue la comunidad",
+      "title": "Ve los rooms, demos y builders con los que estamos shipeando.",
+      "description": "Sigue @crafter.station y nuestro canal de YouTube para recaps de eventos, momentos de comunidad, perfiles de builders y el trabajo que estamos shipeando en LatAm.",
+      "instagramCta": "Seguir en Instagram",
+      "youtubeCta": "Ver en YouTube"
+    },
+    "openCalendars": {
+      "eyebrow": "Calendarios abiertos",
+      "title": "Agenda 30 minutos gratis con una persona de Crafter Station.",
+      "description": "Puedes agendar mentoria, consejo de carrera, feedback de producto o una conversacion tranquila con cualquier miembro de Crafter Station. Asi devolvemos valor a la comunidad que hizo posible la red.",
+      "instructions": "Ve a la pagina del equipo, elige a una persona y usa el calendario en su perfil.",
+      "cta": "Ver calendarios del equipo"
+    }
+  },
+  "nav": {
+    "projects": "Proyectos",
+    "events": "Eventos",
+    "research": "Research",
+    "team": "Equipo",
+    "workCta": "Trabaja con nosotros",
+    "communityCta": "Unete a la comunidad",
+    "openMenu": "Abrir menu",
+    "closeMenu": "Cerrar menu"
+  },
+  "footer": {
+    "company": "Crafter Station",
+    "build": "Construir",
+    "productLab": "Proyectos",
+    "community": "Comunidad",
+    "social": "Social",
+    "companyLinks": {
+      "events": "Eventos",
+      "sponsorEvents": "Patrocinar eventos",
+      "projects": "Proyectos",
+      "team": "Equipo",
+      "workWithUs": "Trabaja con nosotros",
+      "contact": "Contacto"
+    },
+    "buildLinks": {
+      "projects": "Proyectos",
+      "research": "Research",
+      "next": "Next",
+      "brand": "Brand"
+    },
+    "communityLinks": {
+      "joinCommunity": "Unete a la comunidad",
+      "lumaEvents": "Eventos en Luma",
+      "hack0": "hack0.dev",
+      "shippingBible": "Shipping Bible"
+    },
+    "copyright": "© {year} Crafter Station. Construido rapido, construido bien."
+  },
+  "pages": {
+    "work-with-us": {
+      "eyebrow": "Trabaja con nosotros",
+      "title": "Trabaja con el equipo detras de Crafter Station.",
+      "description": "Para companias que buscan ejecucion senior de producto, activaciones de comunidad en LatAm, partnerships de eventos, colaboraciones de producto y acceso a builders con alta senal.",
+      "section": "Partner de crecimiento en LatAm",
+      "sectionDescription": "Cada colaboracion se adapta al producto, audiencia, timing y confianza que necesitas construir."
+    },
+    "events": {
+      "eyebrow": "Eventos",
+      "title": "Code Brews, hackathons, launches y workshops en LatAm.",
+      "description": "Los eventos convierten comunidad online en confianza real. Creamos formatos para aprender, construir, demoear y conectar.",
+      "section": "Participacion sobre asistencia pasiva.",
+      "sectionDescription": "Disenamos eventos donde los builders prueban productos, shippean demos y comparten lo aprendido.",
+      "all": "Todos",
+      "upcoming": "Proximos",
+      "past": "Eventos pasados",
+      "register": "Registrarse",
+      "noEvents": "[*] No encontramos eventos. Vuelve pronto.",
+      "noFilteredEvents": "No hay eventos con este filtro."
+    },
+    "events-sponsors": {
+      "eyebrow": "Sponsors de eventos",
+      "title": "Patrocina hackathons, meetups y espacios builder de Crafter Station.",
+      "description": "Haz partnership con Crafter Station para apoyar eventos donde builders de LatAm prueban productos, shipean demos, conocen colaboradores y recuerdan a las companias que aparecieron.",
+      "section": "Para companias que quieren mas que un logo.",
+      "sectionDescription": "Trabajamos con sponsors en hackathons, Code Brews, workshops, launches, premios, venue, comida, devtools y activaciones hands-on."
+    },
+    "projects": {
+      "eyebrow": "Laboratorio de proyectos",
+      "title": "Proyectos que construimos para aprender y probar el trabajo.",
+      "description": "Nuestros proyectos incluyen infraestructura de eventos, datos legales, interfaces de voz, herramientas con IA, releases open source, sistemas de diseno, busqueda de codigo y playbooks de comunidad.",
+      "section": "El laboratorio es publico.",
+      "sectionDescription": "Algunos proyectos son productos, otros son open source, otros son playbooks e infraestructura de comunidad. Los proyectos open source aparecen marcados en el catalogo.",
+      "githubEyebrow": "GitHub",
+      "githubTitle": "Construimos en publico cuando el trabajo debe poder inspeccionarse.",
+      "githubDescription": "La organizacion de GitHub de Crafter Station es donde publicamos productos open source, infraestructura de comunidad, experimentos y artefactos reutilizables de ingenieria. Algunos proyectos son productos completos, otros datasets publicos y otros la materia prima detras de lo que shipeamos.",
+      "githubCta": "Abrir GitHub",
+      "nextEyebrow": "Proximos proyectos",
+      "nextTitle": "Ayuda a elegir que deberia construir la comunidad.",
+      "nextDescription": "Tenemos un tablero realtime y rankeado por la comunidad para requests, experimentos e ideas utiles que la red puede trabajar junta. Envia una idea, vota en la cola y mira como cambian las prioridades en vivo.",
+      "nextCta": "Abrir proximos proyectos"
+    },
+    "research": {
+      "eyebrow": "Research",
+      "title": "Investigamos los sistemas detras de shipear mejor.",
+      "description": "Crafter Research explora AI-first engineering, agentes, developer experience y practicas para que equipos modernos construyan con mas leverage.",
+      "section": "La unidad de research vive en su propio dominio.",
+      "sectionDescription": "Por ahora esta pagina destaca la unidad y enlaza al sitio activo y a GitHub."
+    },
+    "team": {
+      "eyebrow": "Equipo",
+      "title": "Las personas creciendo la cultura de shipear.",
+      "description": "Crafter Station esta construido por ingenieros, disenadores, investigadores, marketers, product people, operadores y organizadores en Latinoamerica.",
+      "section": "Core pequeno, red grande.",
+      "sectionDescription": "El equipo combina producto, AI, design systems, backend, data, growth, automatizacion y comunidad.",
+      "calendarEyebrow": "Calendarios abiertos",
+      "calendarTitle": "Agenda 30 minutos gratis con alguien de Crafter Station.",
+      "calendarDescription": "Puedes reservar mentorias, consejos de carrera, feedback de producto o una conversacion tranquila con cualquier miembro de Crafter Station. Es nuestra forma de devolverle a la comunidad que hizo posible esta red.",
+      "calendarInstructions": "Ve a la pagina del equipo, elige a una persona y usa el calendario en su perfil.",
+      "calendarCta": "Ver calendarios del equipo"
+    },
+    "blog": {
+      "eyebrow": "Blog",
+      "title": "Historias sobre shipping, AI, comunidad y craft.",
+      "description": "El blog unificado reunira aprendizajes de Crafter Station, Research, open source, hackathons y la comunidad LatAm.",
+      "section": "Empieza por la filosofia y research.",
+      "sectionDescription": "La migracion completa de contenido puede venir despues. Por ahora destacamos las superficies mas importantes."
+    },
+    "brand": {
+      "eyebrow": "Brand",
+      "title": "Assets y guias de marca de Crafter Station.",
+      "description": "Usa esta pagina para referenciar a Crafter Station en articulos, presentaciones, eventos o materiales de partners.",
+      "section": "Un nombre, un ecosistema.",
+      "sectionDescription": "Siempre Crafter Station: comunidad, research, open source, eventos y ejecucion senior como una sola red."
+    },
+    "contact": {
+      "eyebrow": "Contacto",
+      "title": "Empieza por el camino correcto.",
+      "description": "Cuentanos si quieres partner, construir, organizar un evento, patrocinar un hackathon o unirte a la comunidad.",
+      "section": "Que quieres hacer?",
+      "sectionDescription": "Elige el tipo de conversacion y te responderemos con la forma mas rapida de empezar."
+    },
+    "next": {
+      "eyebrow": "/projects/next",
+      "title": "Vota por lo proximo que deberiamos construir.",
+      "description": "Una cola en vivo, rankeada por la comunidad, para ideas de proyectos que la comunidad puede trabajar. Envia anonimamente, deja un alias si quieres y mueve las mejores ideas hacia arriba en realtime."
+    }
+  },
+  "member": {
+    "back": "Volver al equipo",
+    "skills": "Habilidades",
+    "connect": "Conectar",
+    "projects": "Proyectos",
+    "joined": "Se unio",
+    "calendar": "Agenda una reunion",
+    "calendarSub": "Agenda mentoria, consejo de carrera, feedback de producto o una charla tranquila."
+  },
+  "teamWorkCallout": {
+    "eyebrow": "Trabaja con nosotros",
+    "title": "Necesitas al equipo detras de Crafter Station?",
+    "description": "Para producto engineering, partnerships de eventos, activaciones de comunidad y colaboraciones de crecimiento en LatAm, empieza aqui.",
+    "cta": "Trabaja con nosotros"
+  },
+  "cta": {
+    "eyebrow": "Unete a la red",
+    "title": "Construye con la red LatAm de shippers",
+    "description": "Unete a la comunidad, ven a un evento, sigue los proyectos o haz partnership con nosotros en el proximo espacio lleno de builders.",
+    "emailLabel": "Correo electronico",
+    "emailPlaceholder": "tu@empresa.com",
+    "submit": "Contactanos",
+    "sending": "Enviando",
+    "successTitle": "Recibido",
+    "successDescription": "Te escribiremos pronto. Gracias por contactarnos.",
+    "invalidEmail": "Ingresa un correo valido",
+    "genericError": "Algo salio mal. Intentalo de nuevo en un momento.",
+    "networkError": "Error de red. Intentalo de nuevo en un momento."
+  }
+}

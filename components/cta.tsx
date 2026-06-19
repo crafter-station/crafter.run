@@ -4,7 +4,22 @@ import { useState } from "react"
 import { AlertCircle, Loader2 } from "lucide-react"
 import { Container } from "@/components/grid-container"
 
-export function CTA() {
+export type CtaCopy = {
+  eyebrow: string
+  title: string
+  description: string
+  emailLabel: string
+  emailPlaceholder: string
+  submit: string
+  sending: string
+  successTitle: string
+  successDescription: string
+  invalidEmail: string
+  genericError: string
+  networkError: string
+}
+
+export function CTA({ copy }: { copy: CtaCopy }) {
   const [email, setEmail] = useState("")
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -15,7 +30,7 @@ export function CTA() {
     setError(null)
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("Enter a valid email address")
+      setError(copy.invalidEmail)
       return
     }
 
@@ -30,10 +45,10 @@ export function CTA() {
         setSuccess(true)
         setEmail("")
       } else {
-        setError("Something went wrong. Try again in a moment.")
+        setError(copy.genericError)
       }
     } catch {
-      setError("Network error. Try again in a moment.")
+      setError(copy.networkError)
     } finally {
       setSubmitting(false)
     }
@@ -45,23 +60,22 @@ export function CTA() {
         <div className="px-6 py-16 md:px-10 md:py-20 lg:px-12">
           <div className="mx-auto max-w-2xl text-center">
             <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-              Work with us
+              {copy.eyebrow}
             </p>
             <h2 className="pb-4 text-3xl tracking-tight md:text-4xl">
-              Ship something world-class
+              {copy.title}
             </h2>
             <p className="mb-8 text-balance text-muted-foreground">
-              Drop your email. We'll reply within a day with a few questions
-              and a meeting time. No funnel, no decks, no nonsense.
+              {copy.description}
             </p>
 
             {success ? (
               <div className="mx-auto max-w-md border border-line p-6 text-left">
                 <h3 className="font-mono text-sm uppercase tracking-[0.2em] text-accent">
-                  Got it
+                  {copy.successTitle}
                 </h3>
                 <p className="mt-2 text-foreground">
-                  We'll be in touch shortly. Thanks for reaching out.
+                  {copy.successDescription}
                 </p>
               </div>
             ) : (
@@ -70,13 +84,13 @@ export function CTA() {
                 className="mx-auto flex max-w-md items-stretch justify-center gap-2"
               >
                 <label htmlFor="cta-email" className="sr-only">
-                  Email address
+                  {copy.emailLabel}
                 </label>
                 <input
                   id="cta-email"
                   type="email"
                   required
-                  placeholder="you@company.com"
+                  placeholder={copy.emailPlaceholder}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="h-12 flex-1 border border-line bg-background px-4 font-mono text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-foreground/40 focus:outline-none"
@@ -89,10 +103,10 @@ export function CTA() {
                   {submitting ? (
                     <>
                       <Loader2 className="size-4 animate-spin" />
-                      Sending
+                      {copy.sending}
                     </>
                   ) : (
-                    "Get in touch"
+                    copy.submit
                   )}
                 </button>
               </form>

@@ -1,9 +1,11 @@
 import Image from "next/image"
+import Link from "next/link"
 import { Container } from "@/components/grid-container"
+import { type Locale, withLocale } from "@/lib/i18n"
 import { team } from "@/lib/site"
 import { cn } from "@/lib/utils"
 
-export function Team() {
+export function Team({ locale }: { locale: Locale }) {
   return (
     <div id="team">
       <Container innerClassName="border-b py-6">
@@ -33,8 +35,9 @@ export function Team() {
           {team.map((member, i) => {
             const col = (n: number) => i % n
             return (
-              <article
+              <Link
                 key={member.name}
+                href={withLocale(`/team/${member.username}`, locale)}
                 className={cn(
                   "group relative flex flex-col items-center gap-3 px-4 py-8 text-center transition-colors hover:bg-accent/5",
                   // borders between columns
@@ -67,7 +70,7 @@ export function Team() {
                     {member.location}
                   </p>
                 </div>
-              </article>
+              </Link>
             )
           })}
         </div>

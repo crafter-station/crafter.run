@@ -4,9 +4,25 @@ import { LiquidHero } from "@/components/liquid-hero"
 import { PixelArrow } from "@/components/pixel-arrow"
 
 export function Hero() {
+  return <HeroContent />
+}
+
+export function HeroContent({
+  eyebrow = "Crafter Station · LatAm",
+  lines = ["The LatAm", "network of", "shippers."],
+  description = "A community of 800+ builders, a product lab, an open-source ecosystem, research, and events helping LatAm shippers meet, learn, and build in public.",
+  eventsCta = "See events",
+  eventsHref = "/events",
+}: {
+  eyebrow?: string
+  lines?: [string, string, string]
+  description?: string
+  eventsCta?: string
+  eventsHref?: string
+}) {
   return (
     <Container innerClassName="overflow-hidden bg-background">
-      <div className="relative min-h-[640px] lg:h-[760px]">
+      <div className="relative min-h-[700px] lg:h-[820px]">
         <LiquidHero className="z-0" />
         <div
           aria-hidden
@@ -20,7 +36,7 @@ export function Hero() {
           <div className="mx-auto flex h-full w-full max-w-[1380px] flex-col justify-between px-4 py-10 sm:px-6 sm:py-12 md:px-10 md:py-16">
             <div>
               <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.4em] text-accent">
-                by Crafter Station
+                {eyebrow}
               </p>
               <h1
                 className="select-none text-balance font-bold uppercase tracking-tight leading-[0.95] text-foreground text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem]"
@@ -29,39 +45,27 @@ export function Hero() {
                     "drop-shadow(0 2px 24px hsl(var(--background) / 0.6))",
                 }}
               >
-                <span className="block">We ship at the</span>
-                <span className="block">
-                  speed{" "}
-                  <span className="font-light text-foreground/70">of</span>{" "}
-                  <span className="text-accent">AI</span>
-                  <span className="text-accent">.</span>
-                </span>
+                <span className="block">{lines[0]}</span>
+                <span className="block">{lines[1]}</span>
+                <span className="block text-accent">{lines[2]}</span>
               </h1>
               <p
-                className="mt-6 max-w-xl text-balance text-base leading-relaxed text-foreground/85 md:text-lg"
+                className="mt-6 max-w-2xl text-balance text-base leading-relaxed text-foreground/85 md:text-lg"
                 style={{
                   filter:
                     "drop-shadow(0 1px 8px hsl(var(--background) / 0.7))",
                 }}
               >
-                A senior delivery studio shipping world-class products at AI
-                speed, with open source the community trusts.
+                {description}
               </p>
             </div>
 
-            <div className="pointer-events-auto mt-10 inline-grid w-full grid-cols-1 gap-4 sm:w-fit sm:grid-cols-[max-content_max-content]">
+            <div className="pointer-events-auto mt-10 inline-grid w-full grid-cols-1 gap-4 sm:w-fit">
               <Link
-                href="#contact"
-                className="group relative flex items-center justify-between gap-3 border border-foreground bg-foreground px-6 py-3 text-background transition-colors hover:bg-foreground/90"
+                href={eventsHref}
+                className="group flex items-center justify-between gap-3 border border-foreground/20 bg-background/20 px-6 py-3 text-foreground/85 backdrop-blur-[2px] transition-colors hover:border-foreground/50 hover:bg-background/40"
               >
-                Book a meeting
-                <PixelArrow tone="inverse" />
-              </Link>
-              <Link
-                href="#work"
-                className="group flex items-center justify-between gap-3 border border-foreground/30 bg-background/30 px-6 py-3 text-foreground backdrop-blur-[2px] transition-colors hover:border-foreground/60 hover:bg-background/50"
-              >
-                See our work
+                {eventsCta}
                 <PixelArrow />
               </Link>
             </div>

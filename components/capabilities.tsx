@@ -1,8 +1,9 @@
-import Link from "next/link"
 import { ArrowLink } from "@/components/arrow-link"
 import { Container } from "@/components/grid-container"
 import { InteractiveLines } from "@/components/interactive-lines"
-import { services } from "@/lib/site"
+import { LocalizedLink } from "@/components/localized-link"
+import { type Locale } from "@/lib/i18n"
+import { getEcosystem } from "@/lib/site"
 
 function IconCard({
   letter,
@@ -42,7 +43,9 @@ function IconCard({
   )
 }
 
-export function Capabilities() {
+export async function Capabilities({ locale }: { locale: Locale }) {
+  const ecosystem = getEcosystem(locale)
+
   return (
     <Container>
       <div className="grid grid-cols-1 md:grid-cols-4">
@@ -52,25 +55,25 @@ export function Capabilities() {
             What we craft
           </p>
           <p className="relative mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            We build with a curated stack we actually believe in. These tools
-            helped us scale products to millions of users, ship AI features
-            that hold up in production, and stand up design systems used
-            across surfaces.
+            Crafter Station is a network where LatAm builders meet, share work,
+            research new tools, ship open source, host events, and build useful
+            products in public.
           </p>
         </div>
         <IconCard letter="C" />
         <IconCard letter="R" />
         <IconCard letter="·" hideOnMobile />
       </div>
-      <div className="grid grid-cols-1 border-t border-line md:grid-cols-4">
-        {services.map((s, i) => (
-          <Link
+      <div className="grid grid-cols-1 border-t border-line md:grid-cols-2 xl:grid-cols-5">
+        {ecosystem.map((s, i) => (
+          <LocalizedLink
             key={s.title}
             href={s.href}
+            locale={locale}
             className={
               "group flex flex-col justify-between p-8 transition-colors hover:bg-accent/10 " +
-              (i > 0 ? "md:border-l md:border-line " : "") +
-              (i < 2 ? "border-b border-line md:border-b-0 " : "")
+              (i > 0 ? "border-t border-line md:border-t-0 md:border-l md:border-line " : "") +
+              (i >= 2 ? "md:border-t xl:border-t-0 " : "")
             }
           >
             <div>
@@ -79,8 +82,8 @@ export function Capabilities() {
                 {s.body}
               </p>
             </div>
-            <ArrowLink className="mt-8">Talk to us</ArrowLink>
-          </Link>
+            <ArrowLink className="mt-8">Explore</ArrowLink>
+          </LocalizedLink>
         ))}
       </div>
     </Container>
