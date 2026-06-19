@@ -275,13 +275,13 @@ export function NextProjectsBoard() {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <div className="mb-4 flex justify-center">
           <DialogTrigger asChild>
-            <Button className="h-12 rounded-none px-6">
+            <Button className="h-12 w-full rounded-none px-6 sm:w-auto">
               <Send />
               Add a project idea
             </Button>
           </DialogTrigger>
         </div>
-        <DialogContent className="rounded-none border-line bg-background sm:max-w-xl">
+        <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-none border-line bg-background p-4 sm:max-w-xl sm:p-6">
           <div className="mb-1 inline-flex w-fit items-center gap-2 border border-line bg-background px-3 py-1 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
             <Sparkles className="h-3 w-3" />
             GPT screened
@@ -292,62 +292,62 @@ export function NextProjectsBoard() {
               Drop one concrete product idea. Anonymous is fine; alias is optional.
             </DialogDescription>
           </DialogHeader>
-              <form onSubmit={submitIdea}>
-                <label className="block text-sm font-medium" htmlFor="idea">
-                  Project idea
-                </label>
-                <Textarea
-                  id="idea"
-                  value={idea}
-                  onChange={(event) => setIdea(event.target.value)}
-                  placeholder="A tiny app that turns messy meeting notes into shippable GitHub issues..."
-                  maxLength={600}
-                  required
-                  className="mt-2 min-h-36 resize-none rounded-none border-line bg-background/80 text-base focus-visible:ring-foreground/40"
-                />
-                <div className="mt-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                  <span>Required</span>
-                  <span>{idea.length}/600</span>
-                </div>
+          <form onSubmit={submitIdea}>
+            <label className="block text-sm font-medium" htmlFor="idea">
+              Project idea
+            </label>
+            <Textarea
+              id="idea"
+              value={idea}
+              onChange={(event) => setIdea(event.target.value)}
+              placeholder="A tiny app that turns messy meeting notes into shippable GitHub issues..."
+              maxLength={600}
+              required
+              className="mt-2 min-h-36 resize-none rounded-none border-line bg-background/80 text-base focus-visible:ring-foreground/40"
+            />
+            <div className="mt-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+              <span>Required</span>
+              <span>{idea.length}/600</span>
+            </div>
 
-                <label className="mt-6 block text-sm font-medium" htmlFor="alias">
-                  Name or alias <span className="text-muted-foreground">optional</span>
-                </label>
-                <Input
-                  id="alias"
-                  value={alias}
-                  onChange={(event) => setAlias(event.target.value)}
-                  placeholder="anthony, internet stranger, etc."
-                  maxLength={80}
-                  className="mt-2 rounded-none border-line bg-background/80 focus-visible:ring-foreground/40"
-                />
+            <label className="mt-6 block text-sm font-medium" htmlFor="alias">
+              Name or alias <span className="text-muted-foreground">optional</span>
+            </label>
+            <Input
+              id="alias"
+              value={alias}
+              onChange={(event) => setAlias(event.target.value)}
+              placeholder="anthony, internet stranger, etc."
+              maxLength={80}
+              className="mt-2 rounded-none border-line bg-background/80 focus-visible:ring-foreground/40"
+            />
 
-                <Button
-                  type="submit"
-                  disabled={isSubmitting || idea.trim().length < 4}
-                  className="mt-6 h-12 w-full rounded-none"
-                >
-                  {isSubmitting ? <Loader2 className="animate-spin" /> : <Send />}
-                  Submit to the board
-                </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting || idea.trim().length < 4}
+              className="mt-6 h-12 w-full rounded-none"
+            >
+              {isSubmitting ? <Loader2 className="animate-spin" /> : <Send />}
+              Submit to the board
+            </Button>
 
-                {message ? (
-                  <p className="mt-4 border border-line bg-background/80 p-3 text-sm text-muted-foreground">{message}</p>
-                ) : null}
-              </form>
+            {message ? (
+              <p className="mt-4 border border-line bg-background/80 p-3 text-sm text-muted-foreground">{message}</p>
+            ) : null}
+          </form>
         </DialogContent>
       </Dialog>
 
-      <section className="border border-line bg-card/70">
+      <section className="overflow-hidden border border-line bg-card/70">
         <div className="flex flex-col justify-between gap-4 border-b border-line p-4 md:flex-row md:items-center md:p-6">
           <div>
             <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
               <Radio className="h-3.5 w-3.5 text-emerald-300" />
               Realtime queue
             </div>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight">Community-ranked builds</h2>
+            <h2 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">Community-ranked builds</h2>
           </div>
-          <div className="border border-line px-3 py-2 text-sm text-muted-foreground">
+          <div className="w-fit border border-line px-3 py-2 text-sm text-muted-foreground md:w-auto">
             {board.length} ideas · {votes.length} votes
           </div>
         </div>
@@ -365,12 +365,12 @@ export function NextProjectsBoard() {
           ) : (
             board.map((project, index) => {
               return (
-                <article key={project.id} className="grid gap-4 p-4 transition-colors hover:bg-primary/[0.03] md:grid-cols-[72px_minmax(0,1fr)] md:p-6">
+                <article key={project.id} className="grid grid-cols-[56px_minmax(0,1fr)] gap-3 p-3 transition-colors hover:bg-primary/[0.03] sm:gap-4 sm:p-4 md:grid-cols-[72px_minmax(0,1fr)] md:p-6">
                   <button
                     type="button"
                     onClick={() => toggleVote(project)}
                     className={cn(
-                      "group relative flex h-20 items-center justify-center border border-line bg-background text-center transition-colors md:h-auto",
+                      "group relative flex h-16 items-center justify-center border border-line bg-background text-center transition-colors sm:h-20 md:h-auto",
                       project.hasVoted && "border-primary bg-primary text-primary-foreground",
                     )}
                     aria-label={project.hasVoted ? "Remove vote" : "Upvote project"}
@@ -386,17 +386,17 @@ export function NextProjectsBoard() {
                   </button>
 
                   <div className="min-w-0">
-                    <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                    <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground sm:mb-3 sm:text-xs">
                       <span className="font-mono uppercase tracking-[0.18em]">#{String(index + 1).padStart(2, "0")}</span>
                       {project.alias ? (
                         <>
-                          <span>by {project.alias}</span>
+                          <span className="min-w-0 break-words">by {project.alias}</span>
                           <span>·</span>
                         </>
                       ) : null}
                       <time dateTime={project.created_at}>{new Date(project.created_at).toLocaleDateString()}</time>
                     </div>
-                    <p className="text-lg leading-7 text-foreground md:text-xl md:leading-8">{project.idea}</p>
+                    <p className="break-words text-base leading-7 text-foreground sm:text-lg md:text-xl md:leading-8">{project.idea}</p>
                   </div>
                 </article>
               )
