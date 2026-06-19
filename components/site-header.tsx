@@ -13,6 +13,7 @@ const navCopy = {
     research: "Research",
     team: "Team",
     communityCta: "Join the community",
+    language: "Language",
     openMenu: "Open menu",
   },
   es: {
@@ -21,6 +22,7 @@ const navCopy = {
     research: "Investigacion",
     team: "Equipo",
     communityCta: "Unete a la comunidad",
+    language: "Idioma",
     openMenu: "Abrir menu",
   },
   pt: {
@@ -29,6 +31,7 @@ const navCopy = {
     research: "Pesquisa",
     team: "Equipe",
     communityCta: "Entre na comunidade",
+    language: "Idioma",
     openMenu: "Abrir menu",
   },
 } as const
@@ -93,6 +96,22 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                       {t[item.key]}
                     </Link>
                   ))}
+                  <div className="mt-4 flex items-center justify-between border border-line px-4 py-3">
+                    <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      {t.language}
+                    </span>
+                    <div className="flex items-center gap-3">
+                      {languageLinks.map((item) => (
+                        <Link
+                          key={item.label}
+                          href={withLocale("/", item.label.toLowerCase() as Locale)}
+                          className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
                   <Link
                     href="https://crafters.chat"
                     target="_blank"
