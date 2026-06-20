@@ -199,6 +199,11 @@
       "title": "Preguntale a Anthony sobre construir con OpenCode.",
       "description": "Envia tus preguntas de OpenCode y vota lo que Anthony deberia responder en vivo durante el workshop."
     },
+    "n8nQuestions": {
+      "eyebrow": "/n8n",
+      "title": "Preguntale a Javo sobre automatizaciones con n8n MCP + Claude Code.",
+      "description": "Envia tus preguntas sobre n8n, servidores MCP, Claude Code, automatizacion y flows. Vota lo que Javo deberia responder en vivo durante la presentacion."
+    },
     "claudeCodeQuestions": {
       "eyebrow": "/claude-code",
       "title": "Preguntale a Shiara sobre construir con Claude Code.",

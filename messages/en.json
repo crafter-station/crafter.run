@@ -114,6 +114,7 @@
     "next": {"eyebrow":"/projects/next","title":"Vote on the next thing we should craft.","description":"A live, community-ranked queue for project ideas the community can work on. Submit anonymously, leave an alias if you want, and move the best ideas up in realtime."},
     "workshopQuestions": {"eyebrow":"/workshops/questions","title":"Ask the questions we should answer live.","description":"A realtime workshop queue where attendees submit validated questions, add their name, and vote the most useful topics to the top."},
     "opencodeQuestions": {"eyebrow":"/opencode","title":"Ask Anthony about building with OpenCode.","description":"Submit your OpenCode questions and vote on what Anthony should answer live during the workshop."},
+    "n8nQuestions": {"eyebrow":"/n8n","title":"Ask Javo about n8n MCP + Claude Code automations.","description":"Submit your questions about n8n, MCP servers, Claude Code, automation, and flows. Vote on what Javo should answer live during the presentation."},
     "claudeCodeQuestions": {"eyebrow":"/claude-code","title":"Ask Shiara about building with Claude Code.","description":"Submit your Claude Code questions and vote on what Shiara should answer live during the workshop."}
   },
   "member": {
