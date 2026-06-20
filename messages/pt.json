@@ -188,6 +188,21 @@
       "eyebrow": "/projects/next",
       "title": "Vote na proxima coisa que devemos construir.",
       "description": "Uma fila ao vivo, ranqueada pela comunidade, para ideias de projetos que a comunidade pode trabalhar. Envie anonimamente, deixe um alias se quiser e suba as melhores ideias em realtime."
+    },
+    "workshopQuestions": {
+      "eyebrow": "/workshops/questions",
+      "title": "Pergunte o que devemos responder ao vivo.",
+      "description": "Uma fila realtime para workshops onde participantes enviam perguntas validadas, adicionam seu nome e votam nos temas mais uteis."
+    },
+    "opencodeQuestions": {
+      "eyebrow": "/opencode",
+      "title": "Pergunte ao Anthony sobre construir com OpenCode.",
+      "description": "Envie suas perguntas sobre OpenCode e vote no que Anthony deve responder ao vivo durante o workshop."
+    },
+    "claudeCodeQuestions": {
+      "eyebrow": "/claude-code",
+      "title": "Pergunte a Shiara sobre construir com Claude Code.",
+      "description": "Envie suas perguntas sobre Claude Code e vote no que Shiara deve responder ao vivo durante o workshop."
     }
   },
   "member": {

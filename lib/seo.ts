@@ -8,13 +8,16 @@ export const baseUrl = siteConfig.url
 
 export const indexablePaths = [
   "/",
+  "/claude-code",
   "/events",
   "/events/sponsors",
+  "/opencode",
   "/projects",
   "/projects/next",
   "/research",
   "/team",
   "/team/work-with-us",
+  "/workshops/questions",
   "/blog",
   "/brand",
   "/contact",
