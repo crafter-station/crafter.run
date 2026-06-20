@@ -1,10 +1,11 @@
 import Link from "next/link"
 import { Menu } from "lucide-react"
 import { Container } from "@/components/grid-container"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { PixelArrow } from "@/components/pixel-arrow"
 import { SiteWordmark } from "@/components/site-wordmark"
 import { type Locale, withLocale } from "@/lib/i18n"
-import { languageLinks, navItems } from "@/lib/site"
+import { navItems } from "@/lib/site"
 
 const navCopy = {
   en: {
@@ -66,15 +67,10 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           </div>
           <div className="hidden h-full items-center border-line lg:flex lg:border-l">
             <div className="flex h-full items-center px-3">
-              {languageLinks.map((item) => (
-                <Link
-                  key={item.label}
-                  href={withLocale("/", item.label.toLowerCase() as Locale)}
-                  className="px-2 font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              <LanguageSwitcher
+                currentLocale={locale}
+                className="px-2 font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+              />
             </div>
           </div>
           <details className="contents lg:hidden">
@@ -101,15 +97,10 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                       {t.language}
                     </span>
                     <div className="flex items-center gap-3">
-                      {languageLinks.map((item) => (
-                        <Link
-                          key={item.label}
-                          href={withLocale("/", item.label.toLowerCase() as Locale)}
-                          className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
+                      <LanguageSwitcher
+                        currentLocale={locale}
+                        className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+                      />
                     </div>
                   </div>
                   <Link
