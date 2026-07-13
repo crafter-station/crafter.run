@@ -22,6 +22,12 @@ export type TeamMember = {
     cover?: string
     url?: string
   }
+  timezone?: string
+  clubs?: { icon: string; label: string }[]
+  currently?: { label: string; value: string }[]
+  stack?: { category: string; items: (string | { name: string; detail?: string })[] }[]
+  software?: { category: string; items: (string | { name: string; detail?: string })[] }[]
+  hardware?: { category: string; items: (string | { name: string; detail?: string })[] }[]
 }
 
 export const teamMembers: TeamMember[] = [
@@ -30,6 +36,7 @@ export const teamMembers: TeamMember[] = [
     name: "Shiara Arauzo",
     role: "Design Engineer",
     location: "Lima, Peru",
+    timezone: "America/Lima",
     image: "/team/shiara.png",
     bio: {
       en: "Name it and I'll learn it. Design engineer building across web, videogames and research. Building products where neuroscience meets user experience. Founder of Glitch Girls and organizer of #SheShips, empowering women across LATAM to build and ship.",
@@ -44,8 +51,12 @@ export const teamMembers: TeamMember[] = [
     website: "https://shiara.design",
     projects: [
       { name: "essalud-cli", url: "https://www.npmjs.com/package/essalud-cli" },
-      { name: "legalize-pe", url: "https://legalize-pe.crafter.ing/" },
       { name: "sheships", url: "https://sheships.org" },
+      "Rubik Cube 3D",
+      { name: "legalize-pe", url: "https://legalize-pe.crafter.ing/" },
+      "Book Flip",
+      "Halftone App",
+      "Math Functions",
     ],
     cal: "https://cal.com/shiara-arauzo/30-min",
     joinedYear: 2024,
@@ -55,6 +66,71 @@ export const teamMembers: TeamMember[] = [
       cover: "/music/shiara.jpg",
       url: "https://www.youtube.com/watch?v=ApXoWvfEYVU&list=RDApXoWvfEYVU&start_radio=1",
     },
+    clubs: [
+      { icon: "🎮", label: "Gaming" },
+      { icon: "🎨", label: "Design" },
+      { icon: "🧠", label: "Neuroscience" },
+      { icon: "🎵", label: "Music" },
+      { icon: "☕", label: "Coffee" },
+    ],
+    currently: [
+      { label: "building", value: "legalize-pe" },
+      { label: "learning", value: "Arduino, C" },
+      { label: "playing", value: "Spider-Man: Miles Morales" },
+      { label: "obsessed with", value: "neuroscience + UX" },
+    ],
+    stack: [
+      { category: "Languages", items: ["TypeScript", "JavaScript", "GDScript", "C"] },
+      { category: "Frontend", items: ["React JS", "Next.js", "Tailwind", "HTML5", "CSS3", "Three.js", "WebGL"] },
+      { category: "Backend", items: ["Clerk"] },
+      { category: "AI", items: ["Claude Code", "v0"] },
+      { category: "DevOps & Cloud", items: ["Vercel", "Supabase", "Trigger", "Neon", "Firecrawl", "GitHub Actions"] },
+      { category: "Design", items: ["Figma", "Aseprite", "Blender", "Krita"] },
+      { category: "Game", items: ["Godot", "Unity"] },
+    ],
+    software: [
+      {
+        category: "Editor & Terminal",
+        items: [
+          { name: "Zed", detail: "Code editor" },
+          "Cursor",
+          { name: "Claude", detail: "AI IDE" },
+          { name: "Ghostty", detail: "Default terminal" },
+          "Xcode",
+        ],
+      },
+      {
+        category: "Productivity",
+        items: [
+          "Granola",
+          "Maca",
+          "Linear",
+          { name: "Obsidian", detail: "Second brain, notes & learning" },
+          { name: "Übersicht", detail: "macOS desktop widgets" },
+          "Google Calendar",
+        ],
+      },
+      { category: "Media", items: ["DaVinci Resolve", "Screen Studio"] },
+      { category: "Communication", items: ["Discord", "WhatsApp"] },
+      { category: "Browser", items: ["DuckDuckGo", "Comet"] },
+    ],
+    hardware: [
+      {
+        category: "Computers",
+        items: [
+          { name: "MacBook Pro M4" },
+          { name: "Samsung Galaxy Tab FE", detail: "2019" },
+        ],
+      },
+      {
+        category: "Audio & Video",
+        items: [
+          { name: "Meta Ray-Ban", detail: "Smart glasses, Classic Black" },
+          { name: "AirPods Pro" },
+        ],
+      },
+      { category: "Accessories", items: [{ name: "Arduino UNO R3 WiFi", detail: "Robotics" }] },
+    ],
   },
   {
     username: "railly",
@@ -78,8 +154,61 @@ export const teamMembers: TeamMember[] = [
     listening: {
       title: "Kilometros",
       artist: "Los Caligaris",
+      cover: "/music/railly.webp",
       url: "https://www.youtube.com/watch?v=pW9MJdTnl5E&list=RDpW9MJdTnl5E&start_radio=1",
     },
+    stack: [
+      { category: "Languages", items: ["TypeScript"] },
+      { category: "Frontend", items: ["Next.js 15", "Tailwind CSS"] },
+      { category: "Backend", items: ["Bun", "Clerk", "Trigger.dev", "Resend"] },
+      { category: "Database", items: ["Neon"] },
+      { category: "AI", items: ["Claude Code", "Codex"] },
+      { category: "DevOps & Cloud", items: ["Vercel"] },
+      { category: "Tools", items: ["Cursor", "Biome"] },
+    ],
+    software: [
+      { category: "Editor & Terminal", items: ["Ghostty"] },
+      { category: "Design", items: ["Figma"] },
+      { category: "Productivity", items: ["Obsidian", "Raycast", "Linear", "Toggl Track", "Notion Calendar"] },
+      { category: "Media", items: ["Screen Studio"] },
+      { category: "Communication", items: ["Discord & Slack"] },
+      { category: "Browser", items: ["Comet"] },
+    ],
+    hardware: [
+      {
+        category: "Computers",
+        items: [
+          { name: "MacBook Pro M4 Pro", detail: '14", 24 GB RAM, 2025' },
+          { name: "iPad Pro", detail: "M-series chip" },
+          { name: "iPhone 15 Plus", detail: "Daily driver" },
+          { name: "Apple Watch S10", detail: "Health tracking" },
+        ],
+      },
+      {
+        category: "Audio & Video",
+        items: [
+          { name: "AirPods Pro", detail: "Noise cancellation" },
+          { name: "Shure MV7+", detail: "Podcast microphone + boom arm" },
+          { name: "DJI Mic Mini", detail: "Wireless lavalier (2 TX + 1 RX)" },
+          { name: "DJI Osmo Nano", detail: "Action camera, 128 GB" },
+          { name: "Meta Ray-Ban", detail: "Smart glasses, Classic Black" },
+        ],
+      },
+      {
+        category: "Peripherals",
+        items: [
+          { name: "Keychron K2", detail: "Mechanical keyboard" },
+          { name: "Cougar E-STAR 140", detail: "Electric standing desk" },
+        ],
+      },
+      {
+        category: "Accessories",
+        items: [
+          { name: "Anker 737 Power Bank", detail: "PowerCore 24K, portable charger" },
+          { name: "Arduino UNO R4 WiFi", detail: "IoT projects" },
+        ],
+      },
+    ],
   },
   {
     username: "cuevaio",
@@ -104,8 +233,41 @@ export const teamMembers: TeamMember[] = [
     listening: {
       title: "Call It Fate, Call It Karma",
       artist: "The Strokes",
+      cover: "/music/cueva.jpeg",
       url: "https://music.youtube.com/watch?v=Txn5-dKLFHg",
     },
+    stack: [
+      { category: "Languages", items: ["TypeScript"] },
+      { category: "Frontend", items: ["React", "ShadCN", "Next.js"] },
+      { category: "Backend", items: ["BetterAuth", "Clerk", "Polar", "Stripe", "Unkey", "Kapso", "WasenderAPI", "Trigger.dev"] },
+      { category: "Database", items: ["Neon"] },
+      { category: "AI", items: ["AI SDK", "AI Gateway"] },
+      { category: "DevOps & Cloud", items: ["Cloudflare R2"] },
+      { category: "Tools", items: ["Posthog"] },
+    ],
+    software: [
+      { category: "Editor & Terminal", items: ["Ghostty", "OpenCode"] },
+      { category: "Productivity", items: ["Google Calendar"] },
+    ],
+    hardware: [
+      {
+        category: "Computers",
+        items: [
+          { name: "MacBook Pro M4" },
+          { name: "Apple Watch S10", detail: "Health tracking" },
+        ],
+      },
+      {
+        category: "Audio & Video",
+        items: [
+          { name: "Meta Ray-Ban", detail: "Smart glasses, Classic Black" },
+          { name: "AirPods Pro" },
+          { name: "Elgato Key Light", detail: "Studio light, 2800 lm, app-controlled" },
+          { name: "DJI Mic Mini", detail: "Wireless mic, 2 TX + 1 RX" },
+        ],
+      },
+      { category: "Accessories", items: [{ name: "Arduino UNO R3 WiFi" }] },
+    ],
   },
   {
     username: "emmy",
@@ -127,6 +289,7 @@ export const teamMembers: TeamMember[] = [
     listening: {
       title: "Cemetery Drive",
       artist: "My Chemical Romance",
+      cover: "/music/emmy.jpg",
       url: "https://www.youtube.com/watch?v=02W8DAnKvlA&list=RD02W8DAnKvlA&start_radio=1",
     },
   },
@@ -176,6 +339,57 @@ export const teamMembers: TeamMember[] = [
       artist: "Fuerza Regida",
       url: "https://www.youtube.com/watch?v=9SsSl3qoOSw&list=RD9SsSl3qoOSw&start_radio=1",
     },
+    stack: [
+      { category: "Languages", items: ["TypeScript", "Go", "SQL"] },
+      { category: "Frontend", items: ["Shadcn UI", "NextJs", "Svelte", "Tailwind"] },
+      {
+        category: "Backend",
+        items: [
+          "Hono ❤️",
+          "ElysiaJs",
+          "Echo",
+          "Fiber",
+          "Zod ❤️",
+          "Better Auth ❤️",
+          "Bun Js ❤️",
+          "Turborepo",
+          "Node Js",
+          "Resend ❤️",
+        ],
+      },
+      { category: "Database", items: ["PostgreSQL", "SQLite", "Redis", "DynamoDB"] },
+      {
+        category: "AI",
+        items: [
+          "Ai SDK ❤️",
+          "Anthropic AI Api",
+          "Mistral AI Api",
+          "Firecrawl Api",
+          "V0 & Api ❤️",
+          "AWS Bedrock",
+          "Claude Code",
+          "Vercel AI Gateway",
+        ],
+      },
+      {
+        category: "DevOps & Cloud",
+        items: [
+          "Pulumi",
+          "SST ❤️",
+          "Docker",
+          "GitHub Actions",
+          "Kubernetes",
+          "Aws ❤️",
+          "Gcp",
+          "Vercel ❤️",
+          "Supabase",
+          "Cloudinary",
+          "Neon",
+          "Upstash",
+        ],
+      },
+      { category: "Design", items: ["Figma"] },
+    ],
   },
   {
     username: "nacho",
