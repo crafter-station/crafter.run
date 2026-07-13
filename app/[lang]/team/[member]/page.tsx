@@ -130,14 +130,7 @@ export default async function Page({
     tabs.push({
       id: "building",
       label: t("tabBuilding"),
-      content: (
-        <BuildingCalendar
-          days={building.days}
-          currentYear={new Date().getFullYear()}
-          currentMonth={new Date().getMonth()}
-          label={t("building")}
-        />
-      ),
+      content: <BuildingCalendar days={building.days} label={t("building")} />,
     })
   }
 
