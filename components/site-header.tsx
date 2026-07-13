@@ -73,7 +73,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               />
             </div>
           </div>
-          <details className="contents lg:hidden">
+          <details className="ml-auto flex items-center lg:hidden">
             <summary
               className="flex h-16 w-16 cursor-pointer list-none items-center justify-center text-foreground/70 transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden"
               aria-label={t.openMenu}
