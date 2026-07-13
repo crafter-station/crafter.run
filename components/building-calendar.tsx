@@ -41,7 +41,11 @@ export function BuildingCalendar({
   const prevKey = `${prev.getFullYear()}-${pad(prev.getMonth() + 1)}`
   const months = [prevKey, currentKey] // ascending
 
-  const [monthKey, setMonthKey] = useState(currentKey)
+  // Start on whichever of the two months has activity, preferring the current one.
+  const has = (key: string) => days.some((d) => d.date.slice(0, 7) === key)
+  const initial = has(currentKey) ? currentKey : has(prevKey) ? prevKey : currentKey
+
+  const [monthKey, setMonthKey] = useState(initial)
   const idx = months.indexOf(monthKey)
   const [yy, mm] = monthKey.split("-").map(Number)
   const year = yy
