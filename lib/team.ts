@@ -130,7 +130,13 @@ export const teamMembers: TeamMember[] = [
           { name: "AirPods Pro", detail: "Noise cancellation" },
         ],
       },
-      { category: "Accessories", items: [{ name: "Arduino UNO R3 WiFi", detail: "Robotics" }] },
+      {
+        category: "Accessories",
+        items: [
+          { name: "Arduino UNO R3 WiFi", detail: "Robotics" },
+          { name: "ESP32 DevKit", detail: "IoT microcontroller" },
+        ],
+      },
     ],
   },
   {
