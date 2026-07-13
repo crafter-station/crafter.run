@@ -120,7 +120,7 @@ export const teamMembers: TeamMember[] = [
         items: [
           { name: "MacBook Pro M4" },
           { name: "Redmi Note 13 Pro+", detail: "200MP camera" },
-          { name: "Samsung Galaxy Tab FE", detail: "2019" },
+          { name: "Samsung Galaxy Tab S9 FE", detail: "SM-X510, Android 16" },
         ],
       },
       {
