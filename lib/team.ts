@@ -324,6 +324,13 @@ export const teamMembers: TeamMember[] = [
       artist: "Jeff Guo",
       url: "https://www.youtube.com/watch?v=9kT0oLBPiOw&list=RD9kT0oLBPiOw&start_radio=1",
     },
+    stack: [
+      { category: "Frontend", items: ["React", "ShadCN", "Next.js"] },
+      { category: "Backend", items: ["Clerk", "Polar", "Stripe"] },
+      { category: "Database", items: ["Neon"] },
+      { category: "AI", items: ["AI SDK", "AI Gateway"] },
+      { category: "Tools", items: ["Posthog"] },
+    ],
   },
   {
     username: "nicolas",
