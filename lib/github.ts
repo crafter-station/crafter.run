@@ -7,15 +7,15 @@ export type BuildingActivity = {
   days: DayActivity[] // commits/events grouped by day
 }
 
-type CommitSearchItem = {
-  repository?: { full_name?: string; private?: boolean }
-  commit?: { committer?: { date?: string }; author?: { date?: string } }
-}
-
 type GitHubEvent = {
   type: string
   created_at: string
   repo?: { name: string }
+}
+
+type ContribRepo = {
+  repository?: { nameWithOwner?: string; isPrivate?: boolean }
+  contributions?: { nodes?: { occurredAt?: string; commitCount?: number }[] }
 }
 
 const WORK_EVENT_TYPES = new Set(["PushEvent", "PullRequestEvent", "CreateEvent"])
@@ -25,17 +25,6 @@ function usernameFromUrl(githubUrl?: string): string | null {
   if (!githubUrl) return null
   const match = githubUrl.match(/github\.com\/([^/?#]+)/i)
   return match ? match[1] : null
-}
-
-function baseHeaders(): Record<string, string> {
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github+json",
-    "User-Agent": "crafter-station-website",
-  }
-  if (process.env.GITHUB_TOKEN) {
-    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`
-  }
-  return headers
 }
 
 function daysFromMap(byDay: Map<string, Map<string, number>>): DayActivity[] {
@@ -50,56 +39,64 @@ function daysFromMap(byDay: Map<string, Map<string, number>>): DayActivity[] {
 }
 
 /**
- * With a token: use the commit search API, which returns the full public
- * commit history (not capped at ~300 events) so even very active contributors
- * show their real work — including org repos. Private repos are excluded.
+ * With a token: GitHub's GraphQL contributionsCollection returns the full
+ * PUBLIC commit history per repository per day in a single request — no
+ * pagination, no ~300-event cap, and cheap enough to run for the whole team
+ * without hitting rate limits. Private repos are excluded.
  */
-async function fetchMonthCommits(
-  username: string,
-  year: number,
-  month: number, // 0-indexed
-): Promise<CommitSearchItem[]> {
-  const from = `${year}-${pad(month + 1)}-01`
-  const lastDay = new Date(year, month + 1, 0).getDate()
-  const to = `${year}-${pad(month + 1)}-${pad(lastDay)}`
-  const q = `author:${username} committer-date:${from}..${to}`
+async function viaGraphQL(username: string): Promise<BuildingActivity | null> {
+  const now = new Date()
+  const from = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString()
+  const to = now.toISOString()
 
-  // Paginate so even very active contributors get the whole month (the search
-  // API caps at 1000 results = 10 pages of 100).
-  const items: CommitSearchItem[] = []
-  for (let page = 1; page <= 10; page++) {
-    const url = `https://api.github.com/search/commits?q=${encodeURIComponent(q)}&sort=committer-date&order=desc&per_page=100&page=${page}`
-    try {
-      const res = await fetch(url, { headers: baseHeaders(), next: { revalidate: 86400 } })
-      if (!res.ok) break
-      const data = (await res.json()) as { items?: CommitSearchItem[] }
-      const batch = Array.isArray(data.items) ? data.items : []
-      items.push(...batch)
-      if (batch.length < 100) break
-    } catch {
-      break
+  const query = `query($login:String!,$from:DateTime!,$to:DateTime!){
+    user(login:$login){
+      contributionsCollection(from:$from,to:$to){
+        commitContributionsByRepository(maxRepositories:100){
+          repository{ nameWithOwner isPrivate }
+          contributions(first:100){ nodes{ occurredAt commitCount } }
+        }
+      }
+    }
+  }`
+
+  let json: {
+    data?: {
+      user?: {
+        contributionsCollection?: { commitContributionsByRepository?: ContribRepo[] }
+      }
     }
   }
-  return items
-}
+  try {
+    const res = await fetch("https://api.github.com/graphql", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        "Content-Type": "application/json",
+        "User-Agent": "crafter-station-website",
+      },
+      body: JSON.stringify({ query, variables: { login: username, from, to } }),
+      next: { revalidate: 86400 },
+    })
+    if (!res.ok) return null
+    json = await res.json()
+  } catch {
+    return null
+  }
 
-async function viaCommitSearch(username: string): Promise<BuildingActivity | null> {
-  const now = new Date()
-  const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1)
-  const [curItems, prevItems] = await Promise.all([
-    fetchMonthCommits(username, now.getFullYear(), now.getMonth()),
-    fetchMonthCommits(username, prev.getFullYear(), prev.getMonth()),
-  ])
-
+  const repos = json.data?.user?.contributionsCollection?.commitContributionsByRepository ?? []
   const byDay = new Map<string, Map<string, number>>()
-  for (const item of [...curItems, ...prevItems]) {
-    if (item.repository?.private) continue // never surface private repos
-    const repo = item.repository?.full_name
-    const date = (item.commit?.committer?.date ?? item.commit?.author?.date)?.slice(0, 10)
-    if (!repo || !date) continue
-    const repos = byDay.get(date) ?? new Map<string, number>()
-    repos.set(repo, (repos.get(repo) ?? 0) + 1)
-    byDay.set(date, repos)
+  for (const repo of repos) {
+    if (repo.repository?.isPrivate) continue // never surface private repos
+    const name = repo.repository?.nameWithOwner
+    if (!name) continue
+    for (const node of repo.contributions?.nodes ?? []) {
+      const date = node.occurredAt?.slice(0, 10)
+      if (!date) continue
+      const map = byDay.get(date) ?? new Map<string, number>()
+      map.set(name, (map.get(name) ?? 0) + (node.commitCount ?? 1))
+      byDay.set(date, map)
+    }
   }
   if (byDay.size === 0) return null
   return { days: daysFromMap(byDay) }
@@ -114,7 +111,13 @@ async function viaEvents(username: string): Promise<BuildingActivity | null> {
   try {
     const res = await fetch(
       `https://api.github.com/users/${username}/events/public?per_page=100`,
-      { headers: baseHeaders(), next: { revalidate: 86400 } },
+      {
+        headers: {
+          Accept: "application/vnd.github+json",
+          "User-Agent": "crafter-station-website",
+        },
+        next: { revalidate: 86400 },
+      },
     )
     if (!res.ok) return null
     events = (await res.json()) as GitHubEvent[]
@@ -137,15 +140,15 @@ async function viaEvents(username: string): Promise<BuildingActivity | null> {
 }
 
 /**
- * Aggregates a member's recent GitHub activity per day. Uses the commit search
- * API when a GITHUB_TOKEN is configured (full public history), otherwise falls
- * back to the tokenless events API. Returns null when there is no username, no
- * activity, or the request fails (the calendar section is hidden then).
+ * Aggregates a member's recent GitHub activity per day. Uses GraphQL
+ * contributions (full public history) when a GITHUB_TOKEN is set, otherwise
+ * falls back to the tokenless events API. Returns null when there is no
+ * username, no activity, or the request fails (the section is hidden then).
  */
 export async function getBuildingActivity(
   githubUrl?: string,
 ): Promise<BuildingActivity | null> {
   const username = usernameFromUrl(githubUrl)
   if (!username) return null
-  return process.env.GITHUB_TOKEN ? viaCommitSearch(username) : viaEvents(username)
+  return process.env.GITHUB_TOKEN ? viaGraphQL(username) : viaEvents(username)
 }
