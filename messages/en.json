@@ -124,7 +124,8 @@
     "projects": "Projects",
     "joined": "Joined",
     "calendar": "Book a meeting",
-    "calendarSub": "Schedule a mentoring session, career advice, product feedback, or a chill chat."
+    "calendarSub": "Schedule a mentoring session, career advice, product feedback, or a chill chat.",
+    "listening": "Currently listening"
   },
   "teamWorkCallout": {
     "eyebrow": "Work with us",

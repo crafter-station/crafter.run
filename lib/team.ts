@@ -13,9 +13,15 @@ export type TeamMember = {
   x?: string
   instagram?: string
   website?: string
-  projects?: string[]
+  projects?: (string | { name: string; url: string })[]
   joinedYear?: number
   cal?: string
+  listening?: {
+    title: string
+    artist: string
+    cover?: string
+    url?: string
+  }
 }
 
 export const teamMembers: TeamMember[] = [
@@ -36,8 +42,19 @@ export const teamMembers: TeamMember[] = [
     x: "https://x.com/shiarauzo",
     instagram: "https://www.instagram.com/shiaraarauzo/",
     website: "https://shiara.design",
+    projects: [
+      { name: "essalud-cli", url: "https://www.npmjs.com/package/essalud-cli" },
+      { name: "legalize-pe", url: "https://legalize-pe.crafter.ing/" },
+      { name: "sheships", url: "https://sheships.org" },
+    ],
     cal: "https://cal.com/shiara-arauzo/30-min",
     joinedYear: 2024,
+    listening: {
+      title: "Sunflower",
+      artist: "Post Malone, Swae Lee",
+      cover: "/music/shiara.jpg",
+      url: "https://www.youtube.com/watch?v=ApXoWvfEYVU&list=RDApXoWvfEYVU&start_radio=1",
+    },
   },
   {
     username: "railly",
@@ -58,6 +75,11 @@ export const teamMembers: TeamMember[] = [
     projects: ["tinte", "elements"],
     cal: "https://cal.com/railly/30min",
     joinedYear: 2023,
+    listening: {
+      title: "Kilometros",
+      artist: "Los Caligaris",
+      url: "https://www.youtube.com/watch?v=pW9MJdTnl5E&list=RDpW9MJdTnl5E&start_radio=1",
+    },
   },
   {
     username: "cuevaio",
@@ -79,6 +101,11 @@ export const teamMembers: TeamMember[] = [
     projects: ["text0", "lupa"],
     cal: "https://cal.com/cuevaio/30min",
     joinedYear: 2023,
+    listening: {
+      title: "Call It Fate, Call It Karma",
+      artist: "The Strokes",
+      url: "https://music.youtube.com/watch?v=Txn5-dKLFHg",
+    },
   },
   {
     username: "emmy",
@@ -97,6 +124,11 @@ export const teamMembers: TeamMember[] = [
     website: "https://emmy-pardo.vercel.app",
     cal: "https://cal.com/emms-pardo/30min",
     joinedYear: 2025,
+    listening: {
+      title: "Cemetery Drive",
+      artist: "My Chemical Romance",
+      url: "https://www.youtube.com/watch?v=02W8DAnKvlA&list=RD02W8DAnKvlA&start_radio=1",
+    },
   },
   {
     username: "cris",
@@ -116,6 +148,11 @@ export const teamMembers: TeamMember[] = [
     website: "https://cristiancorrea.xyz/",
     cal: "https://cal.com/cristian-correa/30min",
     joinedYear: 2024,
+    listening: {
+      title: "Claude's Plan",
+      artist: "Jeff Guo",
+      url: "https://www.youtube.com/watch?v=9kT0oLBPiOw&list=RD9kT0oLBPiOw&start_radio=1",
+    },
   },
   {
     username: "nicolas",
@@ -134,6 +171,11 @@ export const teamMembers: TeamMember[] = [
     website: "https://uprizing.me/",
     cal: "https://cal.com/uprizing/30min",
     joinedYear: 2025,
+    listening: {
+      title: "Rosones",
+      artist: "Fuerza Regida",
+      url: "https://www.youtube.com/watch?v=9SsSl3qoOSw&list=RD9SsSl3qoOSw&start_radio=1",
+    },
   },
   {
     username: "nacho",

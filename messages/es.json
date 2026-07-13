@@ -217,7 +217,8 @@
     "projects": "Proyectos",
     "joined": "Se unio",
     "calendar": "Agenda una reunion",
-    "calendarSub": "Agenda mentoria, consejo de carrera, feedback de producto o una charla tranquila."
+    "calendarSub": "Agenda mentoria, consejo de carrera, feedback de producto o una charla tranquila.",
+    "listening": "Escuchando ahora"
   },
   "teamWorkCallout": {
     "eyebrow": "Trabaja con nosotros",

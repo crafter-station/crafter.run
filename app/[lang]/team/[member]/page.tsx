@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { ArrowLink } from "@/components/arrow-link"
 import { CalEmbed } from "@/components/cal-embed"
+import { CurrentlyListening } from "@/components/currently-listening"
 import { Container, SectionGap } from "@/components/grid-container"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
@@ -116,7 +117,11 @@ export default async function Page({
             <section className="p-8">
               <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{t("projects")}</h2>
               <div className="mt-6 space-y-3 text-sm text-muted-foreground">
-                {teamMember.projects?.length ? teamMember.projects.map((project) => <p key={project}>{project}</p>) : <p>Crafter Station</p>}
+                {teamMember.projects?.length ? teamMember.projects.map((project) => {
+                  const name = typeof project === "string" ? project : project.name
+                  const url = typeof project === "string" ? undefined : project.url
+                  return url ? <Link key={name} href={url} target="_blank" rel="noopener noreferrer" className="block hover:text-foreground">{name}</Link> : <p key={name}>{name}</p>
+                }) : <p>Crafter Station</p>}
                 {teamMember.joinedYear ? <p>{t("joined")} {teamMember.joinedYear}</p> : null}
               </div>
             </section>
@@ -130,6 +135,14 @@ export default async function Page({
               <p className="mt-3 max-w-xl text-sm text-muted-foreground">{t("calendarSub")}</p>
             </Container>
             <CalEmbed calLink={meetingSlug} namespace={teamMember.username} />
+          </>
+        ) : null}
+        {teamMember.listening ? (
+          <>
+            <SectionGap />
+            <Container innerClassName="px-6 py-10 md:px-10">
+              <CurrentlyListening listening={teamMember.listening} label={t("listening")} />
+            </Container>
           </>
         ) : null}
       </main>
