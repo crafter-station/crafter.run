@@ -38,23 +38,25 @@ export function CurrentlyListening({ listening, label }: { listening: Listening;
   )
 
   return (
-    <div className="flex items-center gap-4">
-      {record}
-      <div className="min-w-0">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{label}</p>
-        {url ? (
-          <Link
-            href={url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-1.5 block truncate text-sm font-medium text-foreground hover:underline"
-          >
-            {title}
-          </Link>
-        ) : (
-          <p className="mt-1.5 truncate text-sm font-medium text-foreground">{title}</p>
-        )}
-        <p className="mt-0.5 truncate text-xs text-muted-foreground">{artist}</p>
+    <div>
+      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{label}</p>
+      <div className="mt-4 flex items-center gap-4">
+        {record}
+        <div className="min-w-0">
+          {url ? (
+            <Link
+              href={url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block truncate text-sm font-medium text-foreground hover:underline"
+            >
+              {title}
+            </Link>
+          ) : (
+            <p className="truncate text-sm font-medium text-foreground">{title}</p>
+          )}
+          <p className="mt-0.5 truncate text-xs text-muted-foreground">{artist}</p>
+        </div>
       </div>
     </div>
   )
