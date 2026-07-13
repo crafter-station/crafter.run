@@ -125,7 +125,18 @@
     "joined": "Joined",
     "calendar": "Book a meeting",
     "calendarSub": "Schedule a mentoring session, career advice, product feedback, or a chill chat.",
-    "listening": "Currently listening"
+    "listening": "Currently listening",
+    "currently": "Currently",
+    "clubs": "Clubs",
+    "stack": "Dev stack",
+    "building": "Currently building",
+    "tabBuilding": "Building",
+    "tabProjects": "Projects",
+    "tabCurrently": "Currently",
+    "tabStack": "Stack",
+    "tabSoftware": "Software",
+    "tabHardware": "Hardware",
+    "tabListening": "Listening"
   },
   "teamWorkCallout": {
     "eyebrow": "Work with us",

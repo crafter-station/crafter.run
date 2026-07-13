@@ -218,7 +218,18 @@
     "joined": "Se unio",
     "calendar": "Agenda una reunion",
     "calendarSub": "Agenda mentoria, consejo de carrera, feedback de producto o una charla tranquila.",
-    "listening": "Escuchando ahora"
+    "listening": "Escuchando ahora",
+    "currently": "Ahora mismo",
+    "clubs": "Clubs",
+    "stack": "Stack",
+    "building": "Construyendo ahora",
+    "tabBuilding": "Building",
+    "tabProjects": "Projects",
+    "tabCurrently": "Ahora",
+    "tabStack": "Stack",
+    "tabSoftware": "Software",
+    "tabHardware": "Hardware",
+    "tabListening": "Escuchando"
   },
   "teamWorkCallout": {
     "eyebrow": "Trabaja con nosotros",
