@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import type { DayActivity } from "@/lib/github"
 import { projectColor, repoLabel } from "@/lib/project-color"
 
@@ -19,15 +22,31 @@ function RepoLink({ name, dotClass }: { name: string; dotClass: string }) {
   )
 }
 
-function MonthGrid({
-  year,
-  month,
-  byDate,
+export function BuildingCalendar({
+  days,
+  label,
 }: {
-  year: number
-  month: number
-  byDate: Map<string, DayActivity["repos"]>
+  days: DayActivity[]
+  label: string
 }) {
+  const byDate = new Map(days.map((d) => [d.date, d.repos]))
+
+  // Months that have activity, ascending ("YYYY-MM").
+  const dataMonths = [...new Set(days.map((d) => d.date.slice(0, 7)))].sort()
+  // Default to the month with the most activity so the section showcases the work.
+  const totals = new Map<string, number>()
+  for (const d of days) {
+    const key = d.date.slice(0, 7)
+    totals.set(key, (totals.get(key) ?? 0) + d.repos.reduce((acc, r) => acc + r.count, 0))
+  }
+  const initial = [...totals.entries()].sort((a, b) => b[1] - a[1])[0][0]
+
+  const [monthKey, setMonthKey] = useState(initial)
+  const idx = dataMonths.indexOf(monthKey)
+  const [yy, mm] = monthKey.split("-").map(Number)
+  const year = yy
+  const month = mm - 1 // 0-indexed
+
   const monthName = new Date(year, month, 1).toLocaleString("en-US", { month: "long" })
   const startOffset = (new Date(year, month, 1).getDay() + 6) % 7 // Monday-first
   const daysInMonth = new Date(year, month + 1, 0).getDate()
@@ -37,12 +56,38 @@ function MonthGrid({
   ]
   const dateStr = (day: number) => `${year}-${pad(month + 1)}-${pad(day)}`
 
+  const canPrev = idx > 0
+  const canNext = idx < dataMonths.length - 1
+  const navBtn =
+    "font-mono text-sm text-muted-foreground transition-colors enabled:hover:text-foreground disabled:opacity-30"
+
+  const listDays = days
+    .filter((d) => d.date.slice(0, 7) === monthKey)
+    .sort((a, b) => b.date.localeCompare(a.date))
+  const fmtDay = (date: string) => {
+    const [y, m, d] = date.split("-").map(Number)
+    return new Date(y, m - 1, d).toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })
+  }
+
   return (
     <div>
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
-        {monthName} {year}
-      </p>
-      <div className="mt-4 grid grid-cols-7 gap-1.5">
+      <div className="flex items-baseline justify-between">
+        <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{label}</h2>
+        <div className="flex items-center gap-3">
+          <button type="button" className={navBtn} disabled={!canPrev} onClick={() => canPrev && setMonthKey(dataMonths[idx - 1])} aria-label="Previous month">
+            ‹
+          </button>
+          <p className="w-32 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
+            {monthName} {year}
+          </p>
+          <button type="button" className={navBtn} disabled={!canNext} onClick={() => canNext && setMonthKey(dataMonths[idx + 1])} aria-label="Next month">
+            ›
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop / tablet: month grid */}
+      <div className="mt-6 hidden grid-cols-7 gap-1.5 sm:grid">
         {WEEKDAYS.map((w) => (
           <div key={w} className="pb-1 text-left font-mono text-[9px] uppercase tracking-[0.15em] text-muted-foreground/50">
             {w}
@@ -74,57 +119,6 @@ function MonthGrid({
           )
         })}
       </div>
-    </div>
-  )
-}
-
-export function BuildingCalendar({
-  days,
-  currentYear,
-  currentMonth,
-  label,
-}: {
-  days: DayActivity[]
-  currentYear: number
-  currentMonth: number // 0-indexed
-  label: string
-}) {
-  const byDate = new Map(days.map((d) => [d.date, d.repos]))
-
-  const current = { year: currentYear, month: currentMonth }
-  const previous = {
-    year: currentMonth === 0 ? currentYear - 1 : currentYear,
-    month: currentMonth === 0 ? 11 : currentMonth - 1,
-  }
-
-  const monthKeys = new Set([
-    `${current.year}-${pad(current.month + 1)}`,
-    `${previous.year}-${pad(previous.month + 1)}`,
-  ])
-  const listDays = days
-    .filter((d) => monthKeys.has(d.date.slice(0, 7)))
-    .sort((a, b) => b.date.localeCompare(a.date))
-
-  const fmtDay = (date: string) => {
-    const [y, m, d] = date.split("-").map(Number)
-    return new Date(y, m - 1, d).toLocaleDateString("en-US", {
-      weekday: "short",
-      month: "short",
-      day: "numeric",
-    })
-  }
-
-  return (
-    <div>
-      <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-        {label}
-      </h2>
-
-      {/* Desktop / tablet: current + previous month grids */}
-      <div className="mt-6 hidden space-y-10 sm:block">
-        <MonthGrid year={current.year} month={current.month} byDate={byDate} />
-        <MonthGrid year={previous.year} month={previous.month} byDate={byDate} />
-      </div>
 
       {/* Mobile: readable day-by-day list */}
       <div className="mt-6 divide-y divide-line border-t border-line sm:hidden">
@@ -140,7 +134,7 @@ export function BuildingCalendar({
             </div>
           ))
         ) : (
-          <p className="py-3 font-mono text-xs text-muted-foreground/50">No public activity yet.</p>
+          <p className="py-3 font-mono text-xs text-muted-foreground/50">No public activity this month.</p>
         )}
       </div>
     </div>
