@@ -24,25 +24,25 @@ function RepoLink({ name, dotClass }: { name: string; dotClass: string }) {
 
 export function BuildingCalendar({
   days,
+  currentYear,
+  currentMonth,
   label,
 }: {
   days: DayActivity[]
+  currentYear: number
+  currentMonth: number // 0-indexed
   label: string
 }) {
   const byDate = new Map(days.map((d) => [d.date, d.repos]))
 
-  // Months that have activity, ascending ("YYYY-MM").
-  const dataMonths = [...new Set(days.map((d) => d.date.slice(0, 7)))].sort()
-  // Default to the month with the most activity so the section showcases the work.
-  const totals = new Map<string, number>()
-  for (const d of days) {
-    const key = d.date.slice(0, 7)
-    totals.set(key, (totals.get(key) ?? 0) + d.repos.reduce((acc, r) => acc + r.count, 0))
-  }
-  const initial = [...totals.entries()].sort((a, b) => b[1] - a[1])[0][0]
+  // Navigation is limited to the current month and the previous month.
+  const currentKey = `${currentYear}-${pad(currentMonth + 1)}`
+  const prev = new Date(currentYear, currentMonth - 1, 1)
+  const prevKey = `${prev.getFullYear()}-${pad(prev.getMonth() + 1)}`
+  const months = [prevKey, currentKey] // ascending
 
-  const [monthKey, setMonthKey] = useState(initial)
-  const idx = dataMonths.indexOf(monthKey)
+  const [monthKey, setMonthKey] = useState(currentKey)
+  const idx = months.indexOf(monthKey)
   const [yy, mm] = monthKey.split("-").map(Number)
   const year = yy
   const month = mm - 1 // 0-indexed
@@ -57,7 +57,7 @@ export function BuildingCalendar({
   const dateStr = (day: number) => `${year}-${pad(month + 1)}-${pad(day)}`
 
   const canPrev = idx > 0
-  const canNext = idx < dataMonths.length - 1
+  const canNext = idx < months.length - 1
   const navBtn =
     "font-mono text-sm text-muted-foreground transition-colors enabled:hover:text-foreground disabled:opacity-30"
 
@@ -74,13 +74,13 @@ export function BuildingCalendar({
       <div className="flex items-baseline justify-between">
         <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{label}</h2>
         <div className="flex items-center gap-3">
-          <button type="button" className={navBtn} disabled={!canPrev} onClick={() => canPrev && setMonthKey(dataMonths[idx - 1])} aria-label="Previous month">
+          <button type="button" className={navBtn} disabled={!canPrev} onClick={() => canPrev && setMonthKey(months[idx - 1])} aria-label="Previous month">
             ‹
           </button>
           <p className="w-32 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
             {monthName} {year}
           </p>
-          <button type="button" className={navBtn} disabled={!canNext} onClick={() => canNext && setMonthKey(dataMonths[idx + 1])} aria-label="Next month">
+          <button type="button" className={navBtn} disabled={!canNext} onClick={() => canNext && setMonthKey(months[idx + 1])} aria-label="Next month">
             ›
           </button>
         </div>
