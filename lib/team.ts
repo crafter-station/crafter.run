@@ -33,6 +33,7 @@ export const teamMembers: TeamMember[] = [
     skills: ["UI/UX Design", "React", "Figma", "TypeScript", "Astro", "Accessibility"],
     github: "https://github.com/shiarauzo",
     linkedin: "https://www.linkedin.com/in/shiara-arauzo/",
+    x: "https://x.com/shiarauzo",
     instagram: "https://www.instagram.com/shiaraarauzo/",
     website: "https://shiara.design",
     cal: "https://cal.com/shiara-arauzo/30-min",
