@@ -433,7 +433,7 @@ export const teamMembers: TeamMember[] = [
       {
         category: "Computers",
         items: [
-          { name: "MacBook Pro M14", detail: "Work" },
+          { name: "MacBook Pro M4", detail: "14-inch, work" },
           { name: "Lenovo Legion", detail: "Windows — 3D & editing" },
           { name: "Lenovo ThinkPad", detail: "Linux" },
         ],
