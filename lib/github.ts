@@ -63,15 +63,24 @@ async function fetchMonthCommits(
   const lastDay = new Date(year, month + 1, 0).getDate()
   const to = `${year}-${pad(month + 1)}-${pad(lastDay)}`
   const q = `author:${username} committer-date:${from}..${to}`
-  const url = `https://api.github.com/search/commits?q=${encodeURIComponent(q)}&sort=committer-date&order=desc&per_page=100`
-  try {
-    const res = await fetch(url, { headers: baseHeaders(), next: { revalidate: 86400 } })
-    if (!res.ok) return []
-    const data = (await res.json()) as { items?: CommitSearchItem[] }
-    return Array.isArray(data.items) ? data.items : []
-  } catch {
-    return []
+
+  // Paginate so even very active contributors get the whole month (the search
+  // API caps at 1000 results = 10 pages of 100).
+  const items: CommitSearchItem[] = []
+  for (let page = 1; page <= 10; page++) {
+    const url = `https://api.github.com/search/commits?q=${encodeURIComponent(q)}&sort=committer-date&order=desc&per_page=100&page=${page}`
+    try {
+      const res = await fetch(url, { headers: baseHeaders(), next: { revalidate: 86400 } })
+      if (!res.ok) break
+      const data = (await res.json()) as { items?: CommitSearchItem[] }
+      const batch = Array.isArray(data.items) ? data.items : []
+      items.push(...batch)
+      if (batch.length < 100) break
+    } catch {
+      break
+    }
   }
+  return items
 }
 
 async function viaCommitSearch(username: string): Promise<BuildingActivity | null> {
