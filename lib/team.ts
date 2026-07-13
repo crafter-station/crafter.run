@@ -424,6 +424,26 @@ export const teamMembers: TeamMember[] = [
     linkedin: "https://www.linkedin.com/in/ignacior97/",
     cal: "https://cal.com/irueda/30min",
     joinedYear: 2024,
+    software: [
+      { category: "Media", items: ["FFmpeg", "OBS", "Filmora"] },
+    ],
+    hardware: [
+      {
+        category: "Computers",
+        items: [
+          { name: "MacBook Pro M14", detail: "Work" },
+          { name: "Lenovo Legion", detail: "Windows — 3D & editing" },
+          { name: "Lenovo ThinkPad", detail: "Linux" },
+        ],
+      },
+      {
+        category: "Audio & Video",
+        items: [
+          { name: "Razer Seiren Mini", detail: "Microphone" },
+          { name: "GoPro 13 Black", detail: "Action camera" },
+        ],
+      },
+    ],
   },
   {
     username: "liz",
