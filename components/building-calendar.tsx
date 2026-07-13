@@ -35,17 +35,17 @@ export function BuildingCalendar({
 }) {
   const byDate = new Map(days.map((d) => [d.date, d.repos]))
 
-  // Navigation is limited to the current month and the previous month.
+  // Navigation covers the current + previous month, but only the ones that
+  // actually have activity — never show/navigate to an empty month.
   const currentKey = `${currentYear}-${pad(currentMonth + 1)}`
   const prev = new Date(currentYear, currentMonth - 1, 1)
   const prevKey = `${prev.getFullYear()}-${pad(prev.getMonth() + 1)}`
-  const months = [prevKey, currentKey] // ascending
-
-  // Start on whichever of the two months has activity, preferring the current one.
   const has = (key: string) => days.some((d) => d.date.slice(0, 7) === key)
-  const initial = has(currentKey) ? currentKey : has(prevKey) ? prevKey : currentKey
+  const withData = [prevKey, currentKey].filter(has)
+  const months = withData.length ? withData : [currentKey] // ascending
 
-  const [monthKey, setMonthKey] = useState(initial)
+  // Default to the most recent month with activity (current if it has any).
+  const [monthKey, setMonthKey] = useState(months[months.length - 1])
   const idx = months.indexOf(monthKey)
   const [yy, mm] = monthKey.split("-").map(Number)
   const year = yy
