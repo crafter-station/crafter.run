@@ -119,6 +119,7 @@ export const teamMembers: TeamMember[] = [
         category: "Computers",
         items: [
           { name: "MacBook Pro M4" },
+          { name: "Redmi Note 13 Pro+", detail: "200MP camera" },
           { name: "Samsung Galaxy Tab FE", detail: "2019" },
         ],
       },
@@ -126,7 +127,7 @@ export const teamMembers: TeamMember[] = [
         category: "Audio & Video",
         items: [
           { name: "Meta Ray-Ban", detail: "Smart glasses, Classic Black" },
-          { name: "AirPods Pro" },
+          { name: "AirPods Pro", detail: "Noise cancellation" },
         ],
       },
       { category: "Accessories", items: [{ name: "Arduino UNO R3 WiFi", detail: "Robotics" }] },
@@ -254,6 +255,7 @@ export const teamMembers: TeamMember[] = [
         category: "Computers",
         items: [
           { name: "MacBook Pro M4" },
+          { name: "iPhone 15" },
           { name: "Apple Watch S10", detail: "Health tracking" },
         ],
       },
@@ -261,7 +263,7 @@ export const teamMembers: TeamMember[] = [
         category: "Audio & Video",
         items: [
           { name: "Meta Ray-Ban", detail: "Smart glasses, Classic Black" },
-          { name: "AirPods Pro" },
+          { name: "AirPods Pro", detail: "Noise cancellation" },
           { name: "Elgato Key Light", detail: "Studio light, 2800 lm, app-controlled" },
           { name: "DJI Mic Mini", detail: "Wireless mic, 2 TX + 1 RX" },
         ],
