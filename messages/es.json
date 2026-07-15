@@ -171,11 +171,20 @@
       "sectionDescription": "La migracion completa de contenido puede venir despues. Por ahora destacamos las superficies mas importantes."
     },
     "brand": {
-      "eyebrow": "Brand",
-      "title": "Assets y guias de marca de Crafter Station.",
-      "description": "Usa esta pagina para referenciar a Crafter Station en articulos, presentaciones, eventos o materiales de partners.",
-      "section": "Un nombre, un ecosistema.",
-      "sectionDescription": "Siempre Crafter Station: comunidad, research, open source, eventos y ejecucion senior como una sola red."
+      "eyebrow": "Recursos de marca",
+      "title": "Hecha para ser reconocida.",
+      "description": "Descarga los assets oficiales de Crafter Station para articulos, presentaciones, eventos y materiales de partners.",
+      "assets": "Assets",
+      "iconTitle": "Icono del logo",
+      "iconDescription": "Usa el simbolo cuando el espacio sea limitado o el nombre Crafter Station ya aparezca cerca.",
+      "wordmarkTitle": "Logo + wordmark",
+      "wordmarkDescription": "Usa la version completa al presentar la marca o cuando sea util dar mas contexto.",
+      "standaloneTitle": "Wordmark",
+      "standaloneDescription": "Usa el wordmark independiente cuando el nombre Crafter Station deba aparecer sin el icono.",
+      "lightMode": "Modo claro",
+      "darkMode": "Modo oscuro",
+      "usageTitle": "Una pequena peticion",
+      "usageDescription": "Manten el logo legible, dale espacio y no lo estires, gires, cambies de color ni alteres la relacion entre el simbolo y el wordmark."
     },
     "contact": {
       "eyebrow": "Contacto",

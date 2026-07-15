@@ -14,11 +14,11 @@ export function SiteWordmark({
         "inline-flex items-center gap-2 select-none",
         className,
       )}
-      aria-label="crafter station"
+      aria-label="Crafter Station"
     >
       {showIcon ? <CrafterStationLogo className="h-4 w-4" /> : null}
       <span className="wordmark-crafter text-sm tracking-[0.08em] text-foreground">
-        crafter station
+        Crafter Station
       </span>
     </span>
   )
