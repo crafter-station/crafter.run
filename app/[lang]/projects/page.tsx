@@ -67,14 +67,19 @@ export default async function Page({
               <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
                 {t("githubDescription")}
               </p>
-              <Link
-                href="https://github.com/crafter-station/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mt-8 inline-block"
-              >
-                <ArrowLink>{t("githubCta")}</ArrowLink>
-              </Link>
+              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+                <LocalizedLink href="/timeline" locale={lang} className="group">
+                  <ArrowLink>{t("timelineCta")}</ArrowLink>
+                </LocalizedLink>
+                <Link
+                  href="https://github.com/crafter-station/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                >
+                  <ArrowLink>{t("githubCta")}</ArrowLink>
+                </Link>
+              </div>
             </div>
           </section>
         </Container>

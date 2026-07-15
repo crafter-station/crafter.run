@@ -3,6 +3,8 @@ import { z } from "zod"
 
 export const env = createEnv({
   server: {
+    CRON_SECRET: z.string().min(16).optional(),
+    GITHUB_TOKEN: z.string().min(1).optional(),
     LUMA_API_KEY: z.string().min(1).optional(),
     OPENAI_API_KEY: z.string().min(1).optional(),
     RESEND_API_KEY: z.string().min(1).optional(),
@@ -14,6 +16,8 @@ export const env = createEnv({
     NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
   },
   runtimeEnv: {
+    CRON_SECRET: process.env.CRON_SECRET,
+    GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     LUMA_API_KEY: process.env.LUMA_API_KEY,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:

@@ -16,6 +16,7 @@ const companyLinks = [
 
 const buildLinks = [
   { key: "projects", href: "/projects" },
+  { key: "timeline", href: "/timeline" },
   { key: "research", href: "/research" },
   { key: "next", href: "/projects/next" },
   { key: "brand", href: "/brand" },

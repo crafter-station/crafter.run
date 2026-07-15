@@ -13,6 +13,7 @@ export const indexablePaths = [
   "/events/sponsors",
   "/n8n",
   "/opencode",
+  "/timeline",
   "/projects",
   "/projects/next",
   "/research",
