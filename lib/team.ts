@@ -418,6 +418,7 @@ export const teamMembers: TeamMember[] = [
       pt: "Especialista em growth e automacao focado em ajudar produtos a chegar nas pessoas certas. Constroi sistemas que escalam distribuicao e comunidade no LATAM.",
     },
     skills: ["Automation", "AI", "Notion", "Product Hunt", "Growth Hacking", "Content Marketing"],
+    github: "https://github.com/TheVeller",
     linkedin: "https://www.linkedin.com/in/ignacio-vel%C3%A1squez-franco-3a5765204/",
     website: "https://theveller.gumroad.com/",
     cal: "https://cal.com/ignacio-velasquez-franco/30min",
