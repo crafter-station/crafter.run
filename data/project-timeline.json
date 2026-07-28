@@ -11,7 +11,8 @@
     "Jibaru",
     "antunesgabriel",
     "carlosdtn",
-    "EdwardR0507"
+    "EdwardR0507",
+    "juanortega10"
   ],
   "generatedAt": "2026-07-15T08:32:40.244Z",
   "startDate": "2025-07-20",
@@ -7742,7 +7743,7 @@
       ],
       "totalContributions": 501,
       "capturedContributions": 501,
-      "coreContributions": 474,
+      "coreContributions": 485,
       "contributors": [
         {
           "login": "Railly",
@@ -8071,7 +8072,12 @@
             0,
             0
           ],
-          "coreMember": null,
+          "coreMember": {
+            "login": "juanortega10",
+            "name": "Juan Ortega",
+            "username": "juan",
+            "image": "/team/juan.png"
+          },
           "contributions": 11
         },
         {
@@ -13827,7 +13833,7 @@
       ],
       "totalContributions": 298,
       "capturedContributions": 298,
-      "coreContributions": 242,
+      "coreContributions": 271,
       "contributors": [
         {
           "login": "shiarauzo",
@@ -14089,7 +14095,12 @@
             0,
             0
           ],
-          "coreMember": null,
+          "coreMember": {
+            "login": "juanortega10",
+            "name": "Juan Ortega",
+            "username": "juan",
+            "image": "/team/juan.png"
+          },
           "contributions": 29
         },
         {
@@ -25523,7 +25534,7 @@
       ],
       "totalContributions": 68,
       "capturedContributions": 68,
-      "coreContributions": 67,
+      "coreContributions": 68,
       "contributors": [
         {
           "login": "camilocbarrera",
@@ -25718,7 +25729,12 @@
             0,
             0
           ],
-          "coreMember": null,
+          "coreMember": {
+            "login": "juanortega10",
+            "name": "Juan Ortega",
+            "username": "juan",
+            "image": "/team/juan.png"
+          },
           "contributions": 1
         }
       ],
@@ -29742,7 +29758,7 @@
       ],
       "totalContributions": 20,
       "capturedContributions": 20,
-      "coreContributions": 10,
+      "coreContributions": 14,
       "contributors": [
         {
           "login": "luizarnoldch",
@@ -29999,7 +30015,12 @@
             0,
             0
           ],
-          "coreMember": null,
+          "coreMember": {
+            "login": "juanortega10",
+            "name": "Juan Ortega",
+            "username": "juan",
+            "image": "/team/juan.png"
+          },
           "contributions": 4
         }
       ],
@@ -50988,7 +51009,7 @@
       ],
       "totalContributions": 8,
       "capturedContributions": 8,
-      "coreContributions": 4,
+      "coreContributions": 6,
       "contributors": [
         {
           "login": "Jibaru",
@@ -51116,7 +51137,12 @@
             0,
             0
           ],
-          "coreMember": null,
+          "coreMember": {
+            "login": "juanortega10",
+            "name": "Juan Ortega",
+            "username": "juan",
+            "image": "/team/juan.png"
+          },
           "contributions": 2
         },
         {
@@ -51324,7 +51350,7 @@
       ],
       "totalContributions": 8,
       "capturedContributions": 8,
-      "coreContributions": 0,
+      "coreContributions": 8,
       "contributors": [
         {
           "login": "juanortega10",
@@ -51385,7 +51411,12 @@
             0,
             0
           ],
-          "coreMember": null,
+          "coreMember": {
+            "login": "juanortega10",
+            "name": "Juan Ortega",
+            "username": "juan",
+            "image": "/team/juan.png"
+          },
           "contributions": 8
         }
       ],
@@ -62968,6 +62999,12 @@
       "name": "Edward Ramos",
       "username": "edward",
       "image": "/team/edward.png"
+    },
+    {
+      "login": "juanortega10",
+      "name": "Juan Ortega",
+      "username": "juan",
+      "image": "/team/juan.png"
     }
   ],
   "source": "snapshot"
