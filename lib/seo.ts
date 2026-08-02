@@ -16,6 +16,7 @@ export const indexablePaths = [
   "/timeline",
   "/projects",
   "/projects/next",
+  "/impact/petdex",
   "/research",
   "/team",
   "/team/work-with-us",

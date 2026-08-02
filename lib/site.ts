@@ -36,6 +36,7 @@ export const navItems = [
   { key: "events", href: "/events" },
   { key: "projects", href: "/projects" },
   { key: "research", href: "/research" },
+  { key: "impact", href: "/impact/petdex" },
   { key: "team", href: "/team" },
 ] as const
 

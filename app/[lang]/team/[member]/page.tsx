@@ -70,8 +70,45 @@ function socials(member: NonNullable<ReturnType<typeof getTeamMember>>) {
     member.linkedin && { label: "LinkedIn", href: member.linkedin },
     member.instagram && { label: "Instagram", href: member.instagram },
     member.website && { label: "Website", href: member.website },
+    member.email && { label: "Email", href: `mailto:${member.email}` },
   ].filter(Boolean) as { label: string; href: string }[]
 }
+
+const raillyImpact = {
+  en: {
+    eyebrow: "Petdex impact, Q2 2026",
+    metrics: [
+      ["28,875", "npm downloads"],
+      ["3,218", "net new stars"],
+      ["612", "Petdex contributions"],
+      ["#86", "OSSCAR Emerging"],
+    ],
+    report: "Impact report",
+    github: "Petdex on GitHub",
+  },
+  es: {
+    eyebrow: "Impacto de Petdex, Q2 2026",
+    metrics: [
+      ["28,875", "descargas npm"],
+      ["3,218", "nuevas estrellas netas"],
+      ["612", "contribuciones a Petdex"],
+      ["#86", "OSSCAR Emerging"],
+    ],
+    report: "Reporte de impacto",
+    github: "Petdex en GitHub",
+  },
+  pt: {
+    eyebrow: "Impacto do Petdex, Q2 2026",
+    metrics: [
+      ["28,875", "downloads npm"],
+      ["3,218", "novas estrelas liquidas"],
+      ["612", "contribuicoes ao Petdex"],
+      ["#86", "OSSCAR Emerging"],
+    ],
+    report: "Relatorio de impacto",
+    github: "Petdex no GitHub",
+  },
+} as const
 
 export function generateStaticParams() {
   return ["en", "es", "pt"].flatMap((lang) =>
@@ -112,6 +149,7 @@ export default async function Page({
   const links = socials(teamMember)
   const meetingSlug = calSlug(teamMember.cal)
   const building = await getBuildingActivity(teamMember.github)
+  const impact = teamMember.username === "railly" ? raillyImpact[lang] : null
 
   const heading =
     "font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
@@ -235,6 +273,32 @@ export default async function Page({
                   <span>{bio}</span>
                 </p>
               </section>
+              {impact ? (
+                <section className="mt-10 border-y border-line">
+                  <p className="px-4 py-4 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:px-6">
+                    {impact.eyebrow}
+                  </p>
+                  <div className="grid grid-cols-2 border-t border-line md:grid-cols-4">
+                    {impact.metrics.map(([value, label], index) => (
+                      <div
+                        key={label}
+                        className={`${index % 2 ? "border-l" : ""} ${index > 1 ? "border-t md:border-t-0" : ""} ${index > 0 ? "md:border-l" : ""} border-line px-4 py-5 md:px-5`}
+                      >
+                        <p className="text-xl font-semibold tracking-tight">{value}</p>
+                        <p className="mt-1 font-mono text-[10px] text-muted-foreground">{label}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-x-6 gap-y-3 border-t border-line px-4 py-4 md:px-6">
+                    <Link href={withLocale("/impact/petdex", lang)} className="group">
+                      <ArrowLink>{impact.report}</ArrowLink>
+                    </Link>
+                    <Link href="https://github.com/crafter-station/petdex" target="_blank" rel="noopener noreferrer" className="group">
+                      <ArrowLink>{impact.github}</ArrowLink>
+                    </Link>
+                  </div>
+                </section>
+              ) : null}
               {tabs.length ? (
                 <div className="mt-10">
                   <MemberTabs tabs={tabs} />

@@ -13,6 +13,7 @@ export type TeamMember = {
   x?: string
   instagram?: string
   website?: string
+  email?: string
   projects?: (string | { name: string; url: string })[]
   joinedYear?: number
   cal?: string
@@ -142,20 +143,26 @@ export const teamMembers: TeamMember[] = [
   {
     username: "railly",
     name: "Railly Hugo",
-    role: "Design Engineer",
-    location: "Lima, Peru",
+    role: "Founder",
+    location: "Buenos Aires, Argentina",
+    timezone: "America/Argentina/Buenos_Aires",
     image: "/team/railly.png",
     bio: {
-      en: "Design engineer passionate about developer tools and open source. Creator of tinte, a theme generator for VS Code and shadcn/ui with a strong open-source community.",
-      es: "Ingeniero de diseno apasionado por las herramientas para developers y el open source. Creador de tinte, un generador de temas para VS Code y shadcn/ui con una comunidad open-source fuerte.",
-      pt: "Engenheiro de design apaixonado por ferramentas para desenvolvedores e open source. Criador do tinte, um gerador de temas para VS Code e shadcn/ui com uma comunidade open-source forte.",
+      en: "Peruvian software engineer based in Buenos Aires. Software Engineer at Vercel Labs, founder of Crafter Station, principal creator of Petdex, and Codex Ambassador in Peru.",
+      es: "Ingeniero de software peruano radicado en Buenos Aires. Software Engineer en Vercel Labs, fundador de Crafter Station, creador principal de Petdex y Codex Ambassador en Peru.",
+      pt: "Engenheiro de software peruano baseado em Buenos Aires. Software Engineer na Vercel Labs, fundador da Crafter Station, principal criador do Petdex e Codex Ambassador no Peru.",
     },
-    skills: ["React", "TypeScript", "Tailwind CSS", "Figma", "Next.js", "Design Systems"],
+    skills: ["Developer Tools", "Open Source", "AI", "TypeScript", "Community"],
     github: "https://github.com/Railly",
     linkedin: "https://linkedin.com/in/railly-hugo",
     x: "https://x.com/raillyhugo",
     website: "https://railly.dev",
-    projects: ["tinte", "elements"],
+    email: "hi@railly.dev",
+    projects: [
+      { name: "petdex", url: "https://github.com/crafter-station/petdex" },
+      { name: "tinte", url: "https://www.tinte.dev" },
+      "elements",
+    ],
     cal: "https://cal.com/railly/30min",
     joinedYear: 2023,
     listening: {
