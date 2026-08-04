@@ -3,6 +3,7 @@ import type { Viewport } from "next"
 import { JetBrains_Mono, Space_Grotesk } from "next/font/google"
 import { notFound } from "next/navigation"
 import { setRequestLocale } from "next-intl/server"
+import { Analytics } from "@vercel/analytics/next"
 
 import { isLocale, locales } from "@/lib/i18n"
 import { baseUrl } from "@/lib/seo"
@@ -71,6 +72,7 @@ export default async function LocaleLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   )
