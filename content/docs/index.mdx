@@ -1,0 +1,38 @@
+---
+title: Crafter Station Docs
+description: Documentation for Crafter Station open source developer tools. CLIs and libraries built by the LatAm network of shippers.
+---
+
+Crafter Station builds open source developer tools. Every tool here is installable from npm, works with `npx`/`bunx` without a global install, and is designed to be usable by both humans and AI coding agents.
+
+<Cards>
+  <Card
+    title="trx"
+    description="Transcribe audio and video from the CLI with local Whisper. Agent-first: JSON output, dry runs, schema introspection."
+    href="/en/docs/trx"
+  />
+  <Card
+    title="mermaid"
+    description="Render Mermaid diagrams in 30.5KB without a browser. Zero-dependency parser, layout engine, renderer, and CLI."
+    href="/en/docs/mermaid"
+  />
+  <Card
+    title="skillkit"
+    description="Local-first observability for AI agent skills. Track usage, measure cost, detect conflicts, prune what you don't use."
+    href="/en/docs/skillkit"
+  />
+</Cards>
+
+## Install anything, instantly
+
+Every CLI works without installation:
+
+```bash
+npx @crafter/trx recording.mp4
+npx @crafter/mermaid-cli diagram.mmd
+bunx @crafter/skillkit scan
+```
+
+## Source code
+
+All tools are MIT licensed and developed in the open at [github.com/crafter-station](https://github.com/crafter-station).

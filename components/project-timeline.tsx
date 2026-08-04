@@ -1060,7 +1060,7 @@ export function ProjectTimeline({
                 <div
                   key={`${row.project.fullName}-label`}
                   data-timeline-sticky
-                  className="timeline-project-row group/row z-20 grid min-h-[4.75rem] will-change-transform grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-b border-r border-line bg-background px-4 transition-colors sm:px-5"
+                  className="timeline-project-row group/row z-20 grid min-h-19 will-change-transform grid-cols-[minmax(0,1fr)_auto] items-center gap-2 border-b border-r border-line bg-background px-4 transition-colors sm:px-5"
                   role="rowheader"
                 >
                   <button
@@ -1122,7 +1122,7 @@ export function ProjectTimeline({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`${copy.openGithub}: ${row.project.name}`}
-                    className="rounded-sm p-1.5 text-muted-foreground transition-[transform,color] duration-150 hover:text-foreground active:scale-[0.92] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="rounded-sm p-1.5 text-muted-foreground transition-[transform,color] duration-150 hover:text-foreground active:scale-[0.92] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <ArrowUpRight aria-hidden className="size-3.5" />
                   </a>
@@ -1130,7 +1130,7 @@ export function ProjectTimeline({
 
                 <div
                   key={`${row.project.fullName}-timeline`}
-                  className="timeline-project-row group/row relative min-h-[4.75rem] border-b border-line"
+                  className="timeline-project-row group/row relative min-h-19 border-b border-line"
                   role="cell"
                 >
                   <div
@@ -1168,7 +1168,7 @@ export function ProjectTimeline({
                   ) : null}
 
                   <div
-                    className="relative z-10 grid min-h-[4.75rem] items-center"
+                    className="relative z-10 grid min-h-19 items-center"
                     style={timelineGridStyle}
                   >
                     {visibleWeeks.map((week, index) => {
@@ -1208,7 +1208,7 @@ export function ProjectTimeline({
                             inspectProject(row.project.fullName, globalWeekIndex)
                           }
                           className={cn(
-                            "group/week relative h-8 focus-visible:z-20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+                            "group/week relative h-8 focus-visible:z-20 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-1 focus-visible:ring-offset-background",
                             inSpan && "cursor-pointer",
                           )}
                           aria-label={`${row.project.name}, ${copy.weekOf} ${formatWeek(week, locale)}, ${countLabel(count, copy.teamCommit, copy.stats.teamCommits.toLowerCase())}`}
@@ -1284,7 +1284,7 @@ export function ProjectTimeline({
 
       {hoveredWeek && hoveredProject ? (
         <div
-          className="pointer-events-none fixed z-[70] w-72"
+          className="pointer-events-none fixed z-70 w-72"
           style={{
             left: hoveredWeek.x,
             top: hoveredWeek.y,

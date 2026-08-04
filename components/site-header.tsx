@@ -44,7 +44,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
   const t = navCopy[locale]
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-sm">
       <Container innerClassName="h-4" />
       <hr className="border-line" />
       <Container innerClassName="h-16">

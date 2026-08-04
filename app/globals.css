@@ -1,11 +1,215 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-mono: var(--font-mono), monospace;
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-line: hsl(var(--line));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
   }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility timeline-scroll {
+  scrollbar-color: hsl(var(--border)) transparent;
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 999px;
+  }
+}
+
+@utility timeline-color {
+  background-color: var(--timeline-color);
+}
+
+@utility timeline-activity-segment {
+  background-color: var(--timeline-color);
+  opacity: var(--timeline-opacity);
+}
+
+@utility timeline-data-bar {
+  background-color: var(--timeline-color);
+  opacity: var(--timeline-opacity);
+  height: var(--timeline-height);
+}
+
+@utility timeline-project-span {
+  background-color: var(--timeline-color);
+  left: var(--timeline-left);
+  width: var(--timeline-width);
+  box-shadow: inset 0 0 0 1px var(--timeline-color);
+}
+
+@utility timeline-signal-bar {
+  opacity: var(--timeline-opacity);
+  height: var(--timeline-height);
+}
+
+@utility timeline-tooltip {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transform-origin: center;
+  transition:
+    opacity 140ms cubic-bezier(0.23, 1, 0.32, 1),
+    transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
+
+  @starting-style {
+    opacity: 0;
+    transform: translateY(2px) scale(0.98);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transform: none;
+    transition: opacity 120ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+}
+
+@utility timeline-project-row {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background-color: hsl(var(--secondary) / 0.32);
+    }
+  }
+}
+
+@utility project-detail-sheet {
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 1ms !important;
+  }
+}
+
+@utility marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@utility animate-column-shift-1 {
+  animation: column-shift-1 0.5s ease-in-out;
+}
+
+@utility animate-column-shift-2 {
+  animation: column-shift-2 0.5s ease-in-out 0.05s;
+}
+
+@utility animate-column-shift-3 {
+  animation: column-shift-3 0.5s ease-in-out 0.1s;
+}
+
+@utility animate-vote-old-up {
+  animation: vote-old-up 0.18s ease-in forwards;
+}
+
+@utility animate-vote-new-up {
+  animation: vote-new-up 0.22s ease-out forwards;
+}
+
+@utility animate-vote-old-down {
+  animation: vote-old-down 0.18s ease-in forwards;
+}
+
+@utility animate-vote-new-down {
+  animation: vote-new-down 0.22s ease-out forwards;
+}
+
+@utility wordmark-crafter {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 @layer base {
@@ -71,79 +275,6 @@
 }
 
 @layer utilities {
-  .timeline-scroll {
-    scrollbar-color: hsl(var(--border)) transparent;
-    scrollbar-width: thin;
-  }
-
-  .timeline-scroll::-webkit-scrollbar {
-    height: 6px;
-    width: 6px;
-  }
-
-  .timeline-scroll::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 999px;
-  }
-
-  .timeline-color,
-  .timeline-activity-segment,
-  .timeline-data-bar,
-  .timeline-project-span {
-    background-color: var(--timeline-color);
-  }
-
-  .timeline-activity-segment,
-  .timeline-data-bar,
-  .timeline-signal-bar {
-    opacity: var(--timeline-opacity);
-  }
-
-  .timeline-data-bar,
-  .timeline-signal-bar {
-    height: var(--timeline-height);
-  }
-
-  .timeline-project-span {
-    left: var(--timeline-left);
-    width: var(--timeline-width);
-    box-shadow: inset 0 0 0 1px var(--timeline-color);
-  }
-
-  .timeline-tooltip {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    transform-origin: center;
-    transition:
-      opacity 140ms cubic-bezier(0.23, 1, 0.32, 1),
-      transform 140ms cubic-bezier(0.23, 1, 0.32, 1);
-
-    @starting-style {
-      opacity: 0;
-      transform: translateY(2px) scale(0.98);
-    }
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .timeline-project-row:hover {
-      background-color: hsl(var(--secondary) / 0.32);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .timeline-tooltip {
-      transform: none;
-      transition: opacity 120ms cubic-bezier(0.23, 1, 0.32, 1);
-    }
-
-    .project-detail-sheet {
-      animation-duration: 1ms !important;
-    }
-  }
-
-  .marquee {
-    animation: marquee 40s linear infinite;
-  }
   @keyframes marquee {
     from {
       transform: translateX(0);
@@ -171,15 +302,6 @@
     50% { transform: translateX(-4px); opacity: 0; }
     100% { transform: translateX(0); opacity: 1; }
   }
-  .animate-column-shift-1 {
-    animation: column-shift-1 0.5s ease-in-out;
-  }
-  .animate-column-shift-2 {
-    animation: column-shift-2 0.5s ease-in-out 0.05s;
-  }
-  .animate-column-shift-3 {
-    animation: column-shift-3 0.5s ease-in-out 0.1s;
-  }
 
   @keyframes vote-old-up {
     from { transform: translateY(0); opacity: 1; }
@@ -197,22 +319,25 @@
     from { transform: translateY(-100%); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
   }
-  .animate-vote-old-up {
-    animation: vote-old-up 0.18s ease-in forwards;
-  }
-  .animate-vote-new-up {
-    animation: vote-new-up 0.22s ease-out forwards;
-  }
-  .animate-vote-old-down {
-    animation: vote-old-down 0.18s ease-in forwards;
-  }
-  .animate-vote-new-down {
-    animation: vote-new-down 0.22s ease-out forwards;
-  }
+}
 
-  .wordmark-crafter {
-    font-family: var(--font-sans), sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-  }
+/* Fumadocs theme override: match site dark surface, yellow accent */
+:root,
+.dark {
+  --color-fd-background: hsl(0 0% 5%);
+  --color-fd-foreground: hsl(0 0% 96%);
+  --color-fd-card: hsl(0 0% 7%);
+  --color-fd-card-foreground: hsl(0 0% 96%);
+  --color-fd-popover: hsl(0 0% 8%);
+  --color-fd-popover-foreground: hsl(0 0% 96%);
+  --color-fd-muted: hsl(0 0% 11%);
+  --color-fd-muted-foreground: hsl(0 0% 64%);
+  --color-fd-border: hsl(0 0% 14%);
+  --color-fd-primary: hsl(48 96% 53%);
+  --color-fd-primary-foreground: hsl(0 0% 5%);
+  --color-fd-secondary: hsl(0 0% 10%);
+  --color-fd-secondary-foreground: hsl(0 0% 96%);
+  --color-fd-accent: hsl(0 0% 12%);
+  --color-fd-accent-foreground: hsl(0 0% 96%);
+  --color-fd-ring: hsl(48 96% 53%);
 }

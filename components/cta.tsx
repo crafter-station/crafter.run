@@ -93,7 +93,7 @@ export function CTA({ copy }: { copy: CtaCopy }) {
                   placeholder={copy.emailPlaceholder}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-12 flex-1 border border-line bg-background px-4 font-mono text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-foreground/40 focus:outline-none"
+                  className="h-12 flex-1 border border-line bg-background px-4 font-mono text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-foreground/40 focus:outline-hidden"
                 />
                 <button
                   type="submit"

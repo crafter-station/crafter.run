@@ -1,0 +1,38 @@
+---
+title: Documentación de Crafter Station
+description: Documentación de las herramientas open source de Crafter Station. CLIs y librerías construidas por la red LatAm de shippers.
+---
+
+Crafter Station construye herramientas open source para developers. Todas las herramientas se instalan desde npm, funcionan con `npx`/`bunx` sin instalación global, y están diseñadas para ser usadas tanto por humanos como por agentes de IA.
+
+<Cards>
+  <Card
+    title="trx"
+    description="Transcribe audio y video desde la CLI con Whisper local. Agent-first: salida JSON, dry runs, introspección de schemas."
+    href="/es/docs/trx"
+  />
+  <Card
+    title="mermaid"
+    description="Renderiza diagramas Mermaid en 30.5KB sin navegador. Parser, motor de layout, renderer y CLI sin dependencias."
+    href="/es/docs/mermaid"
+  />
+  <Card
+    title="skillkit"
+    description="Observabilidad local-first para skills de agentes de IA. Mide uso y costo, detecta conflictos, elimina lo que no usas."
+    href="/es/docs/skillkit"
+  />
+</Cards>
+
+## Instala cualquier herramienta, al instante
+
+Todas las CLIs funcionan sin instalación:
+
+```bash
+npx @crafter/trx recording.mp4
+npx @crafter/mermaid-cli diagram.mmd
+bunx @crafter/skillkit scan
+```
+
+## Código fuente
+
+Todas las herramientas tienen licencia MIT y se desarrollan en abierto en [github.com/crafter-station](https://github.com/crafter-station).

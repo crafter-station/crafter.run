@@ -1,0 +1,57 @@
+---
+title: "skillkit: observabilidade para skills de agentes de IA"
+description: Observabilidade local-first para skills de agentes de IA. Meça uso e custo, detecte conflitos de triggers, monitore o orçamento de contexto e remova skills que você não usa.
+---
+
+Agentes de código carregam skills na janela de contexto em cada sessão. Mais skills significa menos espaço para o seu código. `skillkit` responde quais skills você realmente usa, se elas ajudam e quanto custam, com análise de uso, detecção de conflitos, análise de custos e monitoramento do orçamento de contexto. Tudo roda localmente na sua máquina.
+
+## Pré-requisitos
+
+skillkit requer [Bun](https://bun.sh) como runtime (SQLite nativo e execução rápida de TypeScript):
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+## Início rápido
+
+Sem instalação:
+
+```bash
+bunx @crafter/skillkit scan
+bunx @crafter/skillkit stats
+bunx @crafter/skillkit health
+```
+
+Ou instale globalmente:
+
+```bash
+bun add -g @crafter/skillkit
+skillkit scan
+```
+
+`npm i -g` também funciona se o Bun estiver instalado, já que o bin usa Bun como runtime.
+
+## Comandos
+
+| Comando | Descrição |
+|---|---|
+| `skillkit scan` | Descobre skills instaladas e indexa dados de sessões |
+| `skillkit list` | Lista skills com tamanho e orçamento de contexto |
+| `skillkit stats` | Análise de uso com sparklines (últimos 30 dias) |
+| `skillkit health` | Checagem de saúde: skills sem uso, orçamento, DB |
+| `skillkit prune` | Remove skills sem uso para recuperar contexto |
+| `skillkit burn` | Análise de burn rate da assinatura (custo, modelos) |
+| `skillkit conflicts` | Testa colisões de triggers entre skills |
+| `skillkit coverage <skill-path>` | Analisa peso morto em uma skill |
+| `skillkit trace <prompt>` | Executa e grava o trace de uma skill |
+
+## skill-creator vs skillkit
+
+O [skill-creator](https://github.com/anthropics/skill-creator) da Anthropic cobre a criação e avaliação de skills. skillkit cobre a observabilidade em produção. Sem sobreposição.
+
+## Links
+
+- [GitHub](https://github.com/crafter-station/skillkit)
+- [npm](https://www.npmjs.com/package/@crafter/skillkit)
+- Instale skills via [skills.sh](https://skills.sh): `npx skills add <owner/repo>`

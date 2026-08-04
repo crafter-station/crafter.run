@@ -1,0 +1,58 @@
+---
+title: "Renderiza diagramas Mermaid sin navegador"
+description: Motor de renderizado Mermaid ultraligero y sin dependencias. Parsea, distribuye y renderiza diagramas Mermaid en 30.5KB min+gzip, sin headless browser.
+---
+
+`@crafter/mermaid` es un motor de renderizado Mermaid construido desde cero: parsea, distribuye y renderiza diagramas Mermaid en **30.5KB (min+gzip)** con **cero dependencias** y una **API síncrona**. Sin headless browser, sin bundle de 2MB.
+
+| | mermaid.js | @crafter/mermaid |
+|---|---|---|
+| Bundle | ~2MB | 30.5KB gzipped |
+| Dependencias | 50+ | Cero |
+| API | Async | Sync |
+
+## Instalación
+
+```bash
+bun add @crafter/mermaid
+```
+
+## Inicio rápido
+
+```ts
+import { render } from "@crafter/mermaid"
+
+const svg = render(`
+graph TD
+  A[Inicio] --> B{Decisión}
+  B -->|Sí| C[Éxito]
+  B -->|No| D[Fallo]
+`)
+
+document.getElementById("diagram").innerHTML = svg
+```
+
+## La suite
+
+El paquete umbrella reexporta un conjunto de paquetes pequeños y enfocados. Úsalos individualmente cuando solo necesites una etapa del pipeline:
+
+| Paquete | Tamaño | Qué hace |
+|---|---|---|
+| `@crafter/mermaid` | &lt;1KB | Paquete umbrella |
+| `@crafter/mermaid-parser` | ~8KB | Texto Mermaid a AST |
+| `@crafter/mermaid-layout` | ~14KB | AST a grafo posicionado |
+| `@crafter/mermaid-renderer` | ~17KB | Grafo posicionado a SVG |
+| `@crafter/mermaid-themes` | ~2KB | 32 temas predefinidos |
+| `@crafter/mermaid-cli` | &lt;1KB | Renderizador de terminal |
+| `@crafter/mermaid-player` | ~3KB | Animación paso a paso |
+
+## Renderiza desde la terminal
+
+```bash
+npx @crafter/mermaid-cli diagram.mmd
+```
+
+## Enlaces
+
+- [GitHub](https://github.com/crafter-station/mermaid)
+- [npm](https://www.npmjs.com/package/@crafter/mermaid)

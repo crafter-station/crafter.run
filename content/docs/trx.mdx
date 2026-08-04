@@ -1,0 +1,60 @@
+---
+title: "trx: transcribe audio and video from the CLI"
+description: Agent-first CLI for audio and video transcription with local Whisper. Download, clean, and transcribe media from URLs or local files with machine-readable output.
+---
+
+`trx` downloads media with yt-dlp, cleans audio with ffmpeg, and transcribes it using a local Whisper model. It outputs `.wav`, `.srt`, `.txt`, and JSON, and it is designed for AI agents first: JSON output, dry-run validation, field filtering, and runtime schema introspection.
+
+## Install
+
+```bash
+bun add -g @crafter/trx
+trx init
+```
+
+## Quick start
+
+Transcribe a local file:
+
+```bash
+trx recording.mp4
+```
+
+Transcribe from a URL (YouTube and anything yt-dlp supports):
+
+```bash
+trx "https://youtube.com/watch?v=..."
+```
+
+## Agent-friendly usage
+
+Machine-readable output, designed to be called from scripts and AI agents:
+
+```bash
+# JSON output
+trx transcribe video.mp4 --output json
+
+# Only the text field
+trx transcribe video.mp4 --fields text --output json
+
+# Validate without executing
+trx transcribe video.mp4 --dry-run --output json
+
+# Inspect the command schema at runtime
+trx schema transcribe
+```
+
+## Language support
+
+```bash
+trx transcribe video.mp4 --language es
+```
+
+## Model sizes
+
+Whisper models range from tiny (75MB) to large (3GB). Pick the size that fits your accuracy and speed needs during `trx init`.
+
+## Links
+
+- [GitHub](https://github.com/crafter-station/trx)
+- [npm](https://www.npmjs.com/package/@crafter/trx)
