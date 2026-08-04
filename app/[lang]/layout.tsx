@@ -5,6 +5,8 @@ import { notFound } from "next/navigation"
 import { setRequestLocale } from "next-intl/server"
 import { Analytics } from "@vercel/analytics/next"
 
+import { JsonLd } from "@/components/json-ld"
+
 import { isLocale, locales } from "@/lib/i18n"
 import { baseUrl } from "@/lib/seo"
 import { siteConfig, socials } from "@/lib/site"
@@ -67,10 +69,7 @@ export default async function LocaleLayout({
       <body
         className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
+        <JsonLd data={structuredData} />
         {children}
         <Analytics />
       </body>

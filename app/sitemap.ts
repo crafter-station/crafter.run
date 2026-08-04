@@ -9,6 +9,7 @@ import {
 } from "@/lib/seo"
 import { source } from "@/lib/source"
 import { teamMembers } from "@/lib/team"
+import { CONTENT_UPDATED, DOCS_UPDATED } from "@/lib/freshness"
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [...indexablePaths]
@@ -23,7 +24,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const localizedEntries = paths.flatMap((path) =>
     locales.map((locale) => ({
       url: localizedUrl(path, locale),
-      lastModified: new Date(),
+      lastModified: new Date(
+        path.startsWith("/docs") ? DOCS_UPDATED : CONTENT_UPDATED,
+      ),
       changeFrequency: path.startsWith("/team/")
         ? ("monthly" as const)
         : ("weekly" as const),

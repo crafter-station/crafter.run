@@ -12,6 +12,7 @@ import { createRelativeLink } from "fumadocs-ui/mdx"
 
 import { source } from "@/lib/source"
 import { getMDXComponents } from "@/components/mdx"
+import { JsonLd } from "@/components/json-ld"
 import { baseUrl, languageAlternates, localizedUrl } from "@/lib/seo"
 
 type Props = {
@@ -72,10 +73,7 @@ export default async function Page(props: Props) {
 
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
+      <JsonLd data={structuredData} />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <div className="flex flex-row items-center gap-2 border-b pb-6">
