@@ -53,9 +53,9 @@ export const languageLinks = [
 ] as const
 
 export const stats = [
-  { value: "800+", label: { en: "WhatsApp community members", es: "Miembros en la comunidad de WhatsApp", pt: "Membros na comunidade do WhatsApp", zh: "WhatsApp 社区成员", ja: "WhatsApp コミュニティのメンバー" } },
+  { value: "1000+", label: { en: "WhatsApp community members", es: "Miembros en la comunidad de WhatsApp", pt: "Membros na comunidade do WhatsApp", zh: "WhatsApp 社区成员", ja: "WhatsApp コミュニティのメンバー" } },
   { value: "50+", label: { en: "Events and hackathons hosted", es: "Eventos y hackathons organizados", pt: "Eventos e hackathons organizados", zh: "举办的活动与黑客松", ja: "開催したイベントとハッカソン" } },
-  { value: "25+", label: { en: "Products shipped", es: "Productos construidos", pt: "Produtos construidos", zh: "已 ship 的产品", ja: "シップしたプロダクト" } },
+  { value: "100+", label: { en: "Products shipped", es: "Productos construidos", pt: "Produtos construidos", zh: "已 ship 的产品", ja: "シップしたプロダクト" } },
   { value: "3.2k+", label: { en: "Open-source stars", es: "Estrellas en codigo abierto", pt: "Estrelas em codigo aberto", zh: "开源 star 数", ja: "オープンソースのスター" } },
 ] as const
 
@@ -67,11 +67,11 @@ export const ecosystem = [
   {
     title: { en: "Community", es: "Comunidad", pt: "Comunidade", zh: "社区", ja: "コミュニティ" },
     body: {
-      en: "A WhatsApp-first network of 800+ engineers, designers, founders, product, growth, and marketing people building across LatAm.",
-      es: "Una red WhatsApp-first de 800+ ingenieros, disenadores, founders, producto, growth y marketing construyendo en LatAm.",
-      pt: "Uma rede WhatsApp-first de 800+ engenheiros, designers, founders, produto, growth e marketing construindo no LatAm.",
-      zh: "一个以 WhatsApp 为主的网络，汇聚 800+ 位在拉美各地构建的工程师、设计师、创始人、产品、增长和市场人。",
-      ja: "ラテンアメリカ各地で開発する800人以上のエンジニア、デザイナー、ファウンダー、プロダクト、グロース、マーケティング担当が集まる WhatsApp ファーストのネットワーク。",
+      en: "A WhatsApp-first network of 1000+ engineers, designers, founders, product, growth, and marketing people building across LatAm.",
+      es: "Una red WhatsApp-first de 1000+ ingenieros, disenadores, founders, producto, growth y marketing construyendo en LatAm.",
+      pt: "Uma rede WhatsApp-first de 1000+ engenheiros, designers, founders, produto, growth e marketing construindo no LatAm.",
+      zh: "一个以 WhatsApp 为主的网络，汇聚 1000+ 位在拉美各地构建的工程师、设计师、创始人、产品、增长和市场人。",
+      ja: "ラテンアメリカ各地で開発する1000人以上のエンジニア、デザイナー、ファウンダー、プロダクト、グロース、マーケティング担当が集まる WhatsApp ファーストのネットワーク。",
     },
     href: "https://crafters.chat",
   },

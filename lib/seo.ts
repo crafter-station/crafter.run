@@ -56,6 +56,12 @@ export function languageAlternates(path: string) {
   }
 }
 
+export function ogImageUrl(title: string, locale: Locale, eyebrow?: string) {
+  const params = new URLSearchParams({ title, lang: locale })
+  if (eyebrow) params.set("eyebrow", eyebrow)
+  return `/og?${params.toString()}`
+}
+
 export function buildMetadata({
   locale,
   path,
@@ -70,6 +76,8 @@ export function buildMetadata({
   const url = localizedUrl(path, locale)
   const fullTitle =
     title === siteConfig.name ? `${siteConfig.name} · ${siteConfig.tagline[locale]}` : `${title} | ${siteConfig.name}`
+  const ogTitle = title === siteConfig.name ? siteConfig.tagline[locale] : title
+  const ogImage = ogImageUrl(ogTitle, locale)
 
   return {
     metadataBase: new URL(baseUrl),
@@ -86,7 +94,7 @@ export function buildMetadata({
       siteName: siteConfig.name,
       images: [
         {
-          url: "/og.png",
+          url: ogImage,
           width: 1200,
           height: 630,
           alt: `${siteConfig.name} · ${siteConfig.tagline[locale]}`,
@@ -102,7 +110,7 @@ export function buildMetadata({
       card: "summary_large_image",
       title: fullTitle,
       description,
-      images: ["/og-twitter.png"],
+      images: [ogImage],
     },
   }
 }

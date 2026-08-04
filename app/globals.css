@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-sans), system-ui, sans-serif;
+  --font-sans: var(--font-space), system-ui, sans-serif;
   --font-mono: var(--font-mono), monospace;
 
   --color-background: hsl(var(--background));
@@ -321,7 +321,7 @@
   }
 }
 
-/* Fumadocs theme override: match site dark surface, yellow accent */
+/* Fumadocs theme override: match site dark surface, monochrome */
 :root,
 .dark {
   --color-fd-background: hsl(0 0% 5%);
@@ -333,11 +333,26 @@
   --color-fd-muted: hsl(0 0% 11%);
   --color-fd-muted-foreground: hsl(0 0% 64%);
   --color-fd-border: hsl(0 0% 14%);
-  --color-fd-primary: hsl(48 96% 53%);
+  --color-fd-primary: hsl(0 0% 96%);
   --color-fd-primary-foreground: hsl(0 0% 5%);
   --color-fd-secondary: hsl(0 0% 10%);
   --color-fd-secondary-foreground: hsl(0 0% 96%);
   --color-fd-accent: hsl(0 0% 12%);
   --color-fd-accent-foreground: hsl(0 0% 96%);
-  --color-fd-ring: hsl(48 96% 53%);
+  --color-fd-ring: hsl(0 0% 96%);
+}
+
+/* CJK locales: Latin glyphs keep Space Grotesk, CJK glyphs fall through to
+   Noto Sans. Tight tracking is a Latin affordance; CJK glyphs need none. */
+html[lang="zh"] {
+  --font-sans: var(--font-space), var(--font-noto-sc), system-ui, sans-serif;
+}
+html[lang="ja"] {
+  --font-sans: var(--font-space), var(--font-noto-jp), system-ui, sans-serif;
+}
+html[lang="zh"] .tracking-tighter,
+html[lang="ja"] .tracking-tighter,
+html[lang="zh"] .tracking-tight,
+html[lang="ja"] .tracking-tight {
+  letter-spacing: 0;
 }

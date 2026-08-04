@@ -1,6 +1,11 @@
 import React from "react"
 import type { Viewport } from "next"
-import { JetBrains_Mono, Space_Grotesk } from "next/font/google"
+import {
+  JetBrains_Mono,
+  Noto_Sans_JP,
+  Noto_Sans_SC,
+  Space_Grotesk,
+} from "next/font/google"
 import { notFound } from "next/navigation"
 import { setRequestLocale } from "next-intl/server"
 import { Analytics } from "@vercel/analytics/next"
@@ -15,13 +20,29 @@ import "../globals.css"
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-space",
   weight: ["300", "400", "500", "600", "700"],
 })
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   weight: ["300", "400", "500", "700"],
+})
+// CJK body fonts: Space Grotesk/JetBrains Mono are Latin-only, so zh/ja
+// pages would fall back to whatever the visitor's OS ships. Loaded with
+// preload disabled; browsers only fetch the unicode-range slices a page
+// actually uses, so Latin pages pay nothing.
+const notoSansSC = Noto_Sans_SC({
+  subsets: ["latin"],
+  variable: "--font-noto-sc",
+  weight: ["400", "500", "700"],
+  preload: false,
+})
+const notoSansJP = Noto_Sans_JP({
+  subsets: ["latin"],
+  variable: "--font-noto-jp",
+  weight: ["400", "500", "700"],
+  preload: false,
 })
 
 const structuredData = [
@@ -67,7 +88,7 @@ export default async function LocaleLayout({
   return (
     <html lang={lang} className="dark">
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
+        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${notoSansSC.variable} ${notoSansJP.variable} flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
         <JsonLd data={structuredData} />
         {children}
