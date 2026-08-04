@@ -14,7 +14,7 @@ import { cn } from "@/lib/utils";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return ["en", "es", "pt"].map((lang) => ({ lang }));
+  return ["en", "es", "pt", "zh", "ja"].map((lang) => ({ lang }));
 }
 
 export function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {

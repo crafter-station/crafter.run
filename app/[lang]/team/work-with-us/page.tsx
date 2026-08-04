@@ -13,7 +13,7 @@ import { getServices } from "@/lib/site"
 export const dynamicParams = false
 
 export function generateStaticParams() {
-  return ["en", "es", "pt"].map((lang) => ({ lang }))
+  return ["en", "es", "pt", "zh", "ja"].map((lang) => ({ lang }))
 }
 
 export function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
@@ -38,6 +38,18 @@ const calendarCopy = {
     title: "Traga o problema de produto, growth ou comunidade que voce quer resolver.",
     description:
       "Use o calendario para agendar uma conversa focada com a Crafter Station sobre product engineering, produtos com IA, lancamentos, crescimento no LatAm ou ativacoes de comunidade.",
+  },
+  zh: {
+    eyebrow: "预约创业公司通话",
+    title: "带着你想解决的产品、增长或社区问题来。",
+    description:
+      "使用日历预约一次与 Crafter Station 的专注对话，聊聊产品工程、AI 产品、发布支持、拉美增长或社区活动。",
+  },
+  ja: {
+    eyebrow: "スタートアップ向けミーティングを予約",
+    title: "解決したいプロダクト、グロース、コミュニティの課題をお持ちください。",
+    description:
+      "カレンダーから、プロダクトエンジニアリング、AI プロダクト、ローンチ支援、ラテンアメリカでのグロース、コミュニティ施策について、Crafter Station と集中して話す時間をご予約ください。",
   },
 } as const
 

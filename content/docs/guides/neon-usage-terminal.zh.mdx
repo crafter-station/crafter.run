@@ -1,0 +1,48 @@
+---
+title: "在终端查看 Neon Postgres 用量"
+description: 在终端按项目查看 Neon 的计算、存储和 egress 消耗，支持小时级粒度和 JSON 输出。Neon 控制台和 neonctl 都不展示的消耗历史。
+---
+
+```bash
+npx @crafter/neon-cli usage --last 24h --granularity hourly
+```
+
+这条命令会打印最近 24 小时按项目细分的计算小时数、存储和 egress，彩色且可排序。数据来自 Neon 用于计费的同一个 v2 消耗 endpoint，因此数字与你的发票一致。
+
+```
+usage by project
+PROJECT           ID                              COMPUTE  ROOT BR  CHILD BR  EGRESS
+────────────────  ────────────────────────────  ─────────  ───────  ────────  ──────
+maca.sh           red-firefly-70089523          0.25 CU·h  43.4 KB       0 B  173 KB
+devphotos         tiny-sky-12271004             0.00 CU·h  42.8 KB       0 B     0 B
+```
+
+## 设置
+
+在 [console.neon.tech/app/settings/api-keys](https://console.neon.tech/app/settings/api-keys) 获取 API key：
+
+```bash
+export NEON_API_KEY=napi_...
+# or store it: npx @crafter/neon-cli auth login
+```
+
+## 深入单个项目
+
+```bash
+npx @crafter/neon-cli usage --project shy-darkness-12345
+```
+
+## 这个月我的钱花到哪里去了？
+
+```bash
+npx @crafter/neon-cli billing         # current-period running totals
+npx @crafter/neon-cli invoice        # reconcile against your bill, to the cent
+```
+
+## 面向代理和 CI 的 JSON
+
+```bash
+npx @crafter/neon-cli usage --json | jq '.projects[] | {id: .project_id, cu_h: (.totals.compute_unit_seconds/3600)}'
+```
+
+注意：官方的 `neonctl` 完全不提供消耗历史。完整对比：[neon-cli 文档](/zh/docs/neon-cli)。

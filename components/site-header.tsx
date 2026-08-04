@@ -38,6 +38,26 @@ const navCopy = {
     language: "Idioma",
     openMenu: "Abrir menu",
   },
+  zh: {
+    events: "活动",
+    projects: "项目",
+    research: "研究",
+    impact: "影响力",
+    team: "团队",
+    communityCta: "加入社区",
+    language: "语言",
+    openMenu: "打开菜单",
+  },
+  ja: {
+    events: "イベント",
+    projects: "プロジェクト",
+    research: "リサーチ",
+    impact: "インパクト",
+    team: "チーム",
+    communityCta: "コミュニティに参加",
+    language: "言語",
+    openMenu: "メニューを開く",
+  },
 } as const
 
 export function SiteHeader({ locale }: { locale: Locale }) {

@@ -12,7 +12,7 @@ import { collaborations, getServices } from "@/lib/site"
 export const dynamicParams = false
 
 export function generateStaticParams() {
-  return ["en", "es", "pt"].map((lang) => ({ lang }))
+  return ["en", "es", "pt", "zh", "ja"].map((lang) => ({ lang }))
 }
 
 export function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
@@ -38,6 +38,18 @@ const calendarCopy = {
     description:
       "Escolha um horario e mapeamos o pacote certo: hackathon, Code Brew, workshop de produto, launch night, premios, venue ou ativacao hands-on de devtools.",
   },
+  zh: {
+    eyebrow: "预约赞助商通话",
+    title: "聊聊活动形式、受众和合适的合作方式。",
+    description:
+      "选一个时间，我们一起确定合适的赞助方案：黑客松支持、Code Brew 露出、产品工作坊、发布之夜、奖品、场地，或 devtools 动手实践活动。",
+  },
+  ja: {
+    eyebrow: "スポンサー向けミーティングを予約",
+    title: "イベントの形式、オーディエンス、施策の相性についてお話ししましょう。",
+    description:
+      "時間を選んでいただければ、最適なスポンサーパッケージをご提案します。ハッカソン支援、Code Brew での露出、プロダクトワークショップ、ローンチナイト、賞品、会場、devtools のハンズオン施策など。",
+  },
 } as const
 
 const sponsorCopy = {
@@ -58,6 +70,18 @@ const sponsorCopy = {
     title: "Times que ja apareceram para os builders da Crafter Station.",
     description:
       "Ja trabalhamos com devtools, labs de IA, times de infraestrutura e startups fintech em eventos de alto sinal para builders no LatAm.",
+  },
+  zh: {
+    eyebrow: "往期赞助商",
+    title: "已经为 Crafter Station 的 builder 到场的团队。",
+    description:
+      "我们曾与 devtools、AI 实验室、基础设施团队和金融科技创业公司合作，在拉美举办高质量的 builder 活动。",
+  },
+  ja: {
+    eyebrow: "これまでのスポンサー",
+    title: "すでに Crafter Station のビルダーのために動いてくれたチーム。",
+    description:
+      "devtools、AIラボ、インフラチーム、フィンテックスタートアップとともに、ラテンアメリカ各地で質の高いビルダーイベントに取り組んできました。",
   },
 } as const
 

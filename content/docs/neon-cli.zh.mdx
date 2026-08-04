@@ -1,0 +1,67 @@
+---
+title: "neon-cli：在终端查看 Neon 用量和账单"
+description: 面向代理的 Neon Postgres CLI。在终端查看按项目的消耗历史、账单和发票对账，提供面向代理和 CI 的 JSON 输出。neonctl 不提供的用量数据。
+---
+
+`@crafter/neon-cli` 回答 Neon 控制台不告诉你的那个问题：**我的钱现在正按项目花在哪里？** 它在终端里用约 200ms 给出彩色、可排序、按项目细分的计算小时数、存储和 egress，并为代理提供 `--json`。
+
+## 为什么不用 neonctl？
+
+官方的 `neonctl` 很适合资源管理，但没有暴露消耗历史 endpoint。这个 CLI 调用的是 Neon 用于计费的同一个 v2 消耗 endpoint（`/consumption_history/v2/projects`），因此数字与你的发票一致，而 `neon invoice` 能把这一点核对到每一分钱。
+
+| | neonctl | @crafter/neon-cli |
+|---|---|---|
+| 项目、分支、endpoints | 支持 | 只读（写操作在路线图上） |
+| 按项目的消耗历史 | 不支持 | 支持 |
+| 发票对账 | 不支持 | 支持 |
+| 面向代理的 JSON 输出 | 部分支持 | 所有命令 |
+
+## 安装
+
+```bash
+npm i -g @crafter/neon-cli
+```
+
+或不安装、一次性运行：
+
+```bash
+npx @crafter/neon-cli usage --json
+```
+
+## 认证
+
+在 [console.neon.tech/app/settings/api-keys](https://console.neon.tech/app/settings/api-keys) 获取 API key，然后：
+
+```bash
+neon auth login         # prompts for the key, stores it at ~/.neon/config.json (mode 0600)
+# or
+export NEON_API_KEY=napi_...   # env var always wins
+```
+
+## 用法
+
+```bash
+neon usage                                   # this month, daily, all projects
+neon usage --last 24h --granularity hourly   # last 24 hours, hourly buckets
+neon usage --project shy-darkness-12345      # one project + per-bucket chart
+neon usage --org org_abc123                  # scope to one org
+neon usage --json | jq '.projects[] | {id: .project_id, cu_h: (.totals.compute_unit_seconds/3600)}'
+```
+
+粒度限制（依据 Neon 的 API）：`hourly` 覆盖最近 168 小时，`daily` 覆盖最近 60 天，`monthly` 覆盖最近一年。
+
+## 命令
+
+| 命令 | 说明 |
+|---|---|
+| `neon usage` | 按项目的消耗历史（计算、存储、egress） |
+| `neon billing` | 当前周期的累计总额 |
+| `neon invoice` | 将你的账单与 API 对账，精确到分 |
+| `neon projects` | 列出项目 |
+| `neon orgs` | 列出组织 |
+| `neon auth` | login / status / whoami / logout |
+
+## 链接
+
+- [GitHub](https://github.com/crafter-station/neon-cli)
+- [npm](https://www.npmjs.com/package/@crafter/neon-cli)

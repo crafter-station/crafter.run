@@ -1,0 +1,60 @@
+---
+title: "trx：在命令行中转录音频和视频"
+description: 基于本地 Whisper 的 agent-first 音视频转录 CLI。从 URL 或本地文件下载、清理并转录媒体，输出机器可读的结果。
+---
+
+`trx` 使用 yt-dlp 下载媒体，用 ffmpeg 清理音频，再用本地 Whisper 模型进行转录。它输出 `.wav`、`.srt`、`.txt` 和 JSON，并且优先为 AI 代理设计：JSON 输出、dry-run 验证、字段过滤和运行时 schema 自省。
+
+## 安装
+
+```bash
+bun add -g @crafter/trx
+trx init
+```
+
+## 快速开始
+
+转录本地文件：
+
+```bash
+trx recording.mp4
+```
+
+从 URL 转录（支持 YouTube 以及 yt-dlp 支持的一切）：
+
+```bash
+trx "https://youtube.com/watch?v=..."
+```
+
+## 面向代理的用法
+
+机器可读的输出，专为脚本和 AI 代理调用而设计：
+
+```bash
+# JSON output
+trx transcribe video.mp4 --output json
+
+# Only the text field
+trx transcribe video.mp4 --fields text --output json
+
+# Validate without executing
+trx transcribe video.mp4 --dry-run --output json
+
+# Inspect the command schema at runtime
+trx schema transcribe
+```
+
+## 语言支持
+
+```bash
+trx transcribe video.mp4 --language es
+```
+
+## 模型大小
+
+Whisper 模型从 tiny（75MB）到 large（3GB）不等。在 `trx init` 时根据你对准确度和速度的需求选择合适的大小。
+
+## 链接
+
+- [GitHub](https://github.com/crafter-station/trx)
+- [npm](https://www.npmjs.com/package/@crafter/trx)

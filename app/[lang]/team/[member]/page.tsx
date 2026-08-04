@@ -108,10 +108,32 @@ const raillyImpact = {
     report: "Relatorio de impacto",
     github: "Petdex no GitHub",
   },
+  zh: {
+    eyebrow: "Petdex 影响力，2026 年 Q2",
+    metrics: [
+      ["28,875", "npm 下载量"],
+      ["3,218", "净新增 star"],
+      ["612", "Petdex 贡献"],
+      ["#86", "OSSCAR Emerging"],
+    ],
+    report: "影响力报告",
+    github: "Petdex 的 GitHub",
+  },
+  ja: {
+    eyebrow: "Petdex のインパクト、2026年Q2",
+    metrics: [
+      ["28,875", "npm ダウンロード"],
+      ["3,218", "純増スター"],
+      ["612", "Petdex へのコントリビューション"],
+      ["#86", "OSSCAR Emerging"],
+    ],
+    report: "インパクトレポート",
+    github: "GitHub で Petdex を見る",
+  },
 } as const
 
 export function generateStaticParams() {
-  return ["en", "es", "pt"].flatMap((lang) =>
+  return ["en", "es", "pt", "zh", "ja"].flatMap((lang) =>
     teamMembers.map((member) => ({ lang, member: member.username })),
   )
 }

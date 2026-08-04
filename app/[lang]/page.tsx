@@ -21,7 +21,7 @@ import { pageMetadata } from "@/lib/seo"
 export const dynamicParams = false
 
 export function generateStaticParams() {
-  return [{ lang: "en" }, { lang: "es" }, { lang: "pt" }]
+  return [{ lang: "en" }, { lang: "es" }, { lang: "pt" }, { lang: "zh" }, { lang: "ja" }]
 }
 
 export function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {

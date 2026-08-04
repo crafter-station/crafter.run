@@ -1,0 +1,67 @@
+---
+title: "neon-cli: ターミナルで Neon の使用量と請求を確認する"
+description: エージェントフレンドリーな Neon Postgres CLI。プロジェクト別の消費履歴、請求、インボイスの照合をターミナルで行い、エージェントや CI 向けの JSON 出力に対応。neonctl が公開していない使用量データを取得します。
+---
+
+`@crafter/neon-cli` は、Neon のダッシュボードが答えてくれない問い、**いま、どのプロジェクトにいくら使っているのか？** に答えます。コンピュート時間、ストレージ、egress のプロジェクト別内訳を、色付きでソート可能な形式で約 200ms でターミナルに表示し、エージェント向けに `--json` も備えています。
+
+## なぜ neonctl ではないのか？
+
+公式の `neonctl` はリソース管理には優れていますが、消費履歴のエンドポイントを公開していません。この CLI は Neon が請求に使うのと同じ v2 消費エンドポイント（`/consumption_history/v2/projects`）を呼び出すため、数値はインボイスと一致し、`neon invoice` はそれをセント単位で検証します。
+
+| | neonctl | @crafter/neon-cli |
+|---|---|---|
+| プロジェクト、ブランチ、エンドポイント | あり | 読み取り専用（書き込みはロードマップ上） |
+| プロジェクト別の消費履歴 | なし | あり |
+| インボイスの照合 | なし | あり |
+| エージェント向け JSON 出力 | 一部 | 全コマンド |
+
+## インストール
+
+```bash
+npm i -g @crafter/neon-cli
+```
+
+インストールせずに単発で実行することもできます：
+
+```bash
+npx @crafter/neon-cli usage --json
+```
+
+## 認証
+
+[console.neon.tech/app/settings/api-keys](https://console.neon.tech/app/settings/api-keys) で API キーを取得し、次を実行します：
+
+```bash
+neon auth login         # prompts for the key, stores it at ~/.neon/config.json (mode 0600)
+# or
+export NEON_API_KEY=napi_...   # env var always wins
+```
+
+## 使い方
+
+```bash
+neon usage                                   # this month, daily, all projects
+neon usage --last 24h --granularity hourly   # last 24 hours, hourly buckets
+neon usage --project shy-darkness-12345      # one project + per-bucket chart
+neon usage --org org_abc123                  # scope to one org
+neon usage --json | jq '.projects[] | {id: .project_id, cu_h: (.totals.compute_unit_seconds/3600)}'
+```
+
+グラニュラリティの制限（Neon の API 準拠）：`hourly` は直近 168 時間、`daily` は直近 60 日、`monthly` は直近 1 年をカバーします。
+
+## コマンド
+
+| コマンド | 説明 |
+|---|---|
+| `neon usage` | プロジェクト別の消費履歴（コンピュート、ストレージ、egress） |
+| `neon billing` | 現在の請求期間の累計 |
+| `neon invoice` | 請求を API と照合し、セント単位で確認 |
+| `neon projects` | プロジェクトの一覧表示 |
+| `neon orgs` | 組織の一覧表示 |
+| `neon auth` | login / status / whoami / logout |
+
+## リンク
+
+- [GitHub](https://github.com/crafter-station/neon-cli)
+- [npm](https://www.npmjs.com/package/@crafter/neon-cli)
