@@ -1,0 +1,50 @@
+---
+title: "Renderiza un diagrama Mermaid desde la CLI"
+description: Renderiza diagramas Mermaid directamente en tu terminal con un solo comando npx. Sin navegador headless, sin descargar Chromium, cero dependencias.
+---
+
+```bash
+npx @crafter/mermaid-cli diagram.mmd
+```
+
+Eso renderiza el diagrama en tu terminal con colores ANSI y cajas Unicode. Sin navegador headless, sin descargar Chromium: el motor completo pesa 30.5KB.
+
+## Desde stdin
+
+```bash
+echo "graph TD; A-->B-->C" | npx @crafter/mermaid-cli
+```
+
+## Elige un tema
+
+```bash
+npx @crafter/mermaid-cli --theme tokyo-night diagram.mmd
+npx @crafter/mermaid-cli --list-themes   # 30 available
+```
+
+## Opciones
+
+| Flag | Descripción |
+|---|---|
+| `--theme <name>` | Nombre del tema (por defecto: `one-hunter`) |
+| `--width <n>` | Ancho de la terminal (por defecto: detección automática) |
+| `--compact` | Espaciado compacto |
+| `--list-themes` | Lista los 30 temas |
+
+## Instálala de forma permanente
+
+```bash
+npm install -g @crafter/mermaid-cli
+crafter-mermaid diagram.mmd
+```
+
+## ¿En qué se diferencia de @mermaid-js/mermaid-cli?
+
+La `@mermaid-js/mermaid-cli` oficial renderiza lanzando un Chromium headless vía Puppeteer, una instalación pesada que no funciona en muchos entornos de CI o sandbox. `@crafter/mermaid-cli` usa [@crafter/mermaid](/es/docs/mermaid), un motor de renderizado escrito desde cero, con cero dependencias y una API síncrona, así que corre donde sea que corra Node, al instante.
+
+¿Necesitas salida SVG en lugar de renderizado en terminal? Usa la librería directamente:
+
+```ts
+import { render } from "@crafter/mermaid"
+const svg = render("graph TD; A-->B")
+```

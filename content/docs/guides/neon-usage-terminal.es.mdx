@@ -1,0 +1,48 @@
+---
+title: "Revisa tu consumo de Neon Postgres desde la terminal"
+description: Mira el consumo de cómputo, almacenamiento y egress de Neon por proyecto en tu terminal, con granularidad por hora y salida JSON. El historial de consumo que el dashboard de Neon y neonctl no te muestran.
+---
+
+```bash
+npx @crafter/neon-cli usage --last 24h --granularity hourly
+```
+
+Eso imprime un desglose por proyecto, con colores y ordenable, de horas de cómputo, almacenamiento y egress de las últimas 24 horas, obtenido del mismo endpoint v2 de consumo que Neon usa para facturar, así que los números coinciden con tu factura.
+
+```
+usage by project
+PROJECT           ID                              COMPUTE  ROOT BR  CHILD BR  EGRESS
+────────────────  ────────────────────────────  ─────────  ───────  ────────  ──────
+maca.sh           red-firefly-70089523          0.25 CU·h  43.4 KB       0 B  173 KB
+devphotos         tiny-sky-12271004             0.00 CU·h  42.8 KB       0 B     0 B
+```
+
+## Configuración
+
+Consigue una API key en [console.neon.tech/app/settings/api-keys](https://console.neon.tech/app/settings/api-keys):
+
+```bash
+export NEON_API_KEY=napi_...
+# or store it: npx @crafter/neon-cli auth login
+```
+
+## Analiza un proyecto en detalle
+
+```bash
+npx @crafter/neon-cli usage --project shy-darkness-12345
+```
+
+## ¿A dónde se está yendo mi dinero este mes?
+
+```bash
+npx @crafter/neon-cli billing         # current-period running totals
+npx @crafter/neon-cli invoice        # reconcile against your bill, to the cent
+```
+
+## JSON para agentes y CI
+
+```bash
+npx @crafter/neon-cli usage --json | jq '.projects[] | {id: .project_id, cu_h: (.totals.compute_unit_seconds/3600)}'
+```
+
+Nota: el `neonctl` oficial no expone el historial de consumo en absoluto. Comparación completa: [docs de neon-cli](/es/docs/neon-cli).

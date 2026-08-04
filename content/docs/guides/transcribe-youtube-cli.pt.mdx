@@ -1,0 +1,47 @@
+---
+title: "Transcreve um vídeo do YouTube pela linha de comando"
+description: Baixe e transcreva qualquer vídeo do YouTube (ou arquivo local de áudio ou vídeo) para texto, legendas SRT e JSON com um único comando, usando um modelo Whisper local. Grátis, privado, sem API key.
+---
+
+```bash
+npx @crafter/trx "https://youtube.com/watch?v=dQw4w9WgXcQ"
+```
+
+Isso baixa o áudio do vídeo com yt-dlp, limpa com ffmpeg e transcreve com um modelo Whisper local. Você recebe saídas em `.txt`, `.srt`, `.wav` e JSON. Tudo roda na sua máquina: grátis, privado, sem API key.
+
+Primeira vez? Inicialize uma única vez para escolher o tamanho do modelo Whisper (de tiny com 75MB até large com 3GB):
+
+```bash
+npx @crafter/trx init
+```
+
+O trx exige o [Bun](https://bun.sh) como runtime.
+
+## Arquivos locais funcionam do mesmo jeito
+
+```bash
+npx @crafter/trx recording.mp4
+```
+
+## Obtenha só o texto, como JSON
+
+```bash
+npx @crafter/trx transcribe video.mp4 --fields text --output json
+```
+
+## Outros idiomas
+
+```bash
+npx @crafter/trx transcribe video.mp4 --language es
+```
+
+## Para scripts e agentes de IA
+
+`trx` é agent-first: saída JSON, validação dry-run e introspecção de schemas em runtime.
+
+```bash
+npx @crafter/trx transcribe video.mp4 --dry-run --output json   # validate without executing
+npx @crafter/trx schema transcribe                              # inspect the command schema
+```
+
+Referência completa: [docs do trx](/pt/docs/trx).
