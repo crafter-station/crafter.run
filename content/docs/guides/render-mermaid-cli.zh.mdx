@@ -1,0 +1,50 @@
+---
+title: "在命令行中渲染 Mermaid 图表"
+description: 用一条 npx 命令直接在终端渲染 Mermaid 图表。无需 headless 浏览器，无需下载 Chromium，零依赖。
+---
+
+```bash
+npx @crafter/mermaid-cli diagram.mmd
+```
+
+这条命令会用 ANSI 颜色和 Unicode 制表符在你的终端里渲染图表。没有 headless 浏览器，不用下载 Chromium：整个引擎只有 30.5KB。
+
+## 从 stdin 读取
+
+```bash
+echo "graph TD; A-->B-->C" | npx @crafter/mermaid-cli
+```
+
+## 选择主题
+
+```bash
+npx @crafter/mermaid-cli --theme tokyo-night diagram.mmd
+npx @crafter/mermaid-cli --list-themes   # 30 available
+```
+
+## 选项
+
+| 参数 | 说明 |
+|---|---|
+| `--theme <name>` | 主题名称（默认：`one-hunter`） |
+| `--width <n>` | 终端宽度（默认：自动检测） |
+| `--compact` | 紧凑间距 |
+| `--list-themes` | 列出全部 30 个主题 |
+
+## 永久安装
+
+```bash
+npm install -g @crafter/mermaid-cli
+crafter-mermaid diagram.mmd
+```
+
+## 与 @mermaid-js/mermaid-cli 有何不同？
+
+官方的 `@mermaid-js/mermaid-cli` 通过 Puppeteer 启动 headless Chromium 来渲染，安装笨重，而且在许多 CI/沙箱环境中无法运行。`@crafter/mermaid-cli` 使用 [@crafter/mermaid](/zh/docs/mermaid)，一个从零构建、零依赖、同步 API 的渲染引擎，因此它能在任何可以运行 Node 的地方即刻运行。
+
+需要 SVG 输出而不是终端渲染？直接使用这个库：
+
+```ts
+import { render } from "@crafter/mermaid"
+const svg = render("graph TD; A-->B")
+```

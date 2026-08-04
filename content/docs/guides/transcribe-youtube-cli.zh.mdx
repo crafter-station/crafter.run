@@ -1,0 +1,47 @@
+---
+title: "在命令行中转录 YouTube 视频"
+description: 用一条命令把任意 YouTube 视频（或本地音视频文件）下载并转录为文本、SRT 字幕和 JSON，使用本地 Whisper 模型。免费、私密、无需 API key。
+---
+
+```bash
+npx @crafter/trx "https://youtube.com/watch?v=dQw4w9WgXcQ"
+```
+
+这条命令会用 yt-dlp 下载视频的音频，用 ffmpeg 清理，再用本地 Whisper 模型转录。你会得到 `.txt`、`.srt`、`.wav` 和 JSON 输出。一切都在你的机器上运行：免费、私密、无需 API key。
+
+第一次运行？先初始化一次，选择 Whisper 模型大小（从 tiny 75MB 到 large 3GB）：
+
+```bash
+npx @crafter/trx init
+```
+
+trx 需要 [Bun](https://bun.sh) 作为运行时。
+
+## 本地文件的用法完全相同
+
+```bash
+npx @crafter/trx recording.mp4
+```
+
+## 只要文本，以 JSON 输出
+
+```bash
+npx @crafter/trx transcribe video.mp4 --fields text --output json
+```
+
+## 其他语言
+
+```bash
+npx @crafter/trx transcribe video.mp4 --language es
+```
+
+## 用于脚本和 AI 代理
+
+`trx` 是 agent-first 的：JSON 输出、dry-run 验证和运行时 schema 自省。
+
+```bash
+npx @crafter/trx transcribe video.mp4 --dry-run --output json   # validate without executing
+npx @crafter/trx schema transcribe                              # inspect the command schema
+```
+
+完整参考：[trx 文档](/zh/docs/trx)。

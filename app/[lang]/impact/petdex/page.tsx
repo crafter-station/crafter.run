@@ -52,6 +52,34 @@ const copy = {
     profile: "Perfil do fundador",
     metrics: [["28,875", "downloads npm"], ["3,218", "novas estrelas liquidas"], ["612", "contribuicoes do fundador"], ["#86", "OSSCAR Emerging"]],
   },
+  zh: {
+    eyebrow: "影响力 · Petdex · 2026 年 Q2",
+    title: "贡献了 Crafter Station Q2 star 增长 96.72% 的项目。",
+    description: "在 OSSCAR 公布的 Q2 统计窗口内，Petdex 带来了 28,875 次 npm 下载和 3,218 颗净新增 star。",
+    githubEyebrow: "GitHub 归因",
+    githubTitle: "组织几乎所有的 star 增长都来自 Petdex。",
+    githubBody: "Petdex 从 70 颗 star 增长到 3,288 颗，而 Crafter Station 从 870 颗增长到 4,197 颗。计算方式为 (3,288 - 70) / (4,197 - 870) = 96.72%。",
+    packageEyebrow: "包信号",
+    packageTitle: "十个每周区间内，从 380 次下载增长到 28,875 次。",
+    packageBody: "npm 公开 API 与 OSSCAR 的累计序列一致。实际增长为 75.99 倍。OSSCAR 显示 28.9 倍，是因为其方法论会把新项目的基线填充到 1,000 次下载。",
+    sources: "原始来源",
+    profile: "创始人档案",
+    metrics: [["28,875", "npm 下载量"], ["3,218", "净新增 star"], ["612", "创始人贡献"], ["#86", "OSSCAR Emerging"]],
+  },
+  ja: {
+    eyebrow: "インパクト · Petdex · 2026年Q2",
+    title: "Crafter Station の Q2 スター成長の96.72%を生んだプロジェクト。",
+    description: "OSSCAR が公表した Q2 の計測期間中、Petdex は28,875件の npm ダウンロードと3,218の純増スターを生み出しました。",
+    githubEyebrow: "GitHub での寄与",
+    githubTitle: "オーガニゼーションのスター成長のほぼすべては Petdex によるものでした。",
+    githubBody: "Petdex は70から3,288スターに成長し、Crafter Station は870から4,197に成長しました。計算は (3,288 - 70) / (4,197 - 870) = 96.72% です。",
+    packageEyebrow: "パッケージのシグナル",
+    packageTitle: "週次の10バケットで、380から28,875ダウンロードへ。",
+    packageBody: "npm の公開 API は OSSCAR の累積系列と一致しています。実際の倍率は75.99倍です。OSSCAR は、新しいプロジェクトのベースラインを1,000ダウンロードに補正する方法論のため、28.9倍と表示しています。",
+    sources: "一次情報",
+    profile: "ファウンダープロフィール",
+    metrics: [["28,875", "npm ダウンロード"], ["3,218", "純増スター"], ["612", "ファウンダーのコントリビューション"], ["#86", "OSSCAR Emerging"]],
+  },
 } as const
 
 const sources = [
@@ -64,7 +92,7 @@ const sources = [
 ] as const
 
 export function generateStaticParams() {
-  return ["en", "es", "pt"].map((lang) => ({ lang }))
+  return ["en", "es", "pt", "zh", "ja"].map((lang) => ({ lang }))
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {

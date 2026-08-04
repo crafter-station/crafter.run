@@ -1,0 +1,60 @@
+---
+title: "trx: CLI で音声・動画を文字起こしする"
+description: ローカルの Whisper を使ったエージェントファーストの音声・動画文字起こし CLI。URL やローカルファイルからメディアをダウンロード、クリーンアップ、文字起こしし、機械可読な出力を生成します。
+---
+
+`trx` は yt-dlp でメディアをダウンロードし、ffmpeg で音声をクリーンアップし、ローカルの Whisper モデルで文字起こしします。`.wav`、`.srt`、`.txt`、JSON を出力し、AI エージェントを第一に考えて設計されています。JSON 出力、dry-run 検証、フィールドのフィルタリング、実行時のスキーマイントロスペクションを備えています。
+
+## インストール
+
+```bash
+bun add -g @crafter/trx
+trx init
+```
+
+## クイックスタート
+
+ローカルファイルの文字起こし：
+
+```bash
+trx recording.mp4
+```
+
+URL からの文字起こし（YouTube および yt-dlp が対応するすべてのサイト）：
+
+```bash
+trx "https://youtube.com/watch?v=..."
+```
+
+## エージェント向けの使い方
+
+スクリプトや AI エージェントから呼び出すために設計された、機械可読な出力です：
+
+```bash
+# JSON output
+trx transcribe video.mp4 --output json
+
+# Only the text field
+trx transcribe video.mp4 --fields text --output json
+
+# Validate without executing
+trx transcribe video.mp4 --dry-run --output json
+
+# Inspect the command schema at runtime
+trx schema transcribe
+```
+
+## 言語サポート
+
+```bash
+trx transcribe video.mp4 --language es
+```
+
+## モデルサイズ
+
+Whisper モデルは tiny（75MB）から large（3GB）まであります。`trx init` の際に、必要な精度と速度に合ったサイズを選んでください。
+
+## リンク
+
+- [GitHub](https://github.com/crafter-station/trx)
+- [npm](https://www.npmjs.com/package/@crafter/trx)

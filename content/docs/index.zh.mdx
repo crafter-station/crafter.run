@@ -1,0 +1,38 @@
+---
+title: Crafter Station 文档
+description: Crafter Station 开源开发者工具文档。由拉美 shipper 网络构建的 CLI 与库。
+---
+
+Crafter Station 构建开源开发者工具。这里的每个工具都可以从 npm 安装，无需全局安装即可通过 `npx`/`bunx` 使用，并且专为人类和 AI 编码代理共同使用而设计。
+
+<Cards>
+  <Card
+    title="trx"
+    description="使用本地 Whisper 在命令行中转录音频和视频。Agent-first：JSON 输出、dry-run、schema 自省。"
+    href="/zh/docs/trx"
+  />
+  <Card
+    title="mermaid"
+    description="无需浏览器，仅 30.5KB 即可渲染 Mermaid 图表。零依赖的解析器、布局引擎、渲染器和 CLI。"
+    href="/zh/docs/mermaid"
+  />
+  <Card
+    title="skillkit"
+    description="面向 AI 代理技能的本地优先可观测性工具。跟踪使用情况、衡量成本、检测冲突、清理不用的技能。"
+    href="/zh/docs/skillkit"
+  />
+</Cards>
+
+## 任何工具，即装即用
+
+所有 CLI 无需安装即可运行：
+
+```bash
+npx @crafter/trx recording.mp4
+npx @crafter/mermaid-cli diagram.mmd
+bunx @crafter/skillkit scan
+```
+
+## 源代码
+
+所有工具均采用 MIT 许可证，并在 [github.com/crafter-station](https://github.com/crafter-station) 公开开发。

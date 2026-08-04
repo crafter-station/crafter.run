@@ -30,6 +30,8 @@ const ogLocales: Record<Locale, string> = {
   en: "en_US",
   es: "es_419",
   pt: "pt_BR",
+  zh: "zh_CN",
+  ja: "ja_JP",
 }
 
 function pathForLocale(path: string, locale: Locale) {

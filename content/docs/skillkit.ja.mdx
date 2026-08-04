@@ -1,0 +1,57 @@
+---
+title: "skillkit: AI エージェントスキルの可観測性ツール"
+description: AI エージェントスキルのためのローカルファーストな可観測性。使用状況の追跡、コストの計測、トリガー競合の検出、コンテキストバジェットの監視、未使用スキルの削除を行います。
+---
+
+AI コーディングエージェントは、セッションのたびにスキルをコンテキストウィンドウに読み込みます。スキルが増えるほど、実際のコードに使える領域は減ります。`skillkit` は、どのスキルを実際に使っているのか、役に立っているのか、コストはいくらか、という問いに答えます。使用状況の分析、競合の検出、コスト分析、コンテキストバジェットの監視を備え、すべてローカルマシン上で動作します。
+
+## 前提条件
+
+skillkit はランタイムとして [Bun](https://bun.sh) を必要とします（ネイティブ SQLite と高速な TypeScript 実行のため）：
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+## クイックスタート
+
+インストール不要で実行できます：
+
+```bash
+bunx @crafter/skillkit scan
+bunx @crafter/skillkit stats
+bunx @crafter/skillkit health
+```
+
+またはグローバルにインストールします：
+
+```bash
+bun add -g @crafter/skillkit
+skillkit scan
+```
+
+bin エントリが Bun をランタイムとして使うため、Bun がインストールされていれば `npm i -g` でも動作します。
+
+## コマンド
+
+| コマンド | 説明 |
+|---|---|
+| `skillkit scan` | インストール済みスキルの検出とセッションデータのインデックス化 |
+| `skillkit list` | インストール済みスキルをサイズとコンテキストバジェット付きで一覧表示 |
+| `skillkit stats` | スパークライン付きの使用状況分析（直近 30 日） |
+| `skillkit health` | ヘルスチェック：未使用スキル、コンテキストバジェット、DB |
+| `skillkit prune` | 未使用スキルを削除してコンテキストバジェットを取り戻す |
+| `skillkit burn` | サブスクリプションのバーンレート分析（コスト、モデル、日次） |
+| `skillkit conflicts` | スキルのトリガー衝突をテスト |
+| `skillkit coverage <skill-path>` | スキル内のデッドウェイトを分析 |
+| `skillkit trace <prompt>` | スキルの実行トレースを実行・記録 |
+
+## skill-creator と skillkit の違い
+
+Anthropic の [skill-creator](https://github.com/anthropics/skill-creator) はスキルの作成と評価を担います。skillkit は本番運用の可観測性を担います。役割の重複はありません。
+
+## リンク
+
+- [GitHub](https://github.com/crafter-station/skillkit)
+- [npm](https://www.npmjs.com/package/@crafter/skillkit)
+- スキルのインストールは [skills.sh](https://skills.sh) から：`npx skills add <owner/repo>`

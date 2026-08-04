@@ -1,0 +1,58 @@
+---
+title: "ブラウザなしで Mermaid 図をレンダリングする"
+description: 超軽量・依存ゼロの Mermaid レンダリングエンジン。ヘッドレスブラウザ不要で、30.5KB（min+gzip）で Mermaid 図のパース、レイアウト、レンダリングを行います。
+---
+
+`@crafter/mermaid` はゼロから構築された Mermaid レンダリングエンジンです。**30.5KB（min+gzip）**、**依存ゼロ**、**同期 API** で Mermaid 図のパース、レイアウト、レンダリングを行います。ヘッドレスブラウザも 2MB のバンドルも不要です。
+
+| | mermaid.js | @crafter/mermaid |
+|---|---|---|
+| バンドル | ~2MB | 30.5KB gzipped |
+| 依存関係 | 50+ | ゼロ |
+| API | 非同期 | 同期 |
+
+## インストール
+
+```bash
+bun add @crafter/mermaid
+```
+
+## クイックスタート
+
+```ts
+import { render } from "@crafter/mermaid"
+
+const svg = render(`
+graph TD
+  A[Start] --> B{Decision}
+  B -->|Yes| C[Success]
+  B -->|No| D[Failure]
+`)
+
+document.getElementById("diagram").innerHTML = svg
+```
+
+## パッケージ構成
+
+アンブレラパッケージは、小さく焦点を絞ったパッケージ群を再エクスポートしています。パイプラインの一部だけが必要な場合は、個別に利用できます：
+
+| パッケージ | サイズ | 役割 |
+|---|---|---|
+| `@crafter/mermaid` | &lt;1KB | アンブレラパッケージ |
+| `@crafter/mermaid-parser` | ~8KB | Mermaid テキストから AST へ |
+| `@crafter/mermaid-layout` | ~14KB | AST から配置済みグラフへ |
+| `@crafter/mermaid-renderer` | ~17KB | 配置済みグラフから SVG へ |
+| `@crafter/mermaid-themes` | ~2KB | 30 種類のテーマプリセット |
+| `@crafter/mermaid-cli` | &lt;1KB | ターミナルレンダラー |
+| `@crafter/mermaid-player` | ~3KB | ステップ実行アニメーション |
+
+## ターミナルからレンダリング
+
+```bash
+npx @crafter/mermaid-cli diagram.mmd
+```
+
+## リンク
+
+- [GitHub](https://github.com/crafter-station/mermaid)
+- [npm](https://www.npmjs.com/package/@crafter/mermaid)

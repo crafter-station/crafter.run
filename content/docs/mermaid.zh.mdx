@@ -1,0 +1,58 @@
+---
+title: "无需浏览器渲染 Mermaid 图表"
+description: 超轻量、零依赖的 Mermaid 渲染引擎。仅 30.5KB（min+gzip）即可解析、布局并渲染 Mermaid 图表，无需 headless 浏览器。
+---
+
+`@crafter/mermaid` 是一个从零构建的 Mermaid 渲染引擎：以 **30.5KB（min+gzip）** 的体积解析、布局并渲染 Mermaid 图表，**零依赖**、**同步 API**。没有 headless 浏览器，没有 2MB 的大包。
+
+| | mermaid.js | @crafter/mermaid |
+|---|---|---|
+| 包体积 | ~2MB | 30.5KB gzipped |
+| 依赖 | 50+ | 零 |
+| API | 异步 | 同步 |
+
+## 安装
+
+```bash
+bun add @crafter/mermaid
+```
+
+## 快速开始
+
+```ts
+import { render } from "@crafter/mermaid"
+
+const svg = render(`
+graph TD
+  A[Start] --> B{Decision}
+  B -->|Yes| C[Success]
+  B -->|No| D[Failure]
+`)
+
+document.getElementById("diagram").innerHTML = svg
+```
+
+## 套件
+
+总包（umbrella package）重新导出一组小而专注的包。当你只需要流水线中的某一环节时，可以单独使用它们：
+
+| 包 | 大小 | 作用 |
+|---|---|---|
+| `@crafter/mermaid` | &lt;1KB | 总包 |
+| `@crafter/mermaid-parser` | ~8KB | Mermaid 文本转 AST |
+| `@crafter/mermaid-layout` | ~14KB | AST 转已定位图 |
+| `@crafter/mermaid-renderer` | ~17KB | 已定位图转 SVG |
+| `@crafter/mermaid-themes` | ~2KB | 30 个主题预设 |
+| `@crafter/mermaid-cli` | &lt;1KB | 终端渲染器 |
+| `@crafter/mermaid-player` | ~3KB | 步进动画 |
+
+## 在终端中渲染
+
+```bash
+npx @crafter/mermaid-cli diagram.mmd
+```
+
+## 链接
+
+- [GitHub](https://github.com/crafter-station/mermaid)
+- [npm](https://www.npmjs.com/package/@crafter/mermaid)

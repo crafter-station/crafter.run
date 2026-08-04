@@ -1,0 +1,38 @@
+---
+title: Crafter Station ドキュメント
+description: Crafter Station のオープンソース開発者ツールのドキュメント。LatAm のシッパーネットワークが開発した CLI とライブラリ。
+---
+
+Crafter Station はオープンソースの開発者ツールを開発しています。ここにあるツールはすべて npm からインストールでき、グローバルインストールなしで `npx`/`bunx` から実行でき、人間と AI コーディングエージェントの両方が使えるように設計されています。
+
+<Cards>
+  <Card
+    title="trx"
+    description="ローカルの Whisper で CLI から音声・動画を文字起こし。エージェントファースト：JSON 出力、dry-run、スキーマのイントロスペクション。"
+    href="/ja/docs/trx"
+  />
+  <Card
+    title="mermaid"
+    description="ブラウザ不要、30.5KB で Mermaid 図をレンダリング。依存ゼロのパーサー、レイアウトエンジン、レンダラー、CLI。"
+    href="/ja/docs/mermaid"
+  />
+  <Card
+    title="skillkit"
+    description="AI エージェントスキルのためのローカルファーストな可観測性。使用状況の追跡、コストの計測、競合の検出、不要なスキルの削除。"
+    href="/ja/docs/skillkit"
+  />
+</Cards>
+
+## どのツールもすぐに使える
+
+すべての CLI はインストール不要で動作します：
+
+```bash
+npx @crafter/trx recording.mp4
+npx @crafter/mermaid-cli diagram.mmd
+bunx @crafter/skillkit scan
+```
+
+## ソースコード
+
+すべてのツールは MIT ライセンスで、[github.com/crafter-station](https://github.com/crafter-station) にてオープンに開発されています。

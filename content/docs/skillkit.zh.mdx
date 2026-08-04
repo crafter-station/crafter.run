@@ -1,0 +1,57 @@
+---
+title: "skillkit：AI 代理技能的可观测性工具"
+description: 面向 AI 代理技能的本地优先可观测性。跟踪使用情况、衡量成本、检测触发冲突、监控上下文预算，并清理不用的技能。
+---
+
+AI 编码代理在每个会话中都会把技能加载进上下文窗口。技能越多，留给实际代码的空间就越少。`skillkit` 回答这些问题：你真正在用哪些技能、它们是否有帮助、成本是多少。它提供使用分析、冲突检测、成本分析和上下文预算监控，一切都在你的本地机器上运行。
+
+## 前置条件
+
+skillkit 需要 [Bun](https://bun.sh) 作为运行时（原生 SQLite 和快速的 TypeScript 执行）：
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+## 快速开始
+
+无需安装：
+
+```bash
+bunx @crafter/skillkit scan
+bunx @crafter/skillkit stats
+bunx @crafter/skillkit health
+```
+
+或全局安装：
+
+```bash
+bun add -g @crafter/skillkit
+skillkit scan
+```
+
+如果已安装 Bun，`npm i -g` 也可以使用，因为 bin 入口以 Bun 作为运行时。
+
+## 命令
+
+| 命令 | 说明 |
+|---|---|
+| `skillkit scan` | 发现已安装的技能并索引会话数据 |
+| `skillkit list` | 列出已安装的技能及其大小和上下文预算 |
+| `skillkit stats` | 带迷你趋势图的使用分析（最近 30 天） |
+| `skillkit health` | 健康检查：未使用的技能、上下文预算、数据库 |
+| `skillkit prune` | 删除未使用的技能，回收上下文预算 |
+| `skillkit burn` | 订阅消耗速率分析（成本、模型、按日） |
+| `skillkit conflicts` | 测试技能之间的触发冲突 |
+| `skillkit coverage <skill-path>` | 分析技能中的冗余内容 |
+| `skillkit trace <prompt>` | 运行并记录一次技能执行跟踪 |
+
+## skill-creator 与 skillkit 的区别
+
+Anthropic 的 [skill-creator](https://github.com/anthropics/skill-creator) 负责技能的编写与评估。skillkit 负责生产环境的可观测性。两者没有重叠。
+
+## 链接
+
+- [GitHub](https://github.com/crafter-station/skillkit)
+- [npm](https://www.npmjs.com/package/@crafter/skillkit)
+- 通过 [skills.sh](https://skills.sh) 安装技能：`npx skills add <owner/repo>`

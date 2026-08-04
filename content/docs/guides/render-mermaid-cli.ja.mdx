@@ -1,0 +1,50 @@
+---
+title: "CLI で Mermaid 図をレンダリングする"
+description: npx コマンド 1 つでターミナルに直接 Mermaid 図をレンダリング。ヘッドレスブラウザ不要、Chromium のダウンロード不要、依存ゼロ。
+---
+
+```bash
+npx @crafter/mermaid-cli diagram.mmd
+```
+
+このコマンドは、ANSI カラーと Unicode 罫線を使ってターミナルに図をレンダリングします。ヘッドレスブラウザも Chromium のダウンロードも不要で、エンジン全体はわずか 30.5KB です。
+
+## stdin から
+
+```bash
+echo "graph TD; A-->B-->C" | npx @crafter/mermaid-cli
+```
+
+## テーマを選ぶ
+
+```bash
+npx @crafter/mermaid-cli --theme tokyo-night diagram.mmd
+npx @crafter/mermaid-cli --list-themes   # 30 available
+```
+
+## オプション
+
+| フラグ | 説明 |
+|---|---|
+| `--theme <name>` | テーマ名（デフォルト：`one-hunter`） |
+| `--width <n>` | ターミナル幅（デフォルト：自動検出） |
+| `--compact` | コンパクトな間隔 |
+| `--list-themes` | 全 30 テーマを一覧表示 |
+
+## 恒久的にインストールする
+
+```bash
+npm install -g @crafter/mermaid-cli
+crafter-mermaid diagram.mmd
+```
+
+## @mermaid-js/mermaid-cli と何が違うのか？
+
+公式の `@mermaid-js/mermaid-cli` は、Puppeteer 経由でヘッドレス Chromium を起動してレンダリングします。これは重量級のインストールで、多くの CI やサンドボックス環境では動作しません。`@crafter/mermaid-cli` は、依存ゼロ・同期 API でフルスクラッチ実装されたレンダリングエンジン [@crafter/mermaid](/ja/docs/mermaid) を使うため、Node が動く環境ならどこでも即座に動作します。
+
+ターミナルレンダリングではなく SVG 出力が必要な場合は、ライブラリを直接使ってください：
+
+```ts
+import { render } from "@crafter/mermaid"
+const svg = render("graph TD; A-->B")
+```

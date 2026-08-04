@@ -4,7 +4,7 @@ import { isLocale } from "@/lib/i18n"
 export const dynamicParams = false
 
 export function generateStaticParams() {
-  return ["en", "es", "pt"].map((lang) => ({ lang }))
+  return ["en", "es", "pt", "zh", "ja"].map((lang) => ({ lang }))
 }
 
 export default async function Page({
