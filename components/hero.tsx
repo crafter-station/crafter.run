@@ -10,7 +10,7 @@ export function Hero() {
 export function HeroContent({
   eyebrow = "Crafter Station · LatAm",
   lines = ["The LatAm", "network of", "shippers."],
-  description = "A community of 800+ builders, a product lab, an open-source ecosystem, research, and events helping LatAm shippers meet, learn, and build in public.",
+  description = "A community of 1000+ builders, a product lab, an open-source ecosystem, research, and events helping LatAm shippers meet, learn, and build in public.",
   eventsCta = "See events",
   eventsHref = "/events",
 }: {

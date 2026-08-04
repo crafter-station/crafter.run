@@ -13,7 +13,8 @@ import { createRelativeLink } from "fumadocs-ui/mdx"
 import { source } from "@/lib/source"
 import { getMDXComponents } from "@/components/mdx"
 import { JsonLd } from "@/components/json-ld"
-import { baseUrl, languageAlternates, localizedUrl } from "@/lib/seo"
+import { baseUrl, languageAlternates, localizedUrl, ogImageUrl } from "@/lib/seo"
+import { isLocale } from "@/lib/i18n"
 
 type Props = {
   params: Promise<{ lang: string; slug?: string[] }>
@@ -72,7 +73,12 @@ export default async function Page(props: Props) {
   ]
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
+    <DocsPage
+      toc={page.data.toc}
+      full={page.data.full}
+      tableOfContent={{ style: "clerk" }}
+      tableOfContentPopover={{ style: "clerk" }}
+    >
       <JsonLd data={structuredData} />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
@@ -102,13 +108,33 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   const metaPath =
     page.slugs.length > 0 ? `/docs/${page.slugs.join("/")}` : "/docs"
+  const ogImage = ogImageUrl(
+    page.data.title,
+    isLocale(lang) ? lang : "en",
+    "Crafter Station · Docs",
+  )
 
   return {
+    metadataBase: new URL(baseUrl),
     title: page.data.title,
     description: page.data.description,
     alternates: {
       canonical: localizedUrl(metaPath, lang),
       languages: languageAlternates(metaPath),
+    },
+    openGraph: {
+      title: page.data.title,
+      description: page.data.description,
+      url: localizedUrl(metaPath, lang),
+      siteName: "Crafter Station",
+      type: "article",
+      images: [{ url: ogImage, width: 1200, height: 630, alt: page.data.title }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: page.data.title,
+      description: page.data.description,
+      images: [ogImage],
     },
   }
 }
