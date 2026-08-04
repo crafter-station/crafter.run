@@ -93,7 +93,7 @@ export default async function Page({
             <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
               {t("eyebrow")}
             </p>
-            <h1 className="mt-5 text-balance text-5xl font-semibold tracking-[-0.05em] md:text-7xl">
+            <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">
               {t("title")}
             </h1>
             <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">

@@ -1,0 +1,67 @@
+---
+title: "neon-cli: Neon usage and billing from the terminal"
+description: Agent-friendly CLI for Neon Postgres. Per-project consumption history, billing, and invoice reconciliation in the terminal, with JSON output for agents and CI. The usage data neonctl doesn't expose.
+---
+
+`@crafter/neon-cli` answers the one question the Neon dashboard won't: **where is my money going, by project, right now?** A colored, sortable, per-project breakdown of compute hours, storage, and egress, in the terminal in ~200ms, with `--json` for agents.
+
+## Why not neonctl?
+
+The official `neonctl` is great for resource management but does not expose the consumption history endpoint. This CLI hits the same v2 consumption endpoint Neon uses for billing (`/consumption_history/v2/projects`), so the numbers match your invoice, and `neon invoice` proves it down to the cent.
+
+| | neonctl | @crafter/neon-cli |
+|---|---|---|
+| Projects, branches, endpoints | Yes | Read-only (writes on the roadmap) |
+| Per-project consumption history | No | Yes |
+| Invoice reconciliation | No | Yes |
+| JSON output for agents | Partial | Every command |
+
+## Install
+
+```bash
+npm i -g @crafter/neon-cli
+```
+
+Or run one-shot without installing:
+
+```bash
+npx @crafter/neon-cli usage --json
+```
+
+## Auth
+
+Get an API key at [console.neon.tech/app/settings/api-keys](https://console.neon.tech/app/settings/api-keys), then:
+
+```bash
+neon auth login         # prompts for the key, stores it at ~/.neon/config.json (mode 0600)
+# or
+export NEON_API_KEY=napi_...   # env var always wins
+```
+
+## Usage
+
+```bash
+neon usage                                   # this month, daily, all projects
+neon usage --last 24h --granularity hourly   # last 24 hours, hourly buckets
+neon usage --project shy-darkness-12345      # one project + per-bucket chart
+neon usage --org org_abc123                  # scope to one org
+neon usage --json | jq '.projects[] | {id: .project_id, cu_h: (.totals.compute_unit_seconds/3600)}'
+```
+
+Granularity limits (per Neon's API): `hourly` covers the last 168 hours, `daily` the last 60 days, `monthly` the last year.
+
+## Commands
+
+| Command | Description |
+|---|---|
+| `neon usage` | Per-project consumption history (compute, storage, egress) |
+| `neon billing` | Current-period running totals |
+| `neon invoice` | Reconcile your bill against the API, to the cent |
+| `neon projects` | List projects |
+| `neon orgs` | List organizations |
+| `neon auth` | login / status / whoami / logout |
+
+## Links
+
+- [GitHub](https://github.com/crafter-station/neon-cli)
+- [npm](https://www.npmjs.com/package/@crafter/neon-cli)

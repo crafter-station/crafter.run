@@ -1,0 +1,58 @@
+---
+title: "Render Mermaid diagrams without a browser"
+description: Ultra-lightweight, zero-dependency Mermaid rendering engine. Parse, lay out, and render Mermaid diagrams in 30.5KB min+gzip, with no headless browser required.
+---
+
+`@crafter/mermaid` is a Mermaid rendering engine built from scratch: it parses, lays out, and renders Mermaid diagrams in **30.5KB (min+gzip)** with **zero dependencies** and a **synchronous API**. No headless browser, no 2MB bundle.
+
+| | mermaid.js | @crafter/mermaid |
+|---|---|---|
+| Bundle | ~2MB | 30.5KB gzipped |
+| Dependencies | 50+ | Zero |
+| API | Async | Sync |
+
+## Install
+
+```bash
+bun add @crafter/mermaid
+```
+
+## Quick start
+
+```ts
+import { render } from "@crafter/mermaid"
+
+const svg = render(`
+graph TD
+  A[Start] --> B{Decision}
+  B -->|Yes| C[Success]
+  B -->|No| D[Failure]
+`)
+
+document.getElementById("diagram").innerHTML = svg
+```
+
+## The suite
+
+The umbrella package re-exports a set of small, focused packages. Use them individually when you only need one stage of the pipeline:
+
+| Package | Size | What it does |
+|---|---|---|
+| `@crafter/mermaid` | &lt;1KB | Umbrella package |
+| `@crafter/mermaid-parser` | ~8KB | Mermaid text to AST |
+| `@crafter/mermaid-layout` | ~14KB | AST to positioned graph |
+| `@crafter/mermaid-renderer` | ~17KB | Positioned graph to SVG |
+| `@crafter/mermaid-themes` | ~2KB | 30 theme presets |
+| `@crafter/mermaid-cli` | &lt;1KB | Terminal renderer |
+| `@crafter/mermaid-player` | ~3KB | Step-through animation |
+
+## Render from the terminal
+
+```bash
+npx @crafter/mermaid-cli diagram.mmd
+```
+
+## Links
+
+- [GitHub](https://github.com/crafter-station/mermaid)
+- [npm](https://www.npmjs.com/package/@crafter/mermaid)

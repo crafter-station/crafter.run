@@ -37,7 +37,7 @@ export function FeaturedProducts({ locale }: { locale: Locale }) {
             >
               <div
                 className={cn(
-                  "absolute inset-x-0 top-0 h-1 bg-gradient-to-r",
+                  "absolute inset-x-0 top-0 h-1 bg-linear-to-r",
                   p.accent,
                 )}
               />

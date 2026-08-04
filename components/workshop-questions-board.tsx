@@ -402,7 +402,7 @@ export function WorkshopQuestionsBoard({
           ) : (
             board.map((item, index) => {
               return (
-                <article key={item.id} className="grid grid-cols-[56px_minmax(0,1fr)] gap-3 p-3 transition-colors hover:bg-primary/[0.03] sm:gap-4 sm:p-4 md:grid-cols-[72px_minmax(0,1fr)] md:p-6">
+                <article key={item.id} className="grid grid-cols-[56px_minmax(0,1fr)] gap-3 p-3 transition-colors hover:bg-primary/3 sm:gap-4 sm:p-4 md:grid-cols-[72px_minmax(0,1fr)] md:p-6">
                   <button
                     type="button"
                     onClick={() => toggleVote(item)}
@@ -427,19 +427,19 @@ export function WorkshopQuestionsBoard({
                       <span className="font-mono uppercase tracking-[0.18em]">#{String(index + 1).padStart(2, "0")}</span>
                       {item.alias ? (
                         <>
-                          <span className="min-w-0 break-words">by {item.alias}</span>
+                          <span className="min-w-0 wrap-break-word">by {item.alias}</span>
                           <span>·</span>
                         </>
                       ) : null}
                       <time dateTime={item.created_at}>{new Date(item.created_at).toLocaleDateString()}</time>
                     </div>
-                    <p className="break-words text-lg font-semibold leading-7 text-foreground sm:text-xl md:text-2xl">
+                    <p className="wrap-break-word text-lg font-semibold leading-7 text-foreground sm:text-xl md:text-2xl">
                       {item.question}
                     </p>
                     {item.context ? (
                       <div className="mt-4 border border-line bg-background/60 p-3 text-sm leading-6 text-muted-foreground sm:text-base">
                         <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em]">Context</div>
-                        <p className="break-words">{item.context}</p>
+                        <p className="wrap-break-word">{item.context}</p>
                       </div>
                     ) : null}
                   </div>

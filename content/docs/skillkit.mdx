@@ -1,0 +1,57 @@
+---
+title: "skillkit: observability for AI agent skills"
+description: Local-first observability for AI agent skills. Track usage, measure cost, detect trigger conflicts, monitor context budget, and prune skills you don't use.
+---
+
+AI coding agents load skills into their context window on every session. More skills means less room for your actual code. `skillkit` answers which skills you actually use, whether they help, and what they cost, with usage analytics, conflict detection, cost analysis, and context budget monitoring. Everything runs locally on your machine.
+
+## Prerequisites
+
+skillkit requires [Bun](https://bun.sh) as its runtime (native SQLite and fast TypeScript execution):
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+## Quick start
+
+No install needed:
+
+```bash
+bunx @crafter/skillkit scan
+bunx @crafter/skillkit stats
+bunx @crafter/skillkit health
+```
+
+Or install globally:
+
+```bash
+bun add -g @crafter/skillkit
+skillkit scan
+```
+
+`npm i -g` also works if Bun is installed, since the bin entry uses Bun as its runtime.
+
+## Commands
+
+| Command | Description |
+|---|---|
+| `skillkit scan` | Discover installed skills and index session data |
+| `skillkit list` | List installed skills with size and context budget |
+| `skillkit stats` | Usage analytics with sparklines (last 30 days) |
+| `skillkit health` | Health check: unused skills, context budget, DB |
+| `skillkit prune` | Remove unused skills to reclaim context budget |
+| `skillkit burn` | Subscription burn rate analysis (cost, models, daily) |
+| `skillkit conflicts` | Test skills for trigger collisions |
+| `skillkit coverage <skill-path>` | Analyze dead weight in a skill |
+| `skillkit trace <prompt>` | Run and record a skill execution trace |
+
+## skill-creator vs skillkit
+
+Anthropic's [skill-creator](https://github.com/anthropics/skill-creator) handles skill authoring and evaluation. skillkit handles production observability. No overlap.
+
+## Links
+
+- [GitHub](https://github.com/crafter-station/skillkit)
+- [npm](https://www.npmjs.com/package/@crafter/skillkit)
+- Install skills via [skills.sh](https://skills.sh): `npx skills add <owner/repo>`

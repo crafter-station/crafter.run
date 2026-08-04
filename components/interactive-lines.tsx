@@ -80,7 +80,7 @@ export function InteractiveLines({
     <div
       ref={containerRef}
       aria-hidden
-      className={cn("pointer-events-none absolute inset-0 z-[1]", className)}
+      className={cn("pointer-events-none absolute inset-0 z-1", className)}
     >
       {Array.from({ length: count }).map((_, i) => {
         const isFirst = i === 0
@@ -95,7 +95,7 @@ export function InteractiveLines({
             }}
             className={cn(
               "absolute bg-zinc-200 dark:bg-zinc-800",
-              isVertical ? "top-0 bottom-0 w-px" : "start-0 end-0 h-px",
+              isVertical ? "top-0 bottom-0 w-px" : "inset-s-0 inset-e-0 h-px",
             )}
             style={{
               opacity: 1,

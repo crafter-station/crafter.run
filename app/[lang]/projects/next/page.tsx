@@ -33,7 +33,7 @@ export default async function Page({
         <Container innerClassName="px-4 py-12 sm:px-6 md:px-10 md:py-24">
           <div className="max-w-4xl">
             <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{t("eyebrow")}</p>
-            <h1 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.05em] sm:text-5xl md:text-7xl">{t("title")}</h1>
+            <h1 className="mt-5 text-balance text-4xl font-semibold tracking-tighter sm:text-5xl md:text-7xl">{t("title")}</h1>
             <p className="mt-6 max-w-2xl text-balance text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">{t("description")}</p>
           </div>
         </Container>

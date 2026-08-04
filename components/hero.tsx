@@ -26,11 +26,11 @@ export function HeroContent({
         <LiquidHero className="z-0" />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-br from-background/80 via-background/30 to-transparent"
+          className="pointer-events-none absolute inset-0 z-1 bg-linear-to-br from-background/80 via-background/30 to-transparent"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-1/3 bg-gradient-to-t from-background/85 to-transparent"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-1 h-1/3 bg-linear-to-t from-background/85 to-transparent"
         />
         <div className="pointer-events-none absolute inset-0 z-10 flex flex-col">
           <div className="mx-auto flex h-full w-full max-w-[1380px] flex-col justify-between px-4 py-10 sm:px-6 sm:py-12 md:px-10 md:py-16">

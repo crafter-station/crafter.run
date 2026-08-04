@@ -122,7 +122,7 @@ export async function CollaborationStrip({ locale }: { locale: Locale }) {
               target="_blank"
               rel="noreferrer"
               className={
-                "group flex h-28 items-center justify-center gap-3 p-5 transition-colors hover:bg-foreground/[0.03] " +
+                "group flex h-28 items-center justify-center gap-3 p-5 transition-colors hover:bg-foreground/3 " +
                 (i % 2 ? "border-l border-line sm:border-l-0 " : "") +
                 (i % 3 ? "sm:border-l sm:border-line lg:border-l-0 " : "") +
                 (i % 5 ? "lg:border-l lg:border-line " : "") +

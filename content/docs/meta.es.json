@@ -1,0 +1,10 @@
+{
+  "pages": [
+    "index",
+    "trx",
+    "mermaid",
+    "neon-cli",
+    "skillkit",
+    "guides"
+  ]
+}

@@ -365,7 +365,7 @@ export function NextProjectsBoard() {
           ) : (
             board.map((project, index) => {
               return (
-                <article key={project.id} className="grid grid-cols-[56px_minmax(0,1fr)] gap-3 p-3 transition-colors hover:bg-primary/[0.03] sm:gap-4 sm:p-4 md:grid-cols-[72px_minmax(0,1fr)] md:p-6">
+                <article key={project.id} className="grid grid-cols-[56px_minmax(0,1fr)] gap-3 p-3 transition-colors hover:bg-primary/3 sm:gap-4 sm:p-4 md:grid-cols-[72px_minmax(0,1fr)] md:p-6">
                   <button
                     type="button"
                     onClick={() => toggleVote(project)}
@@ -390,13 +390,13 @@ export function NextProjectsBoard() {
                       <span className="font-mono uppercase tracking-[0.18em]">#{String(index + 1).padStart(2, "0")}</span>
                       {project.alias ? (
                         <>
-                          <span className="min-w-0 break-words">by {project.alias}</span>
+                          <span className="min-w-0 wrap-break-word">by {project.alias}</span>
                           <span>·</span>
                         </>
                       ) : null}
                       <time dateTime={project.created_at}>{new Date(project.created_at).toLocaleDateString()}</time>
                     </div>
-                    <p className="break-words text-base leading-7 text-foreground sm:text-lg md:text-xl md:leading-8">{project.idea}</p>
+                    <p className="wrap-break-word text-base leading-7 text-foreground sm:text-lg md:text-xl md:leading-8">{project.idea}</p>
                   </div>
                 </article>
               )
