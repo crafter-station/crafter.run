@@ -4,6 +4,10 @@
     {
       "path": "/api/cron/timeline",
       "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/indexnow",
+      "schedule": "0 6 * * *"
     }
   ]
 }
