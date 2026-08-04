@@ -12,7 +12,7 @@ import { createRelativeLink } from "fumadocs-ui/mdx"
 
 import { source } from "@/lib/source"
 import { getMDXComponents } from "@/components/mdx"
-import { languageAlternates, localizedUrl } from "@/lib/seo"
+import { baseUrl, languageAlternates, localizedUrl } from "@/lib/seo"
 
 type Props = {
   params: Promise<{ lang: string; slug?: string[] }>
@@ -30,8 +30,52 @@ export default async function Page(props: Props) {
 
   const MDX = page.data.body
 
+  const path =
+    page.slugs.length > 0 ? `/docs/${page.slugs.join("/")}` : "/docs"
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      headline: page.data.title,
+      description: page.data.description,
+      url: localizedUrl(path, lang),
+      inLanguage: lang,
+      author: {
+        "@type": "Organization",
+        name: "Crafter Station",
+        url: baseUrl,
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Docs",
+          item: localizedUrl("/docs", lang),
+        },
+        ...(page.slugs.length > 0
+          ? [
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: page.data.title,
+                item: localizedUrl(path, lang),
+              },
+            ]
+          : []),
+      ],
+    },
+  ]
+
   return (
     <DocsPage toc={page.data.toc} full={page.data.full}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <div className="flex flex-row items-center gap-2 border-b pb-6">
@@ -58,15 +102,15 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const page = source.getPage(slug, lang)
   if (!page) notFound()
 
-  const path =
+  const metaPath =
     page.slugs.length > 0 ? `/docs/${page.slugs.join("/")}` : "/docs"
 
   return {
     title: page.data.title,
     description: page.data.description,
     alternates: {
-      canonical: localizedUrl(path, lang),
-      languages: languageAlternates(path),
+      canonical: localizedUrl(metaPath, lang),
+      languages: languageAlternates(metaPath),
     },
   }
 }
