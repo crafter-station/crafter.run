@@ -1,0 +1,71 @@
+---
+title: "awake: mantén tu Mac funcionando con la tapa cerrada"
+description: CLI de macOS + app de barra de menú que mantiene el portátil despierto con la tapa cerrada. Temporizador de auto-apagado por defecto, sudo limitado a dos comandos exactos, salida JSON para agentes de IA. Lo que caffeinate no puede hacer.
+---
+
+`@crafter/awake` hace lo único que `caffeinate` no puede: **mantener tu Mac funcionando después de cerrar la tapa.** Un comando antes de guardar el portátil en la mochila, un temporizador respaldado por launchd que restaura el sueño normal por sí solo, y `--json` en todas partes para que tu agente de código pueda usarlo.
+
+## ¿Por qué no caffeinate?
+
+macOS fuerza el sueño del portátil en el momento en que se cierra la tapa, sin importar qué assertions estén activas. El único interruptor que sobrevive a una tapa cerrada es `pmset disablesleep`, que requiere root y no trae ninguna protección. awake envuelve exactamente ese interruptor con la ergonomía que merece.
+
+| | caffeinate | @crafter/awake |
+|---|---|---|
+| Evitar el sueño por inactividad | Sí | Sí |
+| Sobrevivir a la tapa cerrada | No | Sí |
+| Temporizador de auto-apagado | No | Sí (1h por defecto) |
+| Estado visible en la barra de menú | No | Sí |
+| Salida JSON para agentes | No | Todos los comandos |
+
+## Instalación
+
+```bash
+npm i -g @crafter/awake
+```
+
+Configuración única, pide tu contraseña una vez e instala una regla de sudoers limitada a exactamente dos comandos `pmset` (nada más se eleva, `awake setup --uninstall` la elimina):
+
+```bash
+awake setup
+```
+
+## Uso
+
+```bash
+awake on            # mantener el Mac despierto 1 hora (el valor seguro por defecto)
+awake on 3h         # duraciones: 30m, 2h, 1h30m, números sueltos son minutos
+awake on --forever  # sin temporizador, hasta que lo apagues
+awake off           # restaurar el sueño normal ahora
+awake status        # estado, temporizador, batería
+```
+
+Cierra la tapa a mitad de una tarea y la tarea sigue corriendo. El temporizador lo restaura todo por sí solo y envía una notificación cuando se dispara, incluso tras un crash o reinicio. `awake status` avisa cuando estás con batería.
+
+## Para agentes
+
+La salida es JSON automáticamente cuando se canaliza. Los errores llegan a stderr como `{"error": {"code", "message", "hint"}}`. Códigos de salida: 0 éxito, 1 error, 3 requiere configuración (un humano debe ejecutar `awake setup` una vez). El contrato completo vive en [AGENTS.md](https://github.com/crafter-station/awake/blob/main/AGENTS.md).
+
+```bash
+awake on 2h --json   # antes de una tarea larga sin supervisión
+awake status --json  # {"data":{"enabled":true,"remaining_seconds":7080,...}}
+awake off --json     # terminaste antes, restaurar el sueño normal
+```
+
+## Comandos
+
+| Comando | Descripción |
+|---|---|
+| `awake on [duración]` | Mantener el Mac despierto (1h por defecto, re-ejecutar reprograma el temporizador) |
+| `awake off` | Restaurar el sueño normal (idempotente) |
+| `awake status` | Estado actual, temporizador, batería |
+| `awake setup` | Autorización única sin contraseña (`--check`, `--uninstall`) |
+
+## App de barra de menú
+
+Una compañera en SwiftUI (macOS 13+) con duraciones de un clic y cuenta regresiva en vivo junto al reloj. Mismo repo, misma CLI por debajo: `./mac/build-app.sh`.
+
+## Enlaces
+
+- [Sitio web](https://awake.crafter.run)
+- [GitHub](https://github.com/crafter-station/awake)
+- [npm](https://www.npmjs.com/package/@crafter/awake)

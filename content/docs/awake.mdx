@@ -1,0 +1,71 @@
+---
+title: "awake: keep your Mac running with the lid closed"
+description: macOS CLI + menu bar app that keeps the laptop awake with the lid closed. Auto-off timer by default, sudo scoped to two exact commands, JSON output for AI agents. The thing caffeinate can't do.
+---
+
+`@crafter/awake` does the one thing `caffeinate` can't: **keep your Mac running after you close the lid.** One command before you bag the laptop, a launchd-backed timer that restores normal sleep on its own, and `--json` everywhere so your coding agent can drive it.
+
+## Why not caffeinate?
+
+macOS force-sleeps a laptop the moment the lid closes, no matter which assertions are held. The only switch that survives a closed lid is `pmset disablesleep`, which needs root and ships with zero guardrails. awake wraps exactly that switch with the ergonomics it deserves.
+
+| | caffeinate | @crafter/awake |
+|---|---|---|
+| Prevent idle sleep | Yes | Yes |
+| Survive a closed lid | No | Yes |
+| Auto-off timer | No | Yes (default 1h) |
+| Visible state in the menu bar | No | Yes |
+| JSON output for agents | No | Every command |
+
+## Install
+
+```bash
+npm i -g @crafter/awake
+```
+
+One-time setup, asks for your password once and installs a sudoers rule scoped to exactly two `pmset` commands (nothing else gets elevated, `awake setup --uninstall` removes it):
+
+```bash
+awake setup
+```
+
+## Usage
+
+```bash
+awake on            # keep the Mac awake for 1 hour (the safe default)
+awake on 3h         # durations: 30m, 2h, 1h30m, bare numbers are minutes
+awake on --forever  # no timer, until you turn it off
+awake off           # restore normal sleep now
+awake status        # state, timer, battery
+```
+
+Close the lid mid-task and the task keeps running. The timer flips everything back by itself and sends a notification when it fires, even after a crash or reboot. `awake status` warns when you are on battery power.
+
+## For agents
+
+Output is JSON automatically when piped. Errors land on stderr as `{"error": {"code", "message", "hint"}}`. Exit codes: 0 success, 1 error, 3 setup required (a human must run `awake setup` once). The full contract lives in [AGENTS.md](https://github.com/crafter-station/awake/blob/main/AGENTS.md).
+
+```bash
+awake on 2h --json   # before a long unattended task
+awake status --json  # {"data":{"enabled":true,"remaining_seconds":7080,...}}
+awake off --json     # done early, restore normal sleep
+```
+
+## Commands
+
+| Command | Description |
+|---|---|
+| `awake on [duration]` | Keep the Mac awake (default 1h, re-running reschedules the timer) |
+| `awake off` | Restore normal sleep (idempotent) |
+| `awake status` | Current state, timer, battery |
+| `awake setup` | One-time passwordless authorization (`--check`, `--uninstall`) |
+
+## Menu bar app
+
+A SwiftUI companion (macOS 13+) with one-click durations and a live countdown next to the clock. Same repo, same CLI underneath: `./mac/build-app.sh`.
+
+## Links
+
+- [Website](https://awake.crafter.run)
+- [GitHub](https://github.com/crafter-station/awake)
+- [npm](https://www.npmjs.com/package/@crafter/awake)
