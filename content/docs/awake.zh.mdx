@@ -1,0 +1,71 @@
+---
+title: "awake：合上盖子也让 Mac 继续运行"
+description: macOS 命令行 + 菜单栏应用，合盖后保持笔记本电脑不休眠。默认自带自动关闭定时器，sudo 权限只限于两条精确命令，为 AI 代理提供 JSON 输出。这是 caffeinate 做不到的事。
+---
+
+`@crafter/awake` 做到了 `caffeinate` 唯一做不到的事：**合上盖子后让 Mac 继续运行。** 把电脑装进包里之前只需一条命令，由 launchd 支撑的定时器会自动恢复正常休眠，所有命令都支持 `--json`，你的编程代理也能直接驱动它。
+
+## 为什么不用 caffeinate？
+
+无论持有哪些 assertion，macOS 都会在合盖的一瞬间强制休眠。唯一能在合盖后生效的开关是 `pmset disablesleep`，它需要 root 权限且没有任何防护。awake 正是为这个开关包上了它应有的工程学设计。
+
+| | caffeinate | @crafter/awake |
+|---|---|---|
+| 阻止闲置休眠 | 是 | 是 |
+| 合盖后继续运行 | 否 | 是 |
+| 自动关闭定时器 | 否 | 是（默认 1 小时） |
+| 菜单栏可见状态 | 否 | 是 |
+| 为代理提供 JSON 输出 | 否 | 所有命令 |
+
+## 安装
+
+```bash
+npm i -g @crafter/awake
+```
+
+一次性设置，只需输入一次密码，安装一条仅限于两条 `pmset` 命令的 sudoers 规则（不会提升其他任何权限，`awake setup --uninstall` 可移除）：
+
+```bash
+awake setup
+```
+
+## 使用
+
+```bash
+awake on            # 保持 Mac 清醒 1 小时（安全默认值）
+awake on 3h         # 时长：30m、2h、1h30m，纯数字表示分钟
+awake on --forever  # 无定时器，直到你手动关闭
+awake off           # 立即恢复正常休眠
+awake status        # 状态、定时器、电池
+```
+
+任务进行中合上盖子，任务继续运行。定时器会自动恢复一切，并在触发时发送通知，即使经历崩溃或重启也一样。使用电池供电时 `awake status` 会发出警告。
+
+## 面向代理
+
+通过管道时输出自动为 JSON。错误以 `{"error": {"code", "message", "hint"}}` 形式写入 stderr。退出码：0 成功，1 错误，3 需要设置（需要人工执行一次 `awake setup`）。完整契约见 [AGENTS.md](https://github.com/crafter-station/awake/blob/main/AGENTS.md)。
+
+```bash
+awake on 2h --json   # 在长时间无人值守任务之前
+awake status --json  # {"data":{"enabled":true,"remaining_seconds":7080,...}}
+awake off --json     # 提前完成，恢复正常休眠
+```
+
+## 命令
+
+| 命令 | 说明 |
+|---|---|
+| `awake on [时长]` | 保持 Mac 清醒（默认 1 小时，重复执行会重置定时器） |
+| `awake off` | 恢复正常休眠（幂等） |
+| `awake status` | 当前状态、定时器、电池 |
+| `awake setup` | 一次性免密授权（`--check`、`--uninstall`） |
+
+## 菜单栏应用
+
+SwiftUI 伴侣应用（macOS 13+），一键选择时长，时钟旁实时倒计时。同一个仓库，底层同一个 CLI：`./mac/build-app.sh`。
+
+## 链接
+
+- [网站](https://awake.crafter.run)
+- [GitHub](https://github.com/crafter-station/awake)
+- [npm](https://www.npmjs.com/package/@crafter/awake)

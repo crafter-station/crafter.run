@@ -1,0 +1,71 @@
+---
+title: "awake：フタを閉じてもMacを動かし続ける"
+description: フタを閉じたままノートPCをスリープさせないmacOS CLI + メニューバーアプリ。デフォルトで自動オフタイマー、sudoは2つの正確なコマンドのみに限定、AIエージェント向けのJSON出力。caffeinateにはできないこと。
+---
+
+`@crafter/awake` は `caffeinate` にできない唯一のことをやります：**フタを閉じた後もMacを動かし続けること。** ノートPCをバッグに入れる前にコマンド1つ、launchdに支えられたタイマーが自動で通常のスリープに戻し、すべてのコマンドが `--json` 対応なのでコーディングエージェントからも操作できます。
+
+## なぜcaffeinateではないのか？
+
+macOSはどんなassertionが保持されていても、フタが閉じた瞬間に強制スリープします。フタを閉じても生き残る唯一のスイッチが `pmset disablesleep` で、root権限が必要な上にガードレールが一切ありません。awakeはまさにそのスイッチを、あるべきエルゴノミクスで包みます。
+
+| | caffeinate | @crafter/awake |
+|---|---|---|
+| アイドルスリープの防止 | はい | はい |
+| フタを閉じても動作 | いいえ | はい |
+| 自動オフタイマー | いいえ | はい（デフォルト1時間） |
+| メニューバーでの状態表示 | いいえ | はい |
+| エージェント向けJSON出力 | いいえ | 全コマンド |
+
+## インストール
+
+```bash
+npm i -g @crafter/awake
+```
+
+初回のみのセットアップ。パスワードを一度だけ求め、正確に2つの `pmset` コマンドに限定したsudoersルールをインストールします（他は一切昇格されず、`awake setup --uninstall` で削除できます）：
+
+```bash
+awake setup
+```
+
+## 使い方
+
+```bash
+awake on            # Macを1時間起こしておく（安全なデフォルト）
+awake on 3h         # 時間指定：30m、2h、1h30m、数字だけなら分
+awake on --forever  # タイマーなし、手動でオフにするまで
+awake off           # 今すぐ通常のスリープに戻す
+awake status        # 状態、タイマー、バッテリー
+```
+
+タスクの途中でフタを閉じても、タスクは動き続けます。タイマーが自動ですべてを元に戻し、発火時には通知を送ります。クラッシュや再起動の後でも同様です。バッテリー駆動時は `awake status` が警告します。
+
+## エージェント向け
+
+パイプ時は自動的にJSON出力になります。エラーはstderrに `{"error": {"code", "message", "hint"}}` として出力。終了コード：0 成功、1 エラー、3 セットアップが必要（人間が一度 `awake setup` を実行する必要があります）。完全なコントラクトは [AGENTS.md](https://github.com/crafter-station/awake/blob/main/AGENTS.md) にあります。
+
+```bash
+awake on 2h --json   # 長時間の無人タスクの前に
+awake status --json  # {"data":{"enabled":true,"remaining_seconds":7080,...}}
+awake off --json     # 早く終わったら通常のスリープに戻す
+```
+
+## コマンド
+
+| コマンド | 説明 |
+|---|---|
+| `awake on [時間]` | Macを起こしておく（デフォルト1時間、再実行でタイマーを再設定） |
+| `awake off` | 通常のスリープに戻す（冪等） |
+| `awake status` | 現在の状態、タイマー、バッテリー |
+| `awake setup` | 初回のみのパスワードレス認可（`--check`、`--uninstall`） |
+
+## メニューバーアプリ
+
+SwiftUI製のコンパニオン（macOS 13+）。ワンクリックで時間を選べ、時計の隣にライブカウントダウンを表示。同じリポジトリ、同じCLIが土台です：`./mac/build-app.sh`。
+
+## リンク
+
+- [ウェブサイト](https://awake.crafter.run)
+- [GitHub](https://github.com/crafter-station/awake)
+- [npm](https://www.npmjs.com/package/@crafter/awake)
