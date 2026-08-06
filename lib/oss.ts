@@ -86,13 +86,6 @@ const seeds: Seed[] = [
     language: "TypeScript",
   },
   {
-    repo: "crafter-station/pawboard",
-    stars: 30,
-    openIssues: 18,
-    description: null,
-    language: "TypeScript",
-  },
-  {
     repo: "crafter-station/charts",
     stars: 4,
     openIssues: 0,
