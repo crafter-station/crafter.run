@@ -138,7 +138,12 @@
       "panelStars": "estrellas",
       "panelRepos": "repos",
       "panelIssues": "issues abiertos para contribuir",
-      "filterAll": "Todos"
+      "filterAll": "Todos",
+      "suggestCta": "Sugerir un proyecto",
+      "suggestEyebrow": "Herramienta que falta",
+      "suggestTitle": "Contanos que le falta al ecosistema.",
+      "suggestDescription": "Si una herramienta deberia existir y no existe, ponela en el board. Las ideas se publican, cualquiera vota, y las que la comunidad empuja son las que tomamos.",
+      "suggestBoardCta": "Ver el board de ideas"
     },
     "work-with-us": {
       "eyebrow": "Trabaja con nosotros",
@@ -315,7 +320,19 @@
       "title": "Empieza por el camino correcto.",
       "description": "Cuentanos si quieres partner, construir, organizar un evento, patrocinar un hackathon o unirte a la comunidad.",
       "section": "Que quieres hacer?",
-      "sectionDescription": "Elige el tipo de conversacion y te responderemos con la forma mas rapida de empezar."
+      "sectionDescription": "Elige el tipo de conversacion y te responderemos con la forma mas rapida de empezar.",
+      "pickerEyebrow": "Agenda una llamada",
+      "pickerTitle": "Elegi de que queres hablar.",
+      "pickerDescription": "Cada tema va con quien de verdad hace ese trabajo, asi caes con la persona correcta desde la primera llamada.",
+      "pickerWith": "Con",
+      "trackStartupLabel": "Startup y producto",
+      "trackStartupBlurb": "Product engineering, productos con IA, lanzamientos y crecimiento en LatAm para devtools y startups.",
+      "trackCareerLabel": "Carrera y mentoria",
+      "trackCareerBlurb": "Hacia donde llevar tu linea de carrera en tech, que construir para llegar, y feedback honesto de donde estas hoy.",
+      "trackOssLabel": "Open source y grants",
+      "trackOssBlurb": "Como hacer tus primeras contribuciones, financiar el trabajo, y convertir una idea en algo que la gente use.",
+      "trackSponsorLabel": "Auspiciar un evento",
+      "trackSponsorBlurb": "Hackathons, Code Brews y activaciones de comunidad en toda la region."
     },
     "next": {
       "eyebrow": "/projects/next",

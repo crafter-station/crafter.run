@@ -138,7 +138,12 @@
       "panelStars": "stars",
       "panelRepos": "仓库",
       "panelIssues": "个待认领的 issue",
-      "filterAll": "全部"
+      "filterAll": "全部",
+      "suggestCta": "提议一个项目",
+      "suggestEyebrow": "缺失的工具",
+      "suggestTitle": "告诉我们这个生态还缺什么。",
+      "suggestDescription": "如果某个工具本该存在却还没有，就把它放到看板上。想法会公开展示，任何人都能投票，社区票数最高的就是我们接下来要做的。",
+      "suggestBoardCta": "打开想法看板"
     },
     "work-with-us": {
       "eyebrow": "与我们合作",
@@ -315,7 +320,19 @@
       "title": "从正确的路径开始。",
       "description": "告诉我们你想合作、构建、举办活动、赞助黑客松，还是加入社区。",
       "section": "你想做什么？",
-      "sectionDescription": "选择对话类型，我们会以最快的启动路径回复你。"
+      "sectionDescription": "选择对话类型，我们会以最快的启动路径回复你。",
+      "pickerEyebrow": "预约通话",
+      "pickerTitle": "选择你想聊的话题。",
+      "pickerDescription": "每个方向都由真正做这件事的人接待，第一次通话就能找对人。",
+      "pickerWith": "对话者",
+      "trackStartupLabel": "创业与产品",
+      "trackStartupBlurb": "面向开发者工具和创业公司的产品工程、AI 产品、发布与拉美增长。",
+      "trackCareerLabel": "职业发展与辅导",
+      "trackCareerBlurb": "技术职业路线该往哪走、为此该做什么，以及对你当前状态的坦诚反馈。",
+      "trackOssLabel": "开源与资助",
+      "trackOssBlurb": "如何完成第一次贡献、为工作争取资金，以及把想法变成真正有人用的东西。",
+      "trackSponsorLabel": "赞助活动",
+      "trackSponsorBlurb": "覆盖整个地区的黑客松、Code Brew 和社区活动。"
     },
     "next": {
       "eyebrow": "/projects/next",

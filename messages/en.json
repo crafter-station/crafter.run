@@ -138,7 +138,12 @@
       "panelStars": "stars",
       "panelRepos": "repos",
       "panelIssues": "issues open for contribution",
-      "filterAll": "All"
+      "filterAll": "All",
+      "suggestCta": "Suggest a project",
+      "suggestEyebrow": "Missing tool",
+      "suggestTitle": "Tell us what the ecosystem still needs.",
+      "suggestDescription": "If a tool should exist and does not, put it on the board. Ideas are posted publicly, anyone can vote, and the ones the community pushes up are the ones we pick up next.",
+      "suggestBoardCta": "Open the ideas board"
     },
     "work-with-us": {
       "eyebrow": "Work with us",
@@ -315,7 +320,19 @@
       "title": "Start with the right path.",
       "description": "Tell us whether you want to partner, build, host an event, sponsor a hackathon, or join the community.",
       "section": "What are you trying to do?",
-      "sectionDescription": "Choose the type of conversation and we will reply with the fastest path to start."
+      "sectionDescription": "Choose the type of conversation and we will reply with the fastest path to start.",
+      "pickerEyebrow": "Book a call",
+      "pickerTitle": "Pick what you want to talk about.",
+      "pickerDescription": "Each track goes to whoever actually does that work, so you land with the right person on the first call.",
+      "pickerWith": "With",
+      "trackStartupLabel": "Startup and product",
+      "trackStartupBlurb": "Product engineering, AI products, launches, and LatAm growth for devtools and startups.",
+      "trackCareerLabel": "Career and mentorship",
+      "trackCareerBlurb": "Where to take your track in tech, what to build to get there, and honest feedback on where you are now.",
+      "trackOssLabel": "Open source and grants",
+      "trackOssBlurb": "How to make your first contributions, fund the work, and turn an idea into something people use.",
+      "trackSponsorLabel": "Sponsor an event",
+      "trackSponsorBlurb": "Hackathons, Code Brews, and community activations across the region."
     },
     "next": {
       "eyebrow": "/projects/next",
