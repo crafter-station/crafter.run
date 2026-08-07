@@ -113,6 +113,27 @@ export default async function Page({
           </div>
         </Container>
         <SectionGap />
+        <Container>
+          <section className="grid grid-cols-1 border-y border-line md:grid-cols-[1.2fr_1fr]">
+            <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                {t("timelineEyebrow")}
+              </p>
+              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
+                {t("timelineTitle")}
+              </h2>
+              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                {t("timelineDescription")}
+              </p>
+            </div>
+            <div className="flex items-center p-8 md:p-10">
+              <LocalizedLink href="/timeline" locale={lang} className="group">
+                <ArrowLink>{t("timelineCta")}</ArrowLink>
+              </LocalizedLink>
+            </div>
+          </section>
+        </Container>
+        <SectionGap />
         <Container innerClassName="border-b px-6 py-10 md:px-10">
           <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
             {t("howEyebrow")}

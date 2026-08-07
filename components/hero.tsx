@@ -13,12 +13,16 @@ export function HeroContent({
   description = "A community of 1000+ builders, a product lab, an open-source ecosystem, research, and events helping LatAm shippers meet, learn, and build in public.",
   eventsCta = "See events",
   eventsHref = "/events",
+  ossCta = "Explore open source",
+  ossHref = "/oss",
 }: {
   eyebrow?: string
   lines?: [string, string, string]
   description?: string
   eventsCta?: string
   eventsHref?: string
+  ossCta?: string
+  ossHref?: string
 }) {
   return (
     <Container innerClassName="overflow-hidden bg-background">
@@ -60,12 +64,19 @@ export function HeroContent({
               </p>
             </div>
 
-            <div className="pointer-events-auto mt-10 inline-grid w-full grid-cols-1 gap-4 sm:w-fit">
+            <div className="pointer-events-auto mt-10 inline-grid w-full grid-cols-1 gap-4 sm:w-fit sm:grid-flow-col sm:auto-cols-max">
               <Link
                 href={eventsHref}
                 className="group flex items-center justify-between gap-3 border border-foreground/20 bg-background/20 px-6 py-3 text-foreground/85 backdrop-blur-[2px] transition-colors hover:border-foreground/50 hover:bg-background/40"
               >
                 {eventsCta}
+                <PixelArrow />
+              </Link>
+              <Link
+                href={ossHref}
+                className="group flex items-center justify-between gap-3 border border-foreground/20 bg-background/20 px-6 py-3 text-foreground/85 backdrop-blur-[2px] transition-colors hover:border-foreground/50 hover:bg-background/40"
+              >
+                {ossCta}
                 <PixelArrow />
               </Link>
             </div>
