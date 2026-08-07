@@ -137,7 +137,8 @@
       "panelEyebrow": "A rede",
       "panelStars": "estrelas",
       "panelRepos": "repos",
-      "panelIssues": "issues abertas para contribuir"
+      "panelIssues": "issues abertas para contribuir",
+      "filterAll": "Todos"
     },
     "work-with-us": {
       "eyebrow": "Trabalhe conosco",

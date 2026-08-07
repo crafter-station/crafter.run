@@ -137,7 +137,8 @@
       "panelEyebrow": "The network",
       "panelStars": "stars",
       "panelRepos": "repos",
-      "panelIssues": "issues open for contribution"
+      "panelIssues": "issues open for contribution",
+      "filterAll": "All"
     },
     "work-with-us": {
       "eyebrow": "Work with us",

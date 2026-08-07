@@ -137,7 +137,8 @@
       "panelEyebrow": "我们的网络",
       "panelStars": "stars",
       "panelRepos": "仓库",
-      "panelIssues": "个待认领的 issue"
+      "panelIssues": "个待认领的 issue",
+      "filterAll": "全部"
     },
     "work-with-us": {
       "eyebrow": "与我们合作",
