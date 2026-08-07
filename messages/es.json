@@ -9,10 +9,11 @@
     "line1": "La red",
     "line2": "LatAm de",
     "line3": "shippers.",
-    "description": "Una comunidad de 1000+ builders, un laboratorio de proyectos, research y eventos para que shippers de LatAm se conozcan, aprendan y construyan en publico.",
+    "description": "Una comunidad de 1000+ builders, un ecosistema de codigo abierto, productos, research y eventos para que shippers de LatAm se conozcan, aprendan y construyan en publico.",
     "workCta": "Trabaja con nosotros",
     "communityCta": "Unete a la comunidad",
     "eventsCta": "Ver eventos",
+    "ossCta": "Ver codigo abierto",
     "workPreview": {
       "section": "Partner de crecimiento en LatAm",
       "eyebrow": "Para devtools y startups",
@@ -64,7 +65,8 @@
     }
   },
   "nav": {
-    "projects": "Proyectos",
+    "oss": "Codigo abierto",
+    "products": "Productos",
     "events": "Eventos",
     "research": "Research",
     "team": "Equipo",
@@ -76,20 +78,20 @@
   "footer": {
     "company": "Crafter Station",
     "build": "Construir",
-    "productLab": "Proyectos",
+    "productLab": "Lo que construimos",
     "community": "Comunidad",
     "social": "Social",
     "companyLinks": {
       "events": "Eventos",
       "sponsorEvents": "Patrocinar eventos",
-      "projects": "Proyectos",
+      "products": "Productos",
       "team": "Equipo",
       "workWithUs": "Trabaja con nosotros",
       "contact": "Contacto"
     },
     "buildLinks": {
       "oss": "Código abierto",
-      "projects": "Proyectos",
+      "products": "Productos",
       "timeline": "Actividad de proyectos",
       "research": "Research",
       "next": "Next",
@@ -104,7 +106,45 @@
     "copyright": "© {year} Crafter Station. Construido rapido, construido bien."
   },
   "pages": {
-    "oss": {"eyebrow": "Código abierto", "title": "Código abierto, abierto a contribuidores.", "description": "Estos repos de la red Crafter Station están mantenidos y aceptan contribuciones externas: CLIs, design systems, herramientas de editor e infraestructura de comunidad. Elige uno y shippea.", "githubCta": "Abrir org de GitHub", "reposEyebrow": "Los repos", "reposTitle": "Mantenidos, públicos y esperando tu PR.", "reposDescription": "Datos en vivo de GitHub, actualizados a diario. Las estrellas y el trabajo abierto se actualizan solos; la lista la cura el equipo.", "descriptionPending": "Descripción próximamente.", "openIssues": "{count, plural, one {1 issue o PR abierto} other {# issues + PRs abiertos}}", "repoCta": "Contribuir", "howEyebrow": "Cómo contribuir", "howTitle": "Tres pasos hasta tu primer PR mergeado.", "step1Title": "Elige un repo", "step1Description": "Empieza por el que ya uses. Todos los repos comparten el mismo stack: TypeScript, Bun y Biome.", "step2Title": "Encuentra un issue", "step2Description": "Busca los labels good-first-issue y help-wanted, o abre un issue proponiendo lo que quieres construir antes de escribir código.", "step3Title": "Shippea el PR", "step3Description": "Los pull requests chicos y enfocados con conventional commits se revisan más rápido. Si te trabas, el equipo responde en la comunidad.", "programEyebrow": "Más allá de nuestros repos", "programTitle": "¿Construyes open source en LatAm? Queremos ayudar.", "programDescription": "Estamos armando un programa de apoyo para proyectos open source de la región: perks de nuestros productos como Maca, mentoría del equipo y visibilidad en la red Crafter Station. Cuéntanos qué estás construyendo.", "programCta": "Escríbenos", "communityCta": "Únete a la comunidad"},
+    "oss": {
+      "eyebrow": "Código abierto",
+      "title": "Código abierto, abierto a contribuidores.",
+      "description": "Estos repos de la red Crafter Station están mantenidos y aceptan contribuciones externas: CLIs, design systems, herramientas de editor e infraestructura de comunidad. Elige uno y shippea.",
+      "githubCta": "Abrir org de GitHub",
+      "reposEyebrow": "Los repos",
+      "reposTitle": "Mantenidos, públicos y esperando tu PR.",
+      "reposDescription": "Datos en vivo de GitHub, actualizados a diario. Las estrellas y el trabajo abierto se actualizan solos; la lista la cura el equipo.",
+      "descriptionPending": "Descripción próximamente.",
+      "openIssues": "{count, plural, one {1 issue o PR abierto} other {# issues + PRs abiertos}}",
+      "repoCta": "Contribuir",
+      "howEyebrow": "Cómo contribuir",
+      "howTitle": "Tres pasos hasta tu primer PR mergeado.",
+      "step1Title": "Elige un repo",
+      "step1Description": "Empieza por el que ya uses. Todos los repos comparten el mismo stack: TypeScript, Bun y Biome.",
+      "step2Title": "Encuentra un issue",
+      "step2Description": "Busca los labels good-first-issue y help-wanted, o abre un issue proponiendo lo que quieres construir antes de escribir código.",
+      "step3Title": "Shippea el PR",
+      "step3Description": "Los pull requests chicos y enfocados con conventional commits se revisan más rápido. Si te trabas, el equipo responde en la comunidad.",
+      "programEyebrow": "Más allá de nuestros repos",
+      "programTitle": "¿Construyes open source en LatAm? Queremos ayudar.",
+      "programDescription": "Estamos armando un programa de apoyo para proyectos open source de la región: perks de nuestros productos como Maca, mentoría del equipo y visibilidad en la red Crafter Station. Cuéntanos qué estás construyendo.",
+      "programCta": "Escríbenos",
+      "communityCta": "Únete a la comunidad",
+      "timelineEyebrow": "Actividad",
+      "timelineTitle": "Mira como avanzo el trabajo en el tiempo.",
+      "timelineDescription": "Todos los repos publicos en una linea de tiempo: cuando avanzo cada proyecto, quien commiteo y que tan activo esta ahora.",
+      "timelineCta": "Ver actividad",
+      "panelEyebrow": "La red",
+      "panelStars": "estrellas",
+      "panelRepos": "repos",
+      "panelIssues": "issues abiertos para contribuir",
+      "filterAll": "Todos",
+      "suggestCta": "Sugerir un proyecto",
+      "suggestEyebrow": "Herramienta que falta",
+      "suggestTitle": "Contanos que le falta al ecosistema.",
+      "suggestDescription": "Si una herramienta deberia existir y no existe, ponela en el board. Las ideas se publican, cualquiera vota, y las que la comunidad empuja son las que tomamos.",
+      "suggestBoardCta": "Ver el board de ideas"
+    },
     "work-with-us": {
       "eyebrow": "Trabaja con nosotros",
       "title": "Trabaja con el equipo detras de Crafter Station.",
@@ -132,21 +172,16 @@
       "section": "Para companias que quieren mas que un logo.",
       "sectionDescription": "Trabajamos con sponsors en hackathons, Code Brews, workshops, launches, premios, venue, comida, devtools y activaciones hands-on."
     },
-    "projects": {
-      "eyebrow": "Laboratorio de proyectos",
-      "title": "Proyectos que construimos para aprender y probar el trabajo.",
-      "description": "Nuestros proyectos incluyen infraestructura de eventos, datos legales, interfaces de voz, herramientas con IA, releases open source, sistemas de diseno, busqueda de codigo y playbooks de comunidad.",
-      "section": "El laboratorio es publico.",
-      "sectionDescription": "Algunos proyectos son productos, otros son open source, otros son playbooks e infraestructura de comunidad. Los proyectos open source aparecen marcados en el catalogo.",
-      "githubEyebrow": "GitHub",
-      "githubTitle": "Construimos en publico cuando el trabajo debe poder inspeccionarse.",
-      "githubDescription": "La organizacion de GitHub de Crafter Station es donde publicamos productos open source, infraestructura de comunidad, experimentos y artefactos reutilizables de ingenieria. Algunos proyectos son productos completos, otros datasets publicos y otros la materia prima detras de lo que shipeamos.",
-      "githubCta": "Abrir GitHub",
-      "timelineCta": "Explorar actividad de proyectos",
-      "nextEyebrow": "Proximos proyectos",
-      "nextTitle": "Ayuda a elegir que deberia construir la comunidad.",
-      "nextDescription": "Tenemos un tablero realtime y rankeado por la comunidad para requests, experimentos e ideas utiles que la red puede trabajar junta. Envia una idea, vota en la cola y mira como cambian las prioridades en vivo.",
-      "nextCta": "Abrir proximos proyectos"
+    "products": {
+      "eyebrow": "Productos",
+      "title": "Productos que construimos, sostenemos y respaldamos.",
+      "description": "Interfaces de voz, herramientas para agentes, investigacion y la escritura que vendemos. Estos son los productos que operamos como productos, no como repos.",
+      "section": "Lo que vendemos y sostenemos.",
+      "sectionDescription": "Cada uno lo mantiene el equipo y llega a usuarios reales. Si buscas el codigo que publicamos abiertamente, eso vive en codigo abierto.",
+      "ossEyebrow": "Codigo abierto",
+      "ossTitle": "Casi todo lo que construimos es publico.",
+      "ossDescription": "Nuestros repositorios de codigo abierto estan catalogados aparte, con estrellas en vivo, issues abiertos y un camino a tu primera contribucion.",
+      "ossCta": "Ver codigo abierto"
     },
     "timeline": {
       "eyebrow": "Actividad open source",
@@ -234,9 +269,9 @@
         "coreDescription": "Los detalles incluyen todos los commits y contribuidores, ademas de estrellas, forks, issues abiertos y otra informacion de GitHub."
       },
       "catalogEyebrow": "Mas alla de la actividad",
-      "catalogTitle": "Conoce los productos detras de los proyectos.",
-      "catalogDescription": "Abre el laboratorio para ver historias de producto, links, tecnologias e ideas que podriamos construir despues.",
-      "catalogCta": "Abrir laboratorio"
+      "catalogTitle": "Conoce los productos detras del trabajo.",
+      "catalogDescription": "Abri el catalogo de codigo abierto para ver estrellas en vivo, tecnologias y un camino a tu primera contribucion.",
+      "catalogCta": "Ver catalogo OSS"
     },
     "research": {
       "eyebrow": "Research",
@@ -285,7 +320,19 @@
       "title": "Empieza por el camino correcto.",
       "description": "Cuentanos si quieres partner, construir, organizar un evento, patrocinar un hackathon o unirte a la comunidad.",
       "section": "Que quieres hacer?",
-      "sectionDescription": "Elige el tipo de conversacion y te responderemos con la forma mas rapida de empezar."
+      "sectionDescription": "Elige el tipo de conversacion y te responderemos con la forma mas rapida de empezar.",
+      "pickerEyebrow": "Agenda una llamada",
+      "pickerTitle": "Elegi de que queres hablar.",
+      "pickerDescription": "Cada tema va con quien de verdad hace ese trabajo, asi caes con la persona correcta desde la primera llamada.",
+      "pickerWith": "Con",
+      "trackStartupLabel": "Startup y producto",
+      "trackStartupBlurb": "Product engineering, productos con IA, lanzamientos y crecimiento en LatAm para devtools y startups.",
+      "trackCareerLabel": "Carrera y mentoria",
+      "trackCareerBlurb": "Hacia donde llevar tu linea de carrera en tech, que construir para llegar, y feedback honesto de donde estas hoy.",
+      "trackOssLabel": "Open source y grants",
+      "trackOssBlurb": "Como hacer tus primeras contribuciones, financiar el trabajo, y convertir una idea en algo que la gente use.",
+      "trackSponsorLabel": "Auspiciar un evento",
+      "trackSponsorBlurb": "Hackathons, Code Brews y activaciones de comunidad en toda la region."
     },
     "next": {
       "eyebrow": "/projects/next",

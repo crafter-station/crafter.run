@@ -284,7 +284,7 @@ export default async function Page({
               </p>
             </div>
             <div className="flex items-center p-8 md:p-10">
-              <LocalizedLink href="/projects" locale={lang} className="group">
+              <LocalizedLink href="/oss" locale={lang} className="group">
                 <ArrowLink>{t("catalogCta")}</ArrowLink>
               </LocalizedLink>
             </div>

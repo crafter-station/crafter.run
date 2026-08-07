@@ -8,15 +8,15 @@ import { getProducts, socials } from "@/lib/site"
 const companyLinks = [
   { key: "events", href: "/events" },
   { key: "sponsorEvents", href: "/events/sponsors" },
-  { key: "projects", href: "/projects" },
+  { key: "products", href: "/products" },
   { key: "team", href: "/team" },
   { key: "workWithUs", href: "/team/work-with-us" },
   { key: "contact", href: "/contact" },
 ]
 
 const buildLinks = [
-  { key: "projects", href: "/projects" },
   { key: "oss", href: "/oss" },
+  { key: "products", href: "/products" },
   { key: "timeline", href: "/timeline" },
   { key: "research", href: "/research" },
   { key: "next", href: "/projects/next" },

@@ -6,6 +6,7 @@ export type OssRepo = {
   stars: number
   openIssues: number // GitHub counts issues + PRs together
   language: string | null
+  accent: string // tailwind gradient, drawn from each project's own brand
 }
 
 type Seed = Omit<OssRepo, "name" | "url">
@@ -15,6 +16,15 @@ type Seed = Omit<OssRepo, "name" | "url">
  * accept outside contributors. Numbers are a static fallback snapshot
  * (2026-08-06) used only when the GitHub API is unreachable; live data is
  * fetched with daily revalidation.
+ *
+ * Accents come from each project's own palette, read from its source where
+ * one exists: petdex, agentfiles, tinte, elements, one-hunter-vscode,
+ * skill-kit and hack0 from their committed CSS or theme config, neon-cli
+ * from neon.com/brand. text0 is converted from the oklch values in its
+ * globals.css. trx (Whisper), survey-cli and li-metrics are close matches
+ * rather than declared tokens. charts and cligentic have no visual identity
+ * of their own and use neutral grays. v0-cli is the one guess here: no
+ * primary source confirmed a hex, so it follows v0's commonly cited violet.
  */
 const seeds: Seed[] = [
   {
@@ -24,6 +34,7 @@ const seeds: Seed[] = [
     description:
       "The public gallery of animated pets for Codex, Claude Code, OpenCode and Gemini CLI",
     language: "TypeScript",
+    accent: "from-indigo-400 via-indigo-500 to-blue-600",
   },
   {
     repo: "Railly/agentfiles",
@@ -32,6 +43,7 @@ const seeds: Seed[] = [
     description:
       "Browse, create, and edit AI agent files across Claude Code, Cursor, Codex, and 12 coding tools — from Obsidian.",
     language: "TypeScript",
+    accent: "from-violet-400 via-violet-500 to-purple-700",
   },
   {
     repo: "Railly/tinte",
@@ -40,6 +52,7 @@ const seeds: Seed[] = [
     description:
       "Agent-native design system infrastructure. Generate, compile, install, and preview design systems from one source of truth.",
     language: "TypeScript",
+    accent: "from-neutral-200 via-neutral-500 to-neutral-900",
   },
   {
     repo: "crafter-station/elements",
@@ -48,6 +61,7 @@ const seeds: Seed[] = [
     description:
       "Full-stack shadcn/ui blocks for auth, payments, AI, logos, and more",
     language: "TypeScript",
+    accent: "from-neutral-300 via-neutral-500 to-neutral-800",
   },
   {
     repo: "crafter-station/text0",
@@ -55,6 +69,7 @@ const seeds: Seed[] = [
     openIssues: 13,
     description: "Absurdly smart (and personal) autocomplete",
     language: "TypeScript",
+    accent: "from-blue-500 via-blue-600 to-amber-400",
   },
   {
     repo: "Railly/one-hunter-vscode",
@@ -63,6 +78,7 @@ const seeds: Seed[] = [
     description:
       "A stylish theme inspired by Vercel Theme ▲ and One Dark Pro 🎨. Powered by Tinte",
     language: "TypeScript",
+    accent: "from-pink-500 via-fuchsia-500 to-blue-400",
   },
   {
     repo: "crafter-station/trx",
@@ -70,6 +86,7 @@ const seeds: Seed[] = [
     openIssues: 2,
     description: "Agent-first CLI for audio/video transcription via Whisper",
     language: "TypeScript",
+    accent: "from-emerald-400 via-teal-600 to-neutral-900",
   },
   {
     repo: "crafter-station/skill-kit",
@@ -77,6 +94,7 @@ const seeds: Seed[] = [
     openIssues: 0,
     description: "local-first analytics for AI agent skills",
     language: "TypeScript",
+    accent: "from-zinc-200 via-zinc-500 to-zinc-900",
   },
   {
     repo: "crafter-station/hack0",
@@ -84,6 +102,7 @@ const seeds: Seed[] = [
     openIssues: 5,
     description: "Hackathons & Tech Events in LATAM",
     language: "TypeScript",
+    accent: "from-emerald-300 via-emerald-600 to-emerald-900",
   },
   {
     repo: "crafter-station/charts",
@@ -92,6 +111,7 @@ const seeds: Seed[] = [
     description:
       "Terminal-native charts. Sparklines, line, bar, scatter, candlestick — composable, typed, zero deps.",
     language: "TypeScript",
+    accent: "from-slate-400 via-slate-600 to-slate-800",
   },
   {
     repo: "crafter-station/neon-cli",
@@ -100,6 +120,16 @@ const seeds: Seed[] = [
     description:
       "Agentic-first CLI for Neon Postgres - per-project usage, billing, and branch management the dashboard won't show you",
     language: "TypeScript",
+    accent: "from-lime-300 via-emerald-400 to-green-600",
+  },
+  {
+    repo: "shiarauzo/essalud-cli",
+    stars: 15,
+    openIssues: 1,
+    description:
+      "Book and cancel EsSalud appointments from the terminal. Unofficial, local-first, your token never leaves your machine.",
+    language: "TypeScript",
+    accent: "from-teal-300 via-cyan-600 to-sky-800",
   },
   {
     repo: "Railly/cligentic",
@@ -107,6 +137,7 @@ const seeds: Seed[] = [
     openIssues: 4,
     description: "Copy-paste CLI blocks for the agent era. Own your primitives.",
     language: "TypeScript",
+    accent: "from-gray-300 via-gray-500 to-gray-800",
   },
   {
     repo: "crafter-station/survey-cli",
@@ -114,6 +145,7 @@ const seeds: Seed[] = [
     openIssues: 0,
     description: "Run surveys from your terminal. Agent-friendly, type-safe, OSS.",
     language: "TypeScript",
+    accent: "from-red-400 via-red-700 to-neutral-900",
   },
   {
     repo: "Railly/v0-cli",
@@ -122,6 +154,7 @@ const seeds: Seed[] = [
     description:
       "Agent-first CLI for the v0 Platform API. JSON contract, trust ladder, audit trail, intent tokens.",
     language: "TypeScript",
+    accent: "from-violet-400 via-blue-500 to-neutral-950",
   },
   {
     repo: "crafter-station/li-metrics",
@@ -129,6 +162,7 @@ const seeds: Seed[] = [
     openIssues: 0,
     description: null,
     language: "TypeScript",
+    accent: "from-sky-500 via-blue-600 to-blue-800",
   },
 ]
 

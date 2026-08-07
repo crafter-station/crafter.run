@@ -9,10 +9,11 @@
     "line1": "拉美的",
     "line2": "shipper",
     "line3": "网络。",
-    "description": "一个由 1000+ 位 builder 组成的社区，加上项目实验室、研究和活动，帮助拉美的 shipper 相识、学习并公开构建。",
+    "description": "一个由 1000+ 位 builder 组成的社区，加上开源生态、产品、研究和活动，帮助拉美的 shipper 相识、学习并公开构建。",
     "workCta": "与我们合作",
     "communityCta": "加入社区",
     "eventsCta": "查看活动",
+    "ossCta": "探索开源项目",
     "workPreview": {
       "section": "拉美增长伙伴",
       "eyebrow": "面向 devtools 与创业公司",
@@ -64,7 +65,8 @@
     }
   },
   "nav": {
-    "projects": "项目",
+    "oss": "开源",
+    "products": "产品",
     "events": "活动",
     "research": "研究",
     "team": "团队",
@@ -76,20 +78,20 @@
   "footer": {
     "company": "Crafter Station",
     "build": "构建",
-    "productLab": "项目",
+    "productLab": "我们的作品",
     "community": "社区",
     "social": "社交",
     "companyLinks": {
       "events": "活动",
       "sponsorEvents": "赞助活动",
-      "projects": "项目",
+      "products": "产品",
       "team": "团队",
       "workWithUs": "与我们合作",
       "contact": "联系我们"
     },
     "buildLinks": {
       "oss": "开源",
-      "projects": "项目",
+      "products": "产品",
       "timeline": "项目动态",
       "research": "研究",
       "next": "Next",
@@ -104,7 +106,45 @@
     "copyright": "© {year} Crafter Station. 构建得快，构建得好。"
   },
   "pages": {
-    "oss": {"eyebrow": "开源", "title": "开源项目，欢迎贡献者。", "description": "Crafter Station 网络中的这些仓库都在持续维护并接受外部贡献：CLI、设计系统、编辑器工具和社区基础设施。选一个开始吧。", "githubCta": "打开 GitHub 组织", "reposEyebrow": "仓库列表", "reposTitle": "持续维护、完全公开，等待你的 PR。", "reposDescription": "数据来自 GitHub，每天刷新。星标和待处理工作自动更新，列表本身由团队精选。", "descriptionPending": "描述即将补充。", "openIssues": "{count} 个待处理 issue 和 PR", "repoCta": "去贡献", "howEyebrow": "如何贡献", "howTitle": "三步完成你的第一个合并 PR。", "step1Title": "选一个仓库", "step1Description": "从你已经在用的开始。所有仓库使用相同的技术栈：TypeScript、Bun 和 Biome。", "step2Title": "找一个 issue", "step2Description": "寻找 good-first-issue 和 help-wanted 标签，或者在写代码之前先开一个 issue 提出你的想法。", "step3Title": "提交 PR", "step3Description": "小而聚焦、遵循 conventional commits 的 PR 审核最快。遇到问题可以在社区里找维护者。", "programEyebrow": "不止我们的仓库", "programTitle": "在拉美做开源？我们想帮你。", "programDescription": "我们正在筹备一个面向本地区开源项目的支持计划：我们产品（如 Maca）的权益、团队的指导，以及 Crafter Station 网络的曝光。告诉我们你在做什么。", "programCta": "联系我们", "communityCta": "加入社区"},
+    "oss": {
+      "eyebrow": "开源",
+      "title": "开源项目，欢迎贡献者。",
+      "description": "Crafter Station 网络中的这些仓库都在持续维护并接受外部贡献：CLI、设计系统、编辑器工具和社区基础设施。选一个开始吧。",
+      "githubCta": "打开 GitHub 组织",
+      "reposEyebrow": "仓库列表",
+      "reposTitle": "持续维护、完全公开，等待你的 PR。",
+      "reposDescription": "数据来自 GitHub，每天刷新。星标和待处理工作自动更新，列表本身由团队精选。",
+      "descriptionPending": "描述即将补充。",
+      "openIssues": "{count} 个待处理 issue 和 PR",
+      "repoCta": "去贡献",
+      "howEyebrow": "如何贡献",
+      "howTitle": "三步完成你的第一个合并 PR。",
+      "step1Title": "选一个仓库",
+      "step1Description": "从你已经在用的开始。所有仓库使用相同的技术栈：TypeScript、Bun 和 Biome。",
+      "step2Title": "找一个 issue",
+      "step2Description": "寻找 good-first-issue 和 help-wanted 标签，或者在写代码之前先开一个 issue 提出你的想法。",
+      "step3Title": "提交 PR",
+      "step3Description": "小而聚焦、遵循 conventional commits 的 PR 审核最快。遇到问题可以在社区里找维护者。",
+      "programEyebrow": "不止我们的仓库",
+      "programTitle": "在拉美做开源？我们想帮你。",
+      "programDescription": "我们正在筹备一个面向本地区开源项目的支持计划：我们产品（如 Maca）的权益、团队的指导，以及 Crafter Station 网络的曝光。告诉我们你在做什么。",
+      "programCta": "联系我们",
+      "communityCta": "加入社区",
+      "timelineEyebrow": "动态",
+      "timelineTitle": "看看这些工作是如何推进的。",
+      "timelineDescription": "所有公开仓库汇总在一条时间线上：每个项目何时推进、由谁提交，以及当前的活跃程度。",
+      "timelineCta": "查看项目动态",
+      "panelEyebrow": "我们的网络",
+      "panelStars": "stars",
+      "panelRepos": "仓库",
+      "panelIssues": "个待认领的 issue",
+      "filterAll": "全部",
+      "suggestCta": "提议一个项目",
+      "suggestEyebrow": "缺失的工具",
+      "suggestTitle": "告诉我们这个生态还缺什么。",
+      "suggestDescription": "如果某个工具本该存在却还没有，就把它放到看板上。想法会公开展示，任何人都能投票，社区票数最高的就是我们接下来要做的。",
+      "suggestBoardCta": "打开想法看板"
+    },
     "work-with-us": {
       "eyebrow": "与我们合作",
       "title": "与 Crafter Station 背后的团队合作。",
@@ -132,21 +172,16 @@
       "section": "为想要的不止是一个 logo 的公司。",
       "sectionDescription": "我们与赞助商合作的内容包括黑客松、Code Brew、工作坊、产品发布、奖品、场地支持、餐饮、开发者工具以及动手实践活动。"
     },
-    "projects": {
-      "eyebrow": "项目实验室",
-      "title": "我们用来学习、传授并证明实力的项目。",
-      "description": "我们的项目涵盖活动基础设施、法律数据、语音界面、AI 原生工具、开源发布、设计系统、代码搜索和社区手册。",
-      "section": "实验室是公开的。",
-      "sectionDescription": "有些项目是托管产品，有些是开源项目，有些是手册，有些是社区基础设施。开源项目会在目录中标注。",
-      "githubEyebrow": "GitHub",
-      "githubTitle": "当工作值得被检验时，我们选择公开构建。",
-      "githubDescription": "Crafter Station 的 GitHub 组织是我们发布开源产品、社区基础设施、实验项目和可复用工程成果的地方。有些项目是完整的产品，有些是公开数据集，有些则是我们 ship 的作品背后的原材料。",
-      "githubCta": "打开 GitHub 组织",
-      "timelineCta": "探索项目动态",
-      "nextEyebrow": "下一批项目",
-      "nextTitle": "帮忙决定社区接下来该构建什么。",
-      "nextDescription": "我们运营一个由社区实时排序的项目看板，收集需求、实验和值得网络一起做的点子。提交想法、为队列投票，实时看着优先级变化。",
-      "nextCta": "打开下一批项目"
+    "products": {
+      "eyebrow": "产品",
+      "title": "我们打造、维护并为之负责的产品。",
+      "description": "语音界面、智能体工具、研究平台，以及我们出售的写作内容。这些是我们按产品来运营的项目，而不是代码仓库。",
+      "section": "我们出售并持续维护的产品。",
+      "sectionDescription": "每一个都由团队维护，并交付给真实用户。如果你想找我们公开发布的代码，请前往开源页面。",
+      "ossEyebrow": "开源",
+      "ossTitle": "我们构建的大部分内容都是公开的。",
+      "ossDescription": "我们的开源仓库单独归类，附带实时 star 数、开放 issue，以及参与首次贡献的路径。",
+      "ossCta": "浏览开源项目"
     },
     "timeline": {
       "eyebrow": "开源动态",
@@ -234,9 +269,9 @@
         "coreDescription": "项目详情包含所有提交和贡献者，以及 GitHub star、fork、未关闭 issue 等项目信息。"
       },
       "catalogEyebrow": "不止于活跃图表",
-      "catalogTitle": "认识项目背后的产品。",
-      "catalogDescription": "打开项目实验室，查看产品故事、在线链接、技术栈，以及我们接下来可能构建的想法。",
-      "catalogCta": "打开项目实验室"
+      "catalogTitle": "认识这些工作背后的产品。",
+      "catalogDescription": "打开开源目录，查看实时 star 数、技术栈，以及参与首次贡献的路径。",
+      "catalogCta": "查看开源目录"
     },
     "research": {
       "eyebrow": "研究",
@@ -285,7 +320,19 @@
       "title": "从正确的路径开始。",
       "description": "告诉我们你想合作、构建、举办活动、赞助黑客松，还是加入社区。",
       "section": "你想做什么？",
-      "sectionDescription": "选择对话类型，我们会以最快的启动路径回复你。"
+      "sectionDescription": "选择对话类型，我们会以最快的启动路径回复你。",
+      "pickerEyebrow": "预约通话",
+      "pickerTitle": "选择你想聊的话题。",
+      "pickerDescription": "每个方向都由真正做这件事的人接待，第一次通话就能找对人。",
+      "pickerWith": "对话者",
+      "trackStartupLabel": "创业与产品",
+      "trackStartupBlurb": "面向开发者工具和创业公司的产品工程、AI 产品、发布与拉美增长。",
+      "trackCareerLabel": "职业发展与辅导",
+      "trackCareerBlurb": "技术职业路线该往哪走、为此该做什么，以及对你当前状态的坦诚反馈。",
+      "trackOssLabel": "开源与资助",
+      "trackOssBlurb": "如何完成第一次贡献、为工作争取资金，以及把想法变成真正有人用的东西。",
+      "trackSponsorLabel": "赞助活动",
+      "trackSponsorBlurb": "覆盖整个地区的黑客松、Code Brew 和社区活动。"
     },
     "next": {
       "eyebrow": "/projects/next",

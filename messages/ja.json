@@ -9,10 +9,11 @@
     "line1": "ラテンアメリカ発、",
     "line2": "シッパーの",
     "line3": "ネットワーク。",
-    "description": "1000人以上のビルダーが集まるコミュニティ、プロジェクトラボ、リサーチ、イベントを通じて、ラテンアメリカのシッパーが出会い、学び、公開の場で開発することを支えます。",
+    "description": "1000人以上のビルダーが集まるコミュニティ、オープンソースのエコシステム、プロダクト、リサーチ、イベントを通じて、ラテンアメリカのシッパーが出会い、学び、公開の場で開発することを支えます。",
     "workCta": "協業のご相談",
     "communityCta": "コミュニティに参加",
     "eventsCta": "イベントを見る",
+    "ossCta": "オープンソースを見る",
     "workPreview": {
       "section": "ラテンアメリカのグロースパートナー",
       "eyebrow": "devtools・スタートアップ向け",
@@ -64,7 +65,8 @@
     }
   },
   "nav": {
-    "projects": "プロジェクト",
+    "oss": "オープンソース",
+    "products": "プロダクト",
     "events": "イベント",
     "research": "リサーチ",
     "team": "チーム",
@@ -76,20 +78,20 @@
   "footer": {
     "company": "Crafter Station",
     "build": "ビルド",
-    "productLab": "プロジェクト",
+    "productLab": "私たちが作るもの",
     "community": "コミュニティ",
     "social": "ソーシャル",
     "companyLinks": {
       "events": "イベント",
       "sponsorEvents": "イベントを支援する",
-      "projects": "プロジェクト",
+      "products": "プロダクト",
       "team": "チーム",
       "workWithUs": "協業のご相談",
       "contact": "お問い合わせ"
     },
     "buildLinks": {
       "oss": "オープンソース",
-      "projects": "プロジェクト",
+      "products": "プロダクト",
       "timeline": "プロジェクトの活動",
       "research": "リサーチ",
       "next": "Next",
@@ -104,7 +106,45 @@
     "copyright": "© {year} Crafter Station. 速く作り、うまく作る。"
   },
   "pages": {
-    "oss": {"eyebrow": "オープンソース", "title": "オープンソース、コントリビューター歓迎。", "description": "Crafter Station ネットワークのこれらのリポジトリはメンテナンスされ、外部からのコントリビューションを受け付けています。CLI、デザインシステム、エディタツール、コミュニティ基盤。ひとつ選んで、ship しましょう。", "githubCta": "GitHub 組織を開く", "reposEyebrow": "リポジトリ", "reposTitle": "メンテナンス済み、公開中、あなたの PR を待っています。", "reposDescription": "GitHub のライブデータを毎日更新。スターやオープンな作業は自動で更新され、リストはチームが厳選しています。", "descriptionPending": "説明は近日追加。", "openIssues": "{count} 件のオープンな issue と PR", "repoCta": "コントリビュートする", "howEyebrow": "コントリビュートの方法", "howTitle": "最初のマージまでの 3 ステップ。", "step1Title": "リポジトリを選ぶ", "step1Description": "すでに使っているものから始めましょう。すべてのリポジトリは同じスタックです：TypeScript、Bun、Biome。", "step2Title": "issue を探す", "step2Description": "good-first-issue や help-wanted のラベルを探すか、コードを書く前に issue を立てて提案してください。", "step3Title": "PR を出す", "step3Description": "小さく焦点を絞った conventional commits の PR が最速でレビューされます。困ったらコミュニティでメンテナーに相談を。", "programEyebrow": "私たちのリポジトリの先へ", "programTitle": "ラテンアメリカでオープンソースを作っていますか？支援します。", "programDescription": "地域のオープンソースプロジェクト向けの支援プログラムを準備中です。Maca などの自社プロダクトの特典、チームによるメンターシップ、Crafter Station ネットワークでの露出。何を作っているか教えてください。", "programCta": "相談する", "communityCta": "コミュニティに参加"},
+    "oss": {
+      "eyebrow": "オープンソース",
+      "title": "オープンソース、コントリビューター歓迎。",
+      "description": "Crafter Station ネットワークのこれらのリポジトリはメンテナンスされ、外部からのコントリビューションを受け付けています。CLI、デザインシステム、エディタツール、コミュニティ基盤。ひとつ選んで、ship しましょう。",
+      "githubCta": "GitHub 組織を開く",
+      "reposEyebrow": "リポジトリ",
+      "reposTitle": "メンテナンス済み、公開中、あなたの PR を待っています。",
+      "reposDescription": "GitHub のライブデータを毎日更新。スターやオープンな作業は自動で更新され、リストはチームが厳選しています。",
+      "descriptionPending": "説明は近日追加。",
+      "openIssues": "{count} 件のオープンな issue と PR",
+      "repoCta": "コントリビュートする",
+      "howEyebrow": "コントリビュートの方法",
+      "howTitle": "最初のマージまでの 3 ステップ。",
+      "step1Title": "リポジトリを選ぶ",
+      "step1Description": "すでに使っているものから始めましょう。すべてのリポジトリは同じスタックです：TypeScript、Bun、Biome。",
+      "step2Title": "issue を探す",
+      "step2Description": "good-first-issue や help-wanted のラベルを探すか、コードを書く前に issue を立てて提案してください。",
+      "step3Title": "PR を出す",
+      "step3Description": "小さく焦点を絞った conventional commits の PR が最速でレビューされます。困ったらコミュニティでメンテナーに相談を。",
+      "programEyebrow": "私たちのリポジトリの先へ",
+      "programTitle": "ラテンアメリカでオープンソースを作っていますか？支援します。",
+      "programDescription": "地域のオープンソースプロジェクト向けの支援プログラムを準備中です。Maca などの自社プロダクトの特典、チームによるメンターシップ、Crafter Station ネットワークでの露出。何を作っているか教えてください。",
+      "programCta": "相談する",
+      "communityCta": "コミュニティに参加",
+      "timelineEyebrow": "アクティビティ",
+      "timelineTitle": "作業がどう進んできたかを見る。",
+      "timelineDescription": "すべての公開リポジトリを一つのタイムラインに: 各プロジェクトがいつ前進し、誰がコミットし、今どれだけ活発かがわかります。",
+      "timelineCta": "アクティビティを見る",
+      "panelEyebrow": "ネットワーク",
+      "panelStars": "スター",
+      "panelRepos": "リポジトリ",
+      "panelIssues": "件のコントリビュート募集中",
+      "filterAll": "すべて",
+      "suggestCta": "プロジェクトを提案",
+      "suggestEyebrow": "足りないツール",
+      "suggestTitle": "このエコシステムに何が足りないか教えてください。",
+      "suggestDescription": "あるべきツールがまだ存在しないなら、ボードに書いてください。アイデアは公開され、誰でも投票でき、コミュニティが押し上げたものから着手します。",
+      "suggestBoardCta": "アイデアボードを開く"
+    },
     "work-with-us": {
       "eyebrow": "協業のご相談",
       "title": "Crafter Station を支えるチームと一緒に働きましょう。",
@@ -132,21 +172,16 @@
       "section": "ロゴ掲載以上を求める企業のために。",
       "sectionDescription": "ハッカソン、Code Brew、ワークショップ、プロダクトローンチ、賞品、会場支援、フード、開発者ツール、ハンズオン施策など、スポンサーと一緒に取り組みます。"
     },
-    "projects": {
-      "eyebrow": "プロジェクトラボ",
-      "title": "学び、教え、仕事を証明するためにシップするプロジェクト。",
-      "description": "イベントインフラ、法律データ、音声インターフェース、AIネイティブなツール、オープンソースのリリース、デザインシステム、コード検索、コミュニティのプレイブックまで、幅広いプロジェクトに取り組んでいます。",
-      "section": "ラボは公開されています。",
-      "sectionDescription": "ホスティングされたプロダクトもあれば、オープンソース、プレイブック、コミュニティインフラもあります。オープンソースのプロジェクトにはカタログでタグが付いています。",
-      "githubEyebrow": "GitHub",
-      "githubTitle": "検証できるべき仕事は、公開の場で開発します。",
-      "githubDescription": "Crafter Station の GitHub オーガニゼーションでは、オープンソースのプロダクト、コミュニティインフラ、実験、再利用可能なエンジニアリング成果物を公開しています。完成したプロダクトもあれば、公開データセットや、私たちがシップする仕事の素材となるものもあります。",
-      "githubCta": "GitHub オーガニゼーションを開く",
-      "timelineCta": "プロジェクトの活動を見る",
-      "nextEyebrow": "次のプロジェクト",
-      "nextTitle": "コミュニティが次に作るべきものを一緒に選んでください。",
-      "nextDescription": "リクエスト、実験、ネットワークで一緒に取り組めるアイデアを集める、コミュニティがリアルタイムでランク付けするプロジェクトボードを運営しています。アイデアを投稿し、キューに投票して、優先順位がライブで動くのを見てください。",
-      "nextCta": "次のプロジェクトを開く"
+    "products": {
+      "eyebrow": "プロダクト",
+      "title": "私たちが開発し、支え、責任を持つプロダクト。",
+      "description": "音声インターフェース、エージェント向けツール、リサーチ基盤、そして販売しているライティング。リポジトリではなく、プロダクトとして運営しているものです。",
+      "section": "販売し、サポートしているもの。",
+      "sectionDescription": "それぞれチームが保守し、実際のユーザーに届けています。公開しているコードをお探しなら、オープンソースのページにあります。",
+      "ossEyebrow": "オープンソース",
+      "ossTitle": "私たちが作るものの多くは公開されています。",
+      "ossDescription": "オープンソースのリポジトリは別ページにまとめてあり、リアルタイムのスター数、オープンな issue、最初のコントリビューションへの道筋を掲載しています。",
+      "ossCta": "オープンソースを見る"
     },
     "timeline": {
       "eyebrow": "オープンソースの活動",
@@ -234,9 +269,9 @@
         "coreDescription": "プロジェクトの詳細には、すべてのコミットとコントリビューターに加え、GitHub のスター、フォーク、オープンな Issue などの情報が含まれます。"
       },
       "catalogEyebrow": "アクティビティチャートのその先へ",
-      "catalogTitle": "プロジェクトの裏にあるプロダクトを知る。",
-      "catalogDescription": "プロジェクトラボを開いて、プロダクトのストーリー、公開中のリンク、技術、そして次に作るかもしれないアイデアをチェックしてください。",
-      "catalogCta": "プロジェクトラボを開く"
+      "catalogTitle": "この取り組みを支えるプロダクト。",
+      "catalogDescription": "オープンソースカタログで、リアルタイムのスター数、使用技術、最初のコントリビューションへの道筋を確認できます。",
+      "catalogCta": "OSS カタログを開く"
     },
     "research": {
       "eyebrow": "リサーチ",
@@ -285,7 +320,19 @@
       "title": "正しい入り口から始めましょう。",
       "description": "パートナーになりたいのか、一緒に作りたいのか、イベントを開催したいのか、ハッカソンのスポンサーになりたいのか、コミュニティに参加したいのか、教えてください。",
       "section": "何をしたいですか？",
-      "sectionDescription": "会話の種類を選んでいただければ、最速で始められる方法をご案内します。"
+      "sectionDescription": "会話の種類を選んでいただければ、最速で始められる方法をご案内します。",
+      "pickerEyebrow": "ミーティングを予約",
+      "pickerTitle": "話したいテーマを選んでください。",
+      "pickerDescription": "それぞれのテーマは実際にその仕事をしている担当につながるので、最初の一回で適切な相手に届きます。",
+      "pickerWith": "担当",
+      "trackStartupLabel": "スタートアップとプロダクト",
+      "trackStartupBlurb": "開発者向けツールやスタートアップのプロダクトエンジニアリング、AI プロダクト、ローンチ、ラテンアメリカでのグロース。",
+      "trackCareerLabel": "キャリアとメンタリング",
+      "trackCareerBlurb": "技術者としてどこへ進むか、そのために何を作るか、そして今の状態への率直なフィードバック。",
+      "trackOssLabel": "オープンソースと助成金",
+      "trackOssBlurb": "最初のコントリビューションの始め方、活動の資金づくり、アイデアを人が使うものに変える方法。",
+      "trackSponsorLabel": "イベントのスポンサー",
+      "trackSponsorBlurb": "この地域全体でのハッカソン、Code Brew、コミュニティ施策。"
     },
     "next": {
       "eyebrow": "/projects/next",

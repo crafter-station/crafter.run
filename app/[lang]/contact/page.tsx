@@ -2,7 +2,7 @@ import { notFound } from "next/navigation"
 import Link from "next/link"
 import { getTranslations } from "next-intl/server"
 import { ArrowLink } from "@/components/arrow-link"
-import { CalEmbed } from "@/components/cal-embed"
+import { ContactPicker } from "@/components/contact-picker"
 import { Container, SectionGap } from "@/components/grid-container"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
@@ -20,39 +20,6 @@ export function generateMetadata({ params }: { params: Promise<{ lang: string }>
   return pageMetadata({ params, path: "/contact", namespace: "pages.contact" })
 }
 
-const startupCalendarCopy = {
-  en: {
-    eyebrow: "Book a startup call",
-    title: "Bring the product, growth, or community problem you want solved.",
-    description:
-      "Use the calendar to book a focused conversation with Crafter Station about product engineering, AI products, launch support, LatAm growth, or community activations.",
-  },
-  es: {
-    eyebrow: "Agenda una llamada para startups",
-    title: "Trae el problema de producto, growth o comunidad que quieres resolver.",
-    description:
-      "Usa el calendario para agendar una conversacion enfocada con Crafter Station sobre product engineering, productos con IA, lanzamientos, crecimiento en LatAm o activaciones de comunidad.",
-  },
-  pt: {
-    eyebrow: "Agende uma chamada para startups",
-    title: "Traga o problema de produto, growth ou comunidade que voce quer resolver.",
-    description:
-      "Use o calendario para agendar uma conversa focada com a Crafter Station sobre product engineering, produtos com IA, lancamentos, crescimento no LatAm ou ativacoes de comunidade.",
-  },
-  zh: {
-    eyebrow: "预约创业公司通话",
-    title: "带着你想解决的产品、增长或社区问题来。",
-    description:
-      "使用日历预约一次与 Crafter Station 的专注对话，聊聊产品工程、AI 产品、发布支持、拉美增长或社区活动。",
-  },
-  ja: {
-    eyebrow: "スタートアップ向けミーティングを予約",
-    title: "解決したいプロダクト、グロース、コミュニティの課題をお持ちください。",
-    description:
-      "カレンダーから、プロダクトエンジニアリング、AI プロダクト、ローンチ支援、ラテンアメリカでのグロース、コミュニティ施策について、Crafter Station と集中して話す時間をご予約ください。",
-  },
-} as const
-
 export default async function Page({
   params,
 }: {
@@ -63,7 +30,6 @@ export default async function Page({
   const t = await getTranslations({ locale: lang, namespace: "pages.contact" })
   const common = await getTranslations({ locale: lang, namespace: "common" })
   const services = getServices(lang)
-  const calendar = startupCalendarCopy[lang]
 
   return (
     <>
@@ -76,8 +42,42 @@ export default async function Page({
         <Container innerClassName="border-b px-6 py-10 md:px-10"><p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{t("eyebrow")}</p><h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t("section")}</h2><p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">{t("sectionDescription")}</p></Container>
         <Container><div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">{services.slice(0, 6).map((service, i) => <Link key={service.title} href={withLocale(service.href, lang)} className={"group min-h-56 p-8 transition-colors hover:bg-accent/10 " + (i > 0 ? "border-t border-line md:border-t-0 md:border-l " : "") + (i >= 2 ? "md:border-t xl:border-t-0 " : "")}><h3 className="text-lg tracking-tight">{service.title}</h3><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.body}</p><ArrowLink className="mt-8">{common("openCta")}</ArrowLink></Link>)}</div></Container>
         <SectionGap />
-        <Container innerClassName="border-y px-6 py-10 md:px-10"><p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">{calendar.eyebrow}</p><h2 className="mt-3 max-w-3xl text-3xl tracking-tight md:text-4xl">{calendar.title}</h2><p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">{calendar.description}</p></Container>
-        <CalEmbed calLink="cuevaio/crafter-station-startup" namespace="contact-startup" />
+        <ContactPicker
+          eyebrow={t("pickerEyebrow")}
+          title={t("pickerTitle")}
+          description={t("pickerDescription")}
+          withLabel={t("pickerWith")}
+          tracks={[
+            {
+              id: "startup",
+              label: t("trackStartupLabel"),
+              host: "Anthony Cueva",
+              blurb: t("trackStartupBlurb"),
+              calLink: "cuevaio/crafter-station-startup",
+            },
+            {
+              id: "career",
+              label: t("trackCareerLabel"),
+              host: "Railly Hugo",
+              blurb: t("trackCareerBlurb"),
+              calLink: "railly/30min",
+            },
+            {
+              id: "oss",
+              label: t("trackOssLabel"),
+              host: "Railly Hugo",
+              blurb: t("trackOssBlurb"),
+              calLink: "railly/30min",
+            },
+            {
+              id: "sponsor",
+              label: t("trackSponsorLabel"),
+              host: "Anthony Cueva",
+              blurb: t("trackSponsorBlurb"),
+              calLink: "cuevaio/crafter-station-sponsor",
+            },
+          ]}
+        />
       </main>
       <SiteFooter locale={lang} />
     </>

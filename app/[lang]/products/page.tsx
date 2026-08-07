@@ -9,7 +9,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { isLocale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
-import { getProducts } from "@/lib/site";
+import { getClosedProducts } from "@/lib/site";
 
 export const dynamicParams = false;
 
@@ -18,7 +18,7 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
-  return pageMetadata({ params, path: "/projects", namespace: "pages.projects" });
+  return pageMetadata({ params, path: "/products", namespace: "pages.products" });
 }
 
 export default async function Page({
@@ -30,10 +30,10 @@ export default async function Page({
   if (!isLocale(lang)) notFound();
   const t = await getTranslations({
     locale: lang,
-    namespace: "pages.projects",
+    namespace: "pages.products",
   });
   const common = await getTranslations({ locale: lang, namespace: "common" });
-  const products = getProducts(lang);
+  const products = getClosedProducts(lang);
 
   return (
     <>
@@ -51,37 +51,6 @@ export default async function Page({
               {t("description")}
             </p>
           </div>
-        </Container>
-        <SectionGap />
-        <Container>
-          <section className="grid grid-cols-1 border-b border-line md:grid-cols-[1fr_1.2fr]">
-            <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                {t("githubEyebrow")}
-              </p>
-              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
-                {t("githubTitle")}
-              </h2>
-            </div>
-            <div className="p-8 md:p-10">
-              <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                {t("githubDescription")}
-              </p>
-              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
-                <LocalizedLink href="/timeline" locale={lang} className="group">
-                  <ArrowLink>{t("timelineCta")}</ArrowLink>
-                </LocalizedLink>
-                <Link
-                  href="https://github.com/crafter-station/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group"
-                >
-                  <ArrowLink>{t("githubCta")}</ArrowLink>
-                </Link>
-              </div>
-            </div>
-          </section>
         </Container>
         <SectionGap />
         <Container innerClassName="border-b px-6 py-10 md:px-10">
@@ -125,9 +94,6 @@ export default async function Page({
                   {product.description}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {"openSource" in product && product.openSource ? (
-                    <Badge variant="secondary">Open source</Badge>
-                  ) : null}
                   {"metrics" in product
                     ? product.metrics.map((metric) => (
                         <Badge key={metric} variant="secondary">
@@ -151,18 +117,18 @@ export default async function Page({
           <section className="grid grid-cols-1 border-y border-line md:grid-cols-[1.2fr_1fr]">
             <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
               <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                {t("nextEyebrow")}
+                {t("ossEyebrow")}
               </p>
               <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
-                {t("nextTitle")}
+                {t("ossTitle")}
               </h2>
               <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                {t("nextDescription")}
+                {t("ossDescription")}
               </p>
             </div>
             <div className="flex items-center p-8 md:p-10">
-              <LocalizedLink href="/projects/next" locale={lang} className="group">
-                <ArrowLink>{t("nextCta")}</ArrowLink>
+              <LocalizedLink href="/oss" locale={lang} className="group">
+                <ArrowLink>{t("ossCta")}</ArrowLink>
               </LocalizedLink>
             </div>
           </section>

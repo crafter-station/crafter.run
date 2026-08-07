@@ -38,7 +38,8 @@ export function getSiteConfig(locale: Locale = defaultLocale) {
 
 export const navItems = [
   { key: "events", href: "/events" },
-  { key: "projects", href: "/projects" },
+  { key: "oss", href: "/oss" },
+  { key: "products", href: "/products" },
   { key: "research", href: "/research" },
   { key: "impact", href: "/impact/petdex" },
   { key: "team", href: "/team" },
@@ -56,7 +57,7 @@ export const stats = [
   { value: "1000+", label: { en: "WhatsApp community members", es: "Miembros en la comunidad de WhatsApp", pt: "Membros na comunidade do WhatsApp", zh: "WhatsApp 社区成员", ja: "WhatsApp コミュニティのメンバー" } },
   { value: "50+", label: { en: "Events and hackathons hosted", es: "Eventos y hackathons organizados", pt: "Eventos e hackathons organizados", zh: "举办的活动与黑客松", ja: "開催したイベントとハッカソン" } },
   { value: "100+", label: { en: "Products shipped", es: "Productos construidos", pt: "Produtos construidos", zh: "已 ship 的产品", ja: "シップしたプロダクト" } },
-  { value: "3.2k+", label: { en: "Open-source stars", es: "Estrellas en codigo abierto", pt: "Estrelas em codigo aberto", zh: "开源 star 数", ja: "オープンソースのスター" } },
+  { value: "6.5k+", label: { en: "Open-source stars", es: "Estrellas en codigo abierto", pt: "Estrelas em codigo aberto", zh: "开源 star 数", ja: "オープンソースのスター" } },
 ] as const
 
 export function getStats(locale: Locale = defaultLocale) {
@@ -106,18 +107,18 @@ export const ecosystem = [
       zh: "我们公开构建，发布开发者真正会用的工具：从设计系统到 AI 原生写作和代码库搜索。",
       ja: "公開の場で開発し、デザインシステムから AIネイティブなライティングやコードベース検索まで、開発者が実際に使うツールをリリースしています。",
     },
-    href: "/projects",
+    href: "/oss",
   },
   {
     title: { en: "Products", es: "Productos", pt: "Produtos", zh: "产品", ja: "プロダクト" },
     body: {
-      en: "Community infrastructure, open-source tools, research projects, writing surfaces, design systems, and code search products built in public.",
-      es: "Infraestructura de comunidad, herramientas de codigo abierto, investigacion, escritura, sistemas de diseno y busqueda de codigo construidos en publico.",
-      pt: "Infraestrutura de comunidade, ferramentas de codigo aberto, pesquisa, escrita, sistemas de design e busca de codigo construidos em publico.",
-      zh: "公开构建的社区基础设施、开源工具、研究项目、写作平台、设计系统和代码搜索产品。",
-      ja: "公開の場で開発された、コミュニティインフラ、オープンソースツール、リサーチプロジェクト、ライティングサーフェス、デザインシステム、コード検索プロダクト。",
+      en: "Products we ship and support: voice interfaces, agent tooling, research surfaces, and the writing we sell.",
+      es: "Productos que construimos y sostenemos: interfaces de voz, herramientas para agentes, investigacion y la escritura que vendemos.",
+      pt: "Produtos que construimos e sustentamos: interfaces de voz, ferramentas para agentes, pesquisa e a escrita que vendemos.",
+      zh: "我们打造并持续维护的产品：语音界面、智能体工具、研究平台，以及我们出售的写作内容。",
+      ja: "私たちが開発し支えるプロダクト: 音声インターフェース、エージェント向けツール、リサーチ基盤、そして販売しているライティング。",
     },
-    href: "/projects",
+    href: "/products",
   },
 ] as const
 
@@ -411,6 +412,18 @@ export function getProducts(locale: Locale = defaultLocale) {
     tagline: localized(item.tagline, locale),
     description: localized(item.description, locale),
   }))
+}
+
+function isOpenSource(product: ReturnType<typeof getProducts>[number]) {
+  return "openSource" in product && product.openSource === true
+}
+
+export function getOpenSourceProducts(locale: Locale = defaultLocale) {
+  return getProducts(locale).filter(isOpenSource)
+}
+
+export function getClosedProducts(locale: Locale = defaultLocale) {
+  return getProducts(locale).filter((product) => !isOpenSource(product))
 }
 
 export const collaborations = [

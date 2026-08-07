@@ -66,6 +66,8 @@ export default async function Page({
           description={t("description")}
           eventsCta={t("eventsCta")}
           eventsHref={withLocale("/events", lang)}
+          ossCta={t("ossCta")}
+          ossHref={withLocale("/oss", lang)}
         />
         <SectionGap />
         <ProofStats locale={lang} />

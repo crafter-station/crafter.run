@@ -2,8 +2,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { ArrowLink } from "@/components/arrow-link";
-import { Badge } from "@/components/ui/badge";
 import { Container, SectionGap } from "@/components/grid-container";
+import { HeroNetworkPanel } from "@/components/hero-network-panel";
+import { OssRepoGrid } from "@/components/oss-repo-grid";
+import { PixelArrow } from "@/components/pixel-arrow";
 import { LocalizedLink } from "@/components/localized-link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -35,82 +37,78 @@ export default async function Page({
     <>
       <SiteHeader locale={lang} />
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
-          <div className="max-w-4xl">
-            <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
-              {t("eyebrow")}
-            </p>
-            <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">
-              {t("title")}
-            </h1>
-            <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
-              {t("description")}
-            </p>
-            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
-              <Link
-                href="https://github.com/crafter-station/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group"
-              >
-                <ArrowLink>{t("githubCta")}</ArrowLink>
-              </Link>
+        <Container innerClassName="px-6 py-16 md:px-10 md:py-24 lg:pr-16 xl:pr-24">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_auto] lg:gap-20">
+            <div className="max-w-4xl">
+              <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
+                {t("eyebrow")}
+              </p>
+              <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">
+                {t("title")}
+              </h1>
+              <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
+                {t("description")}
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+                <LocalizedLink
+                  href="/projects/next"
+                  locale={lang}
+                  className="group inline-flex items-center gap-3 border border-background bg-foreground px-6 py-3 font-medium text-background transition-colors hover:bg-foreground/90"
+                >
+                  {t("suggestCta")}
+                  <PixelArrow />
+                </LocalizedLink>
+                <Link
+                  href="https://github.com/crafter-station/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group"
+                >
+                  <ArrowLink>{t("githubCta")}</ArrowLink>
+                </Link>
+              </div>
             </div>
+            <HeroNetworkPanel
+              eyebrow={t("panelEyebrow")}
+              starsLabel={t("panelStars")}
+              reposLabel={t("panelRepos")}
+              issuesLabel={t("panelIssues")}
+            />
           </div>
         </Container>
         <SectionGap />
-        <Container innerClassName="border-b px-6 py-10 md:px-10">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-            {t("reposEyebrow")}
-          </p>
-          <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">
-            {t("reposTitle")}
-          </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            {t("reposDescription")}
-          </p>
-        </Container>
+        <OssRepoGrid
+          eyebrow={t("reposEyebrow")}
+          title={t("reposTitle")}
+          intro={t("reposDescription")}
+          repos={repos.map((repo) => ({
+            ...repo,
+            openIssuesLabel: t("openIssues", { count: repo.openIssues }),
+          }))}
+          allLabel={t("filterAll")}
+          descriptionPending={t("descriptionPending")}
+          repoCta={t("repoCta")}
+        />
+        <SectionGap />
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-            {repos.map((repo, i) => (
-              <Link
-                key={repo.repo}
-                href={repo.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={
-                  "group flex min-h-56 flex-col p-8 transition-colors hover:bg-accent/10 " +
-                  (i > 0
-                    ? "border-t border-line md:border-t-0 md:border-l "
-                    : "") +
-                  (i >= 2 ? "md:border-t xl:border-t-0 " : "") +
-                  (i >= 3 ? "xl:border-t xl:border-l " : "")
-                }
-              >
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                  {repo.repo}
-                </p>
-                <h3 className="mt-3 text-2xl tracking-tight">{repo.name}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {repo.description ?? t("descriptionPending")}
-                </p>
-                <div className="mt-auto pt-5">
-                  <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary">★ {repo.stars.toLocaleString()}</Badge>
-                    {repo.openIssues > 0 ? (
-                      <Badge variant="secondary">
-                        {t("openIssues", { count: repo.openIssues })}
-                      </Badge>
-                    ) : null}
-                    {repo.language ? (
-                      <Badge variant="outline">{repo.language}</Badge>
-                    ) : null}
-                  </div>
-                  <ArrowLink className="mt-6">{t("repoCta")}</ArrowLink>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <section className="grid grid-cols-1 border-y border-line md:grid-cols-[1.2fr_1fr]">
+            <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                {t("timelineEyebrow")}
+              </p>
+              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
+                {t("timelineTitle")}
+              </h2>
+              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                {t("timelineDescription")}
+              </p>
+            </div>
+            <div className="flex items-center p-8 md:p-10">
+              <LocalizedLink href="/timeline" locale={lang} className="group">
+                <ArrowLink>{t("timelineCta")}</ArrowLink>
+              </LocalizedLink>
+            </div>
+          </section>
         </Container>
         <SectionGap />
         <Container innerClassName="border-b px-6 py-10 md:px-10">
@@ -143,6 +141,32 @@ export default async function Page({
               </div>
             ))}
           </div>
+        </Container>
+        <SectionGap />
+        <Container>
+          <section className="grid grid-cols-1 border-y border-line md:grid-cols-[1.2fr_1fr]">
+            <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+                {t("suggestEyebrow")}
+              </p>
+              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
+                {t("suggestTitle")}
+              </h2>
+              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                {t("suggestDescription")}
+              </p>
+            </div>
+            <div className="flex items-center p-8 md:p-10">
+              <LocalizedLink
+                href="/projects/next"
+                locale={lang}
+                className="group inline-flex items-center gap-3 border border-background bg-foreground px-6 py-3 font-medium text-background transition-colors hover:bg-foreground/90"
+              >
+                {t("suggestBoardCta")}
+                <PixelArrow />
+              </LocalizedLink>
+            </div>
+          </section>
         </Container>
         <SectionGap />
         <Container>
