@@ -20,6 +20,16 @@ const nextConfig = {
         destination: "https://luma.com/71j27cvx",
         permanent: true,
       },
+      {
+        source: "/projects",
+        destination: "/oss",
+        permanent: true,
+      },
+      {
+        source: "/:lang(en|es|pt|zh|ja)/projects",
+        destination: "/:lang/oss",
+        permanent: true,
+      },
     ];
   },
 };
