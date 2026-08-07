@@ -79,7 +79,7 @@ export default async function Page({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={
-                  "group flex min-h-56 flex-col p-8 transition-colors hover:bg-accent/10 " +
+                  "group relative flex min-h-56 flex-col p-8 transition-colors hover:bg-accent/10 " +
                   (i > 0
                     ? "border-t border-line md:border-t-0 md:border-l "
                     : "") +
@@ -87,6 +87,10 @@ export default async function Page({
                   (i >= 3 ? "xl:border-t xl:border-l " : "")
                 }
               >
+                <div
+                  aria-hidden
+                  className={`absolute inset-x-0 top-0 h-0.5 bg-linear-to-r opacity-70 transition-opacity group-hover:opacity-100 ${repo.accent}`}
+                />
                 <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
                   {repo.repo}
                 </p>
