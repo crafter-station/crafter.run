@@ -5,6 +5,7 @@ import { CTA, type CtaCopy } from "@/components/cta"
 import { FeaturedProducts } from "@/components/featured-products"
 import { SectionGap } from "@/components/grid-container"
 import { HeroContent } from "@/components/hero"
+import { HeroNetworkPanel } from "@/components/hero-network-panel"
 import {
   CommunityPreview,
   CommunityQrCode,
@@ -68,6 +69,14 @@ export default async function Page({
           eventsHref={withLocale("/events", lang)}
           ossCta={t("ossCta")}
           ossHref={withLocale("/oss", lang)}
+          panel={
+            <HeroNetworkPanel
+              eyebrow={t("panelEyebrow")}
+              starsLabel={t("panelStars")}
+              reposLabel={t("panelRepos")}
+              issuesLabel={t("panelIssues")}
+            />
+          }
         />
         <SectionGap />
         <ProofStats locale={lang} />

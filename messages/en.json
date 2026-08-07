@@ -62,7 +62,11 @@
       "description": "You can book mentorship, career advice, product feedback, or a calm conversation with any Crafter Station member. This is how we give back to the community that made the network possible.",
       "instructions": "Go to the team page, pick a member, and use the calendar on their profile.",
       "cta": "See team calendars"
-    }
+    },
+    "panelEyebrow": "The network",
+    "panelStars": "stars",
+    "panelRepos": "repos",
+    "panelIssues": "issues open for contribution"
   },
   "nav": {
     "oss": "Open source",

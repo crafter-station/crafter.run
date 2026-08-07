@@ -62,7 +62,11 @@
       "description": "你可以与任何 Crafter Station 成员预约导师辅导、职业建议、产品反馈或一场轻松的对话。这是我们回馈让这个网络成为可能的社区的方式。",
       "instructions": "进入团队页面，选择一位成员，使用其个人主页上的日历。",
       "cta": "查看团队日历"
-    }
+    },
+    "panelEyebrow": "我们的网络",
+    "panelStars": "stars",
+    "panelRepos": "仓库",
+    "panelIssues": "个待认领的 issue"
   },
   "nav": {
     "oss": "开源",

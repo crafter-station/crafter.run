@@ -57,7 +57,7 @@ export const stats = [
   { value: "1000+", label: { en: "WhatsApp community members", es: "Miembros en la comunidad de WhatsApp", pt: "Membros na comunidade do WhatsApp", zh: "WhatsApp 社区成员", ja: "WhatsApp コミュニティのメンバー" } },
   { value: "50+", label: { en: "Events and hackathons hosted", es: "Eventos y hackathons organizados", pt: "Eventos e hackathons organizados", zh: "举办的活动与黑客松", ja: "開催したイベントとハッカソン" } },
   { value: "100+", label: { en: "Products shipped", es: "Productos construidos", pt: "Produtos construidos", zh: "已 ship 的产品", ja: "シップしたプロダクト" } },
-  { value: "3.2k+", label: { en: "Open-source stars", es: "Estrellas en codigo abierto", pt: "Estrelas em codigo aberto", zh: "开源 star 数", ja: "オープンソースのスター" } },
+  { value: "6.5k+", label: { en: "Open-source stars", es: "Estrellas en codigo abierto", pt: "Estrelas em codigo aberto", zh: "开源 star 数", ja: "オープンソースのスター" } },
 ] as const
 
 export function getStats(locale: Locale = defaultLocale) {

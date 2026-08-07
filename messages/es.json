@@ -62,7 +62,11 @@
       "description": "Puedes agendar mentoria, consejo de carrera, feedback de producto o una conversacion tranquila con cualquier miembro de Crafter Station. Asi devolvemos valor a la comunidad que hizo posible la red.",
       "instructions": "Ve a la pagina del equipo, elige a una persona y usa el calendario en su perfil.",
       "cta": "Ver calendarios del equipo"
-    }
+    },
+    "panelEyebrow": "La red",
+    "panelStars": "estrellas",
+    "panelRepos": "repos",
+    "panelIssues": "issues abiertos para contribuir"
   },
   "nav": {
     "oss": "Codigo abierto",
