@@ -123,6 +123,15 @@ const seeds: Seed[] = [
     accent: "from-lime-300 via-emerald-400 to-green-600",
   },
   {
+    repo: "shiarauzo/essalud-cli",
+    stars: 15,
+    openIssues: 1,
+    description:
+      "Book and cancel EsSalud appointments from the terminal. Unofficial, local-first, your token never leaves your machine.",
+    language: "TypeScript",
+    accent: "from-teal-300 via-cyan-600 to-sky-800",
+  },
+  {
     repo: "Railly/cligentic",
     stars: 1,
     openIssues: 4,
