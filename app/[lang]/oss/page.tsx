@@ -36,8 +36,8 @@ export default async function Page({
     <>
       <SiteHeader locale={lang} />
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_auto] lg:gap-16">
+        <Container innerClassName="px-6 py-16 md:px-10 md:py-24 lg:pr-16 xl:pr-24">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_auto] lg:gap-20">
             <div className="max-w-4xl">
               <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
                 {t("eyebrow")}
