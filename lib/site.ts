@@ -140,7 +140,7 @@ export const services = [
       zh: "面向希望通过活动、社区、内容、产品协作和高质量 builder 触达来赢得拉美信任的 devtools 与创业公司。",
       ja: "イベント、コミュニティ、コンテンツ、プロダクトコラボレーション、質の高いビルダーへのアクセスを通じて、ラテンアメリカで信頼を獲得したい devtools やスタートアップのために。",
     },
-    href: "/team/work-with-us",
+    href: "/team/emmy",
   },
   {
     title: { en: "Hackathon & event activation", es: "Activacion en hackathons y eventos", pt: "Ativacao em hackathons e eventos", zh: "黑客松与活动策划", ja: "ハッカソン・イベント施策" },
@@ -162,7 +162,7 @@ export const services = [
       zh: "基于 Next.js 和 React 生态的端到端 Web 产品。从零到一到扩展至数百万页面，我们不打折扣地交付。",
       ja: "Next.js と React エコシステムで作るエンドツーエンドの Web プロダクト。ゼロイチから数百万ページへのスケールまで、中途半端にせずシップします。",
     },
-    href: "/team/work-with-us",
+    href: "/team/cuevaio",
   },
   {
     title: { en: "AI products", es: "Productos con IA", pt: "Produtos com IA", zh: "AI 产品", ja: "AI プロダクト" },
@@ -173,7 +173,7 @@ export const services = [
       zh: "流式 LLM 界面、智能体、评测与推理基础设施。我们使用最新的模型和经得起生产考验的模式来构建。",
       ja: "ストリーミング LLM UI、エージェント、評価、推論インフラ。最新のモデルと、本番で通用するパターンで開発します。",
     },
-    href: "/team/work-with-us",
+    href: "/team/nicolas",
   },
   {
     title: { en: "Design systems", es: "Sistemas de diseno", pt: "Sistemas de design", zh: "设计系统", ja: "デザインシステム" },
@@ -184,7 +184,7 @@ export const services = [
       zh: "能够跨界面扩展的组件库与 token。我们把设计系统当作产品来对待，在版本管理和 DX 上一丝不苟。",
       ja: "複数のサーフェスにスケールするコンポーネントライブラリとトークン。デザインシステムをプロダクトとして扱い、バージョニングと DX に厳密に取り組みます。",
     },
-    href: "/team/work-with-us",
+    href: "/team/shiara",
   },
   {
     title: { en: "Backend & APIs", es: "Backend y APIs", pt: "Backend e APIs", zh: "后端与 API", ja: "バックエンドと API" },
@@ -195,7 +195,7 @@ export const services = [
       zh: "Postgres、边缘运行时、队列，以及你的产品真正依赖的数据管道。为扩展而建，从第一天起就有完善的观测。",
       ja: "Postgres、エッジランタイム、キュー、そしてプロダクトが実際に依存するデータ基盤。スケールを見据えて構築し、初日から計測を組み込みます。",
     },
-    href: "/team/work-with-us",
+    href: "/team/ignacio",
   },
 ] as const
 
