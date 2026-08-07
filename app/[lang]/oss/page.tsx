@@ -5,6 +5,7 @@ import { ArrowLink } from "@/components/arrow-link";
 import { Container, SectionGap } from "@/components/grid-container";
 import { HeroNetworkPanel } from "@/components/hero-network-panel";
 import { OssRepoGrid } from "@/components/oss-repo-grid";
+import { PixelArrow } from "@/components/pixel-arrow";
 import { LocalizedLink } from "@/components/localized-link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -48,7 +49,15 @@ export default async function Page({
               <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
                 {t("description")}
               </p>
-              <div className="mt-8 flex flex-wrap gap-x-6 gap-y-3">
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+                <LocalizedLink
+                  href="/projects/next"
+                  locale={lang}
+                  className="group inline-flex items-center gap-3 border border-background bg-foreground px-6 py-3 font-medium text-background transition-colors hover:bg-foreground/90"
+                >
+                  {t("suggestCta")}
+                  <PixelArrow />
+                </LocalizedLink>
                 <Link
                   href="https://github.com/crafter-station/"
                   target="_blank"
@@ -132,6 +141,32 @@ export default async function Page({
               </div>
             ))}
           </div>
+        </Container>
+        <SectionGap />
+        <Container>
+          <section className="grid grid-cols-1 border-y border-line md:grid-cols-[1.2fr_1fr]">
+            <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+                {t("suggestEyebrow")}
+              </p>
+              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
+                {t("suggestTitle")}
+              </h2>
+              <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                {t("suggestDescription")}
+              </p>
+            </div>
+            <div className="flex items-center p-8 md:p-10">
+              <LocalizedLink
+                href="/projects/next"
+                locale={lang}
+                className="group inline-flex items-center gap-3 border border-background bg-foreground px-6 py-3 font-medium text-background transition-colors hover:bg-foreground/90"
+              >
+                {t("suggestBoardCta")}
+                <PixelArrow />
+              </LocalizedLink>
+            </div>
+          </section>
         </Container>
         <SectionGap />
         <Container>
