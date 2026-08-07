@@ -10,7 +10,8 @@ import { navItems } from "@/lib/site"
 const navCopy = {
   en: {
     events: "Events",
-    projects: "Projects",
+    oss: "Open source",
+    products: "Products",
     research: "Research",
     impact: "Impact",
     team: "Team",
@@ -20,7 +21,8 @@ const navCopy = {
   },
   es: {
     events: "Eventos",
-    projects: "Proyectos",
+    oss: "Codigo abierto",
+    products: "Productos",
     research: "Investigacion",
     impact: "Impacto",
     team: "Equipo",
@@ -30,7 +32,8 @@ const navCopy = {
   },
   pt: {
     events: "Eventos",
-    projects: "Projetos",
+    oss: "Codigo aberto",
+    products: "Produtos",
     research: "Pesquisa",
     impact: "Impacto",
     team: "Equipe",
@@ -40,7 +43,8 @@ const navCopy = {
   },
   zh: {
     events: "活动",
-    projects: "项目",
+    oss: "开源",
+    products: "产品",
     research: "研究",
     impact: "影响力",
     team: "团队",
@@ -50,7 +54,8 @@ const navCopy = {
   },
   ja: {
     events: "イベント",
-    projects: "プロジェクト",
+    oss: "オープンソース",
+    products: "プロダクト",
     research: "リサーチ",
     impact: "インパクト",
     team: "チーム",
