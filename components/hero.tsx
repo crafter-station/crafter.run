@@ -15,7 +15,6 @@ export function HeroContent({
   eventsHref = "/events",
   ossCta = "Explore open source",
   ossHref = "/oss",
-  panel,
 }: {
   eyebrow?: string
   lines?: [string, string, string]
@@ -24,7 +23,6 @@ export function HeroContent({
   eventsHref?: string
   ossCta?: string
   ossHref?: string
-  panel?: React.ReactNode
 }) {
   return (
     <Container innerClassName="overflow-hidden bg-background">
@@ -40,11 +38,6 @@ export function HeroContent({
         />
         <div className="pointer-events-none absolute inset-0 z-10 flex flex-col">
           <div className="mx-auto flex h-full w-full max-w-[1380px] flex-col justify-between px-4 py-10 sm:px-6 sm:py-12 md:px-10 md:py-16">
-            {panel ? (
-              <div className="pointer-events-auto absolute bottom-16 right-4 hidden sm:right-6 lg:block xl:right-10">
-                {panel}
-              </div>
-            ) : null}
             <div>
               <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.4em] text-accent">
                 {eyebrow}
@@ -61,7 +54,7 @@ export function HeroContent({
                 <span className="block text-accent">{lines[2]}</span>
               </h1>
               <p
-                className="mt-6 max-w-2xl text-balance text-base leading-relaxed text-foreground/85 md:text-lg lg:max-w-xl"
+                className="mt-6 max-w-2xl text-balance text-base leading-relaxed text-foreground/85 md:text-lg"
                 style={{
                   filter:
                     "drop-shadow(0 1px 8px hsl(var(--background) / 0.7))",

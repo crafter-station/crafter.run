@@ -62,11 +62,7 @@
       "description": "You can book mentorship, career advice, product feedback, or a calm conversation with any Crafter Station member. This is how we give back to the community that made the network possible.",
       "instructions": "Go to the team page, pick a member, and use the calendar on their profile.",
       "cta": "See team calendars"
-    },
-    "panelEyebrow": "The network",
-    "panelStars": "stars",
-    "panelRepos": "repos",
-    "panelIssues": "issues open for contribution"
+    }
   },
   "nav": {
     "oss": "Open source",
@@ -137,7 +133,11 @@
       "timelineEyebrow": "Activity",
       "timelineTitle": "See how the work moved over time.",
       "timelineDescription": "Every public repo on one timeline: when each project moved forward, who committed, and how active it is right now.",
-      "timelineCta": "Open project activity"
+      "timelineCta": "Open project activity",
+      "panelEyebrow": "The network",
+      "panelStars": "stars",
+      "panelRepos": "repos",
+      "panelIssues": "issues open for contribution"
     },
     "work-with-us": {
       "eyebrow": "Work with us",

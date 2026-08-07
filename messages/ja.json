@@ -62,11 +62,7 @@
       "description": "Crafter Station のメンバーとメンタリング、キャリア相談、プロダクトへのフィードバック、気軽な雑談を予約できます。このネットワークを可能にしてくれたコミュニティへの、私たちなりの恩返しです。",
       "instructions": "チームページでメンバーを選び、プロフィールにあるカレンダーからご予約ください。",
       "cta": "チームのカレンダーを見る"
-    },
-    "panelEyebrow": "ネットワーク",
-    "panelStars": "スター",
-    "panelRepos": "リポジトリ",
-    "panelIssues": "件のコントリビュート募集中"
+    }
   },
   "nav": {
     "oss": "オープンソース",
@@ -137,7 +133,11 @@
       "timelineEyebrow": "アクティビティ",
       "timelineTitle": "作業がどう進んできたかを見る。",
       "timelineDescription": "すべての公開リポジトリを一つのタイムラインに: 各プロジェクトがいつ前進し、誰がコミットし、今どれだけ活発かがわかります。",
-      "timelineCta": "アクティビティを見る"
+      "timelineCta": "アクティビティを見る",
+      "panelEyebrow": "ネットワーク",
+      "panelStars": "スター",
+      "panelRepos": "リポジトリ",
+      "panelIssues": "件のコントリビュート募集中"
     },
     "work-with-us": {
       "eyebrow": "協業のご相談",

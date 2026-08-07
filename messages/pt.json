@@ -62,11 +62,7 @@
       "description": "Voce pode agendar mentoria, conselho de carreira, feedback de produto ou uma conversa tranquila com qualquer membro da Crafter Station. E assim que retribuimos a comunidade que tornou a rede possivel.",
       "instructions": "Va para a pagina da equipe, escolha uma pessoa e use o calendario no perfil dela.",
       "cta": "Ver calendarios da equipe"
-    },
-    "panelEyebrow": "A rede",
-    "panelStars": "estrelas",
-    "panelRepos": "repos",
-    "panelIssues": "issues abertas para contribuir"
+    }
   },
   "nav": {
     "oss": "Codigo aberto",
@@ -137,7 +133,11 @@
       "timelineEyebrow": "Atividade",
       "timelineTitle": "Veja como o trabalho avancou ao longo do tempo.",
       "timelineDescription": "Todos os repos publicos em uma linha do tempo: quando cada projeto avancou, quem commitou e o quao ativo esta agora.",
-      "timelineCta": "Ver atividade"
+      "timelineCta": "Ver atividade",
+      "panelEyebrow": "A rede",
+      "panelStars": "estrelas",
+      "panelRepos": "repos",
+      "panelIssues": "issues abertas para contribuir"
     },
     "work-with-us": {
       "eyebrow": "Trabalhe conosco",
