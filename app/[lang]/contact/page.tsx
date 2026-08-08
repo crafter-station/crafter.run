@@ -40,7 +40,7 @@ export default async function Page({
         </Container>
         <SectionGap />
         <Container innerClassName="border-b px-6 py-10 md:px-10"><p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{t("eyebrow")}</p><h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t("section")}</h2><p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">{t("sectionDescription")}</p></Container>
-        <Container><div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">{services.slice(0, 6).map((service, i) => <Link key={service.title} href={withLocale(service.href, lang)} className={"group min-h-56 p-8 transition-colors hover:bg-accent/10 " + (i > 0 ? "border-t border-line md:border-t-0 md:border-l " : "") + (i >= 2 ? "md:border-t xl:border-t-0 " : "")}><h3 className="text-lg tracking-tight">{service.title}</h3><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.body}</p><ArrowLink className="mt-8">{common("openCta")}</ArrowLink></Link>)}</div></Container>
+        <Container><div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">{services.map((service, i) => <Link key={service.title} href={withLocale(service.href, lang)} className={"group min-h-56 border-line p-8 transition-colors hover:bg-accent/10 " + (i > 0 ? "border-t md:border-t-0 md:border-l " : "") + (i % 2 === 0 && i > 0 ? "md:border-l-0 " : "") + (i >= 2 ? "md:border-t " : "") + (i % 3 === 0 && i > 0 ? "xl:border-l-0 " : "xl:border-l ") + (i >= 3 ? "xl:border-t " : "xl:border-t-0 ")}><h3 className="text-lg tracking-tight">{service.title}</h3><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.body}</p><ArrowLink className="mt-8">{common("openCta")}</ArrowLink></Link>)}</div></Container>
         <SectionGap />
         <ContactPicker
           eyebrow={t("pickerEyebrow")}
@@ -60,14 +60,14 @@ export default async function Page({
               label: t("trackCareerLabel"),
               host: "Railly Hugo",
               blurb: t("trackCareerBlurb"),
-              calLink: "railly/30min",
+              calLink: "railly/crafter-station-mentorship",
             },
             {
               id: "oss",
               label: t("trackOssLabel"),
               host: "Railly Hugo",
               blurb: t("trackOssBlurb"),
-              calLink: "railly/30min",
+              calLink: "railly/crafter-station-oss",
             },
             {
               id: "sponsor",
