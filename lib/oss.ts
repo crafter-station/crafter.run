@@ -19,7 +19,8 @@ type Seed = Omit<OssRepo, "name" | "url">
  *
  * Accents come from each project's own palette, read from its source where
  * one exists: petdex, agentfiles, tinte, elements, one-hunter-vscode,
- * skill-kit and hack0 from their committed CSS or theme config, neon-cli
+ * skill-kit and hack0 from their committed CSS or theme config, kebo from
+ * its mobile theme tokens (primary #6934D2, secondary #260035), neon-cli
  * from neon.com/brand. text0 is converted from the oklch values in its
  * globals.css. trx (Whisper), survey-cli and li-metrics are close matches
  * rather than declared tokens. charts and cligentic have no visual identity
@@ -79,6 +80,15 @@ const seeds: Seed[] = [
       "A stylish theme inspired by Vercel Theme ▲ and One Dark Pro 🎨. Powered by Tinte",
     language: "TypeScript",
     accent: "from-pink-500 via-fuchsia-500 to-blue-400",
+  },
+  {
+    repo: "kebo-ai/kebo",
+    stars: 149,
+    openIssues: 7,
+    description:
+      "AI financial agent trusted by 100k+ users across LATAM — budgeting, transactions, and accounts on iOS & Android",
+    language: "TypeScript",
+    accent: "from-violet-500 via-purple-600 to-purple-950",
   },
   {
     repo: "crafter-station/trx",
