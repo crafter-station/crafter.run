@@ -132,17 +132,6 @@ export function getEcosystem(locale: Locale = defaultLocale) {
 
 export const services = [
   {
-    title: { en: "LatAm growth partner", es: "Partner de crecimiento en LatAm", pt: "Parceiro de crescimento no LatAm", zh: "拉美增长伙伴", ja: "ラテンアメリカのグロースパートナー" },
-    body: {
-      en: "For devtools and startups that want to earn trust in LatAm through events, community, content, product collaboration, and high-signal builder access.",
-      es: "Para devtools y startups que quieren ganar confianza en LatAm con eventos, comunidad, contenido, colaboracion de producto y acceso a builders de alta senal.",
-      pt: "Para devtools e startups que querem ganhar confianca no LatAm com eventos, comunidade, conteudo, colaboracao de produto e acesso a builders de alto sinal.",
-      zh: "面向希望通过活动、社区、内容、产品协作和高质量 builder 触达来赢得拉美信任的 devtools 与创业公司。",
-      ja: "イベント、コミュニティ、コンテンツ、プロダクトコラボレーション、質の高いビルダーへのアクセスを通じて、ラテンアメリカで信頼を獲得したい devtools やスタートアップのために。",
-    },
-    href: "/team/emmy",
-  },
-  {
     title: { en: "Hackathon & event activation", es: "Activacion en hackathons y eventos", pt: "Ativacao em hackathons e eventos", zh: "黑客松与活动策划", ja: "ハッカソン・イベント施策" },
     body: {
       en: "We design and run activations that put your product in the hands of engineers, designers, product people, and shippers who can actually use it.",
@@ -196,6 +185,50 @@ export const services = [
       ja: "Postgres、エッジランタイム、キュー、そしてプロダクトが実際に依存するデータ基盤。スケールを見据えて構築し、初日から計測を組み込みます。",
     },
     href: "/team/ignacio",
+  },
+  {
+    title: { en: "Developer tools & open source", es: "Herramientas para devs y open source", pt: "Ferramentas para devs e open source", zh: "开发者工具与开源", ja: "開発者ツールとオープンソース" },
+    body: {
+      en: "CLIs, SDKs, and agent-native tooling that developers actually adopt. Open source built for distribution, not repos that go quiet after launch.",
+      es: "CLIs, SDKs y herramientas agent-native que los developers de verdad adoptan. Open source pensado para distribuirse, no repos que quedan en silencio despues del launch.",
+      pt: "CLIs, SDKs e ferramentas agent-native que os developers realmente adotam. Open source pensado para distribuicao, nao repos que silenciam depois do launch.",
+      zh: "开发者真正会用的 CLI、SDK 和 agent-native 工具。为传播而做的开源，而不是发布后就沉寂的仓库。",
+      ja: "開発者が実際に使う CLI、SDK、エージェントネイティブなツール。ローンチ後に静かになるリポジトリではなく、広まることを前提に作るオープンソース。",
+    },
+    href: "/team/railly",
+  },
+  {
+    title: { en: "Data & ML engineering", es: "Ingenieria de datos y ML", pt: "Engenharia de dados e ML", zh: "数据与机器学习工程", ja: "データと ML エンジニアリング" },
+    body: {
+      en: "Pipelines, warehouses, and models that reach production. dbt, Postgres, and Python work that turns raw data into something the product can act on.",
+      es: "Pipelines, warehouses y modelos que llegan a produccion. Trabajo con dbt, Postgres y Python que convierte datos crudos en algo sobre lo que el producto puede actuar.",
+      pt: "Pipelines, warehouses e modelos que chegam a producao. Trabalho com dbt, Postgres e Python que transforma dados brutos em algo sobre o qual o produto pode agir.",
+      zh: "真正上生产的数据管道、数仓和模型。用 dbt、Postgres 和 Python，把原始数据变成产品可以据此行动的东西。",
+      ja: "本番に届くパイプライン、ウェアハウス、モデル。dbt、Postgres、Python を使い、生のデータをプロダクトが判断に使える形に変えます。",
+    },
+    href: "/team/cris",
+  },
+  {
+    title: { en: "GTM engineering", es: "GTM engineering", pt: "GTM engineering", zh: "GTM 工程", ja: "GTM エンジニアリング" },
+    body: {
+      en: "Outbound and lifecycle that run themselves. Automation, AI workflows, and the tooling that keeps go-to-market working without someone pushing it daily.",
+      es: "Outbound y lifecycle que corren solos. Automatizacion, workflows con IA y las herramientas que mantienen el go-to-market andando sin que alguien lo empuje todos los dias.",
+      pt: "Outbound e lifecycle que rodam sozinhos. Automacao, workflows com IA e as ferramentas que mantem o go-to-market funcionando sem alguem empurrando todo dia.",
+      zh: "能自己跑起来的 outbound 和生命周期运营。自动化、AI 工作流，以及让 go-to-market 无需每天有人推动的工具。",
+      ja: "自走するアウトバウンドとライフサイクル。自動化、AI ワークフロー、そして誰かが毎日押さなくても go-to-market が回り続ける仕組み。",
+    },
+    href: "/team/emmy",
+  },
+  {
+    title: { en: "Growth & distribution", es: "Growth y distribucion", pt: "Growth e distribuicao", zh: "增长与分发", ja: "グロースとディストリビューション" },
+    body: {
+      en: "Getting the product in front of the right people: launches, Product Hunt, community activation, and content that compounds across LatAm.",
+      es: "Poner el producto frente a la gente correcta: launches, Product Hunt, activacion de comunidad y contenido que compone en LatAm.",
+      pt: "Colocar o produto na frente das pessoas certas: launches, Product Hunt, ativacao de comunidade e conteudo que compoe no LatAm.",
+      zh: "把产品送到对的人面前：发布、Product Hunt、社区激活，以及在拉美持续累积的内容。",
+      ja: "適切な人にプロダクトを届ける: ローンチ、Product Hunt、コミュニティ施策、そしてラテンアメリカで積み上がるコンテンツ。",
+    },
+    href: "/team/nacho",
   },
 ] as const
 
