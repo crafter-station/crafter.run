@@ -60,14 +60,14 @@ export default async function Page({
               label: t("trackCareerLabel"),
               host: "Railly Hugo",
               blurb: t("trackCareerBlurb"),
-              calLink: "railly/30min",
+              calLink: "railly/crafter-station-mentorship",
             },
             {
               id: "oss",
               label: t("trackOssLabel"),
               host: "Railly Hugo",
               blurb: t("trackOssBlurb"),
-              calLink: "railly/30min",
+              calLink: "railly/crafter-station-oss",
             },
             {
               id: "sponsor",
