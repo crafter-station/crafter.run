@@ -73,7 +73,7 @@ export default async function Page({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={
-                  "group min-h-72 p-8 transition-colors hover:bg-accent/10 " +
+                  "group min-h-72 p-8 transition-colors hover:bg-accent-surface/10 " +
                   (i > 0
                     ? "border-t border-line md:border-t-0 md:border-l "
                     : "") +

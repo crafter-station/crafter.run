@@ -50,7 +50,7 @@ export default async function Page({
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2">
             {links.map((link, i) => (
-              <Link key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={"group min-h-56 p-8 transition-colors hover:bg-accent/10 " + (i > 0 ? "border-t border-line md:border-t-0 md:border-l " : "")}>
+              <Link key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={"group min-h-56 p-8 transition-colors hover:bg-accent-surface/10 " + (i > 0 ? "border-t border-line md:border-t-0 md:border-l " : "")}>
                 <h3 className="text-lg tracking-tight">{link.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{link.body}</p>
                 <ArrowLink className="mt-8">{common("openCta")}</ArrowLink>

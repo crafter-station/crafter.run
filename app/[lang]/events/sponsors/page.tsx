@@ -121,7 +121,7 @@ export default async function Page({
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
             {services.map((service, i) => (
-              <a key={service.title} href={withLocale(service.href, lang)} className={"group min-h-56 p-8 transition-colors hover:bg-accent/10 " + (i > 0 ? "border-t border-line md:border-t-0 md:border-l " : "") + (i >= 2 ? "md:border-t xl:border-t-0 " : "") + (i >= 3 ? "xl:border-l " : "")}>
+              <a key={service.title} href={withLocale(service.href, lang)} className={"group min-h-56 p-8 transition-colors hover:bg-accent-surface/10 " + (i > 0 ? "border-t border-line md:border-t-0 md:border-l " : "") + (i >= 2 ? "md:border-t xl:border-t-0 " : "") + (i >= 3 ? "xl:border-l " : "")}>
                 <h3 className="text-lg tracking-tight">{service.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.body}</p>
                 <ArrowLink className="mt-8">{common("openCta")}</ArrowLink>
@@ -150,7 +150,7 @@ export default async function Page({
                 target="_blank"
                 rel="noreferrer"
                 className={
-                  "group flex min-h-32 flex-col items-center justify-center gap-4 p-6 text-center transition-colors hover:bg-accent/10 " +
+                  "group flex min-h-32 flex-col items-center justify-center gap-4 p-6 text-center transition-colors hover:bg-accent-surface/10 " +
                   (i % 2 ? "border-l border-line md:border-l-0 " : "") +
                   (i % 4 ? "md:border-l md:border-line xl:border-l-0 " : "") +
                   (i % 7 ? "xl:border-l xl:border-line " : "") +

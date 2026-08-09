@@ -4,6 +4,7 @@ import { Container } from "@/components/grid-container"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { PixelArrow } from "@/components/pixel-arrow"
 import { SiteWordmark } from "@/components/site-wordmark"
+import { ThemeSwitcher } from "@/components/theme-switcher"
 import { type Locale, withLocale } from "@/lib/i18n"
 import { navItems } from "@/lib/site"
 
@@ -17,6 +18,7 @@ const navCopy = {
     team: "Team",
     communityCta: "Join the community",
     language: "Language",
+    theme: "Theme",
     openMenu: "Open menu",
   },
   es: {
@@ -28,6 +30,7 @@ const navCopy = {
     team: "Equipo",
     communityCta: "Unete a la comunidad",
     language: "Idioma",
+    theme: "Tema",
     openMenu: "Abrir menu",
   },
   pt: {
@@ -39,6 +42,7 @@ const navCopy = {
     team: "Equipe",
     communityCta: "Entre na comunidade",
     language: "Idioma",
+    theme: "Tema",
     openMenu: "Abrir menu",
   },
   zh: {
@@ -50,6 +54,7 @@ const navCopy = {
     team: "团队",
     communityCta: "加入社区",
     language: "语言",
+    theme: "主题",
     openMenu: "打开菜单",
   },
   ja: {
@@ -61,6 +66,7 @@ const navCopy = {
     team: "チーム",
     communityCta: "コミュニティに参加",
     language: "言語",
+    theme: "テーマ",
     openMenu: "メニューを開く",
   },
 } as const
@@ -87,7 +93,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               <Link
                 key={item.href}
                 href={withLocale(item.href, locale)}
-                className="inline-flex h-16 items-center gap-1 px-5 text-sm font-medium text-foreground transition-colors hover:bg-accent/10 hover:text-foreground"
+                className="inline-flex h-16 items-center gap-1 px-5 text-sm font-medium text-foreground transition-colors hover:bg-accent-surface/10 hover:text-foreground"
               >
                 {t[item.key]}
               </Link>
@@ -98,6 +104,12 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               <LanguageSwitcher
                 currentLocale={locale}
                 className="px-2 font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+              />
+            </div>
+            <div className="flex h-full items-center border-l border-line px-3">
+              <ThemeSwitcher
+                label={t.theme}
+                className="flex items-center font-mono text-[10px] tracking-[0.2em]"
               />
             </div>
           </div>
@@ -130,6 +142,15 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                         className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
                       />
                     </div>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between border border-line px-4 py-3">
+                    <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      {t.theme}
+                    </span>
+                    <ThemeSwitcher
+                      label={t.theme}
+                      className="flex items-center font-mono text-[10px] tracking-[0.2em]"
+                    />
                   </div>
                   <Link
                     href="https://crafters.chat"

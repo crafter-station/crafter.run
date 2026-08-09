@@ -88,7 +88,7 @@ export default async function Page({
                   key={member.name}
                   href={withLocale(`/team/${member.username}`, lang)}
                   className={cn(
-                    "group relative flex flex-col items-center gap-3 px-4 py-8 text-center transition-colors hover:bg-accent/5",
+                    "group relative flex flex-col items-center gap-3 px-4 py-8 text-center transition-colors hover:bg-accent-surface/5",
                     col(2) !== 0 && "border-l border-line sm:border-l-0",
                     col(3) !== 0 && "sm:border-l sm:border-line lg:border-l-0",
                     col(4) !== 0 && "lg:border-l lg:border-line",

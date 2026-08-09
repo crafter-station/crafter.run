@@ -1148,7 +1148,7 @@ export function ProjectTimeline({
                           key={week}
                           className={cn(
                             startsMonth && index > 0 && "border-l border-line",
-                            index === visibleWeeks.length - 1 && "border-r border-accent/30",
+                            index === visibleWeeks.length - 1 && "border-r border-accent-surface/30",
                           )}
                         />
                       )

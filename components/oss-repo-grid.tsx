@@ -103,7 +103,7 @@ export function OssRepoGrid({
               target="_blank"
               rel="noopener noreferrer"
               className={
-                "group relative flex min-h-56 flex-col p-8 transition-colors hover:bg-accent/10 " +
+                "group relative flex min-h-56 flex-col p-8 transition-colors hover:bg-accent-surface/10 " +
                 (i > 0 ? "border-t border-line md:border-t-0 md:border-l " : "") +
                 (i >= 2 ? "md:border-t xl:border-t-0 " : "") +
                 (i >= 3 ? "xl:border-t xl:border-l " : "")

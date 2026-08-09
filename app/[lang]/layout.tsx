@@ -11,6 +11,7 @@ import { setRequestLocale } from "next-intl/server"
 import { Analytics } from "@vercel/analytics/next"
 
 import { JsonLd } from "@/components/json-ld"
+import { ThemeProvider } from "@/components/theme-provider"
 
 import { isLocale, locales } from "@/lib/i18n"
 import { baseUrl } from "@/lib/seo"
@@ -64,7 +65,10 @@ const structuredData = [
 ]
 
 export const viewport: Viewport = {
-  themeColor: "#0d0d0d",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d0d0d" },
+  ],
 }
 
 export const dynamicParams = false
@@ -86,13 +90,15 @@ export default async function LocaleLayout({
   setRequestLocale(lang)
 
   return (
-    <html lang={lang} className="dark">
+    <html lang={lang} suppressHydrationWarning>
       <body
         className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${notoSansSC.variable} ${notoSansJP.variable} flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
-        <JsonLd data={structuredData} />
-        {children}
-        <Analytics />
+        <ThemeProvider>
+          <JsonLd data={structuredData} />
+          {children}
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

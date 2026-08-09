@@ -59,7 +59,7 @@ export function ContactPicker({
                   i >= 2 ? "xl:border-t-0" : "",
                   i === 2 ? "md:border-t md:border-l-0 xl:border-l" : "",
                   i === 3 ? "md:border-t" : "",
-                  isActive ? "bg-accent/10" : "hover:bg-accent/5",
+                  isActive ? "bg-accent-surface/10" : "hover:bg-accent-surface/5",
                 )}
               >
                 <span
