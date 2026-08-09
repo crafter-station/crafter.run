@@ -86,7 +86,14 @@ export default async function Layout({
 
   return (
     <RootProvider i18n={provider(lang)} theme={{ enabled: false }}>
-      <DocsLayout tree={source.getPageTree(lang)} {...baseOptions(lang)}>
+      {/* The site header owns the theme switch, so the docs sidebar must not
+          render a second, competing one. theme.enabled only turns off the
+          provider; the switch itself is a layout slot. */}
+      <DocsLayout
+        tree={source.getPageTree(lang)}
+        {...baseOptions(lang)}
+        slots={{ themeSwitch: false }}
+      >
         {children}
       </DocsLayout>
     </RootProvider>

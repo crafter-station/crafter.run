@@ -71,7 +71,7 @@ export async function Capabilities({ locale }: { locale: Locale }) {
             href={s.href}
             locale={locale}
             className={
-              "group flex flex-col justify-between p-8 transition-colors hover:bg-accent/10 " +
+              "group flex flex-col justify-between p-8 transition-colors hover:bg-accent-surface/10 " +
               (i > 0 ? "border-t border-line md:border-t-0 md:border-l md:border-line " : "") +
               (i >= 2 ? "md:border-t xl:border-t-0 " : "")
             }

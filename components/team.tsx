@@ -39,7 +39,7 @@ export function Team({ locale }: { locale: Locale }) {
                 key={member.name}
                 href={withLocale(`/team/${member.username}`, locale)}
                 className={cn(
-                  "group relative flex flex-col items-center gap-3 px-4 py-8 text-center transition-colors hover:bg-accent/5",
+                  "group relative flex flex-col items-center gap-3 px-4 py-8 text-center transition-colors hover:bg-accent-surface/5",
                   // borders between columns
                   col(2) !== 0 && "border-l border-line sm:border-l-0",
                   col(3) !== 0 && "sm:border-l sm:border-line lg:border-l-0",

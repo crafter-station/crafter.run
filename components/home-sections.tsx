@@ -77,7 +77,7 @@ export async function WorkWithUsPreview({ locale }: { locale: Locale }) {
                 href={service.href}
                 locale={locale}
                 className={
-                  "group flex min-h-56 flex-col justify-between p-8 transition-colors hover:bg-accent/10 " +
+                  "group flex min-h-56 flex-col justify-between p-8 transition-colors hover:bg-accent-surface/10 " +
                   (i % 2 ? "md:border-l md:border-line " : "") +
                   (i >= 2 ? "md:border-t md:border-line xl:border-t-0 " : "") +
                   (i % 3 ? "xl:border-l xl:border-line " : "") +
@@ -216,7 +216,7 @@ export async function EventsResearchPreview({ locale }: { locale: Locale }) {
                 href="/events"
                 locale={locale}
                 className={
-                  "group min-h-48 p-8 transition-colors hover:bg-accent/10 " +
+                  "group min-h-48 p-8 transition-colors hover:bg-accent-surface/10 " +
                   (i % 2 ? "sm:border-l sm:border-line " : "") +
                   (i >= 2 ? "border-t border-line" : "")
                 }
@@ -249,7 +249,7 @@ export async function EventsResearchPreview({ locale }: { locale: Locale }) {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block p-8 transition-colors hover:bg-accent/10"
+                className="group block p-8 transition-colors hover:bg-accent-surface/10"
               >
                 <h3 className="text-lg tracking-tight">{link.title}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
