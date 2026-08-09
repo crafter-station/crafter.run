@@ -234,9 +234,12 @@
        on weight and scale for hierarchy instead of hue. */
     --accent: 0 0% 8%;
     --accent-foreground: 0 0% 98%;
-    /* Accent-tinted surfaces (bg-accent/5, /10) would read as flat grey once
-       the accent goes black, so light mode keeps the warm wash of its own. */
-    --accent-surface: 40 30% 90%;
+    /* Accent-tinted surfaces (bg-accent-surface/5, /10). Dark tints with a
+       cream that lifts off near-black; on white the same cream is invisible
+       (1.015 vs 1.243 luminance ratio at 10%), so light has to tint downward
+       instead. This warm dark ocher lands at 1.165, close to the dark step,
+       and keeps the hover warm rather than a dirty grey. */
+    --accent-surface: 40 26% 29%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 90%;

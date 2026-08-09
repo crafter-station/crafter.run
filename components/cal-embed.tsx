@@ -11,9 +11,14 @@ declare global {
 
 export function CalEmbed({ calLink, namespace }: { calLink: string; namespace: string }) {
   const { resolvedTheme } = useTheme()
+  // Cal bakes the theme into the iframe URL when it initialises, so booting it
+  // before next-themes has resolved would pin the embed to whatever the
+  // fallback was, no matter what the page settles on.
   const calTheme = resolvedTheme === "light" ? "light" : "dark"
 
   useEffect(() => {
+    if (!resolvedTheme) return
+
     ;(function (C: Window, A: string, L: string) {
       const p = function (a: any, ar: IArguments | any[]) {
         a.q.push(ar)
@@ -92,6 +97,10 @@ export function CalEmbed({ calLink, namespace }: { calLink: string; namespace: s
 
   return (
     <div
+      // Cal injects its iframe into this node. Keying on the theme hands it a
+      // fresh, empty container on a switch instead of letting it stack a
+      // second iframe next to the stale one.
+      key={calTheme}
       id={`cal-embed-${namespace}`}
       className="mx-auto h-[660px] w-full max-w-[1380px] overflow-scroll border-x border-line"
     />
