@@ -98,7 +98,23 @@ export default async function LocaleLayout({
       >
         <ClerkProvider
           dynamic
-          appearance={{ theme: shadcn }}
+          appearance={{
+            theme: shadcn,
+            variables: {
+              colorBackground: "hsl(var(--card))",
+              colorDanger: "hsl(var(--destructive))",
+              colorForeground: "hsl(var(--card-foreground))",
+              colorInput: "hsl(var(--input))",
+              colorInputForeground: "hsl(var(--card-foreground))",
+              colorModalBackdrop: "rgb(0 0 0 / 50%)",
+              colorMuted: "hsl(var(--muted))",
+              colorMutedForeground: "hsl(var(--muted-foreground))",
+              colorNeutral: "hsl(var(--foreground))",
+              colorPrimary: "hsl(var(--primary))",
+              colorPrimaryForeground: "hsl(var(--primary-foreground))",
+              colorRing: "hsl(var(--ring) / 50%)",
+            },
+          }}
           signInUrl={`/${lang}/sign-in`}
           signUpUrl={`/${lang}/sign-up`}
           afterSignOutUrl={`/${lang}`}
