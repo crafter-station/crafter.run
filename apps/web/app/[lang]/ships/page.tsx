@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 
 import { Container, SectionGap } from "@/components/grid-container"
+import { InstallSkillCommand } from "@/components/install-skill-command"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { isLocale, locales } from "@/lib/i18n"
@@ -45,6 +46,11 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
               <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
                 {t("description")}
               </p>
+              <InstallSkillCommand
+                label={t("installLabel")}
+                copyLabel={t("copyInstallCommand")}
+                copiedLabel={t("copiedInstallCommand")}
+              />
             </div>
             <div className="grid grid-cols-2 border border-line bg-background">
               <Stat
