@@ -38,6 +38,7 @@ export function getSiteConfig(locale: Locale = defaultLocale) {
 
 export const navItems = [
   { key: "ships", href: "/ships" },
+  { key: "crafters", href: "/crafters" },
   { key: "events", href: "/events" },
   { key: "oss", href: "/oss" },
   { key: "products", href: "/products" },

@@ -12,6 +12,7 @@ import { navItems } from "@/lib/site"
 const navCopy = {
   en: {
     ships: "Ships",
+    crafters: "Crafters",
     events: "Events",
     oss: "Open source",
     products: "Products",
@@ -25,6 +26,7 @@ const navCopy = {
   },
   es: {
     ships: "Ships",
+    crafters: "Crafters",
     events: "Eventos",
     oss: "Código abierto",
     products: "Productos",
@@ -38,6 +40,7 @@ const navCopy = {
   },
   pt: {
     ships: "Ships",
+    crafters: "Crafters",
     events: "Eventos",
     oss: "Codigo aberto",
     products: "Produtos",
@@ -51,6 +54,7 @@ const navCopy = {
   },
   zh: {
     ships: "社区作品",
+    crafters: "成员",
     events: "活动",
     oss: "开源",
     products: "产品",
@@ -64,6 +68,7 @@ const navCopy = {
   },
   ja: {
     ships: "コミュニティ作品",
+    crafters: "Crafters",
     events: "イベント",
     oss: "オープンソース",
     products: "プロダクト",
@@ -86,41 +91,42 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       <hr className="border-line" />
       <Container innerClassName="h-16">
         <nav className="relative flex h-full justify-between">
-          <div className="flex h-full w-[180px] items-center border-line lg:w-[215px] lg:border-r">
+          <div className="flex h-full w-[180px] items-center border-line xl:w-[215px] xl:border-r">
             <Link
               href={withLocale("/", locale)}
-              className="group inline-flex h-full items-center px-4 transition-colors lg:hover:bg-primary/5"
+              className="group inline-flex h-full items-center px-4 transition-colors xl:hover:bg-primary/5"
             >
               <SiteWordmark />
             </Link>
           </div>
-          <div className="hidden flex-1 items-center justify-center lg:flex">
+          <div className="hidden flex-1 items-center justify-center xl:flex">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={withLocale(item.href, locale)}
-                className="inline-flex h-16 items-center gap-1 px-5 text-sm font-medium text-foreground transition-colors hover:bg-accent-surface/10 hover:text-foreground"
+                className="inline-flex h-16 items-center gap-1 px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent-surface/10 hover:text-foreground 2xl:px-5"
               >
                 {t[item.key]}
               </Link>
             ))}
           </div>
-          <div className="hidden h-full items-center border-line lg:flex lg:border-l">
-            <div className="flex h-full items-center px-3">
+          <div className="hidden h-full items-center border-line xl:flex xl:border-l">
+            <div className="flex h-full items-center">
               <LanguageSwitcher
                 currentLocale={locale}
-                className="px-2 font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+                label={t.language}
+                className="h-16 px-3 font-mono text-[10px] tracking-[0.16em]"
               />
             </div>
-            <div className="flex h-full items-center border-l border-line px-3">
+            <div className="flex h-full items-center border-l border-line">
               <ThemeSwitcher
                 label={t.theme}
-                className="flex items-center font-mono text-[10px] tracking-[0.2em]"
+                className="h-16 px-3"
               />
             </div>
             <AuthActions locale={locale} />
           </div>
-          <details className="ml-auto flex items-center lg:hidden">
+          <details className="ml-auto flex items-center xl:hidden">
             <summary
               className="flex h-16 w-16 cursor-pointer list-none items-center justify-center text-foreground/70 transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden"
               aria-label={t.openMenu}
@@ -128,7 +134,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
               <Menu className="h-5 w-5" />
             </summary>
             <div className="absolute left-0 right-0 top-full border-t border-line bg-background">
-              <Container innerClassName="px-4 py-4 lg:hidden">
+              <Container innerClassName="px-4 py-4 xl:hidden">
                 <div className="flex flex-col">
                   {navItems.map((item) => (
                     <Link
@@ -146,7 +152,8 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                     <div className="flex items-center gap-3">
                       <LanguageSwitcher
                         currentLocale={locale}
-                        className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+                        label={t.language}
+                        className="font-mono text-[10px] tracking-[0.16em]"
                       />
                     </div>
                   </div>
@@ -156,7 +163,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                     </span>
                     <ThemeSwitcher
                       label={t.theme}
-                      className="flex items-center font-mono text-[10px] tracking-[0.2em]"
+                      className="font-mono text-[10px] tracking-[0.16em]"
                     />
                   </div>
                   <Link

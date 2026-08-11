@@ -2,11 +2,22 @@
 
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
+import { ChevronDown } from "lucide-react"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { cn } from "@/lib/utils"
 
 const modes = [
-  { value: "light", label: "LGT" },
-  { value: "dark", label: "DRK" },
-  { value: "system", label: "SYS" },
+  { value: "light", label: "Light", shortLabel: "LGT" },
+  { value: "dark", label: "Dark", shortLabel: "DRK" },
+  { value: "system", label: "System", shortLabel: "SYS" },
 ] as const
 
 type ThemeSwitcherProps = {
@@ -17,6 +28,7 @@ type ThemeSwitcherProps = {
 export function ThemeSwitcher({ className, label = "Theme" }: ThemeSwitcherProps) {
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const activeLabel = mounted ? modes.find((mode) => mode.value === theme)?.shortLabel ?? "SYS" : "SYS"
 
   // The server has no way to know the stored theme, so the labels only get
   // their active state after mount. Rendering them inert until then keeps the
@@ -24,21 +36,33 @@ export function ThemeSwitcher({ className, label = "Theme" }: ThemeSwitcherProps
   useEffect(() => setMounted(true), [])
 
   return (
-    <div className={className} role="group" aria-label={label}>
-      {modes.map((mode) => (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
         <button
-          key={mode.value}
           type="button"
-          onClick={() => setTheme(mode.value)}
-          aria-pressed={mounted ? theme === mode.value : undefined}
-          className={
-            "px-2 transition-colors hover:text-foreground " +
-            (mounted && theme === mode.value ? "text-foreground" : "text-muted-foreground")
-          }
+          aria-label={label}
+          className={cn(
+            "inline-flex items-center justify-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground",
+            className,
+          )}
         >
-          {mode.label}
+          <span>{activeLabel}</span>
+          <ChevronDown className="size-3" aria-hidden="true" />
         </button>
-      ))}
-    </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="min-w-36">
+        <DropdownMenuGroup>
+          <DropdownMenuRadioGroup value={mounted ? theme : ""} onValueChange={setTheme}>
+            {modes.map((mode) => {
+              return (
+                <DropdownMenuRadioItem key={mode.value} value={mode.value}>
+                  {mode.label}
+                </DropdownMenuRadioItem>
+              )
+            })}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
