@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun run --hot src/dev.ts",
-    "build": "bun build src/index.ts --outfile dist/index.js --target bun && tsc --noEmit",
+    "build": "bun build src/index.ts --outfile dist/index.js --target node && tsc --noEmit",
     "start": "bun run src/dev.ts",
     "test": "bun test",
     "typecheck": "tsc --noEmit"
