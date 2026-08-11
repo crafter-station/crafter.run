@@ -29,6 +29,10 @@ export function createPkce(): { verifier: string; challenge: string } {
   return { verifier, challenge: pkceChallenge(verifier) }
 }
 
+export function macOSCredentialSaveArgs(value: string): string[] {
+  return ["add-generic-password", "-U", "-a", keychainAccount, "-s", keychainService, "-w", value]
+}
+
 async function command(command: string, args: string[], input?: string): Promise<string> {
   return await new Promise((resolve, reject) => {
     const child = spawn(command, args, { stdio: ["pipe", "pipe", "pipe"] })
@@ -49,7 +53,7 @@ async function credentialStore(action: "read" | "save" | "delete", value?: strin
   if (process.platform === "darwin") {
     if (action === "read") return command("security", ["find-generic-password", "-a", keychainAccount, "-s", keychainService, "-w"])
     if (action === "delete") return command("security", ["delete-generic-password", "-a", keychainAccount, "-s", keychainService])
-    return command("security", ["add-generic-password", "-U", "-a", keychainAccount, "-s", keychainService, "-w"], `${value}\n`)
+    return command("security", macOSCredentialSaveArgs(value ?? ""))
   }
   if (process.platform === "linux") {
     const attributes = ["service", keychainService, "account", keychainAccount]
