@@ -281,6 +281,16 @@
         "social": "Social"
       }
     },
+    "crafters": {
+      "eyebrow": "A comunidade",
+      "title": "Conheça os Crafters.",
+      "description": "Builders, designers, pesquisadores e mentes curiosas registradas na comunidade Crafter.",
+      "memberCount": "{count, plural, one {membro registrado} other {membros registrados}}",
+      "emptyTitle": "Ainda não há Crafters registrados.",
+      "emptyDescription": "Os membros registrados aparecerão aqui quando concluírem seus perfis.",
+      "unavailableTitle": "O diretório está temporariamente offline.",
+      "unavailableDescription": "Não foi possível carregar o diretório de Crafters. Tente novamente em instantes."
+    },
     "timeline": {
       "eyebrow": "Atividade open source",
       "title": "Um ano construindo em publico.",

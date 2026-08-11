@@ -9,6 +9,7 @@ export const baseUrl = siteConfig.url
 export const indexablePaths = [
   "/",
   "/claude-code",
+  "/crafters",
   "/events",
   "/events/sponsors",
   "/n8n",

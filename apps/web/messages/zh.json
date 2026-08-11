@@ -281,6 +281,16 @@
         "social": "社交链接"
       }
     },
+    "crafters": {
+      "eyebrow": "社区",
+      "title": "认识 Crafters。",
+      "description": "加入 Crafter 社区的开发者、设计师、研究者和充满好奇心的创造者。",
+      "memberCount": "{count} 位注册成员",
+      "emptyTitle": "还没有注册的 Crafter。",
+      "emptyDescription": "社区成员完成个人资料后会出现在这里。",
+      "unavailableTitle": "成员目录暂时离线。",
+      "unavailableDescription": "暂时无法加载 Crafter 成员目录，请稍后再试。"
+    },
     "timeline": {
       "eyebrow": "开源动态",
       "title": "公开构建的一年。",

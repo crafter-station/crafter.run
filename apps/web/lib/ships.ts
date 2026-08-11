@@ -1,5 +1,6 @@
 import {
   listShipsResponseSchema,
+  listMembersResponseSchema,
   memberResponseSchema,
   shipResponseSchema,
   type MemberProfile,
@@ -32,6 +33,24 @@ export async function listPublishedShips(): Promise<ShipSummary[] | null> {
     return parsed.data.ships
   } catch (error) {
     console.warn("Ships API is unavailable.", error)
+    return null
+  }
+}
+
+export async function listCrafters(): Promise<MemberProfile[] | null> {
+  try {
+    const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "development" ? "http://localhost:3001" : null)
+    if (!apiUrl) throw new Error("API_URL is required outside development.")
+
+    const response = await fetch(new URL("/v1/members", apiUrl), {
+      next: { revalidate: 60 },
+    })
+    if (!response.ok) return null
+
+    const parsed = listMembersResponseSchema.safeParse(await response.json())
+    return parsed.success ? parsed.data.members : null
+  } catch (error) {
+    console.warn("Crafters API is unavailable.", error)
     return null
   }
 }

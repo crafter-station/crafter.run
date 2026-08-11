@@ -11,7 +11,7 @@ import type {
 import { randomUUID } from "node:crypto"
 import { createDatabase } from "@crafter/db"
 import { members, shipLinks, shipProvenance, ships } from "@crafter/db/schema"
-import { and, desc, eq, inArray, sql } from "drizzle-orm"
+import { and, asc, desc, eq, inArray, sql } from "drizzle-orm"
 
 export class RepositoryUnavailableError extends Error {}
 
@@ -46,6 +46,12 @@ export async function getMemberByHandle(handle: string): Promise<MemberProfile |
   const db = getDatabase()
   const [member] = await db.select().from(members).where(eq(members.handle, handle.toLowerCase())).limit(1)
   return member ? memberProfile(member) : null
+}
+
+export async function listMembers(): Promise<MemberProfile[]> {
+  const db = getDatabase()
+  const rows = await db.select().from(members).orderBy(asc(members.createdAt))
+  return rows.map(memberProfile)
 }
 
 export async function upsertMember(clerkUserId: string, input: UpsertMemberRequest): Promise<MemberProfile | null> {

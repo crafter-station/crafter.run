@@ -2,6 +2,7 @@ import {
   apiErrorResponseSchema,
   createShipDraftRequestSchema,
   handleSchema,
+  listMembersResponseSchema,
   listOwnedShipsResponseSchema,
   listShipsResponseSchema,
   meResponseSchema,
@@ -31,6 +32,7 @@ import {
   getOwnedShipBySlug,
   getPublishedShip,
   listOwnedShips,
+  listMembers,
   listPublishedShips,
   publishDraft,
   updateDraft,
@@ -148,6 +150,20 @@ const getMemberRoute = createRoute({
     404: { content: errorContent, description: "Crafter not found" },
   },
 })
+
+const listMembersRoute = createRoute({
+  method: "get",
+  path: "/v1/members",
+  responses: {
+    200: { content: { "application/json": { schema: listMembersResponseSchema } }, description: "Registered Crafters" },
+    503: { content: errorContent, description: "Database unavailable" },
+  },
+})
+app.openapi(listMembersRoute, async (c) => {
+  const members = await listMembers()
+  return c.json(listMembersResponseSchema.parse({ members }), 200)
+})
+
 app.openapi(getMemberRoute, async (c) => {
   const member = await getMemberByHandle(c.req.valid("param").handle)
   return member

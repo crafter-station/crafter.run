@@ -281,6 +281,16 @@
         "social": "ソーシャル"
       }
     },
+    "crafters": {
+      "eyebrow": "コミュニティ",
+      "title": "Crafters を紹介します。",
+      "description": "Crafter コミュニティに登録しているビルダー、デザイナー、研究者、好奇心あふれる仲間たちです。",
+      "memberCount": "登録メンバー {count} 人",
+      "emptyTitle": "登録済みの Crafter はまだいません。",
+      "emptyDescription": "プロフィールを完成したコミュニティメンバーがここに表示されます。",
+      "unavailableTitle": "メンバー一覧は一時的にオフラインです。",
+      "unavailableDescription": "Crafter メンバー一覧を読み込めませんでした。しばらくしてからもう一度お試しください。"
+    },
     "timeline": {
       "eyebrow": "オープンソースの活動",
       "title": "公開の場で開発してきた1年。",

@@ -44,6 +44,20 @@ describe("Crafter API", () => {
       if (previous) process.env.DATABASE_URL = previous
     }
   })
+
+  test("reports an unavailable member directory as 503", async () => {
+    const previous = process.env.DATABASE_URL
+    delete process.env.DATABASE_URL
+    const consoleError = spyOn(console, "error").mockImplementation(() => {})
+    try {
+      const response = await app.request("/v1/members")
+      expect(response.status).toBe(503)
+      expect(await response.json()).toMatchObject({ error: { code: "service_unavailable" } })
+    } finally {
+      consoleError.mockRestore()
+      if (previous) process.env.DATABASE_URL = previous
+    }
+  })
 })
 
 describe("Ship moderation", () => {

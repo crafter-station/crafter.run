@@ -131,6 +131,7 @@ export const listShipsResponseSchema = z.object({
   ships: z.array(shipSummarySchema),
 })
 
+export const listMembersResponseSchema = z.object({ members: z.array(memberProfileSchema) })
 export const meResponseSchema = z.object({ member: memberProfileSchema.nullable() })
 export const memberResponseSchema = z.object({ member: memberProfileSchema })
 export const shipResponseSchema = z.object({ ship: shipDetailSchema })
@@ -157,4 +158,5 @@ export type ShipDraftInput = z.infer<typeof shipDraftInputSchema>
 export type CreateShipDraftRequest = z.infer<typeof createShipDraftRequestSchema>
 export type UpdateShipDraftRequest = z.infer<typeof updateShipDraftRequestSchema>
 export type ListShipsResponse = z.infer<typeof listShipsResponseSchema>
+export type ListMembersResponse = z.infer<typeof listMembersResponseSchema>
 export type ApiErrorResponse = z.infer<typeof apiErrorResponseSchema>
