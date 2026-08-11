@@ -1,0 +1,228 @@
+import { shipLinkTypes, shipSources, shipStatuses } from "@crafter/contracts"
+import { sql } from "drizzle-orm"
+import {
+  check,
+  index,
+  integer,
+  jsonb,
+  pgEnum,
+  primaryKey,
+  pgTable,
+  text,
+  timestamp,
+  uniqueIndex,
+  uuid,
+} from "drizzle-orm/pg-core"
+
+export const shipStatus = pgEnum("ship_status", shipStatuses)
+export const shipSource = pgEnum("ship_source", shipSources)
+export const shipLinkType = pgEnum("ship_link_type", shipLinkTypes)
+
+export const members = pgTable(
+  "members",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    clerkUserId: text("clerk_user_id").notNull().unique(),
+    handle: text("handle").notNull(),
+    displayName: text("display_name").notNull(),
+    bio: text("bio"),
+    avatarUrl: text("avatar_url"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("members_handle_lower_idx").on(sql`lower(${table.handle})`),
+    check("members_handle_check", sql`${table.handle} ~ '^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$'`),
+    check("members_display_name_check", sql`char_length(trim(${table.displayName})) between 1 and 80`),
+    check("members_bio_check", sql`${table.bio} is null or char_length(trim(${table.bio})) between 1 and 280`),
+    check("members_avatar_url_check", sql`${table.avatarUrl} is null or ${table.avatarUrl} ~ '^https?://'`),
+  ],
+)
+
+export const ships = pgTable(
+  "ships",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    ownerMemberId: uuid("owner_member_id")
+      .notNull()
+      .references(() => members.id, { onDelete: "restrict" }),
+    slug: text("slug").notNull().unique(),
+    name: text("name").notNull(),
+    tagline: text("tagline").notNull(),
+    description: text("description").notNull(),
+    status: shipStatus("status").default("draft").notNull(),
+    source: shipSource("source").default("web").notNull(),
+    publishedAt: timestamp("published_at", { withTimezone: true, mode: "string" }),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("ships_owner_created_idx").on(table.ownerMemberId, table.createdAt.desc()),
+    index("ships_status_published_idx").on(table.status, table.publishedAt.desc()),
+    check("ships_slug_check", sql`${table.slug} ~ '^[a-z0-9][a-z0-9-]{1,78}[a-z0-9]$'`),
+    check("ships_name_check", sql`char_length(trim(${table.name})) between 1 and 100`),
+    check("ships_tagline_check", sql`char_length(trim(${table.tagline})) between 4 and 180`),
+    check("ships_description_check", sql`char_length(trim(${table.description})) between 20 and 5000`),
+    check(
+      "ships_published_at_check",
+      sql`(${table.status} = 'published' and ${table.publishedAt} is not null) or (${table.status} <> 'published')`,
+    ),
+  ],
+)
+
+export const shipLinks = pgTable(
+  "ship_links",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    shipId: uuid("ship_id")
+      .notNull()
+      .references(() => ships.id, { onDelete: "cascade" }),
+    type: shipLinkType("type").notNull(),
+    url: text("url").notNull(),
+    verifiedAt: timestamp("verified_at", { withTimezone: true, mode: "string" }),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("ship_links_ship_idx").on(table.shipId),
+    uniqueIndex("ship_links_ship_type_url_idx").on(table.shipId, table.type, table.url),
+    uniqueIndex("ship_links_public_url_idx")
+      .on(table.url)
+      .where(sql`${table.type} in ('repository', 'website')`),
+    check(
+      "ship_links_url_check",
+      sql`char_length(${table.url}) between 8 and 2048 and ${table.url} ~ '^https?://'`,
+    ),
+  ],
+)
+
+export const shipProvenance = pgTable(
+  "ship_provenance",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    shipId: uuid("ship_id")
+      .notNull()
+      .references(() => ships.id, { onDelete: "cascade" }),
+    value: text("value").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("ship_provenance_ship_idx").on(table.shipId),
+    uniqueIndex("ship_provenance_ship_value_idx").on(table.shipId, table.value),
+    check("ship_provenance_value_check", sql`char_length(trim(${table.value})) between 1 and 2048`),
+  ],
+)
+
+export const apiIdempotencyKeys = pgTable(
+  "api_idempotency_keys",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    memberId: uuid("member_id")
+      .notNull()
+      .references(() => members.id, { onDelete: "cascade" }),
+    key: text("key").notNull(),
+    route: text("route").notNull(),
+    requestHash: text("request_hash").notNull().default(""),
+    responseStatus: text("response_status"),
+    responseBody: jsonb("response_body"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("api_idempotency_member_key_route_idx").on(table.memberId, table.key, table.route),
+    check("api_idempotency_key_check", sql`char_length(${table.key}) between 8 and 200`),
+  ],
+)
+
+export const apiRateLimits = pgTable(
+  "api_rate_limits",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    memberId: uuid("member_id")
+      .notNull()
+      .references(() => members.id, { onDelete: "cascade" }),
+    operation: text("operation").notNull(),
+    windowStartedAt: timestamp("window_started_at", { withTimezone: true, mode: "string" }).notNull(),
+    count: integer("count").notNull().default(1),
+  },
+  (table) => [
+    uniqueIndex("api_rate_limits_member_operation_window_idx").on(
+      table.memberId,
+      table.operation,
+      table.windowStartedAt,
+    ),
+  ],
+)
+
+export const nextProjects = pgTable(
+  "next_projects",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    idea: text("idea").notNull(),
+    alias: text("alias"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    check("next_projects_idea_length", sql`char_length(trim(${table.idea})) between 4 and 600`),
+    check(
+      "next_projects_alias_length",
+      sql`${table.alias} is null or char_length(trim(${table.alias})) between 1 and 80`,
+    ),
+  ],
+)
+
+export const nextProjectVotes = pgTable(
+  "next_project_votes",
+  {
+    projectId: uuid("project_id")
+      .notNull()
+      .references(() => nextProjects.id, { onDelete: "cascade" }),
+    voterId: text("voter_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.projectId, table.voterId] }),
+    check("next_project_votes_voter_id_length", sql`char_length(${table.voterId}) between 16 and 120`),
+  ],
+)
+
+export const audienceQuestions = pgTable(
+  "audience_questions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    boardSlug: text("board_slug").notNull(),
+    question: text("question").notNull(),
+    context: text("context"),
+    alias: text("alias"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("audience_questions_board_created_idx").on(table.boardSlug, table.createdAt.desc()),
+    check(
+      "audience_questions_board_slug_check",
+      sql`${table.boardSlug} ~ '^[a-z0-9][a-z0-9-]*[a-z0-9]$' and char_length(${table.boardSlug}) between 2 and 80`,
+    ),
+    check("audience_questions_question_check", sql`char_length(trim(${table.question})) between 4 and 900`),
+    check(
+      "audience_questions_context_check",
+      sql`${table.context} is null or char_length(trim(${table.context})) between 1 and 1200`,
+    ),
+    check(
+      "audience_questions_alias_check",
+      sql`${table.alias} is null or char_length(trim(${table.alias})) between 2 and 80`,
+    ),
+  ],
+)
+
+export const audienceQuestionVotes = pgTable(
+  "audience_question_votes",
+  {
+    questionId: uuid("question_id")
+      .notNull()
+      .references(() => audienceQuestions.id, { onDelete: "cascade" }),
+    voterId: text("voter_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.questionId, table.voterId] }),
+    check("audience_question_votes_voter_id_check", sql`char_length(${table.voterId}) between 16 and 120`),
+  ],
+)

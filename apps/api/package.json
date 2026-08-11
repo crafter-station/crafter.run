@@ -1,0 +1,26 @@
+{
+  "name": "@crafter/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --hot src/dev.ts",
+    "build": "tsc --noEmit && bun build src/index.ts --outdir dist --target bun",
+    "start": "bun run src/dev.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@clerk/backend": "^3.16.4",
+    "@crafter/contracts": "workspace:*",
+    "@crafter/db": "workspace:*",
+    "@hono/zod-openapi": "^1.5.2",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.13.1"
+  },
+  "devDependencies": {
+    "@next/env": "16.2.6",
+    "@types/bun": "^1.3.0",
+    "typescript": "5.7.3"
+  }
+}

@@ -1,0 +1,2 @@
+ALTER TABLE "ship_provenance" DROP CONSTRAINT "ship_provenance_value_check";--> statement-breakpoint
+ALTER TABLE "ship_provenance" ADD CONSTRAINT "ship_provenance_value_check" CHECK (char_length(trim("ship_provenance"."value")) between 1 and 2048);

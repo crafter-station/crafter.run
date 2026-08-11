@@ -1,0 +1,697 @@
+{
+  "id": "a19fda29-ed0a-4b84-ad7b-5e5da9bcfe86",
+  "prevId": "1a058a33-dcc4-4b79-a343-3396269e9799",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.audience_question_votes": {
+      "name": "audience_question_votes",
+      "schema": "",
+      "columns": {
+        "question_id": {
+          "name": "question_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "voter_id": {
+          "name": "voter_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "audience_question_votes_question_id_audience_questions_id_fk": {
+          "name": "audience_question_votes_question_id_audience_questions_id_fk",
+          "tableFrom": "audience_question_votes",
+          "tableTo": "audience_questions",
+          "columnsFrom": [
+            "question_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "audience_question_votes_question_id_voter_id_pk": {
+          "name": "audience_question_votes_question_id_voter_id_pk",
+          "columns": [
+            "question_id",
+            "voter_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "audience_question_votes_voter_id_check": {
+          "name": "audience_question_votes_voter_id_check",
+          "value": "char_length(\"audience_question_votes\".\"voter_id\") between 16 and 120"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.audience_questions": {
+      "name": "audience_questions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "board_slug": {
+          "name": "board_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question": {
+          "name": "question",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "context": {
+          "name": "context",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "alias": {
+          "name": "alias",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "audience_questions_board_created_idx": {
+          "name": "audience_questions_board_created_idx",
+          "columns": [
+            {
+              "expression": "board_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "audience_questions_board_slug_check": {
+          "name": "audience_questions_board_slug_check",
+          "value": "\"audience_questions\".\"board_slug\" ~ '^[a-z0-9][a-z0-9-]*[a-z0-9]$' and char_length(\"audience_questions\".\"board_slug\") between 2 and 80"
+        },
+        "audience_questions_question_check": {
+          "name": "audience_questions_question_check",
+          "value": "char_length(trim(\"audience_questions\".\"question\")) between 4 and 900"
+        },
+        "audience_questions_context_check": {
+          "name": "audience_questions_context_check",
+          "value": "\"audience_questions\".\"context\" is null or char_length(trim(\"audience_questions\".\"context\")) between 1 and 1200"
+        },
+        "audience_questions_alias_check": {
+          "name": "audience_questions_alias_check",
+          "value": "\"audience_questions\".\"alias\" is null or char_length(trim(\"audience_questions\".\"alias\")) between 2 and 80"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.members": {
+      "name": "members",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "clerk_user_id": {
+          "name": "clerk_user_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "handle": {
+          "name": "handle",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "bio": {
+          "name": "bio",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "avatar_url": {
+          "name": "avatar_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "members_handle_lower_idx": {
+          "name": "members_handle_lower_idx",
+          "columns": [
+            {
+              "expression": "lower(\"handle\")",
+              "asc": true,
+              "isExpression": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "members_clerk_user_id_unique": {
+          "name": "members_clerk_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "clerk_user_id"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "members_handle_check": {
+          "name": "members_handle_check",
+          "value": "\"members\".\"handle\" ~ '^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$'"
+        },
+        "members_display_name_check": {
+          "name": "members_display_name_check",
+          "value": "char_length(trim(\"members\".\"display_name\")) between 1 and 80"
+        },
+        "members_bio_check": {
+          "name": "members_bio_check",
+          "value": "\"members\".\"bio\" is null or char_length(trim(\"members\".\"bio\")) between 1 and 280"
+        },
+        "members_avatar_url_check": {
+          "name": "members_avatar_url_check",
+          "value": "\"members\".\"avatar_url\" is null or \"members\".\"avatar_url\" ~ '^https?://'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.next_project_votes": {
+      "name": "next_project_votes",
+      "schema": "",
+      "columns": {
+        "project_id": {
+          "name": "project_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "voter_id": {
+          "name": "voter_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "next_project_votes_project_id_next_projects_id_fk": {
+          "name": "next_project_votes_project_id_next_projects_id_fk",
+          "tableFrom": "next_project_votes",
+          "tableTo": "next_projects",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "next_project_votes_project_id_voter_id_pk": {
+          "name": "next_project_votes_project_id_voter_id_pk",
+          "columns": [
+            "project_id",
+            "voter_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "next_project_votes_voter_id_length": {
+          "name": "next_project_votes_voter_id_length",
+          "value": "char_length(\"next_project_votes\".\"voter_id\") between 16 and 120"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.next_projects": {
+      "name": "next_projects",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "idea": {
+          "name": "idea",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alias": {
+          "name": "alias",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "next_projects_idea_length": {
+          "name": "next_projects_idea_length",
+          "value": "char_length(trim(\"next_projects\".\"idea\")) between 4 and 600"
+        },
+        "next_projects_alias_length": {
+          "name": "next_projects_alias_length",
+          "value": "\"next_projects\".\"alias\" is null or char_length(trim(\"next_projects\".\"alias\")) between 1 and 80"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.ship_links": {
+      "name": "ship_links",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "ship_id": {
+          "name": "ship_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "type": {
+          "name": "type",
+          "type": "ship_link_type",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "verified_at": {
+          "name": "verified_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "ship_links_ship_idx": {
+          "name": "ship_links_ship_idx",
+          "columns": [
+            {
+              "expression": "ship_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "ship_links_ship_type_url_idx": {
+          "name": "ship_links_ship_type_url_idx",
+          "columns": [
+            {
+              "expression": "ship_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "url",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ship_links_ship_id_ships_id_fk": {
+          "name": "ship_links_ship_id_ships_id_fk",
+          "tableFrom": "ship_links",
+          "tableTo": "ships",
+          "columnsFrom": [
+            "ship_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "ship_links_url_check": {
+          "name": "ship_links_url_check",
+          "value": "char_length(\"ship_links\".\"url\") between 8 and 2048 and \"ship_links\".\"url\" ~ '^https?://'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.ships": {
+      "name": "ships",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "owner_member_id": {
+          "name": "owner_member_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tagline": {
+          "name": "tagline",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "ship_status",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "source": {
+          "name": "source",
+          "type": "ship_source",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'web'"
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "ships_owner_created_idx": {
+          "name": "ships_owner_created_idx",
+          "columns": [
+            {
+              "expression": "owner_member_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "ships_status_published_idx": {
+          "name": "ships_status_published_idx",
+          "columns": [
+            {
+              "expression": "status",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "published_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "ships_owner_member_id_members_id_fk": {
+          "name": "ships_owner_member_id_members_id_fk",
+          "tableFrom": "ships",
+          "tableTo": "members",
+          "columnsFrom": [
+            "owner_member_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "ships_slug_unique": {
+          "name": "ships_slug_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "slug"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {
+        "ships_slug_check": {
+          "name": "ships_slug_check",
+          "value": "\"ships\".\"slug\" ~ '^[a-z0-9][a-z0-9-]{1,78}[a-z0-9]$'"
+        },
+        "ships_name_check": {
+          "name": "ships_name_check",
+          "value": "char_length(trim(\"ships\".\"name\")) between 1 and 100"
+        },
+        "ships_tagline_check": {
+          "name": "ships_tagline_check",
+          "value": "char_length(trim(\"ships\".\"tagline\")) between 4 and 180"
+        },
+        "ships_description_check": {
+          "name": "ships_description_check",
+          "value": "char_length(trim(\"ships\".\"description\")) between 20 and 5000"
+        },
+        "ships_published_at_check": {
+          "name": "ships_published_at_check",
+          "value": "(\"ships\".\"status\" = 'published' and \"ships\".\"published_at\" is not null) or (\"ships\".\"status\" <> 'published')"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.ship_link_type": {
+      "name": "ship_link_type",
+      "schema": "public",
+      "values": [
+        "repository",
+        "website",
+        "demo",
+        "package",
+        "social"
+      ]
+    },
+    "public.ship_source": {
+      "name": "ship_source",
+      "schema": "public",
+      "values": [
+        "web",
+        "cli",
+        "mcp",
+        "import"
+      ]
+    },
+    "public.ship_status": {
+      "name": "ship_status",
+      "schema": "public",
+      "values": [
+        "draft",
+        "published",
+        "hidden"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

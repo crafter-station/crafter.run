@@ -1,0 +1,2 @@
+DROP INDEX "ship_links_public_url_idx";--> statement-breakpoint
+CREATE UNIQUE INDEX "ship_links_public_url_idx" ON "ship_links" USING btree ("url") WHERE "ship_links"."type" in ('repository', 'website');

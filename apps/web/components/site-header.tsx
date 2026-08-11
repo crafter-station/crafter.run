@@ -1,0 +1,183 @@
+import Link from "next/link"
+import { Menu } from "lucide-react"
+import { AuthActions } from "@/components/auth-actions"
+import { Container } from "@/components/grid-container"
+import { LanguageSwitcher } from "@/components/language-switcher"
+import { PixelArrow } from "@/components/pixel-arrow"
+import { SiteWordmark } from "@/components/site-wordmark"
+import { ThemeSwitcher } from "@/components/theme-switcher"
+import { type Locale, withLocale } from "@/lib/i18n"
+import { navItems } from "@/lib/site"
+
+const navCopy = {
+  en: {
+    ships: "Ships",
+    events: "Events",
+    oss: "Open source",
+    products: "Products",
+    research: "Research",
+    impact: "Impact",
+    team: "Team",
+    communityCta: "Join the community",
+    language: "Language",
+    theme: "Theme",
+    openMenu: "Open menu",
+  },
+  es: {
+    ships: "Ships",
+    events: "Eventos",
+    oss: "Código abierto",
+    products: "Productos",
+    research: "Investigación",
+    impact: "Impacto",
+    team: "Equipo",
+    communityCta: "Únete a la comunidad",
+    language: "Idioma",
+    theme: "Tema",
+    openMenu: "Abrir menú",
+  },
+  pt: {
+    ships: "Ships",
+    events: "Eventos",
+    oss: "Codigo aberto",
+    products: "Produtos",
+    research: "Pesquisa",
+    impact: "Impacto",
+    team: "Equipe",
+    communityCta: "Entre na comunidade",
+    language: "Idioma",
+    theme: "Tema",
+    openMenu: "Abrir menu",
+  },
+  zh: {
+    ships: "社区作品",
+    events: "活动",
+    oss: "开源",
+    products: "产品",
+    research: "研究",
+    impact: "影响力",
+    team: "团队",
+    communityCta: "加入社区",
+    language: "语言",
+    theme: "主题",
+    openMenu: "打开菜单",
+  },
+  ja: {
+    ships: "コミュニティ作品",
+    events: "イベント",
+    oss: "オープンソース",
+    products: "プロダクト",
+    research: "リサーチ",
+    impact: "インパクト",
+    team: "チーム",
+    communityCta: "コミュニティに参加",
+    language: "言語",
+    theme: "テーマ",
+    openMenu: "メニューを開く",
+  },
+} as const
+
+export function SiteHeader({ locale }: { locale: Locale }) {
+  const t = navCopy[locale]
+
+  return (
+    <header className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-sm">
+      <Container innerClassName="h-4" />
+      <hr className="border-line" />
+      <Container innerClassName="h-16">
+        <nav className="relative flex h-full justify-between">
+          <div className="flex h-full w-[180px] items-center border-line lg:w-[215px] lg:border-r">
+            <Link
+              href={withLocale("/", locale)}
+              className="group inline-flex h-full items-center px-4 transition-colors lg:hover:bg-primary/5"
+            >
+              <SiteWordmark />
+            </Link>
+          </div>
+          <div className="hidden flex-1 items-center justify-center lg:flex">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={withLocale(item.href, locale)}
+                className="inline-flex h-16 items-center gap-1 px-5 text-sm font-medium text-foreground transition-colors hover:bg-accent-surface/10 hover:text-foreground"
+              >
+                {t[item.key]}
+              </Link>
+            ))}
+          </div>
+          <div className="hidden h-full items-center border-line lg:flex lg:border-l">
+            <div className="flex h-full items-center px-3">
+              <LanguageSwitcher
+                currentLocale={locale}
+                className="px-2 font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+              />
+            </div>
+            <div className="flex h-full items-center border-l border-line px-3">
+              <ThemeSwitcher
+                label={t.theme}
+                className="flex items-center font-mono text-[10px] tracking-[0.2em]"
+              />
+            </div>
+            <AuthActions locale={locale} />
+          </div>
+          <details className="ml-auto flex items-center lg:hidden">
+            <summary
+              className="flex h-16 w-16 cursor-pointer list-none items-center justify-center text-foreground/70 transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden"
+              aria-label={t.openMenu}
+            >
+              <Menu className="h-5 w-5" />
+            </summary>
+            <div className="absolute left-0 right-0 top-full border-t border-line bg-background">
+              <Container innerClassName="px-4 py-4 lg:hidden">
+                <div className="flex flex-col">
+                  {navItems.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={withLocale(item.href, locale)}
+                      className="border-b border-line py-3 text-sm text-foreground"
+                    >
+                      {t[item.key]}
+                    </Link>
+                  ))}
+                  <div className="mt-4 flex items-center justify-between border border-line px-4 py-3">
+                    <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      {t.language}
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <LanguageSwitcher
+                        currentLocale={locale}
+                        className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between border border-line px-4 py-3">
+                    <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      {t.theme}
+                    </span>
+                    <ThemeSwitcher
+                      label={t.theme}
+                      className="flex items-center font-mono text-[10px] tracking-[0.2em]"
+                    />
+                  </div>
+                  <Link
+                    href="https://crafters.chat"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 inline-flex items-center justify-between border border-foreground/20 px-4 py-3 text-sm font-medium"
+                  >
+                    {t.communityCta}
+                    <PixelArrow />
+                  </Link>
+                  <div className="mt-2 grid gap-2">
+                    <AuthActions locale={locale} mobile />
+                  </div>
+                </div>
+              </Container>
+            </div>
+          </details>
+        </nav>
+      </Container>
+      <hr className="border-line" />
+    </header>
+  )
+}

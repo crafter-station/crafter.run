@@ -1,0 +1,26 @@
+{
+  "name": "@crafter/db",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema.ts"
+  },
+  "scripts": {
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@crafter/contracts": "workspace:*",
+    "@neondatabase/serverless": "^1.1.0",
+    "drizzle-orm": "^0.45.2"
+  },
+  "devDependencies": {
+    "@next/env": "16.2.6",
+    "@types/node": "^22",
+    "drizzle-kit": "^0.31.10",
+    "typescript": "5.7.3"
+  }
+}
