@@ -308,6 +308,21 @@ export const products = [
     accent: "from-slate-200 via-blue-500 to-indigo-800",
   },
   {
+    slug: "normal",
+    title: "Normal",
+    tagline: { en: "Your WhatsApp, inside ChatGPT and Claude", es: "Tu WhatsApp, dentro de ChatGPT y Claude", pt: "Seu WhatsApp, dentro do ChatGPT e Claude", zh: "让 ChatGPT 和 Claude 连接你的 WhatsApp", ja: "WhatsApp を ChatGPT と Claude の中で" },
+    description: {
+      en: "A personal platform that securely connects WhatsApp to approved AI clients through MCP, with explicit permissions and confirmation for every outbound message.",
+      es: "Una plataforma personal que conecta WhatsApp de forma segura con clientes de IA aprobados mediante MCP, con permisos explicitos y confirmacion para cada mensaje enviado.",
+      pt: "Uma plataforma pessoal que conecta o WhatsApp com seguranca a clientes de IA aprovados via MCP, com permissoes explicitas e confirmacao para cada mensagem enviada.",
+      zh: "一个通过 MCP 将 WhatsApp 安全连接到已授权 AI 客户端的个人平台，提供明确的权限控制，并要求确认每一条外发消息。",
+      ja: "WhatsApp を MCP 経由で承認済みの AI クライアントに安全につなぐ個人向けプラットフォーム。明示的な権限管理と、送信メッセージごとの確認機能を備えています。",
+    },
+    technologies: ["WhatsApp", "MCP", "AI"],
+    url: "https://normal.fast",
+    accent: "from-stone-200 via-orange-300 to-stone-800",
+  },
+  {
     slug: "maca",
     title: "Maca",
     tagline: { en: "Voice-to-text blazing fast", es: "Voz a texto a velocidad brutal", pt: "Voz para texto em alta velocidade", zh: "极速语音转文字", ja: "爆速の音声テキスト入力" },
