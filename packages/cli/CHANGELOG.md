@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.1.3
+
+### Patch Changes
+
+- [`2e0c886`](https://github.com/crafter-station/crafter.run/commit/2e0c886f663385a1c7fe4555af8901053263143c) Thanks [@cuevaio](https://github.com/cuevaio)! - Store OAuth credentials in macOS Keychain without interactive password prompts.
+
 ## 0.1.2
 
 ### Patch Changes
