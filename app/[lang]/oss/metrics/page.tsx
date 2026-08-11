@@ -52,6 +52,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
     before: t("before"),
     after: t("after"),
     daily: t("daily"),
+    metricsEyebrow: t("metricsEyebrow"),
+    metricsTitle: t("metricsTitle"),
     metrics: {
       throughput: t("metrics.throughput"),
       throughputDescription: t("metrics.throughputDescription"),

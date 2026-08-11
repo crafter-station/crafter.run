@@ -168,6 +168,8 @@
       "before": "ローンチ前",
       "after": "ローンチ後",
       "daily": "一日あたりのクローズ",
+      "metricsEyebrow": "運用リズム",
+      "metricsTitle": "ポートフォリオの健全性を読む4つのシグナル。",
       "metrics": {
         "throughput": "総スループット",
         "throughputDescription": "OSS ポートフォリオ全体で一日に閉じられた issue と pull request。",

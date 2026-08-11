@@ -168,6 +168,8 @@
       "before": "Antes do launch",
       "after": "Depois do launch",
       "daily": "fechamentos por dia",
+      "metricsEyebrow": "Ritmo operacional",
+      "metricsTitle": "Quatro sinais para ler a saúde do portfólio.",
       "metrics": {
         "throughput": "Throughput total",
         "throughputDescription": "Issues e pull requests fechados por dia em todo o portfólio OSS.",

@@ -168,6 +168,8 @@
       "before": "Before launch",
       "after": "After launch",
       "daily": "closed per day",
+      "metricsEyebrow": "Operating rhythm",
+      "metricsTitle": "Four signals for reading portfolio health.",
       "metrics": {
         "throughput": "Total throughput",
         "throughputDescription": "Issues and pull requests closed per day across the complete OSS portfolio.",

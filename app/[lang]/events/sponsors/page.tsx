@@ -28,9 +28,9 @@ const calendarCopy = {
   },
   es: {
     eyebrow: "Agenda una llamada de sponsor",
-    title: "Hablemos del formato, audiencia y activacion correcta.",
+    title: "Hablemos del formato, audiencia y activación correcta.",
     description:
-      "Elige un horario y mapeamos el paquete correcto: hackathon, Code Brew, workshop de producto, launch night, premios, venue o activacion hands-on de devtools.",
+      "Elige un horario y mapeamos el paquete correcto: hackathon, Code Brew, workshop de producto, launch night, premios, venue o activación hands-on de devtools.",
   },
   pt: {
     eyebrow: "Agende uma chamada de sponsor",
