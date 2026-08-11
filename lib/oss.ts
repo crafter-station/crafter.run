@@ -19,12 +19,13 @@ type Seed = Omit<OssRepo, "name" | "url">
  *
  * Accents come from each project's own palette, read from its source where
  * one exists: petdex, agentfiles, tinte, elements, one-hunter-vscode,
- * skill-kit and hack0 from their committed CSS or theme config, neon-cli
- * from neon.com/brand. text0 is converted from the oklch values in its
- * globals.css. trx (Whisper), survey-cli and li-metrics are close matches
- * rather than declared tokens. charts and cligentic have no visual identity
- * of their own and use neutral grays. v0-cli is the one guess here: no
- * primary source confirmed a hex, so it follows v0's commonly cited violet.
+ * skill-kit, hack0, normal, build4latam and reporte-co from their committed CSS
+ * or theme config, neon-cli from neon.com/brand. text0 is converted from the
+ * oklch values in its globals.css. trx (Whisper), survey-cli and li-metrics are
+ * close matches rather than declared tokens. charts and cligentic have no
+ * visual identity of their own and use neutral grays. v0-cli is the one guess
+ * here: no primary source confirmed a hex, so it follows v0's commonly cited
+ * violet.
  */
 const seeds: Seed[] = [
   {
@@ -105,6 +106,15 @@ const seeds: Seed[] = [
     accent: "from-emerald-300 via-emerald-600 to-emerald-900",
   },
   {
+    repo: "crafter-station/build4latam",
+    stars: 46,
+    openIssues: 4,
+    description:
+      "Technology in solidarity: connect builders with community projects and needs across Latin America",
+    language: "TypeScript",
+    accent: "from-yellow-300 via-blue-600 to-red-600",
+  },
+  {
     repo: "crafter-station/crafter-tracker",
     stars: 5,
     openIssues: 5,
@@ -112,6 +122,14 @@ const seeds: Seed[] = [
       "Mapa 8-bit en vivo de los ships, cooking sessions y eventos de la comunidad Crafter Station en LATAM",
     language: "TypeScript",
     accent: "from-amber-300 via-amber-500 to-emerald-500",
+  },
+  {
+    repo: "cuevaio/normal",
+    stars: 5,
+    openIssues: 0,
+    description: "Your WhatsApp, inside ChatGPT and Claude",
+    language: "TypeScript",
+    accent: "from-stone-200 via-orange-300 to-stone-800",
   },
   {
     repo: "crafter-station/charts",
@@ -130,6 +148,15 @@ const seeds: Seed[] = [
       "Agentic-first CLI for Neon Postgres - per-project usage, billing, and branch management the dashboard won't show you",
     language: "TypeScript",
     accent: "from-lime-300 via-emerald-400 to-green-600",
+  },
+  {
+    repo: "crafter-station/reporte-co",
+    stars: 2,
+    openIssues: 2,
+    description:
+      "Mapa ciudadano para reportar daños, emergencias y necesidades después de un sismo en Colombia",
+    language: "TypeScript",
+    accent: "from-neutral-200 via-neutral-500 to-neutral-900",
   },
   {
     repo: "shiarauzo/essalud-cli",
