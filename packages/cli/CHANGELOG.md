@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.1.2
+
+### Patch Changes
+
+- [`fc89e7c`](https://github.com/crafter-station/crafter.run/commit/fc89e7cc96c6def1aafc2f4e00b15888a40e5cec) Thanks [@cuevaio](https://github.com/cuevaio)! - Authenticate CLI users against the production Crafter Clerk instance.
+
 ## 0.1.1
 
 ### Patch Changes
