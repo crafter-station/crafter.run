@@ -9,9 +9,9 @@ Use the `crafter` CLI for installation, authentication, metadata validation, Shi
 
 ## Install The CLI
 
-1. Check whether `crafter` is installed with `command -v crafter`.
-2. If it is missing, verify Node.js 18 or newer is installed with `node --version`. If Node.js is unavailable or too old, ask the user to install a supported version from [nodejs.org](https://nodejs.org) and stop.
-3. Install the public CLI with `npm install --global @crafter/cli`.
+1. Verify Node.js 18 or newer is installed with `node --version`. If Node.js is unavailable or too old, ask the user to install a supported version from [nodejs.org](https://nodejs.org) and stop.
+2. Install or update the public CLI before authenticating with `npm install --global @crafter/cli@latest`.
+3. Confirm `crafter` is available with `command -v crafter`.
 4. Verify the installation with `crafter help`.
 
 Do not clone the Crafter repository or invoke its internal source as a substitute for installing the published CLI.
