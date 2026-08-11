@@ -14,7 +14,7 @@ type Seed = Omit<OssRepo, "name" | "url">
 /**
  * Curated list of repos across the Crafter Station network that actively
  * accept outside contributors. Numbers are a static fallback snapshot
- * (2026-08-06) used only when the GitHub API is unreachable; live data is
+ * (2026-08-11) used only when the GitHub API is unreachable; live data is
  * fetched with daily revalidation.
  *
  * Accents come from each project's own palette, read from its source where
@@ -105,6 +105,15 @@ const seeds: Seed[] = [
     accent: "from-emerald-300 via-emerald-600 to-emerald-900",
   },
   {
+    repo: "crafter-station/crafter-tracker",
+    stars: 5,
+    openIssues: 5,
+    description:
+      "Mapa 8-bit en vivo de los ships, cooking sessions y eventos de la comunidad Crafter Station en LATAM",
+    language: "TypeScript",
+    accent: "from-amber-300 via-amber-500 to-emerald-500",
+  },
+  {
     repo: "crafter-station/charts",
     stars: 4,
     openIssues: 0,
@@ -155,6 +164,15 @@ const seeds: Seed[] = [
       "Agent-first CLI for the v0 Platform API. JSON contract, trust ladder, audit trail, intent tokens.",
     language: "TypeScript",
     accent: "from-violet-400 via-blue-500 to-neutral-950",
+  },
+  {
+    repo: "Railly/vcut",
+    stars: 0,
+    openIssues: 8,
+    description:
+      "Agent-first CLI that cuts silences and filler words out of a recording.",
+    language: "TypeScript",
+    accent: "from-amber-300 via-amber-600 to-stone-900",
   },
   {
     repo: "crafter-station/li-metrics",
