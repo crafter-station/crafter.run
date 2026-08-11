@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.1.1
+
+### Patch Changes
+
+- [`da8421e`](https://github.com/crafter-station/crafter.run/commit/da8421ea84c8f447137ef5842c4a89f6147f425a) Thanks [@cuevaio](https://github.com/cuevaio)! - Run the installed CLI on Node.js 18 or newer without requiring Bun.
+
 ## 0.1.0
 
 ### Minor Changes
