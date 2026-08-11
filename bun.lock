@@ -116,7 +116,7 @@
     },
     "packages/cli": {
       "name": "@crafter/cli",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "bin": {
         "crafter": "./dist/index.js",
       },

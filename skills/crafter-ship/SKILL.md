@@ -5,7 +5,16 @@ description: Create a reviewable Crafter Station Ship draft from the current pro
 
 # Ship To Crafter
 
-Use the `crafter` CLI for authentication, metadata validation, API calls, and publishing. Do not implement HTTP or token handling yourself.
+Use the `crafter` CLI for installation, authentication, metadata validation, Ship submission, and publishing. Do not implement HTTP or token handling yourself, and do not submit Ships through the website.
+
+## Install The CLI
+
+1. Check whether `crafter` is installed with `command -v crafter`.
+2. If it is missing, verify Node.js 18 or newer is installed with `node --version`. If Node.js is unavailable or too old, ask the user to install a supported version from [nodejs.org](https://nodejs.org) and stop.
+3. Install the public CLI with `npm install --global @crafter/cli`.
+4. Verify the installation with `crafter help`.
+
+Do not clone the Crafter repository or invoke its internal source as a substitute for installing the published CLI.
 
 ## Safety Rules
 
@@ -18,13 +27,14 @@ Use the `crafter` CLI for authentication, metadata validation, API calls, and pu
 
 ## Workflow
 
-1. Check authentication with `crafter whoami`. If needed, run `crafter login`. If it returns `member: null`, run `crafter onboard` and let the user create their Crafter profile.
-2. Run `crafter ship` from the project root.
-3. If validation reports missing metadata, create or edit `crafter.ship.json` with only the fields the user approves, then run `crafter ship` again.
-4. Present the returned Ship draft and `previewUrl` to the user.
-5. Stop and ask whether to publish.
-6. Only after an explicit yes, run `crafter publish <draft-id> --revision <updatedAt-from-preview> --confirm`. If the draft changed, show the new revision and ask again.
-7. Return the published Ship URL.
+1. Install and verify the CLI as described above.
+2. Check authentication with `crafter whoami`. If needed, run `crafter login`. If it returns `member: null`, run `crafter onboard` and let the user create their Crafter profile.
+3. Submit a draft by running `crafter ship` from the project root. Every Ship submission must use this command or `crafter ship --file <json-file>`.
+4. If validation reports missing metadata, create or edit `crafter.ship.json` with only the fields the user approves, then run `crafter ship` again.
+5. Present the returned Ship draft and `previewUrl` to the user.
+6. Stop and ask whether to publish.
+7. Only after an explicit yes, run `crafter publish <draft-id> --revision <updatedAt-from-preview> --confirm`. If the draft changed, show the new revision and ask again.
+8. Return the published Ship URL.
 
 ## Optional Config
 

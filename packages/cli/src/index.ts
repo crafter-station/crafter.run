@@ -1,4 +1,3 @@
-#!/usr/bin/env bun
 import { createHash } from "node:crypto"
 import { readFile } from "node:fs/promises"
 import { execFile } from "node:child_process"

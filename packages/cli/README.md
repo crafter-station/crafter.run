@@ -5,8 +5,10 @@ Create reviewable Crafter Station Ship drafts from a local project, then publish
 ## Install
 
 ```bash
-bun add --global @crafter/cli
+npm install --global @crafter/cli
 ```
+
+The CLI requires Node.js 18 or newer. Bun is not required.
 
 ## Usage
 
