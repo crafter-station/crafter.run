@@ -5,6 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:migrate:supabase": "bun scripts/migrate-supabase-boards.ts",
     "start": "next start",
     "lint": "eslint .",
     "generate:project-timeline": "bun scripts/generate-project-timeline.ts"
@@ -12,6 +15,9 @@
   "dependencies": {
     "@ai-sdk/openai": "^3.0.73",
     "@hookform/resolvers": "^3.9.1",
+    "@neondatabase/serverless": "^1.1.0",
+    "@portalsdk/core": "^0.1.5",
+    "@portalsdk/react": "^0.1.4",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",
     "@radix-ui/react-aspect-ratio": "1.1.1",
@@ -41,7 +47,6 @@
     "@radix-ui/react-tooltip": "1.1.6",
     "@react-three/fiber": "^9.5.0",
     "@react-three/postprocessing": "^3.0.4",
-    "@supabase/supabase-js": "^2.108.2",
     "@t3-oss/env-nextjs": "^0.13.11",
     "@vercel/analytics": "^2.0.1",
     "ai": "^6.0.208",
@@ -50,6 +55,7 @@
     "clsx": "^2.1.1",
     "cmdk": "1.1.1",
     "date-fns": "4.1.0",
+    "drizzle-orm": "^0.45.2",
     "embla-carousel-react": "8.5.1",
     "fumadocs-core": "^16.14.0",
     "fumadocs-mdx": "^15.2.2",
@@ -79,6 +85,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.10",
     "postcss": "^8.5",
     "sharp": "^0.34.5",
     "tailwindcss": "^4.3.3",

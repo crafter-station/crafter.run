@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server"
+import { desc } from "drizzle-orm"
 import { z } from "zod"
 
+import { getDb } from "@/lib/db"
+import { nextProjects, nextProjectVotes } from "@/lib/db/schema"
+import { serializeNextProject, serializeNextProjectVote } from "@/lib/next-projects"
+import { publishNextProjectEvent } from "@/lib/portal"
 import { moderateProjectIdeaSubmission, validatePublicName } from "@/lib/public-submission-validation"
-import { createServerSupabaseClient } from "@/lib/supabase/server"
 
 const submissionSchema = z.object({
   idea: z.string().trim().min(4).max(600),
@@ -10,28 +14,20 @@ const submissionSchema = z.object({
 })
 
 export async function GET() {
-  const supabase = createServerSupabaseClient()
+  const db = getDb()
 
-  if (!supabase) {
-    return NextResponse.json({ error: "Supabase is not configured." }, { status: 500 })
+  if (!db) {
+    return NextResponse.json({ error: "Database is not configured." }, { status: 500 })
   }
 
-  const [projectsResult, votesResult] = await Promise.all([
-    supabase.from("next_projects").select("id, idea, alias, created_at").order("created_at", { ascending: false }),
-    supabase.from("next_project_votes").select("project_id, voter_id, created_at"),
+  const [projects, votes] = await Promise.all([
+    db.select().from(nextProjects).orderBy(desc(nextProjects.createdAt)),
+    db.select().from(nextProjectVotes),
   ])
 
-  if (projectsResult.error) {
-    return NextResponse.json({ error: projectsResult.error.message }, { status: 500 })
-  }
-
-  if (votesResult.error) {
-    return NextResponse.json({ error: votesResult.error.message }, { status: 500 })
-  }
-
   return NextResponse.json({
-    projects: projectsResult.data ?? [],
-    votes: votesResult.data ?? [],
+    projects: projects.map(serializeNextProject),
+    votes: votes.map(serializeNextProjectVote),
   })
 }
 
@@ -57,24 +53,21 @@ export async function POST(request: Request) {
     )
   }
 
-  const supabase = createServerSupabaseClient()
+  const db = getDb()
 
-  if (!supabase) {
-    return NextResponse.json({ error: "Supabase is not configured." }, { status: 500 })
+  if (!db) {
+    return NextResponse.json({ error: "Database is not configured." }, { status: 500 })
   }
 
-  const { data, error } = await supabase
-    .from("next_projects")
-    .insert({
+  const [created] = await db
+    .insert(nextProjects)
+    .values({
       idea: parsed.data.idea,
       alias: parsed.data.alias || null,
     })
-    .select("id, idea, alias, created_at")
-    .single()
+    .returning()
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
-  }
-
-  return NextResponse.json({ project: data })
+  const project = serializeNextProject(created)
+  await publishNextProjectEvent({ type: "board.changed" })
+  return NextResponse.json({ project })
 }

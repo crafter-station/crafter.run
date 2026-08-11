@@ -1,0 +1,275 @@
+{
+  "id": "1a058a33-dcc4-4b79-a343-3396269e9799",
+  "prevId": "4f4f349e-5514-4470-a5db-85aa4545cc87",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.audience_question_votes": {
+      "name": "audience_question_votes",
+      "schema": "",
+      "columns": {
+        "question_id": {
+          "name": "question_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "voter_id": {
+          "name": "voter_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "audience_question_votes_question_id_audience_questions_id_fk": {
+          "name": "audience_question_votes_question_id_audience_questions_id_fk",
+          "tableFrom": "audience_question_votes",
+          "tableTo": "audience_questions",
+          "columnsFrom": [
+            "question_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "audience_question_votes_question_id_voter_id_pk": {
+          "name": "audience_question_votes_question_id_voter_id_pk",
+          "columns": [
+            "question_id",
+            "voter_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "audience_question_votes_voter_id_check": {
+          "name": "audience_question_votes_voter_id_check",
+          "value": "char_length(\"audience_question_votes\".\"voter_id\") between 16 and 120"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.audience_questions": {
+      "name": "audience_questions",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "board_slug": {
+          "name": "board_slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question": {
+          "name": "question",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "context": {
+          "name": "context",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "alias": {
+          "name": "alias",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "audience_questions_board_created_idx": {
+          "name": "audience_questions_board_created_idx",
+          "columns": [
+            {
+              "expression": "board_slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "audience_questions_board_slug_check": {
+          "name": "audience_questions_board_slug_check",
+          "value": "\"audience_questions\".\"board_slug\" ~ '^[a-z0-9][a-z0-9-]*[a-z0-9]$' and char_length(\"audience_questions\".\"board_slug\") between 2 and 80"
+        },
+        "audience_questions_question_check": {
+          "name": "audience_questions_question_check",
+          "value": "char_length(trim(\"audience_questions\".\"question\")) between 4 and 900"
+        },
+        "audience_questions_context_check": {
+          "name": "audience_questions_context_check",
+          "value": "\"audience_questions\".\"context\" is null or char_length(trim(\"audience_questions\".\"context\")) between 1 and 1200"
+        },
+        "audience_questions_alias_check": {
+          "name": "audience_questions_alias_check",
+          "value": "\"audience_questions\".\"alias\" is null or char_length(trim(\"audience_questions\".\"alias\")) between 2 and 80"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.next_project_votes": {
+      "name": "next_project_votes",
+      "schema": "",
+      "columns": {
+        "project_id": {
+          "name": "project_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "voter_id": {
+          "name": "voter_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "next_project_votes_project_id_next_projects_id_fk": {
+          "name": "next_project_votes_project_id_next_projects_id_fk",
+          "tableFrom": "next_project_votes",
+          "tableTo": "next_projects",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "next_project_votes_project_id_voter_id_pk": {
+          "name": "next_project_votes_project_id_voter_id_pk",
+          "columns": [
+            "project_id",
+            "voter_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "next_project_votes_voter_id_length": {
+          "name": "next_project_votes_voter_id_length",
+          "value": "char_length(\"next_project_votes\".\"voter_id\") between 16 and 120"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.next_projects": {
+      "name": "next_projects",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "idea": {
+          "name": "idea",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alias": {
+          "name": "alias",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "next_projects_idea_length": {
+          "name": "next_projects_idea_length",
+          "value": "char_length(trim(\"next_projects\".\"idea\")) between 4 and 600"
+        },
+        "next_projects_alias_length": {
+          "name": "next_projects_alias_length",
+          "value": "\"next_projects\".\"alias\" is null or char_length(trim(\"next_projects\".\"alias\")) between 1 and 80"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

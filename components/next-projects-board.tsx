@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState, useTransition } from "react"
+import { useEffect, useEffectEvent, useMemo, useRef, useState, useTransition } from "react"
 import { ChevronDown, ChevronUp, Loader2, Radio, Send, Sparkles } from "lucide-react"
+import { PortalProvider, useChannel } from "@portalsdk/react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -14,8 +15,14 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { createBrowserSupabaseClient } from "@/lib/supabase/browser"
-import type { NextProject, NextProjectVote, NextProjectWithVotes } from "@/lib/supabase/next-projects"
+import type {
+  NextProject,
+  NextProjectRealtimeEvent,
+  NextProjectVote,
+  NextProjectWithVotes,
+} from "@/lib/next-projects"
+import { portal } from "@/lib/portal-client"
+import { nextProjectsChannelId } from "@/lib/portal-channels"
 import { cn } from "@/lib/utils"
 
 const voterStorageKey = "crafter.next.voterId"
@@ -79,7 +86,7 @@ function VoteCount({ value }: { value: number }) {
   )
 }
 
-export function NextProjectsBoard() {
+function NextProjectsBoardContent() {
   const [projects, setProjects] = useState<NextProject[]>([])
   const [votes, setVotes] = useState<NextProjectVote[]>([])
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -90,6 +97,46 @@ export function NextProjectsBoard() {
   const [isSubmitting, startSubmitTransition] = useTransition()
   const [, startVoteTransition] = useTransition()
   const voterIdRef = useRef<string | null>(null)
+
+  const loadBoard = useEffectEvent(async (signal?: AbortSignal, showLoading = false) => {
+    if (showLoading) {
+      setIsLoading(true)
+    }
+
+    const response = await fetch("/api/next-projects", { signal }).catch((error) => {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return null
+      }
+
+      throw error
+    })
+
+    if (!response) {
+      return
+    }
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      setMessage(data.error ?? "Could not load the board.")
+      setIsLoading(false)
+      return
+    }
+
+    setProjects(data.projects ?? [])
+    setVotes(data.votes ?? [])
+    setIsLoading(false)
+  })
+
+  const { status: realtimeStatus } = useChannel<NextProjectRealtimeEvent>({
+    channelId: nextProjectsChannelId,
+    history: "none",
+    onMessage: (message) => {
+      if (message.content.type === "board.changed") {
+        void loadBoard()
+      }
+    },
+  })
 
   const board = useMemo<NextProjectWithVotes[]>(() => {
     const voterId = voterIdRef.current
@@ -115,89 +162,12 @@ export function NextProjectsBoard() {
 
   useEffect(() => {
     const controller = new AbortController()
-    let mounted = true
 
     voterIdRef.current = getVoterId()
-
-    async function loadBoard() {
-      setIsLoading(true)
-      const response = await fetch("/api/next-projects", { signal: controller.signal }).catch((error) => {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return null
-        }
-
-        throw error
-      })
-
-      if (!response || !mounted) {
-        return
-      }
-
-      const data = await response.json()
-
-      if (!mounted) {
-        return
-      }
-
-      if (!response.ok) {
-        setMessage(data.error ?? "Could not load the board.")
-        setIsLoading(false)
-        return
-      }
-
-      setProjects(data.projects ?? [])
-      setVotes(data.votes ?? [])
-      setIsLoading(false)
-    }
-
-    const supabase = createBrowserSupabaseClient()
-    void loadBoard()
-
-    if (!supabase) {
-      setMessage("Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to enable realtime updates.")
-      return
-    }
-
-    const channel = supabase
-      .channel("next-projects-board")
-      .on("postgres_changes", { event: "*", schema: "public", table: "next_projects" }, (payload) => {
-        if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
-          const project = payload.new as NextProject
-          setProjects((current) => [project, ...current.filter((item) => item.id !== project.id)])
-        }
-
-        if (payload.eventType === "DELETE") {
-          const project = payload.old as Pick<NextProject, "id">
-          setProjects((current) => current.filter((item) => item.id !== project.id))
-          setVotes((current) => current.filter((vote) => vote.project_id !== project.id))
-        }
-      })
-      .on("postgres_changes", { event: "*", schema: "public", table: "next_project_votes" }, (payload) => {
-        if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
-          const vote = payload.new as NextProjectVote
-          setVotes((current) => [
-            ...current.filter(
-              (item) => !(item.project_id === vote.project_id && item.voter_id === vote.voter_id),
-            ),
-            vote,
-          ])
-        }
-
-        if (payload.eventType === "DELETE") {
-          const vote = payload.old as Pick<NextProjectVote, "project_id" | "voter_id">
-          setVotes((current) =>
-            current.filter(
-              (item) => !(item.project_id === vote.project_id && item.voter_id === vote.voter_id),
-            ),
-          )
-        }
-      })
-      .subscribe()
+    void loadBoard(controller.signal, true)
 
     return () => {
-      mounted = false
       controller.abort()
-      void supabase.removeChannel(channel)
     }
   }, [])
 
@@ -342,7 +312,7 @@ export function NextProjectsBoard() {
         <div className="flex flex-col justify-between gap-4 border-b border-line p-4 md:flex-row md:items-center md:p-6">
           <div>
             <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-              <Radio className="h-3.5 w-3.5 text-emerald-300" />
+              <Radio className={cn("h-3.5 w-3.5", realtimeStatus === "ready" ? "text-emerald-300" : "text-muted-foreground")} />
               Realtime queue
             </div>
             <h2 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">Community-ranked builds</h2>
@@ -405,5 +375,13 @@ export function NextProjectsBoard() {
         </div>
       </section>
     </div>
+  )
+}
+
+export function NextProjectsBoard() {
+  return (
+    <PortalProvider client={portal}>
+      <NextProjectsBoardContent />
+    </PortalProvider>
   )
 }

@@ -9,7 +9,7 @@
 - Context is an optional textarea for background, constraints, or details that help presenters answer better.
 - Voting stays anonymous per browser with a local `voterId`, matching the existing next-projects board.
 - The board is realtime and ranked by vote count first, newest submission second.
-- Supabase service-role route handlers own writes; public RLS only exposes reads, matching the current project ideas board.
+- Next.js route handlers own reads and writes through Drizzle on Neon; Portal broadcasts lightweight board invalidations after mutations.
 
 ## Validation Model
 

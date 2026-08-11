@@ -1,8 +1,12 @@
 import { NextResponse } from "next/server"
+import { desc, eq } from "drizzle-orm"
 import { z } from "zod"
 
+import { getDb } from "@/lib/db"
+import { audienceQuestions, audienceQuestionVotes } from "@/lib/db/schema"
+import { publishWorkshopQuestionEvent } from "@/lib/portal"
 import { moderatePresentationQuestionSubmission, validatePublicName } from "@/lib/public-submission-validation"
-import { createServerSupabaseClient } from "@/lib/supabase/server"
+import { serializeWorkshopQuestion, serializeWorkshopQuestionVote } from "@/lib/workshop-questions"
 
 const boardSlugSchema = z.string().trim().min(2).max(80).regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/)
 
@@ -49,35 +53,28 @@ export async function GET(request: Request) {
     return responseJson({ error: "Invalid question board." }, { status: 400 })
   }
 
-  const supabase = createServerSupabaseClient()
+  const db = getDb()
 
-  if (!supabase) {
-    return responseJson({ error: "Supabase is not configured." }, { status: 500 })
+  if (!db) {
+    return responseJson({ error: "Database is not configured." }, { status: 500 })
   }
 
-  const [questionsResult, votesResult] = await Promise.all([
-    supabase
-      .from("audience_questions")
-      .select("id, board_slug, question, context, alias, created_at")
-      .eq("board_slug", boardSlug)
-      .order("created_at", { ascending: false }),
-    supabase
-      .from("audience_question_votes")
-      .select("question_id, voter_id, created_at, audience_questions!inner(board_slug)")
-      .eq("audience_questions.board_slug", boardSlug),
+  const [questions, voteRows] = await Promise.all([
+    db
+      .select()
+      .from(audienceQuestions)
+      .where(eq(audienceQuestions.boardSlug, boardSlug))
+      .orderBy(desc(audienceQuestions.createdAt)),
+    db
+      .select({ vote: audienceQuestionVotes })
+      .from(audienceQuestionVotes)
+      .innerJoin(audienceQuestions, eq(audienceQuestionVotes.questionId, audienceQuestions.id))
+      .where(eq(audienceQuestions.boardSlug, boardSlug)),
   ])
 
-  if (questionsResult.error) {
-    return responseJson({ error: questionsResult.error.message }, { status: 500 })
-  }
-
-  if (votesResult.error) {
-    return responseJson({ error: votesResult.error.message }, { status: 500 })
-  }
-
   return responseJson({
-    questions: questionsResult.data ?? [],
-    votes: (votesResult.data ?? []).map(({ question_id, voter_id, created_at }) => ({ question_id, voter_id, created_at })),
+    questions: questions.map(serializeWorkshopQuestion),
+    votes: voteRows.map(({ vote }) => serializeWorkshopQuestionVote(vote)),
   })
 }
 
@@ -111,26 +108,23 @@ export async function POST(request: Request) {
     )
   }
 
-  const supabase = createServerSupabaseClient()
+  const db = getDb()
 
-  if (!supabase) {
-    return responseJson({ error: "Supabase is not configured." }, { status: 500 })
+  if (!db) {
+    return responseJson({ error: "Database is not configured." }, { status: 500 })
   }
 
-  const { data, error } = await supabase
-    .from("audience_questions")
-    .insert({
-      board_slug: parsed.data.boardSlug,
+  const [created] = await db
+    .insert(audienceQuestions)
+    .values({
+      boardSlug: parsed.data.boardSlug,
       question: parsed.data.question,
       context: parsed.data.context || null,
       alias: parsed.data.alias || null,
     })
-    .select("id, board_slug, question, context, alias, created_at")
-    .single()
+    .returning()
 
-  if (error) {
-    return responseJson({ error: error.message }, { status: 500 })
-  }
-
-  return responseJson({ question: data })
+  const question = serializeWorkshopQuestion(created)
+  await publishWorkshopQuestionEvent(parsed.data.boardSlug, { type: "board.changed" })
+  return responseJson({ question })
 }

@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server"
+import { and, eq } from "drizzle-orm"
 import { z } from "zod"
 
-import { createServerSupabaseClient } from "@/lib/supabase/server"
+import { getDb } from "@/lib/db"
+import { audienceQuestions, audienceQuestionVotes } from "@/lib/db/schema"
+import { publishWorkshopQuestionEvent } from "@/lib/portal"
 
 const voteSchema = z.object({
   questionId: z.string().uuid(),
@@ -39,37 +42,44 @@ export async function POST(request: Request) {
     return responseJson({ error: "Invalid vote." }, { status: 400 })
   }
 
-  const supabase = createServerSupabaseClient()
+  const db = getDb()
 
-  if (!supabase) {
-    return responseJson({ error: "Supabase is not configured." }, { status: 500 })
+  if (!db) {
+    return responseJson({ error: "Database is not configured." }, { status: 500 })
+  }
+
+  const [question] = await db
+    .select({ boardSlug: audienceQuestions.boardSlug })
+    .from(audienceQuestions)
+    .where(eq(audienceQuestions.id, parsed.data.questionId))
+    .limit(1)
+
+  if (!question) {
+    return responseJson({ error: "Question not found." }, { status: 404 })
   }
 
   if (!parsed.data.active) {
-    const { error } = await supabase
-      .from("audience_question_votes")
-      .delete()
-      .eq("question_id", parsed.data.questionId)
-      .eq("voter_id", parsed.data.voterId)
+    await db
+      .delete(audienceQuestionVotes)
+      .where(
+        and(
+          eq(audienceQuestionVotes.questionId, parsed.data.questionId),
+          eq(audienceQuestionVotes.voterId, parsed.data.voterId),
+        ),
+      )
 
-    if (error) {
-      return responseJson({ error: error.message }, { status: 500 })
-    }
-
+    await publishWorkshopQuestionEvent(question.boardSlug, { type: "board.changed" })
     return responseJson({ voted: false })
   }
 
-  const { error } = await supabase.from("audience_question_votes").upsert(
-    {
-      question_id: parsed.data.questionId,
-      voter_id: parsed.data.voterId,
-    },
-    { onConflict: "question_id,voter_id" },
-  )
+  await db
+    .insert(audienceQuestionVotes)
+    .values({
+      questionId: parsed.data.questionId,
+      voterId: parsed.data.voterId,
+    })
+    .onConflictDoNothing()
 
-  if (error) {
-    return responseJson({ error: error.message }, { status: 500 })
-  }
-
+  await publishWorkshopQuestionEvent(question.boardSlug, { type: "board.changed" })
   return responseJson({ voted: true })
 }

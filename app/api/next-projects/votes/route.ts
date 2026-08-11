@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server"
+import { and, eq } from "drizzle-orm"
 import { z } from "zod"
 
-import { createServerSupabaseClient } from "@/lib/supabase/server"
+import { getDb } from "@/lib/db"
+import { nextProjectVotes } from "@/lib/db/schema"
+import { publishNextProjectEvent } from "@/lib/portal"
 
 const voteSchema = z.object({
   projectId: z.string().uuid(),
@@ -16,37 +19,34 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid vote." }, { status: 400 })
   }
 
-  const supabase = createServerSupabaseClient()
+  const db = getDb()
 
-  if (!supabase) {
-    return NextResponse.json({ error: "Supabase is not configured." }, { status: 500 })
+  if (!db) {
+    return NextResponse.json({ error: "Database is not configured." }, { status: 500 })
   }
 
   if (!parsed.data.active) {
-    const { error } = await supabase
-      .from("next_project_votes")
-      .delete()
-      .eq("project_id", parsed.data.projectId)
-      .eq("voter_id", parsed.data.voterId)
+    await db
+      .delete(nextProjectVotes)
+      .where(
+        and(
+          eq(nextProjectVotes.projectId, parsed.data.projectId),
+          eq(nextProjectVotes.voterId, parsed.data.voterId),
+        ),
+      )
 
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-
+    await publishNextProjectEvent({ type: "board.changed" })
     return NextResponse.json({ voted: false })
   }
 
-  const { error } = await supabase.from("next_project_votes").upsert(
-    {
-      project_id: parsed.data.projectId,
-      voter_id: parsed.data.voterId,
-    },
-    { onConflict: "project_id,voter_id" },
-  )
+  await db
+    .insert(nextProjectVotes)
+    .values({
+      projectId: parsed.data.projectId,
+      voterId: parsed.data.voterId,
+    })
+    .onConflictDoNothing()
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 })
-  }
-
+  await publishNextProjectEvent({ type: "board.changed" })
   return NextResponse.json({ voted: true })
 }

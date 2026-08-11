@@ -1,0 +1,2 @@
+ALTER TABLE "audience_questions" DROP CONSTRAINT "audience_questions_question_check";--> statement-breakpoint
+ALTER TABLE "audience_questions" ADD CONSTRAINT "audience_questions_question_check" CHECK (char_length(trim("audience_questions"."question")) between 4 and 900);

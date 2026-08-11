@@ -4,6 +4,8 @@
 - Use Bun for dependency/script commands; this repo has `bun.lock` and no `packageManager` field.
 - `bun run dev` starts the Next dev server.
 - `bun run build` is the current production smoke test and succeeds, but it is not a typecheck because `next.config.mjs` sets `typescript.ignoreBuildErrors: true`.
+- `bun run db:generate` generates Drizzle migrations; `bun run db:migrate` applies them to `DATABASE_URL`.
+- `bun run db:migrate:supabase` is the idempotent one-time board-data importer and requires `SUPABASE_MIGRATION_URL` plus `SUPABASE_MIGRATION_SERVICE_ROLE_KEY` outside app env validation.
 - `bun run lint` currently fails: `package.json` calls `eslint .`, but ESLint is not installed/configured.
 - `bun run tsc --noEmit` currently fails on `scripts/generate-assets.ts` because that script uses Bun-only `import.meta.dir`; it also updates the tracked `tsconfig.tsbuildinfo`.
 - There are no test scripts or test files in the repo.
@@ -18,7 +20,7 @@
 ## Integrations
 - Env validation is in `env.ts`; all listed env vars are optional.
 - Missing `LUMA_API_KEY` makes `lib/luma.ts` return empty event lists and log a warning; event pages revalidate every 6 hours.
-- `/api/next-projects` and `/api/next-projects/votes` require Supabase env to work server-side: `NEXT_PUBLIC_SUPABASE_URL` plus `SUPABASE_SERVICE_ROLE_KEY`; the client realtime board also needs `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+- Project and workshop boards use Drizzle over Neon HTTP with `DATABASE_URL`; browser realtime uses `NEXT_PUBLIC_PORTAL_KEY`, and route handlers publish invalidations with `PORTAL_SECRET`.
 - Missing `OPENAI_API_KEY` skips AI spam moderation for next-project submissions.
 - `RESEND_API_KEY` is validated but not currently used; `/api/contact` only validates email and returns `204`.
 

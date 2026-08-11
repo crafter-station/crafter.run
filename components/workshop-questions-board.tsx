@@ -1,7 +1,8 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState, useTransition } from "react"
+import { useEffect, useEffectEvent, useMemo, useRef, useState, useTransition } from "react"
 import { ChevronDown, ChevronUp, Loader2, MessageSquareText, Radio, Send, Sparkles } from "lucide-react"
+import { PortalProvider, useChannel } from "@portalsdk/react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -14,12 +15,14 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { createBrowserSupabaseClient } from "@/lib/supabase/browser"
 import type {
   WorkshopQuestion,
+  WorkshopQuestionRealtimeEvent,
   WorkshopQuestionVote,
   WorkshopQuestionWithVotes,
-} from "@/lib/supabase/workshop-questions"
+} from "@/lib/workshop-questions"
+import { portal } from "@/lib/portal-client"
+import { workshopQuestionsChannelId } from "@/lib/portal-channels"
 import { cn } from "@/lib/utils"
 
 const voterStorageKey = "crafter.workshops.questions.voterId"
@@ -92,7 +95,7 @@ function VoteCount({ value }: { value: number }) {
   )
 }
 
-export function WorkshopQuestionsBoard({
+function WorkshopQuestionsBoardContent({
   boardSlug = "workshop",
   submitLabel = "Ask a question",
   dialogTitle = "What should we answer during the workshop?",
@@ -111,11 +114,48 @@ export function WorkshopQuestionsBoard({
   const [isSubmitting, startSubmitTransition] = useTransition()
   const [, startVoteTransition] = useTransition()
   const voterIdRef = useRef<string | null>(null)
-  const questionIdsRef = useRef<Set<string>>(new Set())
 
-  useEffect(() => {
-    questionIdsRef.current = new Set(questions.map((item) => item.id))
-  }, [questions])
+  const loadBoard = useEffectEvent(async (signal?: AbortSignal, showLoading = false) => {
+    if (showLoading) {
+      setIsLoading(true)
+    }
+
+    const response = await fetch(`/api/workshop-questions?board=${encodeURIComponent(boardSlug)}`, {
+      signal,
+    }).catch((error) => {
+      if (error instanceof DOMException && error.name === "AbortError") {
+        return null
+      }
+
+      throw error
+    })
+
+    if (!response) {
+      return
+    }
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      setMessage(data.error ?? "Could not load the questions.")
+      setIsLoading(false)
+      return
+    }
+
+    setQuestions(data.questions ?? [])
+    setVotes(data.votes ?? [])
+    setIsLoading(false)
+  })
+
+  const { status: realtimeStatus } = useChannel<WorkshopQuestionRealtimeEvent>({
+    channelId: workshopQuestionsChannelId(boardSlug),
+    history: "none",
+    onMessage: (message) => {
+      if (message.content.type === "board.changed") {
+        void loadBoard()
+      }
+    },
+  })
 
   const board = useMemo<WorkshopQuestionWithVotes[]>(() => {
     const voterId = voterIdRef.current
@@ -141,89 +181,12 @@ export function WorkshopQuestionsBoard({
 
   useEffect(() => {
     const controller = new AbortController()
-    let mounted = true
 
     voterIdRef.current = getVoterId()
-
-    async function loadBoard() {
-      setIsLoading(true)
-      const response = await fetch(`/api/workshop-questions?board=${encodeURIComponent(boardSlug)}`, { signal: controller.signal }).catch((error) => {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return null
-        }
-
-        throw error
-      })
-
-      if (!response || !mounted) {
-        return
-      }
-
-      const data = await response.json()
-
-      if (!mounted) {
-        return
-      }
-
-      if (!response.ok) {
-        setMessage(data.error ?? "Could not load the questions.")
-        setIsLoading(false)
-        return
-      }
-
-      setQuestions(data.questions ?? [])
-      setVotes(data.votes ?? [])
-      setIsLoading(false)
-    }
-
-    const supabase = createBrowserSupabaseClient()
-    void loadBoard()
-
-    if (!supabase) {
-      setMessage("Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to enable realtime updates.")
-      return
-    }
-
-    const channel = supabase
-      .channel("workshop-questions-board")
-      .on("postgres_changes", { event: "*", schema: "public", table: "audience_questions", filter: `board_slug=eq.${boardSlug}` }, (payload) => {
-        if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
-          const nextQuestion = payload.new as WorkshopQuestion
-          setQuestions((current) => [nextQuestion, ...current.filter((item) => item.id !== nextQuestion.id)])
-        }
-
-        if (payload.eventType === "DELETE") {
-          const deletedQuestion = payload.old as Pick<WorkshopQuestion, "id">
-          setQuestions((current) => current.filter((item) => item.id !== deletedQuestion.id))
-          setVotes((current) => current.filter((vote) => vote.question_id !== deletedQuestion.id))
-        }
-      })
-      .on("postgres_changes", { event: "*", schema: "public", table: "audience_question_votes" }, (payload) => {
-        if (payload.eventType === "INSERT" || payload.eventType === "UPDATE") {
-          const vote = payload.new as WorkshopQuestionVote
-          if (!questionIdsRef.current.has(vote.question_id)) {
-            return
-          }
-
-          setVotes((current) => [
-            ...current.filter((item) => !(item.question_id === vote.question_id && item.voter_id === vote.voter_id)),
-            vote,
-          ])
-        }
-
-        if (payload.eventType === "DELETE") {
-          const vote = payload.old as Pick<WorkshopQuestionVote, "question_id" | "voter_id">
-          setVotes((current) =>
-            current.filter((item) => !(item.question_id === vote.question_id && item.voter_id === vote.voter_id)),
-          )
-        }
-      })
-      .subscribe()
+    void loadBoard(controller.signal, true)
 
     return () => {
-      mounted = false
       controller.abort()
-      void supabase.removeChannel(channel)
     }
   }, [boardSlug])
 
@@ -378,7 +341,7 @@ export function WorkshopQuestionsBoard({
         <div className="flex flex-col justify-between gap-4 border-b border-line p-4 md:flex-row md:items-center md:p-6">
           <div>
             <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
-              <Radio className="h-3.5 w-3.5 text-emerald-300" />
+              <Radio className={cn("h-3.5 w-3.5", realtimeStatus === "ready" ? "text-emerald-300" : "text-muted-foreground")} />
               Realtime Q&A queue
             </div>
             <h2 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">{heading}</h2>
@@ -450,5 +413,13 @@ export function WorkshopQuestionsBoard({
         </div>
       </section>
     </div>
+  )
+}
+
+export function WorkshopQuestionsBoard(props: WorkshopQuestionsBoardProps) {
+  return (
+    <PortalProvider client={portal}>
+      <WorkshopQuestionsBoardContent {...props} />
+    </PortalProvider>
   )
 }

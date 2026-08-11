@@ -1,0 +1,126 @@
+{
+  "id": "276aec82-ee5f-4c56-96dd-308d28043264",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.next_project_votes": {
+      "name": "next_project_votes",
+      "schema": "",
+      "columns": {
+        "project_id": {
+          "name": "project_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "voter_id": {
+          "name": "voter_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "next_project_votes_project_id_next_projects_id_fk": {
+          "name": "next_project_votes_project_id_next_projects_id_fk",
+          "tableFrom": "next_project_votes",
+          "tableTo": "next_projects",
+          "columnsFrom": [
+            "project_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "next_project_votes_project_id_voter_id_pk": {
+          "name": "next_project_votes_project_id_voter_id_pk",
+          "columns": [
+            "project_id",
+            "voter_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "next_project_votes_voter_id_length": {
+          "name": "next_project_votes_voter_id_length",
+          "value": "char_length(\"next_project_votes\".\"voter_id\") between 16 and 120"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "public.next_projects": {
+      "name": "next_projects",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "idea": {
+          "name": "idea",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alias": {
+          "name": "alias",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "next_projects_idea_length": {
+          "name": "next_projects_idea_length",
+          "value": "char_length(trim(\"next_projects\".\"idea\")) between 4 and 600"
+        },
+        "next_projects_alias_length": {
+          "name": "next_projects_alias_length",
+          "value": "\"next_projects\".\"alias\" is null or char_length(trim(\"next_projects\".\"alias\")) between 1 and 80"
+        }
+      },
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
