@@ -14,6 +14,7 @@ import {
 } from "@crafter/contracts"
 import { createHash } from "node:crypto"
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi"
+import "hono"
 import { cors } from "hono/cors"
 import { requestId } from "hono/request-id"
 import { secureHeaders } from "hono/secure-headers"
