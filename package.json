@@ -14,12 +14,17 @@
     "build": "turbo run build",
     "start": "turbo run start --filter=@crafter/web",
     "lint": "turbo run lint",
+    "changeset": "changeset",
+    "version:cli": "changeset version",
+    "release:cli": "bun run --cwd packages/cli build && changeset publish",
     "db:generate": "bun run --cwd packages/db db:generate",
     "db:migrate": "bun run --cwd packages/db db:migrate",
     "db:migrate:supabase": "bun run --cwd apps/web db:migrate:supabase",
     "generate:project-timeline": "bun run --cwd apps/web generate:project-timeline"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^1.0.0",
+    "@changesets/cli": "^3.0.0",
     "turbo": "2.10.9"
   }
 }
