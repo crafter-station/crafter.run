@@ -184,6 +184,8 @@ const seeds: Seed[] = [
   },
 ]
 
+export const ossRepoNames = seeds.map((seed) => seed.repo)
+
 function fromSeed(seed: Seed): OssRepo {
   return {
     ...seed,

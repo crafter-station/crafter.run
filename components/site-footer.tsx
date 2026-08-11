@@ -2,7 +2,7 @@ import Link from "next/link"
 import { getTranslations } from "next-intl/server"
 import { LocalizedLink } from "@/components/localized-link"
 import { SiteWordmark } from "@/components/site-wordmark"
-import { type Locale } from "@/lib/i18n"
+import type { Locale } from "@/lib/i18n"
 import { getProducts, socials } from "@/lib/site"
 
 const companyLinks = [
@@ -16,6 +16,7 @@ const companyLinks = [
 
 const buildLinks = [
   { key: "oss", href: "/oss" },
+  { key: "ossMetrics", href: "/oss/metrics" },
   { key: "products", href: "/products" },
   { key: "timeline", href: "/timeline" },
   { key: "research", href: "/research" },
