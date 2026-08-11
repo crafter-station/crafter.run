@@ -66,6 +66,13 @@ export default async function Page({
                 >
                   <ArrowLink>{t("githubCta")}</ArrowLink>
                 </Link>
+                <LocalizedLink
+                  href="/oss/metrics"
+                  locale={lang}
+                  className="group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                >
+                  <ArrowLink>{t("metricsCta")}</ArrowLink>
+                </LocalizedLink>
               </div>
             </div>
             <HeroNetworkPanel
