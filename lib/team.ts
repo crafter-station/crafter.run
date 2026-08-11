@@ -41,7 +41,7 @@ export const teamMembers: TeamMember[] = [
     image: "/team/shiara.png",
     bio: {
       en: "Name it and I'll learn it. Design engineer building across web, videogames and research. Building products where neuroscience meets user experience. Founder of Glitch Girls and organizer of #SheShips, empowering women across LATAM to build and ship.",
-      es: "Nombralo y lo aprendere. Ingeniera de diseno construyendo en web, videojuegos e investigacion. Construyendo productos donde la neurociencia se encuentra con la experiencia de usuario. Fundadora de Glitch Girls y organizadora de #SheShips, empoderando a mujeres en LATAM para construir y hacer ship.",
+      es: "Nómbralo y lo aprenderé. Ingeniera de diseño construyendo en web, videojuegos e investigación. Construyendo productos donde la neurociencia se encuentra con la experiencia de usuario. Fundadora de Glitch Girls y organizadora de #SheShips, empoderando a mujeres en LATAM para construir y hacer ship.",
       pt: "Diga o nome e eu aprenderei. Engenheira de design construindo na web, videogames e pesquisa. Construindo produtos onde a neurociencia encontra a experiencia do usuario. Fundadora do Glitch Girls e organizadora do #SheShips, empoderando mulheres no LATAM para construir e fazer ship.",
       zh: "说出名字，我就能学会。设计工程师，横跨 Web、游戏和研究领域。打造让神经科学与用户体验相遇的产品。Glitch Girls 创始人、#SheShips 组织者，助力拉美女性去构建和 ship。",
       ja: "名前を挙げてくれれば、なんでも学びます。Web、ゲーム、リサーチを横断するデザインエンジニア。神経科学とユーザー体験が交わるプロダクトを作っています。Glitch Girls の創設者、#SheShips のオーガナイザーとして、LATAM の女性たちが作ってシップすることを後押ししています。",
@@ -151,7 +151,7 @@ export const teamMembers: TeamMember[] = [
     image: "/team/railly.png",
     bio: {
       en: "Peruvian software engineer based in Buenos Aires. Software Engineer at Vercel Labs, founder of Crafter Station, principal creator of Petdex, and Codex Ambassador in Peru.",
-      es: "Ingeniero de software peruano radicado en Buenos Aires. Software Engineer en Vercel Labs, fundador de Crafter Station, creador principal de Petdex y Codex Ambassador en Peru.",
+      es: "Ingeniero de software peruano radicado en Buenos Aires. Software Engineer en Vercel Labs, fundador de Crafter Station, creador principal de Petdex y Codex Ambassador en Perú.",
       pt: "Engenheiro de software peruano baseado em Buenos Aires. Software Engineer na Vercel Labs, fundador da Crafter Station, principal criador do Petdex e Codex Ambassador no Peru.",
       zh: "常驻布宜诺斯艾利斯的秘鲁软件工程师。Vercel Labs 软件工程师、Crafter Station 创始人、Petdex 主要创作者，以及秘鲁的 Codex Ambassador。",
       ja: "ブエノスアイレス在住のペルー出身ソフトウェアエンジニア。Vercel Labs のソフトウェアエンジニア、Crafter Station の創設者、Petdex のメインクリエイター、そしてペルーの Codex Ambassador です。",
@@ -236,7 +236,7 @@ export const teamMembers: TeamMember[] = [
     image: "/team/cueva.png",
     bio: {
       en: "Product engineer obsessed with shipping and building in public. Self-taught software engineer currently working at a crypto startup. Organizes IRL events to spread the shipping culture across LATAM and is on a mission to grow the Crafter Station community. Can help with career advice and shipping products.",
-      es: "Ingeniero de producto obsesionado con shipear y construir en publico. Ingeniero de software autodidacta trabajando actualmente en una startup de cripto. Organiza eventos IRL para difundir la cultura del shipeo en LATAM y tiene la mision de hacer crecer la comunidad de Crafter Station. Puede ayudar con consejos de carrera y shipeo de productos.",
+      es: "Ingeniero de producto obsesionado con shipear y construir en público. Ingeniero de software autodidacta trabajando actualmente en una startup de cripto. Organiza eventos IRL para difundir la cultura del shipeo en LATAM y tiene la misión de hacer crecer la comunidad de Crafter Station. Puede ayudar con consejos de carrera y shipeo de productos.",
       pt: "Engenheiro de produto obcecado em fazer ship e construir em publico. Engenheiro de software autodidata trabalhando atualmente em uma startup de cripto. Organiza eventos presenciais para espalhar a cultura do ship pelo LATAM e tem a missao de crescer a comunidade da Crafter Station. Pode ajudar com carreira e shipping de produtos.",
       zh: "痴迷于 ship 和公开构建的产品工程师。自学成才的软件工程师，目前在一家加密创业公司工作。组织线下活动在拉美传播 shipping 文化，并以壮大 Crafter Station 社区为使命。可以在职业建议和产品 ship 方面提供帮助。",
       ja: "シップすることと公開の場で開発することに夢中なプロダクトエンジニア。独学のソフトウェアエンジニアで、現在は暗号資産スタートアップで働いています。LATAM にシップの文化を広めるためオフラインイベントを主催し、Crafter Station コミュニティを育てることをミッションにしています。キャリア相談やプロダクトのシップの相談に乗れます。",
@@ -298,7 +298,7 @@ export const teamMembers: TeamMember[] = [
     image: "/team/emmy.png",
     bio: {
       en: "Growth and marketing strategist with an anthropology background that shapes how she thinks about products: starting with people, not solutions. Expert in automation and AI workflows, she finds elegant ways to solve complex distribution challenges.",
-      es: "Estratega de growth y marketing con formacion en antropologia que define como piensa sobre productos: empezando por las personas, no por las soluciones. Experta en automatizacion y flujos de IA, encuentra formas elegantes de resolver desafios de distribucion.",
+      es: "Estratega de growth y marketing con formación en antropología que define cómo piensa sobre productos: empezando por las personas, no por las soluciones. Experta en automatización y flujos de IA, encuentra formas elegantes de resolver desafíos de distribución.",
       pt: "Estrategista de growth e marketing com formacao em antropologia que molda como pensa sobre produtos: comecando pelas pessoas, nao pelas solucoes. Especialista em automacao e fluxos de IA, encontra formas elegantes de resolver desafios de distribuicao.",
       zh: "拥有人类学背景的增长与营销策略师，这塑造了她思考产品的方式：从人出发，而不是从解决方案出发。她是自动化和 AI 工作流专家，善于用优雅的方式解决复杂的分发难题。",
       ja: "人類学のバックグラウンドを持つグロース・マーケティング戦略家。その視点が、ソリューションではなく人から考えるプロダクト観を形作っています。自動化と AI ワークフローのエキスパートとして、複雑なディストリビューションの課題をエレガントに解決します。",
@@ -433,7 +433,7 @@ export const teamMembers: TeamMember[] = [
     image: "/team/nacho.png",
     bio: {
       en: "Growth and automation specialist focused on helping products reach the right people. Builds systems that scale distribution and community engagement across LATAM.",
-      es: "Especialista en growth y automatizacion enfocado en ayudar a productos a llegar a las personas correctas. Construye sistemas que escalan distribucion y comunidad en LATAM.",
+      es: "Especialista en growth y automatización enfocado en ayudar a productos a llegar a las personas correctas. Construye sistemas que escalan distribución y comunidad en LATAM.",
       pt: "Especialista em growth e automacao focado em ajudar produtos a chegar nas pessoas certas. Constroi sistemas que escalam distribuicao e comunidade no LATAM.",
       zh: "专注于帮助产品触达对的人的增长与自动化专家。构建能在拉美规模化分发和社区互动的系统。",
       ja: "プロダクトを適切な人に届けることに注力する、グロースと自動化のスペシャリスト。LATAM 全体でディストリビューションとコミュニティエンゲージメントをスケールさせる仕組みを作っています。",
@@ -509,7 +509,7 @@ export const teamMembers: TeamMember[] = [
     image: "/team/gabriel.png",
     bio: {
       en: "Full-stack developer specializing in front-end development with solid experience in Docker and service scalability. Versatile across front-end and back-end environments and passionate about challenging projects.",
-      es: "Full-stack developer especializado en frontend con experiencia solida en Docker y escalabilidad de servicios. Versatil en frontend y backend, y apasionado por proyectos desafiantes.",
+      es: "Full-stack developer especializado en frontend con experiencia sólida en Docker y escalabilidad de servicios. Versátil en frontend y backend, y apasionado por proyectos desafiantes.",
       pt: "Full-stack developer especializado em frontend com experiencia solida em Docker e escalabilidade de servicos. Versatil em frontend e backend, e apaixonado por projetos desafiantes.",
       zh: "专精前端开发的全栈开发者，在 Docker 和服务可扩展性方面经验扎实。能灵活穿梭于前后端环境，热爱有挑战的项目。",
       ja: "フロントエンドを専門とするフルスタック開発者。Docker とサービスのスケーラビリティに確かな経験があります。フロントエンドとバックエンドの両方を柔軟にこなし、挑戦しがいのあるプロジェクトに情熱を注いでいます。",
@@ -527,7 +527,7 @@ export const teamMembers: TeamMember[] = [
     image: "/team/tarmeno.png",
     bio: {
       en: "Frontend engineer who cares deeply about craft and user experience. Builds polished, accessible interfaces and loves the intersection of design and code.",
-      es: "Ingeniero frontend que se preocupa profundamente por el oficio y la experiencia de usuario. Construye interfaces pulidas y accesibles, y ama la interseccion entre diseno y codigo.",
+      es: "Ingeniero frontend que se preocupa profundamente por el oficio y la experiencia de usuario. Construye interfaces pulidas y accesibles, y ama la intersección entre diseño y código.",
       pt: "Engenheiro frontend que se preocupa profundamente com craft e experiencia do usuario. Constroi interfaces polidas e acessiveis, e ama a intersecao entre design e codigo.",
       zh: "深切在意工艺与用户体验的前端工程师。构建精致、可访问的界面，热爱设计与代码的交汇处。",
       ja: "クラフトとユーザー体験を深く大切にするフロントエンドエンジニア。磨き込まれたアクセシブルなインターフェースを作り、デザインとコードの交差点を愛しています。",

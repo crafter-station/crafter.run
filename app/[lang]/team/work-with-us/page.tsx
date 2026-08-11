@@ -28,7 +28,7 @@ const calendarCopy = {
     eyebrow: "Agenda una llamada para startups",
     title: "Trae el problema de producto, growth o comunidad que quieres resolver.",
     description:
-      "Usa el calendario para agendar una conversacion enfocada con Crafter Station sobre product engineering, productos con IA, lanzamientos, crecimiento en LatAm o activaciones de comunidad.",
+      "Usa el calendario para agendar una conversación enfocada con Crafter Station sobre product engineering, productos con IA, lanzamientos, crecimiento en LatAm o activaciones de comunidad.",
   },
   pt: {
     eyebrow: "Agende uma chamada para startups",

@@ -5,6 +5,7 @@ import { LocalizedLink } from "@/components/localized-link"
 import { PixelArrow } from "@/components/pixel-arrow"
 import type { Locale } from "@/lib/i18n"
 import type { OssMetricPeriod, OssMetrics } from "@/lib/oss-metrics"
+import { projectColor } from "@/lib/project-color"
 import { cn } from "@/lib/utils"
 
 export type OssMetricsCopy = {
@@ -28,6 +29,8 @@ export type OssMetricsCopy = {
   before: string
   after: string
   daily: string
+  metricsEyebrow: string
+  metricsTitle: string
   metrics: {
     throughput: string
     throughputDescription: string
@@ -105,6 +108,7 @@ function MetricCell({
   value,
   change,
   locale,
+  color,
   className,
 }: {
   label: string
@@ -112,19 +116,29 @@ function MetricCell({
   value: string
   change: number | null
   locale: string
+  color: string
   className?: string
 }) {
   return (
-    <div className={cn("flex min-h-56 flex-col p-7 md:p-8", className)}>
+    <div className={cn("relative flex min-h-56 flex-col overflow-hidden p-7 md:p-8", className)}>
+      <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: color }} />
       <div className="flex items-start justify-between gap-4">
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
           {label}
         </p>
-        <span className="border border-line px-2 py-1 font-mono text-[10px] tabular-nums text-accent">
+        <span
+          className="border px-2 py-1 font-mono text-[10px] tabular-nums"
+          style={{ borderColor: color, color }}
+        >
           {formatDelta(change, locale)}
         </span>
       </div>
-      <p className="mt-auto font-mono text-5xl tracking-[-0.06em] md:text-6xl">{value}</p>
+      <p
+        className="mt-auto font-mono text-5xl tracking-[-0.06em] md:text-6xl"
+        style={{ color }}
+      >
+        {value}
+      </p>
       <p className="mt-4 max-w-xs text-xs leading-relaxed text-muted-foreground">{description}</p>
     </div>
   )
@@ -136,12 +150,14 @@ function FlowRow({
   post,
   days,
   locale,
+  color,
 }: {
   label: string
   pre: number
   post: number
   days: number
   locale: string
+  color: string
 }) {
   const beforeRate = rate(pre, days)
   const afterRate = rate(post, days)
@@ -157,11 +173,17 @@ function FlowRow({
         <div key={key} className="flex items-center gap-4">
           <span className="h-1.5 flex-1 bg-foreground/8">
             <span
-              className={cn("block h-full", key === "post" ? "bg-accent" : "bg-foreground/35")}
-              style={{ width: `${Math.max(3, (Number(value) / max) * 100)}%` }}
+              className={cn("block h-full", key === "pre" && "bg-foreground/35")}
+              style={{
+                width: `${Math.max(3, (Number(value) / max) * 100)}%`,
+                backgroundColor: key === "post" ? color : undefined,
+              }}
             />
           </span>
-          <span className="w-12 text-right font-mono text-sm tabular-nums">
+          <span
+            className="w-12 text-right font-mono text-sm tabular-nums"
+            style={{ color: key === "post" ? color : undefined }}
+          >
             {formatNumber(Number(value), locale)}
           </span>
         </div>
@@ -177,6 +199,7 @@ function ChangePanel({
   post,
   days,
   locale,
+  color,
   className,
 }: {
   label: string
@@ -185,24 +208,28 @@ function ChangePanel({
   post: number
   days: number
   locale: string
+  color: string
   className?: string
 }) {
   const preRate = rate(pre, days)
   const postRate = rate(post, days)
 
   return (
-    <div className={cn("p-7 md:p-8", className)}>
+    <div className={cn("relative overflow-hidden p-7 md:p-8", className)}>
+      <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: color }} />
       <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
         {label}
       </p>
       <div className="mt-8 flex items-end justify-between gap-6">
         <div>
-          <p className="font-mono text-4xl tracking-[-0.05em]">{formatNumber(postRate, locale)}</p>
+          <p className="font-mono text-4xl tracking-[-0.05em]" style={{ color }}>
+            {formatNumber(postRate, locale)}
+          </p>
           <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
             {formatNumber(preRate, locale)} → {formatNumber(postRate, locale)}
           </p>
         </div>
-        <p className="font-mono text-2xl text-accent">
+        <p className="font-mono text-2xl" style={{ color }}>
           {formatDelta(delta(preRate, postRate), locale)}
         </p>
       </div>
@@ -243,55 +270,83 @@ export function OssMetricsDashboard({
     : metrics.source === "github"
       ? copy.live
       : copy.snapshot
+  const throughputColor = projectColor("crafter-station/oss-throughput")
+  const mergeColor = projectColor("crafter-station/oss-merges")
+  const externalColor = projectColor("crafter-station/external-contributions")
+  const breadthColor = projectColor("crafter-station/portfolio-breadth")
+  const issueOpenedColor = projectColor("crafter-station/issues-opened")
+  const issueClosedColor = projectColor("crafter-station/issues-closed")
+  const prOpenedColor = projectColor("crafter-station/prs-opened")
+  const prClosedColor = projectColor("crafter-station/prs-closed")
 
   return (
     <>
       <Container innerClassName="overflow-hidden">
         <div className="grid lg:grid-cols-[1.08fr_0.92fr]">
-          <div className="px-6 py-16 md:px-10 md:py-24 lg:border-r lg:border-line">
-            <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
-              {copy.eyebrow}
-            </p>
-            <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold tracking-[-0.055em] md:text-7xl">
-              {copy.title}
-            </h1>
-            <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
-              {copy.description}
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <LocalizedLink
-                href="/oss"
-                locale={locale}
-                className="group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-              >
-                <ArrowLink>{copy.catalogCta}</ArrowLink>
-              </LocalizedLink>
-              <Link
-                href="https://github.com/crafter-station"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-              >
-                <ArrowLink>{copy.githubCta}</ArrowLink>
-              </Link>
+          <div className="flex flex-col lg:border-r lg:border-line">
+            <div className="flex-1 px-6 py-16 md:px-10 md:py-24">
+              <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
+                {copy.eyebrow}
+              </p>
+              <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold tracking-[-0.055em] md:text-7xl">
+                {copy.title}
+              </h1>
+              <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
+                {copy.description}
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+                <LocalizedLink
+                  href="/oss"
+                  locale={locale}
+                  className="group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                >
+                  <ArrowLink>{copy.catalogCta}</ArrowLink>
+                </LocalizedLink>
+                <Link
+                  href="https://github.com/crafter-station"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+                >
+                  <ArrowLink>{copy.githubCta}</ArrowLink>
+                </Link>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 border-t border-line">
+              {[
+                [formatInteger(metrics.repoCount, locale), copy.repos],
+                [formatInteger(metrics.openIssues, locale), copy.openIssues],
+                [formatInteger(metrics.openPrs, locale), copy.openPrs],
+              ].map(([value, label], index) => (
+                <div
+                  key={label}
+                  className={cn("min-h-24 p-4 md:p-5", index > 0 && "border-l border-line")}
+                >
+                  <p className="font-mono text-lg tracking-tight tabular-nums">{value}</p>
+                  <p className="mt-2 text-[10px] leading-tight text-muted-foreground">{label}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          <aside className="flex flex-col bg-secondary/15">
+          <aside className="flex flex-col border-t border-line bg-secondary/15 lg:border-t-0">
             <div className="flex items-center justify-between border-b border-line px-6 py-4">
               <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
                 {copy.signalEyebrow}
               </p>
               <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                <span className="size-1.5 bg-accent" />
+                <span className="size-1.5" style={{ backgroundColor: throughputColor }} />
                 {sourceLabel}
               </span>
             </div>
             <div className="flex flex-1 flex-col justify-center px-6 py-12 md:px-10">
-              <p className="font-mono text-7xl tracking-[-0.08em] text-accent md:text-8xl">
+              <p
+                className="font-mono text-7xl tracking-[-0.08em] md:text-8xl"
+                style={{ color: throughputColor }}
+              >
                 {formatDelta(delta(throughputPre, throughputPost), locale)}
               </p>
-              <h2 className="mt-7 max-w-md text-2xl tracking-tight md:text-3xl">
+              <h2 className="mt-7 max-w-md text-balance text-2xl tracking-tight md:text-3xl">
                 {copy.signalTitle}
               </h2>
               <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
@@ -306,7 +361,10 @@ export function OssMetricsDashboard({
                     key={String(label)}
                     className={cn("p-4", index > 0 && "border-l border-line")}
                   >
-                    <p className="font-mono text-2xl tabular-nums">
+                    <p
+                      className="font-mono text-2xl tabular-nums"
+                      style={{ color: index > 0 ? throughputColor : undefined }}
+                    >
                       {formatNumber(Number(value), locale)}
                     </p>
                     <p className="mt-1 text-[10px] text-muted-foreground">
@@ -316,31 +374,21 @@ export function OssMetricsDashboard({
                 ))}
               </div>
             </div>
-          </aside>
-        </div>
-      </Container>
-
-      <Container>
-        <div className="grid grid-cols-2 border-b border-line lg:grid-cols-5">
-          {[
-            [formatInteger(metrics.repoCount, locale), copy.repos],
-            [formatInteger(metrics.openIssues, locale), copy.openIssues],
-            [formatInteger(metrics.openPrs, locale), copy.openPrs],
-            [copy.windowValue, copy.window],
-            [updated, `${copy.updated} · ${sourceLabel}`],
-          ].map(([value, label], index) => (
-            <div
-              key={label}
-              className={cn(
-                "min-h-24 p-4 md:p-5",
-                index > 0 && "border-l border-line",
-                index === 4 && "col-span-2 border-t border-line lg:col-span-1 lg:border-t-0",
-              )}
-            >
-              <p className="font-mono text-lg tracking-tight tabular-nums">{value}</p>
-              <p className="mt-2 text-[10px] leading-tight text-muted-foreground">{label}</p>
+            <div className="grid grid-cols-2 border-t border-line">
+              {[
+                [copy.windowValue, copy.window],
+                [updated, `${copy.updated} · ${sourceLabel}`],
+              ].map(([value, label], index) => (
+                <div
+                  key={label}
+                  className={cn("min-h-24 p-4 md:p-5", index > 0 && "border-l border-line")}
+                >
+                  <p className="font-mono text-lg tracking-tight tabular-nums">{value}</p>
+                  <p className="mt-2 text-[10px] leading-tight text-muted-foreground">{label}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          </aside>
         </div>
       </Container>
 
@@ -348,9 +396,11 @@ export function OssMetricsDashboard({
 
       <Container innerClassName="border-b px-6 py-10 md:px-10">
         <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          {copy.signalEyebrow}
+          {copy.metricsEyebrow}
         </p>
-        <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{copy.signalTitle}</h2>
+        <h2 className="mt-3 text-balance text-3xl tracking-tight md:text-4xl">
+          {copy.metricsTitle}
+        </h2>
       </Container>
       <Container>
         <div className="grid md:grid-cols-2 xl:grid-cols-4">
@@ -360,6 +410,7 @@ export function OssMetricsDashboard({
             value={formatNumber(throughputPost, locale)}
             change={delta(throughputPre, throughputPost)}
             locale={locale}
+            color={throughputColor}
           />
           <MetricCell
             label={copy.metrics.merges}
@@ -367,6 +418,7 @@ export function OssMetricsDashboard({
             value={formatNumber(mergesPost, locale)}
             change={delta(mergesPre, mergesPost)}
             locale={locale}
+            color={mergeColor}
             className="border-t border-line md:border-l md:border-t-0"
           />
           <MetricCell
@@ -375,6 +427,7 @@ export function OssMetricsDashboard({
             value={formatNumber(externalPost, locale)}
             change={delta(externalPre, externalPost)}
             locale={locale}
+            color={externalColor}
             className="border-t border-line xl:border-l xl:border-t-0"
           />
           <MetricCell
@@ -383,6 +436,7 @@ export function OssMetricsDashboard({
             value={`${metrics.post.activeRepos}/${metrics.repoCount}`}
             change={delta(activePre, activePost)}
             locale={locale}
+            color={breadthColor}
             className="border-t border-line md:border-l xl:border-t-0"
           />
         </div>
@@ -416,6 +470,7 @@ export function OssMetricsDashboard({
             post={metrics.post.issuesOpened}
             days={metrics.windowDays}
             locale={locale}
+            color={issueOpenedColor}
           />
           <FlowRow
             label={copy.issuesClosed}
@@ -423,6 +478,7 @@ export function OssMetricsDashboard({
             post={metrics.post.issuesClosed}
             days={metrics.windowDays}
             locale={locale}
+            color={issueClosedColor}
           />
           <FlowRow
             label={copy.prsOpened}
@@ -430,6 +486,7 @@ export function OssMetricsDashboard({
             post={metrics.post.prsOpened}
             days={metrics.windowDays}
             locale={locale}
+            color={prOpenedColor}
           />
           <FlowRow
             label={copy.prsClosed}
@@ -437,6 +494,7 @@ export function OssMetricsDashboard({
             post={metrics.post.prsClosed}
             days={metrics.windowDays}
             locale={locale}
+            color={prClosedColor}
           />
         </div>
       </Container>
@@ -463,6 +521,7 @@ export function OssMetricsDashboard({
             post={metrics.post.externalPrsOpened}
             days={metrics.windowDays}
             locale={locale}
+            color={externalColor}
           />
           <ChangePanel
             label={copy.externalResolved}
@@ -471,6 +530,7 @@ export function OssMetricsDashboard({
             post={metrics.post.externalPrsClosed}
             days={metrics.windowDays}
             locale={locale}
+            color={mergeColor}
             className="border-t border-line md:border-l md:border-t-0"
           />
           <ChangePanel
@@ -480,6 +540,7 @@ export function OssMetricsDashboard({
             post={metrics.post.netBacklog}
             days={metrics.windowDays}
             locale={locale}
+            color={throughputColor}
             className="border-t border-line md:border-l md:border-t-0"
           />
         </div>
@@ -522,9 +583,10 @@ export function OssMetricsDashboard({
                 <span className="truncate font-mono text-xs">{repo.repo}</span>
                 <span className="h-1 bg-foreground/8">
                   <span
-                    className="block h-full bg-accent"
+                    className="block h-full"
                     style={{
                       width: `${Math.max(4, (repo.count / maxClosures) * 100)}%`,
+                      backgroundColor: projectColor(repo.repo),
                     }}
                   />
                 </span>

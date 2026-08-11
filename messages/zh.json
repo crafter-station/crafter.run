@@ -168,6 +168,8 @@
       "before": "发布前",
       "after": "发布后",
       "daily": "每天关闭",
+      "metricsEyebrow": "运营节奏",
+      "metricsTitle": "用四个信号读懂项目组合健康度。",
       "metrics": {
         "throughput": "总吞吐量",
         "throughputDescription": "整个 OSS 组合每天关闭的 issue 与 pull request。",
