@@ -1,5 +1,31 @@
 import { z } from "zod"
 
+import { upsertProfileLocationSchema, profileLocationSchema } from "./location"
+
+export {
+  ISO_COUNTRIES,
+  PROFILE_CITIES,
+  countryCodeFromName,
+  countryCodeToFlagEmoji,
+  countryNameFromCode,
+  emptyProfileLocation,
+  foldText,
+  formatCitySuggestion,
+  formatLocationLabel,
+  formatProfileLocationLine,
+  isIsoCountryCode,
+  profileLocationLines,
+  profileLocationSchema,
+  searchProfileCities,
+  toProfileLocation,
+  upsertProfileLocationSchema,
+  type IsoCountryCode,
+  type ProfileCity,
+  type ProfileLocation,
+  type ProfileLocationInput,
+  type ProfileLocationLine,
+} from "./location"
+
 export const shipStatuses = ["draft", "published", "hidden"] as const
 export const shipSources = ["web", "cli", "mcp", "import"] as const
 export const memberSources = ["web", "cli"] as const
@@ -96,6 +122,8 @@ export const memberProfileSchema = memberSummarySchema.extend({
   currentRole: z.string().max(120).nullable(),
   rolesOpenTo: rolesOpenToSchema,
   isJobSeeking: z.boolean(),
+  originLocation: profileLocationSchema.nullable(),
+  basedLocation: profileLocationSchema.nullable(),
   createdAt: z.string().datetime(),
 })
 
@@ -125,6 +153,8 @@ export const upsertMemberRequestSchema = z.object({
   workArrangements: workArrangementsSchema.optional(),
   onsiteCity: z.string().trim().min(1).max(120).nullable().optional(),
   resumeUrl: privateDocumentUrlSchema.nullable().optional(),
+  originLocation: upsertProfileLocationSchema.optional(),
+  basedLocation: upsertProfileLocationSchema.optional(),
 }).superRefine((profile, context) => {
   const worksOnsite = profile.workArrangements?.some((value) => value === "onsite" || value === "hybrid") ?? false
   if (worksOnsite && !profile.onsiteCity) {

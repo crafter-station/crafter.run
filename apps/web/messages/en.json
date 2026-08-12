@@ -293,7 +293,9 @@
       "joinAgentLabel": "Join with your AI agent",
       "joinAgentHint": "Paste it into Claude Code, Cursor, or any coding agent. It will install the Crafter CLI, help you sign in from your browser, and set up your profile with you.",
       "joinAgentCopy": "Copy the agent prompt",
-      "joinAgentCopied": "Prompt copied"
+      "joinAgentCopied": "Prompt copied",
+      "from": "From",
+      "based": "Based in"
     },
     "timeline": {
       "eyebrow": "Open-source activity",

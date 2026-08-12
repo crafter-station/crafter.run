@@ -6,6 +6,7 @@ import { notFound } from "next/navigation"
 
 import { Container, SectionGap } from "@/components/grid-container"
 import { JoinAgentPrompt } from "@/components/join-agent-prompt"
+import { ProfileLocationLine } from "@/components/profile-location-line"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { isLocale, locales } from "@/lib/i18n"
@@ -91,6 +92,13 @@ export default async function CraftersPage({ params }: { params: Promise<{ lang:
                     {member.displayName}
                   </h2>
                   <p className="mt-1 font-mono text-xs text-muted-foreground">@{member.handle}</p>
+                  <ProfileLocationLine
+                    origin={member.originLocation}
+                    based={member.basedLocation}
+                    fromLabel={t("from")}
+                    basedLabel={t("based")}
+                    className="mt-3 text-xs"
+                  />
                   {member.bio ? <p className="mt-4 line-clamp-2 text-sm leading-6 text-muted-foreground">{member.bio}</p> : null}
                 </Link>
               ))}

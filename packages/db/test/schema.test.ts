@@ -2,6 +2,17 @@ import { expect, test } from "bun:test"
 
 import { members, ships, shipUpdates, shipVotes } from "../src/schema"
 
+test("Crafter origin and based locations are optional structured fields", () => {
+  expect(members.originCity.notNull).toBe(false)
+  expect(members.originCountryCode.notNull).toBe(false)
+  expect(members.originLatitude.notNull).toBe(false)
+  expect(members.originPlaceId.notNull).toBe(false)
+  expect(members.basedCity.notNull).toBe(false)
+  expect(members.basedCountryCode.notNull).toBe(false)
+  expect(members.basedLongitude.notNull).toBe(false)
+  expect(members.basedGeocodeConfidence.notNull).toBe(false)
+})
+
 test("Crafter career preferences have safe defaults", () => {
   expect(members.rolesOpenTo.notNull).toBe(true)
   expect(members.rolesOpenTo.hasDefault).toBe(true)

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
+import { ProfileLocationLine } from "@/components/profile-location-line"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { isLocale } from "@/lib/i18n"
@@ -12,11 +13,11 @@ import { buildMetadata } from "@/lib/seo"
 import { getCrafterProfile, listCrafterShips } from "@/lib/ships"
 
 const copy = {
-  en: { crafter: "Crafter", ships: "Ships", openTo: "Open to", available: "Looking for a new role", links: "Links" },
-  es: { crafter: "Crafter", ships: "Ships", openTo: "Abierto a", available: "Buscando un nuevo rol", links: "Enlaces" },
-  pt: { crafter: "Crafter", ships: "Ships", openTo: "Aberto a", available: "Buscando uma nova função", links: "Links" },
-  zh: { crafter: "创作者", ships: "作品", openTo: "有意向的职位", available: "正在寻找新工作", links: "链接" },
-  ja: { crafter: "Crafter", ships: "作品", openTo: "希望する役割", available: "新しい仕事を探しています", links: "リンク" },
+  en: { crafter: "Crafter", ships: "Ships", openTo: "Open to", available: "Looking for a new role", links: "Links", from: "From", based: "Based in" },
+  es: { crafter: "Crafter", ships: "Ships", openTo: "Abierto a", available: "Buscando un nuevo rol", links: "Enlaces", from: "De", based: "Vive en" },
+  pt: { crafter: "Crafter", ships: "Ships", openTo: "Aberto a", available: "Buscando uma nova função", links: "Links", from: "De", based: "Mora em" },
+  zh: { crafter: "创作者", ships: "作品", openTo: "有意向的职位", available: "正在寻找新工作", links: "链接", from: "来自", based: "现居" },
+  ja: { crafter: "Crafter", ships: "作品", openTo: "希望する役割", available: "新しい仕事を探しています", links: "リンク", from: "出身", based: "在住" },
 } as const
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; handle: string }> }): Promise<Metadata> {
@@ -71,6 +72,13 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
               <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">{t.crafter}</p>
               <h1 className="mt-3 text-5xl font-semibold tracking-tighter md:text-7xl">{member.displayName}</h1>
               <p className="mt-3 font-mono text-sm text-muted-foreground">@{member.handle}</p>
+              <ProfileLocationLine
+                origin={member.originLocation}
+                based={member.basedLocation}
+                fromLabel={t.from}
+                basedLabel={t.based}
+                className="mt-4"
+              />
             </div>
           </div>
           {member.currentRole ? <p className="mt-8 text-xl tracking-tight">{member.currentRole}</p> : null}

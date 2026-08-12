@@ -1,3 +1,4 @@
+import { formatProfileLocationLine } from "@crafter/contracts"
 import { ImageResponse } from "next/og"
 
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n"
@@ -66,9 +67,12 @@ export async function GET(request: Request) {
   const title = member?.displayName ?? requestedTitle
   const avatarUrl = member?.avatarUrl
   const role = member?.currentRole
+  const location = member
+    ? formatProfileLocationLine(member.originLocation, member.basedLocation)
+    : null
   const isProfile = Boolean(member)
 
-  const monoText = `${eyebrow.toUpperCase()}${lang.toUpperCase()}${DOMAIN}${TAGLINE}${handle ?? ""}${role ?? ""}CRAFTER PROFILEMEMBER…`
+  const monoText = `${eyebrow.toUpperCase()}${lang.toUpperCase()}${DOMAIN}${TAGLINE}${handle ?? ""}${role ?? ""}${location ?? ""}CRAFTER PROFILEMEMBER…`
   const titleFont = titleFontFamily(lang)
 
   const fonts: { name: string; data: ArrayBuffer; weight: 400 | 500 | 600 | 700; style: "normal" }[] = []
@@ -212,6 +216,11 @@ export async function GET(request: Request) {
                 {role ? (
                   <div style={{ display: "flex", marginTop: 20, fontSize: 24, lineHeight: 1.25, color: MUTED }}>
                     {role}
+                  </div>
+                ) : null}
+                {location ? (
+                  <div style={{ display: "flex", marginTop: 16, fontSize: 22, lineHeight: 1.35, color: MUTED }}>
+                    {location}
                   </div>
                 ) : null}
               </div>
