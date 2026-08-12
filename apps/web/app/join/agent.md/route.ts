@@ -23,8 +23,10 @@ Requires Node.js 18 or newer (\`node --version\`).
 
 \`\`\`sh
 npm install --global @crafter/cli@latest
-crafter help
+crafter --version
 \`\`\`
+
+\`crafter --version\` must print 0.3.1 or higher. If it errors with "Unknown command" or prints a lower version, the install is stale: run the install command again. If the global install fails (for example with a permissions error) or stays stale, skip it and prefix every \`crafter\` command in these instructions with \`npx -y @crafter/cli@latest\` instead, for example \`npx -y @crafter/cli@latest whoami\`.
 
 ## Step 2: Authenticate
 
@@ -61,7 +63,7 @@ If it is taken, suggest close alternatives and let the user pick. Job-seeking an
 
 ## Step 4: Confirm
 
-Write the approved fields to \`crafter-profile.json\`, show the user its exact contents, and ask whether to submit. Wait for an explicit yes.
+Write the approved fields to a temporary file outside the user's project, for example \`/tmp/crafter-profile.json\` or your scratch directory. Show the user its exact contents and ask whether to submit. Wait for an explicit yes.
 
 Example:
 
@@ -77,10 +79,10 @@ Example:
 ## Step 5: Submit
 
 \`\`\`sh
-crafter onboard --file crafter-profile.json --confirm
+crafter onboard --file /tmp/crafter-profile.json --confirm
 \`\`\`
 
-On success it prints the created profile and a \`profileUrl\`. Share that URL with the user and delete \`crafter-profile.json\`.
+On success it prints the created profile and a \`profileUrl\`. Share that URL with the user and delete the profile file.
 
 Error handling:
 
