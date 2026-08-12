@@ -3,12 +3,12 @@
 ## Commands
 - Use Bun for dependency/script commands; this is a Bun workspace with one root `bun.lock` and `packageManager` pinned in the root `package.json`.
 - `bun run dev` starts `apps/web` on port 3000 and `apps/api` on port 3001 through Turbo; `bun run dev:web` and `bun run dev:api` run either app alone.
-- `bun run build` is the current production smoke test through Turbo. It typechecks and bundles `apps/api`, but it does not typecheck the web app because `apps/web/next.config.mjs` sets `typescript.ignoreBuildErrors: true`.
+- `bun run build` is the production smoke test through Turbo. It typechecks and bundles `apps/api` and `packages/cli`, but Next does not typecheck `apps/web` because `apps/web/next.config.mjs` sets `typescript.ignoreBuildErrors: true`.
 - `bun run db:generate` generates Drizzle migrations; `bun run db:migrate` applies them to `DATABASE_URL`.
 - `bun run db:migrate:supabase` is the idempotent one-time board-data importer and requires `SUPABASE_MIGRATION_URL` plus `SUPABASE_MIGRATION_SERVICE_ROLE_KEY` outside app env validation.
 - `bun run lint` currently fails: `apps/web/package.json` calls `eslint .`, but ESLint is not installed/configured.
 - `bunx tsc -p apps/web/tsconfig.json --noEmit --incremental false` currently fails on pre-existing docs locale narrowing, a pagination variant mismatch, AI moderation type depth, and migration-script compiler/header typing.
-- `bun test packages/cli` runs CLI metadata and PKCE tests; `bun test apps/api` runs API validation and deterministic moderation tests. Database-backed API integration is verified separately.
+- `bun test packages/cli packages/db apps/api` runs all current tests; pass a test file and `-t '<name>'` for one case, for example `bun test apps/api/test/api.test.ts -t 'reports health'`.
 
 ## App Shape
 - This is a Turborepo. The Next 16 App Router site lives in `apps/web`; the Hono service API lives in `apps/api`; shared packages belong in `packages/` only when they have multiple consumers.
@@ -20,6 +20,7 @@
 
 ## Integrations
 - Web env validation is in `apps/web/env.ts`; all listed env vars are optional. `API_URL` defaults to `http://localhost:3001`.
+- `apps/api/src/dev.ts` loads `apps/api/.env*`, then fills a missing `DATABASE_URL` from `apps/web/.env*`; Drizzle commands also load env from `apps/web` via `packages/db/drizzle.config.ts`.
 - `apps/api` exposes `/health`, `/openapi.json`, and versioned routes under `/v1`; it requires `DATABASE_URL` for data routes and accepts comma-separated browser origins through `WEB_ORIGINS`.
 - `packages/cli` provides the `crafter` executable; run it locally with `bun run cli -- <command>`. Its OAuth credentials are stored in the operating-system credential store, never project files.
 - `packages/contracts` owns shared Zod API schemas. `packages/db` owns the Drizzle schema and the single migration history; do not create app-local migration folders.

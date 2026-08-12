@@ -6,7 +6,7 @@ import { Container } from "@/components/grid-container"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { ShipUpdates } from "@/components/ship-updates"
-import { ShipUpvote, ShipVotesProvider } from "@/components/ship-upvote"
+import { ShipUpvote } from "@/components/ship-upvote"
 import { isLocale } from "@/lib/i18n"
 import { getPublishedShip } from "@/lib/ships"
 
@@ -45,9 +45,7 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
             </article>
             <aside className="h-fit border border-line p-6 lg:sticky lg:top-28">
               <div className="mb-8">
-                <ShipVotesProvider>
-                  <ShipUpvote shipId={ship.id} slug={ship.slug} initialVoteCount={ship.voteCount} locale={lang} />
-                </ShipVotesProvider>
+                <ShipUpvote shipId={ship.id} slug={ship.slug} initialVoteCount={ship.voteCount} locale={lang} />
               </div>
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{t.by}</p>
               <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="mt-3 block text-xl font-medium hover:text-accent">

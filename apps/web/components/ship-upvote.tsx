@@ -5,6 +5,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import type { ShipVote } from "@crafter/contracts"
 import { SignInButton, useAuth } from "@clerk/nextjs"
 import { ArrowUp } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import type { Locale } from "@/lib/i18n"
 import { shipsApi } from "@/lib/ships-client"
@@ -20,7 +21,8 @@ const copy = {
 type VoteContextValue = {
   loaded: boolean
   votedShipIds: Set<string>
-  setVoted: (shipId: string, active: boolean) => void
+  voteCounts: Map<string, number>
+  setVote: (shipId: string, active: boolean, count: number) => void
 }
 
 const VoteContext = createContext<VoteContextValue | null>(null)
@@ -29,6 +31,7 @@ export function ShipVotesProvider({ children }: { children: ReactNode }) {
   const { getToken, isLoaded, isSignedIn } = useAuth()
   const [loaded, setLoaded] = useState(false)
   const [votedShipIds, setVotedShipIds] = useState<Set<string>>(() => new Set())
+  const [voteCounts, setVoteCounts] = useState<Map<string, number>>(() => new Map())
 
   useEffect(() => {
     if (!isLoaded || !isSignedIn) {
@@ -50,16 +53,17 @@ export function ShipVotesProvider({ children }: { children: ReactNode }) {
     return () => { cancelled = true }
   }, [getToken, isLoaded, isSignedIn])
 
-  function setVoted(shipId: string, active: boolean) {
+  function setVote(shipId: string, active: boolean, count: number) {
     setVotedShipIds((current) => {
       const next = new Set(current)
       if (active) next.add(shipId)
       else next.delete(shipId)
       return next
     })
+    setVoteCounts((current) => new Map(current).set(shipId, count))
   }
 
-  return <VoteContext value={{ loaded, votedShipIds, setVoted }}>{children}</VoteContext>
+  return <VoteContext value={{ loaded, votedShipIds, voteCounts, setVote }}>{children}</VoteContext>
 }
 
 export function ShipUpvote({ shipId, slug, initialVoteCount, locale }: {
@@ -70,10 +74,11 @@ export function ShipUpvote({ shipId, slug, initialVoteCount, locale }: {
 }) {
   const votes = useContext(VoteContext)
   const { getToken, isLoaded, isSignedIn } = useAuth()
-  const [voteCount, setVoteCount] = useState(initialVoteCount)
+  const router = useRouter()
   const [pending, setPending] = useState(false)
   const [error, setError] = useState(false)
   const active = votes?.votedShipIds.has(shipId) ?? false
+  const voteCount = votes?.voteCounts.get(shipId) ?? initialVoteCount
   const t = copy[locale]
   const className = `inline-flex items-center gap-2 border px-3 py-2 font-mono text-xs tabular-nums transition-colors ${active ? "border-accent bg-accent text-accent-foreground" : "border-line hover:border-accent hover:text-accent"}`
   const label = active ? t.remove : t.add
@@ -83,8 +88,8 @@ export function ShipUpvote({ shipId, slug, initialVoteCount, locale }: {
     const nextActive = !active
     setPending(true)
     setError(false)
-    votes.setVoted(shipId, nextActive)
-    setVoteCount((current) => Math.max(0, current + (nextActive ? 1 : -1)))
+    const optimisticCount = Math.max(0, voteCount + (nextActive ? 1 : -1))
+    votes.setVote(shipId, nextActive, optimisticCount)
     try {
       const token = await getToken()
       if (!token) throw new Error("Missing session token")
@@ -92,11 +97,10 @@ export function ShipUpvote({ shipId, slug, initialVoteCount, locale }: {
         method: "PUT",
         body: JSON.stringify({ active: nextActive }),
       })
-      votes.setVoted(shipId, response.vote.active)
-      setVoteCount(response.vote.voteCount)
+      votes.setVote(shipId, response.vote.active, response.vote.voteCount)
+      router.refresh()
     } catch {
-      votes.setVoted(shipId, active)
-      setVoteCount((current) => Math.max(0, current + (nextActive ? -1 : 1)))
+      votes.setVote(shipId, active, voteCount)
       setError(true)
     } finally {
       setPending(false)

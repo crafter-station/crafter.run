@@ -16,7 +16,7 @@ export async function listPublishedShips(): Promise<ShipSummary[] | null> {
     if (!apiUrl) throw new Error("API_URL is required outside development.")
 
     const response = await fetch(new URL("/v1/ships", apiUrl), {
-      next: { revalidate: 60 },
+      cache: "no-store",
     })
 
     if (!response.ok) {
@@ -60,7 +60,7 @@ export async function getPublishedShip(slug: string): Promise<ShipDetail | null>
   if (!apiUrl) return null
   try {
     const response = await fetch(new URL(`/v1/ships/${encodeURIComponent(slug)}`, apiUrl), {
-      next: { revalidate: 60 },
+      cache: "no-store",
     })
     if (!response.ok) return null
     const parsed = shipResponseSchema.safeParse(await response.json())
@@ -90,7 +90,7 @@ export async function listCrafterShips(handle: string): Promise<ShipSummary[]> {
   if (!apiUrl) return []
   try {
     const response = await fetch(new URL(`/v1/members/${encodeURIComponent(handle)}/ships`, apiUrl), {
-      next: { revalidate: 60 },
+      cache: "no-store",
     })
     if (!response.ok) return []
     const parsed = listShipsResponseSchema.safeParse(await response.json())
