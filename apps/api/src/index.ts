@@ -2,6 +2,7 @@ import {
   apiErrorResponseSchema,
   createShipDraftRequestSchema,
   createShipUpdateRequestSchema,
+  handleAvailabilityResponseSchema,
   handleSchema,
   listMembersResponseSchema,
   listOwnedShipsResponseSchema,
@@ -39,6 +40,7 @@ import {
   getOwnedShip,
   getOwnedShipBySlug,
   getPublishedShip,
+  isHandleTaken,
   listOwnedShips,
   listMembers,
   listPublishedShips,
@@ -296,6 +298,20 @@ app.openapi(getMemberRoute, async (c) => {
     : c.json(errorBody("not_found", "Crafter not found.", c.get("requestId")), 404)
 })
 
+const handleAvailabilityRoute = createRoute({
+  method: "get",
+  path: "/v1/handles/{handle}",
+  request: { params: z.object({ handle: handleSchema }) },
+  responses: {
+    200: { content: { "application/json": { schema: handleAvailabilityResponseSchema } }, description: "Handle availability" },
+    503: { content: errorContent, description: "Database unavailable" },
+  },
+})
+app.openapi(handleAvailabilityRoute, async (c) => {
+  const handle = c.req.valid("param").handle
+  return c.json(handleAvailabilityResponseSchema.parse({ handle, available: !(await isHandleTaken(handle)) }), 200)
+})
+
 const memberShipsRoute = createRoute({
   method: "get",
   path: "/v1/members/{handle}/ships",
@@ -350,12 +366,21 @@ const upsertMeRoute = createRoute({
     200: { content: { "application/json": { schema: privateMemberResponseSchema } }, description: "Private member profile" },
     401: { content: errorContent, description: "Authentication required" },
     409: { content: errorContent, description: "Handle unavailable" },
+    429: { content: errorContent, description: "Rate limited" },
   },
 })
 app.openapi(upsertMeRoute, async (c) => {
   const auth = await authenticateUser(c.req.raw)
   if (!auth) return c.json(errorBody("unauthorized", "Authentication required.", c.get("requestId")), 401)
-  const member = await upsertMember(auth.clerkUserId, c.req.valid("json"))
+  const existing = await findMemberByClerkId(auth.clerkUserId)
+  if (existing && !(await consumeMutationLimit(existing.id, "member_profile"))) {
+    return c.json(errorBody("rate_limited", "Too many profile updates. Try again in one minute."), 429)
+  }
+  const member = await upsertMember(
+    auth.clerkUserId,
+    c.req.valid("json"),
+    auth.tokenType === "oauth_token" ? "cli" : "web",
+  )
   return c.json({ member }, 200)
 })
 

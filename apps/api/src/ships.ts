@@ -2,6 +2,7 @@ import type {
   CreateShipDraftRequest,
   CreateShipUpdateRequest,
   MemberProfile,
+  MemberSource,
   PrivateMemberProfile,
   ShipDetail,
   ShipDraftInput,
@@ -68,6 +69,16 @@ export async function getMemberByClerkId(clerkUserId: string): Promise<PrivateMe
   return member ? privateMemberProfile(member) : null
 }
 
+export async function isHandleTaken(handle: string): Promise<boolean> {
+  const db = getDatabase()
+  const [row] = await db
+    .select({ id: members.id })
+    .from(members)
+    .where(eq(members.handle, handle.toLowerCase()))
+    .limit(1)
+  return Boolean(row)
+}
+
 export async function getMemberByHandle(handle: string): Promise<MemberProfile | null> {
   const db = getDatabase()
   const [member] = await db.select().from(members).where(eq(members.handle, handle.toLowerCase())).limit(1)
@@ -80,7 +91,11 @@ export async function listMembers(): Promise<MemberProfile[]> {
   return rows.map(memberProfile)
 }
 
-export async function upsertMember(clerkUserId: string, input: UpsertMemberRequest): Promise<PrivateMemberProfile | null> {
+export async function upsertMember(
+  clerkUserId: string,
+  input: UpsertMemberRequest,
+  source: MemberSource = "web",
+): Promise<PrivateMemberProfile | null> {
   const db = getDatabase()
   const profileUpdates = {
     ...(Object.hasOwn(input, "githubUrl") ? { githubUrl: input.githubUrl ?? null } : {}),
@@ -126,6 +141,7 @@ export async function upsertMember(clerkUserId: string, input: UpsertMemberReque
       workArrangements: input.workArrangements ?? [],
       onsiteCity: input.onsiteCity ?? null,
       resumeUrl: input.resumeUrl ?? null,
+      source,
     })
     .onConflictDoUpdate({
       target: members.clerkUserId,

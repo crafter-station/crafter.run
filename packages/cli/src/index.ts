@@ -3,15 +3,18 @@ import { readFile } from "node:fs/promises"
 import { execFile } from "node:child_process"
 import { promisify } from "node:util"
 import {
+  handleAvailabilityResponseSchema,
   listOwnedShipsResponseSchema,
   meResponseSchema,
   createShipUpdateRequestSchema,
+  privateMemberResponseSchema,
   publishShipRequestSchema,
   shipDraftInputSchema,
   shipResponseSchema,
   shipUpdateResponseSchema,
+  upsertMemberRequestSchema,
 } from "@crafter/contracts"
-import { api } from "./api"
+import { api, publicApi } from "./api"
 import { login, logout, openBrowser } from "./auth"
 import { webPath } from "./config"
 import { inferShipMetadata } from "./metadata"
@@ -24,7 +27,8 @@ Usage:
   crafter help
   crafter login
   crafter logout
-  crafter onboard
+  crafter onboard [--file <json-file> --confirm]
+  crafter handle <handle>
   crafter whoami
   crafter ships
   crafter ship [--file <json-file>]
@@ -103,9 +107,27 @@ async function main(args: string[]): Promise<void> {
     return
   }
   if (command === "onboard") {
-    const url = webPath("/onboarding")
-    console.log(`Opening ${url}`)
-    openBrowser(url)
+    if (rest.length === 0) {
+      const url = webPath("/onboarding")
+      console.log(`Opening ${url}`)
+      openBrowser(url)
+      return
+    }
+    const [fileFlag, file, confirmFlag] = rest
+    if (fileFlag !== "--file" || !file || confirmFlag !== "--confirm") {
+      throw new Error("Creating or updating a profile requires explicit confirmation: crafter onboard --file <json-file> --confirm")
+    }
+    const input = upsertMemberRequestSchema.parse(JSON.parse(await readFile(file, "utf8")))
+    const response = privateMemberResponseSchema.parse(
+      await api("/v1/me", { method: "PUT", body: JSON.stringify(input) }),
+    )
+    print({ ...response, profileUrl: webPath(`/crafters/${response.member.handle}`) })
+    return
+  }
+  if (command === "handle") {
+    const [handle, ...extra] = rest
+    if (!handle || extra.length > 0) throw new Error("Usage: crafter handle <handle>")
+    print(handleAvailabilityResponseSchema.parse(await publicApi(`/v1/handles/${encodeURIComponent(handle)}`)))
     return
   }
   if (command === "ships") {

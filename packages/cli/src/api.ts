@@ -17,6 +17,16 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   return body as T
 }
 
+export async function publicApi<T>(path: string): Promise<T> {
+  const response = await fetch(new URL(path, config.apiUrl), { headers: { accept: "application/json" } })
+  const body: unknown = await response.json().catch(() => null)
+  if (!response.ok) {
+    const parsed = apiErrorResponseSchema.safeParse(body)
+    throw new Error(parsed.success ? parsed.data.error.message : `Crafter API returned ${response.status}`)
+  }
+  return body as T
+}
+
 function request(path: string, init: RequestInit, token: string): Promise<Response> {
   const headers = new Headers(init.headers)
   headers.set("authorization", `Bearer ${token}`)

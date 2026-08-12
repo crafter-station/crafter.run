@@ -289,7 +289,11 @@
       "emptyTitle": "Todavía no hay Crafters registrados.",
       "emptyDescription": "Los miembros registrados aparecerán aquí cuando completen su perfil.",
       "unavailableTitle": "El directorio está temporalmente fuera de línea.",
-      "unavailableDescription": "No pudimos cargar el directorio de Crafters. Inténtalo de nuevo en un momento."
+      "unavailableDescription": "No pudimos cargar el directorio de Crafters. Inténtalo de nuevo en un momento.",
+      "joinAgentLabel": "Únete con tu agente de IA",
+      "joinAgentHint": "Pégalo en Claude Code, Cursor o cualquier agente de código. Instalará la CLI de Crafter, te ayudará a iniciar sesión desde tu navegador y creará tu perfil contigo.",
+      "joinAgentCopy": "Copiar el prompt para tu agente",
+      "joinAgentCopied": "Prompt copiado"
     },
     "timeline": {
       "eyebrow": "Actividad open source",

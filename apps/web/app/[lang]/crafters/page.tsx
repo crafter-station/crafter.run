@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 
 import { Container, SectionGap } from "@/components/grid-container"
+import { JoinAgentPrompt } from "@/components/join-agent-prompt"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { isLocale, locales } from "@/lib/i18n"
@@ -41,6 +42,12 @@ export default async function CraftersPage({ params }: { params: Promise<{ lang:
               <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{t("eyebrow")}</p>
               <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">{t("title")}</h1>
               <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">{t("description")}</p>
+              <JoinAgentPrompt
+                label={t("joinAgentLabel")}
+                hint={t("joinAgentHint")}
+                copyLabel={t("joinAgentCopy")}
+                copiedLabel={t("joinAgentCopied")}
+              />
             </div>
             <div className="border border-line p-5">
               <p className="font-mono text-3xl font-medium tabular-nums">{membersResult === null ? "--" : members.length}</p>
