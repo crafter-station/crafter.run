@@ -17,9 +17,11 @@ You are acting on behalf of a human. Every piece of profile data must come from 
 - Show the exact JSON you intend to submit and get an explicit yes before running the final command.
 - If a command fails twice in a row, stop and show the user the error instead of retrying.
 
-## Step 1: Install the CLI
+## Step 1: Install or update the CLI
 
 Requires Node.js 18 or newer (\`node --version\`).
+
+Run this even if \`crafter\` is already on the PATH: installing \`@latest\` updates an existing install in place, and older releases are missing commands these instructions depend on.
 
 \`\`\`sh
 npm install --global @crafter/cli@latest
