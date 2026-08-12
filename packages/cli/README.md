@@ -19,6 +19,7 @@ crafter handle <handle>
 crafter onboard --file <json-file> --confirm
 crafter ship
 crafter publish <draft-id> --revision <updated-at> --confirm
+crafter edit <ship-slug> --file <json-file> --revision <updated-at> --confirm
 crafter update <ship-slug> --file <json-file> --confirm
 ```
 
@@ -43,6 +44,17 @@ Ship update files contain a public changelog entry:
   "description": "Added team workspaces and improved onboarding."
 }
 ```
+
+Use `crafter edit` to change a published Ship's metadata. Get the current `updatedAt` revision from `crafter ships`, then provide any fields to change in the JSON file:
+
+```json
+{
+  "tagline": "A sharper description of the project",
+  "links": [{ "type": "website", "url": "https://example.com" }]
+}
+```
+
+`crafter update` remains the command for publishing changelog entries.
 
 The CLI inspects only `README.md`, `package.json`, `crafter.ship.json`, and the Git origin by default. OAuth credentials are stored in the operating-system credential store.
 

@@ -11,6 +11,7 @@ import type {
   ShipUpdate,
   ShipVote,
   UpdateShipDraftRequest,
+  UpdatePublishedShipRequest,
   UpsertMemberRequest,
 } from "@crafter/contracts"
 import { randomUUID } from "node:crypto"
@@ -514,6 +515,88 @@ export async function updateDraft(
   }
   const result = await getOwnedShip(memberId, shipId)
   return result?.status === "draft" ? result : null
+}
+
+export async function updatePublishedShip(
+  memberId: string,
+  shipId: string,
+  input: UpdatePublishedShipRequest,
+): Promise<ShipDetail | null> {
+  const db = getDatabase()
+  const updatedAt = new Date(Math.max(Date.now(), Date.parse(input.expectedUpdatedAt) + 1)).toISOString()
+  const changes: Partial<typeof ships.$inferInsert> = { updatedAt }
+  for (const key of ["slug", "name", "tagline", "description"] as const) {
+    if (input[key] !== undefined) changes[key] = input[key]
+  }
+  if (input.imageUrl !== undefined) changes.imageUrl = input.imageUrl
+  if (input.socialPostUrl !== undefined) changes.socialPostUrl = input.socialPostUrl
+  const editableShip = db
+    .select({ id: ships.id })
+    .from(ships)
+    .where(and(
+      eq(ships.id, shipId),
+      eq(ships.ownerMemberId, memberId),
+      eq(ships.status, "published"),
+      eq(ships.updatedAt, input.expectedUpdatedAt),
+    ))
+  const updateShip = db
+    .update(ships)
+    .set(changes)
+    .where(and(
+      eq(ships.id, shipId),
+      eq(ships.ownerMemberId, memberId),
+      eq(ships.status, "published"),
+      eq(ships.updatedAt, input.expectedUpdatedAt),
+    ))
+  const guardedDeleteLinks = db
+    .delete(shipLinks)
+    .where(and(eq(shipLinks.shipId, shipId), inArray(shipLinks.shipId, editableShip)))
+  const insertLinks = input.links?.length
+    ? db.execute(sql`
+        insert into ship_links (ship_id, type, url)
+        select ${shipId}::uuid, values_to_insert.type::ship_link_type, values_to_insert.url
+        from (values ${sql.join(input.links.map((link) => sql`(${link.type}, ${link.url})`), sql`, `)})
+          as values_to_insert(type, url)
+        where exists (
+          select 1 from ships
+          where id = ${shipId}::uuid and owner_member_id = ${memberId}::uuid
+            and status = 'published' and updated_at = ${input.expectedUpdatedAt}
+        )
+      `)
+    : null
+  const guardedDeleteProvenance = db
+    .delete(shipProvenance)
+    .where(and(eq(shipProvenance.shipId, shipId), inArray(shipProvenance.shipId, editableShip)))
+  const insertProvenance = input.provenance?.length
+    ? db.execute(sql`
+        insert into ship_provenance (ship_id, value)
+        select ${shipId}::uuid, values_to_insert.value
+        from (values ${sql.join(input.provenance.map((value) => sql`(${value})`), sql`, `)})
+          as values_to_insert(value)
+        where exists (
+          select 1 from ships
+          where id = ${shipId}::uuid and owner_member_id = ${memberId}::uuid
+            and status = 'published' and updated_at = ${input.expectedUpdatedAt}
+        )
+      `)
+    : null
+
+  if (input.links && input.provenance) {
+    if (insertLinks && insertProvenance) await db.batch([guardedDeleteLinks, insertLinks, guardedDeleteProvenance, insertProvenance, updateShip])
+    else if (insertLinks) await db.batch([guardedDeleteLinks, insertLinks, guardedDeleteProvenance, updateShip])
+    else if (insertProvenance) await db.batch([guardedDeleteLinks, guardedDeleteProvenance, insertProvenance, updateShip])
+    else await db.batch([guardedDeleteLinks, guardedDeleteProvenance, updateShip])
+  } else if (input.links) {
+    if (insertLinks) await db.batch([guardedDeleteLinks, insertLinks, updateShip])
+    else await db.batch([guardedDeleteLinks, updateShip])
+  } else if (input.provenance) {
+    if (insertProvenance) await db.batch([guardedDeleteProvenance, insertProvenance, updateShip])
+    else await db.batch([guardedDeleteProvenance, updateShip])
+  } else {
+    await updateShip
+  }
+  const result = await getOwnedShip(memberId, shipId)
+  return result?.status === "published" && result.updatedAt !== input.expectedUpdatedAt ? result : null
 }
 
 export async function publishDraft(

@@ -23,6 +23,7 @@
 - `apps/api/src/dev.ts` loads `apps/api/.env*`, then fills a missing `DATABASE_URL` from `apps/web/.env*`; Drizzle commands also load env from `apps/web` via `packages/db/drizzle.config.ts`.
 - `apps/api` exposes `/health`, `/openapi.json`, and versioned routes under `/v1`; it requires `DATABASE_URL` for data routes and accepts comma-separated browser origins through `WEB_ORIGINS`.
 - `packages/cli` provides the `crafter` executable; run it locally with `bun run cli -- <command>`. Its OAuth credentials are stored in the operating-system credential store, never project files.
+- CLI changes must include a Changesets file. Follow `docs/cli-releases.md` for versioning, the generated release PR, npm publishing, verification, and recovery; do not manually bump or publish normal releases.
 - `packages/contracts` owns shared Zod API schemas. `packages/db` owns the Drizzle schema and the single migration history; do not create app-local migration folders.
 - `skills/crafter-ship/SKILL.md` is the portable agent workflow. It delegates all auth and API behavior to `packages/cli` and must preserve draft-first publishing.
 - Missing `LUMA_API_KEY` makes `apps/web/lib/luma.ts` return empty event lists and log a warning; event pages revalidate every 6 hours.
