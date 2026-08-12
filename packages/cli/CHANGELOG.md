@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.4.1
+
+### Patch Changes
+
+- [#57](https://github.com/crafter-station/crafter.run/pull/57) [`fbf37e6`](https://github.com/crafter-station/crafter.run/commit/fbf37e676c280b6cb48e00718987ceefb4dc2394) Thanks [@cuevaio](https://github.com/cuevaio)! - Load Windows Runtime credential types before saving OAuth credentials so login works consistently in Windows PowerShell.
+
 ## 0.4.0
 
 ### Minor Changes
