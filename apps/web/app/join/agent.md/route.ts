@@ -42,7 +42,9 @@ crafter whoami
 
 ## Step 3: Build the profile with the user
 
-Ask the user for these fields. Required:
+Start from a draft, not an empty questionnaire. Prefill any field you already have evidence for: your own memory or context about the user, \`git config user.name\`, the owner of the current repository's origin remote, \`gh api user\` when the GitHub CLI is authenticated, or author fields in the current project's README or package.json. Tell the user where each prefilled value came from. Never fill a field you have no evidence for; leave it blank and ask. Then walk through the draft with the user so they can correct or complete every field.
+
+The fields. Required:
 
 - \`handle\`: 3 to 40 characters, lowercase letters, numbers, and internal hyphens. Their public username.
 - \`displayName\`: 1 to 80 characters.
