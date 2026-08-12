@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og"
 
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n"
+import { getCrafterProfile } from "@/lib/ships"
 
 export const dynamic = "force-dynamic"
 
@@ -58,12 +59,14 @@ export async function GET(request: Request) {
 
   const langParam = searchParams.get("lang") ?? defaultLocale
   const lang: Locale = isLocale(langParam) ? langParam : defaultLocale
-  const title = (searchParams.get("title") ?? TAGLINE).slice(0, 140)
+  const requestedTitle = (searchParams.get("title") ?? TAGLINE).slice(0, 140)
   const eyebrow = (searchParams.get("eyebrow") ?? "Crafter Station · LatAm").slice(0, 60)
   const handle = searchParams.get("handle")?.slice(0, 40)
-  const avatarUrl = searchParams.get("avatar")?.slice(0, 500)
-  const role = searchParams.get("role")?.slice(0, 120)
-  const isProfile = Boolean(handle)
+  const member = handle ? await getCrafterProfile(handle) : null
+  const title = member?.displayName ?? requestedTitle
+  const avatarUrl = member?.avatarUrl
+  const role = member?.currentRole
+  const isProfile = Boolean(member)
 
   const monoText = `${eyebrow.toUpperCase()}${lang.toUpperCase()}${DOMAIN}${TAGLINE}${handle ?? ""}${role ?? ""}CRAFTER PROFILEMEMBER…`
   const titleFont = titleFontFamily(lang)
@@ -190,7 +193,7 @@ export async function GET(request: Request) {
                     textTransform: "uppercase",
                   }}
                 >
-                  MEMBER // @{handle}
+                  MEMBER // @{member?.handle}
                 </div>
                 <div
                   style={{

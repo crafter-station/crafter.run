@@ -38,8 +38,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     lang,
     handle: member.handle,
   })
-  if (member.avatarUrl) image.set("avatar", member.avatarUrl)
-  if (member.currentRole) image.set("role", member.currentRole)
   const imageUrl = `/og?${image.toString()}`
 
   return {
