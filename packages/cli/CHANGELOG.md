@@ -1,5 +1,15 @@
 # @crafter/cli
 
+## 0.4.0
+
+### Minor Changes
+
+- [#55](https://github.com/crafter-station/crafter.run/pull/55) [`88b9f83`](https://github.com/crafter-station/crafter.run/commit/88b9f83c9415e4bf3916f39fddd633c297fd1c7e) Thanks [@cuevaio](https://github.com/cuevaio)! - Add `crafter edit` for updating the metadata of an existing published Ship with revision conflict protection.
+
+### Patch Changes
+
+- [#55](https://github.com/crafter-station/crafter.run/pull/55) [`88b9f83`](https://github.com/crafter-station/crafter.run/commit/88b9f83c9415e4bf3916f39fddd633c297fd1c7e) Thanks [@cuevaio](https://github.com/cuevaio)! - Prevent OAuth login from agent command runners that can terminate the localhost callback server before browser authorization completes.
+
 ## 0.3.2
 
 ### Patch Changes
