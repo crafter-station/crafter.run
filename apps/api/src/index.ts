@@ -5,6 +5,7 @@ import {
   handleSchema,
   listMembersResponseSchema,
   listOwnedShipsResponseSchema,
+  listShipVotesResponseSchema,
   listShipsResponseSchema,
   meResponseSchema,
   memberResponseSchema,
@@ -12,6 +13,8 @@ import {
   shipResponseSchema,
   shipSlugSchema,
   shipUpdateResponseSchema,
+  shipVoteResponseSchema,
+  setShipVoteRequestSchema,
   updateShipDraftRequestSchema,
   upsertMemberRequestSchema,
 } from "@crafter/contracts"
@@ -37,7 +40,9 @@ import {
   listOwnedShips,
   listMembers,
   listPublishedShips,
+  listShipVoteIds,
   publishDraft,
+  setShipVote,
   updateDraft,
   upsertMember,
   RepositoryUnavailableError,
@@ -142,6 +147,30 @@ app.openapi(getShipRoute, async (c) => {
   return ship
     ? c.json(shipResponseSchema.parse({ ship }), 200)
     : c.json(errorBody("not_found", "Ship not found.", c.get("requestId")), 404)
+})
+
+const setShipVoteRoute = createRoute({
+  method: "put",
+  path: "/v1/ships/{slug}/vote",
+  security: bearerSecurity,
+  request: {
+    params: z.object({ slug: shipSlugSchema }),
+    body: { content: { "application/json": { schema: setShipVoteRequestSchema } } },
+  },
+  responses: {
+    200: { content: { "application/json": { schema: shipVoteResponseSchema } }, description: "Current Ship vote" },
+    401: { content: errorContent, description: "Authentication required" },
+    404: { content: errorContent, description: "Published Ship not found" },
+    503: { content: errorContent, description: "Database unavailable" },
+  },
+})
+app.openapi(setShipVoteRoute, async (c) => {
+  const auth = await authenticateUser(c.req.raw)
+  if (!auth) return c.json(errorBody("unauthorized", "Authentication required.", c.get("requestId")), 401)
+  const vote = await setShipVote(auth.clerkUserId, c.req.valid("param").slug, c.req.valid("json").active)
+  return vote
+    ? c.json(shipVoteResponseSchema.parse({ vote }), 200)
+    : c.json(errorBody("not_found", "Published Ship not found.", c.get("requestId")), 404)
 })
 
 const createShipUpdateRoute = createRoute({
@@ -258,6 +287,22 @@ app.openapi(meRoute, async (c) => {
   const auth = await authenticateUser(c.req.raw)
   if (!auth) return c.json(errorBody("unauthorized", "Authentication required.", c.get("requestId")), 401)
   return c.json({ member: await getMemberByClerkId(auth.clerkUserId) }, 200)
+})
+
+const myShipVotesRoute = createRoute({
+  method: "get",
+  path: "/v1/me/ship-votes",
+  security: bearerSecurity,
+  responses: {
+    200: { content: { "application/json": { schema: listShipVotesResponseSchema } }, description: "Current user's Ship votes" },
+    401: { content: errorContent, description: "Authentication required" },
+    503: { content: errorContent, description: "Database unavailable" },
+  },
+})
+app.openapi(myShipVotesRoute, async (c) => {
+  const auth = await authenticateUser(c.req.raw)
+  if (!auth) return c.json(errorBody("unauthorized", "Authentication required.", c.get("requestId")), 401)
+  return c.json(listShipVotesResponseSchema.parse({ shipIds: await listShipVoteIds(auth.clerkUserId) }), 200)
 })
 
 const upsertMeRoute = createRoute({

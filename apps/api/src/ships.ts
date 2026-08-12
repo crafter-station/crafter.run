@@ -7,12 +7,13 @@ import type {
   ShipLink,
   ShipSummary,
   ShipUpdate,
+  ShipVote,
   UpdateShipDraftRequest,
   UpsertMemberRequest,
 } from "@crafter/contracts"
 import { randomUUID } from "node:crypto"
 import { createDatabase } from "@crafter/db"
-import { members, shipLinks, shipProvenance, ships, shipUpdates } from "@crafter/db/schema"
+import { members, shipLinks, shipProvenance, ships, shipUpdates, shipVotes } from "@crafter/db/schema"
 import { and, asc, desc, eq, inArray, sql } from "drizzle-orm"
 
 export class RepositoryUnavailableError extends Error {}
@@ -132,6 +133,16 @@ async function updatesForShips(db: ReturnType<typeof getDatabase>, shipIds: stri
   return result
 }
 
+async function voteCountsForShips(db: ReturnType<typeof getDatabase>, shipIds: string[]) {
+  if (shipIds.length === 0) return new Map<string, number>()
+  const rows = await db
+    .select({ shipId: shipVotes.shipId, count: sql<number>`count(*)::int` })
+    .from(shipVotes)
+    .where(inArray(shipVotes.shipId, shipIds))
+    .groupBy(shipVotes.shipId)
+  return new Map(rows.map((row) => [row.shipId, row.count]))
+}
+
 export async function listPublishedShips(ownerHandle?: string): Promise<ShipSummary[]> {
   const db = getDatabase()
   const rows = await db
@@ -150,7 +161,11 @@ export async function listPublishedShips(ownerHandle?: string): Promise<ShipSumm
     .where(ownerHandle ? and(eq(ships.status, "published"), eq(members.handle, ownerHandle)) : eq(ships.status, "published"))
     .orderBy(desc(ships.publishedAt))
     .limit(100)
-  const links = await linksForShips(db, rows.map((ship) => ship.id))
+  const shipIds = rows.map((ship) => ship.id)
+  const [links, voteCounts] = await Promise.all([
+    linksForShips(db, shipIds),
+    voteCountsForShips(db, shipIds),
+  ])
   return rows.flatMap((ship) =>
     ship.publishedAt
       ? [{
@@ -165,6 +180,7 @@ export async function listPublishedShips(ownerHandle?: string): Promise<ShipSumm
             avatarUrl: ship.ownerAvatarUrl,
           },
           links: links.get(ship.id) ?? [],
+          voteCount: voteCounts.get(ship.id) ?? 0,
         }]
       : [],
   )
@@ -182,10 +198,11 @@ async function hydrateShips(
   includeProvenance = false,
 ): Promise<ShipDetail[]> {
   const shipIds = rows.map((ship) => ship.id)
-  const [links, provenance, updates] = await Promise.all([
+  const [links, provenance, updates, voteCounts] = await Promise.all([
     linksForShips(db, shipIds),
     includeProvenance ? provenanceForShips(db, shipIds) : Promise.resolve(new Map<string, string[]>()),
     updatesForShips(db, shipIds),
+    voteCountsForShips(db, shipIds),
   ])
   return rows.map((ship) => ({
     id: ship.id,
@@ -206,7 +223,42 @@ async function hydrateShips(
     links: links.get(ship.id) ?? [],
     updates: updates.get(ship.id) ?? [],
     provenance: provenance.get(ship.id) ?? [],
+    voteCount: voteCounts.get(ship.id) ?? 0,
   }))
+}
+
+export async function listShipVoteIds(clerkUserId: string): Promise<string[]> {
+  const db = getDatabase()
+  const rows = await db
+    .select({ shipId: shipVotes.shipId })
+    .from(shipVotes)
+    .innerJoin(ships, eq(shipVotes.shipId, ships.id))
+    .where(and(eq(shipVotes.voterClerkUserId, clerkUserId), eq(ships.status, "published")))
+  return rows.map((row) => row.shipId)
+}
+
+export async function setShipVote(clerkUserId: string, slug: string, active: boolean): Promise<ShipVote | null> {
+  const db = getDatabase()
+  const [ship] = await db
+    .select({ id: ships.id })
+    .from(ships)
+    .where(and(eq(ships.slug, slug), eq(ships.status, "published")))
+    .limit(1)
+  if (!ship) return null
+
+  if (active) {
+    await db.insert(shipVotes).values({ shipId: ship.id, voterClerkUserId: clerkUserId }).onConflictDoNothing()
+  } else {
+    await db
+      .delete(shipVotes)
+      .where(and(eq(shipVotes.shipId, ship.id), eq(shipVotes.voterClerkUserId, clerkUserId)))
+  }
+
+  const [result] = await db
+    .select({ count: sql<number>`count(*)::int` })
+    .from(shipVotes)
+    .where(eq(shipVotes.shipId, ship.id))
+  return { shipId: ship.id, active, voteCount: result?.count ?? 0 }
 }
 
 const shipSelection = {

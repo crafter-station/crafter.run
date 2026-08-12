@@ -7,6 +7,7 @@ import { Container, SectionGap } from "@/components/grid-container"
 import { InstallSkillCommand } from "@/components/install-skill-command"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { ShipUpvote, ShipVotesProvider } from "@/components/ship-upvote"
 import { isLocale, locales } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 import { listPublishedShips } from "@/lib/ships"
@@ -101,8 +102,9 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-              {ships.map((ship, index) => (
+            <ShipVotesProvider>
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+                {ships.map((ship, index) => (
                 <article
                   key={ship.id}
                   className="group min-h-72 border-b border-line p-8 transition-colors hover:bg-accent-surface/10 md:border-r xl:min-h-80"
@@ -111,7 +113,10 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
                     <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
                       {String(index + 1).padStart(3, "0")}
                     </p>
-                    <p className="font-mono text-[10px] text-muted-foreground">@{ship.owner.handle}</p>
+                    <div className="flex items-center gap-3">
+                      <p className="font-mono text-[10px] text-muted-foreground">@{ship.owner.handle}</p>
+                      <ShipUpvote shipId={ship.id} slug={ship.slug} initialVoteCount={ship.voteCount} locale={lang} />
+                    </div>
                   </div>
                   <h3 className="mt-12 text-3xl font-medium tracking-tight">
                     <Link href={`/${lang}/ships/${ship.slug}`} className="transition-colors hover:text-accent">
@@ -139,8 +144,9 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
                     </div>
                   ) : null}
                 </article>
-              ))}
-            </div>
+                ))}
+              </div>
+            </ShipVotesProvider>
           )}
         </Container>
       </main>

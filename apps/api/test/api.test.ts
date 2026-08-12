@@ -41,6 +41,26 @@ describe("Crafter API", () => {
     expect(await response.json()).toMatchObject({ error: { code: "validation_error" } })
   })
 
+  test("validates Ship votes", async () => {
+    const response = await app.request("/v1/ships/example-ship/vote", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ active: "yes" }),
+    })
+    expect(response.status).toBe(400)
+    expect(await response.json()).toMatchObject({ error: { code: "validation_error" } })
+  })
+
+  test("requires authentication to vote for a Ship", async () => {
+    const response = await app.request("/v1/ships/example-ship/vote", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ active: true }),
+    })
+    expect(response.status).toBe(401)
+    expect(await response.json()).toMatchObject({ error: { code: "unauthorized" } })
+  })
+
   test("reports an unavailable repository as 503", async () => {
     const previous = process.env.DATABASE_URL
     delete process.env.DATABASE_URL

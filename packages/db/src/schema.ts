@@ -130,6 +130,21 @@ export const shipProvenance = pgTable(
   ],
 )
 
+export const shipVotes = pgTable(
+  "ship_votes",
+  {
+    shipId: uuid("ship_id")
+      .notNull()
+      .references(() => ships.id, { onDelete: "cascade" }),
+    voterClerkUserId: text("voter_clerk_user_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.shipId, table.voterClerkUserId] }),
+    index("ship_votes_voter_clerk_user_idx").on(table.voterClerkUserId),
+  ],
+)
+
 export const apiIdempotencyKeys = pgTable(
   "api_idempotency_keys",
   {

@@ -77,6 +77,7 @@ export const shipSummarySchema = z.object({
   tagline: z.string(),
   owner: memberSummarySchema,
   links: z.array(shipLinkSchema),
+  voteCount: z.number().int().nonnegative().default(0),
   publishedAt: z.string().datetime(),
 })
 
@@ -97,6 +98,7 @@ export const shipDetailSchema = z.object({
   links: z.array(shipLinkSchema),
   updates: z.array(shipUpdateSchema),
   provenance: z.array(z.string()),
+  voteCount: z.number().int().nonnegative().default(0),
   publishedAt: z.string().datetime().nullable(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
@@ -108,6 +110,15 @@ export const createShipUpdateRequestSchema = z.object({
 })
 
 export const shipUpdateResponseSchema = z.object({ update: shipUpdateSchema })
+
+export const setShipVoteRequestSchema = z.object({ active: z.boolean() })
+export const shipVoteSchema = z.object({
+  shipId: z.string().uuid(),
+  active: z.boolean(),
+  voteCount: z.number().int().nonnegative(),
+})
+export const shipVoteResponseSchema = z.object({ vote: shipVoteSchema })
+export const listShipVotesResponseSchema = z.object({ shipIds: z.array(z.string().uuid()) })
 
 export const shipDraftInputSchema = z.object({
   slug: shipSlugSchema,
@@ -174,6 +185,7 @@ export type ShipDraftInput = z.infer<typeof shipDraftInputSchema>
 export type CreateShipDraftRequest = z.infer<typeof createShipDraftRequestSchema>
 export type UpdateShipDraftRequest = z.infer<typeof updateShipDraftRequestSchema>
 export type CreateShipUpdateRequest = z.infer<typeof createShipUpdateRequestSchema>
+export type ShipVote = z.infer<typeof shipVoteSchema>
 export type ListShipsResponse = z.infer<typeof listShipsResponseSchema>
 export type ListMembersResponse = z.infer<typeof listMembersResponseSchema>
 export type ApiErrorResponse = z.infer<typeof apiErrorResponseSchema>
