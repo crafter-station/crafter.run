@@ -165,7 +165,7 @@ function normalizeUpsertLocation(input: {
   let countryCode = input.countryCode ?? null
   let country = input.country ?? null
 
-  if (countryCode && isIsoCountryCode(countryCode) && !country) {
+  if (countryCode && isIsoCountryCode(countryCode)) {
     country = countryNameFromCode(countryCode)
   } else if (!countryCode && country) {
     countryCode = countryCodeFromName(country)

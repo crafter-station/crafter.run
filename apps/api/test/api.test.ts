@@ -385,6 +385,17 @@ describe("Crafter profiles", () => {
     expect(countryCodeToFlagEmoji("PE")).toBe("🇵🇪")
   })
 
+  test("keeps country labels consistent with reliable country codes", () => {
+    const profile = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      originLocation: { city: "Lima", country: "Peru", countryCode: "MX" },
+    })
+
+    expect(profile.originLocation?.country).toBe("Mexico")
+    expect(formatProfileLocationLine(profile.originLocation, null)).toBe("🇲🇽 From Lima, Mexico")
+  })
+
   test("strips client-supplied geocoding metadata from profile writes", () => {
     const profile = upsertMemberRequestSchema.parse({
       handle: "test-crafter",
