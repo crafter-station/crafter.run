@@ -121,11 +121,13 @@ describe("Crafter profiles", () => {
       handle: "test-crafter",
       displayName: "Test Crafter",
       githubUrl: "https://GitHub.com/Test-Crafter/",
+      gitlabUrl: "https://GitLab.com/Test-Crafter/",
       rolesOpenTo: [" Engineer ", "Engineer", "Designer"],
       isJobSeeking: true,
     })
 
     expect(profile.githubUrl).toBe("https://github.com/test-crafter")
+    expect(profile.gitlabUrl).toBe("https://gitlab.com/Test-Crafter")
     expect(profile.rolesOpenTo).toEqual(["Engineer", "Designer"])
     expect(profile.isJobSeeking).toBe(true)
   })
@@ -146,13 +148,14 @@ describe("Crafter profiles", () => {
       handle: "test-crafter",
       displayName: "Test Crafter",
       githubUrl: null,
+      gitlabUrl: null,
       rolesOpenTo: [],
       isJobSeeking: false,
     })
 
     expect(Object.hasOwn(omitted, "githubUrl")).toBe(false)
     expect(Object.hasOwn(omitted, "rolesOpenTo")).toBe(false)
-    expect(cleared).toMatchObject({ githubUrl: null, rolesOpenTo: [], isJobSeeking: false })
+    expect(cleared).toMatchObject({ githubUrl: null, gitlabUrl: null, rolesOpenTo: [], isJobSeeking: false })
   })
 
   test("validates private career preferences", () => {
@@ -205,6 +208,7 @@ describe("Crafter profiles", () => {
       avatarUrl: null,
       bio: null,
       githubUrl: null,
+      gitlabUrl: null,
       linkedinUrl: null,
       instagramUrl: null,
       xUrl: null,

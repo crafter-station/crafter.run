@@ -49,6 +49,7 @@ export function MemberOnboardingForm({
           bio: formData.get("bio") || null,
           avatarUrl: member?.avatarUrl ?? avatarUrl,
           githubUrl: formData.get("githubUrl") || null,
+          gitlabUrl: formData.get("gitlabUrl") || null,
           linkedinUrl: formData.get("linkedinUrl") || null,
           instagramUrl: formData.get("instagramUrl") || null,
           xUrl: formData.get("xUrl") || null,
@@ -134,6 +135,7 @@ export function MemberOnboardingForm({
       </label>
       <div className="grid gap-6 border-t border-line pt-6 sm:grid-cols-2">
         <Field type="url" label="GitHub" name="githubUrl" defaultValue={member?.githubUrl ?? ""} placeholder="https://github.com/you" />
+        <Field type="url" label="GitLab" name="gitlabUrl" defaultValue={member?.gitlabUrl ?? ""} placeholder="https://gitlab.com/you" />
         <Field type="url" label="LinkedIn" name="linkedinUrl" defaultValue={member?.linkedinUrl ?? ""} placeholder="https://linkedin.com/in/you" />
         <Field type="url" label="Instagram" name="instagramUrl" defaultValue={member?.instagramUrl ?? ""} placeholder="https://instagram.com/you" />
         <Field type="url" label="X" name="xUrl" defaultValue={member?.xUrl ?? ""} placeholder="https://x.com/you" />

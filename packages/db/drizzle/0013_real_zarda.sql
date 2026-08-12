@@ -1,0 +1,2 @@
+ALTER TABLE "members" ADD COLUMN "gitlab_url" text;--> statement-breakpoint
+ALTER TABLE "members" ADD CONSTRAINT "members_gitlab_url_check" CHECK ("members"."gitlab_url" is null or "members"."gitlab_url" ~ '^https?://');

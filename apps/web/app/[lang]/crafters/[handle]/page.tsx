@@ -1,4 +1,5 @@
 import type { MemberProfile } from "@crafter/contracts"
+import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -7,6 +8,7 @@ import { Container } from "@/components/grid-container"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { isLocale } from "@/lib/i18n"
+import { buildMetadata, ogImageUrl } from "@/lib/seo"
 import { getCrafterProfile, listCrafterShips } from "@/lib/ships"
 
 const copy = {
@@ -16,6 +18,40 @@ const copy = {
   zh: { crafter: "创作者", ships: "作品", openTo: "有意向的职位", available: "正在寻找新工作", links: "链接" },
   ja: { crafter: "Crafter", ships: "作品", openTo: "希望する役割", available: "新しい仕事を探しています", links: "リンク" },
 } as const
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; handle: string }> }): Promise<Metadata> {
+  const { lang, handle } = await params
+  if (!isLocale(lang)) return {}
+
+  const member = await getCrafterProfile(handle)
+  if (!member) return {}
+
+  const description = member.bio ?? member.currentRole ?? `@${member.handle} on Crafter Station`
+  const metadata = buildMetadata({
+    locale: lang,
+    path: `/crafters/${member.handle}`,
+    title: member.displayName,
+    description,
+  })
+  const image = new URLSearchParams({
+    title: member.displayName,
+    lang,
+    handle: member.handle,
+  })
+  if (member.avatarUrl) image.set("avatar", member.avatarUrl)
+  if (member.currentRole) image.set("role", member.currentRole)
+  const imageUrl = `/og?${image.toString()}`
+
+  return {
+    ...metadata,
+    openGraph: {
+      ...metadata.openGraph,
+      images: [{ url: imageUrl, width: 1200, height: 630, alt: `${member.displayName} (@${member.handle})` }],
+      type: "profile",
+    },
+    twitter: { ...metadata.twitter, images: [imageUrl] },
+  }
+}
 
 export default async function CrafterPage({ params }: { params: Promise<{ lang: string; handle: string }> }) {
   const { lang, handle } = await params
@@ -68,6 +104,7 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
 function ProfileLinks({ member, label }: { member: MemberProfile; label: string }) {
   const links = [
     ["GitHub", member.githubUrl],
+    ["GitLab", member.gitlabUrl],
     ["LinkedIn", member.linkedinUrl],
     ["Instagram", member.instagramUrl],
     ["X", member.xUrl],

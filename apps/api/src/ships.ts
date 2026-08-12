@@ -32,6 +32,7 @@ export function memberProfile(row: typeof members.$inferSelect): MemberProfile {
     bio: row.bio,
     avatarUrl: row.avatarUrl,
     githubUrl: row.githubUrl,
+    gitlabUrl: row.gitlabUrl,
     linkedinUrl: row.linkedinUrl,
     instagramUrl: row.instagramUrl,
     xUrl: row.xUrl,
@@ -83,6 +84,7 @@ export async function upsertMember(clerkUserId: string, input: UpsertMemberReque
   const db = getDatabase()
   const profileUpdates = {
     ...(Object.hasOwn(input, "githubUrl") ? { githubUrl: input.githubUrl ?? null } : {}),
+    ...(Object.hasOwn(input, "gitlabUrl") ? { gitlabUrl: input.gitlabUrl ?? null } : {}),
     ...(Object.hasOwn(input, "linkedinUrl") ? { linkedinUrl: input.linkedinUrl ?? null } : {}),
     ...(Object.hasOwn(input, "instagramUrl") ? { instagramUrl: input.instagramUrl ?? null } : {}),
     ...(Object.hasOwn(input, "xUrl") ? { xUrl: input.xUrl ?? null } : {}),
@@ -109,6 +111,7 @@ export async function upsertMember(clerkUserId: string, input: UpsertMemberReque
       bio: input.bio ?? null,
       avatarUrl: input.avatarUrl ?? null,
       githubUrl: input.githubUrl ?? null,
+      gitlabUrl: input.gitlabUrl ?? null,
       linkedinUrl: input.linkedinUrl ?? null,
       instagramUrl: input.instagramUrl ?? null,
       xUrl: input.xUrl ?? null,

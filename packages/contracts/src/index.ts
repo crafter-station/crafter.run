@@ -79,6 +79,7 @@ export const memberSummarySchema = z.object({
 export const memberProfileSchema = memberSummarySchema.extend({
   bio: z.string().max(280).nullable(),
   githubUrl: httpUrlSchema.nullable(),
+  gitlabUrl: httpUrlSchema.nullable(),
   linkedinUrl: httpUrlSchema.nullable(),
   instagramUrl: httpUrlSchema.nullable(),
   xUrl: httpUrlSchema.nullable(),
@@ -94,7 +95,7 @@ export const privateMemberProfileSchema = memberProfileSchema.extend({
   salaryRange: salaryRangeSchema.nullable(),
   workArrangements: workArrangementsSchema,
   onsiteCity: z.string().max(120).nullable(),
-  resumeUrl: httpUrlSchema.nullable(),
+  resumeUrl: privateDocumentUrlSchema.nullable(),
 })
 
 export const upsertMemberRequestSchema = z.object({
@@ -103,6 +104,7 @@ export const upsertMemberRequestSchema = z.object({
   bio: z.string().trim().min(1).max(280).nullable().optional(),
   avatarUrl: httpUrlSchema.nullable().optional(),
   githubUrl: socialUrlSchema(["github.com"]).nullable().optional(),
+  gitlabUrl: socialUrlSchema(["gitlab.com"]).nullable().optional(),
   linkedinUrl: socialUrlSchema(["linkedin.com", "www.linkedin.com"]).nullable().optional(),
   instagramUrl: socialUrlSchema(["instagram.com", "www.instagram.com"]).nullable().optional(),
   xUrl: socialUrlSchema(["x.com", "www.x.com", "twitter.com", "www.twitter.com"]).nullable().optional(),
