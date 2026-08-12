@@ -15,3 +15,8 @@ dist/
 !.env.example
 .DS_Store
 .vercel
+
+# Local agent skill installs (npx skills add) - the canonical skill lives in skills/
+.agents/
+.claude/
+skills-lock.json
