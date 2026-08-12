@@ -7,8 +7,8 @@ export async function GET() {
   const lines = [
     "TEAM",
     "",
-    "Crafter Station is built in public by its community.",
-    "One line per crafter, in order of joining.",
+    "Crafter Station is built in public by its members.",
+    "One line per member, in order of joining.",
     "",
     ...(members ?? []).map((member) => `${member.displayName} (@${member.handle})`),
     "",
