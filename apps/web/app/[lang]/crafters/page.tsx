@@ -37,7 +37,7 @@ export default async function CraftersPage({ params }: { params: Promise<{ lang:
       <SiteHeader locale={lang} />
       <main className="flex-1">
         <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_14rem] lg:items-end">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_14rem] lg:items-end">
             <div className="max-w-4xl">
               <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{t("eyebrow")}</p>
               <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">{t("title")}</h1>
