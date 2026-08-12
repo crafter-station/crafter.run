@@ -84,10 +84,10 @@
     "social": "社交",
     "companyLinks": {
       "events": "活动",
-      "sponsorEvents": "赞助活动",
+      "sponsorEvents": "品牌合作",
       "products": "产品",
       "team": "团队",
-      "workWithUs": "与我们合作",
+      "workWithUs": "工程与设计咨询",
       "contact": "联系我们"
     },
     "buildLinks": {
@@ -219,11 +219,11 @@
       "contributeCta": "寻找仓库"
     },
     "work-with-us": {
-      "eyebrow": "与我们合作",
-      "title": "与 Crafter Station 背后的团队合作。",
-      "description": "面向需要资深产品执行、拉美社区活动、活动合作、产品协作以及高质量 builder 触达的公司。",
-      "section": "灵活多样的拉美增长伙伴",
-      "sectionDescription": "每一次合作都会围绕产品、受众、时机以及需要建立的信任来量身设计。"
+      "eyebrow": "工程与设计咨询",
+      "title": "让 Crafter Station 核心团队参与解决你最棘手的产品挑战。",
+      "description": "面向已经看到我们核心团队交付能力，并希望把同样的工程、产品与设计判断带入公司内部的组织。",
+      "section": "为高风险产品工作配备资深团队。",
+      "sectionDescription": "我们以聚焦的合作方式参与产品工程、AI 系统、界面设计、设计系统、技术战略与产品发布。"
     },
     "events": {
       "eyebrow": "活动",
@@ -239,11 +239,11 @@
       "noFilteredEvents": "没有符合此筛选条件的活动。"
     },
     "events-sponsors": {
-      "eyebrow": "赞助活动",
-      "title": "赞助 Crafter Station 的黑客松、meetup 和 builder 现场。",
-      "description": "与 Crafter Station 合作，支持高质量的活动：拉美 builder 在这里试用产品、ship demo、结识协作者，并记住真正到场的公司。",
-      "section": "为想要的不止是一个 logo 的公司。",
-      "sectionDescription": "我们与赞助商合作的内容包括黑客松、Code Brew、工作坊、产品发布、奖品、场地支持、餐饮、开发者工具以及动手实践活动。"
+      "eyebrow": "社区与品牌激活合作",
+      "title": "支持拉美 builder 相遇、学习和 ship 的现场。",
+      "description": "与 Crafter Station 合作举办活动、开展品牌与产品激活、制作黑客松，并通过真实参与打造赢得关注的社区项目。",
+      "section": "把品牌支持变成 builder 能亲身体验的事。",
+      "sectionDescription": "我们围绕你的目标设计合作：活动、Code Brew、黑客松、工作坊、发布、内容、奖品、场地、餐饮和产品实践激活。"
     },
     "products": {
       "eyebrow": "产品",
@@ -433,14 +433,14 @@
       "pickerTitle": "选择你想聊的话题。",
       "pickerDescription": "每个方向都由真正做这件事的人接待，第一次通话就能找对人。",
       "pickerWith": "对话者",
-      "trackStartupLabel": "创业与产品",
-      "trackStartupBlurb": "面向开发者工具和创业公司的产品工程、AI 产品、发布与拉美增长。",
+      "trackStartupLabel": "工程与设计",
+      "trackStartupBlurb": "为复杂产品挑战提供资深产品工程、AI 系统、界面设计与技术战略。",
       "trackCareerLabel": "职业发展与辅导",
       "trackCareerBlurb": "技术职业路线该往哪走、为此该做什么，以及对你当前状态的坦诚反馈。",
       "trackOssLabel": "开源与资助",
       "trackOssBlurb": "如何完成第一次贡献、为工作争取资金，以及把想法变成真正有人用的东西。",
-      "trackSponsorLabel": "赞助活动",
-      "trackSponsorBlurb": "覆盖整个地区的黑客松、Code Brew 和社区活动。"
+      "trackSponsorLabel": "品牌合作",
+      "trackSponsorBlurb": "面向拉美 builder 的活动、黑客松以及品牌或产品激活。"
     },
     "next": {
       "eyebrow": "/projects/next",

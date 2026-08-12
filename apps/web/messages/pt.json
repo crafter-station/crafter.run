@@ -84,10 +84,10 @@
     "social": "Social",
     "companyLinks": {
       "events": "Eventos",
-      "sponsorEvents": "Patrocinar eventos",
+      "sponsorEvents": "Parcerias de marca",
       "products": "Produtos",
       "team": "Equipe",
-      "workWithUs": "Trabalhe conosco",
+      "workWithUs": "Consultoria de engenharia e design",
       "contact": "Contato"
     },
     "buildLinks": {
@@ -219,11 +219,11 @@
       "contributeCta": "Encontrar um repo"
     },
     "work-with-us": {
-      "eyebrow": "Trabalhe conosco",
-      "title": "Trabalhe com o time por tras da Crafter Station.",
-      "description": "Para empresas que querem execucao senior de produto, ativacoes de comunidade no LatAm, parcerias de eventos, colaboracoes de produto e acesso a builders de alto sinal.",
-      "section": "Parceiro de crescimento no LatAm",
-      "sectionDescription": "Cada colaboracao e moldada ao produto, audiencia, timing e confianca que voce precisa construir."
+      "eyebrow": "Consultoria de engenharia e design",
+      "title": "Traga o core team da Crafter Station para seus desafios de produto mais dificeis.",
+      "description": "Para organizacoes que viram o que nosso core team consegue construir e querem o mesmo criterio de engenharia, produto e design dentro da empresa.",
+      "section": "Um time senior para trabalho de produto de alto impacto.",
+      "sectionDescription": "Entramos em projetos focados de engenharia de produto, sistemas de IA, design de interfaces, design systems, estrategia tecnica e lancamentos."
     },
     "events": {
       "eyebrow": "Eventos",
@@ -239,11 +239,11 @@
       "noFilteredEvents": "Nenhum evento corresponde a este filtro."
     },
     "events-sponsors": {
-      "eyebrow": "Sponsors de eventos",
-      "title": "Patrocine hackathons, meetups e salas builder da Crafter Station.",
-      "description": "Faca parceria com a Crafter Station para apoiar eventos onde builders do LatAm testam produtos, fazem demos, encontram colaboradores e lembram das empresas que apareceram.",
-      "section": "Para empresas que querem mais que um logo.",
-      "sectionDescription": "Trabalhamos com sponsors em hackathons, Code Brews, workshops, launches, premios, venue, comida, devtools e ativacoes hands-on."
+      "eyebrow": "Parcerias de comunidade e ativacao de marca",
+      "title": "Financie os espacos onde builders do LatAm se encontram, aprendem e shipam.",
+      "description": "Faca parceria com a Crafter Station para realizar eventos, criar ativacoes de marca e produto, produzir hackathons e construir programas que ganham atencao com participacao real.",
+      "section": "Transforme o apoio da sua marca em algo que builders podem viver.",
+      "sectionDescription": "Desenhamos parcerias conforme seus objetivos: eventos, Code Brews, hackathons, workshops, lancamentos, conteudo, premios, venues, comida e ativacoes hands-on."
     },
     "products": {
       "eyebrow": "Produtos",
@@ -433,14 +433,14 @@
       "pickerTitle": "Escolha sobre o que voce quer falar.",
       "pickerDescription": "Cada trilha vai para quem realmente faz esse trabalho, entao voce chega na pessoa certa ja na primeira conversa.",
       "pickerWith": "Com",
-      "trackStartupLabel": "Startup e produto",
-      "trackStartupBlurb": "Product engineering, produtos com IA, lancamentos e crescimento no LatAm para devtools e startups.",
+      "trackStartupLabel": "Engenharia e design",
+      "trackStartupBlurb": "Engenharia de produto senior, sistemas de IA, design de interfaces e estrategia tecnica para desafios complexos.",
       "trackCareerLabel": "Carreira e mentoria",
       "trackCareerBlurb": "Para onde levar sua carreira em tech, o que construir para chegar la, e feedback honesto sobre onde voce esta.",
       "trackOssLabel": "Open source e grants",
       "trackOssBlurb": "Como fazer suas primeiras contribuicoes, financiar o trabalho, e transformar uma ideia em algo que as pessoas usem.",
-      "trackSponsorLabel": "Patrocinar um evento",
-      "trackSponsorBlurb": "Hackathons, Code Brews e ativacoes de comunidade em toda a regiao."
+      "trackSponsorLabel": "Parcerias de marca",
+      "trackSponsorBlurb": "Eventos, hackathons e ativacoes de marca ou produto para builders do LatAm."
     },
     "next": {
       "eyebrow": "/projects/next",

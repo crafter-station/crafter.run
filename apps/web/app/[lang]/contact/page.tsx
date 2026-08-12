@@ -74,7 +74,7 @@ export default async function Page({
               label: t("trackSponsorLabel"),
               host: "Anthony Cueva",
               blurb: t("trackSponsorBlurb"),
-              calLink: "cuevaio/crafter-station-sponsor",
+              calLink: "crafter/community",
             },
           ]}
         />

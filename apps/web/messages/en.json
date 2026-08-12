@@ -84,10 +84,10 @@
     "social": "Social",
     "companyLinks": {
       "events": "Events",
-      "sponsorEvents": "Sponsor events",
+      "sponsorEvents": "Brand partnerships",
       "products": "Products",
       "team": "Team",
-      "workWithUs": "Work with us",
+      "workWithUs": "Engineering & design consulting",
       "contact": "Contact"
     },
     "buildLinks": {
@@ -219,11 +219,11 @@
       "contributeCta": "Find a repo"
     },
     "work-with-us": {
-      "eyebrow": "Work with us",
-      "title": "Work with the team behind Crafter Station.",
-      "description": "For companies that want senior product execution, LatAm community activations, event partnerships, product collaborations, and high-signal builder access.",
-      "section": "A negotiable LatAm growth partner",
-      "sectionDescription": "Every collaboration is shaped around the product, audience, timing, and trust required."
+      "eyebrow": "Engineering & design consulting",
+      "title": "Bring the Crafter Station core team into your hardest product challenges.",
+      "description": "For organizations that have seen what our core team can ship and want that same engineering, product, and design judgment applied inside their company.",
+      "section": "A senior team for high-stakes product work.",
+      "sectionDescription": "We join focused engagements across product engineering, AI systems, interface design, design systems, technical strategy, and launches."
     },
     "events": {
       "eyebrow": "Events",
@@ -239,11 +239,11 @@
       "noFilteredEvents": "No events match this filter."
     },
     "events-sponsors": {
-      "eyebrow": "Sponsor events",
-      "title": "Sponsor Crafter Station hackathons, meetups, and builder rooms.",
-      "description": "Partner with Crafter Station to support high-signal events where LatAm builders try products, ship demos, meet collaborators, and remember the companies that showed up.",
-      "section": "For companies that want more than a logo.",
-      "sectionDescription": "We work with sponsors on hackathons, Code Brews, workshops, product launches, prizes, venue support, food, developer tools, and hands-on activations."
+      "eyebrow": "Community & brand activation partnerships",
+      "title": "Fund the rooms where LatAm builders meet, learn, and ship.",
+      "description": "Partner with Crafter Station to host events, run brand and product activations, produce hackathons, and build programs that earn attention through real participation.",
+      "section": "Turn brand support into something builders can experience.",
+      "sectionDescription": "We shape partnerships around your goals: hosted events, Code Brews, hackathons, workshops, launches, content, prizes, venues, food, and hands-on product activations."
     },
     "products": {
       "eyebrow": "Products",
@@ -433,14 +433,14 @@
       "pickerTitle": "Pick what you want to talk about.",
       "pickerDescription": "Each track goes to whoever actually does that work, so you land with the right person on the first call.",
       "pickerWith": "With",
-      "trackStartupLabel": "Startup and product",
-      "trackStartupBlurb": "Product engineering, AI products, launches, and LatAm growth for devtools and startups.",
+      "trackStartupLabel": "Engineering and design",
+      "trackStartupBlurb": "Senior product engineering, AI systems, interface design, and technical strategy for organizations with hard product challenges.",
       "trackCareerLabel": "Career and mentorship",
       "trackCareerBlurb": "Where to take your track in tech, what to build to get there, and honest feedback on where you are now.",
       "trackOssLabel": "Open source and grants",
       "trackOssBlurb": "How to make your first contributions, fund the work, and turn an idea into something people use.",
-      "trackSponsorLabel": "Sponsor an event",
-      "trackSponsorBlurb": "Hackathons, Code Brews, and community activations across the region."
+      "trackSponsorLabel": "Brand partnerships",
+      "trackSponsorBlurb": "Hosted events, hackathons, and brand or product activations for LatAm builders."
     },
     "next": {
       "eyebrow": "/projects/next",

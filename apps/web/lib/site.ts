@@ -43,6 +43,7 @@ export const navSections = [
       { key: "ships", href: "/ships" },
       { key: "crafters", href: "/crafters" },
       { key: "events", href: "/events" },
+      { key: "brandPartnerships", href: "/events/sponsors" },
     ],
   },
   {
@@ -65,7 +66,7 @@ export const navSections = [
     key: "team",
     items: [
       { key: "team", href: "/team" },
-      { key: "workWithUs", href: "/team/work-with-us" },
+      { key: "engineeringConsulting", href: "/team/work-with-us" },
       { key: "contact", href: "/contact" },
     ],
   },

@@ -1,13 +1,12 @@
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
-import { ArrowLink } from "@/components/arrow-link"
 import { CalEmbed } from "@/components/cal-embed"
 import { Container, SectionGap } from "@/components/grid-container"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
-import { isLocale, withLocale } from "@/lib/i18n"
+import { isLocale } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
-import { collaborations, getServices } from "@/lib/site"
+import { collaborations, getEvents } from "@/lib/site"
 
 export const dynamicParams = false
 
@@ -21,34 +20,34 @@ export function generateMetadata({ params }: { params: Promise<{ lang: string }>
 
 const calendarCopy = {
   en: {
-    eyebrow: "Book a sponsor call",
-    title: "Talk through the event format, audience, and activation fit.",
+    eyebrow: "Book a partnership call",
+    title: "Put your brand inside the experience, not beside it.",
     description:
-      "Pick a time and we will map the right sponsor package: hackathon support, Code Brew presence, product workshop, launch night, prizes, venue, or hands-on devtool activation.",
+      "Tell us what your brand wants to achieve. We will shape the right partnership across hosted events, hackathons, product activations, workshops, launches, content, prizes, and community programs.",
   },
   es: {
-    eyebrow: "Agenda una llamada de sponsor",
-    title: "Hablemos del formato, audiencia y activación correcta.",
+    eyebrow: "Agenda una llamada de partnership",
+    title: "Pon tu marca dentro de la experiencia, no al costado.",
     description:
-      "Elige un horario y mapeamos el paquete correcto: hackathon, Code Brew, workshop de producto, launch night, premios, venue o activación hands-on de devtools.",
+      "Cuéntanos qué quiere lograr tu marca. Diseñaremos el partnership correcto entre eventos, hackathons, activaciones de producto, workshops, lanzamientos, contenido, premios y programas de comunidad.",
   },
   pt: {
-    eyebrow: "Agende uma chamada de sponsor",
-    title: "Vamos alinhar formato, audiencia e ativacao certa.",
+    eyebrow: "Agende uma chamada de parceria",
+    title: "Coloque sua marca dentro da experiencia, nao ao lado dela.",
     description:
-      "Escolha um horario e mapeamos o pacote certo: hackathon, Code Brew, workshop de produto, launch night, premios, venue ou ativacao hands-on de devtools.",
+      "Conte o que sua marca quer alcancar. Vamos desenhar a parceria certa entre eventos, hackathons, ativacoes de produto, workshops, lancamentos, conteudo, premios e programas de comunidade.",
   },
   zh: {
-    eyebrow: "预约赞助商通话",
-    title: "聊聊活动形式、受众和合适的合作方式。",
+    eyebrow: "预约品牌合作通话",
+    title: "让你的品牌融入体验，而不只是出现在旁边。",
     description:
-      "选一个时间，我们一起确定合适的赞助方案：黑客松支持、Code Brew 露出、产品工作坊、发布之夜、奖品、场地，或 devtools 动手实践活动。",
+      "告诉我们你的品牌希望实现什么。我们会围绕活动、黑客松、产品激活、工作坊、发布、内容、奖品和社区项目设计合适的合作方案。",
   },
   ja: {
-    eyebrow: "スポンサー向けミーティングを予約",
-    title: "イベントの形式、オーディエンス、施策の相性についてお話ししましょう。",
+    eyebrow: "ブランドパートナーシップの相談を予約",
+    title: "ブランドを体験の外側ではなく、その中心へ。",
     description:
-      "時間を選んでいただければ、最適なスポンサーパッケージをご提案します。ハッカソン支援、Code Brew での露出、プロダクトワークショップ、ローンチナイト、賞品、会場、devtools のハンズオン施策など。",
+      "ブランドが達成したいことをお聞かせください。イベント、ハッカソン、プロダクト施策、ワークショップ、ローンチ、コンテンツ、賞品、コミュニティプログラムから最適な提携を設計します。",
   },
 } as const
 
@@ -96,8 +95,7 @@ export default async function Page({
   const { lang } = await params
   if (!isLocale(lang)) notFound()
   const t = await getTranslations({ locale: lang, namespace: "pages.events-sponsors" })
-  const common = await getTranslations({ locale: lang, namespace: "common" })
-  const services = getServices(lang)
+  const events = getEvents(lang)
   const calendar = calendarCopy[lang]
   const sponsors = sponsorCopy[lang]
 
@@ -120,12 +118,11 @@ export default async function Page({
         </Container>
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-            {services.map((service, i) => (
-              <a key={service.title} href={withLocale(service.href, lang)} className={"group min-h-56 p-8 transition-colors hover:bg-accent-surface/10 " + (i > 0 ? "border-t border-line md:border-t-0 md:border-l " : "") + (i >= 2 ? "md:border-t xl:border-t-0 " : "") + (i >= 3 ? "xl:border-l " : "")}>
-                <h3 className="text-lg tracking-tight">{service.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.body}</p>
-                <ArrowLink className="mt-8">{common("openCta")}</ArrowLink>
-              </a>
+            {events.map((event, i) => (
+              <article key={event.title} className={"min-h-56 p-8 " + (i > 0 ? "border-t border-line md:border-t-0 md:border-l " : "") + (i >= 2 ? "md:border-t xl:border-t-0 " : "")}>
+                <h3 className="text-lg tracking-tight">{event.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{event.body}</p>
+              </article>
             ))}
           </div>
         </Container>
