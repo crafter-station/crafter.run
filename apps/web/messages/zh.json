@@ -289,7 +289,11 @@
       "emptyTitle": "还没有注册的 Crafter。",
       "emptyDescription": "社区成员完成个人资料后会出现在这里。",
       "unavailableTitle": "成员目录暂时离线。",
-      "unavailableDescription": "暂时无法加载 Crafter 成员目录，请稍后再试。"
+      "unavailableDescription": "暂时无法加载 Crafter 成员目录，请稍后再试。",
+      "joinAgentLabel": "用你的 AI 智能体加入",
+      "joinAgentHint": "粘贴到 Claude Code、Cursor 或任何编码智能体中。它会安装 Crafter CLI，引导你在浏览器中登录，并和你一起完成个人资料。",
+      "joinAgentCopy": "复制智能体提示词",
+      "joinAgentCopied": "提示词已复制"
     },
     "timeline": {
       "eyebrow": "开源动态",

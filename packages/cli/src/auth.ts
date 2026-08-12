@@ -213,7 +213,7 @@ export async function login(): Promise<void> {
     state,
     scope: "openid profile offline_access",
   }).toString()
-  console.error(`Opening ${authorizationUrl}`)
+  console.error(`Sign in here (waiting up to five minutes):\n\n  ${authorizationUrl}\n\nIf the browser did not open automatically, open that URL yourself.`)
   openBrowser(authorizationUrl.toString())
   const timeout = setTimeout(() => fail(new Error("Login timed out after five minutes")), 300_000)
   try {

@@ -289,7 +289,11 @@
       "emptyTitle": "登録済みの Crafter はまだいません。",
       "emptyDescription": "プロフィールを完成したコミュニティメンバーがここに表示されます。",
       "unavailableTitle": "メンバー一覧は一時的にオフラインです。",
-      "unavailableDescription": "Crafter メンバー一覧を読み込めませんでした。しばらくしてからもう一度お試しください。"
+      "unavailableDescription": "Crafter メンバー一覧を読み込めませんでした。しばらくしてからもう一度お試しください。",
+      "joinAgentLabel": "AI エージェントで参加",
+      "joinAgentHint": "Claude Code や Cursor などのコーディングエージェントに貼り付けてください。Crafter CLI をインストールし、ブラウザでのサインインを案内しながら、一緒にプロフィールを作成します。",
+      "joinAgentCopy": "エージェント用プロンプトをコピー",
+      "joinAgentCopied": "プロンプトをコピーしました"
     },
     "timeline": {
       "eyebrow": "オープンソースの活動",

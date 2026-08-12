@@ -289,7 +289,11 @@
       "emptyTitle": "No Crafters have registered yet.",
       "emptyDescription": "Registered community members will appear here once they complete their profile.",
       "unavailableTitle": "The directory is temporarily offline.",
-      "unavailableDescription": "We could not load the Crafter directory. Try again in a moment."
+      "unavailableDescription": "We could not load the Crafter directory. Try again in a moment.",
+      "joinAgentLabel": "Join with your AI agent",
+      "joinAgentHint": "Paste it into Claude Code, Cursor, or any coding agent. It will install the Crafter CLI, help you sign in from your browser, and set up your profile with you.",
+      "joinAgentCopy": "Copy the agent prompt",
+      "joinAgentCopied": "Prompt copied"
     },
     "timeline": {
       "eyebrow": "Open-source activity",

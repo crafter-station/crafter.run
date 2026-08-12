@@ -2,11 +2,13 @@ import { z } from "zod"
 
 export const shipStatuses = ["draft", "published", "hidden"] as const
 export const shipSources = ["web", "cli", "mcp", "import"] as const
+export const memberSources = ["web", "cli"] as const
 export const shipLinkTypes = ["repository", "website", "demo", "package", "social"] as const
 export const workArrangements = ["remote", "onsite", "hybrid"] as const
 
 export const shipStatusSchema = z.enum(shipStatuses)
 export const shipSourceSchema = z.enum(shipSources)
+export const memberSourceSchema = z.enum(memberSources)
 export const shipLinkTypeSchema = z.enum(shipLinkTypes)
 export const httpUrlSchema = z
   .string()
@@ -250,6 +252,10 @@ export const listShipsResponseSchema = z.object({
 })
 
 export const listMembersResponseSchema = z.object({ members: z.array(memberProfileSchema) })
+export const handleAvailabilityResponseSchema = z.object({
+  handle: handleSchema,
+  available: z.boolean(),
+})
 export const meResponseSchema = z.object({ member: privateMemberProfileSchema.nullable() })
 export const memberResponseSchema = z.object({ member: memberProfileSchema })
 export const privateMemberResponseSchema = z.object({ member: privateMemberProfileSchema })
@@ -266,6 +272,7 @@ export const apiErrorResponseSchema = z.object({
 
 export type ShipStatus = z.infer<typeof shipStatusSchema>
 export type ShipSource = z.infer<typeof shipSourceSchema>
+export type MemberSource = z.infer<typeof memberSourceSchema>
 export type ShipLinkType = z.infer<typeof shipLinkTypeSchema>
 export type MemberSummary = z.infer<typeof memberSummarySchema>
 export type MemberProfile = z.infer<typeof memberProfileSchema>
@@ -282,4 +289,5 @@ export type CreateShipUpdateRequest = z.infer<typeof createShipUpdateRequestSche
 export type ShipVote = z.infer<typeof shipVoteSchema>
 export type ListShipsResponse = z.infer<typeof listShipsResponseSchema>
 export type ListMembersResponse = z.infer<typeof listMembersResponseSchema>
+export type HandleAvailabilityResponse = z.infer<typeof handleAvailabilityResponseSchema>
 export type ApiErrorResponse = z.infer<typeof apiErrorResponseSchema>

@@ -1,4 +1,4 @@
-import { shipLinkTypes, shipSources, shipStatuses } from "@crafter/contracts"
+import { memberSources, shipLinkTypes, shipSources, shipStatuses } from "@crafter/contracts"
 import { sql } from "drizzle-orm"
 import {
   boolean,
@@ -17,6 +17,7 @@ import {
 
 export const shipStatus = pgEnum("ship_status", shipStatuses)
 export const shipSource = pgEnum("ship_source", shipSources)
+export const memberSource = pgEnum("member_source", memberSources)
 export const shipLinkType = pgEnum("ship_link_type", shipLinkTypes)
 
 export const members = pgTable(
@@ -44,6 +45,7 @@ export const members = pgTable(
     workArrangements: text("work_arrangements").array().default(sql`'{}'::text[]`).notNull(),
     onsiteCity: text("onsite_city"),
     resumeUrl: text("resume_url"),
+    source: memberSource("source").default("web").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
   },
