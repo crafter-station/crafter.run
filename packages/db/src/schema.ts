@@ -54,7 +54,7 @@ export const ships = pgTable(
     source: shipSource("source").default("web").notNull(),
     publishedAt: timestamp("published_at", { withTimezone: true, mode: "string" }),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string", precision: 3 }).defaultNow().notNull(),
   },
   (table) => [
     index("ships_owner_created_idx").on(table.ownerMemberId, table.createdAt.desc()),

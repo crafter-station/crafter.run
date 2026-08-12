@@ -57,6 +57,13 @@
       "when": 1786482063336,
       "tag": "0007_sudden_hairball",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1786493034133,
+      "tag": "0008_natural_toro",
+      "breakpoints": true
     }
   ]
 }
