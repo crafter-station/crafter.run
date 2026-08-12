@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.2.0
+
+### Minor Changes
+
+- Add the `crafter update` command for publishing updates to existing Ships.
+
 ## 0.1.3
 
 ### Patch Changes
