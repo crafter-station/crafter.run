@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { type FormEvent, useState } from "react"
 
 import { publicApiUrl, shipsApi } from "@/lib/ships-client"
+import { cn } from "@/lib/utils"
 
 export function MemberOnboardingForm({
   locale,
@@ -85,7 +86,7 @@ export function MemberOnboardingForm({
   }
 
   return (
-    <form onSubmit={submit} className="mt-10 grid gap-6">
+    <form onSubmit={submit} className="mt-10 grid min-w-0 gap-6">
       <Field label="Handle" name="handle" placeholder="your-handle" defaultValue={member?.handle} required minLength={3} maxLength={40} />
       <Field label="Display name" name="displayName" defaultValue={member?.displayName ?? displayName} required maxLength={80} />
       <label className="grid gap-2 text-sm">
@@ -100,16 +101,16 @@ export function MemberOnboardingForm({
         </label>
       </div>
       {mode === "settings" ? (
-        <section className="grid gap-6 border border-line bg-secondary/30 p-5 sm:p-6">
+        <section className="grid min-w-0 gap-6 border border-line bg-secondary/30 p-5 sm:p-6">
           <div>
             <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Private career preferences</p>
             <h2 className="mt-2 text-xl tracking-tight">Help the right partners find you.</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">This information is hidden from your public profile and shared only with trusted partners looking for great engineers like you.</p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-[1fr_1fr_8rem]">
+          <div className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(7.5rem,10rem)]">
             <Field type="number" label="Salary minimum" name="salaryMin" min={0} max={10000000} defaultValue={member?.salaryRange?.min ?? ""} placeholder="80000" />
             <Field type="number" label="Salary maximum" name="salaryMax" min={0} max={10000000} defaultValue={member?.salaryRange?.max ?? ""} placeholder="120000" />
-            <Field label="Currency" name="salaryCurrency" minLength={3} maxLength={3} defaultValue={member?.salaryRange?.currency ?? ""} placeholder="USD" />
+            <Field label="Currency" name="salaryCurrency" minLength={3} maxLength={3} size={3} autoComplete="off" defaultValue={member?.salaryRange?.currency ?? ""} placeholder="USD" />
           </div>
           <fieldset className="grid gap-3">
             <legend className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Open to</legend>
@@ -122,7 +123,7 @@ export function MemberOnboardingForm({
               ))}
             </div>
           </fieldset>
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid min-w-0 gap-6 sm:grid-cols-2">
             <Field label="Onsite city" name="onsiteCity" maxLength={120} defaultValue={member?.onsiteCity ?? ""} placeholder="Lima, Peru" />
             <Field type="url" label="Updated resume link" name="resumeUrl" defaultValue={member?.resumeUrl ?? ""} placeholder="https://drive.google.com/..." />
           </div>
@@ -153,11 +154,11 @@ export function MemberOnboardingForm({
 }
 
 function Field(props: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
-  const { label, ...input } = props
+  const { label, className, ...input } = props
   return (
-    <label className="grid gap-2 text-sm">
+    <label className="grid min-w-0 gap-2 text-sm">
       <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{label}</span>
-      <input {...input} className="border border-line bg-background px-4 py-3 outline-none focus:border-accent" />
+      <input {...input} className={cn("w-full min-w-0 border border-line bg-background px-4 py-3 outline-none focus:border-accent", className)} />
     </label>
   )
 }
