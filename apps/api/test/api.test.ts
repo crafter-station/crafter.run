@@ -1,5 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test"
-import { editableShipLinkSchema } from "@crafter/contracts"
+import { editableShipLinkSchema, upsertMemberRequestSchema } from "@crafter/contracts"
 
 import app from "../src/index"
 import { moderateShip } from "../src/moderation"
@@ -112,5 +112,46 @@ describe("Ship link identity", () => {
     const first = editableShipLinkSchema.parse({ type: "repository", url: "https://GitHub.com/Crafter/Repo.git/?utm_source=test" })
     const second = editableShipLinkSchema.parse({ type: "repository", url: "https://github.com/crafter/repo" })
     expect(first.url).toBe(second.url)
+  })
+})
+
+describe("Crafter profiles", () => {
+  test("normalizes profile links and roles", () => {
+    const profile = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      githubUrl: "https://GitHub.com/Test-Crafter/",
+      rolesOpenTo: [" Engineer ", "Engineer", "Designer"],
+      isJobSeeking: true,
+    })
+
+    expect(profile.githubUrl).toBe("https://github.com/test-crafter")
+    expect(profile.rolesOpenTo).toEqual(["Engineer", "Designer"])
+    expect(profile.isJobSeeking).toBe(true)
+  })
+
+  test("rejects social links from the wrong platform", () => {
+    const result = upsertMemberRequestSchema.safeParse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      githubUrl: "https://example.com/test-crafter",
+    })
+
+    expect(result.success).toBe(false)
+  })
+
+  test("keeps omitted optional profile fields distinguishable from explicit clearing", () => {
+    const omitted = upsertMemberRequestSchema.parse({ handle: "test-crafter", displayName: "Test Crafter" })
+    const cleared = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      githubUrl: null,
+      rolesOpenTo: [],
+      isJobSeeking: false,
+    })
+
+    expect(Object.hasOwn(omitted, "githubUrl")).toBe(false)
+    expect(Object.hasOwn(omitted, "rolesOpenTo")).toBe(false)
+    expect(cleared).toMatchObject({ githubUrl: null, rolesOpenTo: [], isJobSeeking: false })
   })
 })

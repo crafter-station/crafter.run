@@ -15,6 +15,9 @@ export function AuthActions({ locale, mobile = false }: { locale: Locale; mobile
 
   return isSignedIn ? (
     <>
+        <Link href={withLocale("/settings/profile", locale)} className={className}>
+          Edit profile
+        </Link>
         <Link href={withLocale("/ships/new", locale)} className={className}>
           Ship something
         </Link>

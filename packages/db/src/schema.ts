@@ -1,6 +1,7 @@
 import { shipLinkTypes, shipSources, shipStatuses } from "@crafter/contracts"
 import { sql } from "drizzle-orm"
 import {
+  boolean,
   check,
   index,
   integer,
@@ -27,6 +28,15 @@ export const members = pgTable(
     displayName: text("display_name").notNull(),
     bio: text("bio"),
     avatarUrl: text("avatar_url"),
+    githubUrl: text("github_url"),
+    linkedinUrl: text("linkedin_url"),
+    instagramUrl: text("instagram_url"),
+    xUrl: text("x_url"),
+    primaryWebsiteUrl: text("primary_website_url"),
+    secondaryWebsiteUrl: text("secondary_website_url"),
+    currentRole: text("current_role"),
+    rolesOpenTo: text("roles_open_to").array().default(sql`'{}'::text[]`).notNull(),
+    isJobSeeking: boolean("is_job_seeking").default(false).notNull(),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
   },
@@ -36,6 +46,14 @@ export const members = pgTable(
     check("members_display_name_check", sql`char_length(trim(${table.displayName})) between 1 and 80`),
     check("members_bio_check", sql`${table.bio} is null or char_length(trim(${table.bio})) between 1 and 280`),
     check("members_avatar_url_check", sql`${table.avatarUrl} is null or ${table.avatarUrl} ~ '^https?://'`),
+    check("members_github_url_check", sql`${table.githubUrl} is null or ${table.githubUrl} ~ '^https?://'`),
+    check("members_linkedin_url_check", sql`${table.linkedinUrl} is null or ${table.linkedinUrl} ~ '^https?://'`),
+    check("members_instagram_url_check", sql`${table.instagramUrl} is null or ${table.instagramUrl} ~ '^https?://'`),
+    check("members_x_url_check", sql`${table.xUrl} is null or ${table.xUrl} ~ '^https?://'`),
+    check("members_primary_website_url_check", sql`${table.primaryWebsiteUrl} is null or ${table.primaryWebsiteUrl} ~ '^https?://'`),
+    check("members_secondary_website_url_check", sql`${table.secondaryWebsiteUrl} is null or ${table.secondaryWebsiteUrl} ~ '^https?://'`),
+    check("members_current_role_check", sql`${table.currentRole} is null or char_length(trim(${table.currentRole})) between 1 and 120`),
+    check("members_roles_open_to_check", sql`cardinality(${table.rolesOpenTo}) <= 10`),
   ],
 )
 

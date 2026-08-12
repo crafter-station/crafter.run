@@ -23,6 +23,14 @@ export const httpUrlSchema = z
     return url.toString().replace(/\/$/, "")
   })
 
+const socialUrlSchema = (hosts: string[]) =>
+  httpUrlSchema.refine((value) => hosts.includes(new URL(value).hostname), `URL must use ${hosts.join(" or ")}`)
+
+export const rolesOpenToSchema = z
+  .array(z.string().trim().min(1).max(80))
+  .max(10)
+  .transform((roles) => [...new Set(roles)])
+
 export const handleSchema = z
   .string()
   .trim()
@@ -47,6 +55,15 @@ export const memberSummarySchema = z.object({
 
 export const memberProfileSchema = memberSummarySchema.extend({
   bio: z.string().max(280).nullable(),
+  githubUrl: httpUrlSchema.nullable(),
+  linkedinUrl: httpUrlSchema.nullable(),
+  instagramUrl: httpUrlSchema.nullable(),
+  xUrl: httpUrlSchema.nullable(),
+  primaryWebsiteUrl: httpUrlSchema.nullable(),
+  secondaryWebsiteUrl: httpUrlSchema.nullable(),
+  currentRole: z.string().max(120).nullable(),
+  rolesOpenTo: rolesOpenToSchema,
+  isJobSeeking: z.boolean(),
   createdAt: z.string().datetime(),
 })
 
@@ -55,6 +72,15 @@ export const upsertMemberRequestSchema = z.object({
   displayName: z.string().trim().min(1).max(80),
   bio: z.string().trim().min(1).max(280).nullable().optional(),
   avatarUrl: httpUrlSchema.nullable().optional(),
+  githubUrl: socialUrlSchema(["github.com"]).nullable().optional(),
+  linkedinUrl: socialUrlSchema(["linkedin.com", "www.linkedin.com"]).nullable().optional(),
+  instagramUrl: socialUrlSchema(["instagram.com", "www.instagram.com"]).nullable().optional(),
+  xUrl: socialUrlSchema(["x.com", "www.x.com", "twitter.com", "www.twitter.com"]).nullable().optional(),
+  primaryWebsiteUrl: httpUrlSchema.nullable().optional(),
+  secondaryWebsiteUrl: httpUrlSchema.nullable().optional(),
+  currentRole: z.string().trim().min(1).max(120).nullable().optional(),
+  rolesOpenTo: rolesOpenToSchema.optional(),
+  isJobSeeking: z.boolean().optional(),
 })
 
 export const shipLinkSchema = z.object({

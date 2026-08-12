@@ -30,6 +30,15 @@ function memberProfile(row: typeof members.$inferSelect): MemberProfile {
     displayName: row.displayName,
     bio: row.bio,
     avatarUrl: row.avatarUrl,
+    githubUrl: row.githubUrl,
+    linkedinUrl: row.linkedinUrl,
+    instagramUrl: row.instagramUrl,
+    xUrl: row.xUrl,
+    primaryWebsiteUrl: row.primaryWebsiteUrl,
+    secondaryWebsiteUrl: row.secondaryWebsiteUrl,
+    currentRole: row.currentRole,
+    rolesOpenTo: row.rolesOpenTo,
+    isJobSeeking: row.isJobSeeking,
     createdAt: new Date(row.createdAt).toISOString(),
   }
 }
@@ -59,6 +68,17 @@ export async function listMembers(): Promise<MemberProfile[]> {
 
 export async function upsertMember(clerkUserId: string, input: UpsertMemberRequest): Promise<MemberProfile | null> {
   const db = getDatabase()
+  const profileUpdates = {
+    ...(Object.hasOwn(input, "githubUrl") ? { githubUrl: input.githubUrl ?? null } : {}),
+    ...(Object.hasOwn(input, "linkedinUrl") ? { linkedinUrl: input.linkedinUrl ?? null } : {}),
+    ...(Object.hasOwn(input, "instagramUrl") ? { instagramUrl: input.instagramUrl ?? null } : {}),
+    ...(Object.hasOwn(input, "xUrl") ? { xUrl: input.xUrl ?? null } : {}),
+    ...(Object.hasOwn(input, "primaryWebsiteUrl") ? { primaryWebsiteUrl: input.primaryWebsiteUrl ?? null } : {}),
+    ...(Object.hasOwn(input, "secondaryWebsiteUrl") ? { secondaryWebsiteUrl: input.secondaryWebsiteUrl ?? null } : {}),
+    ...(Object.hasOwn(input, "currentRole") ? { currentRole: input.currentRole ?? null } : {}),
+    ...(Object.hasOwn(input, "rolesOpenTo") ? { rolesOpenTo: input.rolesOpenTo ?? [] } : {}),
+    ...(Object.hasOwn(input, "isJobSeeking") ? { isJobSeeking: input.isJobSeeking ?? false } : {}),
+  }
   const [member] = await db
     .insert(members)
     .values({
@@ -67,6 +87,15 @@ export async function upsertMember(clerkUserId: string, input: UpsertMemberReque
       displayName: input.displayName,
       bio: input.bio ?? null,
       avatarUrl: input.avatarUrl ?? null,
+      githubUrl: input.githubUrl ?? null,
+      linkedinUrl: input.linkedinUrl ?? null,
+      instagramUrl: input.instagramUrl ?? null,
+      xUrl: input.xUrl ?? null,
+      primaryWebsiteUrl: input.primaryWebsiteUrl ?? null,
+      secondaryWebsiteUrl: input.secondaryWebsiteUrl ?? null,
+      currentRole: input.currentRole ?? null,
+      rolesOpenTo: input.rolesOpenTo ?? [],
+      isJobSeeking: input.isJobSeeking ?? false,
     })
     .onConflictDoUpdate({
       target: members.clerkUserId,
@@ -75,6 +104,7 @@ export async function upsertMember(clerkUserId: string, input: UpsertMemberReque
         displayName: input.displayName,
         bio: input.bio ?? null,
         avatarUrl: input.avatarUrl ?? null,
+        ...profileUpdates,
         updatedAt: new Date().toISOString(),
       },
     })
