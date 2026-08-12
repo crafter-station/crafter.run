@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.3.2
+
+### Patch Changes
+
+- [`eca6af1`](https://github.com/crafter-station/crafter.run/commit/eca6af1e0b19a21d2859bc01280b2685fc2de1bb) Thanks [@cuevaio](https://github.com/cuevaio)! - Fix OAuth logout revocation and make invalid OAuth client configuration actionable.
+
 ## 0.3.1
 
 ### Patch Changes

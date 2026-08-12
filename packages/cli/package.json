@@ -1,6 +1,6 @@
 {
   "name": "@crafter/cli",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "description": "Ship projects to the Crafter Station community directory.",
   "repository": {
