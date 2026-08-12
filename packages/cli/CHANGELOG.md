@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.4.3
+
+### Patch Changes
+
+- [#62](https://github.com/crafter-station/crafter.run/pull/62) [`5bcfde1`](https://github.com/crafter-station/crafter.run/commit/5bcfde103900f9f82ed6be9bf1306d48f90acd37) Thanks [@shiarauzo](https://github.com/shiarauzo)! - Document optional origin and based-in location fields for `crafter onboard`.
+
 ## 0.4.2
 
 ### Patch Changes
