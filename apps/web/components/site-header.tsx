@@ -6,11 +6,20 @@ import { LanguageSwitcher } from "@/components/language-switcher"
 import { PixelArrow } from "@/components/pixel-arrow"
 import { SiteWordmark } from "@/components/site-wordmark"
 import { ThemeSwitcher } from "@/components/theme-switcher"
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
 import { type Locale, withLocale } from "@/lib/i18n"
-import { navItems } from "@/lib/site"
+import { navSections } from "@/lib/site"
 
 const navCopy = {
   en: {
+    community: "Community",
     ships: "Ships",
     crafters: "Crafters",
     events: "Events",
@@ -19,12 +28,17 @@ const navCopy = {
     research: "Research",
     impact: "Impact",
     team: "Team",
+    ossMetrics: "OSS metrics",
+    timeline: "Project activity",
+    workWithUs: "Work with us",
+    contact: "Contact",
     communityCta: "Join the community",
     language: "Language",
     theme: "Theme",
     openMenu: "Open menu",
   },
   es: {
+    community: "Comunidad",
     ships: "Ships",
     crafters: "Crafters",
     events: "Eventos",
@@ -33,12 +47,17 @@ const navCopy = {
     research: "Investigación",
     impact: "Impacto",
     team: "Equipo",
+    ossMetrics: "Métricas OSS",
+    timeline: "Actividad de proyectos",
+    workWithUs: "Trabaja con nosotros",
+    contact: "Contacto",
     communityCta: "Únete a la comunidad",
     language: "Idioma",
     theme: "Tema",
     openMenu: "Abrir menú",
   },
   pt: {
+    community: "Comunidade",
     ships: "Ships",
     crafters: "Crafters",
     events: "Eventos",
@@ -47,12 +66,17 @@ const navCopy = {
     research: "Pesquisa",
     impact: "Impacto",
     team: "Equipe",
+    ossMetrics: "Metricas OSS",
+    timeline: "Atividade dos projetos",
+    workWithUs: "Trabalhe conosco",
+    contact: "Contato",
     communityCta: "Entre na comunidade",
     language: "Idioma",
     theme: "Tema",
     openMenu: "Abrir menu",
   },
   zh: {
+    community: "社区",
     ships: "社区作品",
     crafters: "成员",
     events: "活动",
@@ -61,12 +85,17 @@ const navCopy = {
     research: "研究",
     impact: "影响力",
     team: "团队",
+    ossMetrics: "开源指标",
+    timeline: "项目动态",
+    workWithUs: "与我们合作",
+    contact: "联系我们",
     communityCta: "加入社区",
     language: "语言",
     theme: "主题",
     openMenu: "打开菜单",
   },
   ja: {
+    community: "コミュニティ",
     ships: "コミュニティ作品",
     crafters: "Crafters",
     events: "イベント",
@@ -75,6 +104,10 @@ const navCopy = {
     research: "リサーチ",
     impact: "インパクト",
     team: "チーム",
+    ossMetrics: "OSS メトリクス",
+    timeline: "プロジェクト活動",
+    workWithUs: "一緒に働く",
+    contact: "お問い合わせ",
     communityCta: "コミュニティに参加",
     language: "言語",
     theme: "テーマ",
@@ -100,15 +133,33 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             </Link>
           </div>
           <div className="hidden flex-1 items-center justify-center xl:flex">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={withLocale(item.href, locale)}
-                className="inline-flex h-16 items-center gap-1 px-4 text-sm font-medium text-foreground transition-colors hover:bg-accent-surface/10 hover:text-foreground 2xl:px-5"
-              >
-                {t[item.key]}
-              </Link>
-            ))}
+            <NavigationMenu viewport={false} className="h-full">
+              <NavigationMenuList className="h-full gap-0">
+                {navSections.map((section) => (
+                  <NavigationMenuItem key={section.key} className="h-full">
+                    <NavigationMenuTrigger className="h-16 rounded-none bg-transparent px-4 text-foreground hover:bg-accent-surface/10 hover:text-foreground focus:bg-accent-surface/10 focus:text-foreground data-[state=open]:bg-accent-surface/10 data-[state=open]:text-foreground 2xl:px-5">
+                      {t[section.key]}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="w-64 p-2">
+                        {section.items.map((item) => (
+                          <li key={item.href}>
+                            <NavigationMenuLink asChild>
+                              <Link
+                                href={withLocale(item.href, locale)}
+                                className="block rounded-sm px-3 py-2.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+                              >
+                                {t[item.key]}
+                              </Link>
+                            </NavigationMenuLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
           <div className="hidden h-full items-center border-line xl:flex xl:border-l">
             <div className="flex h-full items-center">
@@ -136,14 +187,27 @@ export function SiteHeader({ locale }: { locale: Locale }) {
             <div className="absolute left-0 right-0 top-full border-t border-line bg-background">
               <Container innerClassName="px-4 py-4 xl:hidden">
                 <div className="flex flex-col">
-                  {navItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={withLocale(item.href, locale)}
-                      className="border-b border-line py-3 text-sm text-foreground"
-                    >
-                      {t[item.key]}
-                    </Link>
+                  {navSections.map((section) => (
+                    <details key={section.key} className="group border-b border-line">
+                      <summary className="flex cursor-pointer list-none items-center justify-between py-3 text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden">
+                        {t[section.key]}
+                        <span className="text-muted-foreground transition-transform group-open:rotate-45" aria-hidden="true">
+                          +
+                        </span>
+                      </summary>
+                      <ul className="flex flex-col pb-3 pl-3">
+                        {section.items.map((item) => (
+                          <li key={item.href}>
+                            <Link
+                              href={withLocale(item.href, locale)}
+                              className="block py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
+                            >
+                              {t[item.key]}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
                   ))}
                   <div className="mt-4 flex items-center justify-between border border-line px-4 py-3">
                     <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">

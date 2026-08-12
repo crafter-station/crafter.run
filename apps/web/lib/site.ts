@@ -36,15 +36,39 @@ export function getSiteConfig(locale: Locale = defaultLocale) {
   }
 }
 
-export const navItems = [
-  { key: "ships", href: "/ships" },
-  { key: "crafters", href: "/crafters" },
-  { key: "events", href: "/events" },
-  { key: "oss", href: "/oss" },
-  { key: "products", href: "/products" },
-  { key: "research", href: "/research" },
-  { key: "impact", href: "/impact/petdex" },
-  { key: "team", href: "/team" },
+export const navSections = [
+  {
+    key: "community",
+    items: [
+      { key: "ships", href: "/ships" },
+      { key: "crafters", href: "/crafters" },
+      { key: "events", href: "/events" },
+    ],
+  },
+  {
+    key: "oss",
+    items: [
+      { key: "oss", href: "/oss" },
+      { key: "ossMetrics", href: "/oss/metrics" },
+      { key: "timeline", href: "/timeline" },
+      { key: "impact", href: "/impact/petdex" },
+    ],
+  },
+  {
+    key: "products",
+    items: [
+      { key: "products", href: "/products" },
+      { key: "research", href: "/research" },
+    ],
+  },
+  {
+    key: "team",
+    items: [
+      { key: "team", href: "/team" },
+      { key: "workWithUs", href: "/team/work-with-us" },
+      { key: "contact", href: "/contact" },
+    ],
+  },
 ] as const
 
 export const languageLinks = [
