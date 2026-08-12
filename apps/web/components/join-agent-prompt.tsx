@@ -37,7 +37,7 @@ export function JoinAgentPrompt({
       <button
         type="button"
         onClick={copyPrompt}
-        className="group flex w-full items-center border border-line bg-secondary/30 text-left transition-colors hover:border-accent hover:bg-accent-surface/10 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
+        className="group flex w-full items-center overflow-x-hidden border border-line bg-secondary/30 text-left transition-colors hover:border-accent hover:bg-accent-surface/10 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent"
         aria-label={copied ? copiedLabel : copyLabel}
       >
         <Sparkles className="mx-4 size-4 shrink-0 text-accent" aria-hidden="true" />
