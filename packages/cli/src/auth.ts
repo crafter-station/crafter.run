@@ -33,6 +33,22 @@ export function macOSCredentialSaveArgs(value: string): string[] {
   return ["add-generic-password", "-U", "-a", keychainAccount, "-s", keychainService, "-w", value]
 }
 
+export function revocationToken(credentials: Credentials): string {
+  return credentials.refreshToken ?? credentials.accessToken
+}
+
+export function tokenEndpointError(status: number, body: TokenResponse): Error {
+  const description = typeof body.error_description === "string" ? body.error_description.replace(/[.\s]+$/, "") : ""
+  const detail = description ? `: ${description}` : ""
+  if (body.error === "invalid_client") {
+    const issuer = new URL(config.tokenUrl).origin
+    return new Error(
+      `OAuth client ${config.oauthClientId} was rejected by ${issuer}${detail}. Update @crafter/cli and remove any CRAFTER_OAUTH_* environment overrides.`,
+    )
+  }
+  return new Error(`OAuth token endpoint returned ${status}${detail}`)
+}
+
 async function command(command: string, args: string[], input?: string): Promise<string> {
   return await new Promise((resolve, reject) => {
     const child = spawn(command, args, { stdio: ["pipe", "pipe", "pipe"] })
@@ -89,14 +105,12 @@ export async function logout(): Promise<void> {
   let revocationError: Error | null = null
   try {
     if (credentials) {
-      for (const token of [credentials.refreshToken, credentials.accessToken].filter(Boolean)) {
-        const response = await fetch(config.revocationUrl, {
-          method: "POST",
-          headers: { "content-type": "application/x-www-form-urlencoded" },
-          body: new URLSearchParams({ token: token!, client_id: config.oauthClientId }),
-        })
-        if (!response.ok) throw new Error(`OAuth revocation returned ${response.status}`)
-      }
+      const response = await fetch(config.revocationUrl, {
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ token: revocationToken(credentials), client_id: config.oauthClientId }),
+      })
+      if (!response.ok) throw new Error(`OAuth revocation returned ${response.status}`)
     }
   } catch (error) {
     revocationError = error instanceof Error ? error : new Error("OAuth revocation failed")
@@ -128,10 +142,7 @@ async function tokenRequest(values: Record<string, string>): Promise<TokenRespon
     body: new URLSearchParams(values),
   })
   const body = (await response.json().catch(() => ({}))) as TokenResponse
-  if (!response.ok) {
-    const detail = typeof body.error_description === "string" ? `: ${body.error_description}` : ""
-    throw new Error(`OAuth token endpoint returned ${response.status}${detail}`)
-  }
+  if (!response.ok) throw tokenEndpointError(response.status, body)
   return body
 }
 

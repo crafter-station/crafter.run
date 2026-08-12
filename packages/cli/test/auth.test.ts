@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { createPkce, macOSCredentialSaveArgs, pkceChallenge } from "../src/auth"
+import { createPkce, macOSCredentialSaveArgs, pkceChallenge, revocationToken, tokenEndpointError } from "../src/auth"
 
 describe("PKCE", () => {
   test("matches the RFC 7636 S256 example", () => {
@@ -29,5 +29,28 @@ describe("macOS credential storage", () => {
       "-w",
       "serialized-credential",
     ])
+  })
+})
+
+describe("OAuth revocation", () => {
+  test("revokes only the refresh token when one is available", () => {
+    expect(revocationToken({ accessToken: "access", refreshToken: "refresh" })).toBe("refresh")
+  })
+
+  test("falls back to the access token", () => {
+    expect(revocationToken({ accessToken: "access" })).toBe("access")
+  })
+})
+
+describe("OAuth errors", () => {
+  test("makes a rejected client configuration actionable", () => {
+    expect(
+      tokenEndpointError(401, {
+        error: "invalid_client",
+        error_description: "The requested OAuth 2.0 Client does not exist.",
+      }).message,
+    ).toBe(
+      "OAuth client 9U4JdcAfQEXxE6Wi was rejected by https://clerk.crafter.run: The requested OAuth 2.0 Client does not exist. Update @crafter/cli and remove any CRAFTER_OAUTH_* environment overrides.",
+    )
   })
 })
