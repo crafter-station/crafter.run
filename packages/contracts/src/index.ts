@@ -36,6 +36,12 @@ export const privateDocumentUrlSchema = z
     return url.toString()
   })
 
+export const socialPostUrlSchema = z
+  .string()
+  .max(2000)
+  .url()
+  .refine((value) => ["http:", "https:"].includes(new URL(value).protocol), "URL must use HTTP or HTTPS")
+
 const socialUrlSchema = (hosts: string[]) =>
   httpUrlSchema.refine((value) => hosts.includes(new URL(value).hostname), `URL must use ${hosts.join(" or ")}`)
 
@@ -138,7 +144,7 @@ export const shipUpdateSchema = z.object({
   title: z.string(),
   description: z.string(),
   imageUrl: httpUrlSchema.nullable(),
-  socialPostUrl: httpUrlSchema.nullable(),
+  socialPostUrl: socialPostUrlSchema.nullable(),
   publishedAt: z.string().datetime(),
 })
 
@@ -148,7 +154,7 @@ export const shipSummarySchema = z.object({
   name: z.string(),
   tagline: z.string(),
   imageUrl: httpUrlSchema.nullable(),
-  socialPostUrl: httpUrlSchema.nullable(),
+  socialPostUrl: socialPostUrlSchema.nullable(),
   owner: memberSummarySchema,
   links: z.array(shipLinkSchema),
   voteCount: z.number().int().nonnegative().default(0),
@@ -167,7 +173,7 @@ export const shipDetailSchema = z.object({
   tagline: z.string(),
   description: z.string(),
   imageUrl: httpUrlSchema.nullable(),
-  socialPostUrl: httpUrlSchema.nullable(),
+  socialPostUrl: socialPostUrlSchema.nullable(),
   status: shipStatusSchema,
   source: shipSourceSchema,
   owner: memberSummarySchema,
@@ -184,7 +190,7 @@ export const createShipUpdateRequestSchema = z.object({
   title: z.string().trim().min(1).max(100),
   description: z.string().trim().min(4).max(5000),
   imageUrl: httpUrlSchema.nullable().default(null),
-  socialPostUrl: httpUrlSchema.nullable().default(null),
+  socialPostUrl: socialPostUrlSchema.nullable().default(null),
 })
 
 export const shipUpdateResponseSchema = z.object({ update: shipUpdateSchema })
@@ -204,7 +210,7 @@ export const shipDraftInputSchema = z.object({
   tagline: z.string().trim().min(4).max(180),
   description: z.string().trim().min(20).max(5000),
   imageUrl: httpUrlSchema.nullable().default(null),
-  socialPostUrl: httpUrlSchema.nullable().default(null),
+  socialPostUrl: socialPostUrlSchema.nullable().default(null),
   source: shipSourceSchema.default("web"),
   links: z
     .array(editableShipLinkSchema)
@@ -224,8 +230,14 @@ export const shipDraftInputSchema = z.object({
 export const createShipDraftRequestSchema = shipDraftInputSchema.omit({ source: true })
 
 export const updateShipDraftRequestSchema = shipDraftInputSchema
-  .omit({ source: true })
+  .omit({ source: true, imageUrl: true, socialPostUrl: true, links: true, provenance: true })
   .partial()
+  .extend({
+    imageUrl: httpUrlSchema.nullable().optional(),
+    socialPostUrl: socialPostUrlSchema.nullable().optional(),
+    links: shipDraftInputSchema.shape.links.removeDefault().optional(),
+    provenance: shipDraftInputSchema.shape.provenance.removeDefault().optional(),
+  })
   .refine((input) => Object.keys(input).length > 0, "At least one field is required")
 
 export const publishShipRequestSchema = z.object({

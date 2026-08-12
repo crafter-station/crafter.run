@@ -1,5 +1,11 @@
 import { describe, expect, spyOn, test } from "bun:test"
-import { editableShipLinkSchema, memberProfileSchema, upsertMemberRequestSchema } from "@crafter/contracts"
+import {
+  editableShipLinkSchema,
+  memberProfileSchema,
+  shipDraftInputSchema,
+  updateShipDraftRequestSchema,
+  upsertMemberRequestSchema,
+} from "@crafter/contracts"
 
 import app from "../src/index"
 import { moderateShip } from "../src/moderation"
@@ -39,6 +45,23 @@ describe("Crafter API", () => {
     })
     expect(response.status).toBe(400)
     expect(await response.json()).toMatchObject({ error: { code: "validation_error" } })
+  })
+
+  test("preserves social post query strings", () => {
+    const input = shipDraftInputSchema.parse({
+      slug: "video-ship",
+      name: "Video Ship",
+      tagline: "A Ship announced with a video",
+      description: "A sufficiently detailed description for this video-backed Ship.",
+      socialPostUrl: "https://www.youtube.com/watch?v=abc123&t=10",
+    })
+    expect(input.socialPostUrl).toBe("https://www.youtube.com/watch?v=abc123&t=10")
+  })
+
+  test("does not default optional URLs on partial draft updates", () => {
+    expect(updateShipDraftRequestSchema.parse({ tagline: "An updated Ship tagline" })).toEqual({
+      tagline: "An updated Ship tagline",
+    })
   })
 
   test("validates Ship votes", async () => {
