@@ -43,6 +43,19 @@ describe("Windows credential storage", () => {
     )
     expect(script.indexOf("ContentType=WindowsRuntime]")).toBeLessThan(script.indexOf("New-Object Windows.Security.Credentials.PasswordVault"))
   })
+
+  test("turns credential errors into process failures for every action", () => {
+    for (const action of ["read", "save", "delete"] as const) {
+      expect(windowsCredentialScript(action).startsWith("$ErrorActionPreference='Stop';")).toBe(true)
+    }
+  })
+
+  test("verifies saved credentials can be retrieved", () => {
+    const script = windowsCredentialScript("save")
+    expect(script).toContain("$saved=$v.Retrieve('run.crafter.cli.oauth','credentials')")
+    expect(script).toContain("$saved.RetrievePassword()")
+    expect(script).toContain("if($saved.Password-ne$p){throw 'Credential verification failed'}")
+  })
 })
 
 describe("OAuth revocation", () => {
