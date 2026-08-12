@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { assertInteractiveLogin, createPkce, macOSCredentialSaveArgs, pkceChallenge, revocationToken, tokenEndpointError } from "../src/auth"
+import { assertInteractiveLogin, createPkce, macOSCredentialSaveArgs, pkceChallenge, revocationToken, tokenEndpointError, windowsCredentialScript } from "../src/auth"
 
 describe("PKCE", () => {
   test("matches the RFC 7636 S256 example", () => {
@@ -29,6 +29,19 @@ describe("macOS credential storage", () => {
       "-w",
       "serialized-credential",
     ])
+  })
+})
+
+describe("Windows credential storage", () => {
+  test("loads WinRT credential types before constructing them", () => {
+    const script = windowsCredentialScript("save")
+    expect(script).toContain(
+      "$null=[Windows.Security.Credentials.PasswordVault,Windows.Security.Credentials,ContentType=WindowsRuntime]",
+    )
+    expect(script).toContain(
+      "$null=[Windows.Security.Credentials.PasswordCredential,Windows.Security.Credentials,ContentType=WindowsRuntime]",
+    )
+    expect(script.indexOf("ContentType=WindowsRuntime]")).toBeLessThan(script.indexOf("New-Object Windows.Security.Credentials.PasswordVault"))
   })
 })
 
