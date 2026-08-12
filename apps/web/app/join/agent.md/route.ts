@@ -36,8 +36,8 @@ crafter --version
 crafter whoami
 \`\`\`
 
-- If it reports that login is required, run \`crafter login\`. It prints a sign-in URL, tries to open the user's browser, and waits up to 5 minutes. Tell the user to complete sign-in there; if they do not have an account yet, they can create one on that same page. You never see or touch their credentials.
-- If the browser does not open automatically (common in sandboxed shells), show the user the printed sign-in URL as a clickable link and ask them to open it. The URL redirects back to this machine, so the login completes as soon as they approve, as long as their browser runs on the same machine as this CLI. If the CLI is running on a remote machine, ask the user to run \`crafter login\` in a terminal on their own computer instead, then retry \`crafter whoami\` here.
+- If it reports that login is required, do not run \`crafter login\` through your command tool. Ask the user to run \`crafter login\` themselves in a local interactive terminal, leave that command running, and complete sign-in in their browser within 5 minutes. The terminal must stay open because it owns the localhost OAuth callback server. You never see or touch their credentials.
+- Wait for the user to confirm that their terminal printed \`Logged in.\`, then retry \`crafter whoami\`. If their browser shows \`127.0.0.1 refused to connect\`, the login command stopped before the callback arrived; ask them to start \`crafter login\` again in their terminal and keep it running through browser confirmation.
 - If \`crafter whoami\` returns a \`member\` object, the user already has a Crafter profile. Tell them, share \`${baseUrl}/en/crafters/<their-handle>\`, and ask whether they want to update the profile instead of creating one.
 
 ## Step 3: Build the profile with the user

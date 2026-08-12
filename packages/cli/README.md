@@ -36,6 +36,8 @@ crafter update <ship-slug> --file <json-file> --confirm
 
 AI coding agents can follow [crafter.run/join/agent.md](https://crafter.run/join/agent.md) to walk a user through joining.
 
+Run `crafter login` yourself in a local interactive terminal and keep it open until the browser confirms login. The CLI rejects non-interactive agent command runners because ending that process also ends the localhost OAuth callback server.
+
 Ship update files contain a public changelog entry:
 
 ```json

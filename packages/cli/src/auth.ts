@@ -49,6 +49,14 @@ export function tokenEndpointError(status: number, body: TokenResponse): Error {
   return new Error(`OAuth token endpoint returned ${status}${detail}`)
 }
 
+export function assertInteractiveLogin(interactive = process.stdin.isTTY === true): void {
+  if (!interactive) {
+    throw new Error(
+      "OAuth login requires an interactive terminal. Run `crafter login` yourself in a local terminal and leave it open until the browser confirms login.",
+    )
+  }
+}
+
 async function command(command: string, args: string[], input?: string): Promise<string> {
   return await new Promise((resolve, reject) => {
     const child = spawn(command, args, { stdio: ["pipe", "pipe", "pipe"] })
@@ -183,6 +191,7 @@ export function openBrowser(url: string): void {
 }
 
 export async function login(): Promise<void> {
+  assertInteractiveLogin()
   const { verifier, challenge } = createPkce()
   const state = randomBytes(24).toString("base64url")
   let finish!: (value: string) => void
