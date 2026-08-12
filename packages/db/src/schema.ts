@@ -37,6 +37,12 @@ export const members = pgTable(
     currentRole: text("current_role"),
     rolesOpenTo: text("roles_open_to").array().default(sql`'{}'::text[]`).notNull(),
     isJobSeeking: boolean("is_job_seeking").default(false).notNull(),
+    salaryMin: integer("salary_min"),
+    salaryMax: integer("salary_max"),
+    salaryCurrency: text("salary_currency"),
+    workArrangements: text("work_arrangements").array().default(sql`'{}'::text[]`).notNull(),
+    onsiteCity: text("onsite_city"),
+    resumeUrl: text("resume_url"),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
   },
@@ -54,6 +60,20 @@ export const members = pgTable(
     check("members_secondary_website_url_check", sql`${table.secondaryWebsiteUrl} is null or ${table.secondaryWebsiteUrl} ~ '^https?://'`),
     check("members_current_role_check", sql`${table.currentRole} is null or char_length(trim(${table.currentRole})) between 1 and 120`),
     check("members_roles_open_to_check", sql`cardinality(${table.rolesOpenTo}) <= 10`),
+    check(
+      "members_salary_range_check",
+      sql`(${table.salaryMin} is null and ${table.salaryMax} is null and ${table.salaryCurrency} is null) or (${table.salaryMin} is not null and ${table.salaryMax} is not null and ${table.salaryCurrency} is not null and ${table.salaryMin} >= 0 and ${table.salaryMin} <= ${table.salaryMax} and ${table.salaryMax} <= 10000000 and ${table.salaryCurrency} ~ '^[A-Z]{3}$')`,
+    ),
+    check(
+      "members_work_arrangements_check",
+      sql`cardinality(${table.workArrangements}) <= 3 and ${table.workArrangements} <@ array['remote', 'onsite', 'hybrid']::text[]`,
+    ),
+    check("members_onsite_city_check", sql`${table.onsiteCity} is null or char_length(trim(${table.onsiteCity})) between 1 and 120`),
+    check(
+      "members_onsite_preference_check",
+      sql`((${table.workArrangements} && array['onsite', 'hybrid']::text[]) and ${table.onsiteCity} is not null) or (not (${table.workArrangements} && array['onsite', 'hybrid']::text[]) and ${table.onsiteCity} is null)`,
+    ),
+    check("members_resume_url_check", sql`${table.resumeUrl} is null or ${table.resumeUrl} ~ '^https?://'`),
   ],
 )
 

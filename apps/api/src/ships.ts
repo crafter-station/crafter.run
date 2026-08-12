@@ -2,6 +2,7 @@ import type {
   CreateShipDraftRequest,
   CreateShipUpdateRequest,
   MemberProfile,
+  PrivateMemberProfile,
   ShipDetail,
   ShipDraftInput,
   ShipLink,
@@ -24,7 +25,7 @@ function getDatabase() {
   return createDatabase(databaseUrl)
 }
 
-function memberProfile(row: typeof members.$inferSelect): MemberProfile {
+export function memberProfile(row: typeof members.$inferSelect): MemberProfile {
   return {
     handle: row.handle,
     displayName: row.displayName,
@@ -43,15 +44,27 @@ function memberProfile(row: typeof members.$inferSelect): MemberProfile {
   }
 }
 
+export function privateMemberProfile(row: typeof members.$inferSelect): PrivateMemberProfile {
+  return {
+    ...memberProfile(row),
+    salaryRange: row.salaryMin === null || row.salaryMax === null || row.salaryCurrency === null
+      ? null
+      : { min: row.salaryMin, max: row.salaryMax, currency: row.salaryCurrency },
+    workArrangements: row.workArrangements as PrivateMemberProfile["workArrangements"],
+    onsiteCity: row.onsiteCity,
+    resumeUrl: row.resumeUrl,
+  }
+}
+
 export async function findMemberByClerkId(clerkUserId: string) {
   const db = getDatabase()
   const [member] = await db.select().from(members).where(eq(members.clerkUserId, clerkUserId)).limit(1)
   return member ?? null
 }
 
-export async function getMemberByClerkId(clerkUserId: string): Promise<MemberProfile | null> {
+export async function getMemberByClerkId(clerkUserId: string): Promise<PrivateMemberProfile | null> {
   const member = await findMemberByClerkId(clerkUserId)
-  return member ? memberProfile(member) : null
+  return member ? privateMemberProfile(member) : null
 }
 
 export async function getMemberByHandle(handle: string): Promise<MemberProfile | null> {
@@ -66,7 +79,7 @@ export async function listMembers(): Promise<MemberProfile[]> {
   return rows.map(memberProfile)
 }
 
-export async function upsertMember(clerkUserId: string, input: UpsertMemberRequest): Promise<MemberProfile | null> {
+export async function upsertMember(clerkUserId: string, input: UpsertMemberRequest): Promise<PrivateMemberProfile | null> {
   const db = getDatabase()
   const profileUpdates = {
     ...(Object.hasOwn(input, "githubUrl") ? { githubUrl: input.githubUrl ?? null } : {}),
@@ -78,6 +91,14 @@ export async function upsertMember(clerkUserId: string, input: UpsertMemberReque
     ...(Object.hasOwn(input, "currentRole") ? { currentRole: input.currentRole ?? null } : {}),
     ...(Object.hasOwn(input, "rolesOpenTo") ? { rolesOpenTo: input.rolesOpenTo ?? [] } : {}),
     ...(Object.hasOwn(input, "isJobSeeking") ? { isJobSeeking: input.isJobSeeking ?? false } : {}),
+    ...(Object.hasOwn(input, "salaryRange") ? {
+      salaryMin: input.salaryRange?.min ?? null,
+      salaryMax: input.salaryRange?.max ?? null,
+      salaryCurrency: input.salaryRange?.currency ?? null,
+    } : {}),
+    ...(Object.hasOwn(input, "workArrangements") ? { workArrangements: input.workArrangements ?? [] } : {}),
+    ...(Object.hasOwn(input, "onsiteCity") ? { onsiteCity: input.onsiteCity ?? null } : {}),
+    ...(Object.hasOwn(input, "resumeUrl") ? { resumeUrl: input.resumeUrl ?? null } : {}),
   }
   const [member] = await db
     .insert(members)
@@ -96,6 +117,12 @@ export async function upsertMember(clerkUserId: string, input: UpsertMemberReque
       currentRole: input.currentRole ?? null,
       rolesOpenTo: input.rolesOpenTo ?? [],
       isJobSeeking: input.isJobSeeking ?? false,
+      salaryMin: input.salaryRange?.min ?? null,
+      salaryMax: input.salaryRange?.max ?? null,
+      salaryCurrency: input.salaryRange?.currency ?? null,
+      workArrangements: input.workArrangements ?? [],
+      onsiteCity: input.onsiteCity ?? null,
+      resumeUrl: input.resumeUrl ?? null,
     })
     .onConflictDoUpdate({
       target: members.clerkUserId,
@@ -109,7 +136,7 @@ export async function upsertMember(clerkUserId: string, input: UpsertMemberReque
       },
     })
     .returning()
-  return member ? memberProfile(member) : null
+  return member ? privateMemberProfile(member) : null
 }
 
 async function linksForShips(db: ReturnType<typeof getDatabase>, shipIds: string[]) {

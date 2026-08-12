@@ -1,6 +1,6 @@
 "use client"
 
-import type { MemberProfile } from "@crafter/contracts"
+import type { PrivateMemberProfile } from "@crafter/contracts"
 import { useAuth } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { type FormEvent, useState } from "react"
@@ -17,7 +17,7 @@ export function MemberOnboardingForm({
   locale: string
   displayName: string
   avatarUrl: string | null
-  member?: MemberProfile | null
+  member?: PrivateMemberProfile | null
   mode?: "onboarding" | "settings"
 }) {
   const { getToken } = useAuth()
@@ -35,7 +35,13 @@ export function MemberOnboardingForm({
     try {
       const token = await getToken()
       if (!token) throw new Error("Your session expired. Sign in again.")
-      await shipsApi<{ member: MemberProfile }>("/v1/me", token, {
+      const salaryMin = String(formData.get("salaryMin") ?? "").trim()
+      const salaryMax = String(formData.get("salaryMax") ?? "").trim()
+      const salaryCurrency = String(formData.get("salaryCurrency") ?? "").trim()
+      if ([salaryMin, salaryMax, salaryCurrency].some(Boolean) && ![salaryMin, salaryMax, salaryCurrency].every(Boolean)) {
+        throw new Error("Enter the salary minimum, maximum, and currency together.")
+      }
+      await shipsApi<{ member: PrivateMemberProfile }>("/v1/me", token, {
         method: "PUT",
         body: JSON.stringify({
           handle: formData.get("handle"),
@@ -54,6 +60,14 @@ export function MemberOnboardingForm({
             .map((role) => role.trim())
             .filter(Boolean),
           isJobSeeking: formData.get("isJobSeeking") === "on",
+          ...(mode === "settings" ? {
+            salaryRange: salaryMin || salaryMax || salaryCurrency
+              ? { min: Number(salaryMin), max: Number(salaryMax), currency: salaryCurrency }
+              : null,
+            workArrangements: formData.getAll("workArrangements"),
+            onsiteCity: formData.get("onsiteCity") || null,
+            resumeUrl: formData.get("resumeUrl") || null,
+          } : {}),
         }),
       })
       if (mode === "onboarding") {
@@ -84,6 +98,35 @@ export function MemberOnboardingForm({
           I am looking for a new job
         </label>
       </div>
+      {mode === "settings" ? (
+        <section className="grid gap-6 border border-line bg-secondary/30 p-5 sm:p-6">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Private career preferences</p>
+            <h2 className="mt-2 text-xl tracking-tight">Help the right partners find you.</h2>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">This information is hidden from your public profile and shared only with trusted partners looking for great engineers like you.</p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-[1fr_1fr_8rem]">
+            <Field type="number" label="Salary minimum" name="salaryMin" min={0} max={10000000} defaultValue={member?.salaryRange?.min ?? ""} placeholder="80000" />
+            <Field type="number" label="Salary maximum" name="salaryMax" min={0} max={10000000} defaultValue={member?.salaryRange?.max ?? ""} placeholder="120000" />
+            <Field label="Currency" name="salaryCurrency" minLength={3} maxLength={3} defaultValue={member?.salaryRange?.currency ?? ""} placeholder="USD" />
+          </div>
+          <fieldset className="grid gap-3">
+            <legend className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Open to</legend>
+            <div className="flex flex-wrap gap-3">
+              {["remote", "onsite", "hybrid"].map((arrangement) => (
+                <label key={arrangement} className="flex items-center gap-2 border border-line bg-background px-4 py-3 text-sm capitalize">
+                  <input type="checkbox" name="workArrangements" value={arrangement} defaultChecked={member?.workArrangements.includes(arrangement as "remote" | "onsite" | "hybrid")} className="size-4 accent-current" />
+                  {arrangement}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <div className="grid gap-6 sm:grid-cols-2">
+            <Field label="Onsite city" name="onsiteCity" maxLength={120} defaultValue={member?.onsiteCity ?? ""} placeholder="Lima, Peru" />
+            <Field type="url" label="Updated resume link" name="resumeUrl" defaultValue={member?.resumeUrl ?? ""} placeholder="https://drive.google.com/..." />
+          </div>
+        </section>
+      ) : null}
       <label className="grid gap-2 text-sm">
         <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Roles open to</span>
         <textarea name="rolesOpenTo" rows={4} defaultValue={member?.rolesOpenTo.join("\n") ?? ""} placeholder={"Frontend engineer\nProduct designer"} className="border border-line bg-background px-4 py-3 outline-none focus:border-accent" />

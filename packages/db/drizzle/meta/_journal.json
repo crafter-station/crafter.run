@@ -85,6 +85,13 @@
       "when": 1786496674291,
       "tag": "0011_right_emma_frost",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1786498452960,
+      "tag": "0012_tough_triton",
+      "breakpoints": true
     }
   ]
 }

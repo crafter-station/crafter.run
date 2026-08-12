@@ -3,6 +3,7 @@ import { z } from "zod"
 export const shipStatuses = ["draft", "published", "hidden"] as const
 export const shipSources = ["web", "cli", "mcp", "import"] as const
 export const shipLinkTypes = ["repository", "website", "demo", "package", "social"] as const
+export const workArrangements = ["remote", "onsite", "hybrid"] as const
 
 export const shipStatusSchema = z.enum(shipStatuses)
 export const shipSourceSchema = z.enum(shipSources)
@@ -23,6 +24,18 @@ export const httpUrlSchema = z
     return url.toString().replace(/\/$/, "")
   })
 
+export const privateDocumentUrlSchema = z
+  .string()
+  .max(2000)
+  .url()
+  .refine((value) => ["http:", "https:"].includes(new URL(value).protocol), "URL must use HTTP or HTTPS")
+  .transform((value) => {
+    const url = new URL(value)
+    url.hash = ""
+    url.hostname = url.hostname.toLowerCase()
+    return url.toString()
+  })
+
 const socialUrlSchema = (hosts: string[]) =>
   httpUrlSchema.refine((value) => hosts.includes(new URL(value).hostname), `URL must use ${hosts.join(" or ")}`)
 
@@ -30,6 +43,16 @@ export const rolesOpenToSchema = z
   .array(z.string().trim().min(1).max(80))
   .max(10)
   .transform((roles) => [...new Set(roles)])
+
+export const salaryRangeSchema = z
+  .object({
+    min: z.number().int().nonnegative().max(10_000_000),
+    max: z.number().int().nonnegative().max(10_000_000),
+    currency: z.string().trim().toUpperCase().regex(/^[A-Z]{3}$/, "Use a three-letter currency code"),
+  })
+  .refine((range) => range.min <= range.max, "Minimum salary must not exceed maximum salary")
+
+export const workArrangementsSchema = z.array(z.enum(workArrangements)).max(3).transform((values) => [...new Set(values)])
 
 export const handleSchema = z
   .string()
@@ -67,6 +90,13 @@ export const memberProfileSchema = memberSummarySchema.extend({
   createdAt: z.string().datetime(),
 })
 
+export const privateMemberProfileSchema = memberProfileSchema.extend({
+  salaryRange: salaryRangeSchema.nullable(),
+  workArrangements: workArrangementsSchema,
+  onsiteCity: z.string().max(120).nullable(),
+  resumeUrl: httpUrlSchema.nullable(),
+})
+
 export const upsertMemberRequestSchema = z.object({
   handle: handleSchema,
   displayName: z.string().trim().min(1).max(80),
@@ -81,6 +111,18 @@ export const upsertMemberRequestSchema = z.object({
   currentRole: z.string().trim().min(1).max(120).nullable().optional(),
   rolesOpenTo: rolesOpenToSchema.optional(),
   isJobSeeking: z.boolean().optional(),
+  salaryRange: salaryRangeSchema.nullable().optional(),
+  workArrangements: workArrangementsSchema.optional(),
+  onsiteCity: z.string().trim().min(1).max(120).nullable().optional(),
+  resumeUrl: privateDocumentUrlSchema.nullable().optional(),
+}).superRefine((profile, context) => {
+  const worksOnsite = profile.workArrangements?.some((value) => value === "onsite" || value === "hybrid") ?? false
+  if (worksOnsite && !profile.onsiteCity) {
+    context.addIssue({ code: "custom", path: ["onsiteCity"], message: "Add the city where you can work onsite" })
+  }
+  if (!worksOnsite && profile.onsiteCity) {
+    context.addIssue({ code: "custom", path: ["onsiteCity"], message: "Onsite city requires onsite or hybrid availability" })
+  }
 })
 
 export const shipLinkSchema = z.object({
@@ -184,8 +226,9 @@ export const listShipsResponseSchema = z.object({
 })
 
 export const listMembersResponseSchema = z.object({ members: z.array(memberProfileSchema) })
-export const meResponseSchema = z.object({ member: memberProfileSchema.nullable() })
+export const meResponseSchema = z.object({ member: privateMemberProfileSchema.nullable() })
 export const memberResponseSchema = z.object({ member: memberProfileSchema })
+export const privateMemberResponseSchema = z.object({ member: privateMemberProfileSchema })
 export const shipResponseSchema = z.object({ ship: shipDetailSchema })
 export const listOwnedShipsResponseSchema = z.object({ ships: z.array(shipDetailSchema) })
 
@@ -202,6 +245,7 @@ export type ShipSource = z.infer<typeof shipSourceSchema>
 export type ShipLinkType = z.infer<typeof shipLinkTypeSchema>
 export type MemberSummary = z.infer<typeof memberSummarySchema>
 export type MemberProfile = z.infer<typeof memberProfileSchema>
+export type PrivateMemberProfile = z.infer<typeof privateMemberProfileSchema>
 export type UpsertMemberRequest = z.infer<typeof upsertMemberRequestSchema>
 export type ShipLink = z.infer<typeof shipLinkSchema>
 export type ShipUpdate = z.infer<typeof shipUpdateSchema>

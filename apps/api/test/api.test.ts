@@ -1,5 +1,5 @@
 import { describe, expect, spyOn, test } from "bun:test"
-import { editableShipLinkSchema, upsertMemberRequestSchema } from "@crafter/contracts"
+import { editableShipLinkSchema, memberProfileSchema, upsertMemberRequestSchema } from "@crafter/contracts"
 
 import app from "../src/index"
 import { moderateShip } from "../src/moderation"
@@ -153,5 +153,74 @@ describe("Crafter profiles", () => {
     expect(Object.hasOwn(omitted, "githubUrl")).toBe(false)
     expect(Object.hasOwn(omitted, "rolesOpenTo")).toBe(false)
     expect(cleared).toMatchObject({ githubUrl: null, rolesOpenTo: [], isJobSeeking: false })
+  })
+
+  test("validates private career preferences", () => {
+    const profile = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      salaryRange: { min: 80_000, max: 120_000, currency: "usd" },
+      workArrangements: ["remote", "hybrid", "remote"],
+      onsiteCity: " Lima, Peru ",
+      resumeUrl: "https://example.com/resume.pdf?download=1",
+    })
+
+    expect(profile.salaryRange).toEqual({ min: 80_000, max: 120_000, currency: "USD" })
+    expect(profile.workArrangements).toEqual(["remote", "hybrid"])
+    expect(profile.onsiteCity).toBe("Lima, Peru")
+    expect(profile.resumeUrl).toBe("https://example.com/resume.pdf?download=1")
+  })
+
+  test("rejects an inverted salary range", () => {
+    const result = upsertMemberRequestSchema.safeParse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      salaryRange: { min: 120_000, max: 80_000, currency: "USD" },
+    })
+
+    expect(result.success).toBe(false)
+  })
+
+  test("requires an onsite city for onsite or hybrid work", () => {
+    const missingCity = upsertMemberRequestSchema.safeParse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      workArrangements: ["hybrid"],
+    })
+    const remoteCity = upsertMemberRequestSchema.safeParse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      workArrangements: ["remote"],
+      onsiteCity: "Lima, Peru",
+    })
+
+    expect(missingCity.success).toBe(false)
+    expect(remoteCity.success).toBe(false)
+  })
+
+  test("public profiles strip private career preferences", () => {
+    const publicProfile = memberProfileSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      avatarUrl: null,
+      bio: null,
+      githubUrl: null,
+      linkedinUrl: null,
+      instagramUrl: null,
+      xUrl: null,
+      primaryWebsiteUrl: null,
+      secondaryWebsiteUrl: null,
+      currentRole: null,
+      rolesOpenTo: [],
+      isJobSeeking: true,
+      createdAt: new Date().toISOString(),
+      salaryRange: { min: 80_000, max: 120_000, currency: "USD" },
+      workArrangements: ["remote"],
+      onsiteCity: "Lima, Peru",
+      resumeUrl: "https://example.com/resume.pdf",
+    })
+
+    expect(Object.hasOwn(publicProfile, "salaryRange")).toBe(false)
+    expect(Object.hasOwn(publicProfile, "resumeUrl")).toBe(false)
   })
 })

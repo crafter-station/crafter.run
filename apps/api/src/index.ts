@@ -10,6 +10,7 @@ import {
   meResponseSchema,
   memberResponseSchema,
   publishShipRequestSchema,
+  privateMemberResponseSchema,
   shipResponseSchema,
   shipSlugSchema,
   shipUpdateResponseSchema,
@@ -311,7 +312,7 @@ const upsertMeRoute = createRoute({
   security: bearerSecurity,
   request: { body: { content: { "application/json": { schema: upsertMemberRequestSchema } } } },
   responses: {
-    200: { content: { "application/json": { schema: memberResponseSchema } }, description: "Member profile" },
+    200: { content: { "application/json": { schema: privateMemberResponseSchema } }, description: "Private member profile" },
     401: { content: errorContent, description: "Authentication required" },
     409: { content: errorContent, description: "Handle unavailable" },
   },

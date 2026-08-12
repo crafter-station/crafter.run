@@ -7,6 +7,8 @@ test("Crafter career preferences have safe defaults", () => {
   expect(members.rolesOpenTo.hasDefault).toBe(true)
   expect(members.isJobSeeking.notNull).toBe(true)
   expect(members.isJobSeeking.hasDefault).toBe(true)
+  expect(members.workArrangements.notNull).toBe(true)
+  expect(members.workArrangements.hasDefault).toBe(true)
 })
 
 test("ship revisions use the precision exposed by the API", () => {
