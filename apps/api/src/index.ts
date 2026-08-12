@@ -18,6 +18,7 @@ import {
   shipVoteResponseSchema,
   setShipVoteRequestSchema,
   updateShipDraftRequestSchema,
+  updatePublishedShipRequestSchema,
   upsertMemberRequestSchema,
 } from "@crafter/contracts"
 import { createHash } from "node:crypto"
@@ -48,6 +49,7 @@ import {
   publishDraft,
   setShipVote,
   updateDraft,
+  updatePublishedShip,
   upsertMember,
   RepositoryUnavailableError,
 } from "./ships"
@@ -266,6 +268,51 @@ app.openapi(createShipUpdateRoute, async (c) => {
     await abandonIdempotency(reservation.id)
     throw error
   }
+})
+
+const updatePublishedShipRoute = createRoute({
+  method: "patch",
+  path: "/v1/ships/{slug}",
+  security: bearerSecurity,
+  request: {
+    params: z.object({ slug: shipSlugSchema }),
+    body: { content: { "application/json": { schema: updatePublishedShipRequestSchema } } },
+  },
+  responses: {
+    200: { content: { "application/json": { schema: shipResponseSchema } }, description: "Published Ship updated" },
+    401: { content: errorContent, description: "Authentication required" },
+    404: { content: errorContent, description: "Owned published Ship not found" },
+    409: { content: errorContent, description: "Revision conflict" },
+    422: { content: errorContent, description: "Moderation rejected" },
+    428: { content: errorContent, description: "Onboarding required" },
+    429: { content: errorContent, description: "Rate limited" },
+  },
+})
+app.openapi(updatePublishedShipRoute, async (c) => {
+  const identity = await authenticatedMember(c.req.raw)
+  if (identity.error === "unauthorized") return c.json(errorBody("unauthorized", "Authentication required."), 401)
+  if (identity.error === "onboarding_required") return c.json(errorBody("onboarding_required", "Create your Crafter profile first."), 428)
+  if (!(await consumeMutationLimit(identity.member.id, "ships"))) {
+    return c.json(errorBody("rate_limited", "Too many Ship mutations. Try again in one minute."), 429)
+  }
+  const current = await getOwnedShipBySlug(identity.member.id, c.req.valid("param").slug)
+  if (!current || current.status !== "published") {
+    return c.json(errorBody("not_found", "Owned published Ship not found."), 404)
+  }
+  const input = c.req.valid("json")
+  if (current.updatedAt !== input.expectedUpdatedAt) {
+    return c.json(errorBody("revision_conflict", "The Ship changed after it was loaded. Reload it before saving."), 409)
+  }
+  const moderation = await moderateShip({
+    name: input.name ?? current.name,
+    tagline: input.tagline ?? current.tagline,
+    description: input.description ?? current.description,
+  })
+  if (!moderation.allowed) return c.json(errorBody("moderation_rejected", moderation.reason), 422)
+  const ship = await updatePublishedShip(identity.member.id, current.id, input)
+  return ship
+    ? c.json(shipResponseSchema.parse({ ship }), 200)
+    : c.json(errorBody("revision_conflict", "The Ship changed while it was being saved. Reload it and try again."), 409)
 })
 
 const getMemberRoute = createRoute({

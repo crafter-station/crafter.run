@@ -6,6 +6,7 @@ import { Container } from "@/components/grid-container"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { ShipUpdates } from "@/components/ship-updates"
+import { ShipEditLink } from "@/components/ship-edit-link"
 import { ShipUpvote } from "@/components/ship-upvote"
 import { isLocale } from "@/lib/i18n"
 import { getPublishedShip } from "@/lib/ships"
@@ -54,6 +55,7 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
                 {ship.owner.displayName}
               </Link>
               <p className="mt-1 font-mono text-xs text-muted-foreground">@{ship.owner.handle}</p>
+              <div className="mt-4"><ShipEditLink locale={lang} ownerHandle={ship.owner.handle} slug={ship.slug} /></div>
               <div className="mt-8 grid gap-3">
                 {ship.links.map((link) => (
                   <Link key={`${link.type}-${link.url}`} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between border border-line px-4 py-3 text-sm capitalize hover:border-accent">

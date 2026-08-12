@@ -7,7 +7,7 @@ import { type FormEvent, useRef, useState } from "react"
 
 import { shipsApi, uploadShipImage } from "@/lib/ships-client"
 
-export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDetail; locale: string }) {
+export function ShipDraftEditor({ initialShip, locale, published = false }: { initialShip: ShipDetail; locale: string; published?: boolean }) {
   const { getToken } = useAuth()
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
@@ -17,7 +17,7 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
   const [pending, setPending] = useState<"save" | "publish" | null>(null)
   const [dirty, setDirty] = useState(false)
 
-  async function saveDraft(formData: FormData, token: string) {
+  async function saveShip(formData: FormData, token: string) {
     const image = formData.get("image")
     const imageUrl = image instanceof File && image.size > 0 ? await uploadShipImage(image, token) : ship.imageUrl
     const links = [
@@ -29,7 +29,7 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
         .filter((link) => link.type !== "repository" && link.type !== "website")
         .map(({ type, url }) => ({ type, url })),
     )
-    return shipsApi<{ ship: ShipDetail }>(`/v1/ship-drafts/${ship.id}`, token, {
+    return shipsApi<{ ship: ShipDetail }>(published ? `/v1/ships/${encodeURIComponent(ship.slug)}` : `/v1/ship-drafts/${ship.id}`, token, {
       method: "PATCH",
       body: JSON.stringify({
         slug: formData.get("slug"),
@@ -39,6 +39,7 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
         imageUrl,
         socialPostUrl: formData.get("socialPostUrl") || null,
         links,
+        ...(published ? { expectedUpdatedAt: ship.updatedAt } : {}),
       }),
     })
   }
@@ -51,10 +52,11 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
     try {
       const token = await getToken()
       if (!token) throw new Error("Your session expired.")
-      const response = await saveDraft(new FormData(event.currentTarget), token)
+      const response = await saveShip(new FormData(event.currentTarget), token)
       setShip(response.ship)
       setDirty(false)
-      setNotice("Draft saved. Review the updated preview before publishing.")
+      setNotice(published ? "Published Ship updated." : "Draft saved. Review the updated preview before publishing.")
+      if (published && response.ship.slug !== initialShip.slug) router.replace(`/${locale}/ships/${response.ship.slug}/edit`)
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "Could not save draft.")
     } finally {
@@ -71,7 +73,7 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
       try {
         const token = await getToken()
         if (!token) throw new Error("Your session expired.")
-        const saved = await saveDraft(new FormData(formRef.current), token)
+        const saved = await saveShip(new FormData(formRef.current), token)
         setShip(saved.ship)
         setDirty(false)
         setNotice("Changes saved. Review the updated preview, then publish.")
@@ -125,20 +127,22 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
         {error ? <p className="text-sm text-red-600">{error}</p> : null}
         {notice ? <p className="text-sm text-muted-foreground">{notice}</p> : null}
         <button disabled={pending !== null} className="w-fit border border-line px-6 py-3 text-sm font-medium disabled:opacity-50">
-          {pending === "save" ? "Saving..." : "Save draft"}
+          {pending === "save" ? "Saving..." : published ? "Update Ship" : "Save draft"}
         </button>
       </form>
       <aside className="h-fit border border-line p-6 lg:sticky lg:top-28">
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">Private draft</p>
+        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{published ? "Public Ship" : "Private draft"}</p>
         {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mt-5 aspect-video w-full border border-line object-cover" /> : null}
         <h2 className="mt-5 text-2xl tracking-tight">{ship.name}</h2>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">{ship.tagline}</p>
         {ship.socialPostUrl ? <a href={ship.socialPostUrl} target="_blank" rel="noreferrer" className="mt-4 block text-sm font-medium text-accent underline underline-offset-4">View social post</a> : null}
-        <hr className="my-6 border-line" />
-        <p className="text-sm leading-6 text-muted-foreground">Publishing makes this page public immediately. This action requires your confirmation.</p>
-        <button type="button" onClick={publish} disabled={pending !== null} className="mt-6 w-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground disabled:opacity-50">
-          {pending === "publish" ? "Publishing..." : pending === "save" ? "Saving..." : dirty ? "Save changes to review" : "Publish Ship"}
-        </button>
+        {published ? <p className="mt-6 text-sm leading-6 text-muted-foreground">Saved changes appear on the public Ship immediately.</p> : <>
+          <hr className="my-6 border-line" />
+          <p className="text-sm leading-6 text-muted-foreground">Publishing makes this page public immediately. This action requires your confirmation.</p>
+          <button type="button" onClick={publish} disabled={pending !== null} className="mt-6 w-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground disabled:opacity-50">
+            {pending === "publish" ? "Publishing..." : pending === "save" ? "Saving..." : dirty ? "Save changes to review" : "Publish Ship"}
+          </button>
+        </>}
       </aside>
     </div>
   )

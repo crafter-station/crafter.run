@@ -242,6 +242,10 @@ export const updateShipDraftRequestSchema = shipDraftInputSchema
   })
   .refine((input) => Object.keys(input).length > 0, "At least one field is required")
 
+export const updatePublishedShipRequestSchema = updateShipDraftRequestSchema.and(z.object({
+  expectedUpdatedAt: z.string().datetime(),
+}))
+
 export const publishShipRequestSchema = z.object({
   confirm: z.literal(true),
   expectedUpdatedAt: z.string().datetime(),
@@ -285,6 +289,7 @@ export type ShipDetail = z.infer<typeof shipDetailSchema>
 export type ShipDraftInput = z.infer<typeof shipDraftInputSchema>
 export type CreateShipDraftRequest = z.infer<typeof createShipDraftRequestSchema>
 export type UpdateShipDraftRequest = z.infer<typeof updateShipDraftRequestSchema>
+export type UpdatePublishedShipRequest = z.infer<typeof updatePublishedShipRequestSchema>
 export type CreateShipUpdateRequest = z.infer<typeof createShipUpdateRequestSchema>
 export type ShipVote = z.infer<typeof shipVoteSchema>
 export type ListShipsResponse = z.infer<typeof listShipsResponseSchema>

@@ -12,6 +12,7 @@ import {
   shipDraftInputSchema,
   shipResponseSchema,
   shipUpdateResponseSchema,
+  updatePublishedShipRequestSchema,
   upsertMemberRequestSchema,
 } from "@crafter/contracts"
 import { api, publicApi } from "./api"
@@ -34,6 +35,7 @@ Usage:
   crafter ships
   crafter ship [--file <json-file>]
   crafter publish <id> --revision <updated-at> --confirm
+  crafter edit <ship-slug> --file <json-file> --revision <updated-at> --confirm
   crafter update <ship-slug> --file <json-file> --confirm
 
 Environment:
@@ -189,6 +191,24 @@ async function main(args: string[]): Promise<void> {
       }),
     )
     print({ ...response, publishedUrl: webPath(`/ships/${slug}`) })
+    return
+  }
+  if (command === "edit") {
+    const [slug, fileFlag, file, revisionFlag, expectedUpdatedAt, confirmFlag] = rest
+    if (!slug || fileFlag !== "--file" || !file || revisionFlag !== "--revision" || !expectedUpdatedAt || confirmFlag !== "--confirm") {
+      throw new Error("Editing requires the current revision and explicit confirmation: crafter edit <ship-slug> --file <json-file> --revision <updated-at> --confirm")
+    }
+    const input = updatePublishedShipRequestSchema.parse({
+      ...JSON.parse(await readFile(file, "utf8")),
+      expectedUpdatedAt,
+    })
+    const response = shipResponseSchema.parse(
+      await api(`/v1/ships/${encodeURIComponent(slug)}`, {
+        method: "PATCH",
+        body: JSON.stringify(input),
+      }),
+    )
+    print({ ...response, publishedUrl: webPath(`/ships/${response.ship.slug}`) })
     return
   }
   throw new Error(`Unknown command: ${command}\n\n${help}`)

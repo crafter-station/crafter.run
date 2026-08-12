@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { createPkce, macOSCredentialSaveArgs, pkceChallenge, revocationToken, tokenEndpointError } from "../src/auth"
+import { assertInteractiveLogin, createPkce, macOSCredentialSaveArgs, pkceChallenge, revocationToken, tokenEndpointError } from "../src/auth"
 
 describe("PKCE", () => {
   test("matches the RFC 7636 S256 example", () => {
@@ -52,5 +52,17 @@ describe("OAuth errors", () => {
     ).toBe(
       "OAuth client 9U4JdcAfQEXxE6Wi was rejected by https://clerk.crafter.run: The requested OAuth 2.0 Client does not exist. Update @crafter/cli and remove any CRAFTER_OAUTH_* environment overrides.",
     )
+  })
+})
+
+describe("OAuth login", () => {
+  test("rejects agent command runners that cannot keep the callback server alive", () => {
+    expect(() => assertInteractiveLogin(false)).toThrow(
+      "OAuth login requires an interactive terminal. Run `crafter login` yourself in a local terminal and leave it open until the browser confirms login.",
+    )
+  })
+
+  test("allows a local interactive terminal", () => {
+    expect(() => assertInteractiveLogin(true)).not.toThrow()
   })
 })

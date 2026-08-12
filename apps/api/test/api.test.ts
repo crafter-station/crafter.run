@@ -4,6 +4,7 @@ import {
   memberProfileSchema,
   shipDraftInputSchema,
   updateShipDraftRequestSchema,
+  updatePublishedShipRequestSchema,
   upsertMemberRequestSchema,
 } from "@crafter/contracts"
 
@@ -62,6 +63,23 @@ describe("Crafter API", () => {
     expect(updateShipDraftRequestSchema.parse({ tagline: "An updated Ship tagline" })).toEqual({
       tagline: "An updated Ship tagline",
     })
+  })
+
+  test("requires a revision and a change for published Ship edits", () => {
+    expect(updatePublishedShipRequestSchema.safeParse({ expectedUpdatedAt: new Date().toISOString() }).success).toBe(false)
+    expect(updatePublishedShipRequestSchema.safeParse({
+      tagline: "An updated Ship tagline",
+      expectedUpdatedAt: new Date().toISOString(),
+    }).success).toBe(true)
+  })
+
+  test("validates published Ship edits before authentication", async () => {
+    const response = await app.request("/v1/ships/example-ship", {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ expectedUpdatedAt: new Date().toISOString() }),
+    })
+    expect(response.status).toBe(400)
   })
 
   test("validates Ship votes", async () => {
