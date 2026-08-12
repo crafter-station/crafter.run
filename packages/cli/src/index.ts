@@ -25,6 +25,7 @@ const help = `Crafter Ships CLI
 
 Usage:
   crafter help
+  crafter version
   crafter login
   crafter logout
   crafter onboard [--file <json-file> --confirm]
@@ -89,6 +90,11 @@ async function main(args: string[]): Promise<void> {
   const [command = "help", ...rest] = args
   if (command === "help" || command === "--help" || command === "-h") {
     console.log(help)
+    return
+  }
+  if (command === "version" || command === "--version" || command === "-v") {
+    const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8")) as { version: string }
+    console.log(packageJson.version)
     return
   }
   if (command === "login") {
