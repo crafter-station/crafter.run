@@ -47,6 +47,12 @@ function titleFontSize(title: string, lang: Locale) {
   return 68
 }
 
+function profileNameFontSize(name: string) {
+  if (name.length > 32) return 52
+  if (name.length > 22) return 62
+  return 74
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
 
@@ -54,8 +60,12 @@ export async function GET(request: Request) {
   const lang: Locale = isLocale(langParam) ? langParam : defaultLocale
   const title = (searchParams.get("title") ?? TAGLINE).slice(0, 140)
   const eyebrow = (searchParams.get("eyebrow") ?? "Crafter Station · LatAm").slice(0, 60)
+  const handle = searchParams.get("handle")?.slice(0, 40)
+  const avatarUrl = searchParams.get("avatar")?.slice(0, 500)
+  const role = searchParams.get("role")?.slice(0, 120)
+  const isProfile = Boolean(handle)
 
-  const monoText = `${eyebrow.toUpperCase()}${lang.toUpperCase()}${DOMAIN}${TAGLINE}…`
+  const monoText = `${eyebrow.toUpperCase()}${lang.toUpperCase()}${DOMAIN}${TAGLINE}${handle ?? ""}${role ?? ""}CRAFTER PROFILEMEMBER…`
   const titleFont = titleFontFamily(lang)
 
   const fonts: { name: string; data: ArrayBuffer; weight: 400 | 500 | 600 | 700; style: "normal" }[] = []
@@ -116,7 +126,7 @@ export async function GET(request: Request) {
                 color: ACCENT,
               }}
             >
-              {eyebrow.toUpperCase()}
+              {isProfile ? "CRAFTER PROFILE" : eyebrow.toUpperCase()}
             </div>
             <div
               style={{
@@ -135,30 +145,99 @@ export async function GET(request: Request) {
             </div>
           </div>
 
-          {/* Title */}
-          <div
-            style={{
-              display: "flex",
-              flex: 1,
-              alignItems: "center",
-              padding: "0 48px",
-            }}
-          >
+          {isProfile ? (
             <div
               style={{
                 display: "flex",
-                fontFamily: titleFamily,
-                fontSize: titleFontSize(title, lang),
-                fontWeight: titleFont.weight,
-                letterSpacing: lang === "zh" || lang === "ja" ? 0 : -2.5,
-                lineHeight: 1.12,
-                maxWidth: 1000,
-                textWrap: "balance",
+                flex: 1,
+                alignItems: "center",
+                padding: "36px 48px",
+                gap: 44,
               }}
             >
-              {title}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 226,
+                  height: 226,
+                  flexShrink: 0,
+                  border: `1px solid ${LINE}`,
+                  borderRadius: 999,
+                  backgroundColor: LINE,
+                  overflow: "hidden",
+                  fontFamily: titleFamily,
+                  fontSize: 78,
+                  fontWeight: 600,
+                  color: MUTED,
+                }}
+              >
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="" width="226" height="226" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                ) : (
+                  title.charAt(0).toUpperCase()
+                )}
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    fontFamily: monoFamily,
+                    fontSize: 18,
+                    letterSpacing: 3,
+                    color: ACCENT,
+                    textTransform: "uppercase",
+                  }}
+                >
+                  MEMBER // @{handle}
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    marginTop: 16,
+                    fontFamily: titleFamily,
+                    fontSize: profileNameFontSize(title),
+                    fontWeight: titleFont.weight,
+                    letterSpacing: lang === "zh" || lang === "ja" ? 0 : -3,
+                    lineHeight: 1,
+                    textWrap: "balance",
+                  }}
+                >
+                  {title}
+                </div>
+                {role ? (
+                  <div style={{ display: "flex", marginTop: 20, fontSize: 24, lineHeight: 1.25, color: MUTED }}>
+                    {role}
+                  </div>
+                ) : null}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                alignItems: "center",
+                padding: "0 48px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  fontFamily: titleFamily,
+                  fontSize: titleFontSize(title, lang),
+                  fontWeight: titleFont.weight,
+                  letterSpacing: lang === "zh" || lang === "ja" ? 0 : -2.5,
+                  lineHeight: 1.12,
+                  maxWidth: 1000,
+                  textWrap: "balance",
+                }}
+              >
+                {title}
+              </div>
+            </div>
+          )}
 
           {/* Footer row */}
           <div

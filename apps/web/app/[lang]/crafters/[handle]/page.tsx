@@ -8,7 +8,7 @@ import { Container } from "@/components/grid-container"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { isLocale } from "@/lib/i18n"
-import { buildMetadata, ogImageUrl } from "@/lib/seo"
+import { buildMetadata } from "@/lib/seo"
 import { getCrafterProfile, listCrafterShips } from "@/lib/ships"
 
 const copy = {
