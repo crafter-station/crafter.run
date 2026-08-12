@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useTheme } from "next-themes"
 
 declare global {
@@ -11,13 +11,15 @@ declare global {
 
 export function CalEmbed({ calLink, namespace }: { calLink: string; namespace: string }) {
   const { resolvedTheme } = useTheme()
+  const embedRef = useRef<HTMLDivElement>(null)
   // Cal bakes the theme into the iframe URL when it initialises, so booting it
   // before next-themes has resolved would pin the embed to whatever the
   // fallback was, no matter what the page settles on.
   const calTheme = resolvedTheme === "light" ? "light" : "dark"
 
   useEffect(() => {
-    if (!resolvedTheme) return
+    const embedElement = embedRef.current
+    if (!resolvedTheme || !embedElement) return
 
     ;(function (C: Window, A: string, L: string) {
       const p = function (a: any, ar: IArguments | any[]) {
@@ -56,7 +58,7 @@ export function CalEmbed({ calLink, namespace }: { calLink: string; namespace: s
 
     window.Cal?.("init", namespace, { origin: "https://app.cal.com" })
     window.Cal?.ns?.[namespace]?.("inline", {
-      elementOrSelector: `#cal-embed-${namespace}`,
+      elementOrSelector: embedElement,
       config: {
         layout: "month_view",
         useSlotsViewOnSmallScreen: "true",
@@ -93,6 +95,10 @@ export function CalEmbed({ calLink, namespace }: { calLink: string; namespace: s
       hideEventTypeDetails: false,
       layout: "month_view",
     })
+
+    return () => {
+      embedElement.replaceChildren()
+    }
   }, [calLink, namespace, calTheme])
 
   return (
@@ -101,7 +107,7 @@ export function CalEmbed({ calLink, namespace }: { calLink: string; namespace: s
       // fresh, empty container on a switch instead of letting it stack a
       // second iframe next to the stale one.
       key={calTheme}
-      id={`cal-embed-${namespace}`}
+      ref={embedRef}
       className="mx-auto h-[660px] w-full max-w-[1380px] overflow-scroll border-x border-line"
     />
   )

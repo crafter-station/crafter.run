@@ -188,7 +188,7 @@ export default async function Page({
             {calendar.description}
           </p>
         </Container>
-        <CalEmbed calLink="cuevaio/crafter-station-sponsor" namespace="sponsor-events" />
+        <CalEmbed calLink="crafter/community" namespace="community" />
       </main>
       <SiteFooter locale={lang} />
     </>
