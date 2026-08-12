@@ -53,7 +53,7 @@ export default async function Page({
               label: t("trackStartupLabel"),
               host: "Anthony Cueva",
               blurb: t("trackStartupBlurb"),
-              calLink: "cuevaio/crafter-station-startup",
+              calLink: "crafter/15min",
             },
             {
               id: "career",
