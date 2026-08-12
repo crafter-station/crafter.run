@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.4.2
+
+### Patch Changes
+
+- [#59](https://github.com/crafter-station/crafter.run/pull/59) [`5e7e7bc`](https://github.com/crafter-station/crafter.run/commit/5e7e7bcf5135517b88affdc70ebe49516613f8a4) Thanks [@cuevaio](https://github.com/cuevaio)! - Fail Windows login when credential storage reports an error or cannot read back the saved OAuth credentials.
+
 ## 0.4.1
 
 ### Patch Changes
