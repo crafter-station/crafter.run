@@ -5,6 +5,7 @@ import { useAuth } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { type FormEvent, useState } from "react"
 
+import { ProfileLocationFields } from "@/components/profile-location-fields"
 import { publicApiUrl, shipsApi } from "@/lib/ships-client"
 import { cn } from "@/lib/utils"
 
@@ -62,6 +63,8 @@ export function MemberOnboardingForm({
             .map((role) => role.trim())
             .filter(Boolean),
           isJobSeeking: formData.get("isJobSeeking") === "on",
+          originLocation: readLocation(formData, "origin"),
+          basedLocation: readLocation(formData, "based"),
           ...(mode === "settings" ? {
             salaryRange: salaryMin || salaryMax || salaryCurrency
               ? { min: Number(salaryMin), max: Number(salaryMax), currency: salaryCurrency }
@@ -100,6 +103,30 @@ export function MemberOnboardingForm({
           I am looking for a new job
         </label>
       </div>
+      <section className="grid min-w-0 gap-8 border-t border-line pt-6">
+        <ProfileLocationFields
+          kind="origin"
+          title="Where you're from"
+          description="Your origin city and country. Optional, but it makes your public profile easier to scan."
+          cityLabel="Origin city"
+          countryLabel="Origin country"
+          regionLabel="Origin region / state"
+          cityPlaceholder="Lima"
+          fallbackHint="Pick a city from the suggestions when you can. If your city is missing, type it and choose a country so Córdoba, Argentina stays distinct from Córdoba, Spain."
+          defaultValue={member?.originLocation}
+        />
+        <ProfileLocationFields
+          kind="based"
+          title="Where you're based"
+          description="Where you currently live or work from. This is public, and separate from private onsite job preferences."
+          cityLabel="Current city"
+          countryLabel="Current country"
+          regionLabel="Current region / state"
+          cityPlaceholder="Mexico City"
+          fallbackHint="Same as origin: city plus country keeps later maps and filters unambiguous."
+          defaultValue={member?.basedLocation}
+        />
+      </section>
       {mode === "settings" ? (
         <section className="grid min-w-0 gap-6 border border-line bg-secondary/30 p-5 sm:p-6">
           <div>
@@ -151,6 +178,20 @@ export function MemberOnboardingForm({
       <p className="font-mono text-[10px] text-muted-foreground">API: {publicApiUrl}</p>
     </form>
   )
+}
+
+function readLocation(formData: FormData, kind: "origin" | "based") {
+  const city = String(formData.get(`${kind}City`) ?? "").trim()
+  const region = String(formData.get(`${kind}Region`) ?? "").trim()
+  const country = String(formData.get(`${kind}Country`) ?? "").trim()
+  const countryCode = String(formData.get(`${kind}CountryCode`) ?? "").trim()
+  if (!city && !region && !country && !countryCode) return null
+  return {
+    city: city || null,
+    region: region || null,
+    country: country || null,
+    countryCode: countryCode || null,
+  }
 }
 
 function Field(props: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {

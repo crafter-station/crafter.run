@@ -293,7 +293,9 @@
       "joinAgentLabel": "AI エージェントで参加",
       "joinAgentHint": "Claude Code や Cursor などのコーディングエージェントに貼り付けてください。Crafter CLI をインストールし、ブラウザでのサインインを案内しながら、一緒にプロフィールを作成します。",
       "joinAgentCopy": "エージェント用プロンプトをコピー",
-      "joinAgentCopied": "プロンプトをコピーしました"
+      "joinAgentCopied": "プロンプトをコピーしました",
+      "from": "出身",
+      "based": "在住"
     },
     "timeline": {
       "eyebrow": "オープンソースの活動",

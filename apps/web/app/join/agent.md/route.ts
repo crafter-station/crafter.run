@@ -56,6 +56,7 @@ Optional (only include what the user provides):
 - \`githubUrl\`, \`gitlabUrl\`, \`linkedinUrl\`, \`instagramUrl\`, \`xUrl\`: profile URLs on the matching host.
 - \`primaryWebsiteUrl\`, \`secondaryWebsiteUrl\`: personal sites.
 - \`currentRole\`: up to 120 characters, for example "Frontend Engineer".
+- \`originLocation\` and \`basedLocation\`: optional structured places. Each may include \`city\`, \`region\`, \`country\`, and \`countryCode\` (ISO 3166-1 alpha-2). Prefer city plus country so names like Córdoba, Argentina stay distinct from Córdoba, Spain. Example: \`{ "city": "Lima", "country": "Peru", "countryCode": "PE" }\`. Leave either object out rather than guessing. Do not invent coordinates or place IDs.
 
 Check availability before proposing a handle:
 
@@ -76,7 +77,9 @@ Example:
   "handle": "ada",
   "displayName": "Ada Lovelace",
   "bio": "Building compilers for fun.",
-  "githubUrl": "https://github.com/ada"
+  "githubUrl": "https://github.com/ada",
+  "originLocation": { "city": "London", "country": "United Kingdom", "countryCode": "GB" },
+  "basedLocation": { "city": "London", "country": "United Kingdom", "countryCode": "GB" }
 }
 \`\`\`
 

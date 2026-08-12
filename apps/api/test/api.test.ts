@@ -1,7 +1,11 @@
 import { describe, expect, spyOn, test } from "bun:test"
 import {
+  countryCodeToFlagEmoji,
   editableShipLinkSchema,
+  formatLocationLabel,
+  formatProfileLocationLine,
   memberProfileSchema,
+  searchProfileCities,
   shipDraftInputSchema,
   updateShipDraftRequestSchema,
   updatePublishedShipRequestSchema,
@@ -258,6 +262,18 @@ describe("Crafter profiles", () => {
       currentRole: null,
       rolesOpenTo: [],
       isJobSeeking: true,
+      originLocation: {
+        city: "Lima",
+        region: "Lima",
+        country: "Peru",
+        countryCode: "PE",
+        latitude: null,
+        longitude: null,
+        placeId: null,
+        provider: null,
+        confidence: null,
+      },
+      basedLocation: null,
       createdAt: new Date().toISOString(),
       salaryRange: { min: 80_000, max: 120_000, currency: "USD" },
       workArrangements: ["remote"],
@@ -267,5 +283,158 @@ describe("Crafter profiles", () => {
 
     expect(Object.hasOwn(publicProfile, "salaryRange")).toBe(false)
     expect(Object.hasOwn(publicProfile, "resumeUrl")).toBe(false)
+    expect(publicProfile.originLocation).toMatchObject({ city: "Lima", country: "Peru", countryCode: "PE" })
+    expect(publicProfile.basedLocation).toBeNull()
+  })
+
+  test("accepts structured origin and based locations", () => {
+    const profile = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      originLocation: { city: "Lima", countryCode: "pe" },
+      basedLocation: { city: "Mexico City", country: "Mexico", countryCode: "MX", region: "Mexico City" },
+    })
+
+    expect(profile.originLocation).toEqual({
+      city: "Lima",
+      region: null,
+      country: "Peru",
+      countryCode: "PE",
+    })
+    expect(profile.basedLocation).toEqual({
+      city: "Mexico City",
+      region: "Mexico City",
+      country: "Mexico",
+      countryCode: "MX",
+    })
+  })
+
+  test("keeps a single location and treats empty location objects as cleared", () => {
+    const basedOnly = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      basedLocation: { city: "Madrid", country: "Spain" },
+    })
+    const cleared = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      originLocation: {},
+      basedLocation: null,
+    })
+
+    expect(Object.hasOwn(basedOnly, "originLocation")).toBe(false)
+    expect(basedOnly.basedLocation).toEqual({
+      city: "Madrid",
+      region: null,
+      country: "Spain",
+      countryCode: "ES",
+    })
+    expect(cleared.originLocation).toBeNull()
+    expect(cleared.basedLocation).toBeNull()
+  })
+
+  test("allows a city-only fallback without guessing the country", () => {
+    const profile = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      originLocation: { city: "Córdoba" },
+    })
+
+    expect(profile.originLocation).toEqual({
+      city: "Córdoba",
+      region: null,
+      country: null,
+      countryCode: null,
+    })
+    expect(formatLocationLabel(profile.originLocation)).toBe("Córdoba")
+    expect(countryCodeToFlagEmoji(profile.originLocation?.countryCode)).toBeNull()
+    expect(formatProfileLocationLine(profile.originLocation, null)).toBe("From Córdoba")
+  })
+
+  test("keeps ambiguous cities distinct when country context is present", () => {
+    const argentina = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      originLocation: { city: "Córdoba", country: "Argentina", countryCode: "AR" },
+    })
+    const spain = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      basedLocation: { city: "Córdoba", country: "Spain", countryCode: "ES" },
+    })
+    const matches = searchProfileCities("cordoba")
+
+    expect(formatProfileLocationLine(argentina.originLocation, spain.basedLocation)).toBe(
+      "🇦🇷 From Córdoba, Argentina · 🇪🇸 Based in Córdoba, Spain",
+    )
+    expect(matches.map((city) => `${city.city}, ${city.countryCode}`)).toEqual([
+      "Córdoba, AR",
+      "Córdoba, ES",
+    ])
+  })
+
+  test("rejects unreliable country codes instead of inventing flags", () => {
+    const invalid = upsertMemberRequestSchema.safeParse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      originLocation: { city: "Nowhere", countryCode: "XX" },
+    })
+
+    expect(invalid.success).toBe(false)
+    expect(countryCodeToFlagEmoji("XX")).toBeNull()
+    expect(countryCodeToFlagEmoji("PE")).toBe("🇵🇪")
+  })
+
+  test("strips client-supplied geocoding metadata from profile writes", () => {
+    const profile = upsertMemberRequestSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      originLocation: {
+        city: "Lima",
+        countryCode: "PE",
+        latitude: -12.0464,
+        longitude: -77.0428,
+        placeId: "secret-place",
+        provider: "google",
+        confidence: 0.9,
+      },
+    })
+
+    expect(profile.originLocation).toEqual({
+      city: "Lima",
+      region: null,
+      country: "Peru",
+      countryCode: "PE",
+    })
+    expect(profile.originLocation && "latitude" in profile.originLocation).toBe(false)
+  })
+
+  test("existing profiles remain valid without location data", () => {
+    const omitted = upsertMemberRequestSchema.parse({ handle: "test-crafter", displayName: "Test Crafter" })
+    const publicProfile = memberProfileSchema.parse({
+      handle: "test-crafter",
+      displayName: "Test Crafter",
+      avatarUrl: null,
+      bio: null,
+      githubUrl: null,
+      gitlabUrl: null,
+      linkedinUrl: null,
+      instagramUrl: null,
+      xUrl: null,
+      primaryWebsiteUrl: null,
+      secondaryWebsiteUrl: null,
+      currentRole: null,
+      rolesOpenTo: [],
+      isJobSeeking: false,
+      originLocation: null,
+      basedLocation: null,
+      createdAt: new Date().toISOString(),
+    })
+
+    expect(Object.hasOwn(omitted, "originLocation")).toBe(false)
+    expect(Object.hasOwn(omitted, "basedLocation")).toBe(false)
+    expect(publicProfile.originLocation).toBeNull()
+    expect(publicProfile.basedLocation).toBeNull()
+    expect(formatProfileLocationLine(publicProfile.originLocation, publicProfile.basedLocation)).toBeNull()
   })
 })

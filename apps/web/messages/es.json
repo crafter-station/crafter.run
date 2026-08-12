@@ -293,7 +293,9 @@
       "joinAgentLabel": "Únete con tu agente de IA",
       "joinAgentHint": "Pégalo en Claude Code, Cursor o cualquier agente de código. Instalará la CLI de Crafter, te ayudará a iniciar sesión desde tu navegador y creará tu perfil contigo.",
       "joinAgentCopy": "Copiar el prompt para tu agente",
-      "joinAgentCopied": "Prompt copiado"
+      "joinAgentCopied": "Prompt copiado",
+      "from": "De",
+      "based": "Vive en"
     },
     "timeline": {
       "eyebrow": "Actividad open source",

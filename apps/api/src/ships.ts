@@ -4,6 +4,8 @@ import type {
   MemberProfile,
   MemberSource,
   PrivateMemberProfile,
+  ProfileLocation,
+  ProfileLocationInput,
   ShipDetail,
   ShipDraftInput,
   ShipLink,
@@ -14,6 +16,7 @@ import type {
   UpdatePublishedShipRequest,
   UpsertMemberRequest,
 } from "@crafter/contracts"
+import { toProfileLocation } from "@crafter/contracts"
 import { randomUUID } from "node:crypto"
 import { createDatabase } from "@crafter/db"
 import { members, shipLinks, shipProvenance, ships, shipUpdates, shipVotes } from "@crafter/db/schema"
@@ -25,6 +28,78 @@ function getDatabase() {
   const databaseUrl = process.env.DATABASE_URL
   if (!databaseUrl) throw new RepositoryUnavailableError("DATABASE_URL is not configured")
   return createDatabase(databaseUrl)
+}
+
+function locationFromRow(row: typeof members.$inferSelect, prefix: "origin" | "based"): ProfileLocation | null {
+  if (prefix === "origin") {
+    return toProfileLocation({
+      city: row.originCity,
+      region: row.originRegion,
+      country: row.originCountry,
+      countryCode: row.originCountryCode,
+      latitude: row.originLatitude,
+      longitude: row.originLongitude,
+      placeId: row.originPlaceId,
+      provider: row.originGeocodeProvider,
+      confidence: row.originGeocodeConfidence,
+    })
+  }
+
+  return toProfileLocation({
+    city: row.basedCity,
+    region: row.basedRegion,
+    country: row.basedCountry,
+    countryCode: row.basedCountryCode,
+    latitude: row.basedLatitude,
+    longitude: row.basedLongitude,
+    placeId: row.basedPlaceId,
+    provider: row.basedGeocodeProvider,
+    confidence: row.basedGeocodeConfidence,
+  })
+}
+
+function locationColumns(location: ProfileLocationInput | null | undefined, prefix: "origin" | "based") {
+  if (location === undefined) return {}
+  if (prefix === "origin") {
+    if (location === null) {
+      return {
+        originCity: null,
+        originRegion: null,
+        originCountry: null,
+        originCountryCode: null,
+        originLatitude: null,
+        originLongitude: null,
+        originPlaceId: null,
+        originGeocodeProvider: null,
+        originGeocodeConfidence: null,
+      }
+    }
+    return {
+      originCity: location.city,
+      originRegion: location.region,
+      originCountry: location.country,
+      originCountryCode: location.countryCode,
+    }
+  }
+  if (location === null) {
+    return {
+      basedCity: null,
+      basedRegion: null,
+      basedCountry: null,
+      basedCountryCode: null,
+      basedLatitude: null,
+      basedLongitude: null,
+      basedPlaceId: null,
+      basedGeocodeProvider: null,
+      basedGeocodeConfidence: null,
+    }
+  }
+  return {
+    basedCity: location.city,
+    basedRegion: location.region,
+    basedCountry: location.country,
+    basedCountryCode: location.countryCode,
+  }
 }
 
 export function memberProfile(row: typeof members.$inferSelect): MemberProfile {
@@ -43,6 +118,8 @@ export function memberProfile(row: typeof members.$inferSelect): MemberProfile {
     currentRole: row.currentRole,
     rolesOpenTo: row.rolesOpenTo,
     isJobSeeking: row.isJobSeeking,
+    originLocation: locationFromRow(row, "origin"),
+    basedLocation: locationFromRow(row, "based"),
     createdAt: new Date(row.createdAt).toISOString(),
   }
 }
@@ -117,6 +194,8 @@ export async function upsertMember(
     ...(Object.hasOwn(input, "workArrangements") ? { workArrangements: input.workArrangements ?? [] } : {}),
     ...(Object.hasOwn(input, "onsiteCity") ? { onsiteCity: input.onsiteCity ?? null } : {}),
     ...(Object.hasOwn(input, "resumeUrl") ? { resumeUrl: input.resumeUrl ?? null } : {}),
+    ...(Object.hasOwn(input, "originLocation") ? locationColumns(input.originLocation, "origin") : {}),
+    ...(Object.hasOwn(input, "basedLocation") ? locationColumns(input.basedLocation, "based") : {}),
   }
   const [member] = await db
     .insert(members)
@@ -142,6 +221,8 @@ export async function upsertMember(
       workArrangements: input.workArrangements ?? [],
       onsiteCity: input.onsiteCity ?? null,
       resumeUrl: input.resumeUrl ?? null,
+      ...locationColumns(input.originLocation ?? null, "origin"),
+      ...locationColumns(input.basedLocation ?? null, "based"),
       source,
     })
     .onConflictDoUpdate({

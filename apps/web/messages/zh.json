@@ -293,7 +293,9 @@
       "joinAgentLabel": "用你的 AI 智能体加入",
       "joinAgentHint": "粘贴到 Claude Code、Cursor 或任何编码智能体中。它会安装 Crafter CLI，引导你在浏览器中登录，并和你一起完成个人资料。",
       "joinAgentCopy": "复制智能体提示词",
-      "joinAgentCopied": "提示词已复制"
+      "joinAgentCopied": "提示词已复制",
+      "from": "来自",
+      "based": "现居"
     },
     "timeline": {
       "eyebrow": "开源动态",

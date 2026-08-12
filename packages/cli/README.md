@@ -30,7 +30,9 @@ crafter update <ship-slug> --file <json-file> --confirm
   "handle": "ada",
   "displayName": "Ada Lovelace",
   "bio": "Building compilers for fun.",
-  "githubUrl": "https://github.com/ada"
+  "githubUrl": "https://github.com/ada",
+  "originLocation": { "city": "London", "country": "United Kingdom", "countryCode": "GB" },
+  "basedLocation": { "city": "London", "country": "United Kingdom", "countryCode": "GB" }
 }
 ```
 
