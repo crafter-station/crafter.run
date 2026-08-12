@@ -81,6 +81,13 @@ export default async function Page({
       all: t("filters.all"),
       archived: t("filters.archived"),
     },
+    orgLabel: t("orgLabel"),
+    orgs: {
+      all: t("orgs.all"),
+      station: t("orgs.station"),
+      research: t("orgs.research"),
+      team: t("orgs.team"),
+    },
     sortLabel: t("sortLabel"),
     sorts: {
       activity: t("sorts.activity"),
@@ -166,6 +173,14 @@ export default async function Page({
                   className="group transition-transform duration-150 active:scale-[0.97]"
                 >
                   <ArrowLink>{t("githubCta")}</ArrowLink>
+                </Link>
+                <Link
+                  href="https://github.com/crafter-research"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group transition-transform duration-150 active:scale-[0.97]"
+                >
+                  <ArrowLink>{t("githubResearchCta")}</ArrowLink>
                 </Link>
               </div>
             </div>

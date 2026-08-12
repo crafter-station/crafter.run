@@ -3,6 +3,7 @@ import Link from "next/link"
 import { getTranslations } from "next-intl/server"
 import { ArrowLink } from "@/components/arrow-link"
 import { Container, SectionGap } from "@/components/grid-container"
+import { LocalizedLink } from "@/components/localized-link"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { isLocale } from "@/lib/i18n"
@@ -57,6 +58,24 @@ export default async function Page({
               </Link>
             ))}
           </div>
+        </Container>
+        <SectionGap />
+        <Container>
+          <section className="grid border-y border-line md:grid-cols-[1.2fr_0.8fr]">
+            <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
+              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                {t("eyebrow")}
+              </p>
+              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
+                {t("timelineTitle")}
+              </h2>
+            </div>
+            <div className="flex items-center p-8 md:p-10">
+              <LocalizedLink href="/timeline#timeline" locale={lang} className="group">
+                <ArrowLink>{t("timelineCta")}</ArrowLink>
+              </LocalizedLink>
+            </div>
+          </section>
         </Container>
       </main>
       <SiteFooter locale={lang} />

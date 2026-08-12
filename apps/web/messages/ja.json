@@ -303,6 +303,7 @@
       "description": "Crafter Station、Crafter Research、そしてチームの公開プロジェクトを探索できます。各プロジェクトがいつ前進したのか、誰が取り組んだのか、週ごとの活発さを見てみましょう。",
       "exploreCta": "活動を見る",
       "githubCta": "GitHub を開く",
+      "githubResearchCta": "Crafter Research を開く",
       "signalLabel": "Crafter チームの週ごとのコミット",
       "oneYear": "直近52週間",
       "heroStats": {
@@ -320,6 +321,13 @@
         "active": "アクティブ",
         "all": "すべて",
         "archived": "アーカイブ済み"
+      },
+      "orgLabel": "オーガニゼーション",
+      "orgs": {
+        "all": "すべての組織",
+        "station": "Crafter Station",
+        "research": "Crafter Research",
+        "team": "チーム"
       },
       "sortLabel": "プロジェクトを並べ替え",
       "sorts": {
@@ -350,7 +358,7 @@
       "today": "今日",
       "showMore": "もっと見る",
       "noResultsTitle": "プロジェクトが見つかりません",
-      "noResultsDescription": "別の検索語、期間、メンバー、フィルターをお試しください。",
+      "noResultsDescription": "別の検索語、期間、メンバー、組織、フィルターをお試しください。",
       "legend": "Crafter チームのコミット",
       "less": "少ない",
       "more": "多い",
@@ -392,7 +400,9 @@
       "title": "より良くシップするためのシステムを研究する。",
       "description": "Crafter Research は、AIファーストのエンジニアリング、エージェント、開発者体験、そして現代のチームがより大きなレバレッジで開発するためのプラクティスを探求しています。",
       "section": "現在、リサーチは独自のドメインで運営しています。",
-      "sectionDescription": "このページではリサーチユニットを紹介し、稼働中のリサーチサイトと GitHub オーガニゼーションへのリンクを掲載しています。"
+      "sectionDescription": "このページではリサーチユニットを紹介し、稼働中のリサーチサイト、GitHub オーガニゼーション、公開プロジェクトの活動へのリンクを掲載しています。",
+      "timelineTitle": "公開リサーチの活動はタイムラインにあります。",
+      "timelineCta": "タイムラインでリサーチを見る"
     },
     "team": {
       "eyebrow": "チーム",

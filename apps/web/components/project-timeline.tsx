@@ -40,11 +40,13 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
-import type {
-  ProjectTimelineData,
-  TimelineContributor,
-  TimelineCoreMember,
-  TimelineProject,
+import {
+  matchesTimelineOrg,
+  type ProjectTimelineData,
+  type TimelineContributor,
+  type TimelineCoreMember,
+  type TimelineOrgFilter,
+  type TimelineProject,
 } from "@/lib/project-timeline"
 import { projectColor } from "@/lib/project-color"
 import { cn } from "@/lib/utils"
@@ -64,6 +66,13 @@ export type ProjectTimelineCopy = {
     active: string
     all: string
     archived: string
+  }
+  orgLabel: string
+  orgs: {
+    all: string
+    station: string
+    research: string
+    team: string
   }
   sortLabel: string
   sorts: {
@@ -558,6 +567,7 @@ export function ProjectTimeline({
 }) {
   const [range, setRange] = useState<RangeWeeks>(13)
   const [filter, setFilter] = useState<ProjectFilter>("active")
+  const [org, setOrg] = useState<TimelineOrgFilter>("all")
   const [sort, setSort] = useState<ProjectSort>("recent")
   const [query, setQuery] = useState("")
   const deferredQuery = useDeferredValue(query)
@@ -610,6 +620,7 @@ export function ProjectTimeline({
       }
     })
     .filter((row) => {
+      if (!matchesTimelineOrg(row.project.owner, org)) return false
       if (filter === "active" && (row.total === 0 || row.project.archived)) {
         return false
       }
@@ -727,7 +738,7 @@ export function ProjectTimeline({
   useEffect(() => {
     const node = scrollRef.current
     if (node) syncTimelineLabels(node)
-  }, [deferredQuery, filter, selectedLogin, sort, visibleCount])
+  }, [deferredQuery, filter, org, selectedLogin, sort, visibleCount])
 
   useEffect(
     () => () => {
@@ -768,6 +779,14 @@ export function ProjectTimeline({
     if (!value) return
     startTransition(() => {
       setFilter(value as ProjectFilter)
+      setVisibleCount(INITIAL_VISIBLE_PROJECTS)
+    })
+  }
+
+  function updateOrg(value: string) {
+    if (!value) return
+    startTransition(() => {
+      setOrg(value as TimelineOrgFilter)
       setVisibleCount(INITIAL_VISIBLE_PROJECTS)
     })
   }
@@ -915,7 +934,7 @@ export function ProjectTimeline({
 
       <section className="sticky top-[5.05rem] z-30 border-b border-line bg-background/95 px-4 py-3 backdrop-blur-md sm:px-6 md:px-10">
         <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-          <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:items-center">
+          <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
             <label className="relative block min-w-0 flex-1 sm:max-w-xs">
               <span className="sr-only">{copy.searchPlaceholder}</span>
               <Search
@@ -947,6 +966,27 @@ export function ProjectTimeline({
                 <ToggleGroupItem value="active">{copy.filters.active}</ToggleGroupItem>
                 <ToggleGroupItem value="all">{copy.filters.all}</ToggleGroupItem>
                 <ToggleGroupItem value="archived">{copy.filters.archived}</ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+
+            <div className="timeline-scroll overflow-x-auto">
+              <ToggleGroup
+                type="single"
+                value={org}
+                onValueChange={updateOrg}
+                variant="outline"
+                size="sm"
+                aria-label={copy.orgLabel}
+                className="w-max justify-start"
+              >
+                <ToggleGroupItem value="all">{copy.orgs.all}</ToggleGroupItem>
+                <ToggleGroupItem value="crafter-station">
+                  {copy.orgs.station}
+                </ToggleGroupItem>
+                <ToggleGroupItem value="crafter-research">
+                  {copy.orgs.research}
+                </ToggleGroupItem>
+                <ToggleGroupItem value="team">{copy.orgs.team}</ToggleGroupItem>
               </ToggleGroup>
             </div>
           </div>

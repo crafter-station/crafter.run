@@ -1,7 +1,13 @@
 import { teamMembers } from "@/lib/team"
+import { ORGANIZATION_OWNERS } from "@/lib/project-timeline-org"
+
+export {
+  matchesTimelineOrg,
+  ORGANIZATION_OWNERS,
+  type TimelineOrgFilter,
+} from "@/lib/project-timeline-org"
 
 const GITHUB_GRAPHQL_URL = "https://api.github.com/graphql"
-const ORGANIZATION_OWNERS = ["crafter-station", "crafter-research"]
 const REPOSITORIES_PER_PAGE = 50
 const COMMITS_PER_PAGE = 100
 const MAX_COMMITS_PER_REPOSITORY = 2500

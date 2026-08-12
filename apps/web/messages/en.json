@@ -303,6 +303,7 @@
       "description": "Explore public projects from Crafter Station, Crafter Research, and our team. See when each project moved forward, who worked on it, and how active it was week by week.",
       "exploreCta": "Explore the activity",
       "githubCta": "Open GitHub",
+      "githubResearchCta": "Open Crafter Research",
       "signalLabel": "Crafter team commits by week",
       "oneYear": "Last 52 weeks",
       "heroStats": {
@@ -320,6 +321,13 @@
         "active": "Active",
         "all": "All",
         "archived": "Archived"
+      },
+      "orgLabel": "Organization",
+      "orgs": {
+        "all": "All orgs",
+        "station": "Crafter Station",
+        "research": "Crafter Research",
+        "team": "Team"
       },
       "sortLabel": "Sort projects",
       "sorts": {
@@ -350,7 +358,7 @@
       "today": "Today",
       "showMore": "Show more",
       "noResultsTitle": "No projects found",
-      "noResultsDescription": "Try another search, time period, person, or filter.",
+      "noResultsDescription": "Try another search, time period, person, organization, or filter.",
       "legend": "Crafter team commits",
       "less": "Less",
       "more": "More",
@@ -392,7 +400,9 @@
       "title": "Researching the systems behind better shipping.",
       "description": "Crafter Research explores AI-first engineering, agents, developer experience, and the practices that help modern teams build with more leverage.",
       "section": "For now, research lives on its own domain.",
-      "sectionDescription": "This page features the unit and links to the active research site and GitHub organization."
+      "sectionDescription": "This page features the unit and links to the active research site, GitHub organization, and public project activity.",
+      "timelineTitle": "Public research activity lives on the timeline.",
+      "timelineCta": "See research on the timeline"
     },
     "team": {
       "eyebrow": "Team",

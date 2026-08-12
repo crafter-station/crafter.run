@@ -303,6 +303,7 @@
       "description": "Explore os projetos publicos da Crafter Station, da Crafter Research e da nossa equipe. Veja quando cada projeto avancou, quem trabalhou nele e quanta atividade teve semana a semana.",
       "exploreCta": "Explorar a atividade",
       "githubCta": "Abrir GitHub",
+      "githubResearchCta": "Abrir Crafter Research",
       "signalLabel": "Commits da equipe Crafter por semana",
       "oneYear": "Ultimas 52 semanas",
       "heroStats": {
@@ -320,6 +321,13 @@
         "active": "Ativos",
         "all": "Todos",
         "archived": "Arquivados"
+      },
+      "orgLabel": "Organizacao",
+      "orgs": {
+        "all": "Todas as orgs",
+        "station": "Crafter Station",
+        "research": "Crafter Research",
+        "team": "Equipe"
       },
       "sortLabel": "Ordenar projetos",
       "sorts": {
@@ -350,7 +358,7 @@
       "today": "Hoje",
       "showMore": "Mostrar mais",
       "noResultsTitle": "Nenhum projeto encontrado",
-      "noResultsDescription": "Tente outra busca, periodo, pessoa ou filtro.",
+      "noResultsDescription": "Tente outra busca, periodo, pessoa, organizacao ou filtro.",
       "legend": "Commits da equipe Crafter",
       "less": "Menos",
       "more": "Mais",
@@ -392,7 +400,9 @@
       "title": "Pesquisamos os sistemas por tras de shippar melhor.",
       "description": "Crafter Research explora AI-first engineering, agentes, developer experience e praticas para times modernos construirem com mais leverage.",
       "section": "A unidade de research vive em seu proprio dominio.",
-      "sectionDescription": "Por enquanto esta pagina destaca a unidade e aponta para o site ativo e GitHub."
+      "sectionDescription": "Por enquanto esta pagina destaca a unidade e aponta para o site ativo, o GitHub e a atividade publica dos projetos.",
+      "timelineTitle": "A atividade publica de research esta na linha do tempo.",
+      "timelineCta": "Ver research na linha do tempo"
     },
     "team": {
       "eyebrow": "Equipe",
