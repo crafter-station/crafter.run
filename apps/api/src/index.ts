@@ -20,6 +20,7 @@ import {
   upsertMemberRequestSchema,
 } from "@crafter/contracts"
 import { createHash } from "node:crypto"
+import { put } from "@vercel/blob"
 import { createRoute, OpenAPIHono, z } from "@hono/zod-openapi"
 import { cors } from "hono/cors"
 import { requestId } from "hono/request-id"
@@ -91,6 +92,8 @@ const errorContent = {
   "application/json": { schema: apiErrorResponseSchema },
 }
 const bearerSecurity = [{ bearerAuth: [] }]
+const acceptedImageTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"])
+const maxImageBytes = 8 * 1024 * 1024
 
 async function authenticatedMember(request: Request) {
   const auth = await authenticateUser(request)
@@ -107,6 +110,38 @@ function idempotencyKey(request: Request) {
 
 function requestHash(value: unknown) {
   return createHash("sha256").update(JSON.stringify(value)).digest("hex")
+}
+
+app.post("/v1/uploads/images", async (c) => {
+  const identity = await authenticatedMember(c.req.raw)
+  if (identity.error === "unauthorized") return c.json(errorBody("unauthorized", "Authentication required."), 401)
+  if (identity.error === "onboarding_required") return c.json(errorBody("onboarding_required", "Create your Crafter profile first."), 428)
+  const form = await c.req.formData()
+  const image = form.get("image")
+  if (!(image instanceof File) || !acceptedImageTypes.has(image.type) || image.size > maxImageBytes) {
+    return c.json(errorBody("validation_error", "Upload a JPG, PNG, WebP, or GIF image up to 8 MB."), 400)
+  }
+  const extension = image.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg"
+  const blob = await put(`ships/${identity.member.id}/${crypto.randomUUID()}.${extension}`, image, {
+    access: "public",
+    addRandomSuffix: false,
+  })
+  return c.json({ url: blob.url }, 201)
+})
+
+async function captureShipImage(ship: Awaited<ReturnType<typeof getOwnedShip>>) {
+  if (!ship || ship.imageUrl) return ship?.imageUrl
+  const target = ship.links.find((link) => link.type === "website")?.url
+    ?? ship.links.find((link) => link.type === "repository")?.url
+  if (!target) return undefined
+  const screenshot = await fetch(`https://image.thum.io/get/width/1200/crop/675/noanimate/${target}`)
+  if (!screenshot.ok) throw new Error("Could not capture the Ship page screenshot.")
+  const blob = await put(`ships/${ship.id}/cover.png`, await screenshot.blob(), {
+    access: "public",
+    addRandomSuffix: false,
+    contentType: "image/png",
+  })
+  return blob.url
 }
 
 const healthRoute = createRoute({
@@ -393,6 +428,8 @@ app.openapi(createDraftRoute, async (c) => {
         existing.name === input.name &&
         existing.tagline === input.tagline &&
         existing.description === input.description &&
+        existing.imageUrl === input.imageUrl &&
+        existing.socialPostUrl === input.socialPostUrl &&
         sameLinks &&
         JSON.stringify([...existing.provenance].sort()) === JSON.stringify([...input.provenance].sort())
       if (!sameDraft) {
@@ -527,7 +564,8 @@ app.openapi(publishDraftRoute, async (c) => {
       await abandonIdempotency(reservation.id)
       return c.json(errorBody("moderation_rejected", moderation.reason), 422)
     }
-    const ship = await publishDraft(identity.member.id, shipId, publishInput.expectedUpdatedAt)
+    const imageUrl = await captureShipImage(draft)
+    const ship = await publishDraft(identity.member.id, shipId, publishInput.expectedUpdatedAt, imageUrl ?? undefined)
     if (!ship) {
       await abandonIdempotency(reservation.id)
       return c.json(errorBody("revision_conflict", "The draft changed after review. Review it again before publishing."), 409)

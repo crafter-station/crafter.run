@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { type FormEvent, useRef, useState } from "react"
 
-import { shipsApi } from "@/lib/ships-client"
+import { shipsApi, uploadShipImage } from "@/lib/ships-client"
 
 export function NewShipForm({ locale }: { locale: string }) {
   const { getToken } = useAuth()
@@ -58,6 +58,8 @@ export function NewShipForm({ locale }: { locale: string }) {
     try {
       const token = await getToken()
       if (!token) throw new Error("Your session expired. Sign in again.")
+      const image = formData.get("image")
+      const imageUrl = image instanceof File && image.size > 0 ? await uploadShipImage(image, token) : null
       const links = [
         ["repository", formData.get("repository")],
         ["website", formData.get("website")],
@@ -71,6 +73,8 @@ export function NewShipForm({ locale }: { locale: string }) {
           name: formData.get("name"),
           tagline: formData.get("tagline"),
           description: formData.get("description"),
+          imageUrl,
+          socialPostUrl: formData.get("socialPostUrl") || null,
           links,
           provenance: [
             "web form",
@@ -101,6 +105,8 @@ export function NewShipForm({ locale }: { locale: string }) {
         <Field label="Slug" name="slug" required minLength={3} maxLength={80} placeholder="my-ship" />
       </div>
       <Field label="Tagline" name="tagline" required minLength={4} maxLength={180} />
+      <Field label="Picture (optional; we will capture your website or repository if omitted)" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
+      <Field label="Social post URL (LinkedIn, Instagram, X, YouTube, Substack, etc.)" name="socialPostUrl" type="url" placeholder="https://linkedin.com/posts/..." />
       <label className="grid gap-2 text-sm">
         <span className="label">Description</span>
         <textarea name="description" required minLength={20} maxLength={5000} rows={8} className="input" />

@@ -87,6 +87,7 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
           <div className="grid md:grid-cols-2 xl:grid-cols-3">
             {ships.map((ship) => (
               <Link key={ship.id} href={`/${lang}/ships/${ship.slug}`} className="min-h-56 border-b border-r border-line p-7 transition-colors hover:bg-accent-surface/10">
+                {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mb-5 aspect-video w-full border border-line object-cover" /> : null}
                 <h3 className="text-2xl font-medium tracking-tight">{ship.name}</h3>
                 <p className="mt-3 text-sm leading-6 text-muted-foreground">{ship.tagline}</p>
               </Link>

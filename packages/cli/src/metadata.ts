@@ -61,6 +61,8 @@ export function inferShipMetadata(sources: MetadataSources): ShipDraftInput {
     name,
     tagline: text(explicit.tagline) ?? packageDescription ?? summary?.slice(0, 180) ?? "",
     description: text(explicit.description) ?? summary ?? packageDescription ?? "",
+    imageUrl: text(explicit.imageUrl) ?? null,
+    socialPostUrl: text(explicit.socialPostUrl) ?? null,
     source: "cli",
     links: explicit.links ?? inferredLinks,
     provenance: explicit.provenance ?? [

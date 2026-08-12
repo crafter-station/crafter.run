@@ -186,6 +186,8 @@ async function updatesForShips(db: ReturnType<typeof getDatabase>, shipIds: stri
       id: update.id,
       title: update.title,
       description: update.description,
+      imageUrl: update.imageUrl,
+      socialPostUrl: update.socialPostUrl,
       publishedAt: new Date(update.publishedAt).toISOString(),
     })
     result.set(update.shipId, current)
@@ -211,6 +213,8 @@ export async function listPublishedShips(ownerHandle?: string): Promise<ShipSumm
       slug: ships.slug,
       name: ships.name,
       tagline: ships.tagline,
+      imageUrl: ships.imageUrl,
+      socialPostUrl: ships.socialPostUrl,
       publishedAt: ships.publishedAt,
       ownerHandle: members.handle,
       ownerDisplayName: members.displayName,
@@ -233,6 +237,8 @@ export async function listPublishedShips(ownerHandle?: string): Promise<ShipSumm
           slug: ship.slug,
           name: ship.name,
           tagline: ship.tagline,
+          imageUrl: ship.imageUrl,
+          socialPostUrl: ship.socialPostUrl,
           publishedAt: new Date(ship.publishedAt).toISOString(),
           owner: {
             handle: ship.ownerHandle,
@@ -270,6 +276,8 @@ async function hydrateShips(
     name: ship.name,
     tagline: ship.tagline,
     description: ship.description,
+    imageUrl: ship.imageUrl,
+    socialPostUrl: ship.socialPostUrl,
     status: ship.status,
     source: ship.source,
     publishedAt: ship.publishedAt ? new Date(ship.publishedAt).toISOString() : null,
@@ -328,6 +336,8 @@ const shipSelection = {
   name: ships.name,
   tagline: ships.tagline,
   description: ships.description,
+  imageUrl: ships.imageUrl,
+  socialPostUrl: ships.socialPostUrl,
   status: ships.status,
   source: ships.source,
   publishedAt: ships.publishedAt,
@@ -373,6 +383,8 @@ export async function createDraft(
     name: input.name,
     tagline: input.tagline,
     description: input.description,
+    imageUrl: input.imageUrl,
+    socialPostUrl: input.socialPostUrl,
     source: input.source,
   })
   const insertLinks = input.links.length
@@ -427,6 +439,8 @@ export async function updateDraft(
   for (const key of ["slug", "name", "tagline", "description"] as const) {
     if (input[key] !== undefined) changes[key] = input[key]
   }
+  if (input.imageUrl !== undefined) changes.imageUrl = input.imageUrl
+  if (input.socialPostUrl !== undefined) changes.socialPostUrl = input.socialPostUrl
   const current = await getOwnedShip(memberId, shipId)
   if (!current || current.status !== "draft") return null
   const updateShip = db
@@ -490,12 +504,13 @@ export async function publishDraft(
   memberId: string,
   shipId: string,
   expectedUpdatedAt: string,
+  imageUrl?: string,
 ): Promise<ShipDetail | null> {
   const db = getDatabase()
   const now = new Date().toISOString()
   const [updated] = await db
     .update(ships)
-    .set({ status: "published", publishedAt: now, updatedAt: now })
+    .set({ status: "published", publishedAt: now, updatedAt: now, ...(imageUrl ? { imageUrl } : {}) })
     .where(
       and(
         eq(ships.id, shipId),
@@ -530,6 +545,8 @@ export async function createShipUpdate(
         id: update.id,
         title: update.title,
         description: update.description,
+        imageUrl: update.imageUrl,
+        socialPostUrl: update.socialPostUrl,
         publishedAt: new Date(update.publishedAt).toISOString(),
       }
     : null

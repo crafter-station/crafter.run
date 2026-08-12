@@ -137,6 +137,8 @@ export const shipUpdateSchema = z.object({
   id: z.string().uuid(),
   title: z.string(),
   description: z.string(),
+  imageUrl: httpUrlSchema.nullable(),
+  socialPostUrl: httpUrlSchema.nullable(),
   publishedAt: z.string().datetime(),
 })
 
@@ -145,6 +147,8 @@ export const shipSummarySchema = z.object({
   slug: z.string(),
   name: z.string(),
   tagline: z.string(),
+  imageUrl: httpUrlSchema.nullable(),
+  socialPostUrl: httpUrlSchema.nullable(),
   owner: memberSummarySchema,
   links: z.array(shipLinkSchema),
   voteCount: z.number().int().nonnegative().default(0),
@@ -162,6 +166,8 @@ export const shipDetailSchema = z.object({
   name: z.string(),
   tagline: z.string(),
   description: z.string(),
+  imageUrl: httpUrlSchema.nullable(),
+  socialPostUrl: httpUrlSchema.nullable(),
   status: shipStatusSchema,
   source: shipSourceSchema,
   owner: memberSummarySchema,
@@ -177,6 +183,8 @@ export const shipDetailSchema = z.object({
 export const createShipUpdateRequestSchema = z.object({
   title: z.string().trim().min(1).max(100),
   description: z.string().trim().min(4).max(5000),
+  imageUrl: httpUrlSchema.nullable().default(null),
+  socialPostUrl: httpUrlSchema.nullable().default(null),
 })
 
 export const shipUpdateResponseSchema = z.object({ update: shipUpdateSchema })
@@ -195,6 +203,8 @@ export const shipDraftInputSchema = z.object({
   name: z.string().trim().min(1).max(100),
   tagline: z.string().trim().min(4).max(180),
   description: z.string().trim().min(20).max(5000),
+  imageUrl: httpUrlSchema.nullable().default(null),
+  socialPostUrl: httpUrlSchema.nullable().default(null),
   source: shipSourceSchema.default("web"),
   links: z
     .array(editableShipLinkSchema)

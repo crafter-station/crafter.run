@@ -108,6 +108,7 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
                   key={ship.id}
                   className="group min-h-72 border-b border-line p-8 transition-colors hover:bg-accent-surface/10 md:border-r xl:min-h-80"
                 >
+                  {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mb-6 aspect-video w-full border border-line object-cover" /> : null}
                   <div className="flex items-start justify-between gap-6">
                     <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
                       {String(index + 1).padStart(3, "0")}
@@ -117,7 +118,7 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
                       <ShipUpvote shipId={ship.id} slug={ship.slug} initialVoteCount={ship.voteCount} locale={lang} />
                     </div>
                   </div>
-                  <h3 className="mt-12 text-3xl font-medium tracking-tight">
+                  <h3 className={ship.imageUrl ? "mt-8 text-3xl font-medium tracking-tight" : "mt-12 text-3xl font-medium tracking-tight"}>
                     <Link href={`/${lang}/ships/${ship.slug}`} className="transition-colors hover:text-accent">
                       {ship.name}
                     </Link>

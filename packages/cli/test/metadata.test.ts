@@ -14,6 +14,8 @@ describe("metadata inference", () => {
       name: "Useful_App",
       tagline: "A useful app for busy builders",
       description: "This longer paragraph explains what the useful app does for its users.",
+      imageUrl: null,
+      socialPostUrl: null,
       source: "cli",
       links: [{ type: "repository", url: "https://github.com/crafter/useful-app" }],
       provenance: ["package.json", "README.md", "git remote.origin.url"],

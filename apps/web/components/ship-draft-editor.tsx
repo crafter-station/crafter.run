@@ -5,7 +5,7 @@ import { useAuth } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { type FormEvent, useRef, useState } from "react"
 
-import { shipsApi } from "@/lib/ships-client"
+import { shipsApi, uploadShipImage } from "@/lib/ships-client"
 
 export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDetail; locale: string }) {
   const { getToken } = useAuth()
@@ -18,6 +18,8 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
   const [dirty, setDirty] = useState(false)
 
   async function saveDraft(formData: FormData, token: string) {
+    const image = formData.get("image")
+    const imageUrl = image instanceof File && image.size > 0 ? await uploadShipImage(image, token) : ship.imageUrl
     const links = [
       ["repository", formData.get("repository")],
       ["website", formData.get("website")],
@@ -34,6 +36,8 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
         name: formData.get("name"),
         tagline: formData.get("tagline"),
         description: formData.get("description"),
+        imageUrl,
+        socialPostUrl: formData.get("socialPostUrl") || null,
         links,
       }),
     })
@@ -108,6 +112,8 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
           <Field label="Slug" name="slug" defaultValue={ship.slug} required />
         </div>
         <Field label="Tagline" name="tagline" defaultValue={ship.tagline} required />
+        <Field label="Picture (optional; replaces the current image)" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
+        <Field label="Social post URL (LinkedIn, Instagram, X, YouTube, Substack, etc.)" name="socialPostUrl" type="url" defaultValue={ship.socialPostUrl ?? ""} />
         <label className="grid gap-2 text-sm">
           <span className="label">Description</span>
           <textarea name="description" defaultValue={ship.description} required rows={10} className="input" />
@@ -124,8 +130,10 @@ export function ShipDraftEditor({ initialShip, locale }: { initialShip: ShipDeta
       </form>
       <aside className="h-fit border border-line p-6 lg:sticky lg:top-28">
         <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">Private draft</p>
+        {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mt-5 aspect-video w-full border border-line object-cover" /> : null}
         <h2 className="mt-5 text-2xl tracking-tight">{ship.name}</h2>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">{ship.tagline}</p>
+        {ship.socialPostUrl ? <a href={ship.socialPostUrl} target="_blank" rel="noreferrer" className="mt-4 block text-sm font-medium text-accent underline underline-offset-4">View social post</a> : null}
         <hr className="my-6 border-line" />
         <p className="text-sm leading-6 text-muted-foreground">Publishing makes this page public immediately. This action requires your confirmation.</p>
         <button type="button" onClick={publish} disabled={pending !== null} className="mt-6 w-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground disabled:opacity-50">

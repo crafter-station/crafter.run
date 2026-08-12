@@ -15,6 +15,7 @@
     "@crafter/contracts": "workspace:*",
     "@crafter/db": "workspace:*",
     "@hono/zod-openapi": "^1.5.2",
+    "@vercel/blob": "^1.1.1",
     "drizzle-orm": "^0.45.2",
     "hono": "^4.13.1"
   },

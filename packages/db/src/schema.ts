@@ -90,6 +90,8 @@ export const ships = pgTable(
     name: text("name").notNull(),
     tagline: text("tagline").notNull(),
     description: text("description").notNull(),
+    imageUrl: text("image_url"),
+    socialPostUrl: text("social_post_url"),
     status: shipStatus("status").default("draft").notNull(),
     source: shipSource("source").default("web").notNull(),
     publishedAt: timestamp("published_at", { withTimezone: true, mode: "string" }),
@@ -103,6 +105,8 @@ export const ships = pgTable(
     check("ships_name_check", sql`char_length(trim(${table.name})) between 1 and 100`),
     check("ships_tagline_check", sql`char_length(trim(${table.tagline})) between 4 and 180`),
     check("ships_description_check", sql`char_length(trim(${table.description})) between 20 and 5000`),
+    check("ships_image_url_check", sql`${table.imageUrl} is null or ${table.imageUrl} ~ '^https?://'`),
+    check("ships_social_post_url_check", sql`${table.socialPostUrl} is null or ${table.socialPostUrl} ~ '^https?://'`),
     check(
       "ships_published_at_check",
       sql`(${table.status} = 'published' and ${table.publishedAt} is not null) or (${table.status} <> 'published')`,
@@ -144,12 +148,16 @@ export const shipUpdates = pgTable(
       .references(() => ships.id, { onDelete: "cascade" }),
     title: text("title").notNull(),
     description: text("description").notNull(),
+    imageUrl: text("image_url"),
+    socialPostUrl: text("social_post_url"),
     publishedAt: timestamp("published_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
   },
   (table) => [
     index("ship_updates_ship_published_idx").on(table.shipId, table.publishedAt.desc()),
     check("ship_updates_title_check", sql`char_length(trim(${table.title})) between 1 and 100`),
     check("ship_updates_description_check", sql`char_length(trim(${table.description})) between 4 and 5000`),
+    check("ship_updates_image_url_check", sql`${table.imageUrl} is null or ${table.imageUrl} ~ '^https?://'`),
+    check("ship_updates_social_post_url_check", sql`${table.socialPostUrl} is null or ${table.socialPostUrl} ~ '^https?://'`),
   ],
 )
 

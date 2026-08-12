@@ -35,7 +35,9 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
               <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">{t.eyebrow}</p>
               <h1 className="mt-5 text-5xl font-semibold tracking-tighter md:text-7xl">{ship.name}</h1>
               <p className="mt-5 max-w-3xl text-xl leading-8 text-muted-foreground">{ship.tagline}</p>
+              {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mt-10 aspect-video w-full border border-line object-cover" /> : null}
               <div className="mt-12 whitespace-pre-wrap text-base leading-8">{ship.description}</div>
+              {ship.socialPostUrl ? <a href={ship.socialPostUrl} target="_blank" rel="noreferrer" className="mt-6 inline-block text-sm font-medium text-accent underline underline-offset-4">View social post</a> : null}
               <ShipUpdates
                 initialUpdates={ship.updates}
                 locale={lang}

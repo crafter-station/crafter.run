@@ -9,11 +9,12 @@ export async function shipsApi<T>(
   token: string,
   init: RequestInit = {},
 ): Promise<T> {
+  const isFormData = init.body instanceof FormData
   const response = await fetch(new URL(path, publicApiUrl), {
     ...init,
     headers: {
       Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...init.headers,
     },
   })
@@ -23,4 +24,11 @@ export async function shipsApi<T>(
     throw new Error(error?.error.message ?? `Ships API returned ${response.status}.`)
   }
   return body as T
+}
+
+export async function uploadShipImage(file: File, token: string): Promise<string> {
+  const body = new FormData()
+  body.set("image", file)
+  const response = await shipsApi<{ url: string }>("/v1/uploads/images", token, { method: "POST", body })
+  return response.url
 }
