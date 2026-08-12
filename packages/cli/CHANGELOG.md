@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.3.1
+
+### Patch Changes
+
+- [#41](https://github.com/crafter-station/crafter.run/pull/41) [`3a59678`](https://github.com/crafter-station/crafter.run/commit/3a596786fb45ab2b1aea5ce5f9d43cff7788a527) Thanks [@camilocbarrera](https://github.com/camilocbarrera)! - Add `crafter version` (also `--version` and `-v`) so agents and scripts can verify which release is installed before relying on newer commands.
+
 ## 0.3.0
 
 ### Minor Changes
