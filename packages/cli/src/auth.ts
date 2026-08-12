@@ -59,6 +59,7 @@ export function assertInteractiveLogin(interactive = process.stdin.isTTY === tru
 
 export function windowsCredentialScript(action: "read" | "save" | "delete"): string {
   const loadTypes =
+    "$ErrorActionPreference='Stop';" +
     "$null=[Windows.Security.Credentials.PasswordVault,Windows.Security.Credentials,ContentType=WindowsRuntime];" +
     "$null=[Windows.Security.Credentials.PasswordCredential,Windows.Security.Credentials,ContentType=WindowsRuntime];"
   const prefix = `${loadTypes}$v=New-Object Windows.Security.Credentials.PasswordVault;`
@@ -68,7 +69,7 @@ export function windowsCredentialScript(action: "read" | "save" | "delete"): str
   if (action === "delete") {
     return `${prefix}$c=$v.Retrieve('${keychainService}','${keychainAccount}');$v.Remove($c)`
   }
-  return `${prefix}$p=[Console]::In.ReadToEnd().Trim();$v.Add((New-Object Windows.Security.Credentials.PasswordCredential('${keychainService}','${keychainAccount}',$p)))`
+  return `${prefix}$p=[Console]::In.ReadToEnd().Trim();$v.Add((New-Object Windows.Security.Credentials.PasswordCredential('${keychainService}','${keychainAccount}',$p)));$saved=$v.Retrieve('${keychainService}','${keychainAccount}');$saved.RetrievePassword();if($saved.Password-ne$p){throw 'Credential verification failed'}`
 }
 
 async function command(command: string, args: string[], input?: string): Promise<string> {
