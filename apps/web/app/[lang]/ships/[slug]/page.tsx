@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { Container } from "@/components/grid-container"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { ShipUpdates } from "@/components/ship-updates"
 import { isLocale } from "@/lib/i18n"
 import { getPublishedShip } from "@/lib/ships"
 
@@ -34,6 +35,12 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
               <h1 className="mt-5 text-5xl font-semibold tracking-tighter md:text-7xl">{ship.name}</h1>
               <p className="mt-5 max-w-3xl text-xl leading-8 text-muted-foreground">{ship.tagline}</p>
               <div className="mt-12 whitespace-pre-wrap text-base leading-8">{ship.description}</div>
+              <ShipUpdates
+                initialUpdates={ship.updates}
+                locale={lang}
+                ownerHandle={ship.owner.handle}
+                slug={ship.slug}
+              />
             </article>
             <aside className="h-fit border border-line p-6 lg:sticky lg:top-28">
               <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{t.by}</p>

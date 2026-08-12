@@ -36,6 +36,14 @@ Do not clone the Crafter repository or invoke its internal source as a substitut
 7. Only after an explicit yes, run `crafter publish <draft-id> --revision <updatedAt-from-preview> --confirm`. If the draft changed, show the new revision and ask again.
 8. Return the published Ship URL.
 
+## Publish An Update
+
+1. Confirm the Ship is already published and identify its slug.
+2. Create a JSON file containing a `title` and `description`, then show the exact update to the user.
+3. Stop and ask whether to publish it. Updates are public immediately and cannot be edited.
+4. Only after an explicit yes, run `crafter update <ship-slug> --file <json-file> --confirm`.
+5. Return the published Ship URL.
+
 ## Optional Config
 
 ```json

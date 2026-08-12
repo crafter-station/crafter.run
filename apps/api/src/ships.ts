@@ -1,16 +1,18 @@
 import type {
   CreateShipDraftRequest,
+  CreateShipUpdateRequest,
   MemberProfile,
   ShipDetail,
   ShipDraftInput,
   ShipLink,
   ShipSummary,
+  ShipUpdate,
   UpdateShipDraftRequest,
   UpsertMemberRequest,
 } from "@crafter/contracts"
 import { randomUUID } from "node:crypto"
 import { createDatabase } from "@crafter/db"
-import { members, shipLinks, shipProvenance, ships } from "@crafter/db/schema"
+import { members, shipLinks, shipProvenance, ships, shipUpdates } from "@crafter/db/schema"
 import { and, asc, desc, eq, inArray, sql } from "drizzle-orm"
 
 export class RepositoryUnavailableError extends Error {}
@@ -109,6 +111,27 @@ async function provenanceForShips(db: ReturnType<typeof getDatabase>, shipIds: s
   return result
 }
 
+async function updatesForShips(db: ReturnType<typeof getDatabase>, shipIds: string[]) {
+  if (shipIds.length === 0) return new Map<string, ShipUpdate[]>()
+  const rows = await db
+    .select()
+    .from(shipUpdates)
+    .where(inArray(shipUpdates.shipId, shipIds))
+    .orderBy(desc(shipUpdates.publishedAt))
+  const result = new Map<string, ShipUpdate[]>()
+  for (const update of rows) {
+    const current = result.get(update.shipId) ?? []
+    current.push({
+      id: update.id,
+      title: update.title,
+      description: update.description,
+      publishedAt: new Date(update.publishedAt).toISOString(),
+    })
+    result.set(update.shipId, current)
+  }
+  return result
+}
+
 export async function listPublishedShips(ownerHandle?: string): Promise<ShipSummary[]> {
   const db = getDatabase()
   const rows = await db
@@ -159,9 +182,10 @@ async function hydrateShips(
   includeProvenance = false,
 ): Promise<ShipDetail[]> {
   const shipIds = rows.map((ship) => ship.id)
-  const [links, provenance] = await Promise.all([
+  const [links, provenance, updates] = await Promise.all([
     linksForShips(db, shipIds),
     includeProvenance ? provenanceForShips(db, shipIds) : Promise.resolve(new Map<string, string[]>()),
+    updatesForShips(db, shipIds),
   ])
   return rows.map((ship) => ({
     id: ship.id,
@@ -180,6 +204,7 @@ async function hydrateShips(
       avatarUrl: ship.ownerAvatarUrl,
     },
     links: links.get(ship.id) ?? [],
+    updates: updates.get(ship.id) ?? [],
     provenance: provenance.get(ship.id) ?? [],
   }))
 }
@@ -369,4 +394,31 @@ export async function publishDraft(
     )
     .returning({ id: ships.id })
   return updated ? getOwnedShip(memberId, shipId) : null
+}
+
+export async function createShipUpdate(
+  memberId: string,
+  slug: string,
+  input: CreateShipUpdateRequest,
+): Promise<ShipUpdate | null> {
+  const db = getDatabase()
+  const [ship] = await db
+    .select({ id: ships.id })
+    .from(ships)
+    .where(and(eq(ships.slug, slug), eq(ships.ownerMemberId, memberId), eq(ships.status, "published")))
+    .limit(1)
+  if (!ship) return null
+
+  const [update] = await db
+    .insert(shipUpdates)
+    .values({ shipId: ship.id, ...input })
+    .returning()
+  return update
+    ? {
+        id: update.id,
+        title: update.title,
+        description: update.description,
+        publishedAt: new Date(update.publishedAt).toISOString(),
+      }
+    : null
 }

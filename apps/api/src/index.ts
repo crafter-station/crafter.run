@@ -1,6 +1,7 @@
 import {
   apiErrorResponseSchema,
   createShipDraftRequestSchema,
+  createShipUpdateRequestSchema,
   handleSchema,
   listMembersResponseSchema,
   listOwnedShipsResponseSchema,
@@ -10,6 +11,7 @@ import {
   publishShipRequestSchema,
   shipResponseSchema,
   shipSlugSchema,
+  shipUpdateResponseSchema,
   updateShipDraftRequestSchema,
   upsertMemberRequestSchema,
 } from "@crafter/contracts"
@@ -25,6 +27,7 @@ import { moderateShip } from "./moderation"
 import { consumeMutationLimit } from "./rate-limit"
 import {
   createDraft,
+  createShipUpdate,
   findMemberByClerkId,
   getMemberByClerkId,
   getMemberByHandle,
@@ -139,6 +142,63 @@ app.openapi(getShipRoute, async (c) => {
   return ship
     ? c.json(shipResponseSchema.parse({ ship }), 200)
     : c.json(errorBody("not_found", "Ship not found.", c.get("requestId")), 404)
+})
+
+const createShipUpdateRoute = createRoute({
+  method: "post",
+  path: "/v1/ships/{slug}/updates",
+  security: bearerSecurity,
+  request: {
+    params: z.object({ slug: shipSlugSchema }),
+    body: { content: { "application/json": { schema: createShipUpdateRequestSchema } } },
+  },
+  responses: {
+    201: { content: { "application/json": { schema: shipUpdateResponseSchema } }, description: "Published Ship update" },
+    400: { content: errorContent, description: "Invalid request or missing idempotency key" },
+    401: { content: errorContent, description: "Authentication required" },
+    404: { content: errorContent, description: "Owned published Ship not found" },
+    409: { content: errorContent, description: "Duplicate or in-progress request" },
+    422: { content: errorContent, description: "Moderation rejected" },
+    428: { content: errorContent, description: "Onboarding required" },
+    429: { content: errorContent, description: "Rate limited" },
+    503: { content: errorContent, description: "Database unavailable" },
+  },
+})
+app.openapi(createShipUpdateRoute, async (c) => {
+  const identity = await authenticatedMember(c.req.raw)
+  if (identity.error === "unauthorized") return c.json(errorBody("unauthorized", "Authentication required."), 401)
+  if (identity.error === "onboarding_required") return c.json(errorBody("onboarding_required", "Create your Crafter profile first."), 428)
+  const key = idempotencyKey(c.req.raw)
+  if (!key) return c.json(errorBody("idempotency_key_required", "Provide an Idempotency-Key header."), 400)
+  const slug = c.req.valid("param").slug
+  const input = c.req.valid("json")
+  const reservation = await reserveIdempotency(identity.member.id, key, `create_ship_update:${slug}`, requestHash(input))
+  if (!reservation) return c.json(errorBody("service_unavailable", "The Ships repository is unavailable."), 503)
+  if (reservation.kind === "replay") return c.json(reservation.body as { update: never }, 201)
+  if (reservation.kind === "pending") return c.json(errorBody("request_in_progress", "A matching request is still in progress."), 409)
+  if (reservation.kind === "mismatch") return c.json(errorBody("idempotency_mismatch", "That Idempotency-Key was used with a different request."), 409)
+  if (!(await consumeMutationLimit(identity.member.id, "ship_updates"))) {
+    await abandonIdempotency(reservation.id)
+    return c.json(errorBody("rate_limited", "Too many Ship updates. Try again in one minute."), 429)
+  }
+  try {
+    const moderation = await moderateShip({ name: input.title, tagline: input.title, description: input.description })
+    if (!moderation.allowed) {
+      await abandonIdempotency(reservation.id)
+      return c.json(errorBody("moderation_rejected", moderation.reason), 422)
+    }
+    const update = await createShipUpdate(identity.member.id, slug, input)
+    if (!update) {
+      await abandonIdempotency(reservation.id)
+      return c.json(errorBody("not_found", "Owned published Ship not found."), 404)
+    }
+    const body = shipUpdateResponseSchema.parse({ update })
+    await completeIdempotency(reservation.id, 201, body)
+    return c.json(body, 201)
+  } catch (error) {
+    await abandonIdempotency(reservation.id)
+    throw error
+  }
 })
 
 const getMemberRoute = createRoute({

@@ -5,9 +5,11 @@ import { promisify } from "node:util"
 import {
   listOwnedShipsResponseSchema,
   meResponseSchema,
+  createShipUpdateRequestSchema,
   publishShipRequestSchema,
   shipDraftInputSchema,
   shipResponseSchema,
+  shipUpdateResponseSchema,
 } from "@crafter/contracts"
 import { api } from "./api"
 import { login, logout, openBrowser } from "./auth"
@@ -27,6 +29,7 @@ Usage:
   crafter ships
   crafter ship [--file <json-file>]
   crafter publish <id> --revision <updated-at> --confirm
+  crafter update <ship-slug> --file <json-file> --confirm
 
 Environment:
   CRAFTER_ACCESS_TOKEN              Use an access token without storing it
@@ -142,6 +145,22 @@ async function main(args: string[]): Promise<void> {
       }),
     )
     print({ ...response, publishedUrl: webPath(`/ships/${response.ship.slug}`) })
+    return
+  }
+  if (command === "update") {
+    const [slug, fileFlag, file, confirmFlag] = rest
+    if (!slug || fileFlag !== "--file" || !file || confirmFlag !== "--confirm") {
+      throw new Error("Publishing an update requires explicit confirmation: crafter update <ship-slug> --file <json-file> --confirm")
+    }
+    const input = createShipUpdateRequestSchema.parse(JSON.parse(await readFile(file, "utf8")))
+    const response = shipUpdateResponseSchema.parse(
+      await api(`/v1/ships/${encodeURIComponent(slug)}/updates`, {
+        method: "POST",
+        headers: { "Idempotency-Key": idempotencyKey({ slug, ...input }) },
+        body: JSON.stringify(input),
+      }),
+    )
+    print({ ...response, publishedUrl: webPath(`/ships/${slug}`) })
     return
   }
   throw new Error(`Unknown command: ${command}\n\n${help}`)

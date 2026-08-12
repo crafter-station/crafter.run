@@ -17,6 +17,16 @@ crafter login
 crafter whoami
 crafter ship
 crafter publish <draft-id> --revision <updated-at> --confirm
+crafter update <ship-slug> --file <json-file> --confirm
+```
+
+Ship update files contain a public changelog entry:
+
+```json
+{
+  "title": "Version 1.1",
+  "description": "Added team workspaces and improved onboarding."
+}
 ```
 
 The CLI inspects only `README.md`, `package.json`, `crafter.ship.json`, and the Git origin by default. OAuth credentials are stored in the operating-system credential store.

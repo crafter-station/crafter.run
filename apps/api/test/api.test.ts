@@ -31,6 +31,16 @@ describe("Crafter API", () => {
     expect(await response.json()).toMatchObject({ error: { code: "validation_error" } })
   })
 
+  test("validates Ship updates", async () => {
+    const response = await app.request("/v1/ships/example-ship/updates", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ title: "", description: "no" }),
+    })
+    expect(response.status).toBe(400)
+    expect(await response.json()).toMatchObject({ error: { code: "validation_error" } })
+  })
+
   test("reports an unavailable repository as 503", async () => {
     const previous = process.env.DATABASE_URL
     delete process.env.DATABASE_URL

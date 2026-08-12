@@ -95,6 +95,24 @@ export const shipLinks = pgTable(
   ],
 )
 
+export const shipUpdates = pgTable(
+  "ship_updates",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    shipId: uuid("ship_id")
+      .notNull()
+      .references(() => ships.id, { onDelete: "cascade" }),
+    title: text("title").notNull(),
+    description: text("description").notNull(),
+    publishedAt: timestamp("published_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    index("ship_updates_ship_published_idx").on(table.shipId, table.publishedAt.desc()),
+    check("ship_updates_title_check", sql`char_length(trim(${table.title})) between 1 and 100`),
+    check("ship_updates_description_check", sql`char_length(trim(${table.description})) between 4 and 5000`),
+  ],
+)
+
 export const shipProvenance = pgTable(
   "ship_provenance",
   {

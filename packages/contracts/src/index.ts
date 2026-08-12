@@ -63,6 +63,13 @@ export const shipLinkSchema = z.object({
   verifiedAt: z.string().datetime().nullable(),
 })
 
+export const shipUpdateSchema = z.object({
+  id: z.string().uuid(),
+  title: z.string(),
+  description: z.string(),
+  publishedAt: z.string().datetime(),
+})
+
 export const shipSummarySchema = z.object({
   id: z.string().uuid(),
   slug: z.string(),
@@ -88,11 +95,19 @@ export const shipDetailSchema = z.object({
   source: shipSourceSchema,
   owner: memberSummarySchema,
   links: z.array(shipLinkSchema),
+  updates: z.array(shipUpdateSchema),
   provenance: z.array(z.string()),
   publishedAt: z.string().datetime().nullable(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 })
+
+export const createShipUpdateRequestSchema = z.object({
+  title: z.string().trim().min(1).max(100),
+  description: z.string().trim().min(4).max(5000),
+})
+
+export const shipUpdateResponseSchema = z.object({ update: shipUpdateSchema })
 
 export const shipDraftInputSchema = z.object({
   slug: shipSlugSchema,
@@ -152,11 +167,13 @@ export type MemberSummary = z.infer<typeof memberSummarySchema>
 export type MemberProfile = z.infer<typeof memberProfileSchema>
 export type UpsertMemberRequest = z.infer<typeof upsertMemberRequestSchema>
 export type ShipLink = z.infer<typeof shipLinkSchema>
+export type ShipUpdate = z.infer<typeof shipUpdateSchema>
 export type ShipSummary = z.infer<typeof shipSummarySchema>
 export type ShipDetail = z.infer<typeof shipDetailSchema>
 export type ShipDraftInput = z.infer<typeof shipDraftInputSchema>
 export type CreateShipDraftRequest = z.infer<typeof createShipDraftRequestSchema>
 export type UpdateShipDraftRequest = z.infer<typeof updateShipDraftRequestSchema>
+export type CreateShipUpdateRequest = z.infer<typeof createShipUpdateRequestSchema>
 export type ListShipsResponse = z.infer<typeof listShipsResponseSchema>
 export type ListMembersResponse = z.infer<typeof listMembersResponseSchema>
 export type ApiErrorResponse = z.infer<typeof apiErrorResponseSchema>
