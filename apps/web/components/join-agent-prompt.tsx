@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Check, Copy, Sparkles } from "lucide-react"
 
 const prompt =
-  "Help me join the Crafter Station community. Run `curl -s https://crafter.run/join/agent.md` and follow the instructions it returns. Confirm everything with me before submitting anything."
+  "Help me join the Crafter Station community. Run `curl -s https://crafter.run/join/agent.md` and follow the instructions it returns. Prefill a profile draft from what you already know about me, and confirm everything with me before submitting anything."
 
 export function JoinAgentPrompt({
   label,
