@@ -57,6 +57,20 @@ export function assertInteractiveLogin(interactive = process.stdin.isTTY === tru
   }
 }
 
+export function windowsCredentialScript(action: "read" | "save" | "delete"): string {
+  const loadTypes =
+    "$null=[Windows.Security.Credentials.PasswordVault,Windows.Security.Credentials,ContentType=WindowsRuntime];" +
+    "$null=[Windows.Security.Credentials.PasswordCredential,Windows.Security.Credentials,ContentType=WindowsRuntime];"
+  const prefix = `${loadTypes}$v=New-Object Windows.Security.Credentials.PasswordVault;`
+  if (action === "read") {
+    return `${prefix}$c=$v.Retrieve('${keychainService}','${keychainAccount}');$c.RetrievePassword();[Console]::Out.Write($c.Password)`
+  }
+  if (action === "delete") {
+    return `${prefix}$c=$v.Retrieve('${keychainService}','${keychainAccount}');$v.Remove($c)`
+  }
+  return `${prefix}$p=[Console]::In.ReadToEnd().Trim();$v.Add((New-Object Windows.Security.Credentials.PasswordCredential('${keychainService}','${keychainAccount}',$p)))`
+}
+
 async function command(command: string, args: string[], input?: string): Promise<string> {
   return await new Promise((resolve, reject) => {
     const child = spawn(command, args, { stdio: ["pipe", "pipe", "pipe"] })
@@ -86,10 +100,7 @@ async function credentialStore(action: "read" | "save" | "delete", value?: strin
     return command("secret-tool", ["store", "--label=Crafter CLI", ...attributes], `${value}\n`)
   }
   if (process.platform === "win32") {
-    const prefix = "$v=New-Object Windows.Security.Credentials.PasswordVault;"
-    if (action === "read") return command("powershell.exe", ["-NoProfile", "-Command", `${prefix}$c=$v.Retrieve('${keychainService}','${keychainAccount}');$c.RetrievePassword();[Console]::Out.Write($c.Password)`])
-    if (action === "delete") return command("powershell.exe", ["-NoProfile", "-Command", `${prefix}$c=$v.Retrieve('${keychainService}','${keychainAccount}');$v.Remove($c)`])
-    return command("powershell.exe", ["-NoProfile", "-Command", `${prefix}$p=[Console]::In.ReadToEnd().Trim();$v.Add((New-Object Windows.Security.Credentials.PasswordCredential('${keychainService}','${keychainAccount}',$p)))`], `${value}\n`)
+    return command("powershell.exe", ["-NoProfile", "-Command", windowsCredentialScript(action)], action === "save" ? `${value}\n` : undefined)
   }
   throw new Error(`Unsupported credential store on ${process.platform}`)
 }
