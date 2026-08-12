@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.3.0
+
+### Minor Changes
+
+- [#39](https://github.com/crafter-station/crafter.run/pull/39) [`186e546`](https://github.com/crafter-station/crafter.run/commit/186e54642bd56cc16268e2801402ecef526c0511) Thanks [@camilocbarrera](https://github.com/camilocbarrera)! - Add agent-friendly onboarding: `crafter onboard --file <json-file> --confirm` creates or updates a Crafter profile from the terminal, and `crafter handle <handle>` checks handle availability before you claim one.
+
 ## 0.2.0
 
 ### Minor Changes
