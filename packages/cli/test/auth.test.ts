@@ -1,5 +1,14 @@
 import { describe, expect, test } from "bun:test"
-import { assertInteractiveLogin, createPkce, macOSCredentialSaveArgs, pkceChallenge, revocationToken, tokenEndpointError, windowsCredentialScript } from "../src/auth"
+import {
+  assertAuthorizationClient,
+  assertInteractiveLogin,
+  createPkce,
+  macOSCredentialSaveArgs,
+  pkceChallenge,
+  revocationToken,
+  tokenEndpointError,
+  windowsCredentialScript,
+} from "../src/auth"
 
 describe("PKCE", () => {
   test("matches the RFC 7636 S256 example", () => {
@@ -68,6 +77,11 @@ describe("OAuth revocation", () => {
   })
 })
 
+const invalidClientMessage =
+  "OAuth client 9U4JdcAfQEXxE6Wi does not exist on https://clerk.crafter.run: The requested OAuth 2.0 Client does not exist. " +
+  "Update the CLI with `npm install --global @crafter/cli@latest`, then unset CRAFTER_CLI_OAUTH_ISSUER and CRAFTER_CLI_OAUTH_CLIENT_ID " +
+  "unless you are deliberately targeting another Clerk instance. The API's CRAFTER_OAUTH_CLIENT_ID does not configure the CLI."
+
 describe("OAuth errors", () => {
   test("makes a rejected client configuration actionable", () => {
     expect(
@@ -75,9 +89,66 @@ describe("OAuth errors", () => {
         error: "invalid_client",
         error_description: "The requested OAuth 2.0 Client does not exist.",
       }).message,
-    ).toBe(
-      "OAuth client 9U4JdcAfQEXxE6Wi was rejected by https://clerk.crafter.run: The requested OAuth 2.0 Client does not exist. Update @crafter/cli and remove any CRAFTER_OAUTH_* environment overrides.",
+    ).toBe(invalidClientMessage)
+  })
+
+  test("reports other token endpoint failures with their status", () => {
+    expect(tokenEndpointError(400, { error: "invalid_grant", error_description: "Expired." }).message).toBe(
+      "OAuth token endpoint returned 400: Expired",
     )
+  })
+})
+
+describe("authorization preflight", () => {
+  const redirect = (location: string) => new Response(null, { status: 302, headers: { location } })
+
+  test("accepts a client the issuer redirects to sign-in", async () => {
+    const seen: string[] = []
+    const fetchImpl = (async (input: string | URL) => {
+      seen.push(String(input))
+      if (seen.length === 1) return redirect("https://clerk.crafter.run/oauth/authorize/continue?client_id=ok")
+      if (seen.length === 2) return redirect("https://accounts.crafter.run/sign-in")
+      return new Response("<html>sign in</html>", { status: 200 })
+    }) as unknown as typeof fetch
+
+    await assertAuthorizationClient("https://clerk.crafter.run/oauth/authorize?client_id=ok", fetchImpl)
+    expect(seen).toHaveLength(3)
+    expect(seen[2]).toBe("https://accounts.crafter.run/sign-in")
+  })
+
+  test("rejects an unknown client before a browser opens", async () => {
+    const fetchImpl = (async (input: string | URL) =>
+      String(input).includes("continue")
+        ? new Response(
+            JSON.stringify({
+              error: "invalid_client",
+              error_description: "Client authentication failed. The requested OAuth 2.0 Client does not exist.",
+            }),
+            { status: 401, headers: { "content-type": "application/json" } },
+          )
+        : redirect("https://clerk.crafter.run/oauth/authorize/continue?client_id=gone")) as unknown as typeof fetch
+
+    await expect(assertAuthorizationClient("https://clerk.crafter.run/oauth/authorize?client_id=gone", fetchImpl)).rejects.toThrow(
+      "OAuth client 9U4JdcAfQEXxE6Wi does not exist on https://clerk.crafter.run",
+    )
+  })
+
+  test("does not block login when the issuer is unreachable", async () => {
+    const fetchImpl = (async () => {
+      throw new Error("network down")
+    }) as unknown as typeof fetch
+
+    expect(await assertAuthorizationClient("https://clerk.crafter.run/oauth/authorize", fetchImpl)).toBeUndefined()
+  })
+
+  test("ignores unrelated authorization failures", async () => {
+    const fetchImpl = (async () =>
+      new Response(JSON.stringify({ error: "invalid_scope" }), {
+        status: 400,
+        headers: { "content-type": "application/json" },
+      })) as unknown as typeof fetch
+
+    expect(await assertAuthorizationClient("https://clerk.crafter.run/oauth/authorize", fetchImpl)).toBeUndefined()
   })
 })
 
