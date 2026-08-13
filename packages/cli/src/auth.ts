@@ -37,16 +37,45 @@ export function revocationToken(credentials: Credentials): string {
   return credentials.refreshToken ?? credentials.accessToken
 }
 
+export function invalidClientError(issuer: string, description: string): Error {
+  const detail = description ? `: ${description.replace(/[.\s]+$/, "")}` : ""
+  return new Error(
+    `OAuth client ${config.oauthClientId} does not exist on ${issuer}${detail}. Update the CLI with \`npm install --global @crafter/cli@latest\`, then unset CRAFTER_CLI_OAUTH_ISSUER and CRAFTER_CLI_OAUTH_CLIENT_ID unless you are deliberately targeting another Clerk instance. The API's CRAFTER_OAUTH_CLIENT_ID does not configure the CLI.`,
+  )
+}
+
 export function tokenEndpointError(status: number, body: TokenResponse): Error {
-  const description = typeof body.error_description === "string" ? body.error_description.replace(/[.\s]+$/, "") : ""
-  const detail = description ? `: ${description}` : ""
-  if (body.error === "invalid_client") {
-    const issuer = new URL(config.tokenUrl).origin
-    return new Error(
-      `OAuth client ${config.oauthClientId} was rejected by ${issuer}${detail}. Update @crafter/cli and remove any CRAFTER_OAUTH_* environment overrides.`,
-    )
-  }
+  const description = typeof body.error_description === "string" ? body.error_description : ""
+  if (body.error === "invalid_client") return invalidClientError(new URL(config.tokenUrl).origin, description)
+  const detail = description ? `: ${description.replace(/[.\s]+$/, "")}` : ""
   return new Error(`OAuth token endpoint returned ${status}${detail}`)
+}
+
+// Clerk accepts the first authorization hop for any client and only rejects an unknown one further
+// down the redirect chain, where the failure lands in the browser as raw JSON the CLI never sees.
+// Walking the chain first turns that into an actionable terminal error before a browser opens.
+export async function assertAuthorizationClient(authorizationUrl: string, fetchImpl: typeof fetch = fetch): Promise<void> {
+  let url = authorizationUrl
+  for (let hop = 0; hop < 5; hop += 1) {
+    let response: Response
+    try {
+      response = await fetchImpl(url, { redirect: "manual", headers: { accept: "application/json, text/html" } })
+    } catch {
+      return // A preflight that cannot reach the issuer must not block a login that still might work.
+    }
+    const location = response.headers.get("location")
+    if (response.status >= 300 && response.status < 400 && location) {
+      url = new URL(location, url).toString()
+      continue
+    }
+    if (response.ok) return
+    const body = (await response.json().catch(() => ({}))) as TokenResponse
+    if (body.error === "invalid_client") {
+      const description = typeof body.error_description === "string" ? body.error_description : ""
+      throw invalidClientError(new URL(config.authorizationUrl).origin, description)
+    }
+    return
+  }
 }
 
 export function assertInteractiveLogin(interactive = process.stdin.isTTY === true): void {
@@ -245,6 +274,12 @@ export async function login(): Promise<void> {
     state,
     scope: "openid profile offline_access",
   }).toString()
+  try {
+    await assertAuthorizationClient(authorizationUrl.toString())
+  } catch (error) {
+    server.close()
+    throw error
+  }
   console.error(`Sign in here (waiting up to five minutes):\n\n  ${authorizationUrl}\n\nIf the browser did not open automatically, open that URL yourself.`)
   openBrowser(authorizationUrl.toString())
   const timeout = setTimeout(() => fail(new Error("Login timed out after five minutes")), 300_000)
