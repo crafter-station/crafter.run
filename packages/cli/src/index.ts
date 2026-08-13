@@ -41,11 +41,7 @@ Usage:
 Environment:
   CRAFTER_ACCESS_TOKEN              Use an access token without storing it
   CRAFTER_API_URL                   API origin (default https://api.crafter.run)
-  CRAFTER_WEB_URL                   Web locale origin (default https://crafter.run/en)
-  CRAFTER_CLI_OAUTH_ISSUER          OAuth issuer origin, set together with the client ID below
-  CRAFTER_CLI_OAUTH_CLIENT_ID       OAuth client registered on that issuer
-
-The API's CRAFTER_OAUTH_CLIENT_ID does not configure this CLI.`
+  CRAFTER_WEB_URL                   Web locale origin (default https://crafter.run/en)`
 
 function print(value: unknown): void {
   console.log(JSON.stringify(value, null, 2))

@@ -40,7 +40,7 @@ AI coding agents can follow [crafter.run/join/agent.md](https://crafter.run/join
 
 Run `crafter login` yourself in a local interactive terminal and keep it open until the browser confirms login. The CLI rejects non-interactive agent command runners because ending that process also ends the localhost OAuth callback server.
 
-If login fails with `invalid_client` or "The requested OAuth 2.0 Client does not exist", the CLI is pointed at an OAuth client that Crafter's identity provider does not have. Run `env | grep CRAFTER_`, unset everything it prints, reinstall with `npm install --global @crafter/cli@latest`, and try again. `CRAFTER_CLI_OAUTH_ISSUER` and `CRAFTER_CLI_OAUTH_CLIENT_ID` override the OAuth target for local development and must be set together, because a client only exists on the issuer that registered it. The Crafter API's `CRAFTER_OAUTH_CLIENT_ID` is a separate variable and has no effect on the CLI.
+If login fails with `invalid_client` or "The requested OAuth 2.0 Client does not exist", update with `npm install --global @crafter/cli@latest` and try again. The public CLI always uses Crafter's production OAuth application; environment variables cannot redirect authentication.
 
 Ship update files contain a public changelog entry:
 

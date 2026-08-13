@@ -40,7 +40,7 @@ export function revocationToken(credentials: Credentials): string {
 export function invalidClientError(issuer: string, description: string): Error {
   const detail = description ? `: ${description.replace(/[.\s]+$/, "")}` : ""
   return new Error(
-    `OAuth client ${config.oauthClientId} does not exist on ${issuer}${detail}. Update the CLI with \`npm install --global @crafter/cli@latest\`, then unset CRAFTER_CLI_OAUTH_ISSUER and CRAFTER_CLI_OAUTH_CLIENT_ID unless you are deliberately targeting another Clerk instance. The API's CRAFTER_OAUTH_CLIENT_ID does not configure the CLI.`,
+    `Crafter's OAuth client ${config.oauthClientId} is unavailable on ${issuer}${detail}. Update the CLI with \`npm install --global @crafter/cli@latest\` and retry. If the latest version still fails, report this at https://github.com/crafter-station/crafter.run/issues.`,
   )
 }
 

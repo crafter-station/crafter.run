@@ -127,7 +127,7 @@ Start with the checked-in example files: [`apps/web/.env.example`](apps/web/.env
 | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Web | Clerk browser authentication |
 | `CLERK_PUBLISHABLE_KEY` | API | Clerk token verification |
 | `WEB_ORIGINS` | API | Comma-separated browser origins allowed by CORS |
-| `CRAFTER_OAUTH_CLIENT_ID` | API | OAuth client whose tokens the API accepts. It does not configure the CLI, which reads `CRAFTER_CLI_OAUTH_ISSUER` and `CRAFTER_CLI_OAUTH_CLIENT_ID` instead. |
+| `CRAFTER_OAUTH_CLIENT_ID` | API | OAuth client whose tokens the API accepts. It does not configure the CLI; the public CLI always uses Crafter's production OAuth application. |
 | `OPENAI_API_KEY` | Web, API | Optional AI spam moderation |
 | `GITHUB_TOKEN` | Web | Optional higher-rate GitHub data fetching |
 | `LUMA_API_KEY` | Web | Optional event data from Luma |

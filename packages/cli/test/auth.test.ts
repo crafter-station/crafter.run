@@ -78,9 +78,9 @@ describe("OAuth revocation", () => {
 })
 
 const invalidClientMessage =
-  "OAuth client 9U4JdcAfQEXxE6Wi does not exist on https://clerk.crafter.run: The requested OAuth 2.0 Client does not exist. " +
-  "Update the CLI with `npm install --global @crafter/cli@latest`, then unset CRAFTER_CLI_OAUTH_ISSUER and CRAFTER_CLI_OAUTH_CLIENT_ID " +
-  "unless you are deliberately targeting another Clerk instance. The API's CRAFTER_OAUTH_CLIENT_ID does not configure the CLI."
+  "Crafter's OAuth client 9U4JdcAfQEXxE6Wi is unavailable on https://clerk.crafter.run: The requested OAuth 2.0 Client does not exist. " +
+  "Update the CLI with `npm install --global @crafter/cli@latest` and retry. If the latest version still fails, report this at " +
+  "https://github.com/crafter-station/crafter.run/issues."
 
 describe("OAuth errors", () => {
   test("makes a rejected client configuration actionable", () => {
@@ -129,7 +129,7 @@ describe("authorization preflight", () => {
         : redirect("https://clerk.crafter.run/oauth/authorize/continue?client_id=gone")) as unknown as typeof fetch
 
     await expect(assertAuthorizationClient("https://clerk.crafter.run/oauth/authorize?client_id=gone", fetchImpl)).rejects.toThrow(
-      "OAuth client 9U4JdcAfQEXxE6Wi does not exist on https://clerk.crafter.run",
+      "Crafter's OAuth client 9U4JdcAfQEXxE6Wi is unavailable on https://clerk.crafter.run",
     )
   })
 
