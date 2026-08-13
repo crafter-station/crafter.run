@@ -2,6 +2,7 @@ import { describe, expect, test } from "bun:test"
 import {
   assertAuthorizationClient,
   assertInteractiveLogin,
+  browserCommand,
   createPkce,
   macOSCredentialSaveArgs,
   pkceChallenge,
@@ -64,6 +65,13 @@ describe("Windows credential storage", () => {
     expect(script).toContain("$saved=$v.Retrieve('run.crafter.cli.oauth','credentials')")
     expect(script).toContain("$saved.RetrievePassword()")
     expect(script).toContain("if($saved.Password-ne$p){throw 'Credential verification failed'}")
+  })
+})
+
+describe("browser launch", () => {
+  test("passes a Windows OAuth URL without cmd.exe interpreting its query string", () => {
+    const url = "https://clerk.crafter.run/oauth/authorize?response_type=code&client_id=9U4JdcAfQEXxE6Wi&state=test"
+    expect(browserCommand(url, "win32")).toEqual(["rundll32.exe", ["url.dll,FileProtocolHandler", url]])
   })
 })
 

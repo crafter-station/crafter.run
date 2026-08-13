@@ -226,9 +226,15 @@ export async function accessToken(forceRefresh = false): Promise<string> {
   return credentials.accessToken
 }
 
+export function browserCommand(url: string, platform: NodeJS.Platform = process.platform): [string, string[]] {
+  if (platform === "darwin") return ["open", [url]]
+  if (platform === "win32") return ["rundll32.exe", ["url.dll,FileProtocolHandler", url]]
+  return ["xdg-open", [url]]
+}
+
 export function openBrowser(url: string): void {
-  const opener = process.platform === "darwin" ? ["open"] : process.platform === "win32" ? ["cmd", "/c", "start", ""] : ["xdg-open"]
-  spawn(opener[0]!, [...opener.slice(1), url], { detached: true, stdio: "ignore" }).unref()
+  const [command, args] = browserCommand(url)
+  spawn(command, args, { detached: true, stdio: "ignore" }).unref()
 }
 
 export async function login(): Promise<void> {
