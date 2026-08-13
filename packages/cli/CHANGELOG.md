@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.5.1
+
+### Patch Changes
+
+- [`7eff290`](https://github.com/crafter-station/crafter.run/commit/7eff290777414240e8e36e8b77e3988e495ffae4) Thanks [@cuevaio](https://github.com/cuevaio)! - Make CLI updates self-healing for OAuth login by always using Crafter's production OAuth application and ignoring stale or conflicting OAuth environment variables.
+
 ## 0.5.0
 
 ### Minor Changes
