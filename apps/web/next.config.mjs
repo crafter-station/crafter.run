@@ -22,6 +22,11 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/seals",
+        destination: "https://www.techseals.nl/eventperu",
+        permanent: true,
+      },
+      {
         source: "/projects",
         destination: "/oss",
         permanent: true,
