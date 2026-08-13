@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.5.2
+
+### Patch Changes
+
+- [`2956492`](https://github.com/crafter-station/crafter.run/commit/2956492c696efc5b39ff4379bc7a07bb7b0bec33) Thanks [@cuevaio](https://github.com/cuevaio)! - Open OAuth URLs on Windows without routing query-string ampersands through `cmd.exe`, which could truncate the authorization request before its client ID.
+
 ## 0.5.1
 
 ### Patch Changes
