@@ -303,6 +303,7 @@
       "description": "探索 Crafter Station、Crafter Research 和我们团队的公开项目。查看每个项目何时推进、谁参与其中，以及每周的活跃程度。",
       "exploreCta": "探索动态",
       "githubCta": "打开 GitHub",
+      "githubResearchCta": "打开 Crafter Research",
       "signalLabel": "Crafter 团队每周提交数",
       "oneYear": "最近 52 周",
       "heroStats": {
@@ -320,6 +321,13 @@
         "active": "活跃",
         "all": "全部",
         "archived": "已归档"
+      },
+      "orgLabel": "组织",
+      "orgs": {
+        "all": "全部组织",
+        "station": "Crafter Station",
+        "research": "Crafter Research",
+        "team": "团队"
       },
       "sortLabel": "项目排序",
       "sorts": {
@@ -350,7 +358,7 @@
       "today": "今天",
       "showMore": "显示更多",
       "noResultsTitle": "未找到项目",
-      "noResultsDescription": "换个搜索词、时间范围、成员或筛选条件试试。",
+      "noResultsDescription": "换个搜索词、时间范围、成员、组织或筛选条件试试。",
       "legend": "Crafter 团队提交",
       "less": "少",
       "more": "多",
@@ -392,7 +400,9 @@
       "title": "研究更好地 ship 背后的系统。",
       "description": "Crafter Research 探索 AI-first 工程、智能体、开发者体验，以及帮助现代团队获得更大杠杆的实践。",
       "section": "目前，研究内容托管在独立域名上。",
-      "sectionDescription": "本页介绍研究部门，并链接到当前的研究站点和 GitHub 组织。"
+      "sectionDescription": "本页介绍研究部门，并链接到当前的研究站点、GitHub 组织，以及公开项目动态。",
+      "timelineTitle": "公开研究项目的动态在时间线上。",
+      "timelineCta": "在时间线上查看研究项目"
     },
     "team": {
       "eyebrow": "团队",

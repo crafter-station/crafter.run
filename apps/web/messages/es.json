@@ -303,6 +303,7 @@
       "description": "Explora proyectos públicos de Crafter Station, Crafter Research y nuestro equipo. Mira cuándo avanzó cada proyecto, quiénes trabajaron en él y cuánta actividad tuvo semana a semana.",
       "exploreCta": "Explorar la actividad",
       "githubCta": "Abrir GitHub",
+      "githubResearchCta": "Abrir Crafter Research",
       "signalLabel": "Commits del equipo Crafter por semana",
       "oneYear": "Últimas 52 semanas",
       "heroStats": {
@@ -320,6 +321,13 @@
         "active": "Activos",
         "all": "Todos",
         "archived": "Archivados"
+      },
+      "orgLabel": "Organización",
+      "orgs": {
+        "all": "Todas las orgs",
+        "station": "Crafter Station",
+        "research": "Crafter Research",
+        "team": "Equipo"
       },
       "sortLabel": "Ordenar proyectos",
       "sorts": {
@@ -350,7 +358,7 @@
       "today": "Hoy",
       "showMore": "Mostrar más",
       "noResultsTitle": "No encontramos proyectos",
-      "noResultsDescription": "Prueba otra búsqueda, período, persona o filtro.",
+      "noResultsDescription": "Prueba otra búsqueda, período, persona, organización o filtro.",
       "legend": "Commits del equipo Crafter",
       "less": "Menos",
       "more": "Más",
@@ -392,7 +400,9 @@
       "title": "Investigamos los sistemas detrás de shipear mejor.",
       "description": "Crafter Research explora AI-first engineering, agentes, developer experience y prácticas para que equipos modernos construyan con más leverage.",
       "section": "La unidad de research vive en su propio dominio.",
-      "sectionDescription": "Por ahora esta página destaca la unidad y enlaza al sitio activo y a GitHub."
+      "sectionDescription": "Por ahora esta página destaca la unidad y enlaza al sitio activo, a GitHub y a la actividad pública de los proyectos.",
+      "timelineTitle": "La actividad pública de research está en la línea de tiempo.",
+      "timelineCta": "Ver research en la línea de tiempo"
     },
     "team": {
       "eyebrow": "Equipo",
