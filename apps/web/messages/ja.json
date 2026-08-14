@@ -197,8 +197,7 @@
         "delta": "前回の走査からの変化",
         "added": "追加",
         "changed": "変更",
-        "resolved": "解決",
-        "boundary": "レーダーは GitHub を読み取るだけです。ownership の境界により awake と build4latam は保守走査の対象外です。"
+        "resolved": "解決"
       },
       "flowEyebrow": "フロー",
       "flowTitle": "時間で正規化した、オープンと解決。",

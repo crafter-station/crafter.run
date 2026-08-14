@@ -59,7 +59,6 @@ export type OssMetricsCopy = {
     added: string
     changed: string
     resolved: string
-    boundary: string
   }
   flowEyebrow: string
   flowTitle: string
@@ -550,7 +549,7 @@ export function OssMetricsDashboard({
             className="border-t border-line md:border-l xl:border-t-0"
           />
         </div>
-        <div className="grid border-t border-line md:grid-cols-[0.8fr_1.2fr]">
+        <div className="border-t border-line">
           <div className="p-6 md:p-8">
             <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
               {copy.radar.delta}
@@ -558,9 +557,6 @@ export function OssMetricsDashboard({
             <p className="mt-3 font-mono text-sm tabular-nums">
               +{formatInteger(radar.summary.added, locale)} {copy.radar.added} · {formatInteger(radar.summary.changed, locale)} {copy.radar.changed} · {formatInteger(radar.summary.resolved, locale)} {copy.radar.resolved}
             </p>
-          </div>
-          <div className="border-t border-line p-6 md:border-l md:border-t-0 md:p-8">
-            <p className="text-xs leading-relaxed text-muted-foreground">{copy.radar.boundary}</p>
           </div>
         </div>
       </Container>
