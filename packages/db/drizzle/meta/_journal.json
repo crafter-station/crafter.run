@@ -127,6 +127,13 @@
       "when": 1786571313192,
       "tag": "0017_even_hardball",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1786694519547,
+      "tag": "0018_right_glorian",
+      "breakpoints": true
     }
   ]
 }
