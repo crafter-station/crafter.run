@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
 import { isLocale, locales } from "@/lib/i18n"
 import { getOssMetrics } from "@/lib/oss-metrics"
+import { getOssRadar } from "@/lib/oss-radar"
 import { pageMetadata } from "@/lib/seo"
 
 export const revalidate = 3600
@@ -25,9 +26,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const { lang } = await params
   if (!isLocale(lang)) notFound()
 
-  const [t, metrics] = await Promise.all([
+  const [t, metrics, radar] = await Promise.all([
     getTranslations({ locale: lang, namespace: "pages.ossMetrics" }),
     getOssMetrics(),
+    getOssRadar(),
   ])
   const copy: OssMetricsCopy = {
     eyebrow: t("eyebrow"),
@@ -63,6 +65,25 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       externalClosedDescription: t("metrics.externalClosedDescription"),
       activeRepos: t("metrics.activeRepos"),
       activeReposDescription: t("metrics.activeReposDescription"),
+    },
+    radar: {
+      eyebrow: t("radar.eyebrow"),
+      title: t("radar.title"),
+      description: t("radar.description"),
+      updated: t("radar.updated"),
+      coverage: t("radar.coverage"),
+      coverageDescription: t("radar.coverageDescription"),
+      reconcile: t("radar.reconcile"),
+      reconcileDescription: t("radar.reconcileDescription"),
+      review: t("radar.review"),
+      reviewDescription: t("radar.reviewDescription"),
+      discover: t("radar.discover"),
+      discoverDescription: t("radar.discoverDescription"),
+      delta: t("radar.delta"),
+      added: t("radar.added"),
+      changed: t("radar.changed"),
+      resolved: t("radar.resolved"),
+      boundary: t("radar.boundary"),
     },
     flowEyebrow: t("flowEyebrow"),
     flowTitle: t("flowTitle"),
@@ -100,7 +121,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
     <>
       <SiteHeader locale={lang} />
       <main className="flex-1">
-        <OssMetricsDashboard metrics={metrics} locale={lang} copy={copy} />
+        <OssMetricsDashboard metrics={metrics} radar={radar} locale={lang} copy={copy} />
       </main>
       <SiteFooter locale={lang} />
     </>

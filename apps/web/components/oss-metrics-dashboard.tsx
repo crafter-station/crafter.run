@@ -5,6 +5,7 @@ import { LocalizedLink } from "@/components/localized-link"
 import { PixelArrow } from "@/components/pixel-arrow"
 import type { Locale } from "@/lib/i18n"
 import type { OssMetricPeriod, OssMetrics } from "@/lib/oss-metrics"
+import type { OssRadar } from "@/lib/oss-radar"
 import { projectColor } from "@/lib/project-color"
 import { cn } from "@/lib/utils"
 
@@ -40,6 +41,25 @@ export type OssMetricsCopy = {
     externalClosedDescription: string
     activeRepos: string
     activeReposDescription: string
+  }
+  radar: {
+    eyebrow: string
+    title: string
+    description: string
+    updated: string
+    coverage: string
+    coverageDescription: string
+    reconcile: string
+    reconcileDescription: string
+    review: string
+    reviewDescription: string
+    discover: string
+    discoverDescription: string
+    delta: string
+    added: string
+    changed: string
+    resolved: string
+    boundary: string
   }
   flowEyebrow: string
   flowTitle: string
@@ -238,6 +258,33 @@ function ChangePanel({
   )
 }
 
+function RadarCell({
+  label,
+  description,
+  value,
+  color,
+  className,
+}: {
+  label: string
+  description: string
+  value: string
+  color: string
+  className?: string
+}) {
+  return (
+    <div className={cn("relative flex min-h-48 flex-col overflow-hidden p-7 md:p-8", className)}>
+      <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: color }} />
+      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+        {label}
+      </p>
+      <p className="mt-auto font-mono text-5xl tracking-[-0.06em]" style={{ color }}>
+        {value}
+      </p>
+      <p className="mt-4 max-w-xs text-xs leading-relaxed text-muted-foreground">{description}</p>
+    </div>
+  )
+}
+
 function topShare(period: OssMetricPeriod) {
   const topTwo = period.closuresByRepo.slice(0, 2).reduce((sum, repo) => sum + repo.count, 0)
   return period.totalClosed === 0 ? 0 : (topTwo / period.totalClosed) * 100
@@ -245,10 +292,12 @@ function topShare(period: OssMetricPeriod) {
 
 export function OssMetricsDashboard({
   metrics,
+  radar,
   locale,
   copy,
 }: {
   metrics: OssMetrics
+  radar: OssRadar
   locale: Locale
   copy: OssMetricsCopy
 }) {
@@ -278,6 +327,15 @@ export function OssMetricsDashboard({
   const issueClosedColor = projectColor("crafter-station/issues-closed")
   const prOpenedColor = projectColor("crafter-station/prs-opened")
   const prClosedColor = projectColor("crafter-station/prs-closed")
+  const radarCoverageColor = projectColor("crafter-station/radar-coverage")
+  const radarReconcileColor = projectColor("crafter-station/radar-reconcile")
+  const radarReviewColor = projectColor("crafter-station/radar-review")
+  const radarDiscoverColor = projectColor("crafter-station/radar-discover")
+  const radarUpdated = new Intl.DateTimeFormat(locale, {
+    dateStyle: "medium",
+    timeStyle: "short",
+    timeZone: "UTC",
+  }).format(new Date(radar.generatedAt))
 
   return (
     <>
@@ -439,6 +497,71 @@ export function OssMetricsDashboard({
             color={breadthColor}
             className="border-t border-line md:border-l xl:border-t-0"
           />
+        </div>
+      </Container>
+
+      <SectionGap />
+
+      <Container innerClassName="border-b px-6 py-10 md:px-10">
+        <div className="flex flex-wrap items-start justify-between gap-6">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+              {copy.radar.eyebrow}
+            </p>
+            <h2 className="mt-3 text-balance text-3xl tracking-tight md:text-4xl">
+              {copy.radar.title}
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+              {copy.radar.description}
+            </p>
+          </div>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            {copy.radar.updated} · {radarUpdated}
+          </p>
+        </div>
+      </Container>
+      <Container>
+        <div className="grid md:grid-cols-2 xl:grid-cols-4">
+          <RadarCell
+            label={copy.radar.coverage}
+            description={copy.radar.coverageDescription}
+            value={`${radar.summary.successful}/${radar.summary.repoCount}`}
+            color={radarCoverageColor}
+          />
+          <RadarCell
+            label={copy.radar.reconcile}
+            description={copy.radar.reconcileDescription}
+            value={formatInteger(radar.summary.reconcileCandidates, locale)}
+            color={radarReconcileColor}
+            className="border-t border-line md:border-l md:border-t-0"
+          />
+          <RadarCell
+            label={copy.radar.review}
+            description={copy.radar.reviewDescription}
+            value={formatInteger(radar.summary.reviewCandidates, locale)}
+            color={radarReviewColor}
+            className="border-t border-line xl:border-l xl:border-t-0"
+          />
+          <RadarCell
+            label={copy.radar.discover}
+            description={copy.radar.discoverDescription}
+            value={formatInteger(radar.summary.discoverRepos, locale)}
+            color={radarDiscoverColor}
+            className="border-t border-line md:border-l xl:border-t-0"
+          />
+        </div>
+        <div className="grid border-t border-line md:grid-cols-[0.8fr_1.2fr]">
+          <div className="p-6 md:p-8">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+              {copy.radar.delta}
+            </p>
+            <p className="mt-3 font-mono text-sm tabular-nums">
+              +{formatInteger(radar.summary.added, locale)} {copy.radar.added} · {formatInteger(radar.summary.changed, locale)} {copy.radar.changed} · {formatInteger(radar.summary.resolved, locale)} {copy.radar.resolved}
+            </p>
+          </div>
+          <div className="border-t border-line p-6 md:border-l md:border-t-0 md:p-8">
+            <p className="text-xs leading-relaxed text-muted-foreground">{copy.radar.boundary}</p>
+          </div>
         </div>
       </Container>
 

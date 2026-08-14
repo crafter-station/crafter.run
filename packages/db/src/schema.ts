@@ -352,3 +352,18 @@ export const audienceQuestionVotes = pgTable(
     check("audience_question_votes_voter_id_check", sql`char_length(${table.voterId}) between 16 and 120`),
   ],
 )
+
+export const ossRadarSnapshots = pgTable(
+  "oss_radar_snapshots",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    generatedAt: timestamp("generated_at", { withTimezone: true, mode: "string" })
+      .notNull()
+      .unique(),
+    payload: jsonb("payload").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [index("oss_radar_snapshots_generated_idx").on(table.generatedAt.desc())],
+)
