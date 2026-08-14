@@ -3,12 +3,6 @@
   "generatedAt": "2026-08-14T07:50:43.577Z",
   "source": "factory-radar",
   "githubMutations": false,
-  "portfolioRepos": 21,
-  "maintenanceRepos": 20,
-  "excludedRepos": [
-    "crafter-station/awake",
-    "crafter-station/build4latam"
-  ],
   "summary": {
     "repoCount": 20,
     "successful": 20,

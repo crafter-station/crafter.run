@@ -197,8 +197,7 @@
         "delta": "Cambio desde el barrido anterior",
         "added": "nuevos",
         "changed": "cambiados",
-        "resolved": "resueltos",
-        "boundary": "El radar sólo lee GitHub. awake y build4latam están fuera del barrido de mantenimiento por límites de ownership."
+        "resolved": "resueltos"
       },
       "flowEyebrow": "Flujo",
       "flowTitle": "Abierto versus resuelto, normalizado por tiempo.",

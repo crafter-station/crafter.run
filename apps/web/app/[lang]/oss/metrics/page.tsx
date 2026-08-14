@@ -83,7 +83,6 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       added: t("radar.added"),
       changed: t("radar.changed"),
       resolved: t("radar.resolved"),
-      boundary: t("radar.boundary"),
     },
     flowEyebrow: t("flowEyebrow"),
     flowTitle: t("flowTitle"),

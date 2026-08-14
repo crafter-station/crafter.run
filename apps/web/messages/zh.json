@@ -197,8 +197,7 @@
         "delta": "自上次扫描后的变化",
         "added": "新增",
         "changed": "变更",
-        "resolved": "已解决",
-        "boundary": "雷达只读取 GitHub。由于 ownership 边界，awake 和 build4latam 不在维护扫描范围内。"
+        "resolved": "已解决"
       },
       "flowEyebrow": "流动",
       "flowTitle": "按时间标准化的新增与解决。",

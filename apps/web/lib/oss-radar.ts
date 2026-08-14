@@ -38,9 +38,6 @@ export const ossRadarSchema = z.object({
   generatedAt: z.iso.datetime(),
   source: z.literal("factory-radar"),
   githubMutations: z.literal(false),
-  portfolioRepos: z.number().int().positive(),
-  maintenanceRepos: z.number().int().positive(),
-  excludedRepos: z.array(z.string()).max(20),
   summary: summarySchema,
   repos: z.array(repoSchema).max(100),
 })

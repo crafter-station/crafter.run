@@ -197,8 +197,7 @@
         "delta": "Change since the previous sweep",
         "added": "added",
         "changed": "changed",
-        "resolved": "resolved",
-        "boundary": "The radar only reads GitHub. awake and build4latam stay outside the maintenance sweep because of ownership boundaries."
+        "resolved": "resolved"
       },
       "flowEyebrow": "Flow",
       "flowTitle": "Opened versus resolved, normalized by time.",

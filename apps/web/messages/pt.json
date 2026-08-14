@@ -197,8 +197,7 @@
         "delta": "Mudança desde a varredura anterior",
         "added": "novos",
         "changed": "alterados",
-        "resolved": "resolvidos",
-        "boundary": "O radar apenas lê o GitHub. awake e build4latam ficam fora da manutenção por limites de ownership."
+        "resolved": "resolvidos"
       },
       "flowEyebrow": "Fluxo",
       "flowTitle": "Aberto versus resolvido, normalizado por tempo.",
