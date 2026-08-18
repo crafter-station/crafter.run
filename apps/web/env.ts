@@ -4,6 +4,8 @@ import { z } from "zod"
 export const env = createEnv({
   server: {
     API_URL: z.string().url().optional(),
+    CAL_API_KEY: z.string().startsWith("cal_live_").optional(),
+    CAL_WEBHOOK_SECRET: z.string().min(16).optional(),
     CLERK_SECRET_KEY: z.string().startsWith("sk_").optional(),
     CRON_SECRET: z.string().min(16).optional(),
     DATABASE_URL: z.string().url().optional(),
@@ -21,6 +23,8 @@ export const env = createEnv({
   },
   runtimeEnv: {
     API_URL: process.env.API_URL,
+    CAL_API_KEY: process.env.CAL_API_KEY,
+    CAL_WEBHOOK_SECRET: process.env.CAL_WEBHOOK_SECRET,
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
     CRON_SECRET: process.env.CRON_SECRET,
     DATABASE_URL: process.env.DATABASE_URL,
