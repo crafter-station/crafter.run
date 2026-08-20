@@ -14,6 +14,7 @@ export type TeamMember = {
   instagram?: string
   website?: string
   email?: string
+  wechat?: string
   projects?: (string | { name: string; url: string })[]
   joinedYear?: number
   cal?: string
@@ -617,6 +618,47 @@ export const teamMembers: TeamMember[] = [
           { name: "MacBook Pro M5 Pro" },
           { name: "iPhone 16e" },
         ],
+      },
+    ],
+  },
+  {
+    username: "henryjing",
+    name: "Henry Jing",
+    role: "China Community Lead",
+    location: "Beijing, China",
+    timezone: "Asia/Shanghai",
+    image: "/team/henryjing.png",
+    bio: {
+      en: "China Community Lead at Crafter Station, connecting developers, open-source projects, and technology teams across China and Latin America. Focused on AI, developer tools, and global innovation, he uses content, events, and community collaboration to help products, experience, and opportunities move between both regions.",
+      es: "Líder de la comunidad de Crafter Station en China, conectando a developers, proyectos open source y equipos de tecnología de China y Latinoamérica. Enfocado en IA, herramientas para developers e innovación global, usa contenido, eventos y colaboración comunitaria para que productos, aprendizajes y oportunidades circulen entre ambas regiones.",
+      pt: "Líder da comunidade da Crafter Station na China, conectando developers, projetos open source e equipes de tecnologia da China e da América Latina. Com foco em IA, ferramentas para developers e inovação global, usa conteúdo, eventos e colaboração comunitária para aproximar produtos, aprendizados e oportunidades das duas regiões.",
+      zh: "Crafter Station 中国社区负责人，致力于连接中国与拉美的开发者、开源项目和技术团队。关注 AI、开发者工具与全球创新，通过内容、活动和社区合作，让两地的产品、经验与机会更容易被彼此看见和使用。",
+      ja: "Crafter Station の中国コミュニティリードとして、中国とラテンアメリカの開発者、オープンソースプロジェクト、テクノロジーチームをつないでいます。AI、開発者ツール、グローバルなイノベーションに注目し、コンテンツ、イベント、コミュニティ連携を通じて、両地域のプロダクト、知見、機会が互いに届きやすくなるよう取り組んでいます。",
+    },
+    skills: [
+      "China–LatAm",
+      "Community Building",
+      "Developer Relations",
+      "Events",
+      "Content",
+      "AI & DevTools",
+    ],
+    github: "https://github.com/henryjing96",
+    linkedin: "https://www.linkedin.com/in/henryjing96/",
+    email: "henryking0126@gmail.com",
+    wechat: "henrywantswlb",
+    joinedYear: 2026,
+    listening: {
+      title: "San Juan Sunset",
+      artist: "Deodato",
+      cover: "/music/henryjing.jpg",
+      url: "https://open.spotify.com/track/0Pq0mOdgFXTezl6mMt8a39",
+    },
+    software: [
+      { category: "Productivity", items: ["Obsidian", "Linear"] },
+      {
+        category: "Communication",
+        items: ["WeChat", "Feishu", "WhatsApp"],
       },
     ],
   },
