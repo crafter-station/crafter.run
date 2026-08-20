@@ -270,7 +270,7 @@ export default async function Page({
                   {teamMember.joinedYear ? <p>◇ {t("joined")} {teamMember.joinedYear}</p> : null}
                 </div>
               </div>
-              {links.length ? (
+              {links.length || teamMember.wechat ? (
                 <div className="divide-y divide-line border-y border-line">
                   {links.map((link) => (
                     <Link key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground">
@@ -278,6 +278,12 @@ export default async function Page({
                       <span aria-hidden>↗</span>
                     </Link>
                   ))}
+                  {teamMember.wechat ? (
+                    <p className="flex items-center justify-between gap-4 py-2.5 font-mono text-xs text-muted-foreground">
+                      <span>WeChat</span>
+                      <span className="select-all">{teamMember.wechat}</span>
+                    </p>
+                  ) : null}
                 </div>
               ) : null}
               {teamMember.listening ? (
