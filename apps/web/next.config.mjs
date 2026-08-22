@@ -14,6 +14,12 @@ const nextConfig = {
     unoptimized: true,
   },
   allowedDevOrigins: ["dev.cueva.io"],
+  experimental: {
+    // The root layout is `app/[lang]/layout.tsx`, a top-level dynamic segment,
+    // so an unmatched URL has no locale to render inside. `global-not-found`
+    // is Next's convention for exactly that shape; see app/global-not-found.tsx.
+    globalNotFound: true,
+  },
   // The App Router will not route a directory whose name starts with a dot, so
   // the well-known documents are built under /well-known and surfaced at their
   // real path here. Rewrites are named one by one rather than wildcarded, so
