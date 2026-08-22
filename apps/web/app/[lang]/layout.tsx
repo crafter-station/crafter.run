@@ -16,8 +16,7 @@ import { JsonLd } from "@/components/json-ld"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import { isLocale, locales } from "@/lib/i18n"
-import { baseUrl } from "@/lib/seo"
-import { siteConfig, socials } from "@/lib/site"
+import { organizationSchema, webSiteSchema } from "@/lib/structured-data"
 
 import "../globals.css"
 
@@ -47,24 +46,6 @@ const notoSansJP = Noto_Sans_JP({
   weight: ["400", "500", "700"],
   preload: false,
 })
-
-const structuredData = [
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: siteConfig.name,
-    url: baseUrl,
-    logo: `${baseUrl}/brand/logo-liquid.png`,
-    sameAs: socials.map((social) => social.href),
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: siteConfig.name,
-    url: baseUrl,
-    inLanguage: locales,
-  },
-]
 
 export const viewport: Viewport = {
   themeColor: [
@@ -120,7 +101,7 @@ export default async function LocaleLayout({
           afterSignOutUrl={`/${lang}`}
         >
           <ThemeProvider>
-            <JsonLd data={structuredData} />
+            <JsonLd data={[organizationSchema(lang), webSiteSchema(lang)]} />
             {children}
             <Analytics />
           </ThemeProvider>

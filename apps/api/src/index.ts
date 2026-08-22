@@ -79,8 +79,35 @@ const allowedOrigins = new Set([
     .filter(Boolean),
 ])
 
+/**
+ * OAuth 2.0 protected resource metadata (RFC 9728).
+ *
+ * The authorization server has always been Clerk and the CLI has always used
+ * authorization code with PKCE against it. What was missing was the pointer:
+ * a client holding nothing but this API's URL had no way to discover where to
+ * get a token. This document, plus the `WWW-Authenticate` header stamped on
+ * every 401 below, closes that loop.
+ */
+const oauthIssuer = process.env.CLERK_OAUTH_ISSUER ?? "https://clerk.crafter.run"
+const resourceMetadataPath = "/.well-known/oauth-protected-resource"
+
+function resourceIdentifier(request: Request) {
+  return new URL(request.url).origin
+}
+
 app.use("*", requestId())
 app.use("*", secureHeaders({ crossOriginResourcePolicy: "cross-origin" }))
+app.use("*", async (c, next) => {
+  await next()
+  if (c.res.status !== 401 || c.res.headers.has("WWW-Authenticate")) return
+  const metadataUrl = `${resourceIdentifier(c.req.raw)}${resourceMetadataPath}`
+  const suppliedToken = c.req.header("Authorization") !== undefined
+  c.res.headers.set(
+    "WWW-Authenticate",
+    `Bearer realm="Crafter API"${suppliedToken ? ', error="invalid_token"' : ""}, resource_metadata="${metadataUrl}"`,
+  )
+})
+
 app.use(
   "*",
   cors({
@@ -650,6 +677,25 @@ app.openapi(publishDraftRoute, async (c) => {
     throw error
   }
 })
+
+app.get(resourceMetadataPath, (c) =>
+  c.json(
+    {
+      resource: resourceIdentifier(c.req.raw),
+      resource_name: "Crafter API",
+      authorization_servers: [oauthIssuer],
+      bearer_methods_supported: ["header"],
+      scopes_supported: ["openid", "profile", "offline_access"],
+      resource_documentation: "https://crafter.run/agents.md",
+      resource_policy_uri: "https://crafter.run/join/agent.md",
+    },
+    200,
+    {
+      "Access-Control-Allow-Origin": "*",
+      "Cache-Control": "public, max-age=3600",
+    },
+  ),
+)
 
 app.doc("/openapi.json", {
   openapi: "3.1.0",

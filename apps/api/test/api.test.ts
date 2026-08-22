@@ -106,6 +106,44 @@ describe("Crafter API", () => {
     expect(await response.json()).toMatchObject({ error: { code: "unauthorized" } })
   })
 
+  test("publishes protected resource metadata pointing at the authorization server", async () => {
+    const response = await app.request("http://api.crafter.run/.well-known/oauth-protected-resource")
+    expect(response.status).toBe(200)
+    expect(await response.json()).toMatchObject({
+      resource: "http://api.crafter.run",
+      authorization_servers: ["https://clerk.crafter.run"],
+      bearer_methods_supported: ["header"],
+    })
+  })
+
+  test("points a rejected request at the metadata it needs to authenticate", async () => {
+    const anonymous = await app.request("http://api.crafter.run/v1/ships/example-ship/vote", {
+      method: "PUT",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ active: true }),
+    })
+    expect(anonymous.status).toBe(401)
+    expect(anonymous.headers.get("WWW-Authenticate")).toBe(
+      'Bearer realm="Crafter API", resource_metadata="http://api.crafter.run/.well-known/oauth-protected-resource"',
+    )
+
+    // A token that was sent and rejected is a different failure from no token
+    // at all, and RFC 6750 wants the distinction on the wire.
+    const rejected = await app.request("http://api.crafter.run/v1/ships/example-ship/vote", {
+      method: "PUT",
+      headers: { "content-type": "application/json", authorization: "Bearer not-a-real-token" },
+      body: JSON.stringify({ active: true }),
+    })
+    expect(rejected.status).toBe(401)
+    expect(rejected.headers.get("WWW-Authenticate")).toContain('error="invalid_token"')
+  })
+
+  test("leaves successful responses without an authentication challenge", async () => {
+    const response = await app.request("http://api.crafter.run/health")
+    expect(response.status).toBe(200)
+    expect(response.headers.get("WWW-Authenticate")).toBeNull()
+  })
+
   test("reports an unavailable repository as 503", async () => {
     const previous = process.env.DATABASE_URL
     delete process.env.DATABASE_URL

@@ -7,9 +7,11 @@ import { Container, SectionGap } from "@/components/grid-container";
 import { LocalizedLink } from "@/components/localized-link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { JsonLd } from "@/components/json-ld";
 import { isLocale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { getClosedProducts } from "@/lib/site";
+import { breadcrumbList, productListSchema } from "@/lib/structured-data";
 
 export const dynamicParams = false;
 
@@ -33,10 +35,20 @@ export default async function Page({
     namespace: "pages.products",
   });
   const common = await getTranslations({ locale: lang, namespace: "common" });
+  const nav = await getTranslations({ locale: lang, namespace: "nav" });
   const products = getClosedProducts(lang);
 
   return (
     <>
+      <JsonLd
+        data={[
+          productListSchema({ products, locale: lang, name: nav("products"), path: "/products" }),
+          breadcrumbList(lang, [
+            { name: "Crafter Station", path: "/" },
+            { name: nav("products"), path: "/products" },
+          ]),
+        ]}
+      />
       <SiteHeader locale={lang} />
       <main className="flex-1">
         <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
