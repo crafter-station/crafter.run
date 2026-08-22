@@ -14,6 +14,17 @@ const nextConfig = {
     unoptimized: true,
   },
   allowedDevOrigins: ["dev.cueva.io"],
+  // The App Router will not route a directory whose name starts with a dot, so
+  // the well-known documents are built under /well-known and surfaced at their
+  // real path here. Rewrites are named one by one rather than wildcarded, so
+  // nothing else under /.well-known (Clerk, Vercel, domain verification) is
+  // swallowed by this app.
+  async rewrites() {
+    return [
+      { source: "/.well-known/mcp.json", destination: "/well-known/mcp.json" },
+      { source: "/.well-known/ai-plugin.json", destination: "/well-known/ai-plugin.json" },
+    ];
+  },
   async redirects() {
     return [
       {

@@ -13,9 +13,11 @@ import { LocalTime } from "@/components/local-time"
 import { MemberTabs } from "@/components/member-tabs"
 import { SiteFooter } from "@/components/site-footer"
 import { SiteHeader } from "@/components/site-header"
+import { JsonLd } from "@/components/json-ld"
 import { getBuildingActivity } from "@/lib/github"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
+import { breadcrumbList, personSchema } from "@/lib/structured-data"
 import { getTeamMember, teamMembers } from "@/lib/team"
 
 export const dynamicParams = false
@@ -167,6 +169,7 @@ export default async function Page({
   if (!teamMember) notFound()
 
   const t = await getTranslations({ locale: lang, namespace: "member" })
+  const nav = await getTranslations({ locale: lang, namespace: "nav" })
   const bio = teamMember.bio[lang] ?? teamMember.bio.en
   const links = socials(teamMember)
   const meetingSlug = calSlug(teamMember.cal)
@@ -249,6 +252,16 @@ export default async function Page({
 
   return (
     <>
+      <JsonLd
+        data={[
+          personSchema(teamMember, lang),
+          breadcrumbList(lang, [
+            { name: "Crafter Station", path: "/" },
+            { name: nav("team"), path: "/team" },
+            { name: teamMember.name, path: `/team/${teamMember.username}` },
+          ]),
+        ]}
+      />
       <SiteHeader locale={lang} />
       <main className="flex-1">
         <Container innerClassName="px-6 py-12 md:px-10 md:py-16">

@@ -9,9 +9,11 @@ import { PixelArrow } from "@/components/pixel-arrow";
 import { LocalizedLink } from "@/components/localized-link";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
+import { JsonLd } from "@/components/json-ld";
 import { isLocale } from "@/lib/i18n";
 import { getOssRepos } from "@/lib/oss";
 import { pageMetadata } from "@/lib/seo";
+import { breadcrumbList, repositoryListSchema } from "@/lib/structured-data";
 
 export const revalidate = 86400;
 
@@ -31,10 +33,20 @@ export default async function Page({
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const t = await getTranslations({ locale: lang, namespace: "pages.oss" });
+  const nav = await getTranslations({ locale: lang, namespace: "nav" });
   const repos = await getOssRepos();
 
   return (
     <>
+      <JsonLd
+        data={[
+          repositoryListSchema({ repos, locale: lang, name: nav("oss"), path: "/oss" }),
+          breadcrumbList(lang, [
+            { name: "Crafter Station", path: "/" },
+            { name: nav("oss"), path: "/oss" },
+          ]),
+        ]}
+      />
       <SiteHeader locale={lang} />
       <main className="flex-1">
         <Container innerClassName="px-6 py-16 md:px-10 md:py-24 lg:pr-16 xl:pr-24">

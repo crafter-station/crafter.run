@@ -14,7 +14,8 @@ import { source } from "@/lib/source"
 import { getMDXComponents } from "@/components/mdx"
 import { JsonLd } from "@/components/json-ld"
 import { baseUrl, languageAlternates, localizedUrl, ogImageUrl } from "@/lib/seo"
-import { isLocale } from "@/lib/i18n"
+import { isLocale, defaultLocale } from "@/lib/i18n"
+import { organizationRef, softwareApplicationSchema } from "@/lib/structured-data"
 
 type Props = {
   params: Promise<{ lang: string; slug?: string[] }>
@@ -34,19 +35,27 @@ export default async function Page(props: Props) {
 
   const path =
     page.slugs.length > 0 ? `/docs/${page.slugs.join("/")}` : "/docs"
+  const locale = isLocale(lang) ? lang : defaultLocale
+  // A page that documents a published package describes the package too, not
+  // only the article about it, so the npm install target is machine-readable.
+  const software = softwareApplicationSchema({
+    slug: page.slugs.join("/"),
+    name: page.data.title,
+    description: page.data.description ?? "",
+    url: localizedUrl(path, locale),
+    locale,
+  })
   const structuredData = [
     {
       "@context": "https://schema.org",
       "@type": "TechArticle",
       headline: page.data.title,
       description: page.data.description,
-      url: localizedUrl(path, lang),
-      inLanguage: lang,
-      author: {
-        "@type": "Organization",
-        name: "Crafter Station",
-        url: baseUrl,
-      },
+      url: localizedUrl(path, locale),
+      inLanguage: locale,
+      author: organizationRef,
+      publisher: organizationRef,
+      ...(software ? { about: { "@id": software["@id"] } } : {}),
     },
     {
       "@context": "https://schema.org",
@@ -56,7 +65,7 @@ export default async function Page(props: Props) {
           "@type": "ListItem",
           position: 1,
           name: "Docs",
-          item: localizedUrl("/docs", lang),
+          item: localizedUrl("/docs", locale),
         },
         ...(page.slugs.length > 0
           ? [
@@ -64,12 +73,13 @@ export default async function Page(props: Props) {
                 "@type": "ListItem",
                 position: 2,
                 name: page.data.title,
-                item: localizedUrl(path, lang),
+                item: localizedUrl(path, locale),
               },
             ]
           : []),
       ],
     },
+    ...(software ? [software] : []),
   ]
 
   return (
@@ -108,24 +118,21 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   const metaPath =
     page.slugs.length > 0 ? `/docs/${page.slugs.join("/")}` : "/docs"
-  const ogImage = ogImageUrl(
-    page.data.title,
-    isLocale(lang) ? lang : "en",
-    "Crafter Station · Docs",
-  )
+  const locale = isLocale(lang) ? lang : defaultLocale
+  const ogImage = ogImageUrl(page.data.title, locale, "Crafter Station · Docs")
 
   return {
     metadataBase: new URL(baseUrl),
     title: page.data.title,
     description: page.data.description,
     alternates: {
-      canonical: localizedUrl(metaPath, lang),
+      canonical: localizedUrl(metaPath, locale),
       languages: languageAlternates(metaPath),
     },
     openGraph: {
       title: page.data.title,
       description: page.data.description,
-      url: localizedUrl(metaPath, lang),
+      url: localizedUrl(metaPath, locale),
       siteName: "Crafter Station",
       type: "article",
       images: [{ url: ogImage, width: 1200, height: 630, alt: page.data.title }],

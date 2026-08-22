@@ -19,7 +19,10 @@ export const proxy = clerkMiddleware((_auth, request: NextRequest) => {
 
 export const config = {
   matcher: [
-    "/((?!api|og|_next|_vercel|favicon.ico|icon.svg|apple-touch-icon.png|.*\\..*).*)",
+    // `mcp` is the one dotless agent endpoint, so it needs naming here; every
+    // other one (/agents.md, /openapi.json, /.well-known/*) already falls out
+    // of the `.*\\..*` exclusion and must never be redirected into a locale.
+    "/((?!api|og|mcp|_next|_vercel|favicon.ico|icon.svg|apple-touch-icon.png|.*\\..*).*)",
     "/__clerk/(.*)",
   ],
 }
