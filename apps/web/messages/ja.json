@@ -142,6 +142,7 @@
       "panelRepos": "リポジトリ",
       "panelIssues": "件のコントリビュート募集中",
       "filterAll": "すべて",
+      "filterLabel": "組織で絞り込む",
       "suggestCta": "プロジェクトを提案",
       "suggestEyebrow": "足りないツール",
       "suggestTitle": "このエコシステムに何が足りないか教えてください。",
@@ -225,7 +226,7 @@
       "methodologyTitle": "数字は自ら説明できるべきです。",
       "methodologyDescription": "何を数え、誰を外部とし、ローンチ比較をどう公平に保つかを明示します。",
       "methodologyItems": {
-        "1": "現在 /oss に掲載される crafter-station、Railly、shiarauzo の全リポジトリを含みます。",
+        "1": "現在 /oss に掲載されている Crafter Research を含む Crafter Station ネットワークの全リポジトリを含みます。",
         "2": "前後で同じ時間を使い、最大十四日、一日あたりの率で表示します。",
         "3": "外部とは owner、組織メンバー、リポジトリ collaborator ではない人を指します。",
         "4": "GitHub Search は毎時更新します。利用できない場合は、検証済みスナップショットであることを明示します。",

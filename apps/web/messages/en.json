@@ -142,6 +142,7 @@
       "panelRepos": "repos",
       "panelIssues": "issues open for contribution",
       "filterAll": "All",
+      "filterLabel": "Filter by organization",
       "suggestCta": "Suggest a project",
       "suggestEyebrow": "Missing tool",
       "suggestTitle": "Tell us what the ecosystem still needs.",
@@ -225,7 +226,7 @@
       "methodologyTitle": "A number should explain itself.",
       "methodologyDescription": "The dashboard is deliberately opinionated about what counts, who counts as external, and how launch comparisons stay fair.",
       "methodologyItems": {
-        "1": "All repositories currently listed on /oss are included, across crafter-station, Railly, and shiarauzo.",
+        "1": "All repositories currently listed on /oss are included across the Crafter Station network, including Crafter Research.",
         "2": "Before and after use the same elapsed time, capped at fourteen days and expressed as rates per day.",
         "3": "External means a human author who is not an owner, organization member, or repository collaborator.",
         "4": "GitHub Search is refreshed hourly. If it is unavailable, the page labels and serves the last verified snapshot.",

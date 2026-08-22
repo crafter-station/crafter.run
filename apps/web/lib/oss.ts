@@ -141,6 +141,15 @@ const seeds: Seed[] = [
     accent: "from-slate-400 via-slate-600 to-slate-800",
   },
   {
+    repo: "crafter-research/sismo-abierto",
+    stars: 3,
+    openIssues: 2,
+    description:
+      "Official earthquake, accelerometric, and volcanic data from Peru and Colombia with traceable sources.",
+    language: "TypeScript",
+    accent: "from-neutral-200 via-neutral-500 to-neutral-900",
+  },
+  {
     repo: "crafter-station/neon-cli",
     stars: 2,
     openIssues: 0,
@@ -148,6 +157,15 @@ const seeds: Seed[] = [
       "Agentic-first CLI for Neon Postgres - per-project usage, billing, and branch management the dashboard won't show you",
     language: "TypeScript",
     accent: "from-lime-300 via-emerald-400 to-green-600",
+  },
+  {
+    repo: "crafter-station/spaceship-cli",
+    stars: 1,
+    openIssues: 0,
+    description:
+      "Agent-first CLI for the Spaceship registrar API with a trust ladder for writes, portfolio linting, and API drift detection.",
+    language: "TypeScript",
+    accent: "from-white via-neutral-400 to-neutral-800",
   },
   {
     repo: "crafter-station/reporte-co",
@@ -191,15 +209,6 @@ const seeds: Seed[] = [
       "Agent-first CLI for the v0 Platform API. JSON contract, trust ladder, audit trail, intent tokens.",
     language: "TypeScript",
     accent: "from-violet-400 via-blue-500 to-neutral-950",
-  },
-  {
-    repo: "Railly/vcut",
-    stars: 0,
-    openIssues: 8,
-    description:
-      "Agent-first CLI that cuts silences and filler words out of a recording.",
-    language: "TypeScript",
-    accent: "from-amber-300 via-amber-600 to-stone-900",
   },
   {
     repo: "crafter-station/li-metrics",

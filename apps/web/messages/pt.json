@@ -142,6 +142,7 @@
       "panelRepos": "repos",
       "panelIssues": "issues abertas para contribuir",
       "filterAll": "Todos",
+      "filterLabel": "Filtrar por organização",
       "suggestCta": "Sugerir um projeto",
       "suggestEyebrow": "Ferramenta que falta",
       "suggestTitle": "Conte o que ainda falta no ecossistema.",
@@ -225,7 +226,7 @@
       "methodologyTitle": "Um número deve explicar a si mesmo.",
       "methodologyDescription": "O dashboard é explícito sobre o que conta, quem é externo e como a comparação do launch permanece justa.",
       "methodologyItems": {
-        "1": "Todos os repos atualmente listados em /oss são incluídos, entre crafter-station, Railly e shiarauzo.",
+        "1": "Todos os repos atualmente listados em /oss na rede Crafter Station são incluídos, incluindo o Crafter Research.",
         "2": "Antes e depois usam exatamente o mesmo tempo, limitado a catorze dias e expresso em taxas por dia.",
         "3": "Externo significa uma pessoa que não é owner, membro da organização nem colaborador do repositório.",
         "4": "GitHub Search é atualizado a cada hora. Se estiver indisponível, a página identifica e serve o último snapshot verificado.",

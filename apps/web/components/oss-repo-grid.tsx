@@ -5,8 +5,14 @@ import Link from "next/link"
 import { ArrowLink } from "@/components/arrow-link"
 import { Badge } from "@/components/ui/badge"
 import { Container } from "@/components/grid-container"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import type { OssRepo } from "@/lib/oss"
-import { cn } from "@/lib/utils"
 
 const ALL = "all"
 
@@ -16,6 +22,7 @@ export function OssRepoGrid({
   title,
   intro,
   allLabel,
+  filterLabel,
   descriptionPending,
   repoCta,
 }: {
@@ -24,6 +31,7 @@ export function OssRepoGrid({
   title: string
   intro: string
   allLabel: string
+  filterLabel: string
   descriptionPending: string
   repoCta: string
 }) {
@@ -59,38 +67,31 @@ export function OssRepoGrid({
               {intro}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2 lg:shrink-0 lg:justify-end">
-            <button
-              type="button"
-              onClick={() => setOwner(ALL)}
-              className={cn(
-                "border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors",
-                owner === ALL
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-line text-muted-foreground hover:border-foreground/40 hover:text-foreground",
-              )}
-            >
-              {allLabel}
-              <span className="ml-2 tabular-nums opacity-60">
-                {repos.length}
-              </span>
-            </button>
-            {owners.map(([name, count]) => (
-              <button
-                key={name}
-                type="button"
-                onClick={() => setOwner(name)}
-                className={cn(
-                  "border px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.2em] transition-colors",
-                  owner === name
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-line text-muted-foreground hover:border-foreground/40 hover:text-foreground",
-                )}
+          <div className="w-full lg:w-64 lg:shrink-0">
+            <Select value={owner} onValueChange={setOwner}>
+              <SelectTrigger
+                aria-label={filterLabel}
+                className="h-10 rounded-none border-line bg-transparent px-3 font-mono text-[11px] uppercase tracking-[0.16em] shadow-none focus:ring-1"
               >
-                {name}
-                <span className="ml-2 tabular-nums opacity-60">{count}</span>
-              </button>
-            ))}
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent align="end" className="rounded-none">
+                <SelectItem value={ALL}>
+                  <span className="flex w-full items-center justify-between gap-6 font-mono text-[11px] uppercase tracking-[0.16em]">
+                    <span>{allLabel}</span>
+                    <span className="tabular-nums opacity-60">{repos.length}</span>
+                  </span>
+                </SelectItem>
+                {owners.map(([name, count]) => (
+                  <SelectItem key={name} value={name}>
+                    <span className="flex w-full items-center justify-between gap-6 font-mono text-[11px] uppercase tracking-[0.16em]">
+                      <span>{name}</span>
+                      <span className="tabular-nums opacity-60">{count}</span>
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
         </div>
       </Container>

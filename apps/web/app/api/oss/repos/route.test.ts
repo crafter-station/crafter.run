@@ -16,5 +16,10 @@ describe("OSS repository catalog", () => {
       repos: ossRepoNames,
     })
     expect(new Set(body.repos).size).toBe(body.repos.length)
+    expect(body.repos).toContain("crafter-research/sismo-abierto")
+    expect(body.repos).toContain("crafter-station/spaceship-cli")
+    expect(body.repos).not.toContain("Railly/vcut")
+    expect(body.repos).not.toContain("crafter-research/sunat-cli")
+    expect(body.repos).not.toContain("crafter-research/legalize-pe-engine")
   })
 })

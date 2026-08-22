@@ -93,6 +93,7 @@ export default async function Page({
             openIssuesLabel: t("openIssues", { count: repo.openIssues }),
           }))}
           allLabel={t("filterAll")}
+          filterLabel={t("filterLabel")}
           descriptionPending={t("descriptionPending")}
           repoCta={t("repoCta")}
         />

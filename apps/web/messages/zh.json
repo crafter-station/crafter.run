@@ -142,6 +142,7 @@
       "panelRepos": "仓库",
       "panelIssues": "个待认领的 issue",
       "filterAll": "全部",
+      "filterLabel": "按组织筛选",
       "suggestCta": "提议一个项目",
       "suggestEyebrow": "缺失的工具",
       "suggestTitle": "告诉我们这个生态还缺什么。",
@@ -225,7 +226,7 @@
       "methodologyTitle": "数字应该能够自我解释。",
       "methodologyDescription": "这个仪表板明确说明统计范围、外部贡献者定义以及如何保持发布对比公平。",
       "methodologyItems": {
-        "1": "包含当前 /oss 列出的全部仓库，覆盖 crafter-station、Railly 与 shiarauzo。",
+        "1": "包含当前 /oss 列出的 Crafter Station 网络全部仓库，包括 Crafter Research。",
         "2": "发布前后使用完全相同的时长，最长十四天，并以每日速率表达。",
         "3": "外部贡献者指不是 owner、组织成员或仓库 collaborator 的真实用户。",
         "4": "GitHub Search 每小时刷新。不可用时，页面会明确标记并展示最近一次验证快照。",
