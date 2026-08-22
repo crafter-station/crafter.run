@@ -501,6 +501,25 @@
       "eyebrow": "/claude-code",
       "title": "向 Shiara 请教如何用 Claude Code 构建。",
       "description": "提交你的 Claude Code 问题，并投票决定 Shiara 在工作坊上现场回答什么。"
+    },
+    "notFound": {
+      "metaTitle": "404 · 页面未找到",
+      "metaDescription": "这个页面不存在。Crafter Station ship 出去的一切，都只差一次点击。",
+      "eyebrow": "错误 404 · Crafter Station",
+      "caption": "页面未找到",
+      "title": "这个页面还没 ship。",
+      "description": "你访问的链接不存在，或者已经搬到了别处。已经 ship 出去的一切，都只差一次点击。",
+      "hint": "把光标移到水面上试试。",
+      "homeCta": "回到首页",
+      "ossCta": "探索开源项目",
+      "suggestionsLabel": "或者直接前往",
+      "links": {
+        "docs": "文档",
+        "oss": "开源",
+        "ships": "社区作品",
+        "events": "活动",
+        "team": "团队"
+      }
     }
   },
   "member": {

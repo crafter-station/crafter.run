@@ -501,6 +501,25 @@
       "eyebrow": "/claude-code",
       "title": "Claude Code での開発について Shiara に聞いてみよう。",
       "description": "Claude Code に関する質問を投稿して、ワークショップ中に Shiara がライブで答える質問に投票してください。"
+    },
+    "notFound": {
+      "metaTitle": "404 · ページが見つかりません",
+      "metaDescription": "そのページは存在しません。Crafter Station が ship したものは、すべてリンク1つ先にあります。",
+      "eyebrow": "エラー 404 · Crafter Station",
+      "caption": "ページが見つかりません",
+      "title": "このページは ship されませんでした。",
+      "description": "たどってきた URL は存在しないか、別の場所に移動しました。ship 済みのものは、すべてリンク1つ先にあります。",
+      "hint": "カーソルを水面で動かしてみてください。",
+      "homeCta": "ホームに戻る",
+      "ossCta": "オープンソースを見る",
+      "suggestionsLabel": "または直接こちらへ",
+      "links": {
+        "docs": "ドキュメント",
+        "oss": "オープンソース",
+        "ships": "コミュニティ作品",
+        "events": "イベント",
+        "team": "チーム"
+      }
     }
   },
   "member": {

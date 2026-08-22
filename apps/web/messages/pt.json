@@ -501,6 +501,25 @@
       "eyebrow": "/claude-code",
       "title": "Pergunte a Shiara sobre construir com Claude Code.",
       "description": "Envie suas perguntas sobre Claude Code e vote no que Shiara deve responder ao vivo durante o workshop."
+    },
+    "notFound": {
+      "metaTitle": "404 · Página não encontrada",
+      "metaDescription": "Essa página não existe. Tudo o que a Crafter Station deu ship está a um clique.",
+      "eyebrow": "Erro 404 · Crafter Station",
+      "caption": "Página não encontrada",
+      "title": "Esta página nunca deu ship.",
+      "description": "A URL que você seguiu não existe ou mudou de lugar. Tudo o que deu ship está a um clique.",
+      "hint": "Mova o cursor sobre a água.",
+      "homeCta": "Voltar ao início",
+      "ossCta": "Explorar código aberto",
+      "suggestionsLabel": "Ou vá direto para",
+      "links": {
+        "docs": "Docs",
+        "oss": "Código aberto",
+        "ships": "Ships",
+        "events": "Eventos",
+        "team": "Equipe"
+      }
     }
   },
   "member": {
