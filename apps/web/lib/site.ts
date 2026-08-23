@@ -43,6 +43,7 @@ export const navSections = [
       { key: "ships", href: "/ships" },
       { key: "crafters", href: "/crafters" },
       { key: "events", href: "/events" },
+      { key: "hackathon", href: "/hackathon" },
       { key: "brandPartnerships", href: "/events/sponsors" },
     ],
   },
