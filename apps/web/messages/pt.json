@@ -69,6 +69,7 @@
     "oss": "Codigo aberto",
     "products": "Produtos",
     "events": "Eventos",
+    "hackathon": "Hackathons",
     "research": "Research",
     "team": "Equipe",
     "workCta": "Trabalhe conosco",
@@ -84,6 +85,7 @@
     "social": "Social",
     "companyLinks": {
       "events": "Eventos",
+      "hackathon": "Hackathons",
       "sponsorEvents": "Parcerias de marca",
       "products": "Produtos",
       "team": "Equipe",
@@ -263,6 +265,19 @@
       "description": "Faca parceria com a Crafter Station para realizar eventos, criar ativacoes de marca e produto, produzir hackathons e construir programas que ganham atencao com participacao real.",
       "section": "Transforme o apoio da sua marca em algo que builders podem viver.",
       "sectionDescription": "Desenhamos parcerias conforme seus objetivos: eventos, Code Brews, hackathons, workshops, lancamentos, conteudo, premios, venues, comida e ativacoes hands-on."
+    },
+    "hackathon": {
+      "eyebrow": "Hackathons",
+      "title": "Hackathons onde builders do LatAm entregam produtos reais em um fim de semana.",
+      "description": "Organizamos edições do hack0 por toda a região: salas focadas, prazos reais, demos que funcionam e times que continuam entregando depois do prêmio.",
+      "section": "Construa, demonstre, entregue.",
+      "sectionDescription": "Cada edição segue o mesmo ritmo: kickoff com as ferramentas dos sponsors, dois dias construindo com mentores na sala e uma demo night julgada pelo que realmente roda.",
+      "all": "Todos",
+      "upcoming": "Próximos",
+      "past": "Hackathons passados",
+      "register": "Registrar",
+      "noEvents": "[*] Nenhum hackathon anunciado agora. Volte em breve.",
+      "noFilteredEvents": "Nenhum hackathon corresponde a este filtro."
     },
     "products": {
       "eyebrow": "Produtos",

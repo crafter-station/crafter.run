@@ -69,6 +69,7 @@
     "oss": "Open source",
     "products": "Products",
     "events": "Events",
+    "hackathon": "Hackathons",
     "research": "Research",
     "team": "Team",
     "workCta": "Work with us",
@@ -84,6 +85,7 @@
     "social": "Social",
     "companyLinks": {
       "events": "Events",
+      "hackathon": "Hackathons",
       "sponsorEvents": "Brand partnerships",
       "products": "Products",
       "team": "Team",
@@ -263,6 +265,19 @@
       "description": "Partner with Crafter Station to host events, run brand and product activations, produce hackathons, and build programs that earn attention through real participation.",
       "section": "Turn brand support into something builders can experience.",
       "sectionDescription": "We shape partnerships around your goals: hosted events, Code Brews, hackathons, workshops, launches, content, prizes, venues, food, and hands-on product activations."
+    },
+    "hackathon": {
+      "eyebrow": "Hackathons",
+      "title": "Hackathons where LatAm builders ship real products in a weekend.",
+      "description": "We run hack0 editions across the region: focused rooms, real deadlines, working demos, and teams that keep shipping after the prize.",
+      "section": "Build, demo, ship.",
+      "sectionDescription": "Every edition follows the same rhythm: a kickoff with the sponsors' tools, two days of building with mentors on the floor, and a demo night judged on what actually runs.",
+      "all": "All",
+      "upcoming": "Upcoming",
+      "past": "Past hackathons",
+      "register": "Register",
+      "noEvents": "[*] No hackathons announced right now. Check back soon.",
+      "noFilteredEvents": "No hackathons match this filter."
     },
     "products": {
       "eyebrow": "Products",
