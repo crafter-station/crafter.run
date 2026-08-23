@@ -7,6 +7,7 @@ import { getProducts, socials } from "@/lib/site"
 
 const companyLinks = [
   { key: "events", href: "/events" },
+  { key: "hackathon", href: "/hackathon" },
   { key: "sponsorEvents", href: "/events/sponsors" },
   { key: "products", href: "/products" },
   { key: "team", href: "/team" },

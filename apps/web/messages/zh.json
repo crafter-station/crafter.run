@@ -69,6 +69,7 @@
     "oss": "开源",
     "products": "产品",
     "events": "活动",
+    "hackathon": "黑客松",
     "research": "研究",
     "team": "团队",
     "workCta": "与我们合作",
@@ -84,6 +85,7 @@
     "social": "社交",
     "companyLinks": {
       "events": "活动",
+      "hackathon": "黑客松",
       "sponsorEvents": "品牌合作",
       "products": "产品",
       "team": "团队",
@@ -263,6 +265,19 @@
       "description": "与 Crafter Station 合作举办活动、开展品牌与产品激活、制作黑客松，并通过真实参与打造赢得关注的社区项目。",
       "section": "把品牌支持变成 builder 能亲身体验的事。",
       "sectionDescription": "我们围绕你的目标设计合作：活动、Code Brew、黑客松、工作坊、发布、内容、奖品、场地、餐饮和产品实践激活。"
+    },
+    "hackathon": {
+      "eyebrow": "黑客松",
+      "title": "拉美 builder 用一个周末做出真正产品的黑客松。",
+      "description": "我们在拉美各地举办 hack0：专注的房间、真实的截止时间、能跑起来的 demo，以及颁奖之后仍在继续 ship 的团队。",
+      "section": "构建、演示、发布。",
+      "sectionDescription": "每一届都遵循同样的节奏：以赞助方的工具启动，两天有导师在场的开发，以及一个只看真正跑起来的东西的 demo 之夜。",
+      "all": "全部",
+      "upcoming": "即将举行",
+      "past": "往期黑客松",
+      "register": "报名",
+      "noEvents": "[*] 目前没有公布中的黑客松，敬请期待。",
+      "noFilteredEvents": "没有符合此筛选条件的黑客松。"
     },
     "products": {
       "eyebrow": "产品",
