@@ -15,6 +15,7 @@ import { BLOG_KINDS, getPage, pageCount } from "@/lib/blog"
 import { blogFeedPath } from "@/lib/blog-paths"
 import { isLocale, locales, type Locale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
+import { siteConfig } from "@/lib/site"
 
 /**
  * Blog archive, page 2 and up.
@@ -59,6 +60,7 @@ export async function generateMetadata({
     path: `/blog/page/${page}`,
     title: t.archiveTitle(page),
     description: t.archiveDescription(page),
+    ogEyebrow: `${siteConfig.name} · ${t.breadcrumbBlog}`,
   })
 }
 

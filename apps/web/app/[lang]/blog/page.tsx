@@ -16,6 +16,7 @@ import { BLOG_KINDS, getPage, pageCount } from "@/lib/blog"
 import { blogFeedPath, blogSitemapMdPath } from "@/lib/blog-paths"
 import { isLocale, locales } from "@/lib/i18n"
 import { baseUrl, localizedUrl, pageMetadata } from "@/lib/seo"
+import { siteConfig } from "@/lib/site"
 import { blogIndexSchema } from "@/lib/structured-data"
 
 /**
@@ -39,7 +40,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { lang } = await params
   if (!isLocale(lang)) return {}
-  const base = await pageMetadata({ params, path: "/blog", namespace: "pages.blog" })
+  const base = await pageMetadata({
+    params,
+    path: "/blog",
+    namespace: "pages.blog",
+    ogEyebrow: `${siteConfig.name} · ${blogCopy[lang].breadcrumbBlog}`,
+  })
 
   return {
     ...base,
