@@ -16,7 +16,7 @@ import { SiteHeader } from "@/components/site-header"
 import { getIndexPosts, getPost, getSlugs, postLanguageAlternates, postLocales } from "@/lib/blog"
 import { blogFeedPath, blogPath, blogPostMarkdownPath } from "@/lib/blog-paths"
 import { isLocale, type Locale } from "@/lib/i18n"
-import { absoluteUrl, baseUrl, localizedUrl, ogImageUrl } from "@/lib/seo"
+import { baseUrl, localizedUrl } from "@/lib/seo"
 import { siteConfig } from "@/lib/site"
 import { blogPostingSchema, breadcrumbList } from "@/lib/structured-data"
 
@@ -28,8 +28,16 @@ export function generateStaticParams() {
   return getSlugs().flatMap((slug) => postLocales(slug).map((lang) => ({ lang, slug })))
 }
 
-function cardImage(post: { image?: string; title: string }, locale: Locale) {
-  if (!post.image) return absoluteUrl(ogImageUrl(post.title, locale, `${siteConfig.name} · Blog`))
+/**
+ * A hand-authored card from the frontmatter, if there is one.
+ *
+ * Returning undefined is the normal case and is deliberate: it leaves
+ * `openGraph.images` unset, so Next falls through to `opengraph-image.tsx`
+ * in this segment, which draws the post's real card. Setting it here
+ * unconditionally would override that file for every post.
+ */
+function customCard(post: { image?: string }): string | undefined {
+  if (!post.image) return undefined
   return post.image.startsWith("/") ? `${baseUrl}${post.image}` : post.image
 }
 
@@ -44,7 +52,7 @@ export async function generateMetadata({
   if (!post) return {}
 
   const url = localizedUrl(`/blog/${slug}`, lang)
-  const image = cardImage(post, lang)
+  const custom = customCard(post)
   const title = `${post.title} | ${siteConfig.name}`
   const authors = post.authors.map((id) => entryAuthors(post).find((a) => a.id === id)!.name)
 
@@ -72,13 +80,13 @@ export async function generateMetadata({
       publishedTime: post.date,
       modifiedTime: post.updated ?? post.date,
       authors,
-      images: [{ url: image, width: 1200, height: 630, alt: post.title }],
+      ...(custom ? { images: [{ url: custom, width: 1200, height: 630, alt: post.title }] } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: post.summary,
-      images: [image],
+      ...(custom ? { images: [custom] } : {}),
     },
   }
 }
@@ -91,6 +99,9 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
 
   const t = blogCopy[lang]
   const url = localizedUrl(`/blog/${slug}`, lang)
+  // The generated card lives at the post's own `opengraph-image` child route;
+  // a post that declares bespoke art in its frontmatter names that instead.
+  const cardUrl = customCard(post) ?? `${url}/opengraph-image`
   const authors = entryAuthors(post)
   const minutes = readingMinutes(post.body, lang)
   const updated = post.updated && post.updated !== post.date ? post.updated : null
@@ -108,7 +119,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             authors: authors.map((a) => ({ username: a.id, name: a.name, role: a.role, image: a.avatar })),
             locale: lang,
             url,
-            imageUrl: cardImage(post, lang),
+            imageUrl: cardUrl,
           }),
           breadcrumbList(lang, [
             { name: t.breadcrumbBlog, path: "/blog" },
