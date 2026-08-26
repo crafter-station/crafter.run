@@ -16,6 +16,7 @@ const companyLinks = [
 ]
 
 const buildLinks = [
+  { key: "blog", href: "/blog" },
   { key: "oss", href: "/oss" },
   { key: "ossMetrics", href: "/oss/metrics" },
   { key: "products", href: "/products" },
