@@ -2,6 +2,7 @@ import { formatProfileLocationLine } from "@crafter/contracts"
 import { ImageResponse } from "next/og"
 
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n"
+import { loadGoogleFont, titleFontFamily } from "@/lib/og-fonts"
 import { getCrafterProfile } from "@/lib/ships"
 
 export const dynamic = "force-dynamic"
@@ -14,27 +15,6 @@ const ACCENT = "#f1ede4"
 
 const TAGLINE = "The LatAm network of shippers"
 const DOMAIN = "crafter.run"
-
-/**
- * Fetch a glyph-subsetted font from Google Fonts (css2 `text=` trick).
- * Without a browser UA, Google serves TTF, which satori can parse.
- */
-async function loadGoogleFont(family: string, weight: number, text: string) {
-  const chars = [...new Set(text)].join("")
-  const url = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}&text=${encodeURIComponent(chars)}`
-  const css = await (await fetch(url)).text()
-  const resource = css.match(/src: url\((.+?)\) format\('(opentype|truetype)'\)/)
-  if (!resource) throw new Error(`No font resource for ${family}`)
-  const response = await fetch(resource[1])
-  if (!response.ok) throw new Error(`Font fetch failed for ${family}`)
-  return response.arrayBuffer()
-}
-
-function titleFontFamily(lang: Locale) {
-  if (lang === "zh") return { family: "Noto Sans SC", weight: 700 as const }
-  if (lang === "ja") return { family: "Noto Sans JP", weight: 700 as const }
-  return { family: "Space Grotesk", weight: 600 as const }
-}
 
 function titleFontSize(title: string, lang: Locale) {
   const cjk = lang === "zh" || lang === "ja"
