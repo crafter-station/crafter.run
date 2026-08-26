@@ -315,18 +315,132 @@ function authorNodes(authors: readonly BlogAuthorNode[], locale: Locale) {
   })
 }
 
+/**
+ * Talks a post was written from, keyed by blog slug.
+ *
+ * A post derived from a recording should say so in a way a machine can read:
+ * the article carries the claims, the video is the evidence. The map lives here
+ * rather than in frontmatter because a series written from one session shares
+ * one recording, and its chapter list should not be copied into four posts and
+ * five locales to say the same thing.
+ */
+export type SourceVideo = {
+  /** YouTube id. Every URL on the node is derived from it. */
+  youtubeId: string
+  /** The title as published on YouTube, not a restatement of the post's. */
+  name: string
+  description: string
+  /** When the recording went up, which is not when the post did. */
+  uploadDate: string
+  /** Total length in seconds; the ISO duration and the last chapter's end
+      offset are both derived from it so they cannot disagree. */
+  durationSeconds: number
+  /** BCP 47 tag for the spoken audio, often not the locale of the post. */
+  inLanguage: string
+  /** Chapters in order, as seconds from the start. */
+  chapters: readonly { name: string; startOffset: number }[]
+}
+
+/** Seconds to the ISO 8601 duration schema.org expects: 4286 is `PT1H11M26S`. */
+function isoDuration(seconds: number): string {
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const rest = seconds % 60
+  const parts = `${hours ? `${hours}H` : ""}${minutes ? `${minutes}M` : ""}${rest ? `${rest}S` : ""}`
+  return `PT${parts || "0S"}`
+}
+
+const HACKATHON_STACK_WORKSHOP: SourceVideo = {
+  youtubeId: "DaSHOfDQI9E",
+  name: "Designing the Tech Stack of your (Hackathon) Product [Workshop]",
+  description:
+    "How to decide which parts of a hackathon product to build and which to borrow: the three layers every product has, a zero-cost stack, choosing WhatsApp infrastructure, and what the tools cost once the free tier ends.",
+  uploadDate: "2026-06-03",
+  durationSeconds: 4286,
+  inLanguage: "es",
+  chapters: [
+    { name: "Why your stack choice decides a hackathon", startOffset: 564 },
+    { name: "The three layers of a product", startOffset: 802 },
+    { name: "Four questions before building anything", startOffset: 908 },
+    { name: "The zero-cost stack we recommend", startOffset: 1033 },
+    { name: "UI, landing pages, and what judges see first", startOffset: 1126 },
+    { name: "Authentication, and when to build it yourself", startOffset: 1355 },
+    { name: "Where your data lives: Postgres, Redis, vectors, files", startOffset: 1508 },
+    { name: "Adding AI: models, gateways, embeddings, evals", startOffset: 1695 },
+    { name: "Building on WhatsApp: official API or web wrapper", startOffset: 1880 },
+    { name: "Long running tasks and background jobs", startOffset: 2211 },
+    { name: "The small details that make a product feel real", startOffset: 2319 },
+    { name: "Deploy on day one, not at 4am", startOffset: 2399 },
+    { name: "Stack recommendations by product type", startOffset: 2506 },
+    { name: "What to avoid during a hackathon", startOffset: 2694 },
+    { name: "How to choose a tool", startOffset: 2985 },
+    { name: "Before you start coding", startOffset: 3134 },
+    { name: "Q&A: timing, pitching, and what this costs at scale", startOffset: 3247 },
+  ],
+}
+
+export const sourceVideos: Record<string, SourceVideo> = {
+  "build-the-magic-borrow-the-rest": HACKATHON_STACK_WORKSHOP,
+  "what-the-free-tier-costs-when-it-stops-being-free": HACKATHON_STACK_WORKSHOP,
+  "two-ways-to-build-on-whatsapp": HACKATHON_STACK_WORKSHOP,
+  "pick-tools-your-coding-agent-already-knows": HACKATHON_STACK_WORKSHOP,
+}
+
+function videoNodeId(video: SourceVideo): string {
+  return `https://www.youtube.com/watch?v=${video.youtubeId}#video`
+}
+
+/** A reference to a video node, for a post that cites one but does not own it. */
+export function videoRef(video: SourceVideo) {
+  return { "@id": videoNodeId(video) }
+}
+
+export function videoObjectSchema(video: SourceVideo) {
+  const url = `https://www.youtube.com/watch?v=${video.youtubeId}`
+  const { chapters } = video
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "@id": videoNodeId(video),
+    name: video.name,
+    description: video.description,
+    url,
+    // Consumers fetch the thumbnail rather than the page, so it has to be an
+    // absolute image URL. YouTube serves one per id at a stable address.
+    thumbnailUrl: `https://i.ytimg.com/vi/${video.youtubeId}/maxresdefault.jpg`,
+    embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
+    uploadDate: instant(video.uploadDate),
+    duration: isoDuration(video.durationSeconds),
+    inLanguage: video.inLanguage,
+    publisher: organizationRef,
+    // Chapters, which is what a search engine turns into key moments and what
+    // lets a model cite the minute a claim was made rather than the whole hour.
+    hasPart: chapters.map((chapter, index) => ({
+      "@type": "Clip" as const,
+      name: chapter.name,
+      startOffset: chapter.startOffset,
+      endOffset: chapters[index + 1]?.startOffset ?? video.durationSeconds,
+      url: `${url}&t=${chapter.startOffset}s`,
+    })),
+  }
+}
+
 export function blogPostingSchema({
   post,
   authors,
   locale,
   url,
   imageUrl,
+  video,
 }: {
   post: { title: string; summary: string; date: string; updated?: string; kind: string }
   authors: readonly BlogAuthorNode[]
   locale: Locale
   url: string
   imageUrl: string
+  /** The talk this post was written from, when there is one. */
+  video?: SourceVideo
 }) {
   return {
     "@context": "https://schema.org",
@@ -344,6 +458,7 @@ export function blogPostingSchema({
     publisher: organizationRef,
     isPartOf: { "@id": blogId(locale) },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    ...(video ? { video: videoRef(video) } : {}),
   }
 }
 

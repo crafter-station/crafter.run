@@ -18,7 +18,7 @@ import { blogFeedPath, blogPath, blogPostMarkdownPath } from "@/lib/blog-paths"
 import { isLocale, type Locale } from "@/lib/i18n"
 import { absoluteUrl, baseUrl, localizedUrl, ogImageUrl } from "@/lib/seo"
 import { siteConfig } from "@/lib/site"
-import { blogPostingSchema, breadcrumbList } from "@/lib/structured-data"
+import { blogPostingSchema, breadcrumbList, sourceVideos, videoObjectSchema } from "@/lib/structured-data"
 
 export const dynamic = "force-static"
 export const dynamicParams = false
@@ -94,6 +94,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const authors = entryAuthors(post)
   const minutes = readingMinutes(post.body, lang)
   const updated = post.updated && post.updated !== post.date ? post.updated : null
+  // Posts written up from a talk cite the recording; most posts have none.
+  const video = sourceVideos[slug]
   const more = toEntryViews(
     getIndexPosts(lang).filter((other) => other.slug !== slug).slice(0, 3),
     lang,
@@ -109,7 +111,9 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             locale: lang,
             url,
             imageUrl: cardImage(post, lang),
+            video,
           }),
+          ...(video ? [videoObjectSchema(video)] : []),
           breadcrumbList(lang, [
             { name: t.breadcrumbBlog, path: "/blog" },
             { name: post.title, path: `/blog/${slug}` },
