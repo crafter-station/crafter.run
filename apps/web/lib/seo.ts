@@ -72,17 +72,20 @@ export function buildMetadata({
   path,
   title,
   description,
+  ogEyebrow,
 }: {
   locale: Locale
   path: string
   title: string
   description: string
+  /** Overrides the generated card's kicker. Defaults to the site-wide one. */
+  ogEyebrow?: string
 }): Metadata {
   const url = localizedUrl(path, locale)
   const fullTitle =
     title === siteConfig.name ? `${siteConfig.name} · ${siteConfig.tagline[locale]}` : `${title} | ${siteConfig.name}`
   const ogTitle = title === siteConfig.name ? siteConfig.tagline[locale] : title
-  const ogImage = ogImageUrl(ogTitle, locale)
+  const ogImage = ogImageUrl(ogTitle, locale, ogEyebrow)
 
   return {
     metadataBase: new URL(baseUrl),
@@ -124,10 +127,13 @@ export async function pageMetadata({
   params,
   path,
   namespace,
+  ogEyebrow,
 }: {
   params: Promise<{ lang: string }>
   path: string
   namespace: string
+  /** Overrides the generated card's kicker. Defaults to the site-wide one. */
+  ogEyebrow?: string
 }) {
   const { lang } = await params
   if (!isLocale(lang)) return {}
@@ -147,5 +153,6 @@ export async function pageMetadata({
     path,
     title: t("title"),
     description: t("description"),
+    ogEyebrow,
   })
 }
