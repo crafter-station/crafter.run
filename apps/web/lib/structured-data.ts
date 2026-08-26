@@ -272,3 +272,128 @@ export function personSchema(member: TeamMember, locale: Locale) {
     },
   }
 }
+
+/**
+ * Blog schemas. Two deliberate choices beyond the usual BlogPosting:
+ *
+ * 1. The index carries structured data too. Most blogs emit it only on posts,
+ *    which leaves the page that collects them invisible as an entity. A Blog
+ *    with an ItemList is what lets the archive be understood as one thing.
+ * 2. Authors resolve to the same Person nodes the team profiles publish, by
+ *    `@id`, so a byline and a profile page are one entity in the graph rather
+ *    than two people who happen to share a name.
+ */
+
+/** Dates are authored as calendar days; schema.org wants a point in time. */
+function instant(date: string): string {
+  return `${date}T00:00:00+00:00`
+}
+
+function blogId(locale: Locale): string {
+  return `${localizedUrl("/blog", locale)}#blog`
+}
+
+export type BlogAuthorNode = {
+  username: string
+  name: string
+  role: string
+  image: string
+}
+
+function authorNodes(authors: readonly BlogAuthorNode[], locale: Locale) {
+  return authors.map((author) => {
+    const profileUrl = localizedUrl(`/team/${author.username}`, locale)
+    return {
+      "@type": "Person" as const,
+      "@id": `${profileUrl}#person`,
+      name: author.name,
+      jobTitle: author.role,
+      url: profileUrl,
+      image: `${baseUrl}${author.image}`,
+      worksFor: organizationRef,
+    }
+  })
+}
+
+export function blogPostingSchema({
+  post,
+  authors,
+  locale,
+  url,
+  imageUrl,
+}: {
+  post: { title: string; summary: string; date: string; updated?: string; kind: string }
+  authors: readonly BlogAuthorNode[]
+  locale: Locale
+  url: string
+  imageUrl: string
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#post`,
+    headline: post.title,
+    description: post.summary,
+    url,
+    datePublished: instant(post.date),
+    dateModified: instant(post.updated ?? post.date),
+    image: imageUrl,
+    inLanguage: locale,
+    articleSection: post.kind,
+    author: authorNodes(authors, locale),
+    publisher: organizationRef,
+    isPartOf: { "@id": blogId(locale) },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+  }
+}
+
+export function blogIndexSchema({
+  locale,
+  url,
+  posts,
+  title,
+  description,
+}: {
+  locale: Locale
+  url: string
+  posts: readonly { title: string; url: string }[]
+  title: string
+  description: string
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: title,
+        description,
+        inLanguage: locale,
+        isPartOf: { "@id": WEBSITE_ID },
+        about: { "@id": blogId(locale) },
+      },
+      {
+        "@type": "Blog",
+        "@id": blogId(locale),
+        name: `${siteConfig.name} Blog`,
+        description,
+        url: localizedUrl("/blog", locale),
+        inLanguage: locale,
+        publisher: organizationRef,
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${url}#posts`,
+        numberOfItems: posts.length,
+        itemListOrder: "https://schema.org/ItemListOrderDescending",
+        itemListElement: posts.map((post, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: post.url,
+          name: post.title,
+        })),
+      },
+    ],
+  }
+}
