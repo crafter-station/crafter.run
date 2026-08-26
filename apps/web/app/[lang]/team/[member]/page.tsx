@@ -27,7 +27,7 @@ function calSlug(cal?: string) {
   return cal?.replace("https://cal.com/", "")
 }
 
-const STACK_ORDER = ["Languages", "Frontend", "Backend", "Database", "AI", "DevOps & Cloud", "Design", "Game", "Tools"]
+const STACK_ORDER = ["Languages", "Frontend", "Backend", "Database", "Data", "AI", "DevOps & Cloud", "Design", "Game", "Tools"]
 const SOFTWARE_ORDER = ["Editor & Terminal", "Design", "Game", "Productivity", "Media", "Communication", "Browser"]
 const HARDWARE_ORDER = ["Computers", "Audio & Video", "Peripherals", "Accessories"]
 
