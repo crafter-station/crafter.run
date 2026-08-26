@@ -60,6 +60,16 @@ const frontmatterSchema = z.object({
   date: z.string().regex(ISO_DATE, "date must be YYYY-MM-DD"),
   updated: z.string().regex(ISO_DATE, "updated must be YYYY-MM-DD").optional(),
   /**
+   * Tiebreak for posts sharing a `date`, highest first.
+   *
+   * `date` is day-granularity on purpose, so a day that ships several posts has
+   * nothing to sort on and the reader gets alphabetical order. Set this on a
+   * series so it reads in sequence. Leave it off and the post sorts below the
+   * ordered ones for its day. Space the values so a post can be slotted between
+   * two others without renumbering the rest.
+   */
+  order: z.number().int().optional(),
+  /**
    * Hand-authored social card, overriding the generated one.
    *
    * A path under `public/` (`/og/blog/<slug>.jpg`) or an absolute URL. Must be
@@ -142,11 +152,15 @@ function readAll(): BlogPost[] {
     })
   }
 
-  // Newest first, slug as the tiebreak so same-day posts keep a stable order
-  // across builds. An unstable order would churn the sitemap and the feed.
-  return posts.sort((a, b) =>
-    a.date === b.date ? a.slug.localeCompare(b.slug) : b.date.localeCompare(a.date),
-  )
+  // Newest first, then explicit `order`, then slug. The last step keeps same-day
+  // posts stable across builds; an unstable order would churn the sitemap and
+  // the feed. `order` exists because a day that ships several posts has no
+  // recency to sort on, and alphabetical is not an order a reader recognizes.
+  return posts.sort((a, b) => {
+    if (a.date !== b.date) return b.date.localeCompare(a.date)
+    if ((a.order ?? 0) !== (b.order ?? 0)) return (b.order ?? 0) - (a.order ?? 0)
+    return a.slug.localeCompare(b.slug)
+  })
 }
 
 // Read once per process. The dev server re-evaluates the module on change, so
