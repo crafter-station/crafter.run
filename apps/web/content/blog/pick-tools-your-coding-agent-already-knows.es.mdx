@@ -1,0 +1,76 @@
+---
+title: "Elige herramientas que tu coding agent ya conoce"
+summary: "Elegir tecnología cambió cuando los agentes empezaron a escribir la mayor parte del código de integración. Ocho preguntas antes de sumar una dependencia, y por qué la calidad de la documentación es hoy una característica de rendimiento."
+date: "2026-08-25"
+order: 10
+kind: "engineering"
+authors: ["cuevaio"]
+---
+
+Hay un criterio para elegir tecnología que hace tres años no existía y que hoy, en silencio, le gana a varios de los antiguos: qué tan bien conoce esto el modelo que tienes en el editor.
+
+Suena a chiste sobre vibe coding. No lo es. Si un coding agent escribe la mayor parte de tu código de integración, entonces la diferencia entre una librería que el modelo tiene interiorizada y una que hay que enseñarle se mide en horas de tu fin de semana. Dos herramientas pueden ser técnicamente equivalentes y diferir en un orden de magnitud en qué tan rápido puedes construir con ellas, únicamente por lo que las rodea.
+
+Por eso nuestra recomendación por defecto es Next.js, y no es porque gane un benchmark. Los modelos conocen React a fondo y Next.js en particular. El mismo razonamiento elige [shadcn/ui](https://ui.shadcn.com) para componentes y [Recharts](https://recharts.org) para gráficos: pides un dashboard y te sale uno, porque el modelo ha visto miles.
+
+Si conoces bien otro framework, úsalo. Solo ten claro que estás pagando un impuesto en cada decisión de librería río abajo, porque el ecosistema de React tiene respuesta para todo y los otros tienen menos.
+
+## Las ocho preguntas
+
+Antes de sumar algo al stack, lo pasamos por estas. La primera predice casi todas las demás.
+
+**1. ¿La documentación es buena?**
+
+Este es el criterio maestro, y ya no se trata solo de ti. Buena documentación significa que puedes pegársela a un agente y recibir código que funciona. Mala documentación significa que el modelo y tú adivinan juntos, lo que sale exactamente tan bien como suena. Los docs de WhatsApp de Meta son el ejemplo canónico de una API capaz detrás de una documentación lo bastante mala como para cambiar qué herramienta deberías elegir.
+
+**2. ¿Publica un `llms.txt`?**
+
+Un solo archivo que le da al modelo el mapa de la documentación, para que un agente encuentre la página correcta en lugar de crawlear y cruzar los dedos. Su presencia además te dice algo del equipo: pensaron en los agentes como una categoría de usuario. Nosotros [publicamos uno](/blog/a-website-agents-can-read) por la misma razón.
+
+**3. ¿Tiene CLI?**
+
+Un agente puede correr un CLI. No puede hacer clic en un dashboard. Una herramienta que se configura desde la terminal es una herramienta que tu agente puede dejar lista de punta a punta mientras tú haces otra cosa.
+
+**4. ¿Tiene servidor MCP?**
+
+La versión más fuerte del punto anterior. Un servidor MCP le permite al agente operar el servicio en vivo, leyendo estado real y ejecutando acciones reales, en vez de escribir código contra la forma de una API que recuerda. [Kapso](https://docs.kapso.ai/docs/whatsapp/mcp) hace esto para números de WhatsApp. Cuando una herramienta ofrece uno, la integración normalmente deja de ser una tarea.
+
+**5. ¿Puedes estar en producción hoy, sin tarjeta?**
+
+Algunas herramientas quieren datos de pago, una llamada de ventas o un paso de verificación antes de que puedas mandar el primer request. En una hackathon eso las descalifica de entrada. Fuera de una hackathon sigue siendo una señal de cómo trata la empresa a los usuarios pequeños.
+
+**6. ¿Los mensajes de error son buenos?**
+
+Subestimado al punto de ser invisible. Next.js tiene errores excelentes: copias uno, lo pegas en un agente, y queda arreglado. Una herramienta que falla con `Error: something went wrong` te cuesta una sesión de depuración cada vez que se rompe, y el agente no tiene con qué trabajar.
+
+**7. ¿Va a sobrevivir la demo?**
+
+Imagina llegar a tu demo, hacer clic en iniciar sesión, y que esté roto. Lo que esté en ese camino tiene que ser la opción aburrida y confiable. Por eso la respuesta a auth es Clerk, Better Auth o Supabase, y no algo que encontraste anoche.
+
+**8. ¿Puedes reemplazarla después?**
+
+La que todos se saltan. Pregúntalo en concreto: si cambio esto, ¿cuánto código se mueve?
+
+Las bases de datos hacen obvio el tradeoff. Si construyes sobre Drizzle, cambiar de proveedor es un connection string y un archivo de configuración. Si construyes sobre el SDK del proveedor, cada punto de llamada queda acoplado a ese proveedor, y cambiar es una refactorización a lo largo del código. Ambas son decisiones legítimas, pero solo una es reversible, y deberías saber cuál elegiste.
+
+Una novena, informal: mira qué dice la gente en Reddit y en Twitter. La documentación te dice qué pretende hacer una herramienta. Los desconocidos quejándose te dicen qué hace a las 2am.
+
+## Trabajar con el modelo, no contra él
+
+Dos modos de falla que vale la pena nombrar, porque aparecen en casi todo proyecto asistido por AI.
+
+**Los modelos sobre-diseñan los esquemas.** Pide un diseño de base de datos y vas a recibir tablas normalizadas, tablas intermedias e índices para un producto que tiene once usuarios. Empújalo de vuelta y mantenlo mínimo. Puedes agregar estructura cuando tengas el problema que la necesita; sacarla una vez que las queries dependen de ella no es fácil.
+
+**Deja que el modelo enrute, no enrutes tú por él.** El instinto al construir retrieval es correr búsqueda semántica primero y después ramificar sobre los resultados con condicionales. Expón la búsqueda semántica como una tool y deja que el modelo decida cuándo llamarla. El código queda legible, la lógica de ramificación desaparece, y el comportamiento suele ser mejor porque la decisión se toma con todo el contexto de la conversación y no por un `if` que escribiste antes de saber qué iban a preguntar los usuarios.
+
+## El replanteo
+
+La pregunta antigua era "¿esta herramienta es buena?". La pregunta hoy es "¿esta herramienta es legible?", para ti, para tu agente, y para el modelo al que le van a preguntar por ella.
+
+Correlacionan más de lo que uno esperaría. Los equipos que escriben buena documentación, publican un CLI, exponen un servidor MCP y devuelven errores útiles suelen ser los equipos que además construyeron la cosa con cuidado. Que la legibilidad sea un proxy de la calidad no es casualidad.
+
+---
+
+Este es el último de cuatro posts de *Designing the Tech Stack of your (Hackathon) Product*, un taller de Crafter Station. Los criterios de selección empiezan en [49:45](https://www.youtube.com/watch?v=DaSHOfDQI9E&t=2985s) de la [sesión completa](https://www.youtube.com/watch?v=DaSHOfDQI9E).
+
+El resto de la serie: [construye la magia, presta lo demás](/blog/build-the-magic-borrow-the-rest), [lo que cuesta el stack prestado](/blog/what-the-free-tier-costs-when-it-stops-being-free), y [las dos formas de construir sobre WhatsApp](/blog/two-ways-to-build-on-whatsapp).

@@ -1,0 +1,91 @@
+---
+title: "What the free tier costs when it stops being free"
+summary: "The borrowed stack is free at a hackathon and stays free longer than most people expect. Real monthly numbers from two products in production, and where the build-versus-buy tradeoff actually flips."
+date: "2026-08-25"
+order: 30
+kind: "engineering"
+authors: ["cuevaio"]
+---
+
+"Use the free tier" is easy advice to give and hard to act on, because the question nobody answers is what happens after. You pick Clerk and Neon and Trigger for a weekend, the product works, people start using it, and at some point a bill arrives. How big, and when?
+
+We run this stack in production at [Croma](https://usecroma.com) and [Kebo](https://kebo.app), so here are the actual numbers instead of the usual hand-waving.
+
+## The stack in question
+
+This is what we recommend for a hackathon and what we then kept running when the projects turned into companies.
+
+| Concern | Tool |
+| --- | --- |
+| Frontend | Next.js, Tailwind, shadcn/ui |
+| Auth | Clerk, or Better Auth if you want the tables in your own database |
+| Database | Neon for plain Postgres, Supabase if you also want storage and realtime |
+| ORM | Drizzle |
+| AI | AI SDK, any provider or the Vercel AI Gateway |
+| Background jobs | Trigger.dev |
+| Email | Resend |
+| Payments | Stripe or Polar |
+| Deploys | Vercel |
+
+Every one of these has a free tier that covers a hackathon completely. Only the LLM tokens cost money on day one.
+
+## How long free actually lasts
+
+Longer than the anxiety suggests.
+
+Kebo is at roughly 80,000 users. It ran on the Supabase free tier until about 50,000 of them, and only upgraded to a paid database recently. That is not a rounding error in the free tier's favor, that is fifty thousand users of runway on a plan that cost nothing.
+
+Clerk raised its free allotment to 50,000 monthly retained users in February 2026. The unit matters: Clerk bills MRU, not MAU, and MRU deliberately excludes new signups. A product with heavy signup traffic and modest retention counts far fewer billable users than the same product would on an MAU-metered competitor.
+
+Neon's free tier gives 0.5 GB of storage and 100 compute-hours per project per month. For an application that is not yet doing serious query volume, that is months of headroom.
+
+The practical read: for most products the free tier does not end because you got users. It ends because you started doing something expensive.
+
+## What the bill looks like on the other side
+
+Croma is a data infrastructure product. It sits between companies and Latin American government data sources, which are slow, unstructured and inconsistent, and turns them into APIs that are none of those things. It runs on literally the stack above.
+
+Two line items dominate:
+
+- **Trigger.dev: roughly $500 to $600 a month.** Croma's core work is long-running scraping and normalization, which is exactly what Trigger is for and exactly what you cannot run in a serverless function.
+- **Neon: roughly $200 a month.**
+
+That is worth sitting with, because the Trigger Pro plan is $50 a month. The plan price is not the bill. Trigger, Neon and most modern infrastructure bill compute and invocations separately from the subscription, so your cost tracks your workload, not your tier. A product whose whole job is background processing will pay for background processing.
+
+For an AI product there is usually a third line item above both of these, and it is tokens. If your product calls models on every user action, inference will be your largest bill long before your database is.
+
+## The tip that saves the most money for the least effort
+
+Neon defaults new projects to a generous compute size. Most applications do not need it.
+
+Turn it down when you create the project. Neon bills by compute-hour, so an oversized default is a direct multiplier on a bill you have not looked at yet. This is a thirty-second change in the console that shows up every month for the life of the project.
+
+The general form of this: consumption-billed infrastructure ships defaults tuned for the demo, not for your bill. Check the compute setting on anything that charges by the hour.
+
+## Where the tradeoff actually flips
+
+The honest case against all of this is that $700 a month is not nothing, and you could self-host most of it.
+
+You could. The comparison that matters is not $700 against $0, it is $700 against an engineer.
+
+To replace Trigger you need durable job execution, retries, scheduling, concurrency control, observability and a UI to debug failed runs. That is a real system, and once it exists somebody has to keep it alive. An engineer who is genuinely good at that costs multiples of $700 a month, and the moment they are on call for your queue they are not building your product.
+
+The same logic runs for deploys. You can build your own pipeline on a VPS or AWS. What you are buying from Vercel is not the compute, it is that a broken build stops at the preview deployment instead of production, and that pushing a commit with a minute left in a hackathon is a safe thing to do.
+
+So the tradeoff flips when the vendor's bill exceeds the fully loaded cost of the person who would own the replacement, plus the opportunity cost of what they would have built instead. For us, at tens of thousands of users and tens of millions of records, it has not flipped yet.
+
+## The part that is genuinely free
+
+Three things worth knowing before you pay for anything:
+
+- Most of these tools sign you up without a credit card. If a tool demands payment details or a verification call before you can send a test request, that is a reason to pick a different tool during a hackathon.
+- [GitHub Education](https://education.github.com) covers a long list of developer services if you are a student.
+- The [AI Engineer Pack](https://www.aiengineerpack.com) bundles credits across providers, including model credits and tooling. One sign-in, then discounts across a dozen services.
+
+---
+
+This is the second of four posts from *Designing the Tech Stack of your (Hackathon) Product*, a Crafter Station workshop. The cost discussion comes from the audience Q&A, [starting at 1:03:47](https://www.youtube.com/watch?v=DaSHOfDQI9E&t=3827s) in the [full session](https://www.youtube.com/watch?v=DaSHOfDQI9E), in Spanish.
+
+Product figures are ours as of June 2026; vendor pricing was verified in August 2026 and moves without warning, so check the pricing page before you plan around a number in this post.
+
+The rest of the series: [build the magic, borrow the rest](/blog/build-the-magic-borrow-the-rest), [pick tools your coding agent already knows](/blog/pick-tools-your-coding-agent-already-knows), and [the two ways to build on WhatsApp](/blog/two-ways-to-build-on-whatsapp).

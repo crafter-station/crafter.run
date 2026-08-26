@@ -1,0 +1,86 @@
+---
+title: "Build the magic, borrow the rest"
+summary: "A hackathon is a scoping problem wearing an engineering costume. The three layers every product has, and the four questions that decide which of them you are allowed to write yourself."
+date: "2026-08-25"
+order: 40
+kind: "engineering"
+authors: ["cuevaio"]
+---
+
+The most expensive decision in a hackathon is made before the first commit, and it is not which framework to use. It is which parts of the product you are going to write yourself.
+
+Reinventing the wheel is a good way to learn something properly. A hackathon is not the moment. The scarcest resource in the room is time: twenty-four hours, maybe forty-eight, to go from nothing to a thing that works in front of judges. Every hour spent on a password reset flow is an hour not spent on the reason your product exists.
+
+This post is the scoping half of a workshop we ran for teams heading into a hackathon. It is not a framework comparison. React against Svelte will not decide your weekend. What you choose to build from scratch will.
+
+## Every product has three layers
+
+Whatever you are building, it separates into three layers, and they are not equally valuable.
+
+| Layer | What lives there | Who sees it |
+| --- | --- | --- |
+| Product | The interface, the flow, what the thing feels like to use | Everyone, immediately |
+| Logic | Prompts, orchestration, the rules that make it work | Nobody directly, but they feel it |
+| Infrastructure | Database, auth, storage, deploys, queues | Only you |
+
+People remember the product layer. They remember what they felt when the demo ran, when they opened the link, when they messaged the bot and it answered well. They do not remember that you wrote your own deployment pipeline with GitHub Actions and a VPS. That work is real, and it says good things about you as an engineer, and it is invisible to a judge who has eight minutes and is not technical.
+
+So the rule is short: **build the magic, borrow the rest.** The magic almost always lives in the product layer. Payments, auth, email, storage and deploys are the rest, and companies with hundreds of engineers have already built them better than you will by Saturday.
+
+## Four questions, one decision
+
+Before writing any component, run it through these four. The answer tells you what you are allowed to do.
+
+| The question | If yes |
+| --- | --- |
+| Is this the core of the product? | Build it. This is the magic. |
+| Is this generic and solved? | Borrow it. Clerk, Better Auth, Stripe, Polar, Resend. |
+| Does the demo need it to make sense, but nothing more? | Mock it, honestly. |
+| Will it break the product if it fails? | Use the boring, reliable thing. |
+
+Auth is the clearest case. If your product *is* authentication, write it. It almost never is. If it is generic, you use [Clerk](https://clerk.com) or [Better Auth](https://www.better-auth.com) or whatever your database already ships, and you get back the three or four hours that a password reset flow and two OAuth providers would have cost you.
+
+The third row is the one teams get wrong in both directions. Mocking data is fine and often correct: the point is to make the demo legible. Inventing metrics that imply traction you do not have is not mocking, it is lying, and judges who have sat through forty pitches can smell it. Mock the shape of the data, not the success.
+
+The fourth row is where "I'll just write it quickly" goes to die. If billing breaking means the product is dead on stage, that is precisely the component you should not be writing at 3am.
+
+## Your judges are not your code reviewers
+
+Engineers optimize for the audience they know, which is other engineers. Hackathon judges are usually not that audience.
+
+What they actually evaluate: does this solve a real problem, do I understand it within a minute, does the demo work, and is there a moment where I go "wow". A clean architecture diagram earns nothing if the sign-in is broken when you present.
+
+This has a direct consequence for the UI, which engineers habitually deprioritize. The landing page is the first thing a judge sees. It has to say what the product is, what problem it solves and how it works, and it has to say it fast. Start with [v0](https://v0.dev) or [Lovable](https://lovable.dev) for a first pass, then take that into your coding agent and iterate. You are not trying to win a design award. You are trying to not lose points in the first thirty seconds.
+
+## Design the demo before you build the app
+
+The demo is not documentation of what you built. It is the specification for what you build.
+
+Sit down before you write code and answer: who has this problem, what exactly is the problem, what is the single flow we are going to show, where is the wow moment, and what data does that flow need. Then build that flow and almost nothing else.
+
+This is the discipline that makes the four questions above answerable. You cannot decide whether auth is demo-critical until you know whether the demo includes signing in. Most of the time it does not, and that realization is worth several hours.
+
+Scope to one feature and make it excellent. Teams lose more often to three half-working features than to one that works.
+
+## The one-sentence test
+
+Before you open the editor, you should be able to explain the product in a single sentence. Not a paragraph, not a pitch deck slide. One sentence.
+
+If you cannot, you do not yet know what the magic is, which means you do not know what to build and what to borrow. Every hour spent coding before that sentence exists is an hour you are likely to throw away.
+
+## What this looks like in practice
+
+Concretely, for most products, the split lands here:
+
+- **Build**: the flow that only your product has. The prompt and the retrieval strategy if it is an AI product. The interaction that produces the wow moment.
+- **Borrow**: auth, database, file storage, email, payments, background jobs, deploys. All of it has a free tier that covers a hackathon and most of a startup's first year.
+- **Mock**: anything the demo narrates but does not depend on.
+- **Cut**: everything else. Not "later", cut.
+
+The teams that ship on time are not faster engineers. They wrote less.
+
+---
+
+This is the first of four posts from *Designing the Tech Stack of your (Hackathon) Product*, a Crafter Station workshop. The full session is [on YouTube](https://www.youtube.com/watch?v=DaSHOfDQI9E) in Spanish; the three layers start at [13:22](https://www.youtube.com/watch?v=DaSHOfDQI9E&t=802s) and the four questions at [15:08](https://www.youtube.com/watch?v=DaSHOfDQI9E&t=908s).
+
+The rest of the series: [what the borrowed stack actually costs](/blog/what-the-free-tier-costs-when-it-stops-being-free), [how to choose tools your coding agent already knows](/blog/pick-tools-your-coding-agent-already-knows), and [the two ways to build on WhatsApp](/blog/two-ways-to-build-on-whatsapp).

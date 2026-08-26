@@ -1,0 +1,81 @@
+---
+title: "Dos formas de construir sobre WhatsApp, y cómo elegir"
+summary: "La API oficial de Cloud y los wrappers de sesión por QR resuelven problemas distintos y fallan de formas distintas. Grupos, riesgo de baneo, cambios de políticas de Meta, y la tabla de decisión que usamos."
+date: "2026-08-25"
+order: 20
+kind: "engineering"
+authors: ["cuevaio"]
+---
+
+Si estás construyendo para América Latina, WhatsApp no es un canal que soportas. Es el canal. Cientos de millones de personas lo usan a diario, y un producto que vive dentro de WhatsApp se salta por completo el problema de convencer a alguien de instalar una app.
+
+Hay exactamente dos formas de tener acceso programático, no son intercambiables, y elegir mal te cuesta o una feature que necesitabas o un número que te banean a mitad de la demo.
+
+## Los dos caminos
+
+**La API oficial de WhatsApp Cloud** es el producto de Meta. Registras un negocio, apruebas un número y envías mensajes por endpoints documentados. Meta sabe que estás automatizando, porque automatizar es el punto.
+
+**Un wrapper de sesión por QR** es un servidor corriendo WhatsApp Web al que entras escaneando un código QR, igual que lo harías desde una laptop. El proveedor se sienta en medio de esa sesión y la expone como una API HTTP. En esta categoría están [Wasender API](https://wasenderapi.com) y [Whapi](https://whapi.cloud), entre otros.
+
+Todo lo demás se desprende de esa diferencia.
+
+| | API oficial de Cloud | Wrapper de sesión por QR |
+| --- | --- | --- |
+| Cómo te ve Meta | Un negocio, como corresponde | Una persona en WhatsApp Web |
+| Grupos | No | Sí |
+| Estados, canales, historias | No | Sí |
+| Riesgo de baneo por volumen | Bajo, la automatización se espera | Alto, es el modo de falla principal |
+| Sobrevive a un cambio de políticas de Meta | Sí | No garantizado |
+| Costo de setup | Verificación de negocio, aprobación del número | Escanear un QR |
+| Términos de servicio | Cumple | No cumple con los términos de WhatsApp |
+
+## La API oficial, sin la documentación de Meta
+
+La Cloud API es la respuesta correcta para producción. Su problema real es que la documentación de Meta es mala, las reglas son muchas, y el camino de setup tiene más pasos de los necesarios.
+
+[Kapso](https://kapso.com) es la capa que recomendamos encima. Envuelve la API oficial y reconstruye la experiencia de desarrollo que Meta no dio: documentación decente, logs de mensajes, webhooks, plantillas, WhatsApp Flows, SDKs, y la posibilidad de comprar números directamente en vez de navegar Business Manager.
+
+Dos detalles la hacen especialmente adecuada para cómo se construye hoy. Trae un CLI, así que puedes enviar mensajes, inspeccionar conversaciones y configurar webhooks desde la terminal. Y trae [un servidor MCP](https://docs.kapso.ai/docs/whatsapp/mcp) en `api.kapso.ai/mcp`, lo que significa que un coding agent puede operar tu número de WhatsApp como una herramienta viva en lugar de adivinar la forma de una API que recuerda a medias. Esa propiedad, ser legible para un agente y no solo para un humano, vale más de lo que suena; escribimos sobre [por qué hoy define la elección de herramientas](/blog/pick-tools-your-coding-agent-already-knows).
+
+Los precios al momento de escribir empiezan en $25 al mes por 100,000 mensajes, con un tier de $299 por un millón.
+
+Úsala para soporte, CRMs, flujos de notificaciones, bots de ventas, cualquier cosa con volumen real de mensajes hacia contactos individuales.
+
+## Los wrappers por QR, y lo que tienes que aceptar
+
+El camino del wrapper te da todo lo que la API oficial se niega a exponer. Los grupos son lo más importante. Si tu producto lee o escribe en chats grupales, la Cloud API no te sirve de nada, y no es una limitación que puedas rodear.
+
+Nosotros corremos uno. El bot de la comunidad de Crafter Station está en nuestro grupo de WhatsApp, lee la conversación, y cada treinta minutos resume lo que pasó y extrae lo útil: ships que la gente anunció, recursos que compartió, eventos que vienen. Corre sobre Wasender porque no hay otra forma de hacerlo.
+
+Lo que tienes que aceptar es que estás automatizando una cuenta personal, y la detección de abuso de WhatsApp está buscando exactamente eso. Manda diez mil mensajes en un día y WhatsApp va a concluir, correctamente, que ningún humano manda diez mil mensajes en un día, y el número desaparece. El número, no una advertencia.
+
+De ahí sale una regla limpia: **leer mucho está bien, escribir mucho es peligroso.** Un bot que escucha un grupo y ocasionalmente publica un resumen parece un miembro entusiasta. Un bot que dispara mensajes salientes parece lo que es.
+
+Lo segundo que tienes que aceptar es que este camino no cumple con los términos de servicio de WhatsApp, y que depende de que el comportamiento de WhatsApp Web no cambie. Meta publica un cambio, el wrapper se rompe, y tu producto está caído hasta que el proveedor se ponga al día. Para una hackathon ese riesgo es gratis. Para un negocio es un pasivo que estás eligiendo cargar.
+
+## La tabla de decisión
+
+| Qué estás construyendo | Usa |
+| --- | --- |
+| Soporte al cliente o un CRM | Kapso |
+| Cualquier cosa con grupos | Wasender o Whapi |
+| Un prototipo de hackathon | Cualquiera, y el wrapper por QR arranca más rápido |
+| Automatización personal | Wasender o Whapi |
+| Alto volumen saliente | Kapso, sin excepción |
+| Producción, y no puedes permitir que un cambio de Meta lo rompa | Kapso |
+
+La fila que la gente falla es la última. Los prototipos se gradúan. Si hay una posibilidad real de que esto se vuelva un negocio, migrar de un wrapper por QR a la Cloud API no es un cambio de configuración: el set de features es distinto y parte de lo que construiste puede no ser portable. Saberlo el día uno es más barato que descubrirlo el día que firmas un cliente.
+
+## Construir el resto
+
+Tomes el camino que tomes, la forma de un producto de WhatsApp con AI es la misma: un webhook recibe un mensaje, una función lo procesa, un modelo genera una respuesta, la envías de vuelta, guardas el resultado.
+
+Dos notas de haber construido varios. Guarda la memoria conversacional del LLM en Redis y no en Postgres; [Upstash](https://upstash.com) te da un endpoint de Redis en pocas líneas y la diferencia de latencia se nota en una interfaz de chat donde el usuario está esperando la respuesta.
+
+Y si algún paso toma tiempo real, generar un reporte, correr un loop de investigación, llamar a un modelo de imágenes, no lo corras en el handler del request. Las serverless functions son la forma equivocada para trabajo que se mide en minutos. Muévelo a [Trigger.dev](https://trigger.dev) y respóndele al usuario cuando esté listo.
+
+---
+
+Este es el tercero de cuatro posts de *Designing the Tech Stack of your (Hackathon) Product*, un taller de Crafter Station. La sección de WhatsApp empieza en [31:20](https://www.youtube.com/watch?v=DaSHOfDQI9E&t=1880s) de la [sesión completa](https://www.youtube.com/watch?v=DaSHOfDQI9E).
+
+El resto de la serie: [construye la magia, presta lo demás](/blog/build-the-magic-borrow-the-rest), [lo que cuesta el stack prestado](/blog/what-the-free-tier-costs-when-it-stops-being-free), y [elige herramientas que tu coding agent ya conoce](/blog/pick-tools-your-coding-agent-already-knows).
