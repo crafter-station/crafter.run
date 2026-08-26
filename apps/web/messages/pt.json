@@ -93,6 +93,7 @@
       "contact": "Contato"
     },
     "buildLinks": {
+      "blog": "Blog",
       "oss": "Código aberto",
       "ossMetrics": "Métricas OSS",
       "products": "Produtos",
@@ -452,10 +453,8 @@
     },
     "blog": {
       "eyebrow": "Blog",
-      "title": "Historias sobre shipping, AI, comunidade e craft.",
-      "description": "O blog unificado vai reunir aprendizados da Crafter Station, Research, open source, hackathons e comunidade LatAm.",
-      "section": "Comece pela filosofia e research.",
-      "sectionDescription": "A migracao completa de conteudo pode vir depois. Por enquanto destacamos as superficies mais importantes."
+      "title": "O que construímos e o que aprendemos, por escrito.",
+      "description": "Notas de engenharia, histórias da comunidade e lições de produto da Crafter Station e dos builders ao redor. Cada post sai no mesmo dia que o trabalho."
     },
     "brand": {
       "eyebrow": "Recursos da marca",
