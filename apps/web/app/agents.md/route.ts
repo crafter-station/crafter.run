@@ -34,6 +34,9 @@ Everything on ${siteConfig.domain} is public and readable without authentication
 | A machine description of every read endpoint | \`${baseUrl}/openapi.json\` |
 | Structured access over MCP | \`${MCP_ENDPOINT}\` |
 | Every indexable URL | \`${baseUrl}/sitemap.xml\` |
+| Every blog post, as a markdown index | \`${baseUrl}/blog/sitemap.md\` |
+| One blog post as Markdown | append \`.md\` to its URL, or send \`Accept: text/markdown\` |
+| The blog as an Atom feed | \`${baseUrl}/blog/rss.xml\` |
 | The authenticated Ships and profiles API | \`${apiUrl}/openapi.json\` |
 
 Content is published in ${locales.length} languages: ${locales.join(", ")}. Localized pages live under \`/{locale}/...\`; a request without a locale prefix redirects to \`/en\`. Endpoints on this page are not localized and must not be prefixed.
