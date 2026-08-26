@@ -1,0 +1,86 @@
+---
+title: "Construye la magia, presta lo demás"
+summary: "Una hackathon es un problema de scope disfrazado de problema de ingeniería. Las tres capas que tiene todo producto, y las cuatro preguntas que deciden cuáles puedes escribir tú."
+date: "2026-08-25"
+order: 40
+kind: "engineering"
+authors: ["cuevaio"]
+---
+
+La decisión más cara de una hackathon se toma antes del primer commit, y no es qué framework usar. Es qué partes del producto vas a escribir tú.
+
+Reinventar la rueda es una buena forma de aprender algo a fondo. Una hackathon no es el momento. El recurso más escaso en la sala es el tiempo: veinticuatro horas, quizá cuarenta y ocho, para pasar de cero a algo que funcione frente a un jurado. Cada hora en un flujo de recuperación de contraseña es una hora que no le dedicaste a la razón por la que tu producto existe.
+
+Este post es la parte de scope de un taller que dimos para equipos que iban a una hackathon. No es una comparación de frameworks. React contra Svelte no va a decidir tu fin de semana. Lo que elijas construir desde cero, sí.
+
+## Todo producto tiene tres capas
+
+Sea lo que sea que estés construyendo, se separa en tres capas, y no valen lo mismo.
+
+| Capa | Qué vive ahí | Quién la ve |
+| --- | --- | --- |
+| Producto | La interfaz, el flujo, cómo se siente usarlo | Todos, de inmediato |
+| Lógica | Prompts, orquestación, las reglas que lo hacen funcionar | Nadie directamente, pero se nota |
+| Infraestructura | Base de datos, auth, storage, deploys, colas | Solo tú |
+
+La gente recuerda la capa de producto. Recuerda qué sintió cuando corrió la demo, cuando abrió el link, cuando le escribió al bot y respondió bien. No recuerda que armaste tu propio pipeline de deployment con GitHub Actions y un VPS. Ese trabajo es real, y habla muy bien de ti como ingeniero, y es invisible para un jurado que tiene ocho minutos y no es técnico.
+
+Así que la regla es corta: **construye la magia, presta lo demás.** La magia casi siempre vive en la capa de producto. Pagos, auth, correos, storage y deploys son lo demás, y hay empresas con cientos de ingenieros que ya lo construyeron mejor de lo que tú lo vas a hacer para el sábado.
+
+## Cuatro preguntas, una decisión
+
+Antes de escribir cualquier componente, pásalo por estas cuatro. La respuesta te dice qué tienes permitido hacer.
+
+| La pregunta | Si la respuesta es sí |
+| --- | --- |
+| ¿Es el core del producto? | Constrúyelo. Esto es la magia. |
+| ¿Es genérico y ya está resuelto? | Préstalo. Clerk, Better Auth, Stripe, Polar, Resend. |
+| ¿La demo lo necesita para entenderse, y nada más? | Simúlalo, con honestidad. |
+| ¿Rompe el producto si falla? | Usa la opción aburrida y confiable. |
+
+Auth es el caso más claro. Si tu producto *es* autenticación, escríbelo. Casi nunca lo es. Si es genérico, usas [Clerk](https://clerk.com) o [Better Auth](https://www.better-auth.com) o lo que ya traiga tu base de datos, y recuperas las tres o cuatro horas que te habrían costado un flujo de reseteo de contraseña y dos providers de OAuth.
+
+La tercera fila es la que los equipos hacen mal en ambas direcciones. Simular datos está bien y muchas veces es lo correcto: el punto es que la demo se entienda. Inventar métricas que insinúan una tracción que no tienes no es simular, es mentir, y un jurado que ya vio cuarenta pitches lo huele. Simula la forma de los datos, no el éxito.
+
+La cuarta fila es donde muere el "lo hago rapidito". Si que se rompa el cobro significa que el producto está muerto en el escenario, ese es justamente el componente que no deberías estar escribiendo a las 3am.
+
+## El jurado no es tu code reviewer
+
+Los ingenieros optimizamos para la audiencia que conocemos, que son otros ingenieros. El jurado de una hackathon normalmente no es esa audiencia.
+
+Lo que realmente evalúan: si esto resuelve un problema real, si lo entiendo en menos de un minuto, si la demo funciona, y si hay un momento en el que digo "wow". Un diagrama de arquitectura impecable no suma nada si el sign in está roto cuando presentas.
+
+Esto tiene una consecuencia directa sobre la UI, que los ingenieros solemos dejar para el final. La landing es lo primero que ve el jurado. Tiene que decir qué es el producto, qué problema resuelve y cómo funciona, y tiene que decirlo rápido. Empieza con [v0](https://v0.dev) o [Lovable](https://lovable.dev) para una primera pasada, y lleva eso a tu coding agent para iterar. No estás compitiendo por un premio de diseño. Estás evitando perder puntos en los primeros treinta segundos.
+
+## Diseña la demo antes de construir la app
+
+La demo no es la documentación de lo que construiste. Es la especificación de lo que vas a construir.
+
+Siéntate antes de escribir código y responde: quién tiene este problema, cuál es exactamente el problema, cuál es el único flujo que vamos a mostrar, dónde está el momento wow, y qué datos necesita ese flujo. Después construye ese flujo y casi nada más.
+
+Esta es la disciplina que hace respondibles las cuatro preguntas de arriba. No puedes decidir si auth es crítico para la demo hasta que sepas si la demo incluye iniciar sesión. La mayoría de las veces no lo incluye, y darte cuenta de eso vale varias horas.
+
+Reduce el scope a una sola feature y hazla excelente. Los equipos pierden más seguido con tres features a medias que con una que funciona.
+
+## La prueba de una sola oración
+
+Antes de abrir el editor, deberías poder explicar el producto en una sola oración. No un párrafo, no una lámina del pitch. Una oración.
+
+Si no puedes, todavía no sabes cuál es la magia, lo que significa que no sabes qué construir y qué prestar. Cada hora de código antes de que exista esa oración es una hora que probablemente vas a botar.
+
+## Cómo se ve esto en la práctica
+
+En concreto, para la mayoría de productos el reparto queda así:
+
+- **Construir**: el flujo que solo tu producto tiene. El prompt y la estrategia de retrieval si es un producto con AI. La interacción que produce el momento wow.
+- **Prestar**: auth, base de datos, storage, correos, pagos, background jobs, deploys. Todo eso tiene un free tier que cubre una hackathon y buena parte del primer año de una startup.
+- **Simular**: cualquier cosa que la demo mencione pero de la que no dependa.
+- **Cortar**: todo lo demás. No "para después", cortar.
+
+Los equipos que llegan a tiempo no son ingenieros más rápidos. Escribieron menos.
+
+---
+
+Este es el primero de cuatro posts de *Designing the Tech Stack of your (Hackathon) Product*, un taller de Crafter Station. La sesión completa está [en YouTube](https://www.youtube.com/watch?v=DaSHOfDQI9E); las tres capas empiezan en [13:22](https://www.youtube.com/watch?v=DaSHOfDQI9E&t=802s) y las cuatro preguntas en [15:08](https://www.youtube.com/watch?v=DaSHOfDQI9E&t=908s).
+
+El resto de la serie: [lo que cuesta el stack prestado](/blog/what-the-free-tier-costs-when-it-stops-being-free), [cómo elegir herramientas que tu coding agent ya conoce](/blog/pick-tools-your-coding-agent-already-knows), y [las dos formas de construir sobre WhatsApp](/blog/two-ways-to-build-on-whatsapp).

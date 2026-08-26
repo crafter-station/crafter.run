@@ -20,3 +20,6 @@ dist/
 .agents/
 .claude/
 skills-lock.json
+
+# Scratch output from skills/video-to-blog (transcripts, caption files)
+.work/

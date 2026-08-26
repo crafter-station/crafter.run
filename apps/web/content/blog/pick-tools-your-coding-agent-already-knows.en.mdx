@@ -1,0 +1,76 @@
+---
+title: "Pick tools your coding agent already knows"
+summary: "Tool selection changed when agents started writing most of the integration code. Eight questions to ask before adding a dependency, and why documentation quality is now a performance characteristic."
+date: "2026-08-25"
+order: 10
+kind: "engineering"
+authors: ["cuevaio"]
+---
+
+There is a criterion in technology selection that did not exist three years ago and now quietly outranks several of the old ones: how well does the model in your editor already know this thing.
+
+It sounds like a joke about vibe coding. It is not. If a coding agent writes most of your integration code, then the difference between a library the model has internalized and one it has to be taught is measured in hours of your weekend. Two tools can be technically equivalent and differ by an order of magnitude in how fast you can ship with them, entirely because of what surrounds them.
+
+That is why our default recommendation is Next.js, and it is not because Next.js wins a benchmark. Models know React deeply and Next.js specifically. The same reasoning picks [shadcn/ui](https://ui.shadcn.com) for components and [Recharts](https://recharts.org) for charts: ask for a dashboard and you get one, because the model has seen thousands of them.
+
+If you know a different framework well, use it. Just know you are paying a tax on every library decision downstream, because the React ecosystem has an answer for everything and the others have fewer.
+
+## The eight questions
+
+Before adding anything to the stack, we run it through these. The first one predicts most of the others.
+
+**1. Is the documentation good?**
+
+This is the master criterion, and it is no longer just about you. Good documentation means you can paste it into an agent and get working code back. Bad documentation means you and the model guess together, which goes exactly as well as it sounds. Meta's WhatsApp docs are the canonical example of a capable API behind documentation bad enough to change which tool you should pick.
+
+**2. Does it publish an `llms.txt`?**
+
+A single file that gives a model the map of the documentation, so an agent can find the right page instead of crawling and hoping. Its presence also tells you something about the team: they have thought about agents as a category of user. We [ship one ourselves](/blog/a-website-agents-can-read) for the same reason.
+
+**3. Does it have a CLI?**
+
+An agent can run a CLI. It cannot click through a dashboard. A tool that can be configured from a terminal is a tool your agent can set up end to end while you do something else.
+
+**4. Does it have an MCP server?**
+
+The strongest version of the previous point. An MCP server lets the agent operate the live service, reading real state and taking real actions, instead of writing code against a remembered API shape. [Kapso](https://docs.kapso.ai/docs/whatsapp/mcp) does this for WhatsApp numbers. When a tool offers one, the integration usually stops being a task.
+
+**5. Can you be in production today, without a credit card?**
+
+Some tools want payment details, a sales call or a verification step before you can send a first request. During a hackathon that disqualifies them outright. Outside a hackathon it is still a signal about how the company treats small users.
+
+**6. Are the error messages good?**
+
+Underrated to the point of being invisible. Next.js has excellent errors: you copy one, paste it into an agent, and it is fixed. A tool that fails with `Error: something went wrong` costs you a debugging session every time it breaks, and there is nothing for the agent to work with.
+
+**7. Will it survive the demo?**
+
+Imagine reaching your demo, clicking sign in, and it is broken. Whatever sits on that path has to be the boring, reliable option. This is why the answer to auth is Clerk or Better Auth or Supabase, and not something you found last night.
+
+**8. Can you replace it later?**
+
+The one people skip. Ask concretely: if I change this, how much code moves?
+
+Databases make the tradeoff obvious. Build on Drizzle and switching providers is a connection string and one config file. Build on a vendor's SDK and every call site is coupled to that vendor, so switching is a refactor across the codebase. Both are legitimate choices, but only one of them is reversible, and you should know which one you picked.
+
+A ninth, informal: check what people say on Reddit and Twitter. Documentation tells you what a tool intends to do. Strangers complaining tell you what it does at 2am.
+
+## Working with the model, not against it
+
+Two failure modes worth naming, because they show up in almost every AI-assisted project.
+
+**Models over-engineer schemas.** Ask for a database design and you will get normalized tables, junction tables and indexes for a product that has eleven users. Push back and keep it minimal. You can add structure when you have the problem that needs it; you cannot easily remove it once queries depend on it.
+
+**Let the model route, do not route for it.** The instinct when building retrieval is to run semantic search first, then branch on the results with conditionals. Expose semantic search as a tool instead and let the model decide when to call it. The code stays readable, the branching logic disappears, and the behavior is usually better because the decision is made with the full context of the conversation rather than by an `if` statement you wrote before you knew what users would ask.
+
+## The reframe
+
+The old question was "is this tool good". The question now is "is this tool legible", to you, to your agent, and to the model that will be asked about it.
+
+Those correlate more than you would expect. Teams that write good documentation, ship a CLI, expose an MCP server and return useful errors are usually teams that also built the thing carefully. Legibility is not a proxy for quality by accident.
+
+---
+
+This is the last of four posts from *Designing the Tech Stack of your (Hackathon) Product*, a Crafter Station workshop. The selection criteria start at [49:45](https://www.youtube.com/watch?v=DaSHOfDQI9E&t=2985s) in the [full session](https://www.youtube.com/watch?v=DaSHOfDQI9E), in Spanish.
+
+The rest of the series: [build the magic, borrow the rest](/blog/build-the-magic-borrow-the-rest), [what the borrowed stack actually costs](/blog/what-the-free-tier-costs-when-it-stops-being-free), and [the two ways to build on WhatsApp](/blog/two-ways-to-build-on-whatsapp).

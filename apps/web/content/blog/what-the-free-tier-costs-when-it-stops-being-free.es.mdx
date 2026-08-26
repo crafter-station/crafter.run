@@ -1,0 +1,91 @@
+---
+title: "Lo que cuesta el free tier cuando deja de ser gratis"
+summary: "El stack prestado es gratis en una hackathon y sigue siéndolo más tiempo del que la gente espera. Números mensuales reales de dos productos en producción, y dónde se invierte de verdad el tradeoff de construir contra comprar."
+date: "2026-08-25"
+order: 30
+kind: "engineering"
+authors: ["cuevaio"]
+---
+
+"Usa el free tier" es un consejo fácil de dar y difícil de ejecutar, porque la pregunta que nadie responde es qué pasa después. Eliges Clerk, Neon y Trigger para un fin de semana, el producto funciona, la gente empieza a usarlo, y en algún momento llega una factura. ¿De cuánto, y cuándo?
+
+Corremos este stack en producción en [Croma](https://usecroma.com) y [Kebo](https://kebo.app), así que aquí están los números reales en lugar de las generalidades de siempre.
+
+## El stack en cuestión
+
+Esto es lo que recomendamos para una hackathon y lo que después mantuvimos cuando los proyectos se volvieron empresas.
+
+| Necesidad | Herramienta |
+| --- | --- |
+| Frontend | Next.js, Tailwind, shadcn/ui |
+| Auth | Clerk, o Better Auth si quieres las tablas en tu propia base de datos |
+| Base de datos | Neon para Postgres puro, Supabase si además quieres storage y realtime |
+| ORM | Drizzle |
+| AI | AI SDK, cualquier provider o el Vercel AI Gateway |
+| Background jobs | Trigger.dev |
+| Correos | Resend |
+| Pagos | Stripe o Polar |
+| Deploys | Vercel |
+
+Todas tienen un free tier que cubre una hackathon completa. Lo único que cuesta desde el día uno son los tokens.
+
+## Cuánto dura de verdad lo gratis
+
+Más de lo que sugiere la ansiedad.
+
+Kebo tiene alrededor de 80,000 usuarios. Corrió en el free tier de Supabase hasta cerca de 50,000 de ellos, y recién hace poco migró a una base de datos pagada. Eso no es un margen simbólico: son cincuenta mil usuarios de pista en un plan que costaba cero.
+
+Clerk subió su free tier a 50,000 monthly retained users en febrero de 2026. La unidad importa: Clerk cobra por MRU, no por MAU, y MRU excluye deliberadamente a los usuarios nuevos. Un producto con mucho tráfico de registro y retención moderada cuenta bastantes menos usuarios facturables de los que contaría en un competidor que mide MAU.
+
+El free tier de Neon da 0.5 GB de almacenamiento y 100 horas de cómputo por proyecto al mes. Para una aplicación que todavía no hace volumen serio de queries, eso son meses de margen.
+
+La lectura práctica: para la mayoría de productos el free tier no se acaba porque conseguiste usuarios. Se acaba porque empezaste a hacer algo caro.
+
+## Cómo se ve la factura del otro lado
+
+Croma es un producto de infraestructura de datos. Se para entre las empresas y las fuentes de datos públicos de gobiernos latinoamericanos, que son lentas, poco estructuradas e inconsistentes, y las convierte en APIs que no son nada de eso. Corre literalmente sobre el stack de arriba.
+
+Dos líneas dominan la factura:
+
+- **Trigger.dev: entre $500 y $600 al mes.** El trabajo central de Croma es scraping y normalización de larga duración, que es exactamente para lo que sirve Trigger y exactamente lo que no puedes correr en una serverless function.
+- **Neon: alrededor de $200 al mes.**
+
+Vale la pena detenerse ahí, porque el plan Pro de Trigger cuesta $50 al mes. El precio del plan no es la factura. Trigger, Neon y casi toda la infraestructura moderna cobran cómputo e invocaciones aparte de la suscripción, así que tu costo sigue a tu carga de trabajo, no a tu tier. Un producto cuyo trabajo entero es procesamiento en background va a pagar por procesamiento en background.
+
+En un producto con AI normalmente hay una tercera línea por encima de estas dos, y son los tokens. Si tu producto llama a modelos en cada acción del usuario, la inferencia va a ser tu factura más grande mucho antes que la base de datos.
+
+## El ajuste que más plata ahorra por menos esfuerzo
+
+Neon crea los proyectos nuevos con un tamaño de cómputo generoso. La mayoría de aplicaciones no lo necesita.
+
+Bájalo cuando creas el proyecto. Neon cobra por hora de cómputo, así que un default sobredimensionado es un multiplicador directo sobre una factura que todavía no has mirado. Es un cambio de treinta segundos en la consola que aparece todos los meses durante la vida del proyecto.
+
+La forma general de esto: la infraestructura que cobra por consumo trae defaults pensados para la demo, no para tu factura. Revisa la configuración de cómputo de cualquier cosa que cobre por hora.
+
+## Dónde se invierte de verdad el tradeoff
+
+El argumento honesto en contra de todo esto es que $700 al mes no es nada despreciable, y que podrías autohospedar casi todo.
+
+Podrías. La comparación que importa no es $700 contra $0, es $700 contra un ingeniero.
+
+Para reemplazar Trigger necesitas ejecución durable de jobs, reintentos, scheduling, control de concurrencia, observabilidad y una UI para depurar corridas fallidas. Eso es un sistema real, y una vez que existe alguien tiene que mantenerlo vivo. Un ingeniero que de verdad sea bueno en eso cuesta varias veces $700 al mes, y en el momento en que está de guardia por tu cola de jobs no está construyendo tu producto.
+
+La misma lógica aplica a los deploys. Puedes armar tu propio pipeline en un VPS o en AWS. Lo que le compras a Vercel no es el cómputo, es que un build roto se quede en el preview en lugar de llegar a producción, y que pushear un commit faltando un minuto para la entrega sea algo seguro de hacer.
+
+Entonces el tradeoff se invierte cuando la factura del proveedor supera el costo total de la persona que se haría cargo del reemplazo, más el costo de oportunidad de lo que esa persona habría construido en cambio. Para nosotros, con decenas de miles de usuarios y decenas de millones de registros, todavía no se invierte.
+
+## La parte que sí es genuinamente gratis
+
+Tres cosas que vale la pena saber antes de pagar por nada:
+
+- La mayoría de estas herramientas te deja registrarte sin tarjeta. Si una exige datos de pago o una llamada de verificación antes de que puedas mandar un request de prueba, eso es razón suficiente para elegir otra durante una hackathon.
+- [GitHub Education](https://education.github.com) cubre una lista larga de servicios para desarrolladores si eres estudiante.
+- El [AI Engineer Pack](https://www.aiengineerpack.com) agrupa créditos de varios proveedores, incluidos créditos de modelos y de herramientas. Un solo registro y tienes descuentos en una docena de servicios.
+
+---
+
+Este es el segundo de cuatro posts de *Designing the Tech Stack of your (Hackathon) Product*, un taller de Crafter Station. La conversación sobre costos viene del Q&A, [desde 1:03:47](https://www.youtube.com/watch?v=DaSHOfDQI9E&t=3827s) en la [sesión completa](https://www.youtube.com/watch?v=DaSHOfDQI9E).
+
+Las cifras de nuestros productos son de junio de 2026; los precios de los proveedores se verificaron en agosto de 2026 y cambian sin aviso, así que revisa la página de precios antes de planificar sobre un número de este post.
+
+El resto de la serie: [construye la magia, presta lo demás](/blog/build-the-magic-borrow-the-rest), [elige herramientas que tu coding agent ya conoce](/blog/pick-tools-your-coding-agent-already-knows), y [las dos formas de construir sobre WhatsApp](/blog/two-ways-to-build-on-whatsapp).
