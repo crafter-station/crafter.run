@@ -1,9 +1,13 @@
+import { getIndexPosts } from "@/lib/blog"
+import { blogPostPath, blogSitemapMdPath } from "@/lib/blog-paths"
 import { source } from "@/lib/source"
 import { baseUrl } from "@/lib/seo"
 
 export const revalidate = false
 
 export function GET() {
+  const posts = getIndexPosts("en")
+
   const lines = [
     "# Crafter Station Docs",
     "",
@@ -17,6 +21,15 @@ export function GET() {
         (page) =>
           `- [${page.data.title}](${baseUrl}${page.url}): ${page.data.description ?? ""}`,
       ),
+    "",
+    "## Blog",
+    "",
+    `Engineering notes and community stories. Every post is readable as markdown at its URL plus \`.md\`; the full index is at ${baseUrl}${blogSitemapMdPath("en")}.`,
+    "",
+    ...posts.map(
+      (post) =>
+        `- [${post.title}](${baseUrl}${blogPostPath(post.locale, post.slug)}.md): ${post.summary}`,
+    ),
   ]
 
   return new Response(lines.join("\n"), {

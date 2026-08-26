@@ -24,6 +24,7 @@ const navCopy = {
     crafters: "Crafters",
     events: "Events",
     hackathon: "Hackathons",
+    blog: "Blog",
     oss: "Open source",
     products: "Products",
     research: "Research",
@@ -46,6 +47,7 @@ const navCopy = {
     crafters: "Crafters",
     events: "Eventos",
     hackathon: "Hackathons",
+    blog: "Blog",
     oss: "Código abierto",
     products: "Productos",
     research: "Investigación",
@@ -68,6 +70,7 @@ const navCopy = {
     crafters: "Crafters",
     events: "Eventos",
     hackathon: "Hackathons",
+    blog: "Blog",
     oss: "Codigo aberto",
     products: "Produtos",
     research: "Pesquisa",
@@ -90,6 +93,7 @@ const navCopy = {
     crafters: "成员",
     events: "活动",
     hackathon: "黑客松",
+    blog: "博客",
     oss: "开源",
     products: "产品",
     research: "研究",
@@ -112,6 +116,7 @@ const navCopy = {
     crafters: "Crafters",
     events: "イベント",
     hackathon: "ハッカソン",
+    blog: "ブログ",
     oss: "オープンソース",
     products: "プロダクト",
     research: "リサーチ",
@@ -173,6 +178,16 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 ))}
+                <NavigationMenuItem className="h-full">
+                  <NavigationMenuLink asChild>
+                    <Link
+                      href={withLocale("/blog", locale)}
+                      className="inline-flex h-16 items-center px-4 text-sm font-medium transition-colors hover:bg-accent-surface/10 focus:bg-accent-surface/10 focus:outline-none 2xl:px-5"
+                    >
+                      {t.blog}
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
           </div>
@@ -224,6 +239,12 @@ export function SiteHeader({ locale }: { locale: Locale }) {
                       </ul>
                     </details>
                   ))}
+                  <Link
+                    href={withLocale("/blog", locale)}
+                    className="flex items-center justify-between border-b border-line py-3 text-sm font-medium text-foreground"
+                  >
+                    {t.blog}
+                  </Link>
                   <div className="mt-4 flex items-center justify-between border border-line px-4 py-3">
                     <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                       {t.language}

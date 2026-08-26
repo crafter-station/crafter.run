@@ -1,0 +1,78 @@
+---
+title: "一个智能体能读懂的网站"
+summary: "crafter.run 现在提供 agents.md、llms.txt、OpenAPI 描述和一个只读的 MCP 服务器。每个入口的用途，以及关于写入的唯一一条规则。"
+date: "2026-08-25"
+kind: "engineering"
+authors: ["cris"]
+---
+
+这个站点上越来越多的访客不是人。他们是来找安装说明的编程智能体，是在回答"Crafter Station 是什么"的助手，是在判断这些内容值不值得引用的爬虫。上周我们上线了让站点对他们可读的那一层，这篇文章就是地图。
+
+背后的原则很短：**读是开放的，写不是**。下面的一切都是公开的，不需要认证。智能体能做的两件会改变状态的事，都走同一条经过认证的路径，文末会说。
+
+## 从这里开始
+
+每个入口都在一个可预测的地址上，没有语言前缀。
+
+| 你想要 | 请求 |
+| --- | --- |
+| 面向智能体的 README | `/agents.md` |
+| 每个文档页一行的索引 | `/llms.txt` |
+| 所有文档页的全文 | `/llms-full.txt` |
+| 单个文档页的 markdown | `/llms.mdx/{slug}?lang={locale}` |
+| 每个只读端点的机器可读描述 | `/openapi.json` |
+| 通过 MCP 的结构化访问 | `/mcp` |
+| MCP 清单 | `/.well-known/mcp.json` |
+
+`agents.md` 是最该先读的一个。它和编程智能体期望在仓库里看到的 `AGENTS.md` 形状相同，只不过描述的是网站而不是代码库：有什么、去哪里取、以及当用户要求智能体去做事而不是去读的时候该怎么办。
+
+## MCP 服务器
+
+`/mcp` 是一个基于 Streamable HTTP 的无状态 [Model Context Protocol](https://modelcontextprotocol.io) 服务器。你 POST JSON-RPC 2.0，拿回 JSON。没有服务端发起的流，也没有需要维持的会话，这正是它能作为普通 route handler 和页面跑在同一个部署里的原因。
+
+```sh
+curl -s https://crafter.run/mcp \
+  -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+一行加进 Claude Code：
+
+```sh
+claude mcp add --transport http crafter https://crafter.run/mcp
+```
+
+所有工具都是只读的。目前有八个：
+
+- `search_docs`、`list_docs`、`get_doc`，用于我们发布在 npm 上的那些 CLI 的文档。
+- `list_oss_repos`，开源目录，附带实时的 star 数和 issue 数。
+- `list_products` 和 `list_team`，我们做了什么，以及是谁在做。
+- `list_ships` 和 `list_crafters`，社区目录。
+
+每个都接受可选的 `locale`，默认英文。服务器还把 `agents.md`、两个 `llms` 文件、OpenAPI 文档和加入说明作为 MCP 资源暴露出来，所以支持资源的客户端不用离开协议就能拿到同一份地图。
+
+## 一份事实来源
+
+我们最在意的不是其中任何一个入口，而是它们不可能互相矛盾。
+
+`agents.md`、`openapi.json` 和 `.well-known/mcp.json` 都由同一份工具定义列表渲染而来。加一个工具，就是往那份列表里加一次；README、OpenAPI 描述和清单会在下一次构建时自动带上它。我们见过足够多手工维护的 API 文档慢慢偏离真实 API，足以明白第二份副本就是一个等着被提的 bug。
+
+新鲜度也是同理。sitemap 的 `lastmod` 跟踪真实的编辑日期而不是构建时间，因为一个把每个 URL 都打上"现在"的 sitemap，只会教会爬虫彻底忽略这个字段。
+
+## 抓取
+
+`robots.txt` 按名字允许了所有主流的 AI 爬虫和助手 user agent，全速抓取，没有延迟。当有人问起在拉丁美洲构建这件事时，我们想成为被引用的那个来源，而把门锁上是拿不到引用的。
+
+作为交换，我们的请求也是老一套：注明引用来源，并链接你用到的那个页面。
+
+## 关于写入的唯一一条规则
+
+用户可能让智能体做的两件涉及写入的事：创建 Crafter 个人主页，以及把一个 Ship 发布到社区目录。这两件都不经过网站，都走 `@crafter/cli` 这个包，它端到端拥有一套带 PKCE 的 OAuth 2.0 authorization code 流程。
+
+CLI 会打开用户自己的浏览器，并把拿到的 token 存进操作系统的凭据存储。驱动它的智能体永远看不到密码、邮件验证码或 token。如果某个命令需要用户还没有的凭据，正确的做法是请用户自己运行 `crafter login`，然后等待。完整说明，包括必须遵守的安全规则，都在 `/join/agent.md`。
+
+## 这个博客也一样
+
+你刚读的一切，同样适用于你正在读的这个页面。每篇文章在自己的 URL 后加 `.md` 就有一个 markdown 版本，或者用 `Accept: text/markdown` 请求。有一个携带完整正文的 [Atom 订阅](/blog/rss.xml)，还有一份所有文章的 [markdown 索引](/blog/sitemap.md)，让模型在请求任何东西之前就能决定读什么。
+
+如果你在构建智能体，而这份地图上少了什么，[仓库](https://github.com/crafter-station/crafter.run) 收 issue。

@@ -93,6 +93,7 @@
       "contact": "联系我们"
     },
     "buildLinks": {
+      "blog": "博客",
       "oss": "开源",
       "ossMetrics": "OSS 指标",
       "products": "产品",
@@ -452,10 +453,8 @@
     },
     "blog": {
       "eyebrow": "博客",
-      "title": "关于 shipping、AI、社区与产品匠心的故事。",
-      "description": "统一的博客将汇集来自 Crafter Station、Crafter Research、开源发布、黑客松和拉美社区的经验。",
-      "section": "从理念与研究开始。",
-      "sectionDescription": "完整的内容迁移可以之后再做。目前，本页指向最重要的写作阵地。"
+      "title": "我们构建的，我们学到的，都写下来。",
+      "description": "来自 Crafter Station 及周围 builder 的工程笔记、社区故事和产品经验。每篇文章都在工作完成的当天发布。"
     },
     "brand": {
       "eyebrow": "品牌资源",

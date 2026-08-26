@@ -1,7 +1,19 @@
 import { clerkMiddleware } from "@clerk/nextjs/server"
 import { NextResponse, type NextRequest } from "next/server"
 
+import { BLOG_POST_PATH, blogPostMarkdownRoute } from "@/lib/blog-paths"
 import { defaultLocale, isLocale, LOCALE_HEADER } from "@/lib/i18n"
+
+/**
+ * True when a client asked for markdown and did not also ask for HTML. A
+ * browser lists text/html first; an agent that wants the source says
+ * `Accept: text/markdown` and nothing else, and that is the request this
+ * negotiates on. The markdown route answers with `Vary: Accept`.
+ */
+function wantsMarkdown(request: NextRequest) {
+  const accept = request.headers.get("accept") ?? ""
+  return accept.includes("text/markdown") && !accept.includes("text/html")
+}
 
 export const proxy = clerkMiddleware((_auth, request: NextRequest) => {
   const { pathname } = request.nextUrl
@@ -14,6 +26,16 @@ export const proxy = clerkMiddleware((_auth, request: NextRequest) => {
     // the visitor was already browsing in.
     const headers = new Headers(request.headers)
     headers.set(LOCALE_HEADER, firstSegment)
+
+    // A blog post asked for as markdown is served its `.md` twin at the same
+    // address, so the URL a client holds stays canonical.
+    const post = BLOG_POST_PATH.exec(pathname)
+    if (post && wantsMarkdown(request)) {
+      const url = request.nextUrl.clone()
+      url.pathname = blogPostMarkdownRoute(firstSegment, post[2]!)
+      return NextResponse.rewrite(url, { request: { headers } })
+    }
+
     return NextResponse.next({ request: { headers } })
   }
 

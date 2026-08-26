@@ -1,0 +1,78 @@
+---
+title: "Um site que agentes conseguem ler"
+summary: "crafter.run agora publica um agents.md, um llms.txt, uma descrição OpenAPI e um servidor MCP somente leitura. Para que serve cada superfície, e a única regra sobre escrita."
+date: "2026-08-25"
+kind: "engineering"
+authors: ["cris"]
+---
+
+Uma parcela crescente dos visitantes deste site não são pessoas. São agentes de código procurando instruções de instalação, assistentes respondendo "o que é a Crafter Station" e crawlers decidindo se algo disso vale a pena citar. Na semana passada lançamos as superfícies que tornam o site legível para eles, e este post é o mapa.
+
+O princípio por trás de tudo é curto: **ler é aberto, escrever não é**. Tudo abaixo é público e não exige autenticação. As duas coisas que um agente pode fazer que alteram estado passam por um único caminho autenticado, descrito no final.
+
+## Por onde começar
+
+Cada ponto de entrada vive em um endereço previsível, sem prefixo de idioma.
+
+| Você quer | Busque |
+| --- | --- |
+| O README voltado a agentes | `/agents.md` |
+| Um índice de uma linha por página de docs | `/llms.txt` |
+| O texto completo de todas as páginas de docs | `/llms-full.txt` |
+| Uma página de docs em markdown | `/llms.mdx/{slug}?lang={locale}` |
+| Uma descrição de máquina de cada endpoint de leitura | `/openapi.json` |
+| Acesso estruturado via MCP | `/mcp` |
+| O manifesto MCP | `/.well-known/mcp.json` |
+
+`agents.md` é o primeiro a ler. Tem o mesmo formato do `AGENTS.md` que um agente de código espera encontrar em um repositório, só que descreve o site em vez do código: o que existe, onde buscar e o que fazer quando um usuário pede ao agente para agir em vez de ler.
+
+## O servidor MCP
+
+`/mcp` é um servidor [Model Context Protocol](https://modelcontextprotocol.io) sem estado sobre Streamable HTTP. Você faz POST de JSON-RPC 2.0 e recebe JSON de volta. Não há stream iniciado pelo servidor nem sessão a manter, e é isso que permite rodá-lo como um route handler comum no mesmo deployment das páginas.
+
+```sh
+curl -s https://crafter.run/mcp \
+  -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+Adicione ao Claude Code em uma linha:
+
+```sh
+claude mcp add --transport http crafter https://crafter.run/mcp
+```
+
+Todas as ferramentas são somente leitura. Hoje são oito:
+
+- `search_docs`, `list_docs` e `get_doc` para a documentação das CLIs que publicamos no npm.
+- `list_oss_repos` para o catálogo de open source, com estrelas e issues ao vivo.
+- `list_products` e `list_team` para o que construímos e quem constrói.
+- `list_ships` e `list_crafters` para o diretório da comunidade.
+
+Cada uma aceita um `locale` opcional e usa inglês por padrão. O servidor também expõe `agents.md`, os dois arquivos `llms`, o documento OpenAPI e as instruções de cadastro como recursos MCP, de modo que um cliente que fale recursos consegue o mesmo mapa sem sair do protocolo.
+
+## Uma única fonte de verdade
+
+O que mais nos importa não é nenhuma superfície isolada. É que elas não possam se contradizer.
+
+`agents.md`, `openapi.json` e `.well-known/mcp.json` são renderizados a partir da mesma lista de definições de ferramentas. Adicionar uma ferramenta é adicioná-la a essa lista uma vez; o README, a descrição OpenAPI e o manifesto a incorporam no build seguinte. Já vimos documentação de API mantida à mão se afastar da API vezes suficientes para saber que uma segunda cópia é um bug esperando para ser aberto.
+
+O mesmo vale para o frescor. O `lastmod` do sitemap acompanha datas reais de edição em vez da hora do build, porque um sitemap que carimba cada URL com "agora" ensina os crawlers a ignorar o campo por completo.
+
+## Crawling
+
+`robots.txt` permite, nominalmente, todos os principais crawlers e assistentes de IA, em rastreio completo, sem atraso. Queremos ser a fonte citada quando alguém perguntar sobre construir na América Latina, e ninguém é citado trancando a porta.
+
+O que pedimos em troca é o de sempre: atribua o que citar e aponte para a página que usou.
+
+## A única regra sobre escrita
+
+Duas coisas que um usuário pode pedir a um agente envolvem escrita: criar um perfil de Crafter e publicar um Ship no diretório da comunidade. Nenhuma passa pelo site. As duas passam pelo pacote `@crafter/cli`, que é dono de ponta a ponta de um fluxo OAuth 2.0 de authorization code com PKCE.
+
+A CLI abre o navegador do próprio usuário e guarda os tokens resultantes no cofre de credenciais do sistema operacional. Um agente que a conduz nunca vê uma senha, um código de e-mail ou um token. Se um comando precisa de credenciais que o usuário ainda não tem, o certo é pedir que ele rode `crafter login` por conta própria e aguardar. As instruções completas, incluindo as regras de segurança, estão em `/join/agent.md`.
+
+## Este blog também
+
+Tudo o que você acabou de ler vale para a página que está lendo. Cada post tem um gêmeo em markdown na sua própria URL mais `.md`, ou pedindo com `Accept: text/markdown`. Existe um [feed Atom](/blog/rss.xml) que carrega o corpo completo dos posts, e um [índice em markdown](/blog/sitemap.md) de todos eles para que um modelo decida o que ler antes de buscar qualquer coisa.
+
+Se você constrói agentes e algo neste mapa está faltando, [o repositório](https://github.com/crafter-station/crafter.run) recebe issues.
