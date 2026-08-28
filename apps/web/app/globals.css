@@ -300,6 +300,31 @@
 }
 
 @layer base {
+  /*
+    Flips a subtree to the dark palette on its own, which `.dark` alone cannot
+    do here. Tailwind's `@theme` aliases (`--color-background: hsl(var(--background))`)
+    are substituted at computed-value time on `:root`, so every descendant
+    inherits the literal colour that :root resolved. A nested `.dark` changes
+    the raw `--background` and nothing reads it again. Re-aliasing on the same
+    element that carries `.dark` is what makes the swap take.
+
+    Used by the 404's black hole, which is space in either theme and needs the
+    copy over it to be light whatever the visitor's setting says.
+  */
+  .theme-scope {
+    --color-background: hsl(var(--background));
+    --color-foreground: hsl(var(--foreground));
+    --color-muted: hsl(var(--muted));
+    --color-muted-foreground: hsl(var(--muted-foreground));
+    --color-primary: hsl(var(--primary));
+    --color-primary-foreground: hsl(var(--primary-foreground));
+    --color-accent: hsl(var(--accent));
+    --color-accent-foreground: hsl(var(--accent-foreground));
+    --color-border: hsl(var(--border));
+    --color-input: hsl(var(--input));
+    --color-line: hsl(var(--line));
+  }
+
   * {
     @apply border-border;
   }
