@@ -524,6 +524,7 @@
       "title": "Esta página nunca deu ship.",
       "description": "A URL que você seguiu não existe ou mudou de lugar. Tudo o que deu ship está a um clique.",
       "hint": "Mova o cursor sobre a água.",
+      "hintBlackHole": "Mova o cursor sobre o horizonte de eventos.",
       "homeCta": "Voltar ao início",
       "ossCta": "Explorar código aberto",
       "suggestionsLabel": "Ou vá direto para",

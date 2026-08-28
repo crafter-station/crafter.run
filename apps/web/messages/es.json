@@ -524,6 +524,7 @@
       "title": "Esta página nunca se shipeó.",
       "description": "La URL que seguiste no existe o se movió a otro lado. Todo lo que sí shipeamos está a un clic.",
       "hint": "Mueve el cursor sobre el agua.",
+      "hintBlackHole": "Mueve el cursor sobre el horizonte de sucesos.",
       "homeCta": "Volver al inicio",
       "ossCta": "Explorar código abierto",
       "suggestionsLabel": "O ve directo a",

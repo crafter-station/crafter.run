@@ -524,6 +524,7 @@
       "title": "This page never shipped.",
       "description": "The URL you followed does not exist, or it moved somewhere else. Everything that did ship is one link away.",
       "hint": "Move your cursor across the water.",
+      "hintBlackHole": "Move your cursor across the event horizon.",
       "homeCta": "Back to home",
       "ossCta": "Explore open source",
       "suggestionsLabel": "Or go straight to",
