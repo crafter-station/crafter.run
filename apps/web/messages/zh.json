@@ -524,6 +524,7 @@
       "title": "这个页面还没 ship。",
       "description": "你访问的链接不存在，或者已经搬到了别处。已经 ship 出去的一切，都只差一次点击。",
       "hint": "把光标移到水面上试试。",
+      "hintBlackHole": "把光标移到事件视界上试试。",
       "homeCta": "回到首页",
       "ossCta": "探索开源项目",
       "suggestionsLabel": "或者直接前往",
