@@ -124,6 +124,7 @@ Start with the checked-in example files: [`apps/web/.env.example`](apps/web/.env
 | `API_URL` | Web server | Server-side API origin; defaults to `http://localhost:3001` in development |
 | `NEXT_PUBLIC_API_URL` | Web browser | Browser-facing API origin |
 | `CLERK_SECRET_KEY` | Web, API | Clerk server authentication |
+| `CLERK_WEBHOOK_SIGNING_SECRET` | Web | Verifies Clerk `user.updated` webhooks at `/api/webhooks/clerk` |
 | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Web | Clerk browser authentication |
 | `CLERK_PUBLISHABLE_KEY` | API | Clerk token verification |
 | `WEB_ORIGINS` | API | Comma-separated browser origins allowed by CORS |
@@ -133,6 +134,8 @@ Start with the checked-in example files: [`apps/web/.env.example`](apps/web/.env
 | `LUMA_API_KEY` | Web | Optional event data from Luma |
 | `NEXT_PUBLIC_PORTAL_KEY` / `PORTAL_SECRET` | Web | Optional board realtime updates and invalidation |
 | `CRON_SECRET` | Web | Protects cron and indexing routes |
+
+Configure a Clerk webhook endpoint at `https://crafter.run/api/webhooks/clerk`, subscribe it to `user.updated`, and set its signing secret as `CLERK_WEBHOOK_SIGNING_SECRET` on the web project.
 
 Do not commit populated environment files or credentials.
 
