@@ -43,7 +43,7 @@ export async function listCrafters(): Promise<MemberProfile[] | null> {
     if (!apiUrl) throw new Error("API_URL is required outside development.")
 
     const response = await fetch(new URL("/v1/members", apiUrl), {
-      next: { revalidate: 60 },
+      cache: "no-store",
     })
     if (!response.ok) return null
 
@@ -75,7 +75,7 @@ export async function getCrafterProfile(handle: string): Promise<MemberProfile |
   if (!apiUrl) return null
   try {
     const response = await fetch(new URL(`/v1/members/${encodeURIComponent(handle)}`, apiUrl), {
-      next: { revalidate: 60 },
+      cache: "no-store",
     })
     if (!response.ok) return null
     const parsed = memberResponseSchema.safeParse(await response.json())
