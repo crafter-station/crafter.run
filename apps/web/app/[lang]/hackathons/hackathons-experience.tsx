@@ -23,20 +23,30 @@ export function HackathonsExperience({
 
     const sections = Array.from(root.querySelectorAll<HTMLElement>("[data-hack-section]"))
     const reveals = Array.from(root.querySelectorAll<HTMLElement>("[data-hack-reveal]"))
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const animationFrames = new Set<number>()
+    let revealObserver: IntersectionObserver | null = null
     setSectionCount(sections.length)
 
-    if (reducedMotion) {
+    const finishAnimations = () => {
       root.dataset.motion = "reduced"
-      reveals.forEach((element) => element.setAttribute("data-visible", "true"))
-    } else {
-      root.dataset.motion = "ready"
+      revealObserver?.disconnect()
+      animationFrames.forEach(cancelAnimationFrame)
+      animationFrames.clear()
+      reveals.forEach((element) => {
+        element.setAttribute("data-visible", "true")
+        const target = Number(element.dataset.count)
+        if (!Number.isFinite(target)) return
+        element.textContent = `${element.dataset.prefix ?? ""}${target.toLocaleString("en-US")}${element.dataset.suffix ?? ""}`
+      })
     }
 
     const animatedCounters = new WeakSet<HTMLElement>()
-    const revealObserver = reducedMotion
-      ? null
-      : new IntersectionObserver(
+    if (motionPreference.matches) {
+      finishAnimations()
+    } else {
+      root.dataset.motion = "ready"
+      revealObserver = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
               if (!entry.isIntersecting) return
@@ -55,14 +65,25 @@ export function HackathonsExperience({
                 const progress = Math.min((now - start) / 1100, 1)
                 const eased = 1 - (1 - progress) ** 3
                 element.textContent = `${prefix}${Math.round(target * eased).toLocaleString("en-US")}${suffix}`
-                if (progress < 1) requestAnimationFrame(draw)
+                if (progress < 1) {
+                  const frame = requestAnimationFrame((time) => {
+                    animationFrames.delete(frame)
+                    draw(time)
+                  })
+                  animationFrames.add(frame)
+                }
               }
 
-              requestAnimationFrame(draw)
+              const frame = requestAnimationFrame((time) => {
+                animationFrames.delete(frame)
+                draw(time)
+              })
+              animationFrames.add(frame)
             })
           },
           { threshold: 0.2 },
         )
+    }
 
     const sectionObserver = new IntersectionObserver(
       (entries) => {
@@ -77,10 +98,16 @@ export function HackathonsExperience({
 
     reveals.forEach((element) => revealObserver?.observe(element))
     sections.forEach((section) => sectionObserver.observe(section))
+    const handleMotionPreference = (event: MediaQueryListEvent) => {
+      if (event.matches) finishAnimations()
+    }
+    motionPreference.addEventListener("change", handleMotionPreference)
 
     return () => {
       revealObserver?.disconnect()
       sectionObserver.disconnect()
+      animationFrames.forEach(cancelAnimationFrame)
+      motionPreference.removeEventListener("change", handleMotionPreference)
     }
   }, [])
 

@@ -71,9 +71,9 @@ const creditPartners = [
 ] as const
 
 const sponsors = [
+  { name: "Convex", logo: "/hackathons/partners/convex.svg", href: "https://convex.dev" },
   ...creditPartners,
   { name: "Portal", logo: "/collaborations/portal.svg", href: "https://useportal.co" },
-  { name: "Convex", logo: "/hackathons/partners/convex.svg", href: "https://convex.dev" },
   { name: "Yalo", logo: "/hackathons/partners/yalo.svg", href: "https://yalo.ai" },
   { name: "Clerk", logo: "/hackathons/partners/clerk.svg", href: "https://clerk.com" },
   { name: "Exa", logo: "/hackathons/partners/exa.svg", href: "https://exa.ai" },
@@ -113,7 +113,7 @@ const sponsors = [
   {
     name: "CloudForge AI",
     logo: "https://peru.ai-hackathon.co/_logo_logo%20cloud%20forge%20ai.png",
-    href: "https://cloud-forge-ai.com",
+    href: "https://www.cloud-forge-ai.com",
   },
   {
     name: "Little Caesars",
