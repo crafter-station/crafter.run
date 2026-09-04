@@ -10,10 +10,11 @@ import {
 } from "@/lib/seo"
 import { source } from "@/lib/source"
 import { teamMembers } from "@/lib/team"
-import { CONTENT_UPDATED, DOCS_UPDATED } from "@/lib/freshness"
+import { CONTENT_UPDATED, DOCS_UPDATED, HACKATHONS_UPDATED } from "@/lib/freshness"
 
 function lastModified(path: string): Date {
   if (path.startsWith("/docs")) return new Date(DOCS_UPDATED)
+  if (path === "/hackathons") return new Date(HACKATHONS_UPDATED)
   // The blog index moves whenever a post does; stamping it with the site-wide
   // content date would understate it after every publish.
   if (path === "/blog") return new Date(blogUpdated())
