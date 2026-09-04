@@ -493,7 +493,7 @@ export default async function HackathonsPage({
                 { value: 20000, suffix: "+", label: copy.lumaSubscribers },
                 { value: 1200, suffix: "+", label: copy.communityMembers },
                 { value: 650, suffix: "+", label: copy.hackers },
-                { value: 220, suffix: "", label: copy.submissions },
+                { value: 220, suffix: "+", label: copy.submissions },
                 { value: 20, suffix: "+", label: copy.communityPartners },
               ].map((stat, index) => (
                 <div key={stat.label}>
