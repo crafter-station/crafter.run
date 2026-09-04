@@ -94,6 +94,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vgpu/wgsl": "^0.3.1",
     "drizzle-kit": "^0.31.10",
     "postcss": "^8.5",
     "sharp": "^0.34.5",

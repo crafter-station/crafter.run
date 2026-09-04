@@ -1,8 +1,11 @@
+import { createRequire } from "node:module";
 import createNextIntlPlugin from "next-intl/plugin";
 import { createMDX } from "fumadocs-mdx/next";
 
+const require = createRequire(import.meta.url);
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 const withMDX = createMDX();
+const wgslLoader = require.resolve("@vgpu/wgsl/loader-webpack");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -14,7 +17,7 @@ const nextConfig = {
   turbopack: {
     rules: {
       "*.wgsl": {
-        loaders: ["@vgpu/wgsl/loader-webpack"],
+        loaders: [wgslLoader],
         as: "*.js",
       },
     },

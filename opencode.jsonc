@@ -5,5 +5,9 @@
       "path": "../crafter.com",
       "description": "Crafter Station main (legacy) website",
     },
+    "hackathon.lat": {
+      "path": "../hackathon.lat",
+      "description": "The Hackathon Company"
+    }
   },
 }
