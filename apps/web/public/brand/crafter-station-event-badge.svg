@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-labelledby="title description">
+  <title id="title">Crafter Station event badge</title>
+  <desc id="description">Minimal black badge with the Crafter Station logo, a white writing area, and crafter.run.</desc>
+
+  <defs>
+    <filter id="type-distortion" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.006 0.018" numOctaves="2" seed="24" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="52" xChannelSelector="R" yChannelSelector="B"/>
+    </filter>
+    <clipPath id="pattern-clip">
+      <rect width="1080" height="1165"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1080" height="1350" fill="#000000"/>
+
+  <g
+    font-family="Arial Black, Arial, Helvetica, sans-serif"
+    font-size="116"
+    font-weight="900"
+    letter-spacing="-5"
+    clip-path="url(#pattern-clip)"
+    filter="url(#type-distortion)"
+  >
+    <g fill="#484848">
+      <text x="-115" y="80" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+      <text x="-15" y="185" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+      <text x="-170" y="290" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+      <text x="-55" y="395" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+      <text x="-145" y="500" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+      <text x="-5" y="605" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+      <text x="-185" y="710" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+    </g>
+    <g fill="none" stroke="#767676" stroke-width="4.5">
+      <text x="-70" y="815" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+      <text x="-135" y="920" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+      <text x="-25" y="1025" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+      <text x="-175" y="1130" textLength="1280" lengthAdjust="spacingAndGlyphs">CRAFTER CRAFTER</text>
+    </g>
+  </g>
+
+  <rect x="90" y="520" width="900" height="190" rx="0" fill="#FFFFFF"/>
+
+  <image href="github.svg" x="145" y="1209" width="34" height="34"/>
+  <text
+    x="191"
+    y="1226"
+    fill="#FFFFFF"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="22"
+    font-weight="600"
+    dominant-baseline="middle"
+  >crafter-station</text>
+
+  <image href="instagram.svg" x="360" y="1209" width="34" height="34"/>
+  <text
+    x="406"
+    y="1226"
+    fill="#FFFFFF"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="22"
+    font-weight="600"
+    dominant-baseline="middle"
+  >crafter.station</text>
+
+  <image href="youtube.svg" x="565" y="1209" width="34" height="34"/>
+  <text
+    x="611"
+    y="1226"
+    fill="#FFFFFF"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="22"
+    font-weight="600"
+    dominant-baseline="middle"
+  >crafterstation</text>
+
+  <image href="web.svg" x="775" y="1209" width="34" height="34"/>
+  <text
+    x="821"
+    y="1226"
+    fill="#FFFFFF"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="22"
+    font-weight="600"
+    dominant-baseline="middle"
+  >crafter.run</text>
+</svg>
