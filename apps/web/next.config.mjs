@@ -47,6 +47,7 @@ const nextConfig = {
   },
   async rewrites() {
     return [
+      { source: "/design.md", destination: "https://ui.crafter.run/design.md" },
       { source: "/.well-known/mcp.json", destination: "/well-known/mcp.json" },
       { source: "/.well-known/ai-plugin.json", destination: "/well-known/ai-plugin.json" },
       // The blog's `.md` twin: a reader or an agent appends the suffix to a
@@ -71,11 +72,6 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      {
-        source: "/design.md",
-        destination: "https://ui.crafter.run/design.md",
-        permanent: true,
-      },
       {
         source: "/vibe",
         destination: "https://luma.com/71j27cvx",
