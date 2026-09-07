@@ -72,6 +72,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/design.md",
+        destination: "https://ui.crafter.run/design.md",
+        permanent: true,
+      },
+      {
         source: "/vibe",
         destination: "https://luma.com/71j27cvx",
         permanent: true,
