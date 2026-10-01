@@ -6,6 +6,7 @@ import { FeaturedProducts } from "@/components/featured-products"
 import { SectionGap } from "@/components/grid-container"
 import { StationEvents, StationFamily } from "@/components/station-sections"
 import { HeroContent } from "@/components/hero"
+import { StationOpenSource } from "@/components/station-open-source"
 import {
   CommunityPreview,
   CommunityQrCode,
@@ -61,12 +62,13 @@ export default async function Page({
       <main className="flex-1">
         <HeroContent
           locale={lang}
-          description={t("description")}
           eventsCta={t("eventsCta")}
           eventsHref={withLocale("/events", lang)}
           ossCta={t("ossCta")}
           ossHref={withLocale("/oss", lang)}
         />
+        <SectionGap />
+        <StationOpenSource locale={lang} />
         <SectionGap />
         <ProofStats locale={lang} />
         <SectionGap />

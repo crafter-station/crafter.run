@@ -1,13 +1,13 @@
 # Crafter Station design system
 
-Implemented from the approved `crafter-station-system` direction. This changes the presentation of crafter.run, keeping the Crafter symbol, live catalogs, content, routes, localization, authentication and data APIs.
+Implemented from the approved `crafter-station-system` direction, then adapted to Crafter Sans Bucle on `feat/station-bucle` (October 1, 2026). This changes the presentation of crafter.run, keeping the Crafter symbol, live catalogs, content, routes, localization, authentication and data APIs.
 
 ## Foundations
 
 - `apps/web/app/globals.css`: semantic HSL tokens for light and dark, Tailwind aliases, nested `.theme-scope`, Fumadocs palette, syntax highlighting, chart colors.
 - `apps/web/app/station.css`: spacing, responsive shell, typography, page introductions, editorial cards, artwork containers, menus and focus states.
-- `apps/web/lib/fonts.ts`: self-hosted Martian Grotesk Expanded Bold (display), Martian Grotesk Bold (headings), Geist (body), Geist Mono (metadata). Existing Noto SC/JP fallbacks remain for CJK. Licenses are beside the fonts.
-- `components/site-shell.tsx`: a single navigation/footer boundary in the locale layout. Standard pages use the 200 px rail; docs use a compact site header above Fumadocs' own navigation. Under 1024 px the rail becomes a modal menu.
+- `apps/web/lib/fonts.ts`: self-hosted Crafter Sans Preview / Bucle Medium 500 (display and headings), Geist (body), Geist Mono (metadata). Bucle is version 0.200 with synthetic weights disabled. Existing Noto SC/JP fallbacks remain for CJK. Font provenance and third-party licenses are beside the fonts.
+- `components/site-shell.tsx`: a single navigation/footer boundary in the locale layout. Standard pages use the 200 px rail with a centered symbol/wordmark and no slogan block; docs use a compact site header above Fumadocs' own navigation. Under 1024 px the rail becomes a modal menu.
 - `components/theme-provider.tsx`: existing next-themes persistence and system preference. All theme controls use the same provider and three localized choices.
 - `components/site-header.tsx`: Radix modal menu, focus trapping, Escape/overlay close, return of focus and close on navigation. Dropdowns remain usable inside the menu.
 - `components/ui/*`: shared form/card/button primitives use the same semantic colors and radii. Clerk receives matching colors, fonts and radius.
@@ -18,10 +18,10 @@ Implemented from the approved `crafter-station-system` direction. This changes t
 | Role | Light | Dark |
 | --- | --- | --- |
 | Canvas | `#F7F7F2` | `#191B17` |
-| Surface | `#FFFFFF` | `#22251F` |
+| Surface | `#EFEFE8` | `#22251F` |
 | Ink | `#20221D` | `#F3F3E9` |
 | Muted text | `#60635A` | `#B3B7A8` |
-| Line | `#DADCD1` | `#3C4035` |
+| Line | `#CFD1C8` | `#41443A` |
 | Primary surface | `#20221D` | `#F8E9A4` |
 | Accessible accent text | `#705400` | `#F4D56D` |
 | Station brand | `#FFC107` | `#FFC107` |
@@ -33,8 +33,8 @@ Measured contrast for text/background, muted text/background, accent/background,
 
 ## Compositions and behavior
 
-- Home: CRAFT. SHIP. REPEAT., layered original mark, real featured products, original Code Brew/Ship or Sink art, Crafter family, existing community/calendar/services/research/contact content.
-- Open source: actual catalog and metrics, search across name/description/language, intersecting owner and language filters, result count, reset and empty state. No project or contribution links removed.
+- Home: sentence-case Craft. Ship. Repeat. in Bucle, the unchanged flat symbol, pastel yellow in light mode and charcoal/cream/yellow in dark mode. A dark Crafter Open Source feature uses three real catalog repositories; Code Brew and Ship or Sink have typographic compositions. Real products, the Crafter family and existing community/calendar/services/research/contact content remain.
+- Open source: dark introduction, existing metrics, and numbered editorial rows for the actual catalog. Search across name/description/language, intersecting owner and language filters, result count, reset and empty state remain. No project or contribution links removed.
 - Products: the same catalog in illustrated editorial cards. Known artwork maps by project name; other repositories use decorative geometric illustrations, not invented product logos.
 - Blog/article/docs: existing search, pagination, MDX, code highlighting, RSS, Markdown and agent links remain. Page titles and surfaces use the new system.
 - Community/Ships/team/profiles: common shell and introductions, semantic cards, existing forms, votes, auth boundaries and API behavior.
@@ -67,4 +67,16 @@ bun test apps/web packages/cli packages/db apps/api
 
 The web TypeScript baseline already contained errors in `scripts/migrate-supabase-boards.ts` (optional migration key header and top-level await). Those remain outside this design change. The pre-existing pagination variant mismatch was fixed as part of the button system.
 
-Local visual review uses `bun run --cwd apps/web dev --port 8870`. This isolated checkout has no configured integration environment. Clerk uses its temporary development instance; a production server requires `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`. Without the local API/database and Luma credentials, live data/authenticated mutations cannot be fully exercised. The existing unavailable/empty states remain. Do not run production migrations or submit sample Ships/board data for visual QA.
+Local visual review for this iteration uses `bun run --cwd apps/web dev --hostname localhost --port 8875`. Open `http://localhost:8875/es`. This isolated checkout has no configured integration environment. Clerk uses its temporary development instance; a production server requires `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`. Without the local API/database and Luma credentials, live data/authenticated mutations cannot be fully exercised. The existing unavailable/empty states remain. Do not run production migrations or submit sample Ships/board data for visual QA.
+
+## Bucle iteration verification
+
+- Production build passed; 83 existing tests passed.
+- Standalone web typecheck still reports the six pre-existing errors in `scripts/migrate-supabase-boards.ts`; no changed presentation file appears in those diagnostics.
+- Home reviewed in light/dark at 1440 px, plus 390 px and 320 px without document overflow. The sidebar symbol and wordmark share its exact horizontal center.
+- Mobile menu navigation, Escape and focus restoration verified.
+- OSS query, intersecting owner filter, language filter, empty state and reset verified in the browser; all 22 catalog entries return after reset.
+- Products, blog, events, docs and brand checked at desktop and mobile widths. Portuguese, Chinese and Japanese home routes checked; CJK font fallbacks retained.
+- Local auth uses the existing temporary development mode. No authenticated submissions, database mutations, production deployment or merge were performed.
+
+This is a shared foundation. Distinct art direction for every major page is a subsequent, gradual exploration. A dimensional symbol can be explored as hero artwork while the navigation retains the flat mark.

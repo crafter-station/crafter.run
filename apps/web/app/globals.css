@@ -23,8 +23,8 @@
 
 @theme {
   --font-sans: var(--font-geist), system-ui, sans-serif;
-  --font-display: var(--font-martian), var(--font-sans);
-  --font-heading: var(--font-martian-text), var(--font-sans);
+  --font-display: var(--font-crafter), var(--font-sans);
+  --font-heading: var(--font-crafter), var(--font-sans);
   --font-mono: var(--font-geist-mono), monospace;
 
   --color-brand: hsl(var(--station));
@@ -239,7 +239,7 @@
     color-scheme: light;
     --background: 60.00 23.81% 95.88%;
     --foreground: 84.00 7.94% 12.35%;
-    --card: 0.00 0.00% 100.00%;
+    --card: 60.00 17.95% 92.35%;
     --card-foreground: 84.00 7.94% 12.35%;
     --popover: 0.00 0.00% 100.00%;
     --popover-foreground: 84.00 7.94% 12.35%;
@@ -254,10 +254,10 @@
     --accent-surface: 46.47 60.71% 32.94%;
     --destructive: 0.00 60.00% 39.22%;
     --destructive-foreground: 0.00 0.00% 100.00%;
-    --border: 70.91 13.58% 84.12%;
+    --border: 73.33 8.91% 80.20%;
     --input: 72.00 12.20% 75.88%;
     --ring: 45.00 100.00% 21.96%;
-    --line: 70.91 13.58% 84.12%;
+    --line: 73.33 8.91% 80.20%;
     --station: 45.00 100.00% 51.37%;
     --station-soft: 49.29 85.71% 80.78%;
     --radius: 0.375rem;
@@ -296,10 +296,10 @@
     --accent-surface: 49.29 85.71% 80.78%;
     --destructive: 0.00 78.87% 72.16%;
     --destructive-foreground: 0.00 29.63% 10.59%;
-    --border: 81.82 9.40% 22.94%;
+    --border: 78.00 7.94% 24.71%;
     --input: 78.75 8.70% 36.08%;
     --ring: 46.22 85.99% 69.22%;
-    --line: 81.82 9.40% 22.94%;
+    --line: 78.00 7.94% 24.71%;
     --station: 45.00 100.00% 51.37%;
     --station-soft: 49.29 85.71% 80.78%;
     --radius: 0.375rem;

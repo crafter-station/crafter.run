@@ -19,7 +19,7 @@ export const stationCopy = {
   },
   es: {
     skip: "Saltar al contenido", home: "Station", docs: "Documentación", more: "Explorar Crafter",
-    close: "Cerrar menú", built: "Hecho en abierto", join: "Vení a construir",
+    close: "Cerrar menú", built: "Hecho en abierto", join: "Ven a construir",
     note: "Las cosas buenas se hacen en compañía.", family: "Una familia. Muchas formas de hacer.",
     hero: "Gente curiosa. Cosas por hacer.", caption: "Una idea es un comienzo. Hacerla juntos es Crafter.",
     projects: "Hecho por Crafters.", projectsLabel: "Proyectos destacados", explore: "Explorar", visit: "Explorar proyecto",
@@ -29,7 +29,7 @@ export const stationCopy = {
     station: "Comunidad y código abierto", research: "Ideas y experimentos", games: "Juegos y mundos", lab: "Herramientas y prototipos",
     search: "Buscar proyectos", searchPlaceholder: "Nombre, descripción, lenguaje…", empty: "No hay proyectos con estos filtros.", reset: "Limpiar filtros",
     results: "proyectos", language: "Lenguaje", allLanguages: "Todos los lenguajes",
-    guide: "El sistema Station.", guideIntro: "Un lenguaje visual para todo Crafter. Cambiá el tema para explorar ambas paletas.",
+    guide: "El sistema Station.", guideIntro: "Un lenguaje visual para todo Crafter. Cambia el tema para explorar ambas paletas.",
     palette: "Color y contraste", typography: "Tipografía con carácter", components: "Componentes de cada día",
     primary: "Acción principal", secondary: "Acción secundaria", field: "Tu próximo proyecto",
     disabled: "Deshabilitado", light: "Claro", dark: "Oscuro", system: "Sistema", profile: "Editar perfil", newShip: "Publicar un Ship", signIn: "Iniciar sesión",

@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react"
 import Link from "next/link"
 import { ArrowUpRight, Search, Star } from "lucide-react"
-import { ProjectArt } from "@/components/project-art"
 import type { Locale } from "@/lib/i18n"
 import type { OssRepo } from "@/lib/oss"
 import { filterOssRepos } from "@/lib/oss-filter"
@@ -51,19 +50,21 @@ export function OssRepoGrid({ repos, eyebrow, title, intro, allLabel, filterLabe
         <p role="status" aria-live="polite" aria-atomic="true" className="station-label text-muted-foreground">{visible.length} / {repos.length} {t.results}</p>
         {(query || owner !== "all" || language !== "all") && <button type="button" className="station-text-link" onClick={reset}>{t.reset} ×</button>}
       </div>
-      <div className="station-project-grid">
-        {visible.map((repo) => <article key={repo.repo} className="station-project-card">
-          <ProjectArt name={repo.name} label={repo.language ?? "Open source"} />
-          <div className="station-project-info">
+      <div className="station-repository-list">
+        {visible.map((repo, index) => <article key={repo.repo} className="station-repository-row">
+          <span className="station-row-number">{String(index + 1).padStart(2, "0")}</span>
+          <div className="station-repository-info">
             <div className="station-project-repo">{repo.repo}</div>
             <h3><Link href={repo.url} target="_blank" rel="noopener noreferrer" className="hover:underline">{repo.name}</Link></h3>
             <p className="text-muted-foreground">{repo.description ?? descriptionPending}</p>
-            <div className="station-project-meta">
+          </div>
+          <div className="station-repository-aside">
+            <div className="station-repository-meta">
               <span className="inline-flex items-center gap-1.5"><Star size={12} aria-hidden="true" />{repo.stars.toLocaleString(locale)}</span>
               <span>{repo.openIssuesLabel}</span>
-              {repo.language && <span className="ml-auto">{repo.language}</span>}
+              {repo.language && <span>{repo.language}</span>}
             </div>
-            <div className="station-project-foot"><Link className="station-text-link" href={repo.url} target="_blank" rel="noopener noreferrer">{repoCta}<ArrowUpRight size={15} aria-hidden="true" /></Link></div>
+            <Link className="station-editorial-link" href={repo.url} target="_blank" rel="noopener noreferrer">{repoCta}<ArrowUpRight size={15} aria-hidden="true" /></Link>
           </div>
         </article>)}
         {visible.length === 0 && <div className="station-empty"><p>{t.empty}</p><button className="station-button" onClick={reset} type="button">{t.reset}</button></div>}

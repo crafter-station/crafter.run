@@ -54,7 +54,6 @@ export function SiteHeader({ locale, compact = false }: { locale: Locale; compac
           </div>
         </details>
       </nav>
-      <div className="station-side-note"><span className="station-label">CRAFT. SHIP. REPEAT.</span><p>{s.note}</p></div>
       <div className="station-side-bottom">
         <a className="station-github" href="https://github.com/crafter-station" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={13} aria-hidden="true" /></a>
         <div className="station-family-dots" aria-hidden="true"><i /><i /><i /><i /></div>

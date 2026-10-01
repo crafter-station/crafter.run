@@ -29,7 +29,7 @@
 - The 404's backdrop is chosen at runtime by `components/not-found-backdrop.tsx`: the black hole on WebGPU, the hero's water on WebGL, and neither under reduced motion, which leaves the DOM figure the page renders regardless. Both backdrops are `next/dynamic` on purpose. Next ships the `not-found` boundary with every route's client bundle, so a static import there puts three.js and nine compiled shaders on the blog and the docs.
 - `components/black-hole/` is vendored from `vercel-labs/vgpu` under the MIT license kept beside it; its README says what was taken and how to mark local edits. Its `.wgsl` files are a module graph resolved at build time by the `turbopack.rules` entry in `next.config.mjs`, so adding a shader there means importing it, not inlining a string.
 - `.theme-scope` in `app/globals.css` is what lets a subtree flip palette on its own. Tailwind substitutes the `@theme` aliases at computed-value time on `:root`, so a nested `.dark` changes the raw tokens and nothing reads them again; pair the two classes or the swap silently does nothing.
-- The homepage uses `components/hero.tsx` and the approved SVG assembly under `public/station`. `liquid-hero.tsx` remains available as a 404 fallback; keep its painter and viewport calculations together when editing that legacy surface.
+- The homepage uses `components/hero.tsx`, Crafter Sans Bucle and the original flat symbol; dimensional assembly artwork remains under `public/station` as an exploration. `liquid-hero.tsx` remains available as a 404 fallback; keep its painter and viewport calculations together when editing that legacy surface.
 
 ## Integrations
 - Web env validation is in `apps/web/env.ts`; all listed env vars are optional. `API_URL` defaults to `http://localhost:3001`.
@@ -56,6 +56,6 @@
 ## Station Visual System
 - Read `docs/station-design-system.md` before changing shared presentation.
 - The locale root owns `SiteShell`, navigation and footer; do not add per-page copies. Docs uses the compact shell.
-- The homepage uses the approved SVG assembly art. Legacy liquid surfaces remain for 404 fallbacks.
+- The homepage uses the original flat symbol and Bucle composition. Legacy liquid surfaces remain for 404 fallbacks.
 - Light/dark tokens live in `app/globals.css`; layout and editorial compositions live in `app/station.css`. Keep both palettes, reduced motion, five locales, and `.theme-scope` working.
-- Fonts are self-hosted through `lib/fonts.ts` with licenses beside them; retain Noto CJK fallbacks.
+- Fonts are self-hosted through `lib/fonts.ts` with provenance and third-party licenses beside them; retain Noto CJK fallbacks. Bucle has only a real Medium 500; disable synthetic weights.

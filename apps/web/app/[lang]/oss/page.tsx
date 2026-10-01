@@ -12,6 +12,7 @@ import { isLocale } from "@/lib/i18n";
 import { getOssRepos } from "@/lib/oss";
 import { pageMetadata } from "@/lib/seo";
 import { breadcrumbList, repositoryListSchema } from "@/lib/structured-data";
+import { bucleCopy } from "@/lib/bucle-copy";
 
 export const revalidate = 86400;
 
@@ -33,6 +34,7 @@ export default async function Page({
   const t = await getTranslations({ locale: lang, namespace: "pages.oss" });
   const nav = await getTranslations({ locale: lang, namespace: "nav" });
   const repos = await getOssRepos();
+  const b = bucleCopy[lang];
 
   return (
     <>
@@ -47,14 +49,14 @@ export default async function Page({
       />
 
       <main className="flex-1">
-        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24 lg:pr-16 xl:pr-24">
-          <div className="grid grid-cols-1 items-center gap-12 xl:grid-cols-[minmax(0,1fr)_auto] xl:gap-12">
+        <Container innerClassName="station-oss-intro dark theme-scope">
+          <div className="station-oss-intro-grid">
             <div className="max-w-4xl">
-              <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
-                {t("eyebrow")}
+              <p className="station-label">
+                Crafter Open Source / {t("eyebrow")}
               </p>
-              <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">
-                <span className="block">CRAFTER</span>{" "}<span className="block">OPEN SOURCE.</span>
+              <h1>
+                <span>{b.ossTitle}</span><span>{b.ossSubtitle}</span>
               </h1>
               <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
                 {t("description")}
@@ -63,7 +65,7 @@ export default async function Page({
                 <LocalizedLink
                   href="/projects/next"
                   locale={lang}
-                  className="group inline-flex items-center gap-3 border border-background bg-foreground px-6 py-3 font-medium text-background transition-colors hover:bg-foreground/90"
+                  className="station-button"
                 >
                   {t("suggestCta")}
                   <PixelArrow />

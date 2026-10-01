@@ -1,21 +1,25 @@
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Coffee, Sailboat } from "lucide-react"
 import { type Locale, withLocale } from "@/lib/i18n"
 import { stationCopy } from "@/lib/station-copy"
+import { bucleCopy } from "@/lib/bucle-copy"
 
 export function StationEvents({ locale }: { locale: Locale }) {
   const t = stationCopy[locale]
+  const b = bucleCopy[locale]
   return (
     <section className="station-section station-events">
       <div className="station-section-heading"><div><p className="station-eyebrow">{t.eventsLabel}</p><h2>{t.events}</h2></div></div>
       <div className="station-project-grid">
         {[
-          { name: "Code Brew", art: "code-brew", description: t.brew, href: "/events" },
-          { name: "Ship or Sink", art: "ship-or-sink", description: t.ship, href: "/hackathon" },
+          { name: "Code Brew", type: b.encounter, description: t.brew, headline: b.brew, href: "/events", Icon: Coffee, className: "station-event-brew" },
+          { name: "Ship or Sink", type: b.make, description: t.ship, headline: b.ship, href: "/hackathon", Icon: Sailboat, className: "station-event-ship" },
         ].map((event) => (
-          <Link key={event.name} href={withLocale(event.href, locale)} className="station-event-card">
-            <img src={`/station/${event.art}.svg`} alt="" loading="lazy" width="640" height="380" />
-            <div><div className="flex items-center justify-between gap-4"><h3>{event.name}</h3><ArrowUpRight size={22} aria-hidden="true" /></div><p>{event.description}</p></div>
+          <Link key={event.name} href={withLocale(event.href, locale)} className={`station-event-card ${event.className}`}>
+            <div className="station-event-top station-label"><span>{event.type}</span><ArrowUpRight size={19} aria-hidden="true" /></div>
+            <h3>{event.name}</h3>
+            <div className="station-event-composition"><p>{event.headline}</p><event.Icon strokeWidth={1.15} aria-hidden="true" /></div>
+            <p className="station-event-description">{event.description}</p>
           </Link>
         ))}
       </div>

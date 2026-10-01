@@ -9,8 +9,8 @@ import { stationCopy } from "@/lib/station-copy"
 export function DesignSystemGuide({ locale }: { locale: Locale }) {
   const t = stationCopy[locale]
   const swatches = [
-    { name: "Station", className: "bg-brand text-[#20221d]", value: "#FFC107" },
-    { name: "Soft", className: "bg-brand-soft text-[#20221d]", value: "#F8E9A4" },
+    { name: "Station / Soft", className: "bg-brand-soft text-[#20221d]", value: "#F8E9A4" },
+    { name: "Station / Signal", className: "bg-brand text-[#20221d]", value: "#FFC107" },
     { name: "Canvas", className: "bg-background text-foreground", value: "background" },
     { name: "Surface", className: "bg-card text-card-foreground", value: "card" },
     { name: "Ink", className: "bg-foreground text-background", value: "foreground" },
@@ -23,8 +23,8 @@ export function DesignSystemGuide({ locale }: { locale: Locale }) {
       <div className="station-guide-grid">{swatches.map((swatch) => <div key={swatch.name} className={`station-swatch ${swatch.className}`}><span>{swatch.name}</span><span>{swatch.value}</span></div>)}</div>
       <h3 id="typography" className="mt-12 text-xl">02 / {t.typography}</h3>
       <div className="station-guide-specimen">
-        <p className="font-display text-4xl tracking-tight md:text-6xl">CRAFT. SHIP. REPEAT.</p>
-        <p className="station-label text-muted-foreground">Martian Grotesk Expanded / 700</p>
+        <p className="font-display text-4xl tracking-tight md:text-6xl">Craft. Ship. Repeat.</p>
+        <p className="station-label text-muted-foreground">Crafter Sans / Bucle Medium 500 / Preview 0.200</p>
         <p className="font-heading text-3xl">{t.note}</p>
         <p className="text-lg">Geist / Aa Bb Cc — 0123456789</p>
         <p className="station-label">Geist Mono / CRAFTER STATION — BUILT IN THE OPEN</p>
