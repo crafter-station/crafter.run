@@ -13,11 +13,6 @@ export function HeroContent({
   const t = stationCopy[locale]
   const b = bucleCopy[locale]
   return (
-    <>
-      <div className="station-topline">
-        <span className="station-label">Crafter Station / {t.built}</span>
-        <a href="https://crafters.chat" target="_blank" rel="noopener noreferrer">{t.join}<ArrowUpRight size={13} aria-hidden="true" /></a>
-      </div>
       <section className="station-hero" aria-labelledby="station-title">
         <div className="station-hero-kicker station-label"><span>01 / Crafter Station</span><span>{t.built}</span></div>
         <div className="station-hero-grid">
@@ -33,6 +28,5 @@ export function HeroContent({
         </div>
         <div className="station-hero-footer station-label"><span>{t.hero}</span><span>CRAFTER.RUN</span></div>
       </section>
-    </>
   )
 }

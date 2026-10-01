@@ -19,9 +19,10 @@ type LanguageSwitcherProps = {
   currentLocale: Locale
   className?: string
   label?: string
+  compact?: boolean
 }
 
-export function LanguageSwitcher({ currentLocale, className, label = "Language" }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ currentLocale, className, label = "Language", compact = false }: LanguageSwitcherProps) {
   const pathname = usePathname() ?? "/"
 
   return (
@@ -35,7 +36,7 @@ export function LanguageSwitcher({ currentLocale, className, label = "Language" 
             className,
           )}
         >
-          <Globe2 className="size-4" aria-hidden="true" />
+          {!compact && <Globe2 className="size-4" aria-hidden="true" />}
           <span>{currentLocale.toUpperCase()}</span>
           <ChevronDown className="size-3" aria-hidden="true" />
         </button>

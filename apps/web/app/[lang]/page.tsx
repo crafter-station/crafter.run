@@ -1,20 +1,11 @@
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
-import { Capabilities } from "@/components/capabilities"
 import { CTA, type CtaCopy } from "@/components/cta"
 import { FeaturedProducts } from "@/components/featured-products"
-import { SectionGap } from "@/components/grid-container"
 import { StationEvents, StationFamily } from "@/components/station-sections"
 import { HeroContent } from "@/components/hero"
 import { StationOpenSource } from "@/components/station-open-source"
-import {
-  CommunityPreview,
-  CommunityQrCode,
-  EventsResearchPreview,
-  InstagramFollow,
-  OpenCalendars,
-  ProofStats,
-} from "@/components/home-sections"
+import { StationPeople, StationJournal, StationExplore } from "@/components/station-home"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 
@@ -57,9 +48,7 @@ export default async function Page({
   ) as CtaCopy
 
   return (
-    <>
-
-      <main className="flex-1">
+      <main className="station-home flex-1">
         <HeroContent
           locale={lang}
           eventsCta={t("eventsCta")}
@@ -67,32 +56,14 @@ export default async function Page({
           ossCta={t("ossCta")}
           ossHref={withLocale("/oss", lang)}
         />
-        <SectionGap />
         <StationOpenSource locale={lang} />
-        <SectionGap />
-        <ProofStats locale={lang} />
-        <SectionGap />
         <FeaturedProducts locale={lang} />
-        <SectionGap />
         <StationEvents locale={lang} />
-        <SectionGap />
+        <StationPeople locale={lang} />
         <StationFamily locale={lang} />
-        <SectionGap />
-        <CommunityPreview locale={lang} />
-        <SectionGap />
-        <OpenCalendars locale={lang} />
-        <SectionGap />
-        <Capabilities locale={lang} />
-        <SectionGap />
-        <EventsResearchPreview locale={lang} />
-        <SectionGap />
-        <CTA copy={ctaCopy} />
-        <SectionGap />
-        <InstagramFollow locale={lang} />
-        <SectionGap />
-        <CommunityQrCode locale={lang} />
+        <StationJournal locale={lang} />
+        <div className="home-contact theme-scope"><CTA copy={ctaCopy} /></div>
+        <StationExplore locale={lang} />
       </main>
-
-    </>
   )
 }

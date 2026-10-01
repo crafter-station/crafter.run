@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import * as Dialog from "@radix-ui/react-dialog"
 import { usePathname } from "next/navigation"
-import { Menu, X, ArrowUpRight } from "lucide-react"
+import { Menu, X, Github, Plus } from "lucide-react"
 import { AuthActions } from "@/components/auth-actions"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { SiteWordmark } from "@/components/site-wordmark"
@@ -13,6 +13,7 @@ import { type Locale, withLocale } from "@/lib/i18n"
 import { navCopy } from "@/lib/navigation-copy"
 import { navSections } from "@/lib/site"
 import { stationCopy } from "@/lib/station-copy"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
 export function SiteHeader({ locale, compact = false }: { locale: Locale; compact?: boolean }) {
   const pathname = usePathname()
@@ -20,47 +21,52 @@ export function SiteHeader({ locale, compact = false }: { locale: Locale; compac
   const t = navCopy[locale]
   const s = stationCopy[locale]
   const primary = [
-    { href: "/", label: s.home }, { href: "/oss", label: t.oss },
-    { href: "/ships", label: t.ships }, { href: "/events", label: t.events },
-    { href: "/blog", label: t.blog }, { href: "/team", label: t.team },
-    { href: "/docs", label: s.docs },
+    { href: "/", label: s.home }, { href: "/products", label: t.products },
+    { href: "/oss", label: t.oss }, { href: "/events", label: t.events },
+    { href: "/blog", label: t.blog },
   ]
   const active = (href: string) => href === "/" ? pathname === withLocale("/", locale)
     : pathname === withLocale(href, locale) || pathname?.startsWith(`${withLocale(href, locale)}/`)
 
   useEffect(() => { setOpen(false) }, [pathname])
 
-  const navigation = () => (
+  const navigation = (inDrawer = false) => (
     <>
       <nav aria-label={s.more} className="station-nav">
         {primary.map((item) => (
           <Link key={item.href} href={withLocale(item.href, locale)} aria-current={active(item.href) ? "page" : undefined}
             onClick={() => setOpen(false)}>{item.label}</Link>
         ))}
-        <details className="station-explore">
-          <summary>{s.more}<span aria-hidden="true">+</span></summary>
-          <div className="station-explore-links">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button type="button" className="station-more-trigger" aria-label={`${s.moreMenu}: ${s.more}`}>
+              {s.moreMenu}<Plus size={14} aria-hidden="true" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side={inDrawer ? "bottom" : "right"} align="start" sideOffset={inDrawer ? 8 : 20} collisionPadding={16} className="station-more-menu">
             {navSections.map((section) => (
-              <div key={section.key}>
-                <p>{t[section.key]}</p>
-                {section.items.map((item) => (
-                  <Link key={item.href} href={withLocale(item.href, locale)}
+              <DropdownMenuGroup key={section.key}>
+                <DropdownMenuLabel>{t[section.key]}</DropdownMenuLabel>
+                {section.items.filter(item => !primary.some(link => link.href === item.href)).map((item) => (
+                  <DropdownMenuItem asChild key={item.href}><Link href={withLocale(item.href, locale)}
                     aria-current={active(item.href) ? "page" : undefined}
-                    onClick={() => setOpen(false)}>{t[item.key]}</Link>
+                    onClick={() => setOpen(false)}>{t[item.key]}</Link></DropdownMenuItem>
                 ))}
-              </div>
+              </DropdownMenuGroup>
             ))}
-            <Link href={withLocale("/brand", locale)} onClick={() => setOpen(false)}>Design system</Link>
-          </div>
-        </details>
+            <DropdownMenuGroup className="station-more-resources">
+              <DropdownMenuItem asChild><Link href={withLocale("/docs", locale)} onClick={() => setOpen(false)}>{s.docs}</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link href={withLocale("/community", locale)} onClick={() => setOpen(false)}>{t.communityCta}</Link></DropdownMenuItem>
+              <DropdownMenuItem asChild><Link href={withLocale("/brand", locale)} onClick={() => setOpen(false)}>{s.visualSystem}</Link></DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </nav>
       <div className="station-side-bottom">
-        <a className="station-github" href="https://github.com/crafter-station" target="_blank" rel="noopener noreferrer">GitHub <ArrowUpRight size={13} aria-hidden="true" /></a>
-        <div className="station-family-dots" aria-hidden="true"><i /><i /><i /><i /></div>
-        <p className="station-label">{s.family}</p>
         <div className="station-preferences">
-          <LanguageSwitcher currentLocale={locale} label={t.language} />
-          <ThemeSwitcher locale={locale} label={t.theme} />
+          <a className="station-github" href="https://github.com/crafter-station" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><Github size={17} aria-hidden="true" /></a>
+          <LanguageSwitcher currentLocale={locale} label={t.language} compact />
+          <ThemeSwitcher locale={locale} label={t.theme} compact />
         </div>
         <div className="station-auth" onClickCapture={() => setOpen(false)}><AuthActions locale={locale} /></div>
       </div>
@@ -88,7 +94,7 @@ export function SiteHeader({ locale, compact = false }: { locale: Locale; compac
           <Dialog.Description className="sr-only">{s.note}</Dialog.Description>
           <div className="station-drawer-inner">
             <div className="station-drawer-top"><SiteWordmark /><Dialog.Close asChild><button className="station-menu-button" type="button" aria-label={s.close}><X size={22} /></button></Dialog.Close></div>
-            {navigation()}
+            {navigation(true)}
           </div>
         </Dialog.Content>
       </Dialog.Portal>

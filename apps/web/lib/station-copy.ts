@@ -1,7 +1,7 @@
 // The brand signature stays in English; interface copy follows the locale.
 export const stationCopy = {
   en: {
-    skip: "Skip to content", home: "Station", docs: "Documentation", more: "Explore Crafter",
+    skip: "Skip to content", home: "Station", docs: "Documentation", more: "Explore Crafter", moreMenu: "More", visualSystem: "Design system",
     close: "Close menu", built: "Built in the open", join: "Come build with us",
     note: "Good things are made together.", family: "One family. Many ways to make.",
     hero: "Curious people. Things to make.", caption: "An idea is a beginning. Together is Crafter.",
@@ -18,7 +18,7 @@ export const stationCopy = {
     disabled: "Disabled", light: "Light", dark: "Dark", system: "System", profile: "Edit profile", newShip: "Ship something", signIn: "Sign in",
   },
   es: {
-    skip: "Saltar al contenido", home: "Station", docs: "Documentación", more: "Explorar Crafter",
+    skip: "Saltar al contenido", home: "Station", docs: "Documentación", more: "Explorar Crafter", moreMenu: "Más", visualSystem: "Sistema visual",
     close: "Cerrar menú", built: "Hecho en abierto", join: "Ven a construir",
     note: "Las cosas buenas se hacen en compañía.", family: "Una familia. Muchas formas de hacer.",
     hero: "Gente curiosa. Cosas por hacer.", caption: "Una idea es un comienzo. Hacerla juntos es Crafter.",
@@ -35,7 +35,7 @@ export const stationCopy = {
     disabled: "Deshabilitado", light: "Claro", dark: "Oscuro", system: "Sistema", profile: "Editar perfil", newShip: "Publicar un Ship", signIn: "Iniciar sesión",
   },
   pt: {
-    skip: "Ir para o conteúdo", home: "Station", docs: "Documentação", more: "Explorar Crafter",
+    skip: "Ir para o conteúdo", home: "Station", docs: "Documentação", more: "Explorar Crafter", moreMenu: "Mais", visualSystem: "Sistema visual",
     close: "Fechar menu", built: "Feito em aberto", join: "Venha construir",
     note: "Coisas boas são feitas em companhia.", family: "Uma família. Muitas formas de criar.",
     hero: "Gente curiosa. Coisas para criar.", caption: "Uma ideia é o começo. Criar juntos é Crafter.",
@@ -52,7 +52,7 @@ export const stationCopy = {
     disabled: "Desativado", light: "Claro", dark: "Escuro", system: "Sistema", profile: "Editar perfil", newShip: "Publicar um Ship", signIn: "Entrar",
   },
   zh: {
-    skip: "跳转到内容", home: "Station", docs: "文档", more: "探索 Crafter",
+    skip: "跳转到内容", home: "Station", docs: "文档", more: "探索 Crafter", moreMenu: "更多", visualSystem: "设计系统",
     close: "关闭菜单", built: "开放共建", join: "一起创造",
     note: "美好的事物，一起创造。", family: "一个大家庭，多种创造方式。",
     hero: "充满好奇，一起创造。", caption: "想法是起点。携手创造，就是 Crafter。",
@@ -69,7 +69,7 @@ export const stationCopy = {
     disabled: "已禁用", light: "浅色", dark: "深色", system: "跟随系统", profile: "编辑资料", newShip: "发布作品", signIn: "登录",
   },
   ja: {
-    skip: "コンテンツへ", home: "Station", docs: "ドキュメント", more: "Crafter を探索",
+    skip: "コンテンツへ", home: "Station", docs: "ドキュメント", more: "Crafter を探索", moreMenu: "その他", visualSystem: "デザインシステム",
     close: "メニューを閉じる", built: "オープンにつくる", join: "一緒につくろう",
     note: "いいものは、一緒につくる。", family: "ひとつの家族。つくり方は、いろいろ。",
     hero: "好奇心のある人。つくりたいもの。", caption: "アイデアは始まり。一緒につくるのが Crafter。",

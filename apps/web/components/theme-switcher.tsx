@@ -26,9 +26,10 @@ type ThemeSwitcherProps = {
   className?: string
   label?: string
   locale?: Locale
+  compact?: boolean
 }
 
-export function ThemeSwitcher({ className, label = "Theme", locale = "en" }: ThemeSwitcherProps) {
+export function ThemeSwitcher({ className, label = "Theme", locale = "en", compact = false }: ThemeSwitcherProps) {
   const t = stationCopy[locale]
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
@@ -52,8 +53,8 @@ export function ThemeSwitcher({ className, label = "Theme", locale = "en" }: The
             className,
           )}
         >
-          <Icon className="size-4" aria-hidden="true" /><span className="font-mono text-[10px]">{activeLabel}</span>
-          <ChevronDown className="size-3" aria-hidden="true" />
+          <Icon className="size-4" aria-hidden="true" />
+          {!compact && <><span className="font-mono text-[10px]">{activeLabel}</span><ChevronDown className="size-3" aria-hidden="true" /></>}
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-36">
