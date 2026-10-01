@@ -54,6 +54,7 @@
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
 
 ## Station Visual System
+- For session continuity, read `docs/handoffs/crafter-identity-and-sans.md`; it links the complete local handoff and the private Crafter Sans import package.
 - Read `docs/station-design-system.md` before changing shared presentation.
 - The locale root owns `SiteShell`, navigation and footer; do not add per-page copies. Docs uses the compact shell.
 - The homepage uses the original flat symbol and Bucle composition. Legacy liquid surfaces remain for 404 fallbacks.

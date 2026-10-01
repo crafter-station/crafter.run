@@ -8,6 +8,14 @@ the local `crafter-sans-bucle-v02` deliverable. This file is not covered by the
 neighboring Geist or Martian Grotesk OFL licenses. A public distribution license
 for Crafter Sans has not been selected.
 
+The user's release direction is **private development at
+`crafter-station/font` for now, open source later**. The repository could not
+be resolved with the handoff account, so its existence/access and visibility
+are unverified. No font repository was created, pushed or published by the
+handoff. See `docs/handoffs/crafter-identity-and-sans.md` from the repository
+root for the complete source package and release notes. The embedding flag
+`fsType=0` is not a distribution license.
+
 Use real weight 500 and disable synthetic weights. Geist remains the body and
 interface family; Noto remains the CJK fallback. The preview has 233 mapped
 characters; it is not a full multilingual text family.
