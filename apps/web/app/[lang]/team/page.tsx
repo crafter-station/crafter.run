@@ -1,13 +1,13 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { ArrowLink } from "@/components/arrow-link";
 import { Container, SectionGap } from "@/components/grid-container";
+import { TeamGrid } from "@/components/team-grid";
 import { isLocale, withLocale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
-import { team } from "@/lib/site";
-import { cn } from "@/lib/utils";
+import { alumniTeam, team } from "@/lib/site";
+import { countryCount, primaryLink } from "@/lib/team";
 
 export const dynamicParams = false;
 
@@ -38,7 +38,6 @@ export default async function Page({
 
   return (
     <>
-
       <main className="flex-1">
         <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
           <div className="max-w-4xl">
@@ -50,6 +49,9 @@ export default async function Page({
             </h1>
             <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
               {t("description")}
+            </p>
+            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+              {t("teamCount", { members: team.length, countries: countryCount(team) })}
             </p>
           </div>
         </Container>
@@ -78,48 +80,48 @@ export default async function Page({
           </div>
         </Container>
         <Container>
-          <div id="team-calendars" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-            {team.map((member, i) => {
-              const col = (n: number) => i % n;
-              return (
-                <Link
-                  key={member.name}
-                  href={withLocale(`/team/${member.username}`, lang)}
-                  className={cn(
-                    "group relative flex flex-col items-center gap-3 px-4 py-8 text-center transition-colors hover:bg-accent-surface/5",
-                    col(2) !== 0 && "border-l border-line sm:border-l-0",
-                    col(3) !== 0 && "sm:border-l sm:border-line lg:border-l-0",
-                    col(4) !== 0 && "lg:border-l lg:border-line",
-                    i >= 2 && "border-t border-line sm:border-t-0",
-                    i >= 3 && "sm:border-t sm:border-line lg:border-t-0",
-                    i >= 4 && "lg:border-t lg:border-line",
-                  )}
-                >
-                  <div className="relative size-20 overflow-hidden rounded-full border border-line bg-secondary">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      fill
-                      sizes="80px"
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground">
-                      {member.name}
-                    </p>
-                    <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                      {member.role}
-                    </p>
-                    <p className="mt-1 font-mono text-[10px] tracking-wider text-muted-foreground/70">
-                      {member.location}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+          <TeamGrid
+            id="team-calendars"
+            members={team}
+            locale={lang}
+            filters={{
+              all: t("filterAll"),
+              areas: {
+                engineering: t("areaEngineering"),
+                design: t("areaDesign"),
+                growth: t("areaGrowth"),
+                community: t("areaCommunity"),
+              },
+            }}
+          />
         </Container>
+        {alumniTeam.length > 0 && (
+          <Container innerClassName="border-t px-6 py-10 md:px-10 md:py-12">
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+              {t("alumniEyebrow")}
+            </p>
+            <p className="mt-3 text-sm text-muted-foreground">
+              {t("alumniTitle")}
+            </p>
+            <ul className="mt-6 flex flex-wrap gap-x-8 gap-y-3">
+              {alumniTeam.map((member) => (
+                <li key={member.username}>
+                  <a
+                    href={primaryLink(member)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-foreground/80 transition-colors hover:text-foreground"
+                  >
+                    {member.name}
+                    <span className="ml-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                      {member.role}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        )}
         <SectionGap />
         <Container innerClassName="border-y px-6 py-12 md:px-10 md:py-16">
           <div className="grid gap-8 md:grid-cols-[1fr_1.35fr] md:items-end">
@@ -148,7 +150,6 @@ export default async function Page({
           </div>
         </Container>
       </main>
-
     </>
   );
 }

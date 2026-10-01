@@ -449,7 +449,15 @@
       "calendarTitle": "Agende 30 minutos gratis com alguem da Crafter Station.",
       "calendarDescription": "Voce pode marcar mentoria, conselhos de carreira, feedback de produto ou uma conversa calma com qualquer membro da Crafter Station. E assim que retribuimos a comunidade que tornou a rede possivel.",
       "calendarInstructions": "Va para a pagina da equipe, escolha uma pessoa e use o calendario no perfil dela.",
-      "calendarCta": "Ver calendarios da equipe"
+      "calendarCta": "Ver calendarios da equipe",
+      "alumniEyebrow": "Alumni",
+      "alumniTitle": "Crafters que ajudaram a construir isto.",
+      "teamCount": "{members} crafters em {countries} países",
+      "filterAll": "Todos",
+      "areaEngineering": "Engenharia",
+      "areaDesign": "Design",
+      "areaGrowth": "Growth",
+      "areaCommunity": "Comunidade"
     },
     "blog": {
       "eyebrow": "Blog",

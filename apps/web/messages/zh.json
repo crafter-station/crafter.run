@@ -449,7 +449,15 @@
       "calendarTitle": "免费预约 Crafter Station 成员的 30 分钟时间。",
       "calendarDescription": "你可以与任何 Crafter Station 成员预约导师辅导、职业建议、产品反馈或一场轻松的对话。这是我们回馈让这个网络成为可能的社区的方式。",
       "calendarInstructions": "进入团队页面，选择一位成员，使用其个人主页上的日历。",
-      "calendarCta": "查看团队日历"
+      "calendarCta": "查看团队日历",
+      "alumniEyebrow": "校友",
+      "alumniTitle": "曾帮助建设这里的 crafters。",
+      "teamCount": "{members} 位 crafters，分布在 {countries} 个国家",
+      "filterAll": "全部",
+      "areaEngineering": "工程",
+      "areaDesign": "设计",
+      "areaGrowth": "增长",
+      "areaCommunity": "社区"
     },
     "blog": {
       "eyebrow": "博客",

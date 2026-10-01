@@ -101,6 +101,23 @@ describe("MCP endpoint", () => {
     expect(body.result.structuredContent.results[0].title).toBe("trx CLI")
   })
 
+  test("lists current members without reintroducing former members", async () => {
+    const { body } = await rpc({
+      jsonrpc: "2.0",
+      id: 8,
+      method: "tools/call",
+      params: { name: "list_team", arguments: { locale: "es" } },
+    })
+    const usernames = body.result.structuredContent.members.map((member: { username: string }) => member.username)
+    expect(usernames).toContain("railly")
+    expect(usernames).toContain("ignacio")
+    expect(usernames).toContain("shiara")
+    expect(usernames).toContain("edward")
+    for (const username of ["cuevaio", "emmy", "gabriel", "juan"]) {
+      expect(usernames).not.toContain(username)
+    }
+  })
+
   /* A tool that fails reports through `isError` so the model can read the
      reason and retry; only a protocol-level mistake becomes a JSON-RPC error. */
   test("separates a tool failure from a protocol error", async () => {

@@ -309,17 +309,22 @@
 .home-people-heading > .station-label { color: hsl(var(--muted-foreground)); }
 .home-handwritten { font-family: var(--font-display); color: hsl(var(--accent)); font-size: 23px; transform: rotate(-8deg); }
 .home-people h2 { font-size: clamp(48px,7vw,104px); line-height: 1.01; white-space: pre-line; margin: 30px 0 55px; max-width: 1000px; }
+.home-portrait-defs { position: absolute; pointer-events: none; }
 .home-portraits { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 20px; padding: 8px 4px 24px; }
 .home-portrait { min-width: 0; transition: transform 220ms; }
 .home-portrait:nth-child(1) { transform: rotate(-3deg); }
 .home-portrait:nth-child(2) { transform: rotate(2deg); margin-top: 25px; }
 .home-portrait:nth-child(3) { transform: rotate(-2deg); margin-top: -8px; }
 .home-portrait:nth-child(4) { transform: rotate(3deg); margin-top: 20px; }
-.home-portrait-image { position: relative; overflow: hidden; aspect-ratio: 4 / 5; background: hsl(var(--muted)); }
-.home-portrait-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: filter 220ms; }
-.home-portrait-image > svg { position: absolute; right: 10px; bottom: 10px; color: #20221d; background: #f8e9a4; padding: 5px; width: 34px; height: 34px; }
+.home-portrait-image { position: relative; isolation: isolate; aspect-ratio: 4 / 5; }
+.home-portrait-plate { position: absolute; inset: 16% 0 17%; background: #f8e9a4; transform: rotate(3deg); transition: transform 220ms; }
+.home-portrait:nth-child(even) .home-portrait-plate { transform: rotate(-5deg); }
+.home-portrait-cutout { position: absolute; inset: 0; }
+.home-portrait-image img { position: relative; display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 220ms; }
+.home-portrait-image > svg { position: absolute; right: 5px; bottom: 8px; color: #20221d; background: #f8e9a4; border: 2px solid hsl(var(--background)); border-radius: 50%; padding: 7px; width: 38px; height: 38px; }
 .home-portrait:where(:hover,:focus-visible) { transform: rotate(0) translateY(-5px); }
-.home-portrait:where(:hover,:focus-visible) img { filter: grayscale(0); }
+.home-portrait:where(:hover,:focus-visible) img { transform: scale(1.025); }
+.home-portrait:where(:hover,:focus-visible) .home-portrait-plate { transform: rotate(0); }
 .home-portrait-caption { display: flex; justify-content: space-between; gap: 6px; font-size: 12px; padding-top: 13px; }
 .home-portrait-caption .station-label { color: hsl(var(--muted-foreground)); }
 .home-people-footer { display: grid; grid-template-columns: 1.1fr 1fr; gap: 50px; margin-top: 35px; align-items: start; }

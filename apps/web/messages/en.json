@@ -449,7 +449,15 @@
       "calendarTitle": "Book free 30-minute time with a Crafter Station member.",
       "calendarDescription": "You can book mentorship, career advice, product feedback, or a calm conversation with any Crafter Station member. This is how we give back to the community that made the network possible.",
       "calendarInstructions": "Go to the team page, pick a member, and use the calendar on their profile.",
-      "calendarCta": "See team calendars"
+      "calendarCta": "See team calendars",
+      "alumniEyebrow": "Alumni",
+      "alumniTitle": "Crafters who helped build this.",
+      "teamCount": "{members} crafters across {countries} countries",
+      "filterAll": "All",
+      "areaEngineering": "Engineering",
+      "areaDesign": "Design",
+      "areaGrowth": "Growth",
+      "areaCommunity": "Community"
     },
     "blog": {
       "eyebrow": "Blog",

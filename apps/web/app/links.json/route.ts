@@ -1,6 +1,6 @@
 import { defaultLocale } from "@/lib/i18n"
 import { getProducts, getSiteConfig, siteConfig, socials } from "@/lib/site"
-import { teamMembers } from "@/lib/team"
+import { activeTeamMembers } from "@/lib/team"
 
 /**
  * Every public Crafter Station link as one JSON document: the org's socials and
@@ -41,7 +41,7 @@ export async function GET() {
           ...("sourceUrl" in product && product.sourceUrl ? { sourceUrl: product.sourceUrl } : {}),
         })),
     },
-    members: teamMembers.map((member) => ({
+    members: activeTeamMembers.map((member) => ({
       username: member.username,
       name: member.name,
       role: member.role,

@@ -33,7 +33,7 @@ Measured contrast for text/background, muted text/background, accent/background,
 
 ## Compositions and behavior
 
-- Home: the Bucle hero starts at the top, followed by the preserved dark Crafter Open Source feature. The rest is an editorial sequence: asymmetric project showcases, newly drawn event posters, existing team portraits, a four-organization diagram, actual blog articles and the contact form. Related community, calendar, research, services and social destinations are consolidated into these sections and the footer.
+- Home: the Bucle hero starts at the top, followed by the preserved dark Crafter Open Source feature. The rest is an editorial sequence: asymmetric project showcases, newly drawn event posters, a new editorial ink portrait series, a four-organization diagram, actual blog articles and the contact form. Related community, calendar, research, services and social destinations are consolidated into these sections and the footer.
 - Open source: dark introduction, existing metrics, and numbered editorial rows for the actual catalog. Search across name/description/language, intersecting owner and language filters, result count, reset and empty state remain. No project or contribution links removed.
 - Products: the same catalog in illustrated editorial cards. Known artwork maps by project name; other repositories use decorative geometric illustrations, not invented product logos.
 - Blog/article/docs: existing search, pagination, MDX, code highlighting, RSS, Markdown and agent links remain. Page titles and surfaces use the new system.
@@ -87,9 +87,19 @@ This is a shared foundation. Distinct art direction for every major page is a su
 - The two approved opening sections retain their content and style; only the redundant topline above the hero was removed.
 - `components/featured-products.tsx`: actual catalog entries, original abstract radar and waveform art, two smaller editorial project links, computed catalog count. No stale numerical product claims displayed on the home.
 - `components/station-sections.tsx`: original coffee and paper-boat SVGs; Station, Research, Games and Lab retain their identity colors. Keyboard focus highlights the matching organization node, just like hover.
-- `components/station-home.tsx`: existing team portraits and profile links, current blog index with language fallbacks, compact secondary destination links. New homepage copy lives in `lib/home-copy.ts` for all five locales.
+- `components/station-home.tsx`: a new editorial ink portrait series and profile links, current blog index with language fallbacks, compact secondary destination links. New homepage copy lives in `lib/home-copy.ts` for all five locales.
 - Sidebar: Station, Products, Open Source, Events and Blog remain visible. “More” contains the remaining destinations, without duplicate primary entries. Removed the family slogan and dots, reduced the logo and rail, and made language/theme/GitHub controls compact. Sign-in and signed-in actions remain.
 - The mobile drawer uses the same navigation. Its secondary menu opens downward with viewport collision handling and a scrollable height. Desktop places it beside the rail. Escape returns focus to the trigger.
 - Motion is limited to hover/focus responses; reduced-motion disables transitions. Interface surfaces follow theme tokens; poster fields deliberately keep their own palette in both themes.
 
 Verification: production build passed; 83 existing tests passed. The standalone web typecheck still reports only the six pre-existing migration-script errors. Browser review covered desktop light/dark, mobile 390/320 px, all five locale home routes, menu Escape/focus and actual mobile navigation to Team. No production submissions or deployments were made.
+
+## Active team and portrait series — October 1, 2026
+
+Integrated the local `feat/team-former-members` changes without changing its worktree. Cueva, Emmy, Gabriel and Juan are alumni; the team directory, links.json, MCP and sitemap use the ten active members. Historical blog authors remain credited with working external links and no current `worksFor` claim. Featured homepage order is Railly, Ignacio (Jibaru), Shiara, Edward, independent of the team directory’s shuffle.
+
+Four new charcoal/cream/pastel-yellow portraits generated through imagegen replace these members’ images across the home, profiles and bylines. Original images are retained, production copies are optimized WebP with alpha, and prompts/provenance live in `docs/team-portraits`. The portraits retain color in both themes.
+
+Verification: production build passed; 88 tests passed, including active roster/public links/MCP and historical authorship regressions. Standalone web typecheck retains the six existing migration-script errors. Local HTTP checks confirmed all four featured profiles return 200, retired profiles return 404, and no former-member profile remains in sitemap.xml.
+
+Portrait refinement: the final four portraits are background-free cutouts with custom SVG/CSS `clip-path` backplates. Background and subject share the lower clip; the pastel-yellow shape stops behind the shoulders, preventing a yellow fringe below the torso. Hair extends naturally beyond the colored plate. Ignacio uses the user-requested fuller hairstyle and dark sunglasses. Final visual review covered both desktop themes and 390/320 px mobile.

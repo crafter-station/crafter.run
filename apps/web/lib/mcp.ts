@@ -6,7 +6,7 @@ import { searchApi } from "@/lib/search"
 import { baseUrl } from "@/lib/seo"
 import { getClosedProducts, getOpenSourceProducts, getProducts, siteConfig } from "@/lib/site"
 import { source } from "@/lib/source"
-import { teamMembers } from "@/lib/team"
+import { activeTeamMembers } from "@/lib/team"
 import { listCrafters, listPublishedShips } from "@/lib/ships"
 
 export const MCP_SERVER_NAME = "crafter-station"
@@ -236,7 +236,7 @@ const listTeam = defineTool({
   schema: z.object({ locale: localeInput }),
   async run({ locale }) {
     const language = resolveLocale(locale)
-    const members = teamMembers.map((member) => ({
+    const members = activeTeamMembers.map((member) => ({
       username: member.username,
       name: member.name,
       role: member.role,

@@ -16,7 +16,7 @@ import { getBuildingActivity } from "@/lib/github"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 import { breadcrumbList, personSchema } from "@/lib/structured-data"
-import { getTeamMember, teamMembers } from "@/lib/team"
+import { activeTeamMembers, getTeamMember } from "@/lib/team"
 
 export const dynamicParams = false
 export const revalidate = 86400
@@ -134,7 +134,7 @@ const raillyImpact = {
 
 export function generateStaticParams() {
   return ["en", "es", "pt", "zh", "ja"].flatMap((lang) =>
-    teamMembers.map((member) => ({ lang, member: member.username })),
+    activeTeamMembers.map((member) => ({ lang, member: member.username })),
   )
 }
 
@@ -146,7 +146,7 @@ export async function generateMetadata({
   const { lang, member } = await params
   if (!isLocale(lang)) return {}
   const teamMember = getTeamMember(member)
-  if (!teamMember) return {}
+  if (!teamMember || teamMember.alumni) return {}
 
   return buildMetadata({
     locale: lang,
@@ -164,7 +164,7 @@ export default async function Page({
   const { lang, member } = await params
   if (!isLocale(lang)) notFound()
   const teamMember = getTeamMember(member)
-  if (!teamMember) notFound()
+  if (!teamMember || teamMember.alumni) notFound()
 
   const t = await getTranslations({ locale: lang, namespace: "member" })
   const nav = await getTranslations({ locale: lang, namespace: "nav" })

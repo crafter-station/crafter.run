@@ -449,7 +449,15 @@
       "calendarTitle": "Crafter Station メンバーとの30分の無料ミーティングを予約できます。",
       "calendarDescription": "Crafter Station のメンバーとメンタリング、キャリア相談、プロダクトへのフィードバック、気軽な雑談を予約できます。このネットワークを可能にしてくれたコミュニティへの、私たちなりの恩返しです。",
       "calendarInstructions": "チームページでメンバーを選び、プロフィールにあるカレンダーからご予約ください。",
-      "calendarCta": "チームのカレンダーを見る"
+      "calendarCta": "チームのカレンダーを見る",
+      "alumniEyebrow": "アルムナイ",
+      "alumniTitle": "ここを一緒に築いてくれた crafters。",
+      "teamCount": "{countries} か国に {members} 人の crafters",
+      "filterAll": "すべて",
+      "areaEngineering": "エンジニアリング",
+      "areaDesign": "デザイン",
+      "areaGrowth": "グロース",
+      "areaCommunity": "コミュニティ"
     },
     "blog": {
       "eyebrow": "ブログ",

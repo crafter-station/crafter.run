@@ -1,4 +1,4 @@
-import { teamMembers } from "@/lib/team"
+import { activeTeamMembers, alumniTeamMembers } from "@/lib/team"
 import { defaultLocale, type Locale } from "@/lib/i18n"
 
 type LocalizedString = Record<Locale, string>
@@ -594,7 +594,9 @@ export function getResearchLinks(locale: Locale = defaultLocale) {
   return researchLinks.map((item) => ({ ...item, body: localized(item.body, locale) }))
 }
 
-export const team = teamMembers
+export const team = activeTeamMembers
+
+export const alumniTeam = alumniTeamMembers
 
 export const testimonials = [
   {

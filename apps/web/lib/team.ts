@@ -25,6 +25,7 @@ export type TeamMember = {
     url?: string
   }
   timezone?: string
+  alumni?: boolean
   clubs?: { icon: string; label: string }[]
   currently?: { label: string; value: string }[]
   stack?: { category: string; items: (string | { name: string; detail?: string })[] }[]
@@ -39,7 +40,7 @@ export const teamMembers: TeamMember[] = [
     role: "Design Engineer",
     location: "Lima, Peru",
     timezone: "America/Lima",
-    image: "/team/shiara.png",
+    image: "/team/station-ink/shiara-cutout-v1.webp",
     bio: {
       en: "Name it and I'll learn it. Design engineer building across web, videogames and research. Building products where neuroscience meets user experience. Founder of Glitch Girls and organizer of #SheShips, empowering women across LATAM to build and ship.",
       es: "Nómbralo y lo aprenderé. Ingeniera de diseño construyendo en web, videojuegos e investigación. Construyendo productos donde la neurociencia se encuentra con la experiencia de usuario. Fundadora de Glitch Girls y organizadora de #SheShips, empoderando a mujeres en LATAM para construir y hacer ship.",
@@ -149,7 +150,7 @@ export const teamMembers: TeamMember[] = [
     role: "Founder",
     location: "Buenos Aires, Argentina",
     timezone: "America/Argentina/Buenos_Aires",
-    image: "/team/railly.png",
+    image: "/team/station-ink/railly-cutout-v1.webp",
     bio: {
       en: "Peruvian software engineer based in Buenos Aires. Software Engineer at Vercel Labs, founder of Crafter Station, principal creator of Petdex, and Codex Ambassador in Peru.",
       es: "Ingeniero de software peruano radicado en Buenos Aires. Software Engineer en Vercel Labs, fundador de Crafter Station, creador principal de Petdex y Codex Ambassador en Perú.",
@@ -231,6 +232,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     username: "cuevaio",
+    alumni: true,
     name: "Anthony Cueva",
     role: "Product Engineer",
     location: "Somewhere in the world",
@@ -293,6 +295,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     username: "emmy",
+    alumni: true,
     name: "Emmy Arias",
     role: "Growth & Marketing",
     location: "Bogota, Colombia",
@@ -466,7 +469,7 @@ export const teamMembers: TeamMember[] = [
     name: "Ignacio Rueda",
     role: "Backend Engineer",
     location: "Lima, Peru",
-    image: "/team/ignacio.png",
+    image: "/team/station-ink/ignacio-cutout-v1.webp",
     bio: {
       en: "Backend engineer focused on building reliable, performant APIs and systems. Loves Go and distributed systems.",
       es: "Ingeniero backend enfocado en construir APIs y sistemas confiables y de alto rendimiento. Le apasiona Go y los sistemas distribuidos.",
@@ -519,6 +522,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     username: "gabriel",
+    alumni: true,
     name: "Gabriel Antunes",
     role: "AI Engineer · Full-Stack",
     location: "Vila Velha, Brazil",
@@ -556,6 +560,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     username: "juan",
+    alumni: true,
     name: "Juan Ortega",
     role: "Software Engineer",
     location: "Bogotá, Colombia",
@@ -586,7 +591,7 @@ export const teamMembers: TeamMember[] = [
     role: "Frontend Engineer",
     location: "Lima, Peru",
     timezone: "America/Lima",
-    image: "/team/edward.png",
+    image: "/team/station-ink/edward-cutout-v1.webp",
     bio: {
       en: "I refine frontend products—features, edge cases, and flows—until they work for real users in production, not just in review. Ownership on every project, care in every release, down to the details most teams skip.",
       es: "Refino productos frontend—features, casuísticas y flujos—hasta que funcionen para usuarios reales en producción, no solo en el review. Ownership en cada proyecto, cuidado en cada entrega, hasta los detalles que la mayoría deja pasar.",
@@ -678,6 +683,44 @@ export const teamMembers: TeamMember[] = [
     ],
   },
 ]
+
+export const activeTeamMembers = teamMembers.filter((member) => !member.alumni)
+
+export const alumniTeamMembers = teamMembers.filter((member) => member.alumni)
+
+export const featuredTeamMembers = ["railly", "ignacio", "shiara", "edward"].flatMap(
+  (username) => {
+    const member = activeTeamMembers.find((person) => person.username === username)
+    return member ? [member] : []
+  },
+)
+
+export const teamAreas = ["engineering", "design", "growth", "community"] as const
+
+export type TeamArea = (typeof teamAreas)[number]
+
+const areaPatterns: Record<TeamArea, RegExp> = {
+  engineering: /engineer|developer|full-stack/i,
+  design: /design/i,
+  growth: /growth|marketing|automation/i,
+  community: /community|project manager|founder/i,
+}
+
+export function memberAreas(member: TeamMember): TeamArea[] {
+  return teamAreas.filter((area) => areaPatterns[area].test(member.role))
+}
+
+export function countryCount(members: TeamMember[]) {
+  const countries = members.flatMap((member) => {
+    const country = member.location?.split(",").at(-1)?.trim()
+    return country ? [country] : []
+  })
+  return new Set(countries).size
+}
+
+export function primaryLink(member: TeamMember) {
+  return member.linkedin ?? member.github ?? member.website ?? member.x
+}
 
 export function getTeamMember(username: string) {
   return teamMembers.find((member) => member.username === username)
