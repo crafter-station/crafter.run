@@ -1,12 +1,11 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
+import { ProjectArt } from "@/components/project-art";
 import { ArrowLink } from "@/components/arrow-link";
 import { Badge } from "@/components/ui/badge";
 import { Container, SectionGap } from "@/components/grid-container";
 import { LocalizedLink } from "@/components/localized-link";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import { JsonLd } from "@/components/json-ld";
 import { isLocale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
@@ -49,9 +48,9 @@ export default async function Page({
           ]),
         ]}
       />
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
+        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
           <div className="max-w-4xl">
             <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
               {t("eyebrow")}
@@ -77,22 +76,17 @@ export default async function Page({
           </p>
         </Container>
         <Container>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-            {products.map((product, i) => (
+          <div className="station-section station-project-grid">
+            {products.map((product) => (
               <Link
                 key={product.slug}
                 href={product.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={
-                  "group min-h-72 p-8 transition-colors hover:bg-accent-surface/10 " +
-                  (i > 0
-                    ? "border-t border-line md:border-t-0 md:border-l "
-                    : "") +
-                  (i >= 2 ? "md:border-t xl:border-t-0 " : "") +
-                  (i >= 3 ? "xl:border-l " : "")
-                }
+                className="station-project-card"
               >
+                <ProjectArt name={product.slug} label={product.technologies[0]} />
+                <div className="station-project-info">
                 <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
                   {product.slug}
                 </p>
@@ -120,6 +114,7 @@ export default async function Page({
                   ))}
                 </div>
                 <ArrowLink className="mt-8">{common("openCta")}</ArrowLink>
+                </div>
               </Link>
             ))}
           </div>
@@ -146,7 +141,7 @@ export default async function Page({
           </section>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   );
 }

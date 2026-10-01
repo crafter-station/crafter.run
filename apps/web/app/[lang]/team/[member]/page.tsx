@@ -11,8 +11,6 @@ import { GearList } from "@/components/gear-list"
 import { Container, SectionGap } from "@/components/grid-container"
 import { LocalTime } from "@/components/local-time"
 import { MemberTabs } from "@/components/member-tabs"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { JsonLd } from "@/components/json-ld"
 import { getBuildingActivity } from "@/lib/github"
 import { isLocale, withLocale } from "@/lib/i18n"
@@ -262,9 +260,9 @@ export default async function Page({
           ]),
         ]}
       />
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-12 md:px-10 md:py-16">
+        <Container innerClassName="station-page-intro px-6 py-12 md:px-10 md:py-16">
           <Link href={withLocale("/team", lang)} className="group mb-10 inline-block">
             <ArrowLink>{t("back")}</ArrowLink>
           </Link>
@@ -361,7 +359,7 @@ export default async function Page({
           </>
         ) : null}
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

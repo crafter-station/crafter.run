@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useTheme } from "next-themes"
-import { ChevronDown } from "lucide-react"
+import { Sun, Moon, Monitor, ChevronDown } from "lucide-react"
 
 import {
   DropdownMenu,
@@ -12,6 +12,8 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { type Locale } from "@/lib/i18n"
+import { stationCopy } from "@/lib/station-copy"
 import { cn } from "@/lib/utils"
 
 const modes = [
@@ -23,9 +25,11 @@ const modes = [
 type ThemeSwitcherProps = {
   className?: string
   label?: string
+  locale?: Locale
 }
 
-export function ThemeSwitcher({ className, label = "Theme" }: ThemeSwitcherProps) {
+export function ThemeSwitcher({ className, label = "Theme", locale = "en" }: ThemeSwitcherProps) {
+  const t = stationCopy[locale]
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const activeLabel = mounted ? modes.find((mode) => mode.value === theme)?.shortLabel ?? "SYS" : "SYS"
@@ -34,6 +38,8 @@ export function ThemeSwitcher({ className, label = "Theme" }: ThemeSwitcherProps
   // their active state after mount. Rendering them inert until then keeps the
   // markup identical on both sides instead of flashing the wrong one.
   useEffect(() => setMounted(true), [])
+
+  const Icon = mounted && theme === "light" ? Sun : mounted && theme === "dark" ? Moon : Monitor
 
   return (
     <DropdownMenu>
@@ -46,7 +52,7 @@ export function ThemeSwitcher({ className, label = "Theme" }: ThemeSwitcherProps
             className,
           )}
         >
-          <span>{activeLabel}</span>
+          <Icon className="size-4" aria-hidden="true" /><span className="font-mono text-[10px]">{activeLabel}</span>
           <ChevronDown className="size-3" aria-hidden="true" />
         </button>
       </DropdownMenuTrigger>
@@ -56,7 +62,7 @@ export function ThemeSwitcher({ className, label = "Theme" }: ThemeSwitcherProps
             {modes.map((mode) => {
               return (
                 <DropdownMenuRadioItem key={mode.value} value={mode.value}>
-                  {mode.label}
+                  {t[mode.value]}
                 </DropdownMenuRadioItem>
               )
             })}

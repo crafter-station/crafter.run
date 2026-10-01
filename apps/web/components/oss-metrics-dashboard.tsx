@@ -341,7 +341,7 @@ export function OssMetricsDashboard({
       <Container innerClassName="overflow-hidden">
         <div className="grid lg:grid-cols-[1.08fr_0.92fr]">
           <div className="flex flex-col lg:border-r lg:border-line">
-            <div className="flex-1 px-6 py-16 md:px-10 md:py-24">
+            <div className="station-page-intro flex-1 px-6 py-16 md:px-10 md:py-24">
               <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
                 {copy.eyebrow}
               </p>

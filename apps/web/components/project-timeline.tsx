@@ -932,7 +932,7 @@ export function ProjectTimeline({
         ))}
       </section>
 
-      <section className="sticky top-[5.05rem] z-30 border-b border-line bg-background/95 px-4 py-3 backdrop-blur-md sm:px-6 md:px-10">
+      <section className="sticky top-[var(--station-header-height)] z-30 border-b border-line bg-background/95 px-4 py-3 backdrop-blur-md sm:px-6 md:px-10">
         <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
             <label className="relative block min-w-0 flex-1 sm:max-w-xs">

@@ -3,8 +3,6 @@ import { ArrowUpRight } from "lucide-react"
 import { notFound } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { ShipUpdates } from "@/components/ship-updates"
 import { ShipEditLink } from "@/components/ship-edit-link"
 import { ShipUpvote } from "@/components/ship-upvote"
@@ -28,9 +26,9 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
+        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
             <article>
               <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">{t.eyebrow}</p>
@@ -67,7 +65,7 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
           </div>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

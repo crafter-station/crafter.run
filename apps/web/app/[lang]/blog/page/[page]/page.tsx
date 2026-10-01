@@ -9,8 +9,6 @@ import { toEntryViews } from "@/components/blog/format"
 import { BlogHero } from "@/components/blog/hero"
 import { BlogPager } from "@/components/blog/pagination"
 import { SectionGap } from "@/components/grid-container"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { BLOG_KINDS, getPage, pageCount } from "@/lib/blog"
 import { blogFeedPath } from "@/lib/blog-paths"
 import { isLocale, locales, type Locale } from "@/lib/i18n"
@@ -75,7 +73,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
         <BlogHero
           locale={lang}
@@ -97,7 +95,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         <SectionGap />
         <BlogCta locale={lang} t={t} />
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

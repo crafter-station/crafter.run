@@ -1,8 +1,8 @@
 .shell {
-  --hack-bg: #0a0a0a;
-  --hack-fg: #f5f5f2;
-  --hack-muted: rgb(245 245 242 / 52%);
-  --hack-line: rgb(245 245 242 / 13%);
+  --hack-bg: hsl(var(--background));
+  --hack-fg: hsl(var(--foreground));
+  --hack-muted: hsl(var(--muted-foreground));
+  --hack-line: hsl(var(--line));
   isolation: isolate;
   min-height: 100svh;
   overflow-x: clip;
@@ -19,7 +19,7 @@
   z-index: 50;
   inset: 0;
   pointer-events: none;
-  opacity: 0.3;
+  opacity: 0.035;
   background-image: url("/hackathons/noise.png");
   background-repeat: repeat;
   background-size: 1920px 1080px;
@@ -28,7 +28,7 @@
 .section {
   position: relative;
   display: flex;
-  min-height: 100svh;
+  min-height: calc(100svh - var(--station-header-height));
   align-items: center;
   justify-content: center;
   border-bottom: 1px solid var(--hack-line);
@@ -102,7 +102,7 @@
 .hero h1 {
   margin-top: 1.25rem;
   font-size: clamp(3rem, 7vw, 6.5rem);
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: -0.06em;
   line-height: 0.92;
   text-wrap: balance;
@@ -126,7 +126,7 @@
   transform: translateX(-50%);
   align-items: center;
   gap: 0.75rem;
-  color: rgb(245 245 242 / 58%);
+  color: hsl(var(--foreground) / 58%);
   font-family: var(--font-mono), monospace;
   font-size: 0.625rem;
   letter-spacing: 0.15em;
@@ -144,7 +144,7 @@
 .bigNumber {
   margin-top: 1.75rem;
   font-variant-numeric: tabular-nums;
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: -0.07em;
   line-height: 0.85;
 }
@@ -167,7 +167,7 @@
   width: 8rem;
   height: 1px;
   margin-block: 3.5rem;
-  background: rgb(245 245 242 / 24%);
+  background: hsl(var(--foreground) / 24%);
 }
 
 .fundingBreakdown {
@@ -185,7 +185,7 @@
 
 .fundingBreakdown strong {
   font-size: clamp(1.8rem, 4vw, 2.75rem);
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: -0.04em;
 }
 
@@ -209,7 +209,7 @@
   max-width: 48rem;
   margin-top: 1.5rem;
   font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: -0.055em;
   line-height: 0.95;
   text-wrap: balance;
@@ -235,12 +235,12 @@
 }
 
 .ledgerRow:hover {
-  border-color: rgb(245 245 242 / 40%);
-  background: rgb(255 255 255 / 3%);
+  border-color: hsl(var(--foreground) / 40%);
+  background: hsl(var(--foreground) / 3%);
 }
 
 .ledgerIndex {
-  color: rgb(245 245 242 / 55%);
+  color: hsl(var(--foreground) / 55%);
   font-family: var(--font-mono), monospace;
   font-size: 0.625rem;
 }
@@ -275,13 +275,13 @@
 
 .ledgerPrize strong {
   font-size: 1.35rem;
-  font-weight: 300;
+  font-weight: 700;
 }
 
 .ledgerRow > svg {
   grid-column: 3;
   grid-row: 1 / span 2;
-  color: rgb(245 245 242 / 40%);
+  color: hsl(var(--foreground) / 40%);
 }
 
 .flags {
@@ -333,14 +333,14 @@
 
 .partner:hover {
   transform: translateY(-3px);
-  border-color: rgb(245 245 242 / 44%);
+  border-color: hsl(var(--foreground) / 44%);
 }
 
 .partner img {
   width: 48%;
   height: 48%;
   object-fit: contain;
-  filter: grayscale(1) brightness(0) invert(1);
+  filter: grayscale(1) brightness(0);
   opacity: 0.62;
   transition: opacity 180ms ease;
 }
@@ -366,7 +366,7 @@
 .communityStats p {
   font-size: clamp(3.5rem, 9vw, 5rem);
   font-variant-numeric: tabular-nums;
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: -0.065em;
   line-height: 0.85;
   white-space: nowrap;
@@ -382,8 +382,8 @@
   align-items: center;
   gap: 1rem;
   margin-top: 2.75rem;
-  border: 1px solid rgb(245 245 242 / 30%);
-  border-radius: 999px;
+  border: 1px solid hsl(var(--foreground) / 30%);
+  border-radius: 3px;
   padding-inline: 1.5rem;
   color: var(--hack-fg);
   font-family: var(--font-mono), monospace;
@@ -419,9 +419,9 @@
   align-items: center;
   gap: 0.45rem;
   padding: 0.65rem 0.8rem;
-  border: 1px solid rgb(245 245 242 / 9%);
+  border: 1px solid hsl(var(--foreground) / 9%);
   border-radius: 999px;
-  background: rgb(10 10 10 / 72%);
+  background: hsl(var(--background) / 92%);
   backdrop-filter: blur(10px);
 }
 
@@ -443,14 +443,14 @@
   height: 0.28rem;
   transform: translate(-50%, -50%);
   border-radius: 999px;
-  background: rgb(245 245 242 / 24%);
+  background: hsl(var(--foreground) / 24%);
   content: "";
   transition: width 180ms ease, background-color 180ms ease;
 }
 
 .progress button.progressActive::after {
   width: 1rem;
-  background: rgb(245 245 242 / 72%);
+  background: hsl(var(--foreground) / 72%);
 }
 
 .experience[data-motion="ready"] [data-hack-reveal] {
@@ -574,3 +574,10 @@
     transition: none;
   }
 }
+
+:global(.dark) .partner img { filter: grayscale(1) brightness(0) invert(1); }
+.logoLink img, .closingLogo img { filter: brightness(0); }
+:global(.dark) .logoLink img, :global(.dark) .closingLogo img { filter: none; }
+@media (min-width: 1024px) { .progress { left: calc(50% + var(--station-sidebar) / 2); } }
+
+.hero { background: var(--station-halo); }

@@ -1,11 +1,10 @@
+import { DesignSystemGuide } from "@/components/design-system-guide"
 import Image from "next/image"
 import { Download } from "lucide-react"
 import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 
 import { Container, SectionGap } from "@/components/grid-container"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale, locales } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 
@@ -86,9 +85,9 @@ export default async function Page({
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
+        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
           <div className="max-w-4xl">
             <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
               {t("eyebrow")}
@@ -103,13 +102,15 @@ export default async function Page({
         </Container>
 
         <SectionGap />
+        <DesignSystemGuide locale={lang} />
+        <SectionGap />
 
-        <Container innerClassName="px-6 py-14 md:px-10 md:py-20">
+        <Container className="scroll-mt-24" innerClassName="px-6 py-14 md:px-10 md:py-20">
           <div className="mb-8 max-w-2xl md:mb-10">
             <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
               01 / {t("assets")}
             </p>
-            <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t("iconTitle")}</h2>
+            <h2 id="assets" className="mt-3 text-3xl tracking-tight md:text-4xl">{t("iconTitle")}</h2>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               {t("iconDescription")}
             </p>
@@ -165,7 +166,7 @@ export default async function Page({
           <p className="max-w-2xl text-lg leading-8 text-foreground/80">{t("usageDescription")}</p>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

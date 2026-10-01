@@ -4,7 +4,6 @@ import { redirect } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
 import { NewShipForm } from "@/components/new-ship-form"
-import { SiteHeader } from "@/components/site-header"
 import { env } from "@/env"
 import { isLocale } from "@/lib/i18n"
 
@@ -23,7 +22,7 @@ export default async function NewShipPage({ params }: { params: Promise<{ lang: 
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
         <Container innerClassName="mx-auto max-w-4xl px-6 py-16 md:py-24">
           <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">New Ship</p>

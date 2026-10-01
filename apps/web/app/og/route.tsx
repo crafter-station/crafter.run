@@ -1,16 +1,19 @@
 import { formatProfileLocationLine } from "@crafter/contracts"
 import { ImageResponse } from "next/og"
+import { readFile } from "node:fs/promises"
+import { join } from "node:path"
+import { CrafterStationLogo } from "@/components/crafter-station-logo"
 
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n"
 import { getCrafterProfile } from "@/lib/ships"
 
 export const dynamic = "force-dynamic"
 
-const BACKGROUND = "#0d0d0d"
-const FOREGROUND = "#f5f5f5"
-const MUTED = "#a3a3a3"
-const LINE = "#262626"
-const ACCENT = "#f1ede4"
+const BACKGROUND = "#191B17"
+const FOREGROUND = "#F3F3E9"
+const MUTED = "#B3B7A8"
+const LINE = "#3C4035"
+const ACCENT = "#FFC107"
 
 const TAGLINE = "The LatAm network of shippers"
 const DOMAIN = "crafter.run"
@@ -33,7 +36,7 @@ async function loadGoogleFont(family: string, weight: number, text: string) {
 function titleFontFamily(lang: Locale) {
   if (lang === "zh") return { family: "Noto Sans SC", weight: 700 as const }
   if (lang === "ja") return { family: "Noto Sans JP", weight: 700 as const }
-  return { family: "Space Grotesk", weight: 600 as const }
+  return { family: "Geist", weight: 700 as const }
 }
 
 function titleFontSize(title: string, lang: Locale) {
@@ -72,18 +75,19 @@ export async function GET(request: Request) {
     : null
   const isProfile = Boolean(member)
 
-  const monoText = `${eyebrow.toUpperCase()}${lang.toUpperCase()}${DOMAIN}${TAGLINE}${handle ?? ""}${role ?? ""}${location ?? ""}CRAFTER PROFILEMEMBER…`
   const titleFont = titleFontFamily(lang)
 
   const fonts: { name: string; data: ArrayBuffer; weight: 400 | 500 | 600 | 700; style: "normal" }[] = []
   try {
     const [titleData, monoData] = await Promise.all([
-      loadGoogleFont(titleFont.family, titleFont.weight, title),
-      loadGoogleFont("JetBrains Mono", 500, monoText),
+      lang === "zh" || lang === "ja"
+        ? loadGoogleFont(titleFont.family, titleFont.weight, title)
+        : readFile(join(process.cwd(), "app/fonts/Geist-Bold.ttf")).then((data) => new Uint8Array(data).buffer),
+      readFile(join(process.cwd(), "app/fonts/GeistMono-Regular.ttf")).then((data) => new Uint8Array(data).buffer),
     ])
     fonts.push(
       { name: "title", data: titleData, weight: titleFont.weight, style: "normal" },
-      { name: "mono", data: monoData, weight: 500, style: "normal" },
+      { name: "mono", data: monoData, weight: 400, style: "normal" },
     )
   } catch {
     // Fall back to the bundled default font (Latin coverage only).
@@ -111,6 +115,7 @@ export async function GET(request: Request) {
             flexDirection: "column",
             flex: 1,
             border: `1px solid ${LINE}`,
+            borderTop: `6px solid ${ACCENT}`,
           }}
         >
           {/* Header row */}
@@ -127,12 +132,15 @@ export async function GET(request: Request) {
               style={{
                 display: "flex",
                 fontFamily: monoFamily,
-                fontSize: 22,
-                letterSpacing: 7,
+                alignItems: "center",
+                gap: 18,
+                fontSize: 18,
+                letterSpacing: 2,
                 textTransform: "uppercase",
                 color: ACCENT,
               }}
             >
+              <CrafterStationLogo decorative width={36} height={36} style={{ color: ACCENT }} />
               {isProfile ? "CRAFTER PROFILE" : eyebrow.toUpperCase()}
             </div>
             <div

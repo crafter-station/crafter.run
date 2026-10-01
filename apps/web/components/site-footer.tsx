@@ -38,7 +38,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
   const products = getProducts(locale)
 
   return (
-    <footer className="border-t border-line bg-background">
+    <footer className="station-footer border-t border-line">
       <div className="grid gap-12 px-8 py-16 md:grid-cols-3 xl:grid-cols-5">
         <div>
           <p className="mb-5 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">

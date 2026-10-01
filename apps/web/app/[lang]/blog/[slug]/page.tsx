@@ -11,8 +11,6 @@ import { byline, dateLabel, entryAuthors, readingMinutes, toEntryViews } from "@
 import { BlogBody } from "@/components/blog/mdx"
 import { Container, SectionGap } from "@/components/grid-container"
 import { JsonLd } from "@/components/json-ld"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { getIndexPosts, getPost, getSlugs, postLanguageAlternates, postLocales } from "@/lib/blog"
 import { blogFeedPath, blogPath, blogPostMarkdownPath } from "@/lib/blog-paths"
 import { isLocale, type Locale } from "@/lib/i18n"
@@ -120,9 +118,9 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           ]),
         ]}
       />
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-12 md:px-10 md:py-20">
+        <Container innerClassName="station-page-intro px-6 py-12 md:px-10 md:py-20">
           <div className="max-w-4xl">
             <nav
               aria-label="Breadcrumb"
@@ -257,7 +255,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         <SectionGap />
         <BlogCta locale={lang} t={t} />
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

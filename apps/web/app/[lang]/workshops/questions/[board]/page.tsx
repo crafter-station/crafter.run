@@ -2,8 +2,6 @@ import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 
 import { Container, SectionGap } from "@/components/grid-container"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { WorkshopQuestionsBoard } from "@/components/workshop-questions-board"
 import { isLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
@@ -35,9 +33,9 @@ export default async function Page({
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-4 py-12 sm:px-6 md:px-10 md:py-24">
+        <Container innerClassName="station-page-intro px-4 py-12 sm:px-6 md:px-10 md:py-24">
           <div className="max-w-4xl">
             <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">/workshops/questions/{board}</p>
             <h1 className="mt-5 text-balance text-4xl font-semibold capitalize tracking-tighter sm:text-5xl md:text-7xl">
@@ -51,7 +49,7 @@ export default async function Page({
           <WorkshopQuestionsBoard boardSlug={board} heading={`${label} questions`} />
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

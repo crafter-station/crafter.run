@@ -4,7 +4,6 @@ import { notFound, redirect } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
 import { ShipDraftEditor } from "@/components/ship-draft-editor"
-import { SiteHeader } from "@/components/site-header"
 import { env } from "@/env"
 import { isLocale } from "@/lib/i18n"
 
@@ -27,9 +26,9 @@ export default async function EditShipPage({ params }: { params: Promise<{ lang:
   if (!ship) notFound()
 
   return <>
-    <SiteHeader locale={lang} />
+
     <main className="flex-1">
-      <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
+      <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
         <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Edit Ship</p>
         <h1 className="mt-5 text-5xl font-semibold tracking-tighter">Keep your Ship current.</h1>
         <div className="mt-12"><ShipDraftEditor initialShip={ship} locale={lang} published /></div>

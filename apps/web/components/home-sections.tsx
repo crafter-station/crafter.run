@@ -140,7 +140,7 @@ export async function CollaborationStrip({ locale }: { locale: Locale }) {
                     "h-5 max-w-8 object-contain opacity-80 transition-opacity group-hover:opacity-100 " +
                     ("preserveLogoColors" in item && item.preserveLogoColors
                       ? ""
-                      : "brightness-0 invert")
+                      : "brightness-0 dark:invert")
                   }
                 />
               ) : null}

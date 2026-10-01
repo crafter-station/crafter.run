@@ -37,8 +37,8 @@ export function BlogHero({
   ]
 
   return (
-    <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-end">
+    <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
+      <div className="grid gap-12 xl:grid-cols-[minmax(0,1fr)_18rem] lg:items-end">
         <div className="max-w-4xl">
           <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{eyebrow}</p>
           <h1 className="mt-5 text-balance text-5xl font-semibold tracking-[-0.05em] md:text-7xl">

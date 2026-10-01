@@ -81,7 +81,7 @@ export function CTA({ copy }: { copy: CtaCopy }) {
             ) : (
               <form
                 onSubmit={onSubmit}
-                className="mx-auto flex max-w-md items-stretch justify-center gap-2"
+                className="mx-auto flex max-w-md flex-col items-stretch justify-center gap-2 sm:flex-row"
               >
                 <label htmlFor="cta-email" className="sr-only">
                   {copy.emailLabel}
@@ -93,12 +93,12 @@ export function CTA({ copy }: { copy: CtaCopy }) {
                   placeholder={copy.emailPlaceholder}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-12 flex-1 border border-line bg-background px-4 font-mono text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-foreground/40 focus:outline-hidden"
+                  className="h-12 min-w-0 flex-1 border border-line bg-background px-4 font-mono text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-foreground/40 focus:outline-hidden"
                 />
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="inline-flex h-12 items-center justify-center gap-2 border border-zinc-950 bg-zinc-950 px-6 text-sm font-medium text-zinc-50 transition-colors hover:bg-zinc-800 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-50 dark:bg-zinc-50 dark:text-zinc-950 dark:hover:bg-zinc-200"
+                  className="inline-flex h-12 items-center justify-center gap-2 rounded-sm border border-primary bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   {submitting ? (
                     <>

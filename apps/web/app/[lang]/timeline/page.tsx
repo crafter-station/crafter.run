@@ -10,8 +10,6 @@ import {
   ProjectTimeline,
   type ProjectTimelineCopy,
 } from "@/components/project-timeline"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale, locales } from "@/lib/i18n"
 import { getProjectTimeline } from "@/lib/project-timeline-cache"
 import { pageMetadata } from "@/lib/seo"
@@ -145,7 +143,7 @@ export default async function Page({
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
         <Container innerClassName="overflow-hidden">
           <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
@@ -306,7 +304,7 @@ export default async function Page({
           </section>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

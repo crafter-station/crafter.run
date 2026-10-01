@@ -7,8 +7,6 @@ import { HeroNetworkPanel } from "@/components/hero-network-panel";
 import { OssRepoGrid } from "@/components/oss-repo-grid";
 import { PixelArrow } from "@/components/pixel-arrow";
 import { LocalizedLink } from "@/components/localized-link";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
 import { JsonLd } from "@/components/json-ld";
 import { isLocale } from "@/lib/i18n";
 import { getOssRepos } from "@/lib/oss";
@@ -47,16 +45,16 @@ export default async function Page({
           ]),
         ]}
       />
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24 lg:pr-16 xl:pr-24">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_auto] lg:gap-20">
+        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24 lg:pr-16 xl:pr-24">
+          <div className="grid grid-cols-1 items-center gap-12 xl:grid-cols-[minmax(0,1fr)_auto] xl:gap-12">
             <div className="max-w-4xl">
               <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
                 {t("eyebrow")}
               </p>
               <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">
-                {t("title")}
+                <span className="block">CRAFTER</span>{" "}<span className="block">OPEN SOURCE.</span>
               </h1>
               <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
                 {t("description")}
@@ -97,6 +95,7 @@ export default async function Page({
         </Container>
         <SectionGap />
         <OssRepoGrid
+          locale={lang}
           eyebrow={t("reposEyebrow")}
           title={t("reposTitle")}
           intro={t("reposDescription")}
@@ -218,7 +217,7 @@ export default async function Page({
           </section>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   );
 }

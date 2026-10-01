@@ -6,8 +6,6 @@ import { notFound } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
 import { ProfileLocationLine } from "@/components/profile-location-line"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 import { getCrafterProfile, listCrafterShips } from "@/lib/ships"
@@ -61,9 +59,9 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
+        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
           <div className="flex flex-col gap-8 sm:flex-row sm:items-center">
             <div className="relative size-28 shrink-0 overflow-hidden rounded-full border border-line bg-secondary">
               {member.avatarUrl ? <Image src={member.avatarUrl} alt="" fill sizes="112px" className="object-cover" /> : <span className="grid h-full place-items-center text-4xl text-muted-foreground">{member.displayName.charAt(0).toUpperCase()}</span>}
@@ -103,7 +101,7 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
           </div>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

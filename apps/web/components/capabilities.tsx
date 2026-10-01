@@ -1,91 +1,25 @@
 import { ArrowLink } from "@/components/arrow-link"
-import { Container } from "@/components/grid-container"
-import { InteractiveLines } from "@/components/interactive-lines"
 import { LocalizedLink } from "@/components/localized-link"
 import { type Locale } from "@/lib/i18n"
-import { getEcosystem } from "@/lib/site"
+import { getEcosystem, getSiteConfig } from "@/lib/site"
+import { stationCopy } from "@/lib/station-copy"
 
-function IconCard({
-  letter,
-  hideOnMobile,
-}: {
-  letter: string
-  hideOnMobile?: boolean
-}) {
+export function Capabilities({ locale }: { locale: Locale }) {
+  const t = stationCopy[locale]
   return (
-    <div
-      className={
-        "relative flex aspect-square items-center justify-center border-l border-line " +
-        (hideOnMobile ? "hidden md:flex" : "")
-      }
-    >
-      <span aria-hidden className="absolute inset-6 border border-line/70" />
-      <span
-        aria-hidden
-        className="absolute left-6 top-6 size-2 -translate-x-1/2 -translate-y-1/2 border-t border-l border-line"
-      />
-      <span
-        aria-hidden
-        className="absolute right-6 top-6 size-2 translate-x-1/2 -translate-y-1/2 border-t border-r border-line"
-      />
-      <span
-        aria-hidden
-        className="absolute left-6 bottom-6 size-2 -translate-x-1/2 translate-y-1/2 border-b border-l border-line"
-      />
-      <span
-        aria-hidden
-        className="absolute right-6 bottom-6 size-2 translate-x-1/2 translate-y-1/2 border-b border-r border-line"
-      />
-      <span className="font-mono text-7xl font-light text-foreground/20">
-        {letter}
-      </span>
-    </div>
-  )
-}
-
-export async function Capabilities({ locale }: { locale: Locale }) {
-  const ecosystem = getEcosystem(locale)
-
-  return (
-    <Container>
-      <div className="grid grid-cols-1 md:grid-cols-4">
-        <div className="relative overflow-hidden p-10 md:border-r md:border-line">
-          <InteractiveLines orientation="horizontal" className="opacity-60" />
-          <p className="relative font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-            What we craft
-          </p>
-          <p className="relative mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">
-            Crafter Station is a network where LatAm builders meet, share work,
-            research new tools, ship open source, host events, and build useful
-            products in public.
-          </p>
-        </div>
-        <IconCard letter="C" />
-        <IconCard letter="R" />
-        <IconCard letter="·" hideOnMobile />
-      </div>
-      <div className="grid grid-cols-1 border-t border-line md:grid-cols-2 xl:grid-cols-5">
-        {ecosystem.map((s, i) => (
-          <LocalizedLink
-            key={s.title}
-            href={s.href}
-            locale={locale}
-            className={
-              "group flex flex-col justify-between p-8 transition-colors hover:bg-accent-surface/10 " +
-              (i > 0 ? "border-t border-line md:border-t-0 md:border-l md:border-line " : "") +
-              (i >= 2 ? "md:border-t xl:border-t-0 " : "")
-            }
-          >
-            <div>
-              <h3 className="text-lg tracking-tight">{s.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {s.body}
-              </p>
-            </div>
-            <ArrowLink className="mt-8">Explore</ArrowLink>
+    <section className="station-section">
+      <div className="station-section-heading"><div><p className="station-eyebrow">Crafter Station</p><h2>{t.more}</h2></div></div>
+      <p className="mb-8 max-w-2xl leading-7 text-muted-foreground">{getSiteConfig(locale).description}</p>
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {getEcosystem(locale).map((item, index) => (
+          <LocalizedLink key={item.title} href={item.href} locale={locale} className="group flex flex-col rounded-md border border-line bg-card p-7 transition-colors hover:border-foreground/40">
+            <span className="station-label mb-8 text-muted-foreground">0{index + 1} / CRAFTER</span>
+            <h3 className="text-xl">{item.title}</h3>
+            <p className="mt-4 grow text-sm leading-7 text-muted-foreground">{item.body}</p>
+            <ArrowLink className="mt-8">{t.explore}</ArrowLink>
           </LocalizedLink>
         ))}
       </div>
-    </Container>
+    </section>
   )
 }

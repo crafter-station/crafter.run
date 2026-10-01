@@ -7,7 +7,7 @@
 - `bun run db:generate` generates Drizzle migrations; `bun run db:migrate` applies them to `DATABASE_URL`.
 - `bun run db:migrate:supabase` is the idempotent one-time board-data importer and requires `SUPABASE_MIGRATION_URL` plus `SUPABASE_MIGRATION_SERVICE_ROLE_KEY` outside app env validation.
 - `bun run lint` currently fails: `apps/web/package.json` calls `eslint .`, but ESLint is not installed/configured.
-- `bunx tsc -p apps/web/tsconfig.json --noEmit --incremental false` currently fails on a pre-existing pagination variant mismatch and migration-script compiler/header typing.
+- `bunx tsc -p apps/web/tsconfig.json --noEmit --incremental false` currently fails on pre-existing migration-script compiler/header typing.
 - `bun test apps/web packages/cli packages/db apps/api` runs all current tests; pass a test file and `-t '<name>'` for one case, for example `bun test apps/api/test/api.test.ts -t 'reports health'`. Anything importing `apps/web/lib/source.ts` only resolves inside the bundler, so a test that reaches the docs corpus must stub that module with `mock.module`.
 
 ## App Shape
@@ -29,7 +29,7 @@
 - The 404's backdrop is chosen at runtime by `components/not-found-backdrop.tsx`: the black hole on WebGPU, the hero's water on WebGL, and neither under reduced motion, which leaves the DOM figure the page renders regardless. Both backdrops are `next/dynamic` on purpose. Next ships the `not-found` boundary with every route's client bundle, so a static import there puts three.js and nine compiled shaders on the blog and the docs.
 - `components/black-hole/` is vendored from `vercel-labs/vgpu` under the MIT license kept beside it; its README says what was taken and how to mark local edits. Its `.wgsl` files are a module graph resolved at build time by the `turbopack.rules` entry in `next.config.mjs`, so adding a shader there means importing it, not inlining a string.
 - `.theme-scope` in `app/globals.css` is what lets a subtree flip palette on its own. Tailwind substitutes the `@theme` aliases at computed-value time on `:root`, so a nested `.dark` changes the raw tokens and nothing reads them again; pair the two classes or the swap silently does nothing.
-- The hero's mark and its copy never overlap, at any width: `hero.tsx` reserves the mark's bottom band below `lg` and a left copy column above it, and `liquid-hero.tsx` paints to the same numbers. Changing one means changing the other. Both files also carry a DOM `<img>` of the mark underneath the water, which is what reduced-motion, no-JavaScript, and no-WebGL visitors see, and what preloads the file for the canvas.
+- The homepage uses `components/hero.tsx` and the approved SVG assembly under `public/station`. `liquid-hero.tsx` remains available as a 404 fallback; keep its painter and viewport calculations together when editing that legacy surface.
 
 ## Integrations
 - Web env validation is in `apps/web/env.ts`; all listed env vars are optional. `API_URL` defaults to `http://localhost:3001`.
@@ -52,3 +52,10 @@
 - `apps/web/next.config.mjs` sets `images.unoptimized: true`, allows dev origin `dev.cueva.io`, and permanently redirects `/vibe` to Luma.
 - Configure separate Vercel projects with Root Directories `apps/web` and `apps/api`. Point `api.crafter.run` at the API project, set the web project's `API_URL` and `NEXT_PUBLIC_API_URL` to that origin, and keep app-specific cron configuration in `apps/web/vercel.json`.
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
+
+## Station Visual System
+- Read `docs/station-design-system.md` before changing shared presentation.
+- The locale root owns `SiteShell`, navigation and footer; do not add per-page copies. Docs uses the compact shell.
+- The homepage uses the approved SVG assembly art. Legacy liquid surfaces remain for 404 fallbacks.
+- Light/dark tokens live in `app/globals.css`; layout and editorial compositions live in `app/station.css`. Keep both palettes, reduced motion, five locales, and `.theme-scope` working.
+- Fonts are self-hosted through `lib/fonts.ts` with licenses beside them; retain Noto CJK fallbacks.

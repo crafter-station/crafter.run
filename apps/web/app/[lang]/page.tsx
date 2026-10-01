@@ -4,6 +4,7 @@ import { Capabilities } from "@/components/capabilities"
 import { CTA, type CtaCopy } from "@/components/cta"
 import { FeaturedProducts } from "@/components/featured-products"
 import { SectionGap } from "@/components/grid-container"
+import { StationEvents, StationFamily } from "@/components/station-sections"
 import { HeroContent } from "@/components/hero"
 import {
   CommunityPreview,
@@ -13,8 +14,6 @@ import {
   OpenCalendars,
   ProofStats,
 } from "@/components/home-sections"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 
@@ -58,11 +57,10 @@ export default async function Page({
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
         <HeroContent
-          eyebrow={t("eyebrow")}
-          lines={[t("line1"), t("line2"), t("line3")]}
+          locale={lang}
           description={t("description")}
           eventsCta={t("eventsCta")}
           eventsHref={withLocale("/events", lang)}
@@ -72,13 +70,17 @@ export default async function Page({
         <SectionGap />
         <ProofStats locale={lang} />
         <SectionGap />
+        <FeaturedProducts locale={lang} />
+        <SectionGap />
+        <StationEvents locale={lang} />
+        <SectionGap />
+        <StationFamily locale={lang} />
+        <SectionGap />
         <CommunityPreview locale={lang} />
         <SectionGap />
         <OpenCalendars locale={lang} />
         <SectionGap />
         <Capabilities locale={lang} />
-        <SectionGap />
-        <FeaturedProducts locale={lang} />
         <SectionGap />
         <EventsResearchPreview locale={lang} />
         <SectionGap />
@@ -88,7 +90,7 @@ export default async function Page({
         <SectionGap />
         <CommunityQrCode locale={lang} />
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

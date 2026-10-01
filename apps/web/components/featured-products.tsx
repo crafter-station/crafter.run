@@ -1,84 +1,38 @@
 import Link from "next/link"
-import { ArrowLink } from "@/components/arrow-link"
-import { Badge } from "@/components/ui/badge"
-import { Container } from "@/components/grid-container"
-import type { Locale } from "@/lib/i18n"
+import { ArrowUpRight } from "lucide-react"
+import { ProjectArt } from "@/components/project-art"
+import { type Locale, withLocale } from "@/lib/i18n"
 import { getProducts } from "@/lib/site"
-import { cn } from "@/lib/utils"
+import { stationCopy } from "@/lib/station-copy"
 
-const featuredProductSlugs = ["hack0", "petdex", "legalize-pe", "maca"] as const
-
+const featuredProductSlugs = ["hack0", "petdex", "legalize-pe", "maca"]
 export function FeaturedProducts({ locale }: { locale: Locale }) {
-  const products = getProducts(locale).filter((product) =>
-    featuredProductSlugs.includes(
-      product.slug as (typeof featuredProductSlugs)[number],
-    ),
-  )
-
+  const t = stationCopy[locale]
+  const products = getProducts(locale).filter((p) => featuredProductSlugs.includes(p.slug))
   return (
-    <div id="work">
-      <Container innerClassName="border-b py-6">
-        <h2 className="text-center font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          Featured projects
-        </h2>
-      </Container>
-      <hr className="border-line" />
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-2">
-          {products.map((p, i) => (
-            <article
-              key={p.slug}
-              className={cn(
-                "relative min-h-80 border-line p-8 md:p-10",
-                i > 0 ? "border-t md:border-t-0" : "",
-                i % 2 ? "md:border-l" : "",
-                i >= 2 ? "md:border-t" : "",
-              )}
-            >
-              <div
-                className={cn(
-                  "absolute inset-x-0 top-0 h-1 bg-linear-to-r",
-                  p.accent,
-                )}
-              />
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                {p.slug}
-              </p>
-              <h3 className="mt-4 text-3xl tracking-tight md:text-4xl">
-                {p.title}
-              </h3>
-              <p className="mt-4 text-sm font-medium text-foreground">
-                {p.tagline}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {"metrics" in p
-                  ? p.metrics.map((metric) => (
-                      <Badge key={metric} variant="secondary">
-                        {metric}
-                      </Badge>
-                    ))
-                  : null}
-                {p.technologies.map((t) => (
-                  <Badge key={t} variant="outline">
-                    {t}
-                  </Badge>
-                ))}
+    <section id="work" className="station-section">
+      <div className="station-section-heading">
+        <div><p className="station-eyebrow">{t.projectsLabel}</p><h2>{t.projects}</h2></div>
+        <Link href={withLocale("/products", locale)} className="station-text-link">{t.visit}<ArrowUpRight size={16} aria-hidden="true" /></Link>
+      </div>
+      <div className="station-project-grid">
+        {products.map((p) => (
+          <article key={p.slug} className="station-project-card">
+            <ProjectArt name={p.slug} label={p.technologies[0]} />
+            <div className="station-project-info">
+              <h3>{p.title}</h3><p>{p.tagline}</p>
+              <p className="text-muted-foreground">{p.description}</p>
+              <div className="station-project-meta">
+                {("metrics" in p ? p.metrics : p.technologies).slice(0, 3).map((metric) => <span key={metric}>{metric}</span>)}
               </div>
-              <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-                {p.description}
-              </p>
-              <Link
-                href={p.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group mt-8 inline-block"
-              >
-                <ArrowLink>Visit {p.title}</ArrowLink>
-              </Link>
-            </article>
-          ))}
-        </div>
-      </Container>
-    </div>
+              <div className="station-project-foot">
+                <Link className="station-text-link" href={p.url} target="_blank" rel="noopener noreferrer">{t.visit}<ArrowUpRight size={15} aria-hidden="true" /></Link>
+                <span className="station-label text-muted-foreground">{p.slug}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
   )
 }

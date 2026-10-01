@@ -2,8 +2,6 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLink } from "@/components/arrow-link"
 import { Container, SectionGap } from "@/components/grid-container"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 
@@ -109,9 +107,9 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
+        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
           <div className="max-w-5xl">
             <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{t.eyebrow}</p>
             <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">{t.title}</h1>
@@ -162,7 +160,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           </div>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

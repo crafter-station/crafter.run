@@ -4,21 +4,24 @@ import { CrafterStationLogo } from "./crafter-station-logo"
 export function SiteWordmark({
   className,
   showIcon = true,
+  stacked = false,
 }: {
   className?: string
   showIcon?: boolean
+  stacked?: boolean
 }) {
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 select-none",
+        "station-wordmark inline-flex select-none",
+        stacked ? "flex-col items-start gap-3" : "items-center gap-2.5",
         className,
       )}
       aria-label="Crafter Station"
     >
-      {showIcon ? <CrafterStationLogo className="h-4 w-4" /> : null}
-      <span className="wordmark-crafter text-sm tracking-[0.08em] text-foreground">
-        Crafter Station
+      {showIcon ? <CrafterStationLogo className={stacked ? "size-12" : "size-8"} /> : null}
+      <span className="wordmark-crafter text-foreground">
+        crafter{stacked ? <br /> : " "}station
       </span>
     </span>
   )

@@ -1,8 +1,6 @@
 import { getLocale } from "next-intl/server"
 
 import { NotFoundView } from "@/components/not-found-view"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { defaultLocale, isLocale } from "@/lib/i18n"
 
 /**
@@ -19,11 +17,11 @@ export default async function NotFound() {
 
   return (
     <>
-      <SiteHeader locale={locale} />
+
       <main className="flex-1">
         <NotFoundView locale={locale} />
       </main>
-      <SiteFooter locale={locale} />
+
     </>
   )
 }

@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from "next"
 import { headers } from "next/headers"
 import Link from "next/link"
-import { JetBrains_Mono, Space_Grotesk } from "next/font/google"
+import { stationFonts } from "@/lib/fonts"
 import { getTranslations } from "next-intl/server"
 
 import { NotFoundView } from "@/components/not-found-view"
 import { SiteWordmark } from "@/components/site-wordmark"
+import { ThemeSwitcher } from "@/components/theme-switcher"
+import { stationCopy } from "@/lib/station-copy"
 import { ThemeProvider } from "@/components/theme-provider"
 import {
   defaultLocale,
@@ -32,17 +34,6 @@ import "./globals.css"
  * header and footer, through `app/[lang]/not-found.tsx`.
  */
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space",
-  weight: ["300", "400", "500", "600", "700"],
-})
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  weight: ["300", "400", "500", "700"],
-})
-
 /**
  * `proxy.ts` stamps the locale of any URL that already carried one. Anything
  * else (a bare `/nope` redirected here, a request the proxy skipped) falls back
@@ -61,8 +52,8 @@ async function resolveLocale(): Promise<Locale> {
  */
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0d0d0d" },
+    { media: "(prefers-color-scheme: light)", color: "#F7F7F2" },
+    { media: "(prefers-color-scheme: dark)", color: "#191B17" },
   ],
 }
 
@@ -82,16 +73,17 @@ export default async function GlobalNotFound() {
   const locale = await resolveLocale()
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className={stationFonts}>
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
+        className={`flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
         <ThemeProvider>
           <header className="w-full">
-            <div className="mx-auto w-full max-w-[1380px] px-4 py-6 sm:px-6 md:px-10">
+            <div className="mx-auto flex w-full max-w-[1380px] items-center justify-between px-4 py-6 sm:px-6 md:px-10">
               <Link href={`/${locale}`} className="inline-flex transition-opacity hover:opacity-70">
                 <SiteWordmark />
               </Link>
+              <ThemeSwitcher locale={locale} label={`${stationCopy[locale].light} / ${stationCopy[locale].dark}`} />
             </div>
           </header>
           <main className="flex-1">

@@ -7,8 +7,6 @@ import { notFound } from "next/navigation"
 import { Container, SectionGap } from "@/components/grid-container"
 import { JoinAgentPrompt } from "@/components/join-agent-prompt"
 import { ProfileLocationLine } from "@/components/profile-location-line"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale, locales } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 import { listCrafters } from "@/lib/ships"
@@ -35,9 +33,9 @@ export default async function CraftersPage({ params }: { params: Promise<{ lang:
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
+        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_14rem] lg:items-end">
             <div className="max-w-4xl">
               <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{t("eyebrow")}</p>
@@ -106,7 +104,7 @@ export default async function CraftersPage({ params }: { params: Promise<{ lang:
           )}
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

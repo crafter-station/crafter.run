@@ -3,7 +3,6 @@ import { redirect } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
 import { MemberOnboardingForm } from "@/components/member-onboarding-form"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale } from "@/lib/i18n"
 
 export default async function OnboardingPage({ params }: { params: Promise<{ lang: string }> }) {
@@ -16,7 +15,7 @@ export default async function OnboardingPage({ params }: { params: Promise<{ lan
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
         <Container innerClassName="mx-auto max-w-2xl px-6 py-16 md:py-24">
           <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Crafter profile</p>

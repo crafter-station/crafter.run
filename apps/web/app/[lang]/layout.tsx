@@ -2,17 +2,14 @@ import React from "react"
 import { ClerkProvider } from "@clerk/nextjs"
 import { shadcn } from "@clerk/ui/themes"
 import type { Viewport } from "next"
-import {
-  JetBrains_Mono,
-  Noto_Sans_JP,
-  Noto_Sans_SC,
-  Space_Grotesk,
-} from "next/font/google"
 import { notFound } from "next/navigation"
 import { setRequestLocale } from "next-intl/server"
 import { Analytics } from "@vercel/analytics/next"
 
 import { JsonLd } from "@/components/json-ld"
+import { SiteShell } from "@/components/site-shell"
+import { SiteFooter } from "@/components/site-footer"
+import { stationFonts } from "@/lib/fonts"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import { isLocale, locales } from "@/lib/i18n"
@@ -20,37 +17,10 @@ import { organizationSchema, webSiteSchema } from "@/lib/structured-data"
 
 import "../globals.css"
 
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  variable: "--font-space",
-  weight: ["300", "400", "500", "600", "700"],
-})
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-  weight: ["300", "400", "500", "700"],
-})
-// CJK body fonts: Space Grotesk/JetBrains Mono are Latin-only, so zh/ja
-// pages would fall back to whatever the visitor's OS ships. Loaded with
-// preload disabled; browsers only fetch the unicode-range slices a page
-// actually uses, so Latin pages pay nothing.
-const notoSansSC = Noto_Sans_SC({
-  subsets: ["latin"],
-  variable: "--font-noto-sc",
-  weight: ["400", "500", "700"],
-  preload: false,
-})
-const notoSansJP = Noto_Sans_JP({
-  subsets: ["latin"],
-  variable: "--font-noto-jp",
-  weight: ["400", "500", "700"],
-  preload: false,
-})
-
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0d0d0d" },
+    { media: "(prefers-color-scheme: light)", color: "#F7F7F2" },
+    { media: "(prefers-color-scheme: dark)", color: "#191B17" },
   ],
 }
 
@@ -73,19 +43,27 @@ export default async function LocaleLayout({
   setRequestLocale(lang)
 
   return (
-    <html lang={lang} suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning className={stationFonts}>
       <body
-        className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} ${notoSansSC.variable} ${notoSansJP.variable} flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
+        className={`flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
         <ClerkProvider
           dynamic
           appearance={{
             theme: shadcn,
+            elements: {
+              cardBox: "rounded-md border border-line shadow-none",
+              card: "rounded-none bg-card shadow-none",
+              headerTitle: "font-heading tracking-tight",
+            },
             variables: {
+              fontFamily: "var(--font-sans)",
+              fontFamilyButtons: "var(--font-sans)",
+              borderRadius: "0.375rem",
               colorBackground: "hsl(var(--card))",
               colorDanger: "hsl(var(--destructive))",
               colorForeground: "hsl(var(--card-foreground))",
-              colorInput: "hsl(var(--input))",
+              colorInput: "hsl(var(--background))",
               colorInputForeground: "hsl(var(--card-foreground))",
               colorModalBackdrop: "rgb(0 0 0 / 50%)",
               colorMuted: "hsl(var(--muted))",
@@ -102,7 +80,7 @@ export default async function LocaleLayout({
         >
           <ThemeProvider>
             <JsonLd data={[organizationSchema(lang), webSiteSchema(lang)]} />
-            {children}
+            <SiteShell locale={lang} footer={<SiteFooter locale={lang} />}>{children}</SiteShell>
             <Analytics />
           </ThemeProvider>
         </ClerkProvider>

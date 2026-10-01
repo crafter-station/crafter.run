@@ -2,8 +2,6 @@ import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { CalEmbed } from "@/components/cal-embed"
 import { Container, SectionGap } from "@/components/grid-container"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 import { collaborations, getEvents } from "@/lib/site"
@@ -101,9 +99,9 @@ export default async function Page({
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
+        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
           <div className="max-w-4xl">
             <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{t("eyebrow")}</p>
             <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">{t("title")}</h1>
@@ -163,7 +161,7 @@ export default async function Page({
                     "h-7 max-w-28 object-contain opacity-80 transition-opacity group-hover:opacity-100 " +
                     ("preserveLogoColors" in item && item.preserveLogoColors
                       ? ""
-                      : "brightness-0 invert")
+                      : "brightness-0 dark:invert")
                   }
                 />
                 <span className="font-mono text-xs uppercase tracking-[0.22em] text-foreground/80 transition-colors group-hover:text-foreground">
@@ -187,7 +185,7 @@ export default async function Page({
         </Container>
         <CalEmbed calLink="crafter/community" namespace="community" />
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }
