@@ -40,10 +40,16 @@ export function isBountyOpen(bounty: Bounty, now = new Date()) {
   return now < new Date(bounty.closesAt)
 }
 
-/** Normalizes a WhatsApp number to E.164. Bare 9-digit numbers starting with 9 are Peruvian mobiles. */
-export function normalizePhone(input: string) {
-  const digits = input.replace(/[^\d+]/g, "")
+/**
+ * Normalizes a WhatsApp phone number to E.164 or a WhatsApp username to `@name`.
+ * Bare 9-digit numbers starting with 9 are Peruvian mobiles.
+ */
+export function normalizeWhatsappContact(input: string) {
+  const value = input.trim()
+  const digits = value.replace(/[\s().-]/g, "")
   if (/^9\d{8}$/.test(digits)) return `+51${digits}`
   if (/^\+[1-9]\d{7,14}$/.test(digits)) return digits
+  const username = value.replace(/^@/, "")
+  if (/^[a-zA-Z0-9._]{3,35}$/.test(username) && /[a-zA-Z]/.test(username)) return `@${username}`
   return null
 }

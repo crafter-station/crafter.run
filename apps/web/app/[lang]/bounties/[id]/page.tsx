@@ -29,7 +29,7 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
   const db = userId ? getDb() : null
   const [existing] = db
     ? await db
-        .select({ postUrl: bountySubmissions.postUrl, whatsappPhone: bountySubmissions.whatsappPhone, contactConsent: bountySubmissions.contactConsent })
+        .select({ postUrl: bountySubmissions.postUrl, whatsappContact: bountySubmissions.whatsappContact, contactConsent: bountySubmissions.contactConsent })
         .from(bountySubmissions)
         .where(and(eq(bountySubmissions.bountySlug, bounty.slug), eq(bountySubmissions.clerkUserId, userId!)))
         .limit(1)
