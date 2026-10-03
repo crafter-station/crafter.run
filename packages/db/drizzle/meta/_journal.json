@@ -134,6 +134,13 @@
       "when": 1786694519547,
       "tag": "0018_right_glorian",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1790991410005,
+      "tag": "0019_lame_raider",
+      "breakpoints": true
     }
   ]
 }

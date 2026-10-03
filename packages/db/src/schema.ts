@@ -367,3 +367,25 @@ export const ossRadarSnapshots = pgTable(
   },
   (table) => [index("oss_radar_snapshots_generated_idx").on(table.generatedAt.desc())],
 )
+
+export const bountySubmissions = pgTable(
+  "bounty_submissions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    bountySlug: text("bounty_slug").notNull(),
+    clerkUserId: text("clerk_user_id").notNull(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    whatsappPhone: text("whatsapp_phone").notNull(),
+    postUrl: text("post_url").notNull(),
+    attendsInPerson: boolean("attends_in_person").notNull(),
+    contactConsent: boolean("contact_consent").default(false).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("bounty_submissions_bounty_user_idx").on(table.bountySlug, table.clerkUserId),
+    check("bounty_submissions_phone_check", sql`${table.whatsappPhone} ~ '^\\+[1-9][0-9]{7,14}$'`),
+    check("bounty_submissions_post_url_check", sql`${table.postUrl} ~ '^https://'`),
+  ],
+)
