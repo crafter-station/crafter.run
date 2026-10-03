@@ -1,6 +1,7 @@
 import { auth } from "@clerk/nextjs/server"
 import { bountySubmissions } from "@crafter/db/schema"
 import { and, eq } from "drizzle-orm"
+import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
 
@@ -10,13 +11,29 @@ import { SiteHeader } from "@/components/site-header"
 import { bountyQuestionsForumUrl, getBounty, isBountyOpen } from "@/lib/bounties"
 import { getDb } from "@/lib/db"
 import { isLocale } from "@/lib/i18n"
+import { buildMetadata } from "@/lib/seo"
 import { socials } from "@/lib/site"
 
 export const dynamic = "force-dynamic"
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
-  const bounty = getBounty((await params).id)
-  return bounty ? { title: `Bounty #${bounty.slug}: ${bounty.title}`, description: bounty.prize } : {}
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string; id: string }>
+}): Promise<Metadata> {
+  const { lang, id } = await params
+  if (!isLocale(lang)) return {}
+  const bounty = getBounty(id)
+  if (!bounty) return {}
+
+  const title = `Bounty #${bounty.slug}: ${bounty.title}`
+  return buildMetadata({
+    locale: lang,
+    path: `/bounties/${bounty.slug}`,
+    title,
+    description: bounty.prize,
+    image: bounty.image ? { url: bounty.image, alt: title } : undefined,
+  })
 }
 
 export default async function BountyPage({ params }: { params: Promise<{ lang: string; id: string }> }) {
