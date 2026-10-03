@@ -1,3 +1,5 @@
+export const bountyQuestionsForumUrl = "https://discord.com/channels/1205672636642758687/1555765348291186790"
+
 export type Bounty = {
   slug: string
   title: string

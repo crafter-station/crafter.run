@@ -7,9 +7,10 @@ import { notFound, redirect } from "next/navigation"
 import { BountySubmissionForm } from "@/components/bounty-submission-form"
 import { Container } from "@/components/grid-container"
 import { SiteHeader } from "@/components/site-header"
-import { getBounty, isBountyOpen } from "@/lib/bounties"
+import { bountyQuestionsForumUrl, getBounty, isBountyOpen } from "@/lib/bounties"
 import { getDb } from "@/lib/db"
 import { isLocale } from "@/lib/i18n"
+import { socials } from "@/lib/site"
 
 export const dynamic = "force-dynamic"
 
@@ -35,6 +36,7 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
         .limit(1)
     : []
   const open = isBountyOpen(bounty)
+  const discordInviteUrl = socials.find((social) => social.label === "Discord")!.href
 
   return (
     <>
@@ -72,6 +74,16 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
                 </Link>
               </div>
             )}
+          </section>
+
+          <section className="mt-10 border-t border-line pt-8 text-sm leading-6 text-muted-foreground">
+            <h2 className="font-mono text-[10px] uppercase tracking-[0.2em]">¿Dudas?</h2>
+            <p className="mt-3">
+              Escríbelas en el{" "}
+              <a href={bountyQuestionsForumUrl} target="_blank" rel="noreferrer" className="text-foreground underline underline-offset-4">foro de preguntas del Discord</a>
+              . ¿Todavía no estás en el Discord?{" "}
+              <a href={discordInviteUrl} target="_blank" rel="noreferrer" className="text-foreground underline underline-offset-4">Únete aquí</a>.
+            </p>
           </section>
         </Container>
       </main>
