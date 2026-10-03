@@ -5,14 +5,14 @@ import { bountySubmissions } from "@crafter/db/schema"
 import { sql } from "drizzle-orm"
 import { z } from "zod"
 
-import { getBounty, isBountyOpen, normalizePhone } from "@/lib/bounties"
+import { getBounty, isBountyOpen, normalizeWhatsappContact } from "@/lib/bounties"
 import { getDb } from "@/lib/db"
 
 export type SubmitBountyState = { status: "idle" | "saved" | "error"; message?: string }
 
 const formSchema = z.object({
   postUrl: z.string().trim().url().startsWith("https://"),
-  whatsappPhone: z.string().trim().min(9).max(20),
+  whatsappContact: z.string().trim().min(3).max(40),
   attendsInPerson: z.literal("on"),
   contactConsent: z.literal("on").optional(),
 })
@@ -29,8 +29,8 @@ export async function submitBounty(slug: string, _state: SubmitBountyState, form
   if (!parsed.success) {
     return { status: "error", message: "Revisa el link de tu post (https://...) y confirma que puedes ir presencial." }
   }
-  const whatsappPhone = normalizePhone(parsed.data.whatsappPhone)
-  if (!whatsappPhone) return { status: "error", message: "Usa el número con el que estás en el grupo, con código de país (+51...)." }
+  const whatsappContact = normalizeWhatsappContact(parsed.data.whatsappContact)
+  if (!whatsappContact) return { status: "error", message: "Pon tu número con código de país (+51...) o tu username de WhatsApp." }
 
   const user = await currentUser()
   const email = user?.primaryEmailAddress?.emailAddress
@@ -44,7 +44,7 @@ export async function submitBounty(slug: string, _state: SubmitBountyState, form
     clerkUserId: userId,
     name: user?.fullName ?? user?.username ?? email,
     email,
-    whatsappPhone,
+    whatsappContact,
     postUrl: parsed.data.postUrl,
     attendsInPerson: true,
     contactConsent: parsed.data.contactConsent === "on",

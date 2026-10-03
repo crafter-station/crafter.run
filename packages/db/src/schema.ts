@@ -376,7 +376,7 @@ export const bountySubmissions = pgTable(
     clerkUserId: text("clerk_user_id").notNull(),
     name: text("name").notNull(),
     email: text("email").notNull(),
-    whatsappPhone: text("whatsapp_phone").notNull(),
+    whatsappContact: text("whatsapp_contact").notNull(),
     postUrl: text("post_url").notNull(),
     attendsInPerson: boolean("attends_in_person").notNull(),
     contactConsent: boolean("contact_consent").default(false).notNull(),
@@ -385,7 +385,7 @@ export const bountySubmissions = pgTable(
   },
   (table) => [
     uniqueIndex("bounty_submissions_bounty_user_idx").on(table.bountySlug, table.clerkUserId),
-    check("bounty_submissions_phone_check", sql`${table.whatsappPhone} ~ '^\\+[1-9][0-9]{7,14}$'`),
+    check("bounty_submissions_whatsapp_contact_check", sql`char_length(${table.whatsappContact}) between 3 and 40`),
     check("bounty_submissions_post_url_check", sql`${table.postUrl} ~ '^https://'`),
   ],
 )

@@ -4,13 +4,13 @@ CREATE TABLE "bounty_submissions" (
 	"clerk_user_id" text NOT NULL,
 	"name" text NOT NULL,
 	"email" text NOT NULL,
-	"whatsapp_phone" text NOT NULL,
+	"whatsapp_contact" text NOT NULL,
 	"post_url" text NOT NULL,
 	"attends_in_person" boolean NOT NULL,
 	"contact_consent" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL,
-	CONSTRAINT "bounty_submissions_phone_check" CHECK ("bounty_submissions"."whatsapp_phone" ~ '^\+[1-9][0-9]{7,14}$'),
+	CONSTRAINT "bounty_submissions_whatsapp_contact_check" CHECK (char_length("bounty_submissions"."whatsapp_contact") between 3 and 40),
 	CONSTRAINT "bounty_submissions_post_url_check" CHECK ("bounty_submissions"."post_url" ~ '^https://')
 );
 --> statement-breakpoint

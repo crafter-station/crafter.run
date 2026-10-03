@@ -1,11 +1,13 @@
 "use client"
 
-import { useActionState } from "react"
+import { Link2 } from "lucide-react"
+import { useActionState, useState } from "react"
 
 import { submitBounty, type SubmitBountyState } from "@/app/[lang]/bounties/[id]/actions"
+import { detectSocialPlatform } from "@/lib/social-platforms"
 import { cn } from "@/lib/utils"
 
-type Existing = { postUrl: string; whatsappPhone: string; contactConsent: boolean } | null
+type Existing = { postUrl: string; whatsappContact: string; contactConsent: boolean } | null
 
 export function BountySubmissionForm({ slug, existing }: { slug: string; existing: Existing }) {
   const [state, action, pending] = useActionState<SubmitBountyState, FormData>(submitBounty.bind(null, slug), { status: "idle" })
@@ -14,14 +16,13 @@ export function BountySubmissionForm({ slug, existing }: { slug: string; existin
   return (
     <form action={action} className="grid gap-6">
       {existing && !saved ? <p className="text-sm text-muted-foreground">Ya mandaste tu post. Puedes actualizarlo hasta el cierre.</p> : null}
-      <Field label="Link de tu post" name="postUrl" type="url" required placeholder="https://x.com/tu-usuario/status/..." defaultValue={existing?.postUrl} />
+      <PostUrlField defaultValue={existing?.postUrl} />
       <Field
-        label="Tu número de WhatsApp"
-        name="whatsappPhone"
-        type="tel"
+        label="Tu WhatsApp: número o username"
+        name="whatsappContact"
         required
-        placeholder="+51 987 654 321"
-        defaultValue={existing?.whatsappPhone}
+        placeholder="+51 987 654 321 o @tu_username"
+        defaultValue={existing?.whatsappContact}
         hint="El mismo con el que estás en el grupo de Crafter Station. Lo usamos para validar que eres de la comunidad."
       />
       <label className="flex items-start gap-3 border border-line px-4 py-3 text-sm">
@@ -38,6 +39,54 @@ export function BountySubmissionForm({ slug, existing }: { slug: string; existin
         {pending ? "Enviando..." : existing || saved ? "Actualizar envío" : "Mandar mi post"}
       </button>
     </form>
+  )
+}
+
+function PostUrlField({ defaultValue }: { defaultValue?: string }) {
+  const [url, setUrl] = useState(defaultValue ?? "")
+  const platform = detectSocialPlatform(url)
+  // Black brand marks (X, TikTok, Threads) follow the theme so they never disappear on a dark page.
+  const monochrome = platform?.hex === "000000"
+  const isUrl = /^https?:\/\/\S+\.\S+/.test(url.trim())
+
+  return (
+    <label className="grid min-w-0 gap-2 text-sm">
+      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Link de tu post</span>
+      <div className="flex min-w-0 items-stretch gap-2">
+        <span
+          aria-label={platform?.name ?? "Plataforma"}
+          title={platform?.name}
+          className={cn(
+            "grid size-12 shrink-0 place-items-center border transition-colors",
+            !platform && "border-dashed border-line text-muted-foreground",
+            platform && (monochrome ? "border-transparent bg-foreground text-background" : "border-transparent text-white"),
+          )}
+          style={platform && !monochrome ? { backgroundColor: `#${platform.hex}` } : undefined}
+        >
+          {platform?.path ? (
+            <svg viewBox="0 0 24 24" aria-hidden className="size-5 fill-current"><path d={platform.path} /></svg>
+          ) : platform?.monogram ? (
+            <span className="text-base font-bold leading-none">{platform.monogram}</span>
+          ) : isUrl ? (
+            <Link2 aria-hidden className="size-5 text-foreground" />
+          ) : (
+            <Link2 aria-hidden className="size-5 opacity-40" />
+          )}
+        </span>
+        <input
+          name="postUrl"
+          type="url"
+          required
+          value={url}
+          onChange={(event) => setUrl(event.target.value)}
+          placeholder="Pega aquí el link de tu post"
+          className="w-full min-w-0 border border-line bg-background px-4 py-3 outline-none focus:border-accent"
+        />
+      </div>
+      <span className="text-xs text-muted-foreground">
+        {platform ? `Post de ${platform.name}.` : "Sirve cualquier red: X, LinkedIn, Instagram, TikTok, YouTube, Threads..."}
+      </span>
+    </label>
   )
 }
 
