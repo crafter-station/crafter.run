@@ -1,7 +1,8 @@
 "use client"
 
 import { Link2 } from "lucide-react"
-import { useActionState, useState } from "react"
+import confetti from "canvas-confetti"
+import { useActionState, useEffect, useState } from "react"
 
 import { submitBounty, type SubmitBountyState } from "@/app/[lang]/bounties/[id]/actions"
 import { detectSocialPlatform } from "@/lib/social-platforms"
@@ -12,25 +13,37 @@ type Existing = { postUrl: string; whatsappContact: string; contactConsent: bool
 export function BountySubmissionForm({ slug, existing }: { slug: string; existing: Existing }) {
   const [state, action, pending] = useActionState<SubmitBountyState, FormData>(submitBounty.bind(null, slug), { status: "idle" })
   const saved = state.status === "saved"
+  const [resetKey, setResetKey] = useState(0)
+
+  // After a save the form remounts empty, so the next submission starts clean.
+  const prefill = resetKey ? null : existing
+
+  useEffect(() => {
+    if (state.status !== "saved") return
+    setResetKey((key) => key + 1)
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      confetti({ particleCount: 140, spread: 80, origin: { y: 0.7 } })
+    }
+  }, [state])
 
   return (
-    <form action={action} className="grid gap-6">
+    <form key={resetKey} action={action} className="grid gap-6">
       {existing && !saved ? <p className="text-sm text-muted-foreground">Ya mandaste tu post. Puedes actualizarlo hasta el cierre.</p> : null}
-      <PostUrlField defaultValue={existing?.postUrl} />
+      <PostUrlField defaultValue={prefill?.postUrl} />
       <Field
         label="Tu WhatsApp: número o username"
         name="whatsappContact"
         required
         placeholder="+51 987 654 321 o @tu_username"
-        defaultValue={existing?.whatsappContact}
+        defaultValue={prefill?.whatsappContact}
         hint="El mismo con el que estás en el grupo de Crafter Station. Lo usamos para validar que eres de la comunidad."
       />
       <label className="flex items-start gap-3 border border-line px-4 py-3 text-sm">
-        <input type="checkbox" name="attendsInPerson" required defaultChecked={Boolean(existing)} className="mt-0.5 size-4 accent-current" />
+        <input type="checkbox" name="attendsInPerson" required defaultChecked={Boolean(prefill)} className="mt-0.5 size-4 accent-current" />
         Puedo ir presencial el sábado 17 de octubre a UTEC.
       </label>
       <label className="flex items-start gap-3 border border-line px-4 py-3 text-sm">
-        <input type="checkbox" name="contactConsent" defaultChecked={existing?.contactConsent} className="mt-0.5 size-4 accent-current" />
+        <input type="checkbox" name="contactConsent" defaultChecked={prefill?.contactConsent} className="mt-0.5 size-4 accent-current" />
         Acepto que Crafter Station me contacte por email o WhatsApp sobre eventos y bounties. Opcional.
       </label>
       {state.status === "error" ? <p className="text-sm text-red-600">{state.message}</p> : null}

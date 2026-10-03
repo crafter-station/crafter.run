@@ -4,7 +4,8 @@ export type Bounty = {
   slug: string
   title: string
   prize: string
-  summary: string
+  speakers: Array<{ name: string; detail: string; url: string }>
+  speakersNote: string
   steps: string[]
   rewards: string[]
   eventUrl: string
@@ -16,8 +17,18 @@ export const bounties: Bounty[] = [
     slug: "1",
     title: "5 entradas gratis para AI Frontier Conf '26",
     prize: "Sábado 17 de octubre, 9am, UTEC Barranco",
-    summary:
-      "Hablan Jorge Escobedo (Head of AI, Yape), Luis Huayaney (Head of AI, Mibanco), Adolfo Valdivieso (Turbo AI, Stanford), Arturo Deza (Artificio, MIT & Harvard) e Ignacio Velásquez de Crafter Station, que monta agentes autónomos en vivo en el Builder Track.",
+    speakers: [
+      { name: "Jorge Escobedo", detail: "Head of AI, Yape", url: "https://www.linkedin.com/in/jescob/" },
+      { name: "Luis Huayaney", detail: "Head of AI, Mibanco", url: "https://www.linkedin.com/in/luishuayaney/" },
+      { name: "Adolfo Valdivieso", detail: "Turbo AI, Stanford", url: "https://www.linkedin.com/in/adolfovaldivieso/" },
+      { name: "Arturo Deza", detail: "Artificio, MIT & Harvard", url: "https://x.com/ArtDeza" },
+      {
+        name: "Ignacio Velásquez",
+        detail: "Crafter Station",
+        url: "https://www.linkedin.com/in/ignacio-vel%C3%A1squez-franco-3a5765204/",
+      },
+    ],
+    speakersNote: "Ignacio monta agentes autónomos en vivo en el Builder Track.",
     steps: [
       "Este finde construye algo con IA.",
       "Hazle un video con Opus 5.5.",
