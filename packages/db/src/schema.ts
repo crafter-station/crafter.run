@@ -368,6 +368,12 @@ export const ossRadarSnapshots = pgTable(
   (table) => [index("oss_radar_snapshots_generated_idx").on(table.generatedAt.desc())],
 )
 
+export const rateLimits = pgTable("rate_limits", {
+  key: text("key").primaryKey(),
+  count: integer("count").notNull(),
+  resetAt: timestamp("reset_at", { withTimezone: true, mode: "string" }).notNull(),
+})
+
 export const bountySubmissions = pgTable(
   "bounty_submissions",
   {
