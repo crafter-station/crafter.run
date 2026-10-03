@@ -34,6 +34,7 @@ export function BountySubmissionForm({ slug, existing }: { slug: string; existin
         label="Tu WhatsApp: número o username"
         name="whatsappContact"
         required
+        maxLength={40}
         placeholder="+51 987 654 321 o @tu_username"
         defaultValue={prefill?.whatsappContact}
         hint="El mismo con el que estás en el grupo de Crafter Station. Lo usamos para validar que eres de la comunidad."
@@ -90,6 +91,7 @@ function PostUrlField({ defaultValue }: { defaultValue?: string }) {
           name="postUrl"
           type="url"
           required
+          maxLength={2048}
           value={url}
           onChange={(event) => setUrl(event.target.value)}
           placeholder="Pega aquí el link de tu post"

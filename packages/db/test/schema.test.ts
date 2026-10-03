@@ -1,6 +1,6 @@
 import { expect, test } from "bun:test"
 
-import { members, ships, shipUpdates, shipVotes } from "../src/schema"
+import { members, rateLimits, ships, shipUpdates, shipVotes } from "../src/schema"
 
 test("Crafter origin and based locations are optional structured fields", () => {
   expect(members.originCity.notNull).toBe(false)
@@ -34,4 +34,12 @@ test("Ship updates have a public publication timestamp", () => {
 test("Ship votes require a Ship and authenticated user identity", () => {
   expect(shipVotes.shipId.notNull).toBe(true)
   expect(shipVotes.voterClerkUserId.notNull).toBe(true)
+})
+
+test("Rate limits keep one fixed-window counter row per key", () => {
+  expect(rateLimits.key.getSQLType()).toBe("text")
+  expect(rateLimits.count.getSQLType()).toBe("integer")
+  expect(rateLimits.count.notNull).toBe(true)
+  expect(rateLimits.resetAt.getSQLType()).toBe("timestamp with time zone")
+  expect(rateLimits.resetAt.notNull).toBe(true)
 })
