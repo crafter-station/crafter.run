@@ -35,7 +35,7 @@ export const bounties: Bounty[] = [
       "Este finde construye algo con IA.",
       "Hazle un video con Opus 5.5.",
       "Postéalo en X, LinkedIn o IG etiquetando a @RaillyHugo y @crafterstation, con el link del evento.",
-      "Manda el link de tu post aquí antes del lunes 5 a las 2pm (hora Argentina).",
+      "Manda el link de tu post aquí antes del lunes 5 a las 4pm (hora Perú).",
     ],
     rewards: [
       "3 entradas para los mejores posts.",
@@ -43,7 +43,7 @@ export const bounties: Bounty[] = [
       "Ganadores el lunes 5, solo si puedes ir presencial.",
     ],
     eventUrl: "https://eventos.utec.edu.pe/ai-frontier-conf-26",
-    closesAt: "2026-10-05T17:00:00Z",
+    closesAt: "2026-10-05T21:00:00Z",
   },
 ]
 
