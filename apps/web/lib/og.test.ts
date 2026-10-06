@@ -103,8 +103,8 @@ describe("social previews", () => {
   test("Hot Reload previews read future editions from the public catalog without per-edition OG code", async () => {
     const future: HotReloadEdition = {
       number: 42, venue: "Future venue", city: "Another city", partner: "Community",
-      date: "A future announced date", time: "15:00",
-      poster: "/events/hot-reload/future.avif", menu: true, lumaEventId: "future-fixture",
+      startsAt: "2030-10-17T15:00:00Z", endsAt: "2030-10-17T17:00:00Z", timeZone: "America/Lima",
+      poster: "/events/hot-reload/future.avif", menu: "don-salazar", lumaEventId: "future-fixture",
     }
     hotReloadEditions.push(future)
     try {
@@ -116,7 +116,9 @@ describe("social previews", () => {
       const data = await resolveSocialCard(params)
       expect(data.title).toBe("Hot Reload #42")
       expect(data.description).toContain(future.venue)
-      expect(data.detail).toBe("A future announced date · 15:00 · Another city")
+      expect(data.detail).toContain("2030")
+      expect(data.detail).toContain("10:00")
+      expect(data.detail).toContain("Another city")
       expect(data.poster).toBe(future.poster)
       expect(data.eyebrow).toBe("Crafter Station × Community")
 
@@ -127,8 +129,8 @@ describe("social previews", () => {
       expect(menu.description).toContain(future.venue)
       expect(menu.poster).toBe(future.socialPoster)
 
-      delete future.date
-      delete future.time
+      delete future.startsAt
+      delete future.endsAt
       delete future.poster
       delete future.socialPoster
       delete future.partner
@@ -142,7 +144,7 @@ describe("social previews", () => {
       const unavailableMenu = await resolveSocialCard(new URLSearchParams({ path: "/events/hot-reload/42/menu", lang: "es" }))
       expect(unavailableMenu.unavailable).toBe(true)
       future.lumaEventId = "future-fixture"
-      future.menu = false
+      delete future.menu
       const disabledMenu = await resolveSocialCard(new URLSearchParams({ path: "/events/hot-reload/42/menu", lang: "es" }))
       expect(disabledMenu.unavailable).toBe(true)
     } finally {

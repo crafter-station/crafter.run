@@ -4,31 +4,34 @@ import { and, eq } from "drizzle-orm"
 import { eventOrders } from "@crafter/db/schema"
 
 import { EventMenuForm, type ExistingOrder } from "@/components/event-menu-form"
-import { HotReloadHero, VenueLink } from "@/components/hot-reload-hero"
+import { HotReloadHero } from "@/components/hot-reload-hero"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { LinkLumaEmail } from "@/components/link-luma-email"
 import { getDb } from "@/lib/db"
 import { getEventGuest } from "@/lib/event-guest"
-import { eventMenu } from "@/lib/event-menu"
-import { findEdition } from "@/lib/hot-reload"
+import { getEventMenu, localizedEventMenu } from "@/lib/event-menu"
+import { eventMoney, hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
+import { eventOrderSlug, findEdition, hotReloadDeadline, orderDeadline, ordersOpen } from "@/lib/hot-reload"
 import { hotReloadMetadata } from "@/lib/hot-reload-seo"
 import { isLocale } from "@/lib/i18n"
+
+export const dynamic = "force-dynamic"
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; edition: string }> }) {
   const { lang, edition: number } = await params
   const edition = findEdition(number)
-  return isLocale(lang) && edition?.menu && edition.lumaEventId
+  return isLocale(lang) && edition && getEventMenu(edition) && edition.lumaEventId
     ? hotReloadMetadata(lang, edition, true)
     : { robots: { index: false } }
 }
 
-async function getExistingOrder(clerkUserId: string): Promise<ExistingOrder | null> {
+async function getExistingOrder(eventSlug: string, clerkUserId: string): Promise<ExistingOrder | null> {
   const db = getDb()
   if (!db) return null
   const [order] = await db
-    .select({ name: eventOrders.name, drinkId: eventOrders.drinkId, foodId: eventOrders.foodId })
+    .select({ name: eventOrders.name, drinkId: eventOrders.drinkId, foodId: eventOrders.foodId, total: eventOrders.total })
     .from(eventOrders)
-    .where(and(eq(eventOrders.eventSlug, eventMenu.slug), eq(eventOrders.clerkUserId, clerkUserId)))
+    .where(and(eq(eventOrders.eventSlug, eventSlug), eq(eventOrders.clerkUserId, clerkUserId)))
     .limit(1)
   return order ?? null
 }
@@ -45,54 +48,51 @@ function Notice({ title, children }: { title: string; children: React.ReactNode 
 export default async function Page({ params }: { params: Promise<{ lang: string; edition: string }> }) {
   const { lang, edition: number } = await params
   const edition = findEdition(number)
-  if (!isLocale(lang) || !edition?.menu || !edition.lumaEventId) notFound()
-
+  const sourceMenu = edition && getEventMenu(edition)
+  if (!isLocale(lang) || !edition || !sourceMenu || !edition.lumaEventId) notFound()
+  const t = hotReloadCopy[lang]
+  const menu = localizedEventMenu(sourceMenu, lang)
+  const deadline = orderDeadline(edition)
+  const open = ordersOpen(edition)
   const path = `/${lang}/events/hot-reload/${edition.number}/menu`
   const { user, emails, check } = await getEventGuest(edition.lumaEventId)
+  const existing = user ? await getExistingOrder(eventOrderSlug(edition), user.id) : null
 
   let content: React.ReactNode
-  if (!user) {
+  if (!open) {
+    content = user && existing ? (
+      <EventMenuForm locale={lang} edition={String(edition.number)} menu={menu} closesAt={deadline}
+        email={check?.status === "approved" || check?.status === "not-approved" ? check.email : ""}
+        defaultName={existing.name} existing={existing} readOnly />
+    ) : (
+      <Notice title={deadline === null ? t.ordersPending : t.ordersClosed}>
+        <p>{deadline === null ? t.pendingBody : t.closedBody}</p>
+        {!user ? <Link className="station-button mt-5" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link> : <p className="mt-3">{t.noOrder}</p>}
+      </Notice>
+    )
+  } else if (!user) {
     content = (
-      <Notice title="Inicia sesión para pedir">
-        <p>Entra con el mismo correo con el que pediste tu cupo en Luma. Así confirmamos que estás en la lista.</p>
-        <Link className="station-button mt-5" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>
-          Iniciar sesión
-        </Link>
+      <Notice title={t.signInTitle}>
+        <p>{t.signInBody}</p>
+        <Link className="station-button mt-5" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link>
       </Notice>
     )
   } else if (check?.status === "approved") {
     const defaultName = check.name ?? [user.firstName, user.lastName].filter(Boolean).join(" ")
-    content = <EventMenuForm email={check.email} defaultName={defaultName} existing={await getExistingOrder(user.id)} />
+    content = <EventMenuForm locale={lang} edition={String(edition.number)} menu={menu} closesAt={deadline}
+      email={check.email} defaultName={defaultName} existing={existing} />
   } else if (check?.status === "not-approved") {
-    content = (
-      <Notice title="Tu cupo todavía no está confirmado">
-        <p>
-          Encontramos tu registro con {check.email}, pero aún no está aprobado. Cuando te confirmen en Luma, vuelve aquí
-          para elegir tu pedido.
-        </p>
-      </Notice>
-    )
+    content = <Notice title={t.pendingTitle}><p>{hotReloadText(t.pendingGuest, { email: check.email })}</p></Notice>
   } else if (check?.status === "not-found") {
     content = (
-      <Notice title="No encontramos tu correo en Luma">
-        <p>
-          Revisamos {emails?.join(", ")} y no está en la lista de este evento.{" "}
-          {edition.lumaUrl ? (
-            <a className="underline underline-offset-4" href={edition.lumaUrl} target="_blank" rel="noopener noreferrer">
-              Solicita tu cupo en Luma
-            </a>
-          ) : null}
-          .
-        </p>
-        <LinkLumaEmail />
+      <Notice title={t.missingTitle}>
+        <p>{hotReloadText(t.missingGuest, { emails: emails?.join(", ") ?? "" })}</p>
+        {edition.lumaUrl ? <a className="mt-3 inline-block underline underline-offset-4" href={edition.lumaUrl} target="_blank" rel="noopener noreferrer">{t.requestSpot}</a> : null}
+        <LinkLumaEmail locale={lang} />
       </Notice>
     )
   } else {
-    content = (
-      <Notice title="No pudimos revisar la lista">
-        <p>Luma no respondió. Intenta de nuevo en unos minutos.</p>
-      </Notice>
-    )
+    content = <Notice title={t.unavailableTitle}><p>{t.unavailableBody}</p></Notice>
   }
 
   return (
@@ -100,18 +100,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
       <HotReloadHero
         locale={lang}
         crumbs={[
-          { label: "Agenda", href: "/events" },
+          { label: t.agenda, href: "/events" },
           { label: "Hot Reload", href: "/events/hot-reload" },
           { label: `#${edition.number}`, href: `/events/hot-reload/${edition.number}` },
-          { label: "Pedido" },
+          { label: t.order },
         ]}
-        title="Elige tu pedido"
-        description={
-          <>
-            Una bebida y una comida de <VenueLink edition={edition} />, hasta S/{eventMenu.maxTotal} por persona. Invita
-            Crafter Station. Puedes cambiarlo cuando quieras hasta el día del evento.
-          </>
-        }
+        title={open ? t.menu : deadline === null ? t.ordersPending : t.ordersClosed}
+        description={<>{hotReloadText(t.menuIntro, { venue: edition.venue, amount: eventMoney(menu.maxTotal, lang, menu.currency) })}
+          {deadline !== null ? <span className="mt-3 block">{hotReloadText(t.deadline, { date: hotReloadDeadline(edition, lang)! })}</span> : null}</>}
         edition={edition}
       />
       <section className="pb-14">{content}</section>

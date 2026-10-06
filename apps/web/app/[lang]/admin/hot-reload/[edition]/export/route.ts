@@ -1,5 +1,7 @@
 import { getAdmin } from "@/lib/admin"
-import { eventMenu } from "@/lib/event-menu"
+import { getEventMenu } from "@/lib/event-menu"
+import { hotReloadCopy } from "@/lib/hot-reload-copy"
+import { isLocale } from "@/lib/i18n"
 import { listEventOrders } from "@/lib/event-orders"
 import { findEdition } from "@/lib/hot-reload"
 
@@ -8,15 +10,17 @@ function cell(value: string | number) {
   return /[",\n;]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text
 }
 
-export async function GET(_request: Request, { params }: { params: Promise<{ edition: string }> }) {
-  const edition = findEdition((await params).edition)
-  if (!edition?.menu || !(await getAdmin())) return new Response("Not found", { status: 404 })
+export async function GET(_request: Request, { params }: { params: Promise<{ lang: string; edition: string }> }) {
+  const { lang, edition: number } = await params
+  const edition = findEdition(number)
+  if (!isLocale(lang) || !edition || !getEventMenu(edition) || !(await getAdmin())) return new Response("Not found", { status: 404 })
 
-  const orders = await listEventOrders(eventMenu.slug)
-  if (!orders) return new Response("Database is not configured.", { status: 500 })
+  const t = hotReloadCopy[lang]
+  const orders = await listEventOrders(edition, lang)
+  if (!orders) return new Response(t.databaseUnavailable, { status: 500 })
 
   const lines = [
-    ["Nombre", "Correo", "Bebida", "Precio bebida", "Comida", "Precio comida", "Total", "Creado", "Actualizado"],
+    [t.name, t.email, t.drink, t.drinkPrice, t.food, t.foodPrice, t.total, t.created, t.updated],
     ...orders.map((order) => [
       order.name,
       order.email,

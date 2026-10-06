@@ -9,17 +9,15 @@ import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
-function clerkMessage(error: unknown) {
-  const first = (error as { errors?: { longMessage?: string; message?: string }[] })?.errors?.[0]
-  return first?.longMessage ?? first?.message ?? "No pudimos vincular ese correo. Intenta de nuevo."
-}
+import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
+import type { Locale } from "@/lib/i18n"
 
 /* Adds the Luma email to the Clerk account as a verified secondary address
    (https://clerk.com/docs/guides/development/custom-flows/account-updates/add-email).
    The menu page checks Luma against every verified address, so a refresh is
    all it takes once the code is accepted. */
-export function LinkLumaEmail() {
+export function LinkLumaEmail({ locale }: { locale: Locale }) {
+  const t = hotReloadCopy[locale]
   const router = useRouter()
   const { user } = useUser()
   const [email, setEmail] = useState("")
@@ -43,8 +41,8 @@ export function LinkLumaEmail() {
       if (!target) throw new Error()
       await target.prepareVerification({ strategy: "email_code" })
       setAddress(target)
-    } catch (caught) {
-      setError(clerkMessage(caught))
+    } catch {
+      setError(t.linkError)
     } finally {
       setPending(false)
     }
@@ -59,8 +57,8 @@ export function LinkLumaEmail() {
       const result = await address.attemptVerification({ code: code.trim() })
       if (result.verification.status !== "verified") throw new Error()
       router.refresh()
-    } catch (caught) {
-      setError(clerkMessage(caught))
+    } catch {
+      setError(t.verifyError)
       setPending(false)
     }
   }
@@ -70,17 +68,17 @@ export function LinkLumaEmail() {
   return (
     <div className="mt-6 border-t border-line pt-5">
       <div className="flex items-baseline justify-between gap-4">
-        <h3 className="text-base font-medium text-foreground">¿Usaste otro correo en Luma?</h3>
+        <h3 className="text-base font-medium text-foreground">{t.linkTitle}</h3>
         <span className="font-mono text-xs text-muted-foreground">{step}/2</span>
       </div>
       <p className="mt-1 text-sm text-muted-foreground">
         {address
-          ? `Escribe el código que te mandamos a ${address.emailAddress}.`
-          : "Vincúlalo a tu cuenta. Te mandamos un código para confirmar que es tuyo."}
+          ? hotReloadText(t.codeSent, { email: address.emailAddress })
+          : t.linkBody}
       </p>
       <form onSubmit={address ? verify : sendCode} className="mt-4">
         <Label htmlFor={address ? "luma-code" : "luma-email"} className="text-xs text-muted-foreground">
-          {address ? "Código de verificación" : "Correo de Luma"}
+          {address ? t.code : t.email}
         </Label>
         <div className="mt-1.5 flex flex-col gap-2 sm:flex-row">
           {address ? (
@@ -98,7 +96,7 @@ export function LinkLumaEmail() {
               id="luma-email"
               type="email"
               autoComplete="email"
-              placeholder="tu@correo.com"
+              placeholder={t.emailPlaceholder}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="h-10 flex-1"
@@ -110,7 +108,7 @@ export function LinkLumaEmail() {
             className="h-10 shrink-0 sm:min-w-36"
           >
             {pending ? <Loader2 className="animate-spin" /> : null}
-            {address ? "Verificar" : "Enviar código"}
+            {address ? t.verify : t.sendCode}
           </Button>
         </div>
         {address ? (
@@ -123,7 +121,7 @@ export function LinkLumaEmail() {
             }}
             className="mt-2 text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
           >
-            Usar otro correo
+            {t.anotherEmail}
           </button>
         ) : null}
         {error ? (

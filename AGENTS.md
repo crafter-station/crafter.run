@@ -54,6 +54,13 @@
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
 
 ## Station Visual System
+- **Hot Reload lifecycle, October 6, 2026:** read
+  `docs/handoffs/hot-reload-lifecycle-2026-10-06.md`. Absolute dates and the
+  venue time zone drive status and order cutoff; #1 closes October 17 at
+  10:00 Lima. Menus, budgets, approvals, orders and admin/export resolve
+  per edition. Keep `hot-reload-1` and historical menu catalogs stable;
+  use new menu keys for future price/item changes. All five languages
+  cover the complete flow, including account access. No database migration.
 - **Hot Reload social previews, October 6, 2026:** read
   `docs/handoffs/hot-reload-social-2026-10-06.md`. Index, dynamic editions
   and menus use the shared OG system with their own metadata in five
