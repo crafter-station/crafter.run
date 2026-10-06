@@ -54,6 +54,15 @@
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
 
 ## Station Visual System
+- **DevDay entry flow, October 6, 2026 — not released:** read
+  `docs/handoffs/devday-event-access-2026-10-06.md`. DevDay Exchange Community:
+  Lima is October 21, 18:00–21:00 Lima, FISI–UNMSM, Luma `1iz8daqt`.
+  Public `/events/devday-lima` and private `/access` use a separate Codex
+  calendar key. Only verified Clerk emails approved for this event can
+  read/save entry data. Private organizer list/export rechecks approvals.
+  Requires `LUMA_CODEX_API_KEY` and migration 0022 before release; the old
+  hack0 key returns 403. No real entry submitted or database migration run.
+  Do not replay 0021 blindly; its previously manual application is unresolved.
 - **Hot Reload lifecycle, October 6, 2026:** read
   `docs/handoffs/hot-reload-lifecycle-2026-10-06.md`. Absolute dates and the
   venue time zone drive status and order cutoff; #1 closes October 17 at

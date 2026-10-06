@@ -10,11 +10,11 @@ export type GuestCheck =
   | { status: "not-found" }
   | { status: "unavailable" }
 
-async function getGuest(eventId: string, email: string) {
+async function getGuest(eventId: string, email: string, apiKey: string) {
   const url = new URL(LUMA_GUEST_URL)
   url.searchParams.set("event_id", eventId)
   url.searchParams.set("id", email)
-  const response = await fetch(url, { headers: { "x-luma-api-key": env.LUMA_API_KEY ?? "" }, cache: "no-store" })
+  const response = await fetch(url, { headers: { "x-luma-api-key": apiKey }, cache: "no-store", signal: AbortSignal.timeout(8000) })
   if (response.status === 404 || response.status === 400) return null
   if (!response.ok) throw new Error(`Luma guest lookup failed with ${response.status}`)
   return (await response.json()) as { user_email: string; user_name: string | null; approval_status: string }
@@ -22,19 +22,19 @@ async function getGuest(eventId: string, email: string) {
 
 /* Checks every verified email on the account, so a member signed in with a
    different address than the one they used on Luma still gets through. */
-export async function checkLumaGuest(eventId: string, emails: string[]): Promise<GuestCheck> {
-  if (!env.LUMA_API_KEY) return { status: "unavailable" }
+export async function checkLumaGuest(eventId: string, emails: string[], calendar: "default" | "codex" = "default"): Promise<GuestCheck> {
+  const apiKey = calendar === "codex" ? env.LUMA_CODEX_API_KEY : env.LUMA_API_KEY
+  if (!apiKey) return { status: "unavailable" }
   try {
     let pending: GuestCheck | null = null
     for (const email of emails) {
-      const guest = await getGuest(eventId, email)
+      const guest = await getGuest(eventId, email, apiKey)
       if (!guest) continue
       if (guest.approval_status === "approved") return { status: "approved", email, name: guest.user_name }
       pending ??= { status: "not-approved", email, approvalStatus: guest.approval_status }
     }
     return pending ?? { status: "not-found" }
-  } catch (error) {
-    console.error(error)
+  } catch {
     return { status: "unavailable" }
   }
 }

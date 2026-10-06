@@ -416,3 +416,29 @@ export const eventOrders = pgTable(
     check("event_orders_total_check", sql`${table.total} between 1 and 100`),
   ],
 )
+
+/** Private venue-entry records. Not part of the public members or Ships API. */
+export const eventAccess = pgTable(
+  "event_access",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    eventSlug: text("event_slug").notNull(),
+    clerkUserId: text("clerk_user_id").notNull(),
+    email: text("email").notNull(),
+    fullName: text("full_name").notNull(),
+    documentType: text("document_type").notNull(),
+    documentNumber: text("document_number").notNull(),
+    vehiclePlate: text("vehicle_plate"),
+    equipment: jsonb("equipment").$type<string[]>().notNull(),
+    consentedAt: timestamp("consented_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("event_access_event_user_idx").on(table.eventSlug, table.clerkUserId),
+    check("event_access_name_check", sql`char_length(trim(${table.fullName})) between 2 and 120`),
+    check("event_access_document_type_check", sql`${table.documentType} in ('dni', 'foreign', 'passport')`),
+    check("event_access_document_check", sql`${table.documentNumber} ~ '^[A-Z0-9-]{6,20}$'`),
+    check("event_access_equipment_check", sql`jsonb_typeof(${table.equipment}) = 'array' and jsonb_array_length(${table.equipment}) <= 10`),
+  ],
+)
