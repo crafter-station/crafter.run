@@ -6,7 +6,6 @@ import { HeroContent } from "@/components/hero"
 import { StationOpenSource } from "@/components/station-open-source"
 import { StationPeople, StationJournal, StationContact, StationExplore } from "@/components/station-home"
 import { StationFaq } from "@/components/station-faq"
-import { StationMakeables } from "@/components/station-makeables"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 
@@ -40,7 +39,6 @@ export default async function Page({
         />
         <StationOpenSource locale={lang} />
         <StationNetwork locale={lang} />
-        <StationMakeables locale={lang} />
         <StationEvents locale={lang} />
         <StationPeople locale={lang} />
         <StationJournal locale={lang} />

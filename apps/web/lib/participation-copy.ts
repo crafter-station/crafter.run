@@ -86,8 +86,9 @@ export const participationCopy: Record<Locale, ParticipationCopy> = {
 const participationDestinations = ["/oss#contribute", "/events#calendar", "/events/sponsors", "https://makeables.dev"] as const
 
 export function getParticipationPaths(locale: Locale) {
+  // Keep the localized copy for when Makeables promotion resumes.
   return participationCopy[locale].paths.map((path, index) => ({
     ...path,
     href: participationDestinations[index],
-  }))
+  })).filter(path => path.href !== "https://makeables.dev")
 }
