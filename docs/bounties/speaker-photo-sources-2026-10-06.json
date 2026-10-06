@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Arturo Deza",
+    "sourcePage": "https://eventos.utec.edu.pe/ai-frontier-conf-26",
+    "sourceImage": "https://us-previewenginepublic.nimbuspop.com/thumbnail/BACKSTAGE/92863000013074030?cli-msg=eyJtb2R1bGUiOiJQcm9maWxlSW1hZ2UiLCJpZCI6IjkyODYzMDAwMDEzMDc0MDMwIiwicG9ydGFsSWQiOiI4NDI5NjM3NjMiLCJldmVudElkIjoiOTI4NjMwMDAwMTI4MDkyNDQifQ==",
+    "file": "/bounties/speakers/arturo-deza.webp",
+    "sourceDimensions": [
+      400,
+      400
+    ],
+    "bytes": 25360,
+    "sha256": "f96bef119a3ea07317a60ba97988efd8a3a5ebd5dfcab3b4d69fc6c49ce888ee"
+  },
+  {
+    "name": "Jorge Escobedo",
+    "sourcePage": "https://eventos.utec.edu.pe/ai-frontier-conf-26",
+    "sourceImage": "https://us-previewenginepublic.nimbuspop.com/thumbnail/BACKSTAGE/92863000013074068?cli-msg=eyJtb2R1bGUiOiJQcm9maWxlSW1hZ2UiLCJpZCI6IjkyODYzMDAwMDEzMDc0MDY4IiwicG9ydGFsSWQiOiI4NDI5NjM3NjMiLCJldmVudElkIjoiOTI4NjMwMDAwMTI4MDkyNDQifQ==",
+    "file": "/bounties/speakers/jorge-escobedo.webp",
+    "sourceDimensions": [
+      400,
+      400
+    ],
+    "bytes": 32462,
+    "sha256": "cdfd3619f1a48bf94dd4b0f43862874fa9c3e852f5020dcd27dfbf2abaee5509"
+  },
+  {
+    "name": "Luis Huayaney",
+    "sourcePage": "https://eventos.utec.edu.pe/ai-frontier-conf-26",
+    "sourceImage": "https://us-previewenginepublic.nimbuspop.com/thumbnail/BACKSTAGE/92863000013133010?cli-msg=eyJtb2R1bGUiOiJQcm9maWxlSW1hZ2UiLCJpZCI6IjkyODYzMDAwMDEzMTMzMDEwIiwicG9ydGFsSWQiOiI4NDI5NjM3NjMiLCJldmVudElkIjoiOTI4NjMwMDAwMTI4MDkyNDQifQ==",
+    "file": "/bounties/speakers/luis-huayaney.webp",
+    "sourceDimensions": [
+      400,
+      400
+    ],
+    "bytes": 21392,
+    "sha256": "b58b897c5d6569fdb04c6fda270666a344aea413786a44d404dcaa1b9fefd4c6"
+  },
+  {
+    "name": "Adolfo Valdivieso",
+    "sourcePage": "https://eventos.utec.edu.pe/ai-frontier-conf-26",
+    "sourceImage": "https://us-previewenginepublic.nimbuspop.com/thumbnail/BACKSTAGE/92863000013133045?cli-msg=eyJtb2R1bGUiOiJQcm9maWxlSW1hZ2UiLCJpZCI6IjkyODYzMDAwMDEzMTMzMDQ1IiwicG9ydGFsSWQiOiI4NDI5NjM3NjMiLCJldmVudElkIjoiOTI4NjMwMDAwMTI4MDkyNDQifQ==",
+    "file": "/bounties/speakers/adolfo-valdivieso.webp",
+    "sourceDimensions": [
+      400,
+      400
+    ],
+    "bytes": 25548,
+    "sha256": "250b19de953520de6b34d60e028d3003fc7b96ad2be3bc666ad211c28cac980c"
+  },
+  {
+    "name": "Ignacio Velásquez Franco",
+    "sourcePage": "https://eventos.utec.edu.pe/ai-frontier-conf-26",
+    "sourceImage": "https://us-previewenginepublic.nimbuspop.com/thumbnail/BACKSTAGE/92863000013239157?cli-msg=eyJtb2R1bGUiOiJQcm9maWxlSW1hZ2UiLCJpZCI6IjkyODYzMDAwMDEzMjM5MTU3IiwicG9ydGFsSWQiOiI4NDI5NjM3NjMiLCJldmVudElkIjoiOTI4NjMwMDAwMTI4MDkyNDQifQ==",
+    "file": "/bounties/speakers/ignacio-velasquez.webp",
+    "sourceDimensions": [
+      400,
+      400
+    ],
+    "bytes": 26566,
+    "sha256": "913ea9edb6e6a3b559855abfad7fb2310c39ce07147f594c94820065566ba3f5"
+  }
+]

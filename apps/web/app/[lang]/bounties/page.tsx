@@ -1,4 +1,3 @@
-import { Hammer, Send, Sparkles } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { BountyArtwork, BountyPoster } from "@/components/bounty-artwork"
@@ -29,7 +28,6 @@ export default async function BountiesPage({ params }: { params: Promise<{ lang:
     Number(isBountyOpen(b, now)) - Number(isBountyOpen(a, now)) ||
     Date.parse(b.closesAt) - Date.parse(a.closesAt))
   const discord = socials.find(social => social.label === "Discord")!.href
-  const icons = [Sparkles, Hammer, Send]
   return <>
     <JsonLd data={breadcrumbList(lang, [{ name: "Crafter Station", path: "/" }, { name: "Bounties", path: "/bounties" }])} />
     <main className="bounties-page">
@@ -46,9 +44,8 @@ export default async function BountiesPage({ params }: { params: Promise<{ lang:
       <section id="bounty-board" className="bounty-board" aria-labelledby="bounty-board-title">
         <div className="bounty-section-heading">
           <div><p className="station-label">{t.board}</p><h2 id="bounty-board-title">{t.boardTitle}</h2></div>
-          <dl className="bounty-tallies"><div><dt>{t.open}</dt><dd>{openCount}</dd></div><div><dt>{t.archive}</dt><dd>{bounties.length - openCount}</dd></div></dl>
         </div>
-        {!openCount && <div className="bounty-board-note"><span aria-hidden="true">✳</span><p><strong>{t.quiet}</strong> {t.quietBody}</p></div>}
+        {!openCount && <p className="bounty-board-note"><strong>{t.quiet}</strong> {t.quietBody}</p>}
         <div className="bounty-list">
           {sorted.map(bounty => {
             const content = bountyContent(bounty, lang)
@@ -67,16 +64,15 @@ export default async function BountiesPage({ params }: { params: Promise<{ lang:
       </section>
 
       <section id="how-it-works" className="bounty-how" aria-labelledby="bounty-how-title">
-        <p className="station-label">{t.how}</p><h2 id="bounty-how-title">{t.howTitle}</h2>
-        <ol>{t.process.map((step, index) => {
-          const Icon = icons[index]
-          return <li key={step.title}><div className="bounty-process-mark"><Icon size={27} strokeWidth={1.4} aria-hidden="true" /><span aria-hidden="true">0{index + 1}</span></div><h3>{step.title}</h3><p>{step.body}</p></li>
-        })}</ol>
+        <div><p className="station-label">{t.how}</p><h2 id="bounty-how-title">{t.howTitle}</h2></div>
+        <ol>{t.process.map((step, index) =>
+          <li key={step.title}><span className="bounty-process-number" aria-hidden="true">0{index + 1}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></li>,
+        )}</ol>
       </section>
 
       <section className="bounty-community">
-        <div className="bounty-community-mark" aria-hidden="true">✳</div>
-        <div><h2>{t.invitation}</h2><p>{t.invitationBody}</p><a href={discord} target="_blank" rel="noopener noreferrer">{t.join}</a></div>
+        <div><h2>{t.invitation}</h2><p>{t.invitationBody}</p></div>
+        <a href={discord} target="_blank" rel="noopener noreferrer">{t.join}<span aria-hidden="true">↗</span></a>
       </section>
     </main>
   </>
