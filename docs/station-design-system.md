@@ -68,6 +68,11 @@ Measured contrast for text/background, muted text/background, accent/background,
   edition/menu cards use the catalog's original poster and public event
   details. Future editions inherit this treatment through the catalog.
   See `docs/handoffs/hot-reload-social-2026-10-06.md`.
+  Hot Reload dates, states and order cutoff now come from absolute catalog
+  timestamps and each venue's time zone. Public pages, menus, account access
+  and admin/export follow the selected language; closed orders have a
+  read-only summary. Menus and budgets resolve per edition. See
+  `docs/handoffs/hot-reload-lifecycle-2026-10-06.md`.
   The SVG favicon responds to the browser theme. API, RSS, sitemap, MCP,
   Markdown twins and well-known endpoints retain their existing behavior.
 

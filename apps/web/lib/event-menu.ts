@@ -2,6 +2,11 @@
    and one food item; the event covers up to `maxTotal` soles per person. Items
    that cannot pair with anything under that cap are left out. */
 
+import type { HotReloadEdition } from "@/lib/hot-reload"
+import { hotReloadCopy } from "@/lib/hot-reload-copy"
+import type { Locale } from "@/lib/i18n"
+import { donSalazarTranslations, type MenuTranslations } from "@/lib/event-menu-copy"
+
 export type MenuItem = {
   id: string
   name: string
@@ -10,15 +15,15 @@ export type MenuItem = {
   category: string
 }
 
-export const eventMenu = {
-  slug: "hot-reload-1",
-  edition: "1",
-  venue: "Don Salazar Specialty Coffee",
-  targetTotal: 30,
-  maxTotal: 32,
-} as const
+export type EventMenu = {
+  currency: string
+  maxTotal: number
+  drinks: MenuItem[]
+  foods: MenuItem[]
+  translations: MenuTranslations
+}
 
-export const drinks: MenuItem[] = [
+const drinks: MenuItem[] = [
   { id: "espresso", name: "Espresso", description: "Un shot de sabor intenso.", price: 8, category: "Calientes" },
   { id: "espresso-doble", name: "Espresso doble", description: "Doble shot intenso.", price: 11, category: "Calientes" },
   { id: "americano", name: "Americano", description: "Espresso y agua caliente.", price: 11, category: "Calientes" },
@@ -56,7 +61,7 @@ export const drinks: MenuItem[] = [
   { id: "cerveza", name: "Cerveza Sol de la Finca", description: "Artesanal de la casa.", price: 25, category: "Sin café" },
 ]
 
-export const foods: MenuItem[] = [
+const foods: MenuItem[] = [
   { id: "galletas", name: "Galletas chocochip", description: "Grande y suave.", price: 7, category: "Dulces" },
   { id: "brownie", name: "Brownie", description: "Con fudge casero.", price: 9, category: "Dulces" },
   { id: "queque", name: "Queque artesanal", description: "Sabor según disponibilidad.", price: 12, category: "Dulces" },
@@ -81,14 +86,37 @@ export const foods: MenuItem[] = [
   { id: "focaccia-capresse", name: "Focaccia capresse", description: "Tomate, mozzarella y albahaca.", price: 24, category: "Salados" },
 ]
 
-export function findDrink(id: string) {
-  return drinks.find((item) => item.id === id)
+export const eventMenus: Record<string, EventMenu> = {
+  "don-salazar": { currency: "PEN", maxTotal: 32, drinks, foods, translations: donSalazarTranslations },
 }
 
-export function findFood(id: string) {
-  return foods.find((item) => item.id === id)
+export function getEventMenu(edition: HotReloadEdition) {
+  return edition.menu ? eventMenus[edition.menu] : undefined
 }
 
-export function fitsBudget(drink: MenuItem, food: MenuItem) {
-  return drink.price + food.price <= eventMenu.maxTotal
+export function findDrink(menu: EventMenu, id: string) {
+  return menu.drinks.find(item => item.id === id)
 }
+
+export function findFood(menu: EventMenu, id: string) {
+  return menu.foods.find(item => item.id === id)
+}
+
+export function fitsBudget(menu: EventMenu, drink: MenuItem, food: MenuItem) {
+  return drink.price + food.price <= menu.maxTotal
+}
+
+const categoryKeys = { Calientes: "hot", Fríos: "cold", "Sin café": "other", Dulces: "sweet", Salados: "savory" } as const
+
+export function localizedEventMenu(menu: EventMenu, locale: Locale) {
+  const words = locale === "es" ? undefined : menu.translations[locale]
+  const translate = (item: MenuItem): MenuItem => {
+    const text = words?.[item.id]
+    const category = categoryKeys[item.category as keyof typeof categoryKeys]
+    return { ...item, name: text?.[0] ?? item.name, description: text?.[1] ?? item.description,
+      category: category ? hotReloadCopy[locale][category] : item.category }
+  }
+  return { currency: menu.currency, maxTotal: menu.maxTotal, drinks: menu.drinks.map(translate), foods: menu.foods.map(translate) }
+}
+
+export type LocalizedEventMenu = ReturnType<typeof localizedEventMenu>

@@ -1,12 +1,16 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import { HotReloadHero, VenueLink } from "@/components/hot-reload-hero"
+import { HotReloadHero } from "@/components/hot-reload-hero"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
-import { findEdition } from "@/lib/hot-reload"
+import { findEdition, hotReloadStatus, ordersOpen } from "@/lib/hot-reload"
+import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
+import { getEventMenu } from "@/lib/event-menu"
 import { hotReloadMetadata } from "@/lib/hot-reload-seo"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { HACK0_CALENDAR_URL } from "@/lib/hack0-calendar-data"
+
+export const dynamic = "force-dynamic"
 
 function LinkedinIcon() {
   return (
@@ -26,33 +30,35 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const { lang, edition: number } = await params
   const edition = findEdition(number)
   if (!isLocale(lang) || !edition) notFound()
+  const t = hotReloadCopy[lang]
+  const status = hotReloadStatus(edition)
 
   return (
     <HotReloadTheme>
       <HotReloadHero
         locale={lang}
         crumbs={[
-          { label: "Agenda", href: "/events" },
+          { label: t.agenda, href: "/events" },
           { label: "Hot Reload", href: "/events/hot-reload" },
           { label: `#${edition.number}` },
         ]}
-        title={`Edición ${String(edition.number).padStart(2, "0")}`}
-        description={<>En <VenueLink edition={edition} />. Trae tu side project, algo que quieras mostrar o una pregunta para la mesa. Habrá novedades de Vercel, un anuncio importante y algunas sorpresas para quienes vengan. El café y algo para picar van por nuestra cuenta.</>}
+        title={hotReloadText(t.edition, { number: String(edition.number).padStart(2, "0") })}
+        description={edition.description?.[lang] ?? t.editionDescription}
         edition={edition}
       >
-        {edition.menu ? (
+        {getEventMenu(edition) && edition.lumaEventId ? (
           <Link href={withLocale(`/events/hot-reload/${edition.number}/menu`, lang)} className="station-button">
-            Elegir mi pedido
+            {ordersOpen(edition) ? t.menu : t.viewOrder}
           </Link>
         ) : null}
         <a href={edition.lumaUrl ?? HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer" className="station-text-link">
-          {edition.lumaUrl ? "Registrarme en Luma" : "Ver la agenda en Luma"}
+          {edition.lumaUrl ? status === "upcoming" ? t.register : t.viewEvent : t.calendar}
         </a>
       </HotReloadHero>
       {edition.announcements?.length ? (
         <section aria-labelledby="hot-reload-posts">
           <h2 id="hot-reload-posts" className="text-2xl">
-            Anuncios
+            {t.announcements}
           </h2>
           <div className="hot-reload-posts">
             {edition.announcements.map((post) => (
@@ -62,7 +68,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
                   <span className="block font-medium">{post.author}</span>
                   <span className="block text-sm text-muted-foreground">{post.role}</span>
                 </span>
-                <span className="station-label text-muted-foreground">Ver en LinkedIn ↗</span>
+                <span className="station-label text-muted-foreground">{t.linkedin} ↗</span>
               </a>
             ))}
           </div>

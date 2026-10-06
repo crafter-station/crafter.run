@@ -2,15 +2,19 @@ import { eventOrders } from "@crafter/db/schema"
 import { asc, eq } from "drizzle-orm"
 
 import { getDb } from "@/lib/db"
-import { findDrink, findFood } from "@/lib/event-menu"
+import { getEventMenu, localizedEventMenu } from "@/lib/event-menu"
+import { eventOrderSlug, type HotReloadEdition } from "@/lib/hot-reload"
+import type { Locale } from "@/lib/i18n"
 
-export async function listEventOrders(eventSlug: string) {
+export async function listEventOrders(edition: HotReloadEdition, locale: Locale) {
   const db = getDb()
-  if (!db) return null
-  const rows = await db.select().from(eventOrders).where(eq(eventOrders.eventSlug, eventSlug)).orderBy(asc(eventOrders.createdAt))
+  const source = getEventMenu(edition)
+  if (!db || !source) return null
+  const menu = localizedEventMenu(source, locale)
+  const rows = await db.select().from(eventOrders).where(eq(eventOrders.eventSlug, eventOrderSlug(edition))).orderBy(asc(eventOrders.createdAt))
   return rows.map((row) => {
-    const drink = findDrink(row.drinkId)
-    const food = findFood(row.foodId)
+    const drink = menu.drinks.find(item => item.id === row.drinkId)
+    const food = menu.foods.find(item => item.id === row.foodId)
     return {
       ...row,
       drink: drink?.name ?? row.drinkId,

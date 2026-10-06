@@ -3,9 +3,12 @@ import { notFound } from "next/navigation"
 
 import { HotReloadHero } from "@/components/hot-reload-hero"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
-import { hotReloadEditions } from "@/lib/hot-reload"
+import { hotReloadDate, hotReloadTime, hotReloadStatus, hotReloadEditions } from "@/lib/hot-reload"
+import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
 import { hotReloadMetadata } from "@/lib/hot-reload-seo"
 import { isLocale, withLocale } from "@/lib/i18n"
+
+export const dynamic = "force-dynamic"
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
@@ -15,17 +18,19 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
   if (!isLocale(lang)) notFound()
+  const t = hotReloadCopy[lang]
 
   return (
     <HotReloadTheme>
       <HotReloadHero
         locale={lang}
-        crumbs={[{ label: "Agenda", href: "/events" }, { label: "Hot Reload" }]}
+        crumbs={[{ label: t.agenda, href: "/events" }, { label: "Hot Reload" }]}
         title="Hot Reload"
-        description="Un café para conocer qué está construyendo la comunidad dev. Trae tu side project, algo que quieras mostrar o una pregunta para la mesa, o ven a conocer gente."
+        description={t.description}
       />
       <section className="hot-reload-body">
-        <h2 className="text-2xl">Ediciones</h2>
+        <h2 className="text-2xl">{t.editions}</h2>
+        {!hotReloadEditions.length ? <p className="mt-5 text-muted-foreground">{t.emptyEditions}</p> : null}
         <div className="hot-reload-list mt-5">
           {hotReloadEditions.map((edition) => (
             <Link key={edition.number} href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>
@@ -36,12 +41,12 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
                 <span className="station-label">#{String(edition.number).padStart(2, "0")}</span>
               )}
               <span className="min-w-0">
-                <h3 className="text-xl">Edición {String(edition.number).padStart(2, "0")} · {edition.venue}</h3>
+                <h3 className="text-xl">{hotReloadText(t.edition, { number: String(edition.number).padStart(2, "0") })} · {edition.venue}</h3>
                 <span className="text-muted-foreground">
-                  {[edition.date ?? "Fecha por anunciar", edition.time, edition.city].filter(Boolean).join(" · ")}
+                  {[hotReloadDate(edition, lang) ?? t.unannounced, hotReloadTime(edition, lang), edition.city].filter(Boolean).join(" · ")}
                 </span>
               </span>
-              <span className="station-label hot-reload-tag">Próximo</span>
+              <span className="station-label hot-reload-tag">{t[hotReloadStatus(edition)]}</span>
             </Link>
           ))}
         </div>

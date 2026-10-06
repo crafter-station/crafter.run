@@ -1,12 +1,16 @@
 import { notFound } from "next/navigation"
 
 import { getAdmin } from "@/lib/admin"
-import { eventMenu } from "@/lib/event-menu"
+import { getEventMenu } from "@/lib/event-menu"
+import { eventMoney, hotReloadCopy } from "@/lib/hot-reload-copy"
 import { listEventOrders, tally } from "@/lib/event-orders"
 import { findEdition } from "@/lib/hot-reload"
 import { isLocale } from "@/lib/i18n"
 
-export const metadata = { title: "Admin · Pedidos", robots: { index: false } }
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params
+  return { title: isLocale(lang) ? `${hotReloadCopy[lang].admin} · ${hotReloadCopy[lang].orders}` : "Admin", robots: { index: false } }
+}
 export const dynamic = "force-dynamic"
 
 function Tally({ title, rows }: { title: string; rows: [string, number][] }) {
@@ -28,30 +32,33 @@ function Tally({ title, rows }: { title: string; rows: [string, number][] }) {
 export default async function Page({ params }: { params: Promise<{ lang: string; edition: string }> }) {
   const { lang, edition: number } = await params
   const edition = findEdition(number)
-  if (!isLocale(lang) || !edition?.menu || !(await getAdmin())) notFound()
+  const menu = edition && getEventMenu(edition)
+  if (!isLocale(lang) || !edition || !menu || !(await getAdmin())) notFound()
+  const t = hotReloadCopy[lang]
+  const money = (value: number) => eventMoney(value, lang, menu.currency)
 
-  const orders = await listEventOrders(eventMenu.slug)
+  const orders = await listEventOrders(edition, lang)
   const total = orders?.reduce((sum, order) => sum + order.total, 0) ?? 0
 
   return (
     <main className="flex-1 py-12">
-      <p className="station-label text-muted-foreground">Admin · Hot Reload #{edition.number}</p>
+      <p className="station-label text-muted-foreground">{t.admin} · Hot Reload #{edition.number}</p>
       <div className="mt-3 flex flex-wrap items-end justify-between gap-6">
-        <h1 className="text-[clamp(36px,4vw,56px)]">Pedidos</h1>
+        <h1 className="text-[clamp(36px,4vw,56px)]">{t.orders}</h1>
         <a className="station-button" href={`/${lang}/admin/hot-reload/${edition.number}/export`} download>
-          Descargar Excel (.csv)
+          {t.download}
         </a>
       </div>
 
       {orders === null ? (
-        <p className="mt-8 text-muted-foreground">La base de datos no está configurada en este entorno.</p>
+        <p className="mt-8 text-muted-foreground">{t.databaseUnavailable}</p>
       ) : (
         <>
           <dl className="mt-8 grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-3">
             {[
-              ["Pedidos", String(orders.length)],
-              ["Total", `S/${total}`],
-              ["Promedio", orders.length ? `S/${(total / orders.length).toFixed(1)}` : "—"],
+              [t.orders, String(orders.length)],
+              [t.total, money(total)],
+              [t.average, orders.length ? money(total / orders.length) : "—"],
             ].map(([label, value]) => (
               <div key={label} className="bg-background p-5">
                 <dt className="station-label text-muted-foreground">{label}</dt>
@@ -61,16 +68,16 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           </dl>
 
           <div className="mt-10 grid gap-10 lg:grid-cols-2">
-            <Tally title="Bebidas" rows={tally(orders, "drink")} />
-            <Tally title="Comidas" rows={tally(orders, "food")} />
+            <Tally title={t.drinks} rows={tally(orders, "drink")} />
+            <Tally title={t.foods} rows={tally(orders, "food")} />
           </div>
 
-          <h2 className="mt-12 text-lg">Detalle</h2>
+          <h2 className="mt-12 text-lg">{t.detail}</h2>
           <div className="mt-3 overflow-x-auto border border-line">
             <table className="w-full min-w-[720px] text-left text-sm">
               <thead className="text-muted-foreground">
                 <tr className="border-b border-line">
-                  {["Nombre", "Correo", "Bebida", "Comida", "Total", "Actualizado"].map((head) => (
+                  {[t.name, t.email, t.drink, t.food, t.total, t.updated].map((head) => (
                     <th key={head} className="px-4 py-3 font-normal">
                       {head}
                     </th>
@@ -84,16 +91,16 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
                     <td className="px-4 py-3 text-muted-foreground">{order.email}</td>
                     <td className="px-4 py-3">{order.drink}</td>
                     <td className="px-4 py-3">{order.food}</td>
-                    <td className="px-4 py-3 font-mono tabular-nums">S/{order.total}</td>
+                    <td className="px-4 py-3 font-mono tabular-nums">{money(order.total)}</td>
                     <td className="px-4 py-3 text-muted-foreground">
-                      {new Date(order.updatedAt).toLocaleString("es-PE", { timeZone: "America/Lima" })}
+                      {new Date(order.updatedAt).toLocaleString(lang, { timeZone: edition.timeZone })}
                     </td>
                   </tr>
                 ))}
                 {orders.length === 0 ? (
                   <tr>
                     <td colSpan={6} className="px-4 py-8 text-center text-muted-foreground">
-                      Todavía no hay pedidos.
+                      {t.noOrders}
                     </td>
                   </tr>
                 ) : null}

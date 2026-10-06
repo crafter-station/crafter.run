@@ -1,7 +1,8 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 
-import type { HotReloadEdition } from "@/lib/hot-reload"
+import { hotReloadDate, hotReloadTime, hotReloadStatus, type HotReloadEdition } from "@/lib/hot-reload"
+import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
 import { type Locale, withLocale } from "@/lib/i18n"
 
 function VercelMark() {
@@ -37,9 +38,11 @@ export function HotReloadHero({
   edition?: HotReloadEdition
   children?: ReactNode
 }) {
+  const t = hotReloadCopy[locale]
+  const date = edition && hotReloadDate(edition, locale)
   return (
     <section className="hot-reload-intro">
-      <nav aria-label="Breadcrumb" className="hot-reload-crumbs station-label">
+      <nav aria-label={t.agenda} className="hot-reload-crumbs station-label">
         {crumbs.map((crumb, index) => (
           <span key={crumb.label} className="flex gap-2">
             {index > 0 ? <span aria-hidden>/</span> : null}
@@ -56,17 +59,19 @@ export function HotReloadHero({
       <div className={edition?.poster ? "hot-reload-hero" : "mt-5"}>
         <div className="min-w-0">
           <h1>{title}</h1>
-          <p className="hot-reload-collab station-label text-muted-foreground">
-            Crafter Station × <VercelMark /> Vercel
-          </p>
-          {edition?.date ? (
+          {edition?.partner ? <p className="hot-reload-collab station-label text-muted-foreground">
+            Crafter Station × {edition.partner === "Vercel" ? <VercelMark /> : null} {edition.partner}
+          </p> : null}
+          {edition ? (
             <p className="hot-reload-meta">
-              <span>{edition.date}</span>
-              <span>{edition.time}</span>
+              <span>{date ?? t.unannounced}</span>
+              {date ? <span>{hotReloadTime(edition, locale)}</span> : null}
               <span>{edition.city}</span>
-              {edition.seats ? <span>{edition.seats} cupos</span> : null}
+              {edition.seats ? <span>{hotReloadText(t.seats, { count: edition.seats })}</span> : null}
+              <span>{t[hotReloadStatus(edition)]}</span>
             </p>
           ) : null}
+          {edition ? <p className="mt-3"><VenueLink edition={edition} /></p> : null}
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">{description}</p>
           {children ? <div className="mt-7 flex flex-wrap items-center gap-4">{children}</div> : null}
         </div>
@@ -74,7 +79,7 @@ export function HotReloadHero({
           // biome-ignore lint/performance/noImgElement: images are unoptimized site-wide
           <img
             src={edition.poster}
-            alt={`Afiche de Hot Reload edición ${edition.number}: ${edition.date}, ${edition.time}, ${edition.city}.`}
+            alt={hotReloadText(t.posterAlt, { number: edition.number, date: date ?? t.unannounced, city: edition.city })}
             width={800}
             height={800}
             className="hot-reload-flyer"

@@ -4,6 +4,7 @@ import { bountyContent, bountyCopy, bountyDate } from "@/lib/bounty-copy"
 import { getBounty, isBountyOpen } from "@/lib/bounties"
 import { bucleCopy } from "@/lib/bucle-copy"
 import { findEdition } from "@/lib/hot-reload"
+import { getEventMenu } from "@/lib/event-menu"
 import { hotReloadPreview } from "@/lib/hot-reload-seo"
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n"
 import { socialKind, socialLabels, socialText, type SocialKind } from "@/lib/og"
@@ -67,7 +68,7 @@ export async function resolveSocialCard(params: URLSearchParams): Promise<Social
     const match = /^\/events\/hot-reload\/([^/]+)(\/menu)?$/.exec(path)
     const edition = match ? findEdition(match[1]) : undefined
     const menu = Boolean(match?.[2])
-    if (!edition || (menu && (!edition.menu || !edition.lumaEventId))) {
+    if (!edition || (menu && (!getEventMenu(edition) || !edition.lumaEventId))) {
       return { ...data, ...hotReloadPreview(locale), unavailable: true }
     }
     return { ...data, ...hotReloadPreview(locale, edition, menu) }

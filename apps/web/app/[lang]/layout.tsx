@@ -1,5 +1,6 @@
 import React from "react"
 import { ClerkProvider } from "@clerk/nextjs"
+import { enUS, esES, jaJP, ptBR, zhCN } from "@clerk/localizations"
 import { shadcn } from "@clerk/ui/themes"
 import type { Viewport } from "next"
 import { notFound } from "next/navigation"
@@ -17,6 +18,8 @@ import { isLocale, locales } from "@/lib/i18n"
 import { organizationSchema, webSiteSchema } from "@/lib/structured-data"
 
 import "../globals.css"
+
+const authLocalizations = { en: enUS, es: esES, pt: ptBR, zh: zhCN, ja: jaJP }
 
 export const viewport: Viewport = {
   themeColor: [
@@ -49,6 +52,7 @@ export default async function LocaleLayout({
         className={`flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
         <ClerkProvider
+          localization={authLocalizations[lang]}
           appearance={{
             theme: shadcn,
             elements: {
