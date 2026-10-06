@@ -25,7 +25,7 @@ export const MCP_INSTRUCTIONS = `Read-only access to Crafter Station: open sourc
 
 Start with search_docs for anything about the CLIs (awake, mermaid, neon-cli, skillkit, trx), then get_doc for the full page in Markdown. Every tool takes an optional locale (${locales.join(", ")}) and defaults to ${defaultLocale}.
 
-This server never writes. To publish a Ship or create a profile on a user's behalf, follow ${baseUrl}/join/agent.md, which drives the authenticated @crafter/cli instead.`
+This server never writes. To publish a Ship or create a profile on a user's behalf, use the authenticated @crafter/cli instead.`
 
 const localeInput = z
   .enum(locales)
@@ -355,13 +355,6 @@ export const resources = [
     title: "OpenAPI description",
     description: "OpenAPI 3.1 description of the public read-only endpoints on crafter.run.",
     mimeType: "application/json",
-  },
-  {
-    uri: `${baseUrl}/join/agent.md`,
-    name: "join/agent.md",
-    title: "Join instructions",
-    description: "Step-by-step instructions for an agent helping a human create a Crafter Station profile and publish a Ship.",
-    mimeType: "text/markdown",
   },
 ] as const
 

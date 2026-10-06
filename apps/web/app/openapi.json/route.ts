@@ -32,7 +32,7 @@ export function GET() {
         `${siteConfig.name} is ${siteConfig.tagline.en.toLowerCase()}: open source developer tools, the Crafter network, research, and community events across Latin America.`,
         "",
         "Everything described here is public, unauthenticated, and safe to cache. No endpoint in this document writes.",
-        `Agents that need to act for a user (publish a Ship, create a profile) should follow ${baseUrl}/join/agent.md, which drives the OAuth-authenticated @crafter/cli.`,
+        `Agents that need to act for a user (publish a Ship, create a profile) should use the OAuth-authenticated @crafter/cli.`,
         `The same data is available over the Model Context Protocol at ${MCP_ENDPOINT}.`,
       ].join("\n"),
       contact: { name: siteConfig.name, url: `${baseUrl}/en/contact` },

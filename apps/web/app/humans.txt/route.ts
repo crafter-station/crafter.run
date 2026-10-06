@@ -13,7 +13,6 @@ export async function GET() {
     ...(members ?? []).map((member) => `${member.displayName} (@${member.handle})`),
     "",
     "Humans can join at https://crafter.run/en/crafters",
-    "Agents helping a human join: curl -s https://crafter.run/join/agent.md",
   ]
 
   return new Response(lines.join("\n"), {

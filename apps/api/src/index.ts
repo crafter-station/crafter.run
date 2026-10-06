@@ -687,7 +687,6 @@ app.get(resourceMetadataPath, (c) =>
       bearer_methods_supported: ["header"],
       scopes_supported: ["openid", "profile", "offline_access"],
       resource_documentation: "https://crafter.run/agents.md",
-      resource_policy_uri: "https://crafter.run/join/agent.md",
     },
     200,
     {
