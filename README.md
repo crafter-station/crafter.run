@@ -14,7 +14,7 @@
     ·
     <a href="https://crafter.run/en/docs">Docs</a>
     ·
-    <a href="https://discord.gg/crafterstation">Discord</a>
+    <a href="https://discord.gg/kgsjU4sD7">Discord</a>
     ·
     <a href="https://github.com/crafter-station/crafter.run/issues">Issues</a>
   </p>

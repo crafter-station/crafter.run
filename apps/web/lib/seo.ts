@@ -66,17 +66,19 @@ export function buildMetadata({
   path,
   title,
   description,
+  image,
 }: {
   locale: Locale
   path: string
   title: string
   description: string
+  image?: { url: string; alt: string }
 }): Metadata {
   const url = localizedUrl(path, locale)
   const fullTitle =
     title === siteConfig.name ? `${siteConfig.name} · ${siteConfig.tagline[locale]}` : `${title} | ${siteConfig.name}`
   const ogTitle = title === siteConfig.name ? siteConfig.tagline[locale] : title
-  const ogImage = ogImageUrl(ogTitle, locale)
+  const ogImage = image?.url ?? ogImageUrl(ogTitle, locale)
 
   return {
     metadataBase: new URL(baseUrl),
@@ -96,7 +98,7 @@ export function buildMetadata({
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: `${siteConfig.name} · ${siteConfig.tagline[locale]}`,
+          alt: image?.alt ?? `${siteConfig.name} · ${siteConfig.tagline[locale]}`,
         },
       ],
       type: "website",

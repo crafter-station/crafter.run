@@ -367,3 +367,31 @@ export const ossRadarSnapshots = pgTable(
   },
   (table) => [index("oss_radar_snapshots_generated_idx").on(table.generatedAt.desc())],
 )
+
+export const rateLimits = pgTable("rate_limits", {
+  key: text("key").primaryKey(),
+  count: integer("count").notNull(),
+  resetAt: timestamp("reset_at", { withTimezone: true, mode: "string" }).notNull(),
+})
+
+export const bountySubmissions = pgTable(
+  "bounty_submissions",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    bountySlug: text("bounty_slug").notNull(),
+    clerkUserId: text("clerk_user_id").notNull(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    whatsappContact: text("whatsapp_contact").notNull(),
+    postUrl: text("post_url").notNull(),
+    attendsInPerson: boolean("attends_in_person").notNull(),
+    contactConsent: boolean("contact_consent").default(false).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("bounty_submissions_bounty_user_idx").on(table.bountySlug, table.clerkUserId),
+    check("bounty_submissions_whatsapp_contact_check", sql`char_length(${table.whatsappContact}) between 3 and 40`),
+    check("bounty_submissions_post_url_check", sql`${table.postUrl} ~ '^https://'`),
+  ],
+)

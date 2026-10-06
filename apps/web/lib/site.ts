@@ -299,7 +299,7 @@ export const socials = [
   { label: "X", href: "https://x.com/CrafterStation" },
   { label: "Instagram", href: "https://instagram.com/crafter.station/" },
   { label: "YouTube", href: "https://www.youtube.com/@crafterstation" },
-  { label: "Discord", href: "https://discord.gg/crafterstation" },
+  { label: "Discord", href: "https://discord.gg/kgsjU4sD7" },
   { label: "WhatsApp", href: "https://crafters.chat" },
   { label: "Luma", href: "https://luma.com/hack0" },
   { label: "Research", href: "https://research.crafter.ing/" },
