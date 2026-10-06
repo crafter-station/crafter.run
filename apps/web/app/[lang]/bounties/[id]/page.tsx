@@ -1,15 +1,19 @@
 import { auth } from "@clerk/nextjs/server"
 import { bountySubmissions } from "@crafter/db/schema"
 import { and, eq } from "drizzle-orm"
+import { ArrowLeft, CalendarDays, MapPin, Ticket } from "lucide-react"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
 
 import { BountySubmissionForm } from "@/components/bounty-submission-form"
-import { Container } from "@/components/grid-container"
+import { BountyPoster } from "@/components/bounty-artwork"
+import { JsonLd } from "@/components/json-ld"
+import { bountyContent, bountyCopy, bountyDate } from "@/lib/bounty-copy"
+import { breadcrumbList } from "@/lib/structured-data"
 import { bountyQuestionsForumUrl, getBounty, isBountyOpen } from "@/lib/bounties"
 import { getDb } from "@/lib/db"
-import { isLocale } from "@/lib/i18n"
+import { isLocale, withLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 import { socials } from "@/lib/site"
 
@@ -25,12 +29,13 @@ export async function generateMetadata({
   const bounty = getBounty(id)
   if (!bounty) return {}
 
-  const title = `Bounty #${bounty.slug}: ${bounty.title}`
+  const content = bountyContent(bounty, lang)
+  const title = `Bounty #${bounty.slug}: ${content.title}`
   return buildMetadata({
     locale: lang,
     path: `/bounties/${bounty.slug}`,
     title,
-    description: bounty.prize,
+    description: content.summary,
     image: bounty.image ? { url: bounty.image, alt: title } : undefined,
   })
 }
@@ -41,6 +46,8 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
   const bounty = getBounty(id)
   if (!bounty) notFound()
 
+  const t = bountyCopy[lang]
+  const content = bountyContent(bounty, lang)
   const path = `/${lang}/bounties/${bounty.slug}`
   const { userId } = await auth()
   const db = userId ? getDb() : null
@@ -54,64 +61,55 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
   const open = isBountyOpen(bounty)
   const discordInviteUrl = socials.find((social) => social.label === "Discord")!.href
 
-  return (
-      <main className="flex-1">
-        <Container innerClassName="mx-auto max-w-2xl px-6 py-16 md:py-24">
-          <p className="font-mono text-[14px] uppercase tracking-[0.3em] text-accent">Bounty #{bounty.slug}</p>
-          <h1 className="mt-5 text-4xl font-semibold tracking-tighter md:text-5xl">{bounty.title}</h1>
-          <p className="mt-5 text-lg leading-8 text-muted-foreground">{bounty.prize}</p>
-          <p className="mt-4 leading-7 text-muted-foreground">
-            Hablan{" "}
-            {bounty.speakers.map((speaker, index) => (
-              <span key={speaker.name}>
-                <a href={speaker.url} target="_blank" rel="noreferrer" className="text-foreground underline underline-offset-4">
-                  {speaker.name}
-                </a>{" "}
-                ({speaker.detail})
-                {index < bounty.speakers.length - 2 ? ", " : index === bounty.speakers.length - 2 ? " e " : ". "}
-              </span>
-            ))}
-            {bounty.speakersNote}
-          </p>
-
-          <section className="mt-10 border-t border-line pt-8">
-            <h2 className="font-mono text-[14px] uppercase tracking-[0.2em] text-muted-foreground">El reto</h2>
-            <ol className="mt-4 grid list-decimal gap-2 pl-5 leading-7">
-              {bounty.steps.map((step) => <li key={step}>{step}</li>)}
-            </ol>
-            <ul className="mt-6 grid list-disc gap-2 pl-5 leading-7 text-muted-foreground">
-              {bounty.rewards.map((reward) => <li key={reward}>{reward}</li>)}
-            </ul>
-            <a href={bounty.eventUrl} target="_blank" rel="noreferrer" className="mt-6 inline-block text-sm underline underline-offset-4">
-              Ver el evento
-            </a>
+  return <>
+    <JsonLd data={breadcrumbList(lang, [
+      { name: "Crafter Station", path: "/" }, { name: "Bounties", path: "/bounties" },
+      { name: content.title, path: `/bounties/${bounty.slug}` },
+    ])} />
+    <main className="bounties-page bounty-detail">
+      <Link className="bounty-back" href={withLocale("/bounties", lang)}><ArrowLeft size={17} aria-hidden="true" />{t.all}</Link>
+      <header className="bounty-detail-hero">
+        <div className="bounty-meta"><p className="station-label">Bounty #{bounty.slug.padStart(2, "0")}</p><span className="bounty-status" data-open={open}>{open ? t.open : t.closed}</span></div>
+        <h1>{content.title}</h1>
+        <p className="bounties-lead">{content.summary}</p>
+      </header>
+      <div className="bounty-detail-grid">
+        <div className="bounty-detail-body">
+          {bounty.image && <BountyPoster src={bounty.image} priority />}
+          <section className="bounty-brief" aria-labelledby="bounty-challenge">
+            <p className="station-label">{t.challenge}</p>
+            <h2 id="bounty-challenge">{t.challengeIntro}</h2>
+            <ol>{content.steps.map((step, index) => <li key={step}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol>
           </section>
-
-          <section className="mt-10 border-t border-line pt-8">
-            {!open ? (
-              <p className="text-muted-foreground">Este bounty ya cerró. Gracias a todos los que participaron.</p>
-            ) : userId ? (
-              <BountySubmissionForm slug={bounty.slug} existing={existing ?? null} />
-            ) : (
-              <div className="grid gap-4">
-                <p className="text-muted-foreground">Inicia sesión con tu cuenta de Crafter para mandar tu post.</p>
-                <Link href={`/${lang}/sign-in?redirect_url=${path}`} className="w-fit bg-foreground px-6 py-3 text-sm font-medium text-background">
-                  Iniciar sesión para participar
-                </Link>
-              </div>
-            )}
+          <section className="bounty-rewards" aria-labelledby="bounty-rewards-title">
+            <h2 id="bounty-rewards-title">{t.rewards}</h2>
+            <ul>{content.rewards.map(reward => <li key={reward}><Ticket size={22} strokeWidth={1.5} aria-hidden="true" /><span>{reward}</span></li>)}</ul>
+            <p>{t.attendance}</p>
           </section>
-
-          <section className="mt-10 border-t border-line pt-8 text-sm leading-6 text-muted-foreground">
-            <h2 className="font-mono text-[14px] uppercase tracking-[0.2em]">¿Dudas?</h2>
-            <p className="mt-3">
-              Escríbelas en el{" "}
-              <a href={bountyQuestionsForumUrl} target="_blank" rel="noreferrer" className="text-foreground underline underline-offset-4">foro de preguntas del Discord</a>
-              . ¿Todavía no estás en el Discord?{" "}
-              <a href={discordInviteUrl} target="_blank" rel="noreferrer" className="text-foreground underline underline-offset-4">Únete aquí</a>.
-            </p>
+          <section className="bounty-speakers" aria-labelledby="bounty-speakers-title">
+            <p className="station-label">{t.event}</p><h2 id="bounty-speakers-title">{t.speakers}</h2><p>{t.speakersIntro}</p>
+            <ul>{bounty.speakers.map(speaker => <li key={speaker.name}><a href={speaker.url} target="_blank" rel="noopener noreferrer"><span className="bounty-speaker-initial" aria-hidden="true">{speaker.name.split(" ").map(word => word[0]).slice(0, 2).join("")}</span><span><strong>{speaker.name}</strong><span>{speaker.detail}</span></span></a></li>)}</ul>
+            <p className="bounty-speakers-note">{content.speakersNote}</p>
           </section>
-        </Container>
-      </main>
-  )
+        </div>
+        <aside className="bounty-detail-aside" aria-label={t.reward}>
+          <div className="bounty-reward-ticket">
+            <p className="station-label">{t.reward}</p>
+            <div className="bounty-ticket-prize"><strong>{bounty.rewardCount}</strong><Ticket size={42} strokeWidth={1.1} aria-hidden="true" /></div>
+            <p className="bounty-ticket-label">{t.tickets}</p>
+            <div className="bounty-ticket-event"><CalendarDays size={19} aria-hidden="true" /><time dateTime={bounty.eventStartsAt}>{bountyDate(bounty.eventStartsAt, lang)} · Lima</time></div>
+            <div className="bounty-ticket-event"><MapPin size={19} aria-hidden="true" /><span>{t.location}</span></div>
+            <a href={bounty.eventUrl} target="_blank" rel="noopener noreferrer">{t.eventLink}</a>
+            <div className="bounty-ticket-deadline"><span>{t.deadline}</span><time dateTime={bounty.closesAt}>{bountyDate(bounty.closesAt, lang)} · Lima</time></div>
+          </div>
+          {!open && <section className="bounty-closed"><span className="bounty-status">{t.closed}</span><h2>{t.closedTitle}</h2><p>{t.closedBody}</p><Link href={withLocale("/bounties", lang)}>{t.all}</Link></section>}
+        </aside>
+      </div>
+      {open && <section className="bounty-entry" aria-labelledby="bounty-entry-title">
+        <div><p className="station-label">{t.entry}</p><h2 id="bounty-entry-title">{content.title}</h2><p>{t.closingNote}</p></div>
+        <div>{userId ? <BountySubmissionForm slug={bounty.slug} existing={existing ?? null} /> : <><p>{t.signInBody}</p><Link className="bounty-button" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link></>}</div>
+      </section>}
+      <section className="bounty-community bounty-help"><span className="bounty-community-mark" aria-hidden="true">?</span><div><h2>{t.questions}</h2><p>{t.questionsBody}</p><div className="bounty-actions"><a href={bountyQuestionsForumUrl} target="_blank" rel="noopener noreferrer">{t.forum}</a><a href={discordInviteUrl} target="_blank" rel="noopener noreferrer">{t.join}</a></div></div></section>
+    </main>
+  </>
 }

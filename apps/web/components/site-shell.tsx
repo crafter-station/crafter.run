@@ -15,13 +15,14 @@ export function SiteShell({ children, footer, event, locale }: { children: React
   const universe = pathname === `/${locale}/universe`
   const agenda = pathname === `/${locale}/events`
   const journal = pathname === `/${locale}/blog` || pathname.startsWith(`/${locale}/blog/`)
-  const pages = !docs && !home && !oss && !universe && !agenda && !journal
+  const bounties = pathname === `/${locale}/bounties` || pathname.startsWith(`/${locale}/bounties/`)
+  const pages = !docs && !home && !oss && !universe && !agenda && !journal && !bounties
   const route = pathname.slice(locale.length + 1)
   const tone = /^\/(oss|timeline|impact)(\/|$)/.test(route) ? "green"
     : /^\/(ships|workshops)(\/|$)/.test(route) ? "violet"
       : /^\/(events|hackathons)(\/|$)/.test(route) ? "blue" : "warm"
   return (
-    <div data-page-tone={pages ? tone : undefined} className={`station-shell${pages ? " station-shell-pages" : ""}${docs ? " station-shell-docs" : ""}${home ? " station-shell-home" : ""}${oss ? " station-shell-oss" : ""}${universe ? " station-shell-universe" : ""}${agenda ? " station-shell-agenda" : ""}${journal ? " station-shell-journal" : ""}`}>
+    <div data-page-tone={pages ? tone : undefined} className={`station-shell${pages ? " station-shell-pages" : ""}${docs ? " station-shell-docs" : ""}${home ? " station-shell-home" : ""}${oss ? " station-shell-oss" : ""}${universe ? " station-shell-universe" : ""}${agenda ? " station-shell-agenda" : ""}${journal ? " station-shell-journal" : ""}${bounties ? " station-shell-bounties" : ""}`}>
       <a className="station-skip" href="#site-content">{stationCopy[locale].skip}</a>
       <SiteHeader locale={locale} compact={docs} event={event} />
       <div className="station-content">

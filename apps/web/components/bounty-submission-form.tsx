@@ -65,7 +65,7 @@ function PostUrlField({ defaultValue }: { defaultValue?: string }) {
 
   return (
     <label className="grid min-w-0 gap-2 text-sm">
-      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Link de tu post</span>
+      <span className="font-label text-[14px] uppercase tracking-[0.1em] text-muted-foreground">Link de tu post</span>
       <div className="flex min-w-0 items-stretch gap-2">
         <span
           aria-label={platform?.name ?? "Plataforma"}
@@ -109,7 +109,7 @@ function Field(props: React.InputHTMLAttributes<HTMLInputElement> & { label: str
   const { label, hint, className, ...input } = props
   return (
     <label className="grid min-w-0 gap-2 text-sm">
-      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{label}</span>
+      <span className="font-label text-[14px] uppercase tracking-[0.1em] text-muted-foreground">{label}</span>
       <input {...input} className={cn("w-full min-w-0 border border-line bg-background px-4 py-3 outline-none focus:border-accent", className)} />
       {hint ? <span className="text-xs text-muted-foreground">{hint}</span> : null}
     </label>

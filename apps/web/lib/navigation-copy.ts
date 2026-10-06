@@ -2,6 +2,7 @@ export const navCopy = {
   en: {
     community: "Community",
     ships: "Ships",
+    bounties: "Bounties",
     crafters: "Crafters",
     events: "Calendar",
     hackathon: "Hackathons",
@@ -24,6 +25,7 @@ export const navCopy = {
   es: {
     community: "Comunidad",
     ships: "Ships",
+    bounties: "Bounties",
     crafters: "Crafters",
     events: "Agenda",
     hackathon: "Hackathons",
@@ -46,6 +48,7 @@ export const navCopy = {
   pt: {
     community: "Comunidade",
     ships: "Ships",
+    bounties: "Bounties",
     crafters: "Crafters",
     events: "Agenda",
     hackathon: "Hackathons",
@@ -68,6 +71,7 @@ export const navCopy = {
   zh: {
     community: "社区",
     ships: "社区作品",
+    bounties: "Bounties 挑战",
     crafters: "成员",
     events: "活动日历",
     hackathon: "黑客松",
@@ -90,6 +94,7 @@ export const navCopy = {
   ja: {
     community: "コミュニティ",
     ships: "コミュニティ作品",
+    bounties: "Bounties",
     crafters: "Crafters",
     events: "カレンダー",
     hackathon: "ハッカソン",
