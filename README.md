@@ -1,22 +1,24 @@
-![hero](https://crafter.run/og?title=Crafter%20Station&lang=en)
+![Crafter Station](https://crafter.run/og?v=station-20261006&lang=en&path=%2F&title=Craft.+Ship.+Repeat.&description=A+community+turning+curiosity+into+projects.)
 
 <p align="center">
 	<h1 align="center"><b>Crafter Station</b></h1>
 <p align="center">
-    The LatAm network of shippers
+    Craft. Ship. Repeat.
+    <br />
+    A community turning curiosity into projects.
     <br />
     <br />
     <a href="https://crafter.run">Website</a>
     ·
-    <a href="https://crafter.run/en/crafters">Crafters</a>
+    <a href="https://crafter.run/en/oss">Open source</a>
+    ·
+    <a href="https://crafter.run/en/events">Events</a>
     ·
     <a href="https://crafter.run/en/ships">Ships</a>
     ·
     <a href="https://crafter.run/en/docs">Docs</a>
     ·
     <a href="https://discord.gg/kgsjU4sD7">Discord</a>
-    ·
-    <a href="https://github.com/crafter-station/crafter.run/issues">Issues</a>
   </p>
 </p>
 
@@ -28,26 +30,19 @@
 
 ## About Crafter Station
 
-Crafter Station is a community and open-source ecosystem for builders in Latin America and beyond to meet, learn, and ship in public. This monorepo runs all of it: the website, the Ships API and directory, the published CLI, shared contracts, and the database schema.
+Crafter Station is the LatAm network of shippers: a community and open source ecosystem where builders meet, learn, and ship in public. This monorepo runs all of it: the website, the Ships API and directory, the published CLI, shared contracts, and the database schema.
 
 ## Features
 
+**Open source**: The tools the community builds and maintains, with docs for every CLI.<br/>
+**Events**: Hot Reload, workshops, and hackathons, synced from the Luma calendar.<br/>
 **Crafters directory**: Public profiles for every registered member of the community, localized in five languages.<br/>
 **Ships**: A build-in-public directory. Projects go through a reviewable draft before publishing, then collect votes and changelog-style updates.<br/>
-**Agent-first onboarding**: Join by pasting one prompt into your AI coding agent. The agent installs the CLI, walks you through browser sign-in, drafts your profile from what it already knows about you, and submits only after you approve.<br/>
 **Crafter CLI**: A deterministic command-line client for authentication, onboarding, and draft-first shipping, published as [`@crafter/cli`](https://www.npmjs.com/package/@crafter/cli).<br/>
 **Agent skill**: The `crafter-ship` skill teaches coding agents to ship a project safely: draft first, explicit confirmation, honest provenance.<br/>
 **Open API**: A versioned Hono API with an OpenAPI document at [`api.crafter.run/openapi.json`](https://api.crafter.run/openapi.json).<br/>
 
-## Join with your agent
-
-Paste this into Claude Code, Cursor, or any coding agent:
-
-```text
-Help me join the Crafter Station community. Run `curl -s https://crafter.run/join/agent.md`
-and follow the instructions it returns. Prefill a profile draft from what you already know
-about me, and confirm everything with me before submitting anything.
-```
+## Ship with your agent
 
 Ship a project from any repository:
 

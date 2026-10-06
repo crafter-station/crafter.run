@@ -59,7 +59,7 @@ Every tool is read-only:
 | --- | --- |
 ${toolLines.join("\n")}
 
-Call \`tools/list\` for the full input schemas. \`resources/list\` exposes this page, both llms files, the OpenAPI document, and the join instructions as MCP resources.
+Call \`tools/list\` for the full input schemas. \`resources/list\` exposes this page, both llms files, and the OpenAPI document as MCP resources.
 
 ## Acting on a user's behalf
 
@@ -67,7 +67,6 @@ Reading is open. Writing is not, and you should never try to reach a write path 
 
 Two things a user can ask for that involve writing: creating a Crafter profile, and publishing a Ship to the community directory. Both go through the \`@crafter/cli\` package, which owns the OAuth 2.0 flow end to end.
 
-- Full instructions, including the safety rules you must follow: \`${baseUrl}/join/agent.md\`
 - Authorization server metadata: \`https://clerk.crafter.run/.well-known/oauth-authorization-server\`
 - Protected resource metadata: \`${apiUrl}/.well-known/oauth-protected-resource\`
 

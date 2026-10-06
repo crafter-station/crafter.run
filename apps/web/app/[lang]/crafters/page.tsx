@@ -6,7 +6,6 @@ import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 
 import { Container, SectionGap } from "@/components/grid-container"
-import { JoinAgentPrompt } from "@/components/join-agent-prompt"
 import { ProfileLocationLine } from "@/components/profile-location-line"
 import { isLocale, locales } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
@@ -37,7 +36,6 @@ export default async function CraftersPage({ params }: { params: Promise<{ lang:
 
       <main className="flex-1">
         <StationPageHero eyebrow={t("eyebrow")} title={t("title")} description={t("description")} art="people">
-          <JoinAgentPrompt label={t("joinAgentLabel")} hint={t("joinAgentHint")} copyLabel={t("joinAgentCopy")} copiedLabel={t("joinAgentCopied")} />
           <p className="station-team-count mt-5">{membersResult === null ? "—" : t("memberCount", { count: members.length })}</p>
         </StationPageHero>
 
