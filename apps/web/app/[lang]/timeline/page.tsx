@@ -10,8 +10,6 @@ import {
   ProjectTimeline,
   type ProjectTimelineCopy,
 } from "@/components/project-timeline"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale, locales } from "@/lib/i18n"
 import { getProjectTimeline } from "@/lib/project-timeline-cache"
 import { pageMetadata } from "@/lib/seo"
@@ -145,17 +143,18 @@ export default async function Page({
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="overflow-hidden">
-          <div className="grid lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="px-6 py-16 md:px-10 md:py-24 lg:border-r lg:border-line">
-              <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
+        <Container innerClassName="station-page-intro station-report-intro">
+          <p className="font-label text-xs uppercase tracking-[0.35em] text-accent">
                 {t("eyebrow")}
               </p>
               <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold tracking-[-0.055em] md:text-7xl">
                 {t("title")}
               </h1>
+          <div className="station-data-hero">
+            <div className="px-6 py-16 md:px-10 md:py-24 lg:border-r lg:border-line">
+
               <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
                 {t("description")}
               </p>
@@ -186,7 +185,7 @@ export default async function Page({
             </div>
 
             <aside className="flex min-h-80 flex-col justify-between bg-secondary/15 p-6 md:p-10">
-              <div className="flex items-center justify-between gap-4 font-mono text-[9px] uppercase tracking-[0.22em] text-muted-foreground">
+              <div className="flex items-center justify-between gap-4 font-label text-xs uppercase tracking-[0.22em] text-muted-foreground">
                 <span>{t("signalLabel")}</span>
                 <span>{t("oneYear")}</span>
               </div>
@@ -208,7 +207,7 @@ export default async function Page({
                   />
                 ))}
               </div>
-              <div className="mt-8 grid grid-cols-3 border border-line">
+              <div className="station-stat-strip mt-8">
                 {[
                   [formatNumber(activeProjects), t("heroStats.active")],
                   [formatNumber(teamCommits), t("heroStats.commits")],
@@ -221,8 +220,8 @@ export default async function Page({
                       index > 0 && "border-l border-line",
                     )}
                   >
-                    <p className="font-mono text-lg tracking-tight sm:text-xl">{value}</p>
-                    <p className="mt-1 text-[10px] leading-tight text-muted-foreground">
+                    <p className="font-label text-lg tracking-tight sm:text-xl">{value}</p>
+                    <p className="mt-1 text-xs leading-tight text-muted-foreground">
                       {label}
                     </p>
                   </div>
@@ -238,7 +237,7 @@ export default async function Page({
           <Container innerClassName="border-b px-6 py-10 md:px-10">
             <div className="grid gap-5 lg:grid-cols-[0.7fr_1.3fr] lg:items-end">
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
                   {t("timelineEyebrow")}
                 </p>
                 <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">
@@ -258,7 +257,7 @@ export default async function Page({
         <SectionGap />
 
         <Container>
-          <section className="grid border-y border-line md:grid-cols-3">
+          <section className="station-card-grid">
             {[
               ["01", t("method.barTitle"), t("method.barDescription")],
               ["02", t("method.intensityTitle"), t("method.intensityDescription")],
@@ -271,7 +270,7 @@ export default async function Page({
                   index > 0 && "border-t border-line md:border-l md:border-t-0",
                 )}
               >
-                <p className="font-mono text-[9px] tracking-[0.25em] text-accent">
+                <p className="font-label text-xs tracking-[0.25em] text-accent">
                   {number}
                 </p>
                 <h3 className="mt-5 text-xl tracking-tight">{title}</h3>
@@ -286,9 +285,9 @@ export default async function Page({
         <SectionGap />
 
         <Container>
-          <section className="grid border-y border-line md:grid-cols-[1.2fr_0.8fr]">
+          <section className="station-callout grid md:grid-cols-[1.2fr_0.8fr]">
             <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+              <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
                 {t("catalogEyebrow")}
               </p>
               <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
@@ -306,7 +305,7 @@ export default async function Page({
           </section>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

@@ -142,18 +142,18 @@ function MetricCell({
     <div className={cn("relative flex min-h-56 flex-col overflow-hidden p-7 md:p-8", className)}>
       <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: color }} />
       <div className="flex items-start justify-between gap-4">
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+        <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
           {label}
         </p>
         <span
-          className="border px-2 py-1 font-mono text-[10px] tabular-nums"
+          className="border px-2 py-1 font-label text-xs tabular-nums"
           style={{ borderColor: color, color }}
         >
           {formatDelta(change, locale)}
         </span>
       </div>
       <p
-        className="mt-auto font-mono text-5xl tracking-[-0.06em] md:text-6xl"
+        className="mt-auto font-label text-5xl tracking-[-0.06em] md:text-6xl"
         style={{ color }}
       >
         {value}
@@ -200,7 +200,7 @@ function FlowRow({
             />
           </span>
           <span
-            className="w-12 text-right font-mono text-sm tabular-nums"
+            className="w-12 text-right font-label text-sm tabular-nums"
             style={{ color: key === "post" ? color : undefined }}
           >
             {formatNumber(Number(value), locale)}
@@ -236,19 +236,19 @@ function ChangePanel({
   return (
     <div className={cn("relative overflow-hidden p-7 md:p-8", className)}>
       <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: color }} />
-      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+      <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
         {label}
       </p>
       <div className="mt-8 flex items-end justify-between gap-6">
         <div>
-          <p className="font-mono text-4xl tracking-[-0.05em]" style={{ color }}>
+          <p className="font-label text-4xl tracking-[-0.05em]" style={{ color }}>
             {formatNumber(postRate, locale)}
           </p>
-          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          <p className="mt-2 font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
             {formatNumber(preRate, locale)} → {formatNumber(postRate, locale)}
           </p>
         </div>
-        <p className="font-mono text-2xl" style={{ color }}>
+        <p className="font-label text-2xl" style={{ color }}>
           {formatDelta(delta(preRate, postRate), locale)}
         </p>
       </div>
@@ -273,10 +273,10 @@ function RadarCell({
   return (
     <div className={cn("relative flex min-h-48 flex-col overflow-hidden p-7 md:p-8", className)}>
       <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: color }} />
-      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+      <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
         {label}
       </p>
-      <p className="mt-auto font-mono text-5xl tracking-[-0.06em]" style={{ color }}>
+      <p className="mt-auto font-label text-5xl tracking-[-0.06em]" style={{ color }}>
         {value}
       </p>
       <p className="mt-4 max-w-xs text-xs leading-relaxed text-muted-foreground">{description}</p>
@@ -338,121 +338,55 @@ export function OssMetricsDashboard({
 
   return (
     <>
-      <Container innerClassName="overflow-hidden">
-        <div className="grid lg:grid-cols-[1.08fr_0.92fr]">
-          <div className="flex flex-col lg:border-r lg:border-line">
-            <div className="flex-1 px-6 py-16 md:px-10 md:py-24">
-              <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
-                {copy.eyebrow}
-              </p>
-              <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold tracking-[-0.055em] md:text-7xl">
-                {copy.title}
-              </h1>
-              <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
-                {copy.description}
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
-                <LocalizedLink
-                  href="/oss"
-                  locale={locale}
-                  className="group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-                >
-                  <ArrowLink>{copy.catalogCta}</ArrowLink>
-                </LocalizedLink>
-                <Link
-                  href="https://github.com/crafter-station"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-                >
-                  <ArrowLink>{copy.githubCta}</ArrowLink>
-                </Link>
-              </div>
-            </div>
-            <div className="grid grid-cols-3 border-t border-line">
-              {[
-                [formatInteger(metrics.repoCount, locale), copy.repos],
-                [formatInteger(metrics.openIssues, locale), copy.openIssues],
-                [formatInteger(metrics.openPrs, locale), copy.openPrs],
-              ].map(([value, label], index) => (
-                <div
-                  key={label}
-                  className={cn("min-h-24 p-4 md:p-5", index > 0 && "border-l border-line")}
-                >
-                  <p className="font-mono text-lg tracking-tight tabular-nums">{value}</p>
-                  <p className="mt-2 text-[10px] leading-tight text-muted-foreground">{label}</p>
-                </div>
-              ))}
+      <Container innerClassName="station-page-intro station-report-intro">
+        <p className="station-label text-accent">{copy.eyebrow}</p>
+        <h1 className="mt-5">{copy.title}</h1>
+        <div className="station-report-summary">
+          <div>
+            <p className="text-lg leading-relaxed text-muted-foreground">{copy.description}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <LocalizedLink href="/oss" locale={locale} className="group"><ArrowLink>{copy.catalogCta}</ArrowLink></LocalizedLink>
+              <Link href="https://github.com/crafter-station" target="_blank" rel="noopener noreferrer" className="group"><ArrowLink>{copy.githubCta}</ArrowLink></Link>
             </div>
           </div>
-
-          <aside className="flex flex-col border-t border-line bg-secondary/15 lg:border-t-0">
-            <div className="flex items-center justify-between border-b border-line px-6 py-4">
-              <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                {copy.signalEyebrow}
-              </p>
-              <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                <span className="size-1.5" style={{ backgroundColor: throughputColor }} />
-                {sourceLabel}
-              </span>
-            </div>
-            <div className="flex flex-1 flex-col justify-center px-6 py-12 md:px-10">
-              <p
-                className="font-mono text-7xl tracking-[-0.08em] md:text-8xl"
-                style={{ color: throughputColor }}
-              >
-                {formatDelta(delta(throughputPre, throughputPost), locale)}
-              </p>
-              <h2 className="mt-7 max-w-md text-balance text-2xl tracking-tight md:text-3xl">
-                {copy.signalTitle}
-              </h2>
-              <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-                {copy.signalDescription}
-              </p>
-              <div className="mt-10 grid grid-cols-2 border border-line">
-                {[
-                  [copy.before, throughputPre],
-                  [copy.after, throughputPost],
-                ].map(([label, value], index) => (
-                  <div
-                    key={String(label)}
-                    className={cn("p-4", index > 0 && "border-l border-line")}
-                  >
-                    <p
-                      className="font-mono text-2xl tabular-nums"
-                      style={{ color: index > 0 ? throughputColor : undefined }}
-                    >
-                      {formatNumber(Number(value), locale)}
-                    </p>
-                    <p className="mt-1 text-[10px] text-muted-foreground">
-                      {label} · {copy.daily}
-                    </p>
-                  </div>
-                ))}
+          <dl className="station-stat-strip">
+            {[
+              [formatInteger(metrics.repoCount, locale), copy.repos],
+              [formatInteger(metrics.openIssues, locale), copy.openIssues],
+              [formatInteger(metrics.openPrs, locale), copy.openPrs],
+            ].map(([value, label]) => (
+              <div key={label}><dt className="mt-2 text-muted-foreground">{label}</dt><dd className="station-report-number">{value}</dd></div>
+            ))}
+          </dl>
+        </div>
+      </Container>
+      <Container innerClassName="station-metric-signal">
+        <div>
+          <p className="station-label text-muted-foreground">{copy.signalEyebrow} · {sourceLabel}</p>
+          <p className="station-signal-value" style={{ color: throughputColor }}>{formatDelta(delta(throughputPre, throughputPost), locale)}</p>
+          <h2>{copy.signalTitle}</h2>
+        </div>
+        <div>
+          <p className="text-muted-foreground leading-relaxed">{copy.signalDescription}</p>
+          <dl className="station-compare-grid">
+            {[[copy.before, throughputPre], [copy.after, throughputPost]].map(([label, value], index) => (
+              <div key={String(label)}>
+                <dt className="mt-2 text-muted-foreground">{label} · {copy.daily}</dt>
+                <dd className="station-report-number" style={{ color: index > 0 ? throughputColor : undefined }}>{formatNumber(Number(value), locale)}</dd>
               </div>
-            </div>
-            <div className="grid grid-cols-2 border-t border-line">
-              {[
-                [copy.windowValue, copy.window],
-                [updated, `${copy.updated} · ${sourceLabel}`],
-              ].map(([value, label], index) => (
-                <div
-                  key={label}
-                  className={cn("min-h-24 p-4 md:p-5", index > 0 && "border-l border-line")}
-                >
-                  <p className="font-mono text-lg tracking-tight tabular-nums">{value}</p>
-                  <p className="mt-2 text-[10px] leading-tight text-muted-foreground">{label}</p>
-                </div>
-              ))}
-            </div>
-          </aside>
+            ))}
+          </dl>
+          <div className="station-signal-meta text-muted-foreground">
+            <p>{copy.windowValue} · {copy.window}</p>
+            <p>{copy.updated} · {updated}</p>
+          </div>
         </div>
       </Container>
 
       <SectionGap />
 
       <Container innerClassName="border-b px-6 py-10 md:px-10">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+        <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
           {copy.metricsEyebrow}
         </p>
         <h2 className="mt-3 text-balance text-3xl tracking-tight md:text-4xl">
@@ -460,7 +394,7 @@ export function OssMetricsDashboard({
         </h2>
       </Container>
       <Container>
-        <div className="grid md:grid-cols-2 xl:grid-cols-4">
+        <div className="station-metrics-grid grid">
           <MetricCell
             label={copy.metrics.throughput}
             description={copy.metrics.throughputDescription}
@@ -504,7 +438,7 @@ export function OssMetricsDashboard({
       <Container innerClassName="border-b px-6 py-10 md:px-10">
         <div className="flex flex-wrap items-start justify-between gap-6">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+            <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
               {copy.radar.eyebrow}
             </p>
             <h2 className="mt-3 text-balance text-3xl tracking-tight md:text-4xl">
@@ -514,13 +448,13 @@ export function OssMetricsDashboard({
               {copy.radar.description}
             </p>
           </div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
             {copy.radar.updated} · {radarUpdated}
           </p>
         </div>
       </Container>
       <Container>
-        <div className="grid md:grid-cols-2 xl:grid-cols-4">
+        <div className="station-metrics-grid grid">
           <RadarCell
             label={copy.radar.coverage}
             description={copy.radar.coverageDescription}
@@ -551,10 +485,10 @@ export function OssMetricsDashboard({
         </div>
         <div className="border-t border-line">
           <div className="p-6 md:p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
               {copy.radar.delta}
             </p>
-            <p className="mt-3 font-mono text-sm tabular-nums">
+            <p className="mt-3 font-label text-sm tabular-nums">
               +{formatInteger(radar.summary.added, locale)} {copy.radar.added} · {formatInteger(radar.summary.changed, locale)} {copy.radar.changed} · {formatInteger(radar.summary.resolved, locale)} {copy.radar.resolved}
             </p>
           </div>
@@ -563,22 +497,22 @@ export function OssMetricsDashboard({
 
       <SectionGap />
 
-      <Container innerClassName="grid lg:grid-cols-[0.78fr_1.22fr]">
+      <Container innerClassName="station-metrics-section grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
         <div className="border-b border-line p-8 md:p-10 lg:border-b-0 lg:border-r">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {copy.flowEyebrow}
           </p>
           <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{copy.flowTitle}</h2>
           <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
             {copy.flowDescription}
           </p>
-          <div className="mt-10 flex gap-6 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground lg:hidden">
+          <div className="mt-10 flex gap-6 font-label text-xs uppercase tracking-[0.2em] text-muted-foreground lg:hidden">
             <span>{copy.before}</span>
             <span className="text-accent">{copy.after}</span>
           </div>
         </div>
         <div className="px-8 py-5 md:px-10">
-          <div className="hidden grid-cols-[0.7fr_1fr_1fr] gap-8 pb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground md:grid">
+          <div className="hidden grid-cols-[0.7fr_1fr_1fr] gap-8 pb-4 font-label text-xs uppercase tracking-[0.2em] text-muted-foreground md:grid">
             <span />
             <span>{copy.before}</span>
             <span className="text-accent">{copy.after}</span>
@@ -621,7 +555,7 @@ export function OssMetricsDashboard({
       <SectionGap />
 
       <Container innerClassName="border-b px-6 py-10 md:px-10">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+        <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
           {copy.acquisitionEyebrow}
         </p>
         <h2 className="mt-3 max-w-3xl text-3xl tracking-tight md:text-4xl">
@@ -632,7 +566,7 @@ export function OssMetricsDashboard({
         </p>
       </Container>
       <Container>
-        <div className="grid md:grid-cols-3">
+        <div className="station-metrics-grid grid">
           <ChangePanel
             label={copy.externalOpened}
             description={copy.externalOpenedDescription}
@@ -667,9 +601,9 @@ export function OssMetricsDashboard({
 
       <SectionGap />
 
-      <Container innerClassName="grid lg:grid-cols-[0.8fr_1.2fr]">
+      <Container innerClassName="station-metrics-section grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="border-b border-line p-8 md:p-10 lg:border-b-0 lg:border-r">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {copy.distributionEyebrow}
           </p>
           <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{copy.distributionTitle}</h2>
@@ -677,10 +611,10 @@ export function OssMetricsDashboard({
             {copy.distributionDescription}
           </p>
           <div className="mt-10 border-t border-line pt-6">
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
               {copy.concentration}
             </p>
-            <p className="font-mono text-5xl tracking-[-0.06em] text-accent">
+            <p className="font-label text-5xl tracking-[-0.06em] text-accent">
               {formatNumber(topShare(metrics.post), locale, 0)}%
             </p>
             <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
@@ -689,7 +623,7 @@ export function OssMetricsDashboard({
           </div>
         </div>
         <div className="p-8 md:p-10">
-          <div className="flex items-center justify-between border-b border-line pb-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+          <div className="flex items-center justify-between border-b border-line pb-4 font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
             <span>{copy.distributionEyebrow}</span>
             <span>{copy.closures}</span>
           </div>
@@ -699,7 +633,7 @@ export function OssMetricsDashboard({
                 key={repo.repo}
                 className="grid grid-cols-[minmax(0,1fr)_minmax(5rem,0.7fr)_2rem] items-center gap-4 border-b border-line py-4"
               >
-                <span className="truncate font-mono text-xs">{repo.repo}</span>
+                <span className="truncate font-label text-xs">{repo.repo}</span>
                 <span className="h-1 bg-foreground/8">
                   <span
                     className="block h-full"
@@ -709,7 +643,7 @@ export function OssMetricsDashboard({
                     }}
                   />
                 </span>
-                <span className="text-right font-mono text-xs tabular-nums text-muted-foreground">
+                <span className="text-right font-label text-xs tabular-nums text-muted-foreground">
                   {repo.count}
                 </span>
               </div>
@@ -720,9 +654,9 @@ export function OssMetricsDashboard({
 
       <SectionGap />
 
-      <Container innerClassName="grid lg:grid-cols-[0.75fr_1.25fr]">
+      <Container innerClassName="station-metrics-section grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
         <div className="border-b border-line p-8 md:p-10 lg:border-b-0 lg:border-r">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
             {copy.methodologyEyebrow}
           </p>
           <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{copy.methodologyTitle}</h2>
@@ -730,7 +664,7 @@ export function OssMetricsDashboard({
             {copy.methodologyDescription}
           </p>
         </div>
-        <ol className="grid md:grid-cols-2">
+        <ol className="station-card-grid">
           {copy.methodologyItems.map((item, index) => (
             <li
               key={item}
@@ -740,7 +674,7 @@ export function OssMetricsDashboard({
                 index > 1 && "border-t border-line",
               )}
             >
-              <span className="font-mono text-[10px] tracking-[0.25em] text-accent">
+              <span className="font-label text-xs tracking-[0.25em] text-accent">
                 0{index + 1}
               </span>
               <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{item}</p>
@@ -752,9 +686,9 @@ export function OssMetricsDashboard({
       <SectionGap />
 
       <Container>
-        <section className="grid border-y border-line lg:grid-cols-[1.2fr_0.8fr]">
+        <section className="station-callout grid lg:grid-cols-[1.2fr_0.8fr]">
           <div className="border-b border-line p-8 md:p-10 lg:border-b-0 lg:border-r">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+            <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
               {copy.contributeEyebrow}
             </p>
             <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{copy.contributeTitle}</h2>

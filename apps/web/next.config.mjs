@@ -22,6 +22,11 @@ const nextConfig = {
       },
     },
   },
+  webpack(config) {
+    // Keep the optional Webpack development server compatible with the shaders.
+    config.module.rules.push({ test: /\.wgsl$/, use: [wgslLoader] });
+    return config;
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -71,7 +76,28 @@ const nextConfig = {
     ];
   },
   async redirects() {
+    // Keep the remaining shared links working after the October 2026
+    // consolidation. The retired tool boards and /research have no successor.
+    const consolidatedPages = [
+      ["/team/work-with-us", "/contact"],
+      ["/work-with-us", "/contact"],
+      ["/projects/next", "/oss#contribute"],
+      ["/hackathon", "/events"],
+      ["/events-sponsors", "/events/sponsors"],
+    ];
     return [
+      ...consolidatedPages.flatMap(([source, destination]) => [
+        { source, destination: `/en${destination}`, permanent: true },
+        {
+          source: `/:lang(en|es|pt|zh|ja)${source}`,
+          destination: `/:lang${destination}`,
+          permanent: true,
+        },
+      ]),
+      { source: "/network", destination: "/universe", permanent: true },
+      { source: "/:lang(en|es|pt|zh|ja)/network", destination: "/:lang/universe", permanent: true },
+      { source: "/products", destination: "/universe", permanent: true },
+      { source: "/:lang(en|es|pt|zh|ja)/products", destination: "/:lang/universe", permanent: true },
       {
         source: "/vibe",
         destination: "https://luma.com/71j27cvx",

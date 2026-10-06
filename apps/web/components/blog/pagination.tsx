@@ -16,22 +16,21 @@ import Link from "next/link"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import type { BlogCopy } from "@/components/blog/copy"
-import { PixelArrow } from "@/components/pixel-arrow"
 import { blogPagePath } from "@/lib/blog-paths"
 import type { Locale } from "@/lib/i18n"
 
 const CONTROL =
-  "inline-flex h-10 cursor-pointer items-center gap-3 border border-line px-4 font-mono text-[10px] " +
-  "uppercase tracking-[0.2em] transition-colors hover:bg-accent-surface/10 " +
+  "inline-flex min-h-11 cursor-pointer items-center gap-3 rounded-md bg-foreground/5 px-4 font-label text-xs " +
+  "uppercase tracking-[0.1em] transition-colors hover:bg-foreground/10 " +
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
 
 const NUMBER =
-  "flex size-10 items-center justify-center border border-line font-mono text-xs tabular-nums " +
-  "transition-colors hover:bg-accent-surface/10 " +
+  "flex size-11 items-center justify-center rounded-md font-label text-xs tabular-nums " +
+  "transition-colors hover:bg-foreground/5 " +
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
 
 const CURRENT =
-  "flex size-10 items-center justify-center border border-foreground bg-foreground font-mono text-xs " +
+  "flex size-11 items-center justify-center rounded-md bg-foreground font-label text-xs " +
   "tabular-nums text-background"
 
 export function BlogPager({
@@ -49,14 +48,13 @@ export function BlogPager({
 
   if (page === 1) {
     return (
-      <div className="flex justify-center border-t border-line px-6 py-10 md:px-10">
+      <div className="flex justify-center py-10">
         <Link
           href={blogPagePath(locale, 2)}
           aria-label={t.pageOf(2, pageCount)}
-          className={`group ${CONTROL}`}
+          className={CONTROL}
         >
           {t.showMore}
-          <PixelArrow />
         </Link>
       </div>
     )
@@ -75,7 +73,7 @@ export function BlogPager({
   return (
     <nav
       aria-label={t.pageLabel}
-      className="flex items-center justify-between gap-4 border-t border-line px-6 py-8 md:px-10"
+      className="flex flex-wrap items-center justify-between gap-4 py-8"
     >
       {page > 1 ? (
         <Link href={blogPagePath(locale, page - 1)} aria-label={t.pageOf(page - 1, pageCount)} className={CONTROL}>
@@ -86,14 +84,14 @@ export function BlogPager({
         <span />
       )}
 
-      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground sm:hidden">
+      <span className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground sm:hidden">
         {t.pageOf(page, pageCount)}
       </span>
 
       <ul className="hidden items-center gap-1.5 sm:flex">
         {numbers.map((n, i) =>
           n === "gap" ? (
-            <li key={`gap-${i}`} aria-hidden className="flex size-10 items-center justify-center text-muted-foreground">
+            <li key={`gap-${i}`} aria-hidden className="flex size-11 items-center justify-center text-muted-foreground">
               …
             </li>
           ) : (

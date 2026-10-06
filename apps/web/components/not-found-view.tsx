@@ -45,7 +45,7 @@ export async function NotFoundView({ locale }: { locale: Locale }) {
 
           <div className="pointer-events-none absolute inset-0 z-10">
             <div className="mx-auto flex h-full w-full max-w-[1380px] flex-col px-4 py-10 sm:px-6 sm:py-12 md:px-10 md:py-14">
-              <p className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
+              <p className="font-label text-xs uppercase tracking-[0.4em] text-muted-foreground">
                 {t("eyebrow")}
               </p>
 
@@ -80,7 +80,7 @@ export async function NotFoundView({ locale }: { locale: Locale }) {
                 </div>
 
                 <div className="pointer-events-auto mt-9 flex flex-wrap items-center gap-x-5 gap-y-3">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                  <span className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
                     {t("suggestionsLabel")}
                   </span>
                   {SUGGESTIONS.map((suggestion) => (

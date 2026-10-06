@@ -12,11 +12,11 @@ export function Container({
   children?: React.ReactNode
 }) {
   return (
-    <section className={cn("mx-auto w-full max-w-[1380px] px-0", className)}>
+    <section className={cn("station-container mx-auto w-full max-w-[1440px] px-0", className)}>
       <div
         className={cn(
-          "relative border-line",
-          rails && "border-x",
+          "station-container-inner relative border-line",
+          rails && "station-rails",
           innerClassName,
         )}
       >
@@ -27,13 +27,5 @@ export function Container({
 }
 
 export function SectionGap() {
-  return (
-    <>
-      <hr className="border-line" />
-      <section className="mx-auto w-full max-w-[1380px]">
-        <div className="relative h-4 border-x border-line" />
-      </section>
-      <hr className="-mt-px border-line" />
-    </>
-  )
+  return <div className="station-section-gap" aria-hidden="true" />
 }

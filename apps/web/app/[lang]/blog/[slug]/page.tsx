@@ -2,7 +2,6 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import { ArrowLink } from "@/components/arrow-link"
 import { AuthorList, AvatarGroup } from "@/components/blog/avatar"
 import { blogCopy } from "@/components/blog/copy"
 import { CopyActions } from "@/components/blog/copy-menu"
@@ -11,8 +10,6 @@ import { byline, dateLabel, entryAuthors, readingMinutes, toEntryViews } from "@
 import { BlogBody } from "@/components/blog/mdx"
 import { Container, SectionGap } from "@/components/grid-container"
 import { JsonLd } from "@/components/json-ld"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { getIndexPosts, getPost, getSlugs, postLanguageAlternates, postLocales } from "@/lib/blog"
 import { blogFeedPath, blogPath, blogPostMarkdownPath } from "@/lib/blog-paths"
 import { isLocale, type Locale } from "@/lib/i18n"
@@ -120,13 +117,13 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           ]),
         ]}
       />
-      <SiteHeader locale={lang} />
-      <main className="flex-1">
-        <Container innerClassName="px-6 py-12 md:px-10 md:py-20">
+
+      <main className="journal-article">
+        <Container innerClassName="station-page-intro px-6 py-12 md:px-10 md:py-20">
           <div className="max-w-4xl">
             <nav
               aria-label="Breadcrumb"
-              className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.35em]"
+              className="flex flex-wrap items-center gap-x-3 gap-y-1 font-label text-xs uppercase tracking-[0.35em]"
             >
               <Link href={blogPath(lang)} className="text-muted-foreground transition-colors hover:text-foreground">
                 {t.breadcrumbBlog}
@@ -143,7 +140,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
                 <AvatarGroup authors={authors} size={24} />
                 <span>{byline(post.authors, lang)}</span>
               </span>
-              <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+              <span className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
                 <time dateTime={post.date}>{dateLabel(post.date, lang)}</time>
                 <span aria-hidden> · </span>
                 {t.readingTime(minutes)}
@@ -155,17 +152,16 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         <SectionGap />
 
         <Container>
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_18rem]">
-            <article className="min-w-0 px-6 py-10 md:px-10 md:py-14">
+          <div className="journal-article-layout">
+            <article className="journal-article-body">
               <div className="max-w-[68ch]">
                 <BlogBody source={post.body} article={t.article} locale={lang} />
               </div>
             </article>
 
-            {/* The meta rail. Above the article on a phone, beside it and
-                sticky on a desktop, separated by the same hairline the rest
-                of the site draws between cells. */}
-            <aside className="order-first border-b border-line lg:order-none lg:border-b-0 lg:border-l">
+            {/* Article metadata follows the body on mobile and sits in a
+                quiet, sticky rail beside it on desktop. */}
+            <aside className="journal-article-rail">
               <div className="flex flex-col gap-8 px-6 py-8 md:px-8 lg:sticky lg:top-24 lg:py-14">
                 <div>
                   <p className="label mb-3">{t.rail.authors}</p>
@@ -199,7 +195,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
                   <p className="label mb-3">{t.rail.share}</p>
                   <CopyActions title={post.title} t={t.copyMenu} />
                 </div>
-                <div className="flex flex-col gap-2 border-t border-line pt-6 text-sm">
+                <div className="journal-article-utilities">
                   <a
                     href={blogPostMarkdownPath(lang, slug)}
                     className="text-muted-foreground transition-colors hover:text-foreground"
@@ -218,34 +214,32 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         {more.length > 0 && (
           <>
             <SectionGap />
-            <Container innerClassName="border-b px-6 py-10 md:px-10">
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            <Container innerClassName="journal-related-heading">
+              <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
                 {t.more.eyebrow}
               </p>
               <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t.more.title}</h2>
             </Container>
             <Container>
-              <div className="grid grid-cols-1 md:grid-cols-3">
-                {more.map((entry, i) => (
+              <div className="journal-related-grid">
+                {more.map((entry) => (
                   <Link
                     key={`${entry.locale}-${entry.slug}`}
                     href={entry.href}
                     hrefLang={entry.locale}
-                    className={`group flex min-h-56 flex-col p-8 transition-colors hover:bg-accent-surface/10 ${
-                      i > 0 ? "border-t border-line md:border-l md:border-t-0" : ""
-                    }`}
+                    className="journal-related-card"
                   >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+                    <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
                       {entry.kindLabel}
                       {entry.languageNote ? ` · ${entry.languageNote}` : ""}
                     </p>
                     <h3 className="mt-5 text-balance text-lg tracking-tight">{entry.title}</h3>
                     <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{entry.summary}</p>
-                    <div className="mt-auto flex items-center justify-between pt-8">
-                      <time dateTime={entry.date} className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                    <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3 pt-6">
+                      <time dateTime={entry.date} className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
                         {entry.dateLong}
                       </time>
-                      <ArrowLink>{t.readPost}</ArrowLink>
+                      <span className="text-sm">{t.readPost}</span>
                     </div>
                   </Link>
                 ))}
@@ -257,7 +251,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         <SectionGap />
         <BlogCta locale={lang} t={t} />
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

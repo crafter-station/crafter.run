@@ -36,6 +36,10 @@ export type BlogCopy = {
     searchLabel: string
     searchPlaceholder: string
     searchEmpty: string
+    clear: string
+    reset: string
+    results: string
+    resultOne: string
   }
   showMore: string
   previous: string
@@ -132,6 +136,10 @@ const en: BlogCopy = {
     searchLabel: "Search the blog",
     searchPlaceholder: "Search posts",
     searchEmpty: "No posts match that search.",
+    clear: "Clear search",
+    reset: "Show all posts",
+    results: "{count} articles",
+    resultOne: "1 article",
   },
   showMore: "Older posts",
   previous: "Newer",
@@ -163,11 +171,11 @@ const en: BlogCopy = {
     title: "More from the blog",
   },
   cta: {
-    eyebrow: "Join the network",
-    title: "Built by the people shipping LatAm.",
-    body: "Crafter Station is a WhatsApp-first network of engineers, designers, and founders building across the region. The posts start here; the conversation continues in the community.",
+    eyebrow: "From the notebook to the conversation",
+    title: "Good ideas keep going.",
+    body: "Share a question, a discovery, or something you are building. The conversation continues with the community.",
     primary: "Join the community",
-    secondary: "All posts",
+    secondary: "Explore the Crafter Universe",
   },
   feed: {
     title: "Crafter Station Blog",
@@ -219,6 +227,10 @@ const es: BlogCopy = {
     searchLabel: "Buscar en el blog",
     searchPlaceholder: "Buscar posts",
     searchEmpty: "Ningún post coincide con la búsqueda.",
+    clear: "Borrar búsqueda",
+    reset: "Ver todos los artículos",
+    results: "{count} artículos",
+    resultOne: "1 artículo",
   },
   showMore: "Posts anteriores",
   previous: "Más recientes",
@@ -250,11 +262,11 @@ const es: BlogCopy = {
     title: "Más del blog",
   },
   cta: {
-    eyebrow: "Únete a la red",
-    title: "Construido por la gente que está shippeando LatAm.",
-    body: "Crafter Station es una red WhatsApp-first de ingenieros, diseñadores y founders construyendo en toda la región. Los posts empiezan aquí; la conversación sigue en la comunidad.",
+    eyebrow: "Del cuaderno a la conversación",
+    title: "Las ideas siguen afuera.",
+    body: "Comparte una pregunta, un hallazgo o algo que estás construyendo. La conversación continúa en la comunidad.",
     primary: "Únete a la comunidad",
-    secondary: "Todos los posts",
+    secondary: "Explorar el universo Crafter",
   },
   feed: {
     title: "Blog de Crafter Station",
@@ -306,6 +318,10 @@ const pt: BlogCopy = {
     searchLabel: "Buscar no blog",
     searchPlaceholder: "Buscar posts",
     searchEmpty: "Nenhum post corresponde à busca.",
+    clear: "Limpar busca",
+    reset: "Ver todos os artigos",
+    results: "{count} artigos",
+    resultOne: "1 artigo",
   },
   showMore: "Posts anteriores",
   previous: "Mais recentes",
@@ -337,11 +353,11 @@ const pt: BlogCopy = {
     title: "Mais do blog",
   },
   cta: {
-    eyebrow: "Entre na rede",
-    title: "Construído pelas pessoas que estão shippando o LatAm.",
-    body: "A Crafter Station é uma rede WhatsApp-first de engenheiros, designers e founders construindo em toda a região. Os posts começam aqui; a conversa continua na comunidade.",
+    eyebrow: "Do caderno à conversa",
+    title: "As ideias continuam lá fora.",
+    body: "Compartilhe uma pergunta, uma descoberta ou algo que está construindo. A conversa continua na comunidade.",
     primary: "Entre na comunidade",
-    secondary: "Todos os posts",
+    secondary: "Explorar o universo Crafter",
   },
   feed: {
     title: "Blog da Crafter Station",
@@ -393,6 +409,10 @@ const zh: BlogCopy = {
     searchLabel: "搜索博客",
     searchPlaceholder: "搜索文章",
     searchEmpty: "没有匹配的文章。",
+    clear: "清除搜索",
+    reset: "查看全部文章",
+    results: "{count} 篇文章",
+    resultOne: "1 篇文章",
   },
   showMore: "更早的文章",
   previous: "更新",
@@ -424,11 +444,11 @@ const zh: BlogCopy = {
     title: "更多文章",
   },
   cta: {
-    eyebrow: "加入网络",
-    title: "由正在 ship 拉美的人构建。",
-    body: "Crafter Station 是一个以 WhatsApp 为主的网络，汇聚在整个地区构建的工程师、设计师和创始人。文章从这里开始，对话在社区里继续。",
+    eyebrow: "从笔记到对话",
+    title: "让好想法继续生长。",
+    body: "分享你的问题、发现或正在做的项目。与社区一起继续这场对话。",
     primary: "加入社区",
-    secondary: "全部文章",
+    secondary: "探索 Crafter 宇宙",
   },
   feed: {
     title: "Crafter Station 博客",
@@ -479,6 +499,10 @@ const ja: BlogCopy = {
     searchLabel: "ブログを検索",
     searchPlaceholder: "記事を検索",
     searchEmpty: "一致する記事がありません。",
+    clear: "検索をクリア",
+    reset: "すべての記事を見る",
+    results: "{count} 件の記事",
+    resultOne: "1 件の記事",
   },
   showMore: "以前の記事",
   previous: "新しい",
@@ -510,11 +534,11 @@ const ja: BlogCopy = {
     title: "ブログの他の記事",
   },
   cta: {
-    eyebrow: "ネットワークに参加",
-    title: "ラテンアメリカをシップしている人たちが作っています。",
-    body: "Crafter Station は、地域全体で開発するエンジニア、デザイナー、ファウンダーが集まる WhatsApp ファーストのネットワークです。記事はここから始まり、会話はコミュニティで続きます。",
+    eyebrow: "ノートから会話へ",
+    title: "アイデアの、その先へ。",
+    body: "疑問、発見、つくっているものを持ち寄って。コミュニティで会話を続けましょう。",
     primary: "コミュニティに参加",
-    secondary: "すべての記事",
+    secondary: "Crafter の世界を探す",
   },
   feed: {
     title: "Crafter Station ブログ",

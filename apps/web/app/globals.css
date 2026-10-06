@@ -2,6 +2,14 @@
 @import '@clerk/ui/themes/shadcn.css';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+@import './station.css';
+@import './station-home.css';
+@import './station-oss.css';
+@import './station-network.css';
+@import './station-journal.css';
+@import './station-universe.css';
+@import './station-agenda.css';
+@import './station-pages.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -13,17 +21,31 @@
 }
 
 @utility label {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: hsl(var(--muted-foreground));
 }
 
-@theme {
-  --font-sans: var(--font-space), system-ui, sans-serif;
-  --font-mono: var(--font-mono), monospace;
+@utility font-label {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
 
+@theme {
+  /* 16px is the interface default; compact uppercase labels explicitly use 14px. */
+  --text-xs: max(16px, 1rem);
+  --text-xs--line-height: 1.5;
+  --text-sm: max(16px, 1rem);
+  --font-sans: var(--font-crafter-text), system-ui, sans-serif;
+  --font-display: var(--font-crafter), var(--font-sans);
+  --font-heading: var(--font-crafter), var(--font-sans);
+  --font-label: var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-brand: hsl(var(--station));
+  --color-brand-soft: hsl(var(--station-soft));
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -230,72 +252,89 @@
 }
 
 @layer base {
-  :root {
+  :root, .light {
     color-scheme: light;
-
-    --background: 0 0% 100%;
-    --foreground: 0 0% 8%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 8%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 8%;
-    --primary: 0 0% 8%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 8%;
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 42%;
-    /* The warm cream accent only reads as an accent against near-black. On
-       white it measures 1.17:1, so light mode drops to monochrome and leans
-       on weight and scale for hierarchy instead of hue. */
-    --accent: 0 0% 8%;
-    --accent-foreground: 0 0% 98%;
-    /* Accent-tinted surfaces (bg-accent-surface/5, /10). Dark tints with a
-       cream that lifts off near-black; on white the same cream is invisible
-       (1.015 vs 1.243 luminance ratio at 10%), so light has to tint downward
-       instead. This warm dark ocher lands at 1.165, close to the dark step,
-       and keeps the hover warm rather than a dirty grey. */
-    --accent-surface: 40 26% 29%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 0 0% 8%;
-    --line: 0 0% 90%;
-    --radius: 0.5rem;
-
-    /* Per-project hues (timeline bars, calendar dots). The dark-mode pair sits
-       too light to read on white. Swept all 360 hues: at 60%/32% the worst case
-       (yellow, 60deg) lands at 4.04:1, above the 3.51:1 floor the dark theme
-       already ships, while staying saturated enough to tell projects apart. */
+    --background: 60.00 23.81% 95.88%;
+    --foreground: 84.00 7.94% 12.35%;
+    --card: 60.00 17.95% 92.35%;
+    --card-foreground: 84.00 7.94% 12.35%;
+    --popover: 0.00 0.00% 100.00%;
+    --popover-foreground: 84.00 7.94% 12.35%;
+    --primary: 84.00 7.94% 12.35%;
+    --primary-foreground: 60.00 23.81% 95.88%;
+    --secondary: 67.50 20.00% 92.16%;
+    --secondary-foreground: 84.00 7.94% 12.35%;
+    --muted: 67.50 20.00% 92.16%;
+    --muted-foreground: 80.00 4.76% 37.06%;
+    --accent: 45.00 100.00% 21.96%;
+    --accent-foreground: 0.00 0.00% 100.00%;
+    --accent-surface: 46.47 60.71% 32.94%;
+    --destructive: 0.00 60.00% 39.22%;
+    --destructive-foreground: 0.00 0.00% 100.00%;
+    --border: 73.33 8.91% 80.20%;
+    --input: 72.00 12.20% 75.88%;
+    --ring: 45.00 100.00% 21.96%;
+    --line: 73.33 8.91% 80.20%;
+    --station: 45.00 100.00% 51.37%;
+    --station-soft: 49.29 85.71% 80.78%;
+    --radius: 0.375rem;
     --project-sat: 60%;
     --project-lum: 32%;
+    --sidebar-background: var(--background);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--secondary);
+    --sidebar-accent-foreground: var(--foreground);
+    --sidebar-border: var(--line);
+    --sidebar-ring: var(--ring);
+    --chart-1: var(--accent);
+    --chart-2: 97 30% 35%;
+    --chart-3: 211 45% 55%;
+    --chart-4: 260 40% 62%;
+    --chart-5: 25 60% 55%;
   }
-
   .dark {
     color-scheme: dark;
-
-    --background: 0 0% 5%;
-    --foreground: 0 0% 96%;
-    --card: 0 0% 5%;
-    --card-foreground: 0 0% 96%;
-    --popover: 0 0% 5%;
-    --popover-foreground: 0 0% 96%;
-    --primary: 0 0% 96%;
-    --primary-foreground: 0 0% 5%;
-    --secondary: 0 0% 12%;
-    --secondary-foreground: 0 0% 96%;
-    --muted: 0 0% 12%;
-    --muted-foreground: 0 0% 60%;
-    --accent: 40 30% 92%;
-    --accent-foreground: 0 0% 5%;
-    --accent-surface: 40 30% 92%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 96%;
-    --border: 0 0% 16%;
-    --input: 0 0% 14%;
-    --ring: 0 0% 80%;
-    --line: 0 0% 16%;
+    --background: 90.00 8.00% 9.80%;
+    --foreground: 60.00 29.41% 93.33%;
+    --card: 90.00 8.82% 13.33%;
+    --card-foreground: 60.00 29.41% 93.33%;
+    --popover: 85.71 8.86% 15.49%;
+    --popover-foreground: 60.00 29.41% 93.33%;
+    --primary: 49.29 85.71% 80.78%;
+    --primary-foreground: 84.00 7.94% 12.35%;
+    --secondary: 82.50 9.52% 16.47%;
+    --secondary-foreground: 60.00 29.41% 93.33%;
+    --muted: 82.50 9.52% 16.47%;
+    --muted-foreground: 76.00 9.43% 68.82%;
+    --accent: 46.22 85.99% 69.22%;
+    --accent-foreground: 84.00 7.94% 12.35%;
+    --accent-surface: 49.29 85.71% 80.78%;
+    --destructive: 0.00 78.87% 72.16%;
+    --destructive-foreground: 0.00 29.63% 10.59%;
+    --border: 78.00 7.94% 24.71%;
+    --input: 78.75 8.70% 36.08%;
+    --ring: 46.22 85.99% 69.22%;
+    --line: 78.00 7.94% 24.71%;
+    --station: 45.00 100.00% 51.37%;
+    --station-soft: 49.29 85.71% 80.78%;
+    --radius: 0.375rem;
+    --project-sat: 70%;
+    --project-lum: 65%;
+    --sidebar-background: var(--background);
+    --sidebar-foreground: var(--foreground);
+    --sidebar-primary: var(--primary);
+    --sidebar-primary-foreground: var(--primary-foreground);
+    --sidebar-accent: var(--secondary);
+    --sidebar-accent-foreground: var(--foreground);
+    --sidebar-border: var(--line);
+    --sidebar-ring: var(--ring);
+    --chart-1: var(--accent);
+    --chart-2: 97 30% 65%;
+    --chart-3: 211 45% 55%;
+    --chart-4: 260 40% 62%;
+    --chart-5: 25 60% 55%;
   }
 }
 
@@ -312,6 +351,14 @@
     copy over it to be light whatever the visitor's setting says.
   */
   .theme-scope {
+    --color-card: hsl(var(--card));
+    --color-card-foreground: hsl(var(--card-foreground));
+    --color-popover: hsl(var(--popover));
+    --color-popover-foreground: hsl(var(--popover-foreground));
+    --color-secondary: hsl(var(--secondary));
+    --color-secondary-foreground: hsl(var(--secondary-foreground));
+    --color-accent-surface: hsl(var(--accent-surface));
+    --color-ring: hsl(var(--ring));
     --color-background: hsl(var(--background));
     --color-foreground: hsl(var(--foreground));
     --color-muted: hsl(var(--muted));
@@ -330,11 +377,25 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-size: max(16px, 1rem);
+    font-kerning: normal;
+    font-synthesis-weight: none;
+  }
+  code, pre, kbd, samp {
+    font-family: var(--font-mono);
+  }
+  small, sub, sup {
+    font-size: max(14px, 0.875em);
   }
   ::selection {
     background-color: hsl(var(--foreground));
     color: hsl(var(--background));
   }
+}
+
+/* The only utility-size exception: small uppercase metadata, not body copy. */
+:is(.text-xs,.text-sm).uppercase {
+  font-size: max(14px, 0.875rem);
 }
 
 @layer utilities {
@@ -384,54 +445,33 @@
   }
 }
 
-/* Fumadocs theme override: match the site surface, monochrome. Fumadocs runs
-   with its own theme switch disabled (docs/layout.tsx), so these vars have to
-   branch on .dark themselves or docs stay dark on a light page. */
-:root {
-  --color-fd-background: hsl(0 0% 100%);
-  --color-fd-foreground: hsl(0 0% 8%);
-  --color-fd-card: hsl(0 0% 100%);
-  --color-fd-card-foreground: hsl(0 0% 8%);
-  --color-fd-popover: hsl(0 0% 100%);
-  --color-fd-popover-foreground: hsl(0 0% 8%);
-  --color-fd-muted: hsl(0 0% 96%);
-  --color-fd-muted-foreground: hsl(0 0% 42%);
-  --color-fd-border: hsl(0 0% 90%);
-  --color-fd-primary: hsl(0 0% 8%);
-  --color-fd-primary-foreground: hsl(0 0% 98%);
-  --color-fd-secondary: hsl(0 0% 96%);
-  --color-fd-secondary-foreground: hsl(0 0% 8%);
-  --color-fd-accent: hsl(0 0% 94%);
-  --color-fd-accent-foreground: hsl(0 0% 8%);
-  --color-fd-ring: hsl(0 0% 8%);
+/* Fumadocs consumes the same semantic palette as every other surface. */
+:root, .light, .dark {
+  --color-fd-background: hsl(var(--background));
+  --color-fd-foreground: hsl(var(--foreground));
+  --color-fd-card: hsl(var(--card));
+  --color-fd-card-foreground: hsl(var(--card-foreground));
+  --color-fd-popover: hsl(var(--popover));
+  --color-fd-popover-foreground: hsl(var(--popover-foreground));
+  --color-fd-muted: hsl(var(--muted));
+  --color-fd-muted-foreground: hsl(var(--muted-foreground));
+  --color-fd-border: hsl(var(--line));
+  --color-fd-primary: hsl(var(--foreground));
+  --color-fd-primary-foreground: hsl(var(--background));
+  --color-fd-secondary: hsl(var(--secondary));
+  --color-fd-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-fd-accent: hsl(var(--secondary));
+  --color-fd-accent-foreground: hsl(var(--foreground));
+  --color-fd-ring: hsl(var(--ring));
 }
 
-.dark {
-  --color-fd-background: hsl(0 0% 5%);
-  --color-fd-foreground: hsl(0 0% 96%);
-  --color-fd-card: hsl(0 0% 7%);
-  --color-fd-card-foreground: hsl(0 0% 96%);
-  --color-fd-popover: hsl(0 0% 8%);
-  --color-fd-popover-foreground: hsl(0 0% 96%);
-  --color-fd-muted: hsl(0 0% 11%);
-  --color-fd-muted-foreground: hsl(0 0% 64%);
-  --color-fd-border: hsl(0 0% 14%);
-  --color-fd-primary: hsl(0 0% 96%);
-  --color-fd-primary-foreground: hsl(0 0% 5%);
-  --color-fd-secondary: hsl(0 0% 10%);
-  --color-fd-secondary-foreground: hsl(0 0% 96%);
-  --color-fd-accent: hsl(0 0% 12%);
-  --color-fd-accent-foreground: hsl(0 0% 96%);
-  --color-fd-ring: hsl(0 0% 96%);
-}
-
-/* CJK locales: Latin glyphs keep Space Grotesk, CJK glyphs fall through to
+/* CJK locales: Latin glyphs use Crafter Sans, CJK glyphs fall through to
    Noto Sans. Tight tracking is a Latin affordance; CJK glyphs need none. */
 html[lang="zh"] {
-  --font-sans: var(--font-space), var(--font-noto-sc), system-ui, sans-serif;
+  --font-sans: var(--font-crafter-text), var(--font-noto-sc), system-ui, sans-serif;
 }
 html[lang="ja"] {
-  --font-sans: var(--font-space), var(--font-noto-jp), system-ui, sans-serif;
+  --font-sans: var(--font-crafter-text), var(--font-noto-jp), system-ui, sans-serif;
 }
 html[lang="zh"] .tracking-tighter,
 html[lang="ja"] .tracking-tighter,
@@ -468,8 +508,8 @@ html[lang="ja"] .tracking-tight {
   border: 1px solid hsl(var(--line));
   border-bottom: 0;
   padding: 0.5rem 1rem;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: hsl(var(--muted-foreground));
@@ -493,7 +533,7 @@ html[lang="ja"] .tracking-tight {
   display: grid;
   counter-reset: line;
   font-family: var(--font-mono), monospace;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.5rem;
 }
 
@@ -539,7 +579,7 @@ html[lang="ja"] .tracking-tight {
   border: 1px solid hsl(var(--line));
   background: hsl(var(--secondary) / 0.55);
   font-family: var(--font-mono), monospace;
-  font-size: 0.85em;
+  font-size: max(14px, 0.85em);
   font-weight: 500;
   white-space: nowrap;
 }

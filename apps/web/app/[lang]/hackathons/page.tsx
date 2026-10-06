@@ -1,3 +1,4 @@
+import { StationPageArt } from "@/components/station-page-art"
 import type { CSSProperties } from "react"
 import { ArrowUpRight } from "lucide-react"
 import Image from "next/image"
@@ -121,7 +122,6 @@ const sponsors = [
     href: "https://pe.littlecaesars.com",
   },
   { name: "UCSM", logo: "/hackathons/partners/ucsm.png", href: "https://ucsm.edu.pe" },
-  { name: "Visagente", logo: "/hackathons/partners/visagente.svg", href: "https://visagente.com" },
 ] as const
 
 const pageCopy = {
@@ -345,18 +345,11 @@ export default async function HackathonsPage({
         <section className={`${styles.section} ${styles.hero}`} data-hack-section>
           <div className={styles.crosshair} aria-hidden="true" />
           <div className={styles.center} data-hack-reveal>
-            <a href={`/${lang}`} className={styles.logoLink} aria-label="Crafter Station">
-              <Image
-                src="/brand/crafter-station-logo-wordmark-dark.svg"
-                alt="Crafter Station"
-                width={260}
-                height={56}
-                priority
-              />
-            </a>
+
             <p className={styles.label}>{copy.kicker}</p>
             <h1>Crafter Hackathons</h1>
             <p className={styles.tagline}>{copy.tagline}</p>
+            <StationPageArt kind="events" />
           </div>
           <a className={styles.scrollCue} href="#funding">
             {copy.scroll}
@@ -581,13 +574,13 @@ export default async function HackathonsPage({
             </p>
             <a
               className={styles.cta}
-              href="https://cal.com/crafter/community"
+              href={`/${lang}/contact#collaborate`}
               target="_blank"
               rel="noopener noreferrer"
               data-hack-reveal
             >
               {copy.cta}
-              <ArrowUpRight aria-hidden="true" size={18} strokeWidth={1.25} />
+
             </a>
             <a href={`/${lang}`} className={styles.closingLogo} aria-label="Crafter Station">
               <Image

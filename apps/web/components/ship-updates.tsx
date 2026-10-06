@@ -81,10 +81,10 @@ export function ShipUpdates({
     <section className="mt-20 border-t border-line pt-10">
       <div className="flex items-end justify-between gap-6">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Changelog</p>
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">Changelog</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight">{t.heading}</h2>
         </div>
-        <p className="font-mono text-xs text-muted-foreground">{updates.length.toString().padStart(2, "0")}</p>
+        <p className="font-label text-xs text-muted-foreground">{updates.length.toString().padStart(2, "0")}</p>
       </div>
 
       {isOwner ? (
@@ -104,7 +104,7 @@ export function ShipUpdates({
       <div className="mt-8">
         {updates.length === 0 ? <p className="text-sm text-muted-foreground">{t.empty}</p> : updates.map((update) => (
           <article key={update.id} className="grid gap-4 border-t border-line py-8 first:border-t-0 md:grid-cols-[9rem_minmax(0,1fr)]">
-            <time dateTime={update.publishedAt} className="font-mono text-xs text-muted-foreground">
+            <time dateTime={update.publishedAt} className="font-label text-xs text-muted-foreground">
               {new Intl.DateTimeFormat(locale, { dateStyle: "medium" }).format(new Date(update.publishedAt))}
             </time>
             <div>

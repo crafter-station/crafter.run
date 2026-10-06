@@ -15,6 +15,7 @@ import { getAuthor, type AuthorId, type BlogPost } from "@/lib/blog"
 import { blogPostPath } from "@/lib/blog-paths"
 import type { EntryAuthor, EntryView } from "@/components/blog/entry-view"
 import type { Locale } from "@/lib/i18n"
+import { primaryLink } from "@/lib/team"
 
 export const INTL_LOCALE: Record<Locale, string> = {
   en: "en-US",
@@ -111,7 +112,7 @@ export function entryAuthors(post: BlogPost): EntryAuthor[] {
       role: member.role,
       initials: initials(member.name),
       avatar: member.image,
-      path: `/team/${member.username}`,
+      path: member.alumni ? (primaryLink(member) ?? "/team") : `/team/${member.username}`,
     }
   })
 }

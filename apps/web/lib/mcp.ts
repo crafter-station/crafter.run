@@ -1,12 +1,13 @@
+import { getNetwork } from "@/lib/network"
 import { z } from "zod"
 
 import { defaultLocale, isLocale, locales, type Locale } from "@/lib/i18n"
 import { getOssRepos } from "@/lib/oss"
 import { searchApi } from "@/lib/search"
 import { baseUrl } from "@/lib/seo"
-import { getClosedProducts, getOpenSourceProducts, getProducts, siteConfig } from "@/lib/site"
+import { siteConfig } from "@/lib/site"
 import { source } from "@/lib/source"
-import { teamMembers } from "@/lib/team"
+import { activeTeamMembers } from "@/lib/team"
 import { listCrafters, listPublishedShips } from "@/lib/ships"
 
 export const MCP_SERVER_NAME = "crafter-station"
@@ -20,7 +21,7 @@ export const MCP_ENDPOINT = `${baseUrl}/mcp`
  */
 export const SUPPORTED_PROTOCOL_VERSIONS = ["2025-06-18", "2025-03-26", "2024-11-05"]
 
-export const MCP_INSTRUCTIONS = `Read-only access to Crafter Station: open source docs, the OSS repo catalog, products, the team, and community Ships.
+export const MCP_INSTRUCTIONS = `Read-only access to Crafter Station: open source docs, the OSS repo catalog, the four Crafter organizations, the team, and community Ships.
 
 Start with search_docs for anything about the CLIs (awake, mermaid, neon-cli, skillkit, trx), then get_doc for the full page in Markdown. Every tool takes an optional locale (${locales.join(", ")}) and defaults to ${defaultLocale}.
 
@@ -37,26 +38,6 @@ function resolveLocale(value: string | undefined): Locale {
 
 function docUrl(url: string) {
   return `${baseUrl}${url}`
-}
-
-/**
- * The product catalog is a heterogeneous literal: only open source entries
- * carry `sourceUrl` and `openSource`, and only some carry `metrics`. Reading
- * the optional half through one shape keeps the tool output uniform.
- */
-function normalizeProduct(product: ReturnType<typeof getProducts>[number]) {
-  const optional = product as { sourceUrl?: string; openSource?: boolean; metrics?: readonly string[] }
-  return {
-    slug: product.slug,
-    title: product.title,
-    tagline: product.tagline,
-    description: product.description,
-    url: product.url,
-    technologies: [...product.technologies],
-    sourceUrl: optional.sourceUrl ?? null,
-    openSource: optional.openSource === true,
-    metrics: optional.metrics ? [...optional.metrics] : null,
-  }
 }
 
 type ToolResult = {
@@ -202,28 +183,20 @@ const listOssRepos = defineTool({
   },
 })
 
-const listProducts = defineTool({
-  name: "list_products",
-  title: "List products",
-  description:
-    "Products built by Crafter Station, with tagline, description, live URL, source URL when open source, and headline metrics.",
-  schema: z.object({
-    locale: localeInput,
-    openSource: z.boolean().optional().describe("Filter to open source products only, or to closed source only."),
-  }),
-  async run({ locale, openSource }) {
+const listNetwork = defineTool({
+  name: "list_network",
+  title: "Explore the Crafter network",
+  description: "The four Crafter organizations: Research, Lab (hardware and fabrication), Games and Station, with their purpose and public destinations.",
+  schema: z.object({ locale: localeInput }),
+  async run({ locale }) {
     const language = resolveLocale(locale)
-    const filtered =
-      openSource === undefined
-        ? getProducts(language)
-        : openSource
-          ? getOpenSourceProducts(language)
-          : getClosedProducts(language)
-    const products = filtered.map(normalizeProduct)
-
+    const areas = getNetwork(language).map(area => ({
+      id: area.id, name: area.name, tagline: area.tagline, description: area.description,
+      url: area.href.startsWith("/") ? `${baseUrl}${area.href}` : area.href,
+    }))
     return {
-      text: products.map((product) => `- ${product.title}: ${product.tagline} ${product.url}`).join("\n"),
-      data: { locale: language, products },
+      text: areas.map(area => `- ${area.name}: ${area.tagline}. ${area.url}`).join("\n"),
+      data: { locale: language, areas },
     }
   },
 })
@@ -236,7 +209,7 @@ const listTeam = defineTool({
   schema: z.object({ locale: localeInput }),
   async run({ locale }) {
     const language = resolveLocale(locale)
-    const members = teamMembers.map((member) => ({
+    const members = activeTeamMembers.map((member) => ({
       username: member.username,
       name: member.name,
       role: member.role,
@@ -305,7 +278,7 @@ export const tools = [
   listDocs,
   getDoc,
   listOssRepos,
-  listProducts,
+  listNetwork,
   listTeam,
   listShips,
   listCraftersTool,

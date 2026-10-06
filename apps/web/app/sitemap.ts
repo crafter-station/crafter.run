@@ -9,7 +9,7 @@ import {
   localizedUrl,
 } from "@/lib/seo"
 import { source } from "@/lib/source"
-import { teamMembers } from "@/lib/team"
+import { activeTeamMembers } from "@/lib/team"
 import { CONTENT_UPDATED, DOCS_UPDATED, HACKATHONS_UPDATED } from "@/lib/freshness"
 
 function lastModified(path: string): Date {
@@ -23,7 +23,7 @@ function lastModified(path: string): Date {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [...indexablePaths]
-  const memberPaths = teamMembers.map((member) => `/team/${member.username}`)
+  const memberPaths = activeTeamMembers.map((member) => `/team/${member.username}`)
   const docsPaths = source
     .getPages("en")
     .map((page) =>

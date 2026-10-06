@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { type OssMetricsCopy, OssMetricsDashboard } from "@/components/oss-metrics-dashboard"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale, locales } from "@/lib/i18n"
 import { getOssMetrics } from "@/lib/oss-metrics"
 import { getOssRadar } from "@/lib/oss-radar"
@@ -118,11 +116,11 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
         <OssMetricsDashboard metrics={metrics} radar={radar} locale={lang} copy={copy} />
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

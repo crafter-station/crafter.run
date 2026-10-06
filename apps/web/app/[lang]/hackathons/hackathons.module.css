@@ -1,8 +1,8 @@
 .shell {
-  --hack-bg: #0a0a0a;
-  --hack-fg: #f5f5f2;
-  --hack-muted: rgb(245 245 242 / 52%);
-  --hack-line: rgb(245 245 242 / 13%);
+  --hack-bg: transparent;
+  --hack-fg: hsl(var(--foreground));
+  --hack-muted: hsl(var(--muted-foreground));
+  --hack-line: hsl(var(--line));
   isolation: isolate;
   min-height: 100svh;
   overflow-x: clip;
@@ -19,7 +19,7 @@
   z-index: 50;
   inset: 0;
   pointer-events: none;
-  opacity: 0.3;
+  opacity: 0.035;
   background-image: url("/hackathons/noise.png");
   background-repeat: repeat;
   background-size: 1920px 1080px;
@@ -28,18 +28,15 @@
 .section {
   position: relative;
   display: flex;
-  min-height: 100svh;
+  min-height: 0;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid var(--hack-line);
-  padding: 7rem 1.25rem;
+  border-bottom: 0;
+  padding: 4rem 0;
 }
 
 .crosshair {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
+  display: none;
 }
 
 .crosshair::before,
@@ -88,23 +85,23 @@
 
 .label {
   color: var(--hack-muted);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
-  letter-spacing: 0.28em;
+  font-family: var(--font-label), monospace;
+  font-size: 0.875rem;
+  letter-spacing: 0.045em;
   line-height: 1.5;
   text-transform: uppercase;
 }
 
 .hero .label {
-  margin-top: 3rem;
+  margin-top: 0;
 }
 
 .hero h1 {
   margin-top: 1.25rem;
-  font-size: clamp(3rem, 7vw, 6.5rem);
-  font-weight: 300;
-  letter-spacing: -0.06em;
-  line-height: 0.92;
+  font-size: var(--station-type-page);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
   text-wrap: balance;
 }
 
@@ -112,24 +109,21 @@
   max-width: 37rem;
   margin-top: 1.5rem;
   color: var(--hack-muted);
-  font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+  font-size: 18px;
   line-height: 1.65;
   text-wrap: balance;
 }
 
 .scrollCue {
-  position: absolute;
+  position: static;
   z-index: 2;
-  bottom: 5rem;
-  left: 50%;
   display: flex;
-  transform: translateX(-50%);
   align-items: center;
   gap: 0.75rem;
-  color: rgb(245 245 242 / 58%);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
-  letter-spacing: 0.15em;
+  color: hsl(var(--foreground) / 58%);
+  font-family: var(--font-label), monospace;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
@@ -144,30 +138,28 @@
 .bigNumber {
   margin-top: 1.75rem;
   font-variant-numeric: tabular-nums;
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: -0.07em;
   line-height: 0.85;
 }
 
 .money {
-  font-size: clamp(4.25rem, 13vw, 10rem);
+  font-size: clamp(52px, 8vw, 100px);
 }
 
 .bigNumber {
-  font-size: clamp(8rem, 20vw, 14rem);
+  font-size: clamp(72px, 12vw, 140px);
 }
 
 .metricCaption {
   margin-top: 1.75rem;
   color: var(--hack-muted);
-  font-size: 0.95rem;
+  font-size: 16px;
 }
 
 .metricRule {
-  width: 8rem;
-  height: 1px;
-  margin-block: 3.5rem;
-  background: rgb(245 245 242 / 24%);
+  height: 0;
+  margin-block: 1.5rem;
 }
 
 .fundingBreakdown {
@@ -185,14 +177,14 @@
 
 .fundingBreakdown strong {
   font-size: clamp(1.8rem, 4vw, 2.75rem);
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: -0.04em;
 }
 
 .fundingBreakdown span {
   color: var(--hack-muted);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.6rem;
+  font-family: var(--font-label), monospace;
+  font-size: 0.875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
@@ -200,7 +192,7 @@
 .ledgerSection,
 .partnersSection {
   min-height: auto;
-  padding-block: 8rem;
+  padding-block: 4rem;
 }
 
 .ledgerSection h2,
@@ -208,17 +200,18 @@
 .closing h2 {
   max-width: 48rem;
   margin-top: 1.5rem;
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  font-weight: 300;
+  font-size: var(--station-type-section);
+  font-weight: 500;
   letter-spacing: -0.055em;
-  line-height: 0.95;
+  line-height: 1.15;
   text-wrap: balance;
 }
 
 .ledger {
   width: min(100%, 62rem);
-  margin-top: 4rem;
-  border-top: 1px solid var(--hack-line);
+  margin-top: 2rem;
+  display: grid;
+  gap: 12px;
 }
 
 .ledgerRow {
@@ -227,22 +220,24 @@
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 1.25rem;
-  border-bottom: 1px solid var(--hack-line);
-  padding: 1.5rem 0.5rem;
+  border: 0;
+  border-radius: 14px;
+  background: var(--page-surface);
+  padding: 1.5rem;
   color: inherit;
   text-decoration: none;
   transition: border-color 180ms ease, background-color 180ms ease;
 }
 
 .ledgerRow:hover {
-  border-color: rgb(245 245 242 / 40%);
-  background: rgb(255 255 255 / 3%);
+  border-color: hsl(var(--foreground) / 40%);
+  background: hsl(var(--foreground) / 3%);
 }
 
 .ledgerIndex {
-  color: rgb(245 245 242 / 55%);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
+  color: hsl(var(--foreground) / 55%);
+  font-family: var(--font-label), monospace;
+  font-size: 0.875rem;
 }
 
 .ledgerMain,
@@ -261,8 +256,8 @@
 
 .ledgerRow small {
   color: var(--hack-muted);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.56rem;
+  font-family: var(--font-label), monospace;
+  font-size: 0.875rem;
   font-weight: 400;
   letter-spacing: 0.08em;
   line-height: 1.5;
@@ -275,13 +270,11 @@
 
 .ledgerPrize strong {
   font-size: 1.35rem;
-  font-weight: 300;
+  font-weight: 700;
 }
 
 .ledgerRow > svg {
-  grid-column: 3;
-  grid-row: 1 / span 2;
-  color: rgb(245 245 242 / 40%);
+  display: none;
 }
 
 .flags {
@@ -305,8 +298,8 @@
 
 .flag p {
   color: var(--hack-muted);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
+  font-family: var(--font-label), monospace;
+  font-size: 0.875rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -326,21 +319,22 @@
   height: 4.25rem;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--hack-line);
-  border-radius: 999px;
+  border: 0;
+  border-radius: 16px;
+  background: var(--page-surface);
   transition: border-color 180ms ease, transform 180ms ease;
 }
 
 .partner:hover {
   transform: translateY(-3px);
-  border-color: rgb(245 245 242 / 44%);
+  border-color: hsl(var(--foreground) / 44%);
 }
 
 .partner img {
   width: 48%;
   height: 48%;
   object-fit: contain;
-  filter: grayscale(1) brightness(0) invert(1);
+  filter: grayscale(1) brightness(0);
   opacity: 0.62;
   transition: opacity 180ms ease;
 }
@@ -366,7 +360,7 @@
 .communityStats p {
   font-size: clamp(3.5rem, 9vw, 5rem);
   font-variant-numeric: tabular-nums;
-  font-weight: 300;
+  font-weight: 700;
   letter-spacing: -0.065em;
   line-height: 0.85;
   white-space: nowrap;
@@ -382,12 +376,12 @@
   align-items: center;
   gap: 1rem;
   margin-top: 2.75rem;
-  border: 1px solid rgb(245 245 242 / 30%);
-  border-radius: 999px;
+  border: 1px solid hsl(var(--foreground) / 30%);
+  border-radius: 3px;
   padding-inline: 1.5rem;
   color: var(--hack-fg);
-  font-family: var(--font-mono), monospace;
-  font-size: 0.6875rem;
+  font-family: var(--font-label), monospace;
+  font-size: 0.875rem;
   letter-spacing: 0.12em;
   text-decoration: none;
   text-transform: uppercase;
@@ -419,9 +413,9 @@
   align-items: center;
   gap: 0.45rem;
   padding: 0.65rem 0.8rem;
-  border: 1px solid rgb(245 245 242 / 9%);
+  border: 1px solid hsl(var(--foreground) / 9%);
   border-radius: 999px;
-  background: rgb(10 10 10 / 72%);
+  background: hsl(var(--background) / 92%);
   backdrop-filter: blur(10px);
 }
 
@@ -443,14 +437,14 @@
   height: 0.28rem;
   transform: translate(-50%, -50%);
   border-radius: 999px;
-  background: rgb(245 245 242 / 24%);
+  background: hsl(var(--foreground) / 24%);
   content: "";
   transition: width 180ms ease, background-color 180ms ease;
 }
 
 .progress button.progressActive::after {
   width: 1rem;
-  background: rgb(245 245 242 / 72%);
+  background: hsl(var(--foreground) / 72%);
 }
 
 .experience[data-motion="ready"] [data-hack-reveal] {
@@ -479,31 +473,33 @@
 
 @media (min-width: 48rem) {
   .section {
-    padding: 8rem 2.5rem;
+    padding: 4rem 0;
   }
 
   .fundingBreakdown {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0;
+    gap: 12px;
   }
 
   .fundingBreakdown > div {
-    padding-inline: 2rem;
+    padding: 24px 12px;
+    background: var(--page-surface);
+    border-radius: 12px;
   }
 
   .fundingBreakdown > div + div {
-    border-left: 1px solid var(--hack-line);
+    border-left: 0;
   }
 
   .ledgerSection,
   .partnersSection {
-    min-height: 100svh;
+    min-height: 0;
   }
 
   .ledgerRow {
-    grid-template-columns: 2rem minmax(0, 1fr) 12rem 1.5rem;
+    grid-template-columns: 2rem minmax(0, 1fr) 8rem;
     gap: 1.5rem;
-    padding: 1.75rem 1rem;
+    padding: 1.5rem;
   }
 
   .ledgerMain {
@@ -574,3 +570,15 @@
     transition: none;
   }
 }
+
+:global(.dark) .partner img { filter: grayscale(1) brightness(0) invert(1); }
+.logoLink img, .closingLogo img { filter: brightness(0); }
+:global(.dark) .logoLink img, :global(.dark) .closingLogo img { filter: none; }
+@media (min-width: 1024px) { .progress { left: calc(50% + var(--station-sidebar) / 2); } }
+
+.hero { background: transparent; flex-direction: column; gap: 24px; padding-top: 54px; }
+.hero :global(.station-page-art) { margin-top: 24px; width: min(100%, 360px); }
+.fundingBreakdown > div { padding: 24px 12px; border-radius: 12px; background: var(--page-surface); }
+.communityStats > div { min-width: 0; padding-inline: 12px; }
+.grain { display: none; }
+@media (min-width: 1024px) { .progress { left: 50%; } }

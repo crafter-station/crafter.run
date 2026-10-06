@@ -9,8 +9,8 @@ export function PixelArrow({
 }) {
   const dot =
     tone === "inverse"
-      ? "bg-zinc-50 dark:bg-zinc-900"
-      : "bg-zinc-900 dark:bg-zinc-50"
+      ? "bg-primary-foreground"
+      : "bg-current"
   return (
     <span
       aria-hidden

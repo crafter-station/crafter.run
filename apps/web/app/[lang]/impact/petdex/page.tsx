@@ -1,9 +1,8 @@
+import { StationPageHero } from "@/components/station-page-hero"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { ArrowLink } from "@/components/arrow-link"
 import { Container, SectionGap } from "@/components/grid-container"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 
@@ -109,36 +108,35 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
-          <div className="max-w-5xl">
-            <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{t.eyebrow}</p>
-            <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">{t.title}</h1>
-            <p className="mt-6 max-w-3xl text-balance text-lg leading-8 text-muted-foreground">{t.description}</p>
-          </div>
-        </Container>
+        <StationPageHero
+          eyebrow={t.eyebrow}
+          title="Petdex / Q2 2026"
+          description={t.description}
+          art="research"
+        />
         <SectionGap />
         <Container>
-          <section className="grid grid-cols-2 border-b border-line md:grid-cols-4">
+          <section className="station-stat-strip station-stat-strip-four">
             {t.metrics.map(([value, label], index) => (
               <div key={label} className={`${index % 2 ? "border-l" : ""} ${index > 1 ? "border-t md:border-t-0" : ""} ${index > 0 ? "md:border-l" : ""} border-line px-6 py-8 md:px-8 md:py-10`}>
                 <p className="text-3xl font-semibold tracking-tight md:text-4xl">{value}</p>
-                <p className="mt-2 font-mono text-[10px] text-muted-foreground">{label}</p>
+                <p className="mt-2 font-label text-xs text-muted-foreground">{label}</p>
               </div>
             ))}
           </section>
         </Container>
         <SectionGap />
         <Container>
-          <section className="grid grid-cols-1 border-b border-line lg:grid-cols-2">
+          <section className="station-card-grid">
             <div className="border-b border-line p-8 lg:border-b-0 lg:border-r lg:p-10">
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{t.githubEyebrow}</p>
+              <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">{t.githubEyebrow}</p>
               <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{t.githubTitle}</h2>
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{t.githubBody}</p>
             </div>
             <div className="p-8 lg:p-10">
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{t.packageEyebrow}</p>
+              <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">{t.packageEyebrow}</p>
               <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{t.packageTitle}</h2>
               <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{t.packageBody}</p>
             </div>
@@ -147,14 +145,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <SectionGap />
         <Container innerClassName="grid grid-cols-1 border-b border-line lg:grid-cols-[0.7fr_1.3fr]">
           <div className="border-b border-line p-8 lg:border-b-0 lg:border-r lg:p-10">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{t.sources}</p>
+            <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">{t.sources}</p>
             <Link href={withLocale("/team/railly", lang)} className="group mt-8 inline-flex">
               <ArrowLink>{t.profile}</ArrowLink>
             </Link>
           </div>
           <div className="divide-y divide-line p-8 lg:p-10">
             {sources.map(([label, href]) => (
-              <Link key={href} href={href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-4 py-4 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground">
+              <Link key={href} href={href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-4 py-4 font-label text-xs text-muted-foreground transition-colors hover:text-foreground">
                 <span>{label}</span>
                 <span aria-hidden>↗</span>
               </Link>
@@ -162,7 +160,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           </div>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

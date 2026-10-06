@@ -2,7 +2,7 @@ import { defaultLocale, locales, type Locale } from "@/lib/i18n"
 import type { OssRepo } from "@/lib/oss"
 import { baseUrl, localizedUrl } from "@/lib/seo"
 import { siteConfig, socials } from "@/lib/site"
-import type { TeamMember } from "@/lib/team"
+import { getTeamMember, primaryLink, type TeamMember } from "@/lib/team"
 
 /**
  * schema.org builders. Structured data is the only description of this site a
@@ -156,57 +156,6 @@ export function softwareApplicationSchema({
   }
 }
 
-type ProductEntry = {
-  slug: string
-  title: string
-  tagline: string
-  description: string
-  url: string
-  technologies: readonly string[]
-  sourceUrl?: string
-  openSource?: boolean
-}
-
-export function productListSchema({
-  products,
-  locale,
-  name,
-  path,
-}: {
-  products: readonly ProductEntry[]
-  locale: Locale
-  name: string
-  path: string
-}) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name,
-    url: localizedUrl(path, locale),
-    numberOfItems: products.length,
-    itemListElement: products.map((product, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "SoftwareApplication",
-        name: product.title,
-        alternateName: product.tagline,
-        description: product.description,
-        url: product.url,
-        applicationCategory: "WebApplication",
-        operatingSystem: "Any",
-        keywords: product.technologies.join(", "),
-        inLanguage: locale,
-        ...(product.sourceUrl ? { codeRepository: product.sourceUrl } : {}),
-        ...(product.openSource
-          ? { isAccessibleForFree: true, offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }
-          : {}),
-        publisher: organizationRef,
-      },
-    })),
-  }
-}
-
 export function repositoryListSchema({
   repos,
   locale,
@@ -302,7 +251,10 @@ export type BlogAuthorNode = {
 
 function authorNodes(authors: readonly BlogAuthorNode[], locale: Locale) {
   return authors.map((author) => {
-    const profileUrl = localizedUrl(`/team/${author.username}`, locale)
+    const member = getTeamMember(author.username)
+    const profileUrl = member?.alumni
+      ? (primaryLink(member) ?? localizedUrl("/team", locale))
+      : localizedUrl(`/team/${author.username}`, locale)
     return {
       "@type": "Person" as const,
       "@id": `${profileUrl}#person`,
@@ -310,7 +262,7 @@ function authorNodes(authors: readonly BlogAuthorNode[], locale: Locale) {
       jobTitle: author.role,
       url: profileUrl,
       image: `${baseUrl}${author.image}`,
-      worksFor: organizationRef,
+      ...(!member?.alumni ? { worksFor: organizationRef } : {}),
     }
   })
 }

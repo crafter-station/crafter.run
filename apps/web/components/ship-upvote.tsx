@@ -80,7 +80,7 @@ export function ShipUpvote({ shipId, slug, initialVoteCount, locale }: {
   const active = votes?.votedShipIds.has(shipId) ?? false
   const voteCount = votes?.voteCounts.get(shipId) ?? initialVoteCount
   const t = copy[locale]
-  const className = `inline-flex items-center gap-2 border px-3 py-2 font-mono text-xs tabular-nums transition-colors ${active ? "border-accent bg-accent text-accent-foreground" : "border-line hover:border-accent hover:text-accent"}`
+  const className = `inline-flex items-center gap-2 border px-3 py-2 font-label text-xs tabular-nums transition-colors ${active ? "border-accent bg-accent text-accent-foreground" : "border-line hover:border-accent hover:text-accent"}`
   const label = active ? t.remove : t.add
 
   async function toggleVote() {

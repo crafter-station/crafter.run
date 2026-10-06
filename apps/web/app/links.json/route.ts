@@ -1,10 +1,11 @@
+import { getNetwork } from "@/lib/network"
 import { defaultLocale } from "@/lib/i18n"
-import { getProducts, getSiteConfig, siteConfig, socials } from "@/lib/site"
-import { teamMembers } from "@/lib/team"
+import { getSiteConfig, siteConfig, socials } from "@/lib/site"
+import { activeTeamMembers } from "@/lib/team"
 
 /**
  * Every public Crafter Station link as one JSON document: the org's socials and
- * products, and each member's own profile links.
+ * network areas, and each member's own profile links.
  *
  * Built for link.crafter.run, which renders this rather than keeping its own
  * copy of the team. `list_team` in the MCP server exposes only `github` and
@@ -31,17 +32,17 @@ export async function GET() {
       tagline: site.tagline,
       url: site.url,
       socials: socials.map((social) => ({ label: social.label, href: social.href })),
-      products: getProducts(locale)
-        .filter((product) => Boolean(product.url))
-        .map((product) => ({
-          slug: product.slug,
-          title: product.title,
-          tagline: product.tagline,
-          url: product.url,
-          ...("sourceUrl" in product && product.sourceUrl ? { sourceUrl: product.sourceUrl } : {}),
-        })),
+      // Existing link-directory clients can still map this key during migration.
+      products: [],
+      network: getNetwork(locale).map((area) => ({
+        id: area.id,
+        name: area.name,
+        tagline: area.tagline,
+        description: area.description,
+        url: area.href.startsWith("/") ? `${siteConfig.url}${area.href}` : area.href,
+      })),
     },
-    members: teamMembers.map((member) => ({
+    members: activeTeamMembers.map((member) => ({
       username: member.username,
       name: member.name,
       role: member.role,

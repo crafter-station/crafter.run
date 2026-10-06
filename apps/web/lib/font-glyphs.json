@@ -1,0 +1,1167 @@
+[
+  {
+    "sample": " ",
+    "unicode": "U+0020",
+    "name": "space"
+  },
+  {
+    "sample": "!",
+    "unicode": "U+0021",
+    "name": "exclam"
+  },
+  {
+    "sample": "\"",
+    "unicode": "U+0022",
+    "name": "quotedbl"
+  },
+  {
+    "sample": "#",
+    "unicode": "U+0023",
+    "name": "numbersign"
+  },
+  {
+    "sample": "$",
+    "unicode": "U+0024",
+    "name": "dollar"
+  },
+  {
+    "sample": "%",
+    "unicode": "U+0025",
+    "name": "percent"
+  },
+  {
+    "sample": "&",
+    "unicode": "U+0026",
+    "name": "ampersand"
+  },
+  {
+    "sample": "'",
+    "unicode": "U+0027",
+    "name": "quotesingle"
+  },
+  {
+    "sample": "(",
+    "unicode": "U+0028",
+    "name": "parenleft"
+  },
+  {
+    "sample": ")",
+    "unicode": "U+0029",
+    "name": "parenright"
+  },
+  {
+    "sample": "*",
+    "unicode": "U+002A",
+    "name": "asterisk"
+  },
+  {
+    "sample": "+",
+    "unicode": "U+002B",
+    "name": "plus"
+  },
+  {
+    "sample": ",",
+    "unicode": "U+002C",
+    "name": "comma"
+  },
+  {
+    "sample": "-",
+    "unicode": "U+002D",
+    "name": "hyphen"
+  },
+  {
+    "sample": ".",
+    "unicode": "U+002E",
+    "name": "period"
+  },
+  {
+    "sample": "/",
+    "unicode": "U+002F",
+    "name": "slash"
+  },
+  {
+    "sample": "0",
+    "unicode": "U+0030",
+    "name": "zero"
+  },
+  {
+    "sample": "1",
+    "unicode": "U+0031",
+    "name": "one"
+  },
+  {
+    "sample": "2",
+    "unicode": "U+0032",
+    "name": "two"
+  },
+  {
+    "sample": "3",
+    "unicode": "U+0033",
+    "name": "three"
+  },
+  {
+    "sample": "4",
+    "unicode": "U+0034",
+    "name": "four"
+  },
+  {
+    "sample": "5",
+    "unicode": "U+0035",
+    "name": "five"
+  },
+  {
+    "sample": "6",
+    "unicode": "U+0036",
+    "name": "six"
+  },
+  {
+    "sample": "7",
+    "unicode": "U+0037",
+    "name": "seven"
+  },
+  {
+    "sample": "8",
+    "unicode": "U+0038",
+    "name": "eight"
+  },
+  {
+    "sample": "9",
+    "unicode": "U+0039",
+    "name": "nine"
+  },
+  {
+    "sample": ":",
+    "unicode": "U+003A",
+    "name": "colon"
+  },
+  {
+    "sample": ";",
+    "unicode": "U+003B",
+    "name": "semicolon"
+  },
+  {
+    "sample": "<",
+    "unicode": "U+003C",
+    "name": "less"
+  },
+  {
+    "sample": "=",
+    "unicode": "U+003D",
+    "name": "equal"
+  },
+  {
+    "sample": ">",
+    "unicode": "U+003E",
+    "name": "greater"
+  },
+  {
+    "sample": "?",
+    "unicode": "U+003F",
+    "name": "question"
+  },
+  {
+    "sample": "@",
+    "unicode": "U+0040",
+    "name": "at"
+  },
+  {
+    "sample": "A",
+    "unicode": "U+0041",
+    "name": "A"
+  },
+  {
+    "sample": "B",
+    "unicode": "U+0042",
+    "name": "B"
+  },
+  {
+    "sample": "C",
+    "unicode": "U+0043",
+    "name": "C"
+  },
+  {
+    "sample": "D",
+    "unicode": "U+0044",
+    "name": "D"
+  },
+  {
+    "sample": "E",
+    "unicode": "U+0045",
+    "name": "E"
+  },
+  {
+    "sample": "F",
+    "unicode": "U+0046",
+    "name": "F"
+  },
+  {
+    "sample": "G",
+    "unicode": "U+0047",
+    "name": "G"
+  },
+  {
+    "sample": "H",
+    "unicode": "U+0048",
+    "name": "H"
+  },
+  {
+    "sample": "I",
+    "unicode": "U+0049",
+    "name": "I"
+  },
+  {
+    "sample": "J",
+    "unicode": "U+004A",
+    "name": "J"
+  },
+  {
+    "sample": "K",
+    "unicode": "U+004B",
+    "name": "K"
+  },
+  {
+    "sample": "L",
+    "unicode": "U+004C",
+    "name": "L"
+  },
+  {
+    "sample": "M",
+    "unicode": "U+004D",
+    "name": "M"
+  },
+  {
+    "sample": "N",
+    "unicode": "U+004E",
+    "name": "N"
+  },
+  {
+    "sample": "O",
+    "unicode": "U+004F",
+    "name": "O"
+  },
+  {
+    "sample": "P",
+    "unicode": "U+0050",
+    "name": "P"
+  },
+  {
+    "sample": "Q",
+    "unicode": "U+0051",
+    "name": "Q"
+  },
+  {
+    "sample": "R",
+    "unicode": "U+0052",
+    "name": "R"
+  },
+  {
+    "sample": "S",
+    "unicode": "U+0053",
+    "name": "S"
+  },
+  {
+    "sample": "T",
+    "unicode": "U+0054",
+    "name": "T"
+  },
+  {
+    "sample": "U",
+    "unicode": "U+0055",
+    "name": "U"
+  },
+  {
+    "sample": "V",
+    "unicode": "U+0056",
+    "name": "V"
+  },
+  {
+    "sample": "W",
+    "unicode": "U+0057",
+    "name": "W"
+  },
+  {
+    "sample": "X",
+    "unicode": "U+0058",
+    "name": "X"
+  },
+  {
+    "sample": "Y",
+    "unicode": "U+0059",
+    "name": "Y"
+  },
+  {
+    "sample": "Z",
+    "unicode": "U+005A",
+    "name": "Z"
+  },
+  {
+    "sample": "[",
+    "unicode": "U+005B",
+    "name": "bracketleft"
+  },
+  {
+    "sample": "\\",
+    "unicode": "U+005C",
+    "name": "backslash"
+  },
+  {
+    "sample": "]",
+    "unicode": "U+005D",
+    "name": "bracketright"
+  },
+  {
+    "sample": "^",
+    "unicode": "U+005E",
+    "name": "asciicircum"
+  },
+  {
+    "sample": "_",
+    "unicode": "U+005F",
+    "name": "underscore"
+  },
+  {
+    "sample": "`",
+    "unicode": "U+0060",
+    "name": "grave"
+  },
+  {
+    "sample": "a",
+    "unicode": "U+0061",
+    "name": "a"
+  },
+  {
+    "sample": "b",
+    "unicode": "U+0062",
+    "name": "b"
+  },
+  {
+    "sample": "c",
+    "unicode": "U+0063",
+    "name": "c"
+  },
+  {
+    "sample": "d",
+    "unicode": "U+0064",
+    "name": "d"
+  },
+  {
+    "sample": "e",
+    "unicode": "U+0065",
+    "name": "e"
+  },
+  {
+    "sample": "f",
+    "unicode": "U+0066",
+    "name": "f"
+  },
+  {
+    "sample": "g",
+    "unicode": "U+0067",
+    "name": "g"
+  },
+  {
+    "sample": "h",
+    "unicode": "U+0068",
+    "name": "h"
+  },
+  {
+    "sample": "i",
+    "unicode": "U+0069",
+    "name": "i"
+  },
+  {
+    "sample": "j",
+    "unicode": "U+006A",
+    "name": "j"
+  },
+  {
+    "sample": "k",
+    "unicode": "U+006B",
+    "name": "k"
+  },
+  {
+    "sample": "l",
+    "unicode": "U+006C",
+    "name": "l"
+  },
+  {
+    "sample": "m",
+    "unicode": "U+006D",
+    "name": "m"
+  },
+  {
+    "sample": "n",
+    "unicode": "U+006E",
+    "name": "n"
+  },
+  {
+    "sample": "o",
+    "unicode": "U+006F",
+    "name": "o"
+  },
+  {
+    "sample": "p",
+    "unicode": "U+0070",
+    "name": "p"
+  },
+  {
+    "sample": "q",
+    "unicode": "U+0071",
+    "name": "q"
+  },
+  {
+    "sample": "r",
+    "unicode": "U+0072",
+    "name": "r"
+  },
+  {
+    "sample": "s",
+    "unicode": "U+0073",
+    "name": "s"
+  },
+  {
+    "sample": "t",
+    "unicode": "U+0074",
+    "name": "t"
+  },
+  {
+    "sample": "u",
+    "unicode": "U+0075",
+    "name": "u"
+  },
+  {
+    "sample": "v",
+    "unicode": "U+0076",
+    "name": "v"
+  },
+  {
+    "sample": "w",
+    "unicode": "U+0077",
+    "name": "w"
+  },
+  {
+    "sample": "x",
+    "unicode": "U+0078",
+    "name": "x"
+  },
+  {
+    "sample": "y",
+    "unicode": "U+0079",
+    "name": "y"
+  },
+  {
+    "sample": "z",
+    "unicode": "U+007A",
+    "name": "z"
+  },
+  {
+    "sample": "{",
+    "unicode": "U+007B",
+    "name": "braceleft"
+  },
+  {
+    "sample": "|",
+    "unicode": "U+007C",
+    "name": "bar"
+  },
+  {
+    "sample": "}",
+    "unicode": "U+007D",
+    "name": "braceright"
+  },
+  {
+    "sample": "~",
+    "unicode": "U+007E",
+    "name": "asciitilde"
+  },
+  {
+    "sample": " ",
+    "unicode": "U+00A0",
+    "name": "uni00A0"
+  },
+  {
+    "sample": "¡",
+    "unicode": "U+00A1",
+    "name": "exclamdown"
+  },
+  {
+    "sample": "¢",
+    "unicode": "U+00A2",
+    "name": "cent"
+  },
+  {
+    "sample": "£",
+    "unicode": "U+00A3",
+    "name": "sterling"
+  },
+  {
+    "sample": "«",
+    "unicode": "U+00AB",
+    "name": "guillemotleft"
+  },
+  {
+    "sample": "°",
+    "unicode": "U+00B0",
+    "name": "degree"
+  },
+  {
+    "sample": "±",
+    "unicode": "U+00B1",
+    "name": "plusminus"
+  },
+  {
+    "sample": "·",
+    "unicode": "U+00B7",
+    "name": "periodcentered"
+  },
+  {
+    "sample": "»",
+    "unicode": "U+00BB",
+    "name": "guillemotright"
+  },
+  {
+    "sample": "¿",
+    "unicode": "U+00BF",
+    "name": "questiondown"
+  },
+  {
+    "sample": "À",
+    "unicode": "U+00C0",
+    "name": "Agrave"
+  },
+  {
+    "sample": "Á",
+    "unicode": "U+00C1",
+    "name": "Aacute"
+  },
+  {
+    "sample": "Â",
+    "unicode": "U+00C2",
+    "name": "Acircumflex"
+  },
+  {
+    "sample": "Ã",
+    "unicode": "U+00C3",
+    "name": "Atilde"
+  },
+  {
+    "sample": "Ä",
+    "unicode": "U+00C4",
+    "name": "Adieresis"
+  },
+  {
+    "sample": "Å",
+    "unicode": "U+00C5",
+    "name": "Aring"
+  },
+  {
+    "sample": "Æ",
+    "unicode": "U+00C6",
+    "name": "AE"
+  },
+  {
+    "sample": "Ç",
+    "unicode": "U+00C7",
+    "name": "Ccedilla"
+  },
+  {
+    "sample": "È",
+    "unicode": "U+00C8",
+    "name": "Egrave"
+  },
+  {
+    "sample": "É",
+    "unicode": "U+00C9",
+    "name": "Eacute"
+  },
+  {
+    "sample": "Ê",
+    "unicode": "U+00CA",
+    "name": "Ecircumflex"
+  },
+  {
+    "sample": "Ë",
+    "unicode": "U+00CB",
+    "name": "Edieresis"
+  },
+  {
+    "sample": "Ì",
+    "unicode": "U+00CC",
+    "name": "Igrave"
+  },
+  {
+    "sample": "Í",
+    "unicode": "U+00CD",
+    "name": "Iacute"
+  },
+  {
+    "sample": "Î",
+    "unicode": "U+00CE",
+    "name": "Icircumflex"
+  },
+  {
+    "sample": "Ï",
+    "unicode": "U+00CF",
+    "name": "Idieresis"
+  },
+  {
+    "sample": "Ñ",
+    "unicode": "U+00D1",
+    "name": "Ntilde"
+  },
+  {
+    "sample": "Ò",
+    "unicode": "U+00D2",
+    "name": "Ograve"
+  },
+  {
+    "sample": "Ó",
+    "unicode": "U+00D3",
+    "name": "Oacute"
+  },
+  {
+    "sample": "Ô",
+    "unicode": "U+00D4",
+    "name": "Ocircumflex"
+  },
+  {
+    "sample": "Õ",
+    "unicode": "U+00D5",
+    "name": "Otilde"
+  },
+  {
+    "sample": "Ö",
+    "unicode": "U+00D6",
+    "name": "Odieresis"
+  },
+  {
+    "sample": "×",
+    "unicode": "U+00D7",
+    "name": "multiply"
+  },
+  {
+    "sample": "Ø",
+    "unicode": "U+00D8",
+    "name": "Oslash"
+  },
+  {
+    "sample": "Ù",
+    "unicode": "U+00D9",
+    "name": "Ugrave"
+  },
+  {
+    "sample": "Ú",
+    "unicode": "U+00DA",
+    "name": "Uacute"
+  },
+  {
+    "sample": "Û",
+    "unicode": "U+00DB",
+    "name": "Ucircumflex"
+  },
+  {
+    "sample": "Ü",
+    "unicode": "U+00DC",
+    "name": "Udieresis"
+  },
+  {
+    "sample": "Ý",
+    "unicode": "U+00DD",
+    "name": "Yacute"
+  },
+  {
+    "sample": "ß",
+    "unicode": "U+00DF",
+    "name": "germandbls"
+  },
+  {
+    "sample": "à",
+    "unicode": "U+00E0",
+    "name": "agrave"
+  },
+  {
+    "sample": "á",
+    "unicode": "U+00E1",
+    "name": "aacute"
+  },
+  {
+    "sample": "â",
+    "unicode": "U+00E2",
+    "name": "acircumflex"
+  },
+  {
+    "sample": "ã",
+    "unicode": "U+00E3",
+    "name": "atilde"
+  },
+  {
+    "sample": "ä",
+    "unicode": "U+00E4",
+    "name": "adieresis"
+  },
+  {
+    "sample": "å",
+    "unicode": "U+00E5",
+    "name": "aring"
+  },
+  {
+    "sample": "æ",
+    "unicode": "U+00E6",
+    "name": "ae"
+  },
+  {
+    "sample": "ç",
+    "unicode": "U+00E7",
+    "name": "ccedilla"
+  },
+  {
+    "sample": "è",
+    "unicode": "U+00E8",
+    "name": "egrave"
+  },
+  {
+    "sample": "é",
+    "unicode": "U+00E9",
+    "name": "eacute"
+  },
+  {
+    "sample": "ê",
+    "unicode": "U+00EA",
+    "name": "ecircumflex"
+  },
+  {
+    "sample": "ë",
+    "unicode": "U+00EB",
+    "name": "edieresis"
+  },
+  {
+    "sample": "ì",
+    "unicode": "U+00EC",
+    "name": "igrave"
+  },
+  {
+    "sample": "í",
+    "unicode": "U+00ED",
+    "name": "iacute"
+  },
+  {
+    "sample": "î",
+    "unicode": "U+00EE",
+    "name": "icircumflex"
+  },
+  {
+    "sample": "ï",
+    "unicode": "U+00EF",
+    "name": "idieresis"
+  },
+  {
+    "sample": "ñ",
+    "unicode": "U+00F1",
+    "name": "ntilde"
+  },
+  {
+    "sample": "ò",
+    "unicode": "U+00F2",
+    "name": "ograve"
+  },
+  {
+    "sample": "ó",
+    "unicode": "U+00F3",
+    "name": "oacute"
+  },
+  {
+    "sample": "ô",
+    "unicode": "U+00F4",
+    "name": "ocircumflex"
+  },
+  {
+    "sample": "õ",
+    "unicode": "U+00F5",
+    "name": "otilde"
+  },
+  {
+    "sample": "ö",
+    "unicode": "U+00F6",
+    "name": "odieresis"
+  },
+  {
+    "sample": "÷",
+    "unicode": "U+00F7",
+    "name": "divide"
+  },
+  {
+    "sample": "ø",
+    "unicode": "U+00F8",
+    "name": "oslash"
+  },
+  {
+    "sample": "ù",
+    "unicode": "U+00F9",
+    "name": "ugrave"
+  },
+  {
+    "sample": "ú",
+    "unicode": "U+00FA",
+    "name": "uacute"
+  },
+  {
+    "sample": "û",
+    "unicode": "U+00FB",
+    "name": "ucircumflex"
+  },
+  {
+    "sample": "ü",
+    "unicode": "U+00FC",
+    "name": "udieresis"
+  },
+  {
+    "sample": "ý",
+    "unicode": "U+00FD",
+    "name": "yacute"
+  },
+  {
+    "sample": "ÿ",
+    "unicode": "U+00FF",
+    "name": "ydieresis"
+  },
+  {
+    "sample": "Ā",
+    "unicode": "U+0100",
+    "name": "Amacron"
+  },
+  {
+    "sample": "ā",
+    "unicode": "U+0101",
+    "name": "amacron"
+  },
+  {
+    "sample": "Ă",
+    "unicode": "U+0102",
+    "name": "Abreve"
+  },
+  {
+    "sample": "ă",
+    "unicode": "U+0103",
+    "name": "abreve"
+  },
+  {
+    "sample": "Ć",
+    "unicode": "U+0106",
+    "name": "Cacute"
+  },
+  {
+    "sample": "ć",
+    "unicode": "U+0107",
+    "name": "cacute"
+  },
+  {
+    "sample": "Č",
+    "unicode": "U+010C",
+    "name": "Ccaron"
+  },
+  {
+    "sample": "č",
+    "unicode": "U+010D",
+    "name": "ccaron"
+  },
+  {
+    "sample": "Ē",
+    "unicode": "U+0112",
+    "name": "Emacron"
+  },
+  {
+    "sample": "ē",
+    "unicode": "U+0113",
+    "name": "emacron"
+  },
+  {
+    "sample": "Ě",
+    "unicode": "U+011A",
+    "name": "Ecaron"
+  },
+  {
+    "sample": "ě",
+    "unicode": "U+011B",
+    "name": "ecaron"
+  },
+  {
+    "sample": "Ĩ",
+    "unicode": "U+0128",
+    "name": "Itilde"
+  },
+  {
+    "sample": "ĩ",
+    "unicode": "U+0129",
+    "name": "itilde"
+  },
+  {
+    "sample": "Ī",
+    "unicode": "U+012A",
+    "name": "Imacron"
+  },
+  {
+    "sample": "ī",
+    "unicode": "U+012B",
+    "name": "imacron"
+  },
+  {
+    "sample": "ı",
+    "unicode": "U+0131",
+    "name": "dotlessi"
+  },
+  {
+    "sample": "Ń",
+    "unicode": "U+0143",
+    "name": "Nacute"
+  },
+  {
+    "sample": "ń",
+    "unicode": "U+0144",
+    "name": "nacute"
+  },
+  {
+    "sample": "Ň",
+    "unicode": "U+0147",
+    "name": "Ncaron"
+  },
+  {
+    "sample": "ň",
+    "unicode": "U+0148",
+    "name": "ncaron"
+  },
+  {
+    "sample": "Ō",
+    "unicode": "U+014C",
+    "name": "Omacron"
+  },
+  {
+    "sample": "ō",
+    "unicode": "U+014D",
+    "name": "omacron"
+  },
+  {
+    "sample": "Œ",
+    "unicode": "U+0152",
+    "name": "OE"
+  },
+  {
+    "sample": "œ",
+    "unicode": "U+0153",
+    "name": "oe"
+  },
+  {
+    "sample": "Ř",
+    "unicode": "U+0158",
+    "name": "Rcaron"
+  },
+  {
+    "sample": "ř",
+    "unicode": "U+0159",
+    "name": "rcaron"
+  },
+  {
+    "sample": "Ś",
+    "unicode": "U+015A",
+    "name": "Sacute"
+  },
+  {
+    "sample": "ś",
+    "unicode": "U+015B",
+    "name": "sacute"
+  },
+  {
+    "sample": "Š",
+    "unicode": "U+0160",
+    "name": "Scaron"
+  },
+  {
+    "sample": "š",
+    "unicode": "U+0161",
+    "name": "scaron"
+  },
+  {
+    "sample": "Ũ",
+    "unicode": "U+0168",
+    "name": "Utilde"
+  },
+  {
+    "sample": "ũ",
+    "unicode": "U+0169",
+    "name": "utilde"
+  },
+  {
+    "sample": "Ū",
+    "unicode": "U+016A",
+    "name": "Umacron"
+  },
+  {
+    "sample": "ū",
+    "unicode": "U+016B",
+    "name": "umacron"
+  },
+  {
+    "sample": "Ů",
+    "unicode": "U+016E",
+    "name": "Uring"
+  },
+  {
+    "sample": "ů",
+    "unicode": "U+016F",
+    "name": "uring"
+  },
+  {
+    "sample": "Ÿ",
+    "unicode": "U+0178",
+    "name": "Ydieresis"
+  },
+  {
+    "sample": "Ź",
+    "unicode": "U+0179",
+    "name": "Zacute"
+  },
+  {
+    "sample": "ź",
+    "unicode": "U+017A",
+    "name": "zacute"
+  },
+  {
+    "sample": "Ž",
+    "unicode": "U+017D",
+    "name": "Zcaron"
+  },
+  {
+    "sample": "ž",
+    "unicode": "U+017E",
+    "name": "zcaron"
+  },
+  {
+    "sample": "̀",
+    "unicode": "U+0300",
+    "name": "gravecomb"
+  },
+  {
+    "sample": "́",
+    "unicode": "U+0301",
+    "name": "acutecomb"
+  },
+  {
+    "sample": "̂",
+    "unicode": "U+0302",
+    "name": "uni0302"
+  },
+  {
+    "sample": "̃",
+    "unicode": "U+0303",
+    "name": "tildecomb"
+  },
+  {
+    "sample": "̄",
+    "unicode": "U+0304",
+    "name": "uni0304"
+  },
+  {
+    "sample": "̆",
+    "unicode": "U+0306",
+    "name": "uni0306"
+  },
+  {
+    "sample": "̈",
+    "unicode": "U+0308",
+    "name": "uni0308"
+  },
+  {
+    "sample": "̊",
+    "unicode": "U+030A",
+    "name": "uni030A"
+  },
+  {
+    "sample": "̌",
+    "unicode": "U+030C",
+    "name": "uni030C"
+  },
+  {
+    "sample": "̧",
+    "unicode": "U+0327",
+    "name": "uni0327"
+  },
+  {
+    "sample": " ",
+    "unicode": "U+2009",
+    "name": "uni2009"
+  },
+  {
+    "sample": "–",
+    "unicode": "U+2013",
+    "name": "endash"
+  },
+  {
+    "sample": "—",
+    "unicode": "U+2014",
+    "name": "emdash"
+  },
+  {
+    "sample": "‘",
+    "unicode": "U+2018",
+    "name": "quoteleft"
+  },
+  {
+    "sample": "’",
+    "unicode": "U+2019",
+    "name": "quoteright"
+  },
+  {
+    "sample": "“",
+    "unicode": "U+201C",
+    "name": "quotedblleft"
+  },
+  {
+    "sample": "”",
+    "unicode": "U+201D",
+    "name": "quotedblright"
+  },
+  {
+    "sample": "•",
+    "unicode": "U+2022",
+    "name": "bullet"
+  },
+  {
+    "sample": "…",
+    "unicode": "U+2026",
+    "name": "ellipsis"
+  },
+  {
+    "sample": "€",
+    "unicode": "U+20AC",
+    "name": "Euro"
+  },
+  {
+    "sample": "←",
+    "unicode": "U+2190",
+    "name": "arrowleft"
+  },
+  {
+    "sample": "↑",
+    "unicode": "U+2191",
+    "name": "arrowup"
+  },
+  {
+    "sample": "→",
+    "unicode": "U+2192",
+    "name": "arrowright"
+  },
+  {
+    "sample": "↓",
+    "unicode": "U+2193",
+    "name": "arrowdown"
+  },
+  {
+    "sample": "↗",
+    "unicode": "U+2197",
+    "name": "uni2197"
+  },
+  {
+    "sample": "−",
+    "unicode": "U+2212",
+    "name": "minus"
+  }
+]

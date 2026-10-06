@@ -1,290 +1,123 @@
+"use client"
+
+import { useEffect, useState, type ReactNode } from "react"
 import Link from "next/link"
-import { Menu } from "lucide-react"
-import { AuthActions } from "@/components/auth-actions"
-import { Container } from "@/components/grid-container"
+import * as Dialog from "@radix-ui/react-dialog"
+import { usePathname } from "next/navigation"
+import { Menu, X, ChevronDown } from "lucide-react"
 import { LanguageSwitcher } from "@/components/language-switcher"
-import { PixelArrow } from "@/components/pixel-arrow"
 import { SiteWordmark } from "@/components/site-wordmark"
 import { ThemeSwitcher } from "@/components/theme-switcher"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu"
+import { StationSocials } from "@/components/station-socials"
 import { type Locale, withLocale } from "@/lib/i18n"
+import { navCopy } from "@/lib/navigation-copy"
 import { navSections } from "@/lib/site"
+import { stationCopy } from "@/lib/station-copy"
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
-const navCopy = {
-  en: {
-    community: "Community",
-    ships: "Ships",
-    crafters: "Crafters",
-    events: "Events",
-    hackathon: "Hackathons",
-    blog: "Blog",
-    oss: "Open source",
-    products: "Products",
-    research: "Research",
-    impact: "Impact",
-    team: "Team",
-    ossMetrics: "OSS metrics",
-    timeline: "Project activity",
-    workWithUs: "Work with us",
-    brandPartnerships: "Brand partnerships",
-    engineeringConsulting: "Engineering & design",
-    contact: "Contact",
-    communityCta: "Join the community",
-    language: "Language",
-    theme: "Theme",
-    openMenu: "Open menu",
-  },
-  es: {
-    community: "Comunidad",
-    ships: "Ships",
-    crafters: "Crafters",
-    events: "Eventos",
-    hackathon: "Hackathons",
-    blog: "Blog",
-    oss: "Código abierto",
-    products: "Productos",
-    research: "Investigación",
-    impact: "Impacto",
-    team: "Equipo",
-    ossMetrics: "Métricas OSS",
-    timeline: "Actividad de proyectos",
-    workWithUs: "Trabaja con nosotros",
-    brandPartnerships: "Partnerships de marca",
-    engineeringConsulting: "Ingeniería y diseño",
-    contact: "Contacto",
-    communityCta: "Únete a la comunidad",
-    language: "Idioma",
-    theme: "Tema",
-    openMenu: "Abrir menú",
-  },
-  pt: {
-    community: "Comunidade",
-    ships: "Ships",
-    crafters: "Crafters",
-    events: "Eventos",
-    hackathon: "Hackathons",
-    blog: "Blog",
-    oss: "Codigo aberto",
-    products: "Produtos",
-    research: "Pesquisa",
-    impact: "Impacto",
-    team: "Equipe",
-    ossMetrics: "Metricas OSS",
-    timeline: "Atividade dos projetos",
-    workWithUs: "Trabalhe conosco",
-    brandPartnerships: "Parcerias de marca",
-    engineeringConsulting: "Engenharia e design",
-    contact: "Contato",
-    communityCta: "Entre na comunidade",
-    language: "Idioma",
-    theme: "Tema",
-    openMenu: "Abrir menu",
-  },
-  zh: {
-    community: "社区",
-    ships: "社区作品",
-    crafters: "成员",
-    events: "活动",
-    hackathon: "黑客松",
-    blog: "博客",
-    oss: "开源",
-    products: "产品",
-    research: "研究",
-    impact: "影响力",
-    team: "团队",
-    ossMetrics: "开源指标",
-    timeline: "项目动态",
-    workWithUs: "与我们合作",
-    brandPartnerships: "品牌合作",
-    engineeringConsulting: "工程与设计",
-    contact: "联系我们",
-    communityCta: "加入社区",
-    language: "语言",
-    theme: "主题",
-    openMenu: "打开菜单",
-  },
-  ja: {
-    community: "コミュニティ",
-    ships: "コミュニティ作品",
-    crafters: "Crafters",
-    events: "イベント",
-    hackathon: "ハッカソン",
-    blog: "ブログ",
-    oss: "オープンソース",
-    products: "プロダクト",
-    research: "リサーチ",
-    impact: "インパクト",
-    team: "チーム",
-    ossMetrics: "OSS メトリクス",
-    timeline: "プロジェクト活動",
-    workWithUs: "一緒に働く",
-    brandPartnerships: "ブランドパートナーシップ",
-    engineeringConsulting: "エンジニアリング・デザイン",
-    contact: "お問い合わせ",
-    communityCta: "コミュニティに参加",
-    language: "言語",
-    theme: "テーマ",
-    openMenu: "メニューを開く",
-  },
-} as const
+const primaryPaths: readonly string[] = ["/", "/universe", "/oss", "/events", "/blog"]
 
-export function SiteHeader({ locale }: { locale: Locale }) {
+function MoreNavigation({ locale, onNavigate }: { locale: Locale; onNavigate: () => void }) {
+  const pathname = usePathname()
+  const [expanded, setExpanded] = useState(false)
   const t = navCopy[locale]
+  const s = stationCopy[locale]
+  const close = () => { setExpanded(false); onNavigate() }
+
+  useEffect(() => { setExpanded(false) }, [pathname])
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-sm">
-      <Container innerClassName="h-4" />
-      <hr className="border-line" />
-      <Container innerClassName="h-16">
-        <nav className="relative flex h-full justify-between">
-          <div className="flex h-full w-[180px] items-center border-line xl:w-[215px] xl:border-r">
-            <Link
-              href={withLocale("/", locale)}
-              className="group inline-flex h-full items-center px-4 transition-colors xl:hover:bg-primary/5"
-            >
-              <SiteWordmark />
-            </Link>
+    <DropdownMenu open={expanded} onOpenChange={setExpanded}>
+      <DropdownMenuTrigger asChild>
+        <button type="button" className="station-more-trigger" aria-label={`${s.moreMenu}: ${s.more}`}>
+          <span>{s.moreMenu}</span><ChevronDown size={14} aria-hidden="true" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="station-more-menu" side="bottom" align="start" sideOffset={6} collisionPadding={12}>
+          {navSections.map(section => (
+            <DropdownMenuGroup key={section.key}>
+              <DropdownMenuLabel>{t[section.key]}</DropdownMenuLabel>
+              {section.items.filter(item => !primaryPaths.includes(item.href)).map(item => (
+                <DropdownMenuItem asChild key={item.href}><Link href={withLocale(item.href, locale)}
+                  aria-current={pathname === withLocale(item.href, locale) ? "page" : undefined}
+                  onClick={close}>{t[item.key]}</Link></DropdownMenuItem>
+              ))}
+            </DropdownMenuGroup>
+          ))}
+          <DropdownMenuGroup className="station-more-resources">
+            <DropdownMenuItem asChild><Link href={withLocale("/docs", locale)} onClick={close}>{s.docs}</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href={withLocale("/community", locale)} onClick={close}>{t.communityCta}</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><Link href={withLocale("/brand", locale)} onClick={close}>{s.visualSystem}</Link></DropdownMenuItem>
+          </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+export function SiteHeader({ locale, compact = false, event }: { locale: Locale; compact?: boolean; event: ReactNode }) {
+  const pathname = usePathname()
+  const [open, setOpen] = useState(false)
+  const t = navCopy[locale]
+  const s = stationCopy[locale]
+  const primary = [
+    { href: "/", label: s.home }, { href: "/universe", label: t.universe },
+    { href: "/oss", label: t.oss }, { href: "/events", label: t.events },
+    { href: "/blog", label: t.blog },
+  ]
+  const active = (href: string) => href === "/" ? pathname === withLocale("/", locale)
+    : pathname === withLocale(href, locale) || pathname?.startsWith(`${withLocale(href, locale)}/`)
+
+  useEffect(() => { setOpen(false) }, [pathname])
+
+  const navigation = (inDrawer = false) => (
+    <>
+      <nav aria-label={s.more} className="station-nav">
+        {primary.map((item) => (
+          <Link key={item.href} href={withLocale(item.href, locale)} aria-current={active(item.href) ? "page" : undefined}
+            onClick={() => setOpen(false)}>
+            <span className="station-nav-name">{item.label}</span>
+          </Link>
+        ))}
+        <MoreNavigation locale={locale} onNavigate={() => setOpen(false)} />
+      </nav>
+      <div className="station-side-bottom">
+        <div className="station-preferences">
+          <LanguageSwitcher currentLocale={locale} label={t.language} compact />
+          <ThemeSwitcher locale={locale} label={t.theme} compact />
+        </div>
+      </div>
+      <div className="station-side-event" onClickCapture={() => setOpen(false)}>{event}</div>
+      {inDrawer && <StationSocials label={s.social} />}
+    </>
+  )
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+    <header className={compact ? "station-header station-header-compact" : "station-header"}>
+      <div className="station-sidebar">
+        <Link className="station-brand" href={withLocale("/", locale)}><SiteWordmark stacked /></Link>
+        {navigation()}
+      </div>
+      {!compact && <StationSocials label={s.social} className="station-social-rail" />}
+      <div className="station-mobile-top">
+        <Link href={withLocale("/", locale)}><SiteWordmark /></Link>
+        <div className="flex items-center gap-4">
+          <ThemeSwitcher locale={locale} label={t.theme} className="station-mobile-theme" />
+          <Dialog.Trigger asChild><button className="station-menu-button" type="button" aria-label={t.openMenu}
+            aria-expanded={open} aria-controls="station-menu"><Menu size={22} /></button></Dialog.Trigger>
+        </div>
+      </div>
+      <Dialog.Portal>
+        <Dialog.Overlay className="station-drawer-overlay" />
+        <Dialog.Content id="station-menu" className="station-drawer">
+          <Dialog.Title className="sr-only">{s.more}</Dialog.Title>
+          <Dialog.Description className="sr-only">{s.note}</Dialog.Description>
+          <div className="station-drawer-inner">
+            <div className="station-drawer-top"><SiteWordmark /><Dialog.Close asChild><button className="station-menu-button" type="button" aria-label={s.close}><X size={22} /></button></Dialog.Close></div>
+            {navigation(true)}
           </div>
-          <div className="hidden flex-1 items-center justify-center xl:flex">
-            <NavigationMenu viewport={false} className="h-full">
-              <NavigationMenuList className="h-full gap-0">
-                {navSections.map((section) => (
-                  <NavigationMenuItem key={section.key} className="h-full">
-                    <NavigationMenuTrigger className="h-16 rounded-none bg-transparent px-4 text-foreground hover:bg-accent-surface/10 hover:text-foreground focus:bg-accent-surface/10 focus:text-foreground data-[state=open]:bg-accent-surface/10 data-[state=open]:text-foreground 2xl:px-5">
-                      {t[section.key]}
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                      <ul className="w-64 p-2">
-                        {section.items.map((item) => (
-                          <li key={item.href}>
-                            <NavigationMenuLink asChild>
-                              <Link
-                                href={withLocale(item.href, locale)}
-                                className="block rounded-sm px-3 py-2.5 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
-                              >
-                                {t[item.key]}
-                              </Link>
-                            </NavigationMenuLink>
-                          </li>
-                        ))}
-                      </ul>
-                    </NavigationMenuContent>
-                  </NavigationMenuItem>
-                ))}
-                <NavigationMenuItem className="h-full">
-                  <NavigationMenuLink asChild>
-                    <Link
-                      href={withLocale("/blog", locale)}
-                      className="inline-flex h-16 items-center px-4 text-sm font-medium transition-colors hover:bg-accent-surface/10 focus:bg-accent-surface/10 focus:outline-none 2xl:px-5"
-                    >
-                      {t.blog}
-                    </Link>
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-          <div className="hidden h-full items-center border-line xl:flex xl:border-l">
-            <div className="flex h-full items-center">
-              <LanguageSwitcher
-                currentLocale={locale}
-                label={t.language}
-                className="h-16 px-3 font-mono text-[10px] tracking-[0.16em]"
-              />
-            </div>
-            <div className="flex h-full items-center border-l border-line">
-              <ThemeSwitcher
-                label={t.theme}
-                className="h-16 px-3"
-              />
-            </div>
-            <AuthActions locale={locale} />
-          </div>
-          <details className="ml-auto flex items-center xl:hidden">
-            <summary
-              className="flex h-16 w-16 cursor-pointer list-none items-center justify-center text-foreground/70 transition-colors hover:text-foreground [&::-webkit-details-marker]:hidden"
-              aria-label={t.openMenu}
-            >
-              <Menu className="h-5 w-5" />
-            </summary>
-            <div className="absolute left-0 right-0 top-full border-t border-line bg-background">
-              <Container innerClassName="px-4 py-4 xl:hidden">
-                <div className="flex flex-col">
-                  {navSections.map((section) => (
-                    <details key={section.key} className="group border-b border-line">
-                      <summary className="flex cursor-pointer list-none items-center justify-between py-3 text-sm font-medium text-foreground [&::-webkit-details-marker]:hidden">
-                        {t[section.key]}
-                        <span className="text-muted-foreground transition-transform group-open:rotate-45" aria-hidden="true">
-                          +
-                        </span>
-                      </summary>
-                      <ul className="flex flex-col pb-3 pl-3">
-                        {section.items.map((item) => (
-                          <li key={item.href}>
-                            <Link
-                              href={withLocale(item.href, locale)}
-                              className="block py-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
-                            >
-                              {t[item.key]}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </details>
-                  ))}
-                  <Link
-                    href={withLocale("/blog", locale)}
-                    className="flex items-center justify-between border-b border-line py-3 text-sm font-medium text-foreground"
-                  >
-                    {t.blog}
-                  </Link>
-                  <div className="mt-4 flex items-center justify-between border border-line px-4 py-3">
-                    <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      {t.language}
-                    </span>
-                    <div className="flex items-center gap-3">
-                      <LanguageSwitcher
-                        currentLocale={locale}
-                        label={t.language}
-                        className="font-mono text-[10px] tracking-[0.16em]"
-                      />
-                    </div>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between border border-line px-4 py-3">
-                    <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                      {t.theme}
-                    </span>
-                    <ThemeSwitcher
-                      label={t.theme}
-                      className="font-mono text-[10px] tracking-[0.16em]"
-                    />
-                  </div>
-                  <Link
-                    href="https://crafters.chat"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-4 inline-flex items-center justify-between border border-foreground/20 px-4 py-3 text-sm font-medium"
-                  >
-                    {t.communityCta}
-                    <PixelArrow />
-                  </Link>
-                  <div className="mt-2 grid gap-2">
-                    <AuthActions locale={locale} mobile />
-                  </div>
-                </div>
-              </Container>
-            </div>
-          </details>
-        </nav>
-      </Container>
-      <hr className="border-line" />
+        </Dialog.Content>
+      </Dialog.Portal>
     </header>
+    </Dialog.Root>
   )
 }

@@ -94,7 +94,7 @@ export function InteractiveLines({
               linesRef.current[i] = el
             }}
             className={cn(
-              "absolute bg-zinc-200 dark:bg-zinc-800",
+              "absolute bg-line",
               isVertical ? "top-0 bottom-0 w-px" : "inset-s-0 inset-e-0 h-px",
             )}
             style={{

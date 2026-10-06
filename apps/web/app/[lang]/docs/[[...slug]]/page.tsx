@@ -84,6 +84,7 @@ export default async function Page(props: Props) {
 
   return (
     <DocsPage
+      className="station-docs-page"
       toc={page.data.toc}
       full={page.data.full}
       tableOfContent={{ style: "clerk" }}
@@ -92,7 +93,7 @@ export default async function Page(props: Props) {
       <JsonLd data={structuredData} />
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
-      <div className="flex flex-row items-center gap-2 border-b pb-6">
+      <div className="station-docs-tools flex flex-wrap items-center gap-2 pb-2">
         <MarkdownCopyButton markdownUrl={markdownUrl(lang, page.slugs)} />
         <ViewOptionsPopover markdownUrl={markdownUrl(lang, page.slugs)} />
       </div>

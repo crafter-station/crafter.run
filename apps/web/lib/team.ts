@@ -25,6 +25,8 @@ export type TeamMember = {
     url?: string
   }
   timezone?: string
+  alumni?: boolean
+  hiddenFromRoster?: boolean
   clubs?: { icon: string; label: string }[]
   currently?: { label: string; value: string }[]
   stack?: { category: string; items: (string | { name: string; detail?: string })[] }[]
@@ -35,11 +37,12 @@ export type TeamMember = {
 export const teamMembers: TeamMember[] = [
   {
     username: "shiara",
+    alumni: true,
     name: "Shiara Arauzo",
     role: "Design Engineer",
     location: "Lima, Peru",
     timezone: "America/Lima",
-    image: "/team/shiara.png",
+    image: "/team/station-ink/shiara-cutout-v1.webp",
     bio: {
       en: "Name it and I'll learn it. Design engineer building across web, videogames and research. Building products where neuroscience meets user experience. Founder of Glitch Girls and organizer of #SheShips, empowering women across LATAM to build and ship.",
       es: "Nómbralo y lo aprenderé. Ingeniera de diseño construyendo en web, videojuegos e investigación. Construyendo productos donde la neurociencia se encuentra con la experiencia de usuario. Fundadora de Glitch Girls y organizadora de #SheShips, empoderando a mujeres en LATAM para construir y hacer ship.",
@@ -149,7 +152,7 @@ export const teamMembers: TeamMember[] = [
     role: "Founder",
     location: "Buenos Aires, Argentina",
     timezone: "America/Argentina/Buenos_Aires",
-    image: "/team/railly.png",
+    image: "/team/station-ink/railly-cutout-v1.webp",
     bio: {
       en: "Peruvian software engineer based in Buenos Aires. Software Engineer at Vercel Labs, founder of Crafter Station, principal creator of Petdex, and Codex Ambassador in Peru.",
       es: "Ingeniero de software peruano radicado en Buenos Aires. Software Engineer en Vercel Labs, fundador de Crafter Station, creador principal de Petdex y Codex Ambassador en Perú.",
@@ -231,6 +234,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     username: "cuevaio",
+    alumni: true,
     name: "Anthony Cueva",
     role: "Product Engineer",
     location: "Somewhere in the world",
@@ -293,6 +297,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     username: "emmy",
+    alumni: true,
     name: "Emmy Arias",
     role: "Growth & Marketing",
     location: "Bogota, Colombia",
@@ -323,7 +328,7 @@ export const teamMembers: TeamMember[] = [
     role: "Data & Software Engineer",
     location: "Bogota, Colombia",
     timezone: "America/Bogota",
-    image: "/team/cris.png",
+    image: "/team/station-ink/cris-cutout-v5.webp",
     bio: {
       en: "Software engineer and statistician with deep roots in big data engineering. Founder of Croma, an API for government data, and before that of Kebo, an open-source AI financial agent used by 100k+ people across LATAM. Eight years in tech: data foundations at Rappi, Platzi and Nubank, and real-time products taken from zero to one.",
       es: "Ingeniero de software y estadístico con raíces profundas en ingeniería de big data. Fundador de Croma, una API para datos gubernamentales, y antes de Kebo, un agente financiero de IA open source usado por más de 100k personas en LATAM. Ocho años en tech: infraestructura de datos en Rappi, Platzi y Nubank, y productos en tiempo real llevados de cero a uno.",
@@ -370,7 +375,7 @@ export const teamMembers: TeamMember[] = [
     name: "Nicolas Vargas",
     role: "AI Engineer",
     location: "Bogota, Colombia",
-    image: "/team/nicolas.png",
+    image: "/team/station-ink/nicolas-cutout-v1.webp",
     bio: {
       en: "Backend developer focused on cloud and AI-driven solutions. Specializes in serverless technologies, cloud architecture, and building scalable, high-performance applications with clean abstractions.",
       es: "Desarrollador backend enfocado en soluciones cloud e impulsadas por IA. Especializado en serverless, arquitectura cloud y aplicaciones escalables con abstracciones limpias.",
@@ -446,7 +451,7 @@ export const teamMembers: TeamMember[] = [
     name: "Ignacio Velasquez",
     role: "Growth & Automation",
     location: "Arequipa, Peru",
-    image: "/team/nacho.png",
+    image: "/team/station-ink/nacho-cutout-v1.webp",
     bio: {
       en: "Growth and automation specialist focused on helping products reach the right people. Builds systems that scale distribution and community engagement across LATAM.",
       es: "Especialista en growth y automatización enfocado en ayudar a productos a llegar a las personas correctas. Construye sistemas que escalan distribución y comunidad en LATAM.",
@@ -466,7 +471,7 @@ export const teamMembers: TeamMember[] = [
     name: "Ignacio Rueda",
     role: "Backend Engineer",
     location: "Lima, Peru",
-    image: "/team/ignacio.png",
+    image: "/team/station-ink/ignacio-cutout-v1.webp",
     bio: {
       en: "Backend engineer focused on building reliable, performant APIs and systems. Loves Go and distributed systems.",
       es: "Ingeniero backend enfocado en construir APIs y sistemas confiables y de alto rendimiento. Le apasiona Go y los sistemas distribuidos.",
@@ -505,7 +510,7 @@ export const teamMembers: TeamMember[] = [
     name: "Liz Riveros",
     role: "Project Manager",
     location: "Lima, Peru",
-    image: "/team/liz.png",
+    image: "/team/station-ink/liz-cutout-v3.webp",
     bio: {
       en: "Project manager who keeps the team aligned, the roadmap honest, and the shipping cadence high. Brings structure to chaos without slowing things down.",
       es: "Project manager que mantiene al equipo alineado, el roadmap honesto y el ritmo de shipeo alto. Aporta estructura al caos sin frenar las cosas.",
@@ -519,6 +524,8 @@ export const teamMembers: TeamMember[] = [
   },
   {
     username: "gabriel",
+    alumni: true,
+    hiddenFromRoster: true,
     name: "Gabriel Antunes",
     role: "AI Engineer · Full-Stack",
     location: "Vila Velha, Brazil",
@@ -540,7 +547,7 @@ export const teamMembers: TeamMember[] = [
     name: "Carlos Tarmeno",
     role: "Frontend Engineer",
     location: "Lima, Peru",
-    image: "/team/tarmeno.png",
+    image: "/team/station-ink/tarmeno-cutout-v1.webp",
     bio: {
       en: "Frontend engineer who cares deeply about craft and user experience. Builds polished, accessible interfaces and loves the intersection of design and code.",
       es: "Ingeniero frontend que se preocupa profundamente por el oficio y la experiencia de usuario. Construye interfaces pulidas y accesibles, y ama la intersección entre diseño y código.",
@@ -556,16 +563,17 @@ export const teamMembers: TeamMember[] = [
   },
   {
     username: "juan",
+    alumni: true,
     name: "Juan Ortega",
     role: "Software Engineer",
     location: "Bogotá, Colombia",
     image: "/team/juan.png",
     bio: {
-      en: "Software engineer building visagente.com, a product that helps people move up their U.S. visa appointment dates. Focused on shipping useful tools that solve real-world problems for Latin Americans abroad.",
-      es: "Ingeniero de software construyendo visagente.com, un producto que ayuda a las personas a adelantar su cita de visa americana. Enfocado en shipear herramientas útiles que resuelven problemas reales para latinoamericanos en el exterior.",
-      pt: "Engenheiro de software construindo o visagente.com, um produto que ajuda as pessoas a antecipar a data da entrevista do visto americano. Focado em fazer ship de ferramentas úteis que resolvem problemas reais para latino-americanos no exterior.",
-      zh: "正在构建 visagente.com 的软件工程师，这个产品帮助人们提前美国签证面谈日期。专注于 ship 能为海外拉美人解决真实问题的实用工具。",
-      ja: "アメリカのビザ面接日を早めるプロダクト、visagente.com を開発しているソフトウェアエンジニア。海外にいるラテンアメリカの人々の現実の課題を解決する、便利なツールをシップすることに注力しています。",
+      en: "Software engineer focused on shipping useful tools that solve real-world problems for Latin Americans abroad.",
+      es: "Ingeniero de software enfocado en construir herramientas útiles que resuelven problemas reales para latinoamericanos en el exterior.",
+      pt: "Engenheiro de software focado em criar ferramentas úteis que resolvem problemas reais para latino-americanos no exterior.",
+      zh: "软件工程师，专注于构建能为海外拉美人解决真实问题的实用工具。",
+      ja: "ソフトウェアエンジニア。海外にいるラテンアメリカの人々の現実の課題を解決する、便利なツールをつくることに注力しています。",
     },
     skills: [
       "TypeScript",
@@ -577,7 +585,6 @@ export const teamMembers: TeamMember[] = [
     ],
     github: "https://github.com/juanortega10",
     linkedin: "https://www.linkedin.com/in/juanortegariveros/",
-    website: "https://visagente.com",
     joinedYear: 2026,
   },
   {
@@ -586,7 +593,7 @@ export const teamMembers: TeamMember[] = [
     role: "Frontend Engineer",
     location: "Lima, Peru",
     timezone: "America/Lima",
-    image: "/team/edward.png",
+    image: "/team/station-ink/edward-cutout-v1.webp",
     bio: {
       en: "I refine frontend products—features, edge cases, and flows—until they work for real users in production, not just in review. Ownership on every project, care in every release, down to the details most teams skip.",
       es: "Refino productos frontend—features, casuísticas y flujos—hasta que funcionen para usuarios reales en producción, no solo en el review. Ownership en cada proyecto, cuidado en cada entrega, hasta los detalles que la mayoría deja pasar.",
@@ -642,7 +649,7 @@ export const teamMembers: TeamMember[] = [
     role: "China Community Lead",
     location: "Beijing, China",
     timezone: "Asia/Shanghai",
-    image: "/team/henryjing.png",
+    image: "/team/station-ink/henryjing-cutout-v1.webp",
     bio: {
       en: "China Community Lead at Crafter Station, connecting developers, open-source projects, and technology teams across China and Latin America. Focused on AI, developer tools, and global innovation, he uses content, events, and community collaboration to help products, experience, and opportunities move between both regions.",
       es: "Líder de la comunidad de Crafter Station en China, conectando a developers, proyectos open source y equipos de tecnología de China y Latinoamérica. Enfocado en IA, herramientas para developers e innovación global, usa contenido, eventos y colaboración comunitaria para que productos, aprendizajes y oportunidades circulen entre ambas regiones.",
@@ -678,6 +685,44 @@ export const teamMembers: TeamMember[] = [
     ],
   },
 ]
+
+export const activeTeamMembers = teamMembers.filter((member) => !member.alumni && !member.hiddenFromRoster)
+
+export const alumniTeamMembers = teamMembers.filter((member) => member.alumni && !member.hiddenFromRoster)
+
+export const featuredTeamMembers = ["railly", "ignacio", "liz", "edward"].flatMap(
+  (username) => {
+    const member = activeTeamMembers.find((person) => person.username === username)
+    return member ? [member] : []
+  },
+)
+
+export const teamAreas = ["engineering", "design", "growth", "community"] as const
+
+export type TeamArea = (typeof teamAreas)[number]
+
+const areaPatterns: Record<TeamArea, RegExp> = {
+  engineering: /engineer|developer|full-stack/i,
+  design: /design/i,
+  growth: /growth|marketing|automation/i,
+  community: /community|project manager|founder/i,
+}
+
+export function memberAreas(member: TeamMember): TeamArea[] {
+  return teamAreas.filter((area) => areaPatterns[area].test(member.role))
+}
+
+export function countryCount(members: TeamMember[]) {
+  const countries = members.flatMap((member) => {
+    const country = member.location?.split(",").at(-1)?.trim()
+    return country ? [country] : []
+  })
+  return new Set(countries).size
+}
+
+export function primaryLink(member: TeamMember) {
+  return member.linkedin ?? member.github ?? member.website ?? member.x
+}
 
 export function getTeamMember(username: string) {
   return teamMembers.find((member) => member.username === username)

@@ -6,8 +6,6 @@ import { notFound } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
 import { ProfileLocationLine } from "@/components/profile-location-line"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { isLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 import { getCrafterProfile, listCrafterShips } from "@/lib/ships"
@@ -61,17 +59,17 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
+        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
           <div className="flex flex-col gap-8 sm:flex-row sm:items-center">
-            <div className="relative size-28 shrink-0 overflow-hidden rounded-full border border-line bg-secondary">
-              {member.avatarUrl ? <Image src={member.avatarUrl} alt="" fill sizes="112px" className="object-cover" /> : <span className="grid h-full place-items-center text-4xl text-muted-foreground">{member.displayName.charAt(0).toUpperCase()}</span>}
+            <div className="station-crafter-avatar relative shrink-0 overflow-hidden bg-secondary">
+              {member.avatarUrl ? <Image src={member.avatarUrl} alt="" fill sizes="160px" className="object-cover" /> : <span className="grid h-full place-items-center text-4xl text-muted-foreground">{member.displayName.charAt(0).toUpperCase()}</span>}
             </div>
             <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">{t.crafter}</p>
+              <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">{t.crafter}</p>
               <h1 className="mt-3 text-5xl font-semibold tracking-tighter md:text-7xl">{member.displayName}</h1>
-              <p className="mt-3 font-mono text-sm text-muted-foreground">@{member.handle}</p>
+              <p className="mt-3 font-label text-sm text-muted-foreground">@{member.handle}</p>
               <ProfileLocationLine
                 origin={member.originLocation}
                 based={member.basedLocation}
@@ -82,17 +80,17 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
             </div>
           </div>
           {member.currentRole ? <p className="mt-8 text-xl tracking-tight">{member.currentRole}</p> : null}
-          {member.isJobSeeking ? <p className="mt-4 w-fit border border-accent px-3 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-accent">{t.available}</p> : null}
+          {member.isJobSeeking ? <p className="mt-4 w-fit border border-accent px-3 py-2 font-label text-xs uppercase tracking-[0.18em] text-accent">{t.available}</p> : null}
           {member.bio ? <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">{member.bio}</p> : null}
           {member.rolesOpenTo.length > 0 ? (
             <div className="mt-10">
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{t.openTo}</p>
+              <p className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{t.openTo}</p>
               <div className="mt-3 flex flex-wrap gap-2">{member.rolesOpenTo.map((role) => <span key={role} className="border border-line px-3 py-2 text-sm">{role}</span>)}</div>
             </div>
           ) : null}
           <ProfileLinks member={member} label={t.links} />
-          <h2 className="mt-16 border-b border-line pb-5 text-3xl tracking-tight">{t.ships}</h2>
-          <div className="grid md:grid-cols-2 xl:grid-cols-3">
+          <h2 className="mt-16 pb-5 text-3xl tracking-tight">{t.ships}</h2>
+          <div className="station-card-grid">
             {ships.map((ship) => (
               <Link key={ship.id} href={`/${lang}/ships/${ship.slug}`} className="min-h-56 border-b border-r border-line p-7 transition-colors hover:bg-accent-surface/10">
                 {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mb-5 aspect-video w-full border border-line object-cover" /> : null}
@@ -103,7 +101,7 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
           </div>
         </Container>
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }
@@ -122,8 +120,8 @@ function ProfileLinks({ member, label }: { member: MemberProfile; label: string 
 
   return (
     <div className="mt-10">
-      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{label}</p>
-      <div className="mt-3 flex flex-wrap gap-x-6 gap-y-3">
+      <p className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{label}</p>
+      <div className="station-profile-links mt-3">
         {links.map(([name, url]) => <a key={name} href={url} target="_blank" rel="noopener noreferrer" className="border-b border-foreground pb-1 text-sm hover:border-accent hover:text-accent">{name}</a>)}
       </div>
     </div>

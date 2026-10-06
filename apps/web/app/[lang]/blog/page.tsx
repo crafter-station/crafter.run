@@ -8,10 +8,7 @@ import { BlogIndex } from "@/components/blog/entry-list"
 import { toEntryViews } from "@/components/blog/format"
 import { BlogHero } from "@/components/blog/hero"
 import { BlogPager } from "@/components/blog/pagination"
-import { SectionGap } from "@/components/grid-container"
 import { JsonLd } from "@/components/json-ld"
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
 import { BLOG_KINDS, getPage, pageCount } from "@/lib/blog"
 import { blogFeedPath, blogSitemapMdPath } from "@/lib/blog-paths"
 import { isLocale, locales } from "@/lib/i18n"
@@ -76,8 +73,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           posts: entries.map((entry) => ({ title: entry.title, url: `${baseUrl}${entry.href}` })),
         })}
       />
-      <SiteHeader locale={lang} />
-      <main className="flex-1">
+
+      <main className="journal-page">
         <BlogHero
           locale={lang}
           eyebrow={page("eyebrow")}
@@ -85,19 +82,16 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           description={page("description")}
           t={t}
         />
-        <SectionGap />
         <BlogIndex
           entries={entries}
           kindOrder={BLOG_KINDS}
-          feedHref={blogFeedPath(lang)}
-          t={{ ...t.nav, kinds: t.kinds, subscribe: t.subscribe, readPost: t.readPost, empty: t.empty }}
+          t={{ ...t.nav, kinds: t.kinds, readPost: t.readPost, empty: t.empty }}
         >
           <BlogPager locale={lang} page={1} pageCount={pageCount(lang)} t={t} />
         </BlogIndex>
-        <SectionGap />
         <BlogCta locale={lang} t={t} />
       </main>
-      <SiteFooter locale={lang} />
+
     </>
   )
 }

@@ -33,7 +33,7 @@ export function ContactPicker({
   return (
     <>
       <Container innerClassName="border-y px-6 py-10 md:px-10">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+        <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
           {eyebrow}
         </p>
         <h2 className="mt-3 max-w-3xl text-3xl tracking-tight md:text-4xl">
@@ -44,7 +44,7 @@ export function ContactPicker({
         </p>
       </Container>
       <Container>
-        <div className="grid grid-cols-1 border-b border-line md:grid-cols-2 xl:grid-cols-4">
+        <div className="station-card-grid station-contact-tracks">
           {tracks.map((track, i) => {
             const isActive = track.id === active.id
             return (
@@ -69,7 +69,7 @@ export function ContactPicker({
                     isActive ? "bg-foreground opacity-100" : "opacity-0",
                   )}
                 />
-                <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                <span className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
                   {withLabel} {track.host}
                 </span>
                 <span className="mt-3 text-lg tracking-tight text-foreground">

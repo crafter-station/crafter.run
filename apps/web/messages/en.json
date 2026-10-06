@@ -9,19 +9,11 @@
     "line1": "The LatAm",
     "line2": "network of",
     "line3": "shippers.",
-    "description": "A community of 1000+ builders, an open-source ecosystem, products, research, and events helping LatAm shippers meet, learn, and build in public.",
+    "description": "Crafter Station connects builders across LatAm through community, open source, research, games, experiments, and gatherings.",
     "workCta": "Work with us",
     "communityCta": "Join the community",
     "eventsCta": "See events",
     "ossCta": "Explore open source",
-    "workPreview": {
-      "section": "LatAm growth partner",
-      "eyebrow": "For devtools and startups",
-      "title": "Launch with the builders you actually want to reach.",
-      "description": "We design hackathons, Code Brews, workshops, product launches, content, and community activations for teams that want real LatAm adoption, not vanity impressions.",
-      "cta": "Work with us",
-      "cardCta": "Start a conversation"
-    },
     "collaborations": {
       "eyebrow": "Collaborations",
       "description": "Collaborated with teams and ecosystems including devtools, AI labs, fintech startups, and infrastructure companies."
@@ -67,40 +59,39 @@
   "nav": {
     "ships": "Ships",
     "oss": "Open source",
-    "products": "Products",
-    "events": "Events",
+    "events": "Calendar",
     "hackathon": "Hackathons",
     "research": "Research",
     "team": "Team",
     "workCta": "Work with us",
     "communityCta": "Join the community",
     "openMenu": "Open menu",
-    "closeMenu": "Close menu"
+    "closeMenu": "Close menu",
+    "network": "Universe"
   },
   "footer": {
     "company": "Crafter Station",
     "build": "Build",
-    "productLab": "What we build",
     "community": "Community",
     "social": "Social",
     "companyLinks": {
-      "events": "Events",
+      "events": "Calendar",
       "hackathon": "Hackathons",
       "sponsorEvents": "Brand partnerships",
-      "products": "Products",
       "team": "Team",
       "workWithUs": "Engineering & design consulting",
-      "contact": "Contact"
+      "contact": "Contact",
+      "network": "Universe"
     },
     "buildLinks": {
       "blog": "Blog",
       "oss": "Open source",
       "ossMetrics": "OSS metrics",
-      "products": "Products",
       "timeline": "Project activity",
       "research": "Research",
       "next": "Next",
-      "brand": "Brand"
+      "brand": "Brand",
+      "network": "Universe"
     },
     "communityLinks": {
       "joinCommunity": "Join the community",
@@ -114,47 +105,51 @@
     "oss": {
       "eyebrow": "Open source",
       "title": "Open source, open to contributors.",
-      "description": "These repos across the Crafter Station network are maintained and accepting outside contributors: CLIs, design systems, editor tools, and community infrastructure. Pick one and ship.",
-      "githubCta": "Open GitHub org",
-      "metricsCta": "See OSS metrics",
-      "reposEyebrow": "The repos",
-      "reposTitle": "Maintained, public, and waiting for your PR.",
-      "reposDescription": "Live data from GitHub, refreshed daily. Stars and open work update on their own; the list itself is curated by the team.",
+      "description": "CLIs, interfaces, and small experiments that grow when someone else uses, tests, and improves them.",
+      "githubCta": "Crafter on GitHub",
+      "metricsCta": "Explore the metrics",
+      "reposEyebrow": "The catalog",
+      "reposTitle": "Your next contribution starts here.",
+      "reposDescription": "Real tools. Code in the open. Find something that sparks your curiosity.",
       "descriptionPending": "Description coming soon.",
       "openIssues": "{count, plural, one {1 open issue or PR} other {# open issues + PRs}}",
-      "repoCta": "Contribute",
+      "repoCta": "View repository",
       "howEyebrow": "How to contribute",
-      "howTitle": "Three steps to your first merged PR.",
-      "step1Title": "Pick a repo",
-      "step1Description": "Start with whatever you already use. Every repo above ships with the same stack: TypeScript, Bun, and Biome.",
-      "step2Title": "Find an issue",
-      "step2Description": "Look for good-first-issue and help-wanted labels, or open an issue proposing what you want to build before writing code.",
-      "step3Title": "Ship the PR",
-      "step3Description": "Small, focused pull requests with conventional commits get reviewed fastest. Maintainers respond in the community if you get stuck.",
+      "howTitle": "A small change can open a lot.",
+      "step1Title": "Find your project",
+      "step1Description": "Explore the code, try the tool, and read its contribution guide. Every project has its own way of working.",
+      "step2Title": "Start a conversation",
+      "step2Description": "Find an issue or share what you would like to improve. Agreeing on an idea is a good first step.",
+      "step3Title": "Send your first PR",
+      "step3Description": "Make a small change, test it, and explain what it solves. Ask the community for a hand.",
       "programEyebrow": "Beyond our repos",
-      "programTitle": "Building open source in LatAm? We want to help.",
-      "programDescription": "We are shaping a support program for open-source projects from the region: perks from our products like Maca, mentorship from the team, and visibility across the Crafter Station network. Tell us what you are building.",
+      "programTitle": "Building from LatAm, together.",
+      "programDescription": "Share what you are building, find collaborators, and learn alongside other projects from the region.",
       "programCta": "Talk to us",
-      "communityCta": "Join the community",
+      "communityCta": "Talk with the community",
       "timelineEyebrow": "Activity",
-      "timelineTitle": "See how the work moved over time.",
-      "timelineDescription": "Every public repo on one timeline: when each project moved forward, who committed, and how active it is right now.",
-      "timelineCta": "Open project activity",
+      "timelineTitle": "The code keeps moving.",
+      "timelineDescription": "Explore the projects and people moving them forward.",
+      "timelineCta": "Explore the activity",
       "panelEyebrow": "The network",
       "panelStars": "stars",
-      "panelRepos": "repos",
-      "panelIssues": "issues open for contribution",
-      "filterAll": "All",
+      "panelRepos": "repositories",
+      "panelIssues": "open issues + PRs",
+      "filterAll": "The whole network",
       "filterLabel": "Filter by organization",
       "suggestCta": "Suggest a project",
       "suggestEyebrow": "Missing tool",
-      "suggestTitle": "Tell us what the ecosystem still needs.",
-      "suggestDescription": "If a tool should exist and does not, put it on the board. Ideas are posted publicly, anyone can vote, and the ones the community pushes up are the ones we pick up next.",
-      "suggestBoardCta": "Open the ideas board"
+      "suggestTitle": "Missing a tool?",
+      "suggestDescription": "Find a related project and open an issue with the problem, its context, and what you have tried. Start the conversation where the work happens.",
+      "suggestBoardCta": "Find a repository",
+      "heroLine1": "Open",
+      "heroLine2": "source.",
+      "heroNote": "Made to be shared",
+      "exploreCta": "Explore the code"
     },
     "ossMetrics": {
       "eyebrow": "OSS metrics",
-      "title": "Open source, operated in public.",
+      "title": "The pulse of open source.",
       "description": "A transparent view of contributor flow, maintainer throughput, and portfolio breadth across every repository listed on Crafter Station OSS.",
       "catalogCta": "Browse the repos",
       "githubCta": "Open GitHub",
@@ -240,13 +235,6 @@
       "contributeDescription": "Pick a maintained repository, find a focused issue, and send the next pull request into the system.",
       "contributeCta": "Find a repo"
     },
-    "work-with-us": {
-      "eyebrow": "Engineering & design consulting",
-      "title": "Bring the Crafter Station core team into your hardest product challenges.",
-      "description": "For organizations that have seen what our core team can ship and want that same engineering, product, and design judgment applied inside their company.",
-      "section": "A senior team for high-stakes product work.",
-      "sectionDescription": "We join focused engagements across product engineering, AI systems, interface design, design systems, technical strategy, and launches."
-    },
     "events": {
       "eyebrow": "Events",
       "title": "Code Brews, hackathons, launches, and workshops across LatAm.",
@@ -261,39 +249,15 @@
       "noFilteredEvents": "No events match this filter."
     },
     "events-sponsors": {
-      "eyebrow": "Community & brand activation partnerships",
-      "title": "Fund the rooms where LatAm builders meet, learn, and ship.",
-      "description": "Partner with Crafter Station to host events, run brand and product activations, produce hackathons, and build programs that earn attention through real participation.",
-      "section": "Turn brand support into something builders can experience.",
-      "sectionDescription": "We shape partnerships around your goals: hosted events, Code Brews, hackathons, workshops, launches, content, prizes, venues, food, and hands-on product activations."
-    },
-    "hackathon": {
-      "eyebrow": "Hackathons",
-      "title": "Hackathons where LatAm builders ship real products in a weekend.",
-      "description": "We run hack0 editions across the region: focused rooms, real deadlines, working demos, and teams that keep shipping after the prize.",
-      "section": "Build, demo, ship.",
-      "sectionDescription": "Every edition follows the same rhythm: a kickoff with the sponsors' tools, two days of building with mentors on the floor, and a demo night judged on what actually runs.",
-      "all": "All",
-      "upcoming": "Upcoming",
-      "past": "Past hackathons",
-      "register": "Register",
-      "noEvents": "[*] No hackathons announced right now. Check back soon.",
-      "noFilteredEvents": "No hackathons match this filter."
-    },
-    "products": {
-      "eyebrow": "Products",
-      "title": "Products we ship, support, and stand behind.",
-      "description": "Voice interfaces, agent tooling, research surfaces, and the writing we sell. These are the products we run as products, not as repos.",
-      "section": "What we sell and support.",
-      "sectionDescription": "Each one is maintained by the team and shipped to real users. If you are looking for the code we publish openly, that lives in open source.",
-      "ossEyebrow": "Open source",
-      "ossTitle": "Most of what we build is public.",
-      "ossDescription": "Our open-source repositories are catalogued separately, with live stars, open issues, and a path to your first contribution.",
-      "ossCta": "Browse open source"
+      "eyebrow": "Events & partnerships",
+      "title": "Build the next gathering.",
+      "description": "Partnerships for gatherings that leave something built. Connect your organization with Crafter workshops, hackathons, and community.",
+      "section": "Make the gathering count.",
+      "sectionDescription": "Contribute spaces, tools, content, or support so more people can learn and build together. Each gathering is designed around its community."
     },
     "ships": {
       "eyebrow": "Community ships",
-      "title": "Built by Crafters. Shared with everyone.",
+      "title": "Made by Crafters.",
       "description": "A living repository of apps, tools, experiments, and ideas made real by the Crafter community.",
       "installLabel": "Ship from your coding agent",
       "copyInstallCommand": "Copy skill installation command",
@@ -334,7 +298,7 @@
     },
     "timeline": {
       "eyebrow": "Open-source activity",
-      "title": "A year of building in public.",
+      "title": "A year of building.",
       "description": "Explore public projects from Crafter Station, Crafter Research, and our team. See when each project moved forward, who worked on it, and how active it was week by week.",
       "exploreCta": "Explore the activity",
       "githubCta": "Open GitHub",
@@ -430,35 +394,29 @@
       "catalogDescription": "Open the open-source catalog for live stars, technologies, and a path to your first contribution.",
       "catalogCta": "Open the OSS catalog"
     },
-    "research": {
-      "eyebrow": "Research",
-      "title": "Researching the systems behind better shipping.",
-      "description": "Crafter Research explores AI-first engineering, agents, developer experience, and the practices that help modern teams build with more leverage.",
-      "section": "For now, research lives on its own domain.",
-      "sectionDescription": "This page features the unit and links to the active research site, GitHub organization, and public project activity.",
-      "timelineTitle": "Public research activity lives on the timeline.",
-      "timelineCta": "See research on the timeline"
-    },
     "team": {
       "eyebrow": "Team",
-      "title": "The people growing the shipping culture.",
+      "title": "The people behind Crafter.",
       "description": "Crafter Station is built by engineers, designers, researchers, marketers, product people, operators, and community organizers across Latin America.",
       "section": "Small core, large network.",
       "sectionDescription": "The team combines product engineering, AI, design systems, backend, data, growth, automation, project management, and community building.",
-      "calendarEyebrow": "Open calendars",
-      "calendarTitle": "Book free 30-minute time with a Crafter Station member.",
-      "calendarDescription": "You can book mentorship, career advice, product feedback, or a calm conversation with any Crafter Station member. This is how we give back to the community that made the network possible.",
-      "calendarInstructions": "Go to the team page, pick a member, and use the calendar on their profile.",
-      "calendarCta": "See team calendars"
+      "alumniEyebrow": "Alumni",
+      "alumniTitle": "Crafters who helped build this.",
+      "teamCount": "{members} crafters across {countries} countries",
+      "filterAll": "All",
+      "areaEngineering": "Engineering",
+      "areaDesign": "Design",
+      "areaGrowth": "Growth",
+      "areaCommunity": "Community"
     },
     "blog": {
-      "eyebrow": "Blog",
-      "title": "What we ship, what we learn, written down.",
-      "description": "Engineering notes, community stories, and product lessons from Crafter Station and the builders around it. Every post goes out the same day the work does."
+      "eyebrow": "Field notes · Crafter Station",
+      "title": "Crafter Journal",
+      "description": "What we try, what we learn, and what is worth sharing. Engineering and culture from people building in LatAm."
     },
     "brand": {
       "eyebrow": "Brand resources",
-      "title": "Made to be recognized.",
+      "title": "The Crafter identity.",
       "description": "Download the official Crafter Station logo assets for articles, presentations, event pages, and partner materials.",
       "assets": "Assets",
       "iconTitle": "Logo icon",
@@ -474,47 +432,13 @@
     },
     "contact": {
       "eyebrow": "Contact",
-      "title": "Start with the right path.",
-      "description": "Tell us whether you want to partner, build, host an event, sponsor a hackathon, or join the community.",
-      "section": "What are you trying to do?",
-      "sectionDescription": "Choose the type of conversation and we will reply with the fastest path to start.",
-      "pickerEyebrow": "Book a call",
-      "pickerTitle": "Pick what you want to talk about.",
-      "pickerDescription": "Each track goes to whoever actually does that work, so you land with the right person on the first call.",
-      "pickerWith": "With",
-      "trackStartupLabel": "Engineering and design",
-      "trackStartupBlurb": "Senior product engineering, AI systems, interface design, and technical strategy for organizations with hard product challenges.",
-      "trackCareerLabel": "Career and mentorship",
-      "trackCareerBlurb": "Where to take your track in tech, what to build to get there, and honest feedback on where you are now.",
-      "trackOssLabel": "Open source and grants",
-      "trackOssBlurb": "How to make your first contributions, fund the work, and turn an idea into something people use.",
-      "trackSponsorLabel": "Brand partnerships",
-      "trackSponsorBlurb": "Hosted events, hackathons, and brand or product activations for LatAm builders."
-    },
-    "next": {
-      "eyebrow": "/projects/next",
-      "title": "Vote on the next thing we should craft.",
-      "description": "A live, community-ranked queue for project ideas the community can work on. Submit anonymously, leave an alias if you want, and move the best ideas up in realtime."
+      "title": "Let’s talk.",
+      "description": "Build, learn, bring your community together. Find a way to collaborate with Crafter."
     },
     "workshopQuestions": {
       "eyebrow": "/workshops/questions",
-      "title": "Ask the questions we should answer live.",
+      "title": "Your next question.",
       "description": "A realtime workshop queue where attendees submit validated questions, add their name, and vote the most useful topics to the top."
-    },
-    "opencodeQuestions": {
-      "eyebrow": "/opencode",
-      "title": "Ask Anthony about building with OpenCode.",
-      "description": "Submit your OpenCode questions and vote on what Anthony should answer live during the workshop."
-    },
-    "n8nQuestions": {
-      "eyebrow": "/n8n",
-      "title": "Ask Javo about n8n MCP + Claude Code automations.",
-      "description": "Submit your questions about n8n, MCP servers, Claude Code, automation, and flows. Vote on what Javo should answer live during the presentation."
-    },
-    "claudeCodeQuestions": {
-      "eyebrow": "/claude-code",
-      "title": "Ask Shiara about building with Claude Code.",
-      "description": "Submit your Claude Code questions and vote on what Shiara should answer live during the workshop."
     },
     "notFound": {
       "metaTitle": "404 · Page not found",
@@ -535,6 +459,15 @@
         "events": "Events",
         "team": "Team"
       }
+    },
+    "network": {
+      "eyebrow": "The Crafter universe",
+      "title": "One shared spark. Four directions.",
+      "description": "Research, Lab, Games, and Station. Four ways to investigate, experiment, play, and build together.",
+      "areasLabel": "The four areas of Crafter",
+      "exploreCta": "Explore the Crafter Universe",
+      "closing": "Every space has its own character. Curiosity connects us.",
+      "ossCta": "Explore open source"
     }
   },
   "member": {
@@ -557,12 +490,6 @@
     "tabSoftware": "Software",
     "tabHardware": "Hardware",
     "tabListening": "Listening"
-  },
-  "teamWorkCallout": {
-    "eyebrow": "Work with us",
-    "title": "Need the team behind Crafter Station?",
-    "description": "For product engineering, event partnerships, community activations, and LatAm growth collaborations, start here.",
-    "cta": "Work with us"
   },
   "cta": {
     "eyebrow": "Join the network",

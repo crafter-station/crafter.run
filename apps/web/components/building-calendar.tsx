@@ -63,7 +63,7 @@ export function BuildingCalendar({
   const canPrev = idx > 0
   const canNext = idx < months.length - 1
   const navBtn =
-    "font-mono text-sm text-muted-foreground transition-colors enabled:hover:text-foreground disabled:opacity-30"
+    "font-label text-sm text-muted-foreground transition-colors enabled:hover:text-foreground disabled:opacity-30"
 
   const listDays = days
     .filter((d) => d.date.slice(0, 7) === monthKey)
@@ -75,13 +75,13 @@ export function BuildingCalendar({
 
   return (
     <div>
-      <div className="flex items-baseline justify-between">
-        <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{label}</h2>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-3">
+        <h2 className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">{label}</h2>
         <div className="flex items-center gap-3">
           <button type="button" className={navBtn} disabled={!canPrev} onClick={() => canPrev && setMonthKey(months[idx - 1])} aria-label="Previous month">
             ‹
           </button>
-          <p className="w-32 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
+          <p className="min-w-32 text-center font-label text-xs uppercase tracking-[0.1em] text-muted-foreground/60">
             {monthName} {year}
           </p>
           <button type="button" className={navBtn} disabled={!canNext} onClick={() => canNext && setMonthKey(months[idx + 1])} aria-label="Next month">
@@ -93,7 +93,7 @@ export function BuildingCalendar({
       {/* Desktop / tablet: month grid */}
       <div className="mt-6 hidden grid-cols-7 gap-1.5 sm:grid">
         {WEEKDAYS.map((w) => (
-          <div key={w} className="pb-1 text-left font-mono text-[9px] uppercase tracking-[0.15em] text-muted-foreground/50">
+          <div key={w} className="pb-1 text-left font-label text-xs uppercase tracking-[0.15em] text-muted-foreground/50">
             {w}
           </div>
         ))}
@@ -109,11 +109,11 @@ export function BuildingCalendar({
                 isActive ? "border-line" : "border-transparent"
               }`}
             >
-              <span className={`font-mono text-[10px] leading-none ${isActive ? "text-foreground" : "text-muted-foreground/30"}`}>
+              <span className={`font-label text-xs leading-none ${isActive ? "text-foreground" : "text-muted-foreground/30"}`}>
                 {day}
               </span>
               {repos?.length ? (
-                <div className="flex w-full flex-col gap-0.5 text-[9px] leading-tight">
+                <div className="flex w-full flex-col gap-0.5 text-xs leading-tight">
                   {repos.map((repo) => (
                     <RepoLink key={repo.name} name={repo.name} dotClass="size-1.5" />
                   ))}
@@ -129,7 +129,7 @@ export function BuildingCalendar({
         {listDays.length ? (
           listDays.map((d) => (
             <div key={d.date} className="flex gap-4 py-3">
-              <p className="w-24 shrink-0 font-mono text-xs text-muted-foreground">{fmtDay(d.date)}</p>
+              <p className="w-24 shrink-0 font-label text-xs text-muted-foreground">{fmtDay(d.date)}</p>
               <div className="flex min-w-0 flex-col gap-1 text-sm">
                 {d.repos.map((repo) => (
                   <RepoLink key={repo.name} name={repo.name} dotClass="size-2" />
@@ -138,7 +138,7 @@ export function BuildingCalendar({
             </div>
           ))
         ) : (
-          <p className="py-3 font-mono text-xs text-muted-foreground/50">No public activity this month.</p>
+          <p className="py-3 font-label text-xs text-muted-foreground/50">No public activity this month.</p>
         )}
       </div>
     </div>

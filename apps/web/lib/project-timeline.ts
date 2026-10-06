@@ -1,5 +1,6 @@
 import { teamMembers } from "@/lib/team"
 import { ORGANIZATION_OWNERS } from "@/lib/project-timeline-org"
+import { isListedRepository } from "@/lib/project-visibility"
 
 export {
   matchesTimelineOrg,
@@ -351,7 +352,7 @@ async function fetchOwnerRepositories(
     }
 
     repositories.push(
-      ...page.nodes.filter((repository) => repository.pushedAt >= since),
+      ...page.nodes.filter((repository) => repository.pushedAt >= since && isListedRepository(repository.nameWithOwner)),
     )
     const oldestRepository = page.nodes[page.nodes.length - 1]
     hasNextPage =

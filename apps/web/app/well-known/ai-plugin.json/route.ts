@@ -16,7 +16,7 @@ export function GET() {
     name_for_human: siteConfig.name,
     name_for_model: "crafter_station",
     description_for_human: siteConfig.description.en,
-    description_for_model: `Read-only access to ${siteConfig.name}: documentation for its open source CLIs and libraries, the open source repository catalog, products, the core team, and projects published by the community. All endpoints are public and safe to call. Nothing here writes.`,
+    description_for_model: `Read-only access to ${siteConfig.name}: documentation for its open source CLIs and libraries, the open source repository catalog, the four Crafter areas, the core team, and projects published by the community. All endpoints are public and safe to call. Nothing here writes.`,
     auth: { type: "none" },
     api: { type: "openapi", url: `${baseUrl}/openapi.json` },
     mcp: { url: MCP_ENDPOINT, transport: "streamable-http" },

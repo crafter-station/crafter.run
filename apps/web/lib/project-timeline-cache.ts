@@ -1,4 +1,5 @@
 import { unstable_cache } from "next/cache"
+import { isListedRepository } from "@/lib/project-visibility"
 
 import {
   fetchProjectTimeline,
@@ -23,14 +24,15 @@ const getCachedLiveTimeline = unstable_cache(
 async function getSnapshot() {
   const snapshot = (await import("@/data/project-timeline.json"))
     .default as ProjectTimelineData
-  return { ...snapshot, source: "snapshot" as const }
+  return { ...snapshot, projects: snapshot.projects.filter(project => isListedRepository(project.fullName)), source: "snapshot" as const }
 }
 
 export async function getProjectTimeline(): Promise<ProjectTimelineData> {
   if (!process.env.GITHUB_TOKEN) return getSnapshot()
 
   try {
-    return await getCachedLiveTimeline()
+    const timeline = await getCachedLiveTimeline()
+    return { ...timeline, projects: timeline.projects.filter(project => isListedRepository(project.fullName)) }
   } catch (error) {
     console.warn("GitHub project timeline refresh failed; using snapshot.", error)
     return getSnapshot()

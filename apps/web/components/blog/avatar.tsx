@@ -15,7 +15,7 @@ import { type Locale, withLocale } from "@/lib/i18n"
 
 const AVATAR =
   "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full " +
-  "border border-line bg-secondary font-mono font-medium uppercase text-muted-foreground " +
+  "border border-line bg-secondary font-label font-medium uppercase text-muted-foreground " +
   "shadow-[0_0_0_1.5px_hsl(var(--background))]"
 
 /** Faces drawn before the group collapses into a count. The third slot becomes
@@ -45,7 +45,7 @@ export function AvatarGroup({
             zIndex: drawn.length - i,
             width: size,
             height: size,
-            fontSize: Math.round(size * 0.42),
+            fontSize: Math.max(14, Math.round(size * 0.42)),
           }}
         >
           {/* Empty alt: the group is aria-hidden and the byline spells every
@@ -59,8 +59,8 @@ export function AvatarGroup({
           />
           {overflow > 0 && i === drawn.length - 1 && (
             <span
-              className="absolute inset-0 flex items-center justify-center rounded-full bg-secondary font-mono text-foreground"
-              style={{ fontSize: Math.round(size * 0.42) }}
+              className="absolute inset-0 flex items-center justify-center rounded-full bg-secondary font-label text-foreground"
+              style={{ fontSize: Math.max(14, Math.round(size * 0.42)) }}
             >
               +{overflow}
             </span>
@@ -108,7 +108,7 @@ export function AuthorList({
             rel="author"
             className="group/author inline-flex items-center gap-3"
           >
-            <span className={AVATAR} style={{ width: 32, height: 32, fontSize: 12 }}>
+            <span className={AVATAR} style={{ width: 32, height: 32, fontSize: 14 }}>
               <Image
                 src={author.avatar}
                 alt=""

@@ -17,7 +17,7 @@ export type EntryAuthor = {
   role: string
   initials: string
   avatar: string
-  /** Locale-relative profile path, `/team/<username>`. */
+  /** Locale-relative team profile, or a former member's external profile. */
   path: string
 }
 

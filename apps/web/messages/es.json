@@ -9,19 +9,11 @@
     "line1": "La red",
     "line2": "LatAm de",
     "line3": "shippers.",
-    "description": "Una comunidad de 1000+ builders, un ecosistema de código abierto, productos, research y eventos para que shippers de LatAm se conozcan, aprendan y construyan en público.",
+    "description": "Crafter Station conecta a quienes construyen en LatAm: comunidad, código abierto, investigación, juegos, experimentos y encuentros.",
     "workCta": "Trabaja con nosotros",
     "communityCta": "Únete a la comunidad",
     "eventsCta": "Ver eventos",
     "ossCta": "Ver código abierto",
-    "workPreview": {
-      "section": "Partner de crecimiento en LatAm",
-      "eyebrow": "Para devtools y startups",
-      "title": "Lanza con los builders que realmente quieres alcanzar.",
-      "description": "Diseñamos hackathons, Code Brews, workshops, lanzamientos de producto, contenido y activaciones de comunidad para equipos que quieren adopción real en LatAm, no impresiones de vanidad.",
-      "cta": "Trabaja con nosotros",
-      "cardCta": "Empezar una conversación"
-    },
     "collaborations": {
       "eyebrow": "Colaboraciones",
       "description": "Hemos colaborado con equipos y ecosistemas incluyendo devtools, laboratorios de IA, startups fintech y compañías de infraestructura."
@@ -67,40 +59,39 @@
   "nav": {
     "ships": "Ships",
     "oss": "Código abierto",
-    "products": "Productos",
-    "events": "Eventos",
+    "events": "Agenda",
     "hackathon": "Hackathons",
     "research": "Research",
     "team": "Equipo",
     "workCta": "Trabaja con nosotros",
     "communityCta": "Únete a la comunidad",
     "openMenu": "Abrir menú",
-    "closeMenu": "Cerrar menú"
+    "closeMenu": "Cerrar menú",
+    "network": "Universo"
   },
   "footer": {
     "company": "Crafter Station",
     "build": "Construir",
-    "productLab": "Lo que construimos",
     "community": "Comunidad",
     "social": "Social",
     "companyLinks": {
-      "events": "Eventos",
+      "events": "Agenda",
       "hackathon": "Hackathons",
       "sponsorEvents": "Partnerships de marca",
-      "products": "Productos",
       "team": "Equipo",
       "workWithUs": "Consultoría de ingeniería y diseño",
-      "contact": "Contacto"
+      "contact": "Contacto",
+      "network": "Universo"
     },
     "buildLinks": {
       "blog": "Blog",
       "oss": "Código abierto",
       "ossMetrics": "Métricas OSS",
-      "products": "Productos",
       "timeline": "Actividad de proyectos",
       "research": "Research",
       "next": "Next",
-      "brand": "Brand"
+      "brand": "Brand",
+      "network": "Universo"
     },
     "communityLinks": {
       "joinCommunity": "Únete a la comunidad",
@@ -114,47 +105,51 @@
     "oss": {
       "eyebrow": "Código abierto",
       "title": "Código abierto, abierto a contribuidores.",
-      "description": "Estos repos de la red Crafter Station están mantenidos y aceptan contribuciones externas: CLIs, design systems, herramientas de editor e infraestructura de comunidad. Elige uno y shippea.",
-      "githubCta": "Abrir org de GitHub",
-      "metricsCta": "Ver métricas OSS",
-      "reposEyebrow": "Los repos",
-      "reposTitle": "Mantenidos, públicos y esperando tu PR.",
-      "reposDescription": "Datos en vivo de GitHub, actualizados a diario. Las estrellas y el trabajo abierto se actualizan solos; la lista la cura el equipo.",
+      "description": "CLIs, interfaces y pequeños experimentos que crecen cuando alguien más los usa, los prueba y los mejora.",
+      "githubCta": "Crafter en GitHub",
+      "metricsCta": "Ver las métricas",
+      "reposEyebrow": "El catálogo",
+      "reposTitle": "Tu próxima contribución empieza aquí.",
+      "reposDescription": "Herramientas reales. Código a la vista. Elige algo que te dé curiosidad.",
       "descriptionPending": "Descripción próximamente.",
       "openIssues": "{count, plural, one {1 issue o PR abierto} other {# issues + PRs abiertos}}",
-      "repoCta": "Contribuir",
+      "repoCta": "Ver repositorio",
       "howEyebrow": "Cómo contribuir",
-      "howTitle": "Tres pasos hasta tu primer PR mergeado.",
-      "step1Title": "Elige un repo",
-      "step1Description": "Empieza por el que ya uses. Todos los repos comparten el mismo stack: TypeScript, Bun y Biome.",
-      "step2Title": "Encuentra un issue",
-      "step2Description": "Busca los labels good-first-issue y help-wanted, o abre un issue proponiendo lo que quieres construir antes de escribir código.",
-      "step3Title": "Shippea el PR",
-      "step3Description": "Los pull requests chicos y enfocados con conventional commits se revisan más rápido. Si te trabas, el equipo responde en la comunidad.",
+      "howTitle": "Un pequeño cambio puede abrir mucho.",
+      "step1Title": "Encuentra tu proyecto",
+      "step1Description": "Explora el código, prueba la herramienta y revisa su guía de contribución. Cada proyecto tiene su forma de trabajar.",
+      "step2Title": "Abre la conversación",
+      "step2Description": "Busca un issue o comparte lo que te gustaría mejorar. Acordar una idea es un buen primer paso.",
+      "step3Title": "Envía tu primer PR",
+      "step3Description": "Haz un cambio pequeño, pruébalo y cuenta qué resuelve. En la comunidad puedes pedir una mano.",
       "programEyebrow": "Más allá de nuestros repos",
-      "programTitle": "¿Construyes open source en LatAm? Queremos ayudar.",
-      "programDescription": "Estamos armando un programa de apoyo para proyectos open source de la región: perks de nuestros productos como Maca, mentoría del equipo y visibilidad en la red Crafter Station. Cuéntanos qué estás construyendo.",
+      "programTitle": "Construir desde LatAm, en compañía.",
+      "programDescription": "Comparte lo que estás construyendo, encuentra colaboradores y aprende con otros proyectos de la región.",
       "programCta": "Escríbenos",
-      "communityCta": "Únete a la comunidad",
+      "communityCta": "Conversar con la comunidad",
       "timelineEyebrow": "Actividad",
-      "timelineTitle": "Mira cómo avanzó el trabajo en el tiempo.",
-      "timelineDescription": "Todos los repos públicos en una línea de tiempo: cuándo avanzó cada proyecto, quién commiteó y qué tan activo está ahora.",
-      "timelineCta": "Ver actividad",
+      "timelineTitle": "El código sigue en movimiento.",
+      "timelineDescription": "Explora los proyectos y las personas que los hacen avanzar.",
+      "timelineCta": "Explorar la actividad",
       "panelEyebrow": "La red",
       "panelStars": "estrellas",
-      "panelRepos": "repos",
-      "panelIssues": "issues abiertos para contribuir",
-      "filterAll": "Todos",
+      "panelRepos": "repositorios",
+      "panelIssues": "issues + PRs abiertos",
+      "filterAll": "Toda la red",
       "filterLabel": "Filtrar por organización",
       "suggestCta": "Sugerir un proyecto",
       "suggestEyebrow": "Herramienta que falta",
-      "suggestTitle": "Contanos qué le falta al ecosistema.",
-      "suggestDescription": "Si una herramienta debería existir y no existe, ponela en el board. Las ideas se publican, cualquiera vota, y las que la comunidad empuja son las que tomamos.",
-      "suggestBoardCta": "Ver el board de ideas"
+      "suggestTitle": "¿Te falta una herramienta?",
+      "suggestDescription": "Encuentra un proyecto relacionado y abre una issue con el problema, el contexto y lo que has probado. La conversación empieza donde se construye.",
+      "suggestBoardCta": "Encontrar un repositorio",
+      "heroLine1": "Código",
+      "heroLine2": "abierto.",
+      "heroNote": "Creado para compartir",
+      "exploreCta": "Explorar el código"
     },
     "ossMetrics": {
       "eyebrow": "Métricas OSS",
-      "title": "Open source, operado en público.",
+      "title": "El pulso del open source.",
       "description": "Una vista transparente del flujo de contribuidores, el throughput de mantenimiento y la amplitud del portfolio completo de Crafter Station OSS.",
       "catalogCta": "Explorar los repos",
       "githubCta": "Abrir GitHub",
@@ -240,13 +235,6 @@
       "contributeDescription": "Elige un repositorio mantenido, encuentra un issue enfocado y envía el próximo pull request al sistema.",
       "contributeCta": "Encontrar un repo"
     },
-    "work-with-us": {
-      "eyebrow": "Consultoría de ingeniería y diseño",
-      "title": "Suma al core team de Crafter Station a tus desafíos de producto más difíciles.",
-      "description": "Para organizaciones que vieron lo que nuestro core team puede construir y quieren ese mismo criterio de ingeniería, producto y diseño dentro de su compañía.",
-      "section": "Un equipo senior para trabajo de producto de alto impacto.",
-      "sectionDescription": "Entramos en proyectos enfocados de ingeniería de producto, sistemas de IA, diseño de interfaces, design systems, estrategia técnica y lanzamientos."
-    },
     "events": {
       "eyebrow": "Eventos",
       "title": "Code Brews, hackathons, launches y workshops en LatAm.",
@@ -261,39 +249,15 @@
       "noFilteredEvents": "No hay eventos con este filtro."
     },
     "events-sponsors": {
-      "eyebrow": "Partnerships de comunidad y activación de marca",
-      "title": "Financia los espacios donde builders de LatAm se conocen, aprenden y shipean.",
-      "description": "Haz partnership con Crafter Station para organizar eventos, crear activaciones de marca y producto, producir hackathons y construir programas que ganan atención con participación real.",
-      "section": "Convierte el apoyo de tu marca en algo que los builders puedan vivir.",
-      "sectionDescription": "Diseñamos partnerships según tus objetivos: eventos, Code Brews, hackathons, workshops, lanzamientos, contenido, premios, venues, comida y activaciones hands-on."
-    },
-    "hackathon": {
-      "eyebrow": "Hackathons",
-      "title": "Hackathons donde los builders de LatAm shippean productos reales en un fin de semana.",
-      "description": "Organizamos ediciones de hack0 en toda la región: salas enfocadas, deadlines reales, demos que funcionan y equipos que siguen shippeando después del premio.",
-      "section": "Construye, demuestra, shippea.",
-      "sectionDescription": "Cada edición sigue el mismo ritmo: kickoff con las herramientas de los sponsors, dos días construyendo con mentores en la sala y una demo night que se juzga por lo que realmente corre.",
-      "all": "Todos",
-      "upcoming": "Próximos",
-      "past": "Hackathons pasados",
-      "register": "Registrarse",
-      "noEvents": "[*] No hay hackathons anunciados ahora. Vuelve pronto.",
-      "noFilteredEvents": "No hay hackathons con este filtro."
-    },
-    "products": {
-      "eyebrow": "Productos",
-      "title": "Productos que construimos, sostenemos y respaldamos.",
-      "description": "Interfaces de voz, herramientas para agentes, investigación y la escritura que vendemos. Estos son los productos que operamos como productos, no como repos.",
-      "section": "Lo que vendemos y sostenemos.",
-      "sectionDescription": "Cada uno lo mantiene el equipo y llega a usuarios reales. Si buscas el código que publicamos abiertamente, eso vive en código abierto.",
-      "ossEyebrow": "Código abierto",
-      "ossTitle": "Casi todo lo que construimos es público.",
-      "ossDescription": "Nuestros repositorios de código abierto están catalogados aparte, con estrellas en vivo, issues abiertos y un camino a tu primera contribución.",
-      "ossCta": "Ver código abierto"
+      "eyebrow": "Eventos y alianzas",
+      "title": "Creemos el próximo encuentro.",
+      "description": "Alianzas para encuentros que dejan algo construido. Conecta tu organización con workshops, hackathons y la comunidad de Crafter.",
+      "section": "Hagamos que el encuentro valga la pena.",
+      "sectionDescription": "Colabora con espacios, herramientas, contenidos o apoyo para que más personas aprendan y construyan juntas. Diseñamos cada encuentro alrededor de su comunidad."
     },
     "ships": {
       "eyebrow": "Ships de la comunidad",
-      "title": "Construido por Crafters. Compartido con todos.",
+      "title": "Hecho por Crafters.",
       "description": "Un repositorio vivo de apps, herramientas, experimentos e ideas hechas realidad por la comunidad Crafter.",
       "installLabel": "Publica desde tu agente de codigo",
       "copyInstallCommand": "Copiar comando de instalacion de la skill",
@@ -334,7 +298,7 @@
     },
     "timeline": {
       "eyebrow": "Actividad open source",
-      "title": "Un año construyendo en público.",
+      "title": "Un año construyendo.",
       "description": "Explora proyectos públicos de Crafter Station, Crafter Research y nuestro equipo. Mira cuándo avanzó cada proyecto, quiénes trabajaron en él y cuánta actividad tuvo semana a semana.",
       "exploreCta": "Explorar la actividad",
       "githubCta": "Abrir GitHub",
@@ -430,35 +394,29 @@
       "catalogDescription": "Abrí el catálogo de código abierto para ver estrellas en vivo, tecnologías y un camino a tu primera contribución.",
       "catalogCta": "Ver catálogo OSS"
     },
-    "research": {
-      "eyebrow": "Research",
-      "title": "Investigamos los sistemas detrás de shipear mejor.",
-      "description": "Crafter Research explora AI-first engineering, agentes, developer experience y prácticas para que equipos modernos construyan con más leverage.",
-      "section": "La unidad de research vive en su propio dominio.",
-      "sectionDescription": "Por ahora esta página destaca la unidad y enlaza al sitio activo, a GitHub y a la actividad pública de los proyectos.",
-      "timelineTitle": "La actividad pública de research está en la línea de tiempo.",
-      "timelineCta": "Ver research en la línea de tiempo"
-    },
     "team": {
       "eyebrow": "Equipo",
-      "title": "Las personas creciendo la cultura de shipear.",
+      "title": "Las personas detrás de Crafter.",
       "description": "Crafter Station está construido por ingenieros, diseñadores, investigadores, marketers, product people, operadores y organizadores en Latinoamérica.",
       "section": "Core pequeño, red grande.",
       "sectionDescription": "El equipo combina producto, AI, design systems, backend, data, growth, automatización y comunidad.",
-      "calendarEyebrow": "Calendarios abiertos",
-      "calendarTitle": "Agenda 30 minutos gratis con alguien de Crafter Station.",
-      "calendarDescription": "Puedes reservar mentorías, consejos de carrera, feedback de producto o una conversación tranquila con cualquier miembro de Crafter Station. Es nuestra forma de devolverle a la comunidad que hizo posible esta red.",
-      "calendarInstructions": "Ve a la página del equipo, elige a una persona y usa el calendario en su perfil.",
-      "calendarCta": "Ver calendarios del equipo"
+      "alumniEyebrow": "Alumni",
+      "alumniTitle": "Crafters que ayudaron a construir esto.",
+      "teamCount": "{members} crafters en {countries} países",
+      "filterAll": "Todos",
+      "areaEngineering": "Ingeniería",
+      "areaDesign": "Diseño",
+      "areaGrowth": "Growth",
+      "areaCommunity": "Comunidad"
     },
     "blog": {
-      "eyebrow": "Blog",
-      "title": "Lo que construimos y lo que aprendemos, por escrito.",
-      "description": "Notas de ingeniería, historias de la comunidad y lecciones de producto de Crafter Station y los builders que la rodean. Cada post sale el mismo día que el trabajo."
+      "eyebrow": "Notas de campo · Crafter Station",
+      "title": "Crafter Journal",
+      "description": "Lo que probamos, lo que aprendemos y lo que merece compartirse. Ingeniería y cultura de quienes construyen desde LatAm."
     },
     "brand": {
       "eyebrow": "Recursos de marca",
-      "title": "Hecha para ser reconocida.",
+      "title": "La identidad de Crafter.",
       "description": "Descarga los assets oficiales de Crafter Station para artículos, presentaciones, eventos y materiales de partners.",
       "assets": "Assets",
       "iconTitle": "Ícono del logo",
@@ -474,47 +432,13 @@
     },
     "contact": {
       "eyebrow": "Contacto",
-      "title": "Empieza por el camino correcto.",
-      "description": "Cuéntanos si quieres partner, construir, organizar un evento, patrocinar un hackathon o unirte a la comunidad.",
-      "section": "¿Qué quieres hacer?",
-      "sectionDescription": "Elige el tipo de conversación y te responderemos con la forma más rápida de empezar.",
-      "pickerEyebrow": "Agenda una llamada",
-      "pickerTitle": "Elegí de qué querés hablar.",
-      "pickerDescription": "Cada tema va con quien de verdad hace ese trabajo, así caes con la persona correcta desde la primera llamada.",
-      "pickerWith": "Con",
-      "trackStartupLabel": "Ingeniería y diseño",
-      "trackStartupBlurb": "Ingeniería de producto senior, sistemas de IA, diseño de interfaces y estrategia técnica para desafíos complejos.",
-      "trackCareerLabel": "Carrera y mentoría",
-      "trackCareerBlurb": "Hacia dónde llevar tu línea de carrera en tech, qué construir para llegar y feedback honesto de dónde estás hoy.",
-      "trackOssLabel": "Open source y grants",
-      "trackOssBlurb": "Cómo hacer tus primeras contribuciones, financiar el trabajo y convertir una idea en algo que la gente use.",
-      "trackSponsorLabel": "Partnerships de marca",
-      "trackSponsorBlurb": "Eventos, hackathons y activaciones de marca o producto para builders de LatAm."
-    },
-    "next": {
-      "eyebrow": "/projects/next",
-      "title": "Vota por lo próximo que deberíamos construir.",
-      "description": "Una cola en vivo, rankeada por la comunidad, para ideas de proyectos que la comunidad puede trabajar. Envía anónimamente, deja un alias si quieres y mueve las mejores ideas hacia arriba en realtime."
+      "title": "Hablemos.",
+      "description": "Construir, aprender, reunir a tu comunidad. Encuentra una forma de colaborar con Crafter."
     },
     "workshopQuestions": {
       "eyebrow": "/workshops/questions",
-      "title": "Pregunta lo que deberíamos responder en vivo.",
+      "title": "Tu próxima pregunta.",
       "description": "Una cola realtime para workshops donde asistentes envían preguntas validadas, agregan su nombre y votan los temas más útiles hasta arriba."
-    },
-    "opencodeQuestions": {
-      "eyebrow": "/opencode",
-      "title": "Pregúntale a Anthony sobre construir con OpenCode.",
-      "description": "Envía tus preguntas de OpenCode y vota lo que Anthony debería responder en vivo durante el workshop."
-    },
-    "n8nQuestions": {
-      "eyebrow": "/n8n",
-      "title": "Pregúntale a Javo sobre automatizaciones con n8n MCP + Claude Code.",
-      "description": "Envía tus preguntas sobre n8n, servidores MCP, Claude Code, automatización y flows. Vota lo que Javo debería responder en vivo durante la presentación."
-    },
-    "claudeCodeQuestions": {
-      "eyebrow": "/claude-code",
-      "title": "Pregúntale a Shiara sobre construir con Claude Code.",
-      "description": "Envía tus preguntas de Claude Code y vota lo que Shiara debería responder en vivo durante el workshop."
     },
     "notFound": {
       "metaTitle": "404 · Página no encontrada",
@@ -535,6 +459,15 @@
         "events": "Eventos",
         "team": "Equipo"
       }
+    },
+    "network": {
+      "eyebrow": "El universo Crafter",
+      "title": "Una misma chispa. Cuatro direcciones.",
+      "description": "Research, Lab, Games y Station. Cuatro formas de investigar, experimentar, jugar y construir en compañía.",
+      "areasLabel": "Las cuatro áreas de Crafter",
+      "exploreCta": "Explorar el universo Crafter",
+      "closing": "Cada espacio tiene su carácter. La curiosidad es compartida.",
+      "ossCta": "Explorar el código abierto"
     }
   },
   "member": {
@@ -558,19 +491,13 @@
     "tabHardware": "Hardware",
     "tabListening": "Escuchando"
   },
-  "teamWorkCallout": {
-    "eyebrow": "Trabaja con nosotros",
-    "title": "¿Necesitas al equipo detrás de Crafter Station?",
-    "description": "Para producto engineering, partnerships de eventos, activaciones de comunidad y colaboraciones de crecimiento en LatAm, empieza aquí.",
-    "cta": "Trabaja con nosotros"
-  },
   "cta": {
     "eyebrow": "Únete a la red",
     "title": "Construye con la red LatAm de shippers",
     "description": "Únete a la comunidad, ven a un evento, sigue los proyectos o haz partnership con nosotros en el próximo espacio lleno de builders.",
     "emailLabel": "Correo electrónico",
     "emailPlaceholder": "tu@empresa.com",
-    "submit": "Contactanos",
+    "submit": "Contáctanos",
     "sending": "Enviando",
     "successTitle": "Recibido",
     "successDescription": "Te escribiremos pronto. Gracias por contactarnos.",

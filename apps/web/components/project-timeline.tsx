@@ -234,7 +234,7 @@ function ContributorAvatar({
   return (
     <Avatar className={cn("size-7 border border-background bg-secondary", className)}>
       {image ? <AvatarImage src={image} alt="" className="object-cover" /> : null}
-      <AvatarFallback className="font-mono text-[8px] uppercase">
+      <AvatarFallback className="font-label text-xs uppercase">
         {initials(label)}
       </AvatarFallback>
     </Avatar>
@@ -323,10 +323,10 @@ function ProjectDetailSheet({
               style={{ "--timeline-color": color } as TimelineStyle}
               aria-hidden
             />
-            <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
               {project.fullName}
             </p>
-            <Badge variant="outline" className="gap-1 font-mono font-normal">
+            <Badge variant="outline" className="gap-1 font-label font-normal">
               <Star aria-hidden className="size-3" />
               {compactNumber(project.stars, locale)}
               <span className="sr-only">{copy.stars}</span>
@@ -350,7 +350,7 @@ function ProjectDetailSheet({
           <section className="border-b border-line bg-secondary/30 px-6 py-5 sm:px-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-mono text-[9px] uppercase tracking-[0.24em] text-muted-foreground">
+                <p className="font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
                   {copy.weekOf}
                 </p>
                 <p className="mt-1 text-sm font-medium">
@@ -358,7 +358,7 @@ function ProjectDetailSheet({
                 </p>
               </div>
               <div className="text-right">
-                <p className="font-mono text-lg font-medium">
+                <p className="font-label text-lg font-medium">
                   {compactNumber(selectedWeekCount, locale)}
                 </p>
                 <p className="text-xs text-muted-foreground">
@@ -391,7 +391,7 @@ function ProjectDetailSheet({
                   >
                     <ContributorAvatar contributor={contributor} className="size-5" />
                     <span className="max-w-28 truncate">{contributor.name}</span>
-                    <span className="font-mono text-[9px] text-muted-foreground">{count}</span>
+                    <span className="font-label text-xs text-muted-foreground">{count}</span>
                   </div>
                 ))}
               </div>
@@ -416,8 +416,8 @@ function ProjectDetailSheet({
                     index >= 2 && "border-t border-line",
                   )}
                 >
-                  <p className="font-mono text-xl tracking-tight">{value}</p>
-                  <p className="mt-1 text-[11px] text-muted-foreground">{label}</p>
+                  <p className="font-label text-xl tracking-tight">{value}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{label}</p>
                 </div>
               ))}
             </div>
@@ -425,10 +425,10 @@ function ProjectDetailSheet({
 
           <section>
             <div className="mb-4 flex items-center justify-between gap-4">
-              <h3 className="font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+              <h3 className="font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
                 {copy.activity}
               </h3>
-              <span className="font-mono text-[9px] text-muted-foreground">
+              <span className="font-label text-xs text-muted-foreground">
                 {visibleWeeks.length}w
               </span>
             </div>
@@ -450,7 +450,7 @@ function ProjectDetailSheet({
           </section>
 
           <section>
-            <h3 className="font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+            <h3 className="font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
               {copy.contributorBreakdown}
             </h3>
             <div className="mt-4 divide-y divide-line border-y border-line">
@@ -467,16 +467,16 @@ function ProjectDetailSheet({
                           {contributor.coreMember?.name ?? contributor.name}
                         </span>
                         {contributor.coreMember ? (
-                          <Badge variant="secondary" className="px-1.5 py-0 font-mono text-[8px] uppercase">
+                          <Badge variant="secondary" className="px-1.5 py-0 font-label text-xs uppercase">
                             {copy.teamBadge}
                           </Badge>
                         ) : null}
                       </span>
-                      <span className="mt-0.5 block truncate font-mono text-[10px] text-muted-foreground">
+                      <span className="mt-0.5 block truncate font-label text-xs text-muted-foreground">
                         @{contributor.login}
                       </span>
                     </span>
-                    <span className="font-mono text-xs text-muted-foreground">
+                    <span className="font-label text-xs text-muted-foreground">
                       {compactNumber(count, locale)}
                     </span>
                   </div>
@@ -490,28 +490,28 @@ function ProjectDetailSheet({
           <section className="grid gap-2 text-xs text-muted-foreground">
             <div className="flex items-center justify-between gap-4 border-b border-line py-2">
               <span>{copy.created}</span>
-              <span className="font-mono text-foreground">
+              <span className="font-label text-foreground">
                 {formatDate(project.createdAt, locale, true)}
               </span>
             </div>
             <div className="flex items-center justify-between gap-4 border-b border-line py-2">
               <span>{copy.lastPush}</span>
-              <span className="font-mono text-foreground">
+              <span className="font-label text-foreground">
                 {formatDate(project.pushedAt, locale, true)}
               </span>
             </div>
             <div className="flex items-center justify-between gap-4 border-b border-line py-2">
               <span>{copy.forks}</span>
-              <span className="font-mono text-foreground">{project.forks}</span>
+              <span className="font-label text-foreground">{project.forks}</span>
             </div>
             <div className="flex items-center justify-between gap-4 border-b border-line py-2">
               <span>{copy.issues}</span>
-              <span className="font-mono text-foreground">{project.openIssues}</span>
+              <span className="font-label text-foreground">{project.openIssues}</span>
             </div>
             {project.license ? (
               <div className="flex items-center justify-between gap-4 border-b border-line py-2">
                 <span>{copy.license}</span>
-                <span className="font-mono text-foreground">{project.license}</span>
+                <span className="font-label text-foreground">{project.license}</span>
               </div>
             ) : null}
           </section>
@@ -844,14 +844,14 @@ export function ProjectTimeline({
       <section className="border-b border-line px-4 py-5 sm:px-6 md:px-10">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="font-mono text-[9px] uppercase tracking-[0.28em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.28em] text-muted-foreground">
               {copy.coreTeam}
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
               {copy.allContributors}
             </p>
           </div>
-          <div className="hidden items-center gap-2 font-mono text-[9px] text-muted-foreground md:flex">
+          <div className="hidden items-center gap-2 font-label text-xs text-muted-foreground md:flex">
             <span className="size-1.5 rounded-full bg-foreground/60" aria-hidden />
             {data.source === "live" ? copy.liveData : copy.snapshotData}
             <span aria-hidden>/</span>
@@ -899,7 +899,7 @@ export function ProjectTimeline({
                 <span className="max-w-24 truncate text-xs">{member.name.split(" ")[0]}</span>
                 <span
                   className={cn(
-                    "font-mono text-[9px]",
+                    "font-label text-xs",
                     selected ? "text-background/60" : "text-muted-foreground",
                   )}
                   title={countLabel(contributions, copy.commit, copy.commits)}
@@ -922,7 +922,7 @@ export function ProjectTimeline({
             )}
           >
             <div className="flex items-center justify-between gap-3">
-              <p className="font-mono text-2xl tracking-[-0.04em] sm:text-3xl">
+              <p className="font-label text-2xl tracking-[-0.04em] sm:text-3xl">
                 {compactNumber(value, locale)}
               </p>
               <Icon aria-hidden className="size-4 text-muted-foreground" />
@@ -932,7 +932,7 @@ export function ProjectTimeline({
         ))}
       </section>
 
-      <section className="sticky top-[5.05rem] z-30 border-b border-line bg-background/95 px-4 py-3 backdrop-blur-md sm:px-6 md:px-10">
+      <section className="sticky top-[var(--station-header-height)] z-30 border-b border-line bg-background/95 px-4 py-3 backdrop-blur-md sm:px-6 md:px-10">
         <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex min-w-0 flex-1 flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
             <label className="relative block min-w-0 flex-1 sm:max-w-xs">
@@ -1047,13 +1047,13 @@ export function ProjectTimeline({
             className="z-20 flex h-12 will-change-transform items-center justify-between gap-3 border-b border-r border-line bg-background px-4 sm:px-5"
             role="columnheader"
           >
-            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-muted-foreground">
+            <span className="font-label text-xs uppercase tracking-[0.22em] text-muted-foreground">
               {copy.projectColumn}
             </span>
             <button
               type="button"
               onClick={jumpToToday}
-              className="font-mono text-[9px] text-muted-foreground transition-[transform,color] duration-150 hover:text-foreground active:scale-[0.94]"
+              className="font-label text-xs text-muted-foreground transition-[transform,color] duration-150 hover:text-foreground active:scale-[0.94]"
             >
               {copy.today}
             </button>
@@ -1074,7 +1074,7 @@ export function ProjectTimeline({
                   className="flex items-center border-l border-line px-2 first:border-l-0"
                   style={{ gridColumn: `${group.start + 1} / span ${group.span}` }}
                 >
-                  <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-muted-foreground">
+                  <span className="font-label text-xs uppercase tracking-[0.16em] text-muted-foreground">
                     {group.label}
                   </span>
                 </div>
@@ -1118,7 +1118,7 @@ export function ProjectTimeline({
                         {row.project.name}
                       </span>
                       <span
-                        className="flex shrink-0 items-center gap-1 font-mono text-[9px] text-muted-foreground"
+                        className="flex shrink-0 items-center gap-1 font-label text-xs text-muted-foreground"
                         title={`${compactNumber(row.project.stars, locale)} ${copy.stars.toLowerCase()}`}
                       >
                         <Star aria-hidden className="size-3" />
@@ -1126,16 +1126,16 @@ export function ProjectTimeline({
                         <span className="sr-only">{copy.stars}</span>
                       </span>
                       {row.project.archived ? (
-                        <span className="font-mono text-[8px] uppercase text-muted-foreground">
+                        <span className="font-label text-xs uppercase text-muted-foreground">
                           {copy.archivedBadge}
                         </span>
                       ) : null}
                     </span>
                     <span className="mt-1.5 flex items-center gap-2 pl-3.5">
-                      <span className="min-w-0 flex-1 truncate font-mono text-[9px] text-muted-foreground">
+                      <span className="min-w-0 flex-1 truncate font-label text-xs text-muted-foreground">
                         {row.project.owner}
                       </span>
-                      <span className="shrink-0 whitespace-nowrap font-mono text-[9px] text-muted-foreground/70">
+                      <span className="shrink-0 whitespace-nowrap font-label text-xs text-muted-foreground/70">
                         {countLabel(row.total, copy.commit, copy.commits)}
                       </span>
                     </span>
@@ -1151,7 +1151,7 @@ export function ProjectTimeline({
                           ))}
                         </span>
                       ) : (
-                        <span className="font-mono text-[8px] uppercase tracking-wider text-muted-foreground/50">
+                        <span className="font-label text-xs uppercase tracking-wider text-muted-foreground/50">
                           {copy.noCommits}
                         </span>
                       )}
@@ -1303,8 +1303,8 @@ export function ProjectTimeline({
       ) : null}
 
       <section className="flex flex-col gap-4 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 md:px-10">
-        <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
-          <span className="font-mono uppercase tracking-[0.2em]">{copy.legend}</span>
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <span className="font-label uppercase tracking-[0.2em]">{copy.legend}</span>
           <span>{copy.less}</span>
           {[0.18, 0.38, 0.62, 0.9].map((opacity) => (
             <span
@@ -1316,7 +1316,7 @@ export function ProjectTimeline({
           ))}
           <span>{copy.more}</span>
         </div>
-        <p className="font-mono text-[9px] text-muted-foreground md:hidden">
+        <p className="font-label text-xs text-muted-foreground md:hidden">
           {data.source === "live" ? copy.liveData : copy.snapshotData} / {copy.updated}{" "}
           {formatDate(data.generatedAt, locale, true)}
         </p>
@@ -1338,13 +1338,13 @@ export function ProjectTimeline({
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="truncate text-xs font-medium">{hoveredProject.fullName}</p>
-                <p className="mt-1 font-mono text-[9px] text-muted-foreground">
+                <p className="mt-1 font-label text-xs text-muted-foreground">
                   {formatWeek(data.weeks[hoveredWeek.weekIndex], locale)}
                 </p>
               </div>
               <div className="shrink-0 text-right">
-                <p className="font-mono text-sm">{hoveredTotal || "0"}</p>
-                <p className="mt-0.5 text-[9px] text-muted-foreground">
+                <p className="font-label text-sm">{hoveredTotal || "0"}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">
                   {hoveredTotal === 1
                     ? copy.teamCommit
                     : copy.stats.teamCommits.toLowerCase()}
@@ -1362,7 +1362,7 @@ export function ProjectTimeline({
                     />
                   ))}
                 </div>
-                <p className="min-w-0 truncate text-[10px] text-muted-foreground">
+                <p className="min-w-0 truncate text-xs text-muted-foreground">
                   {hoveredContributors
                     .slice(0, 2)
                     .map(({ contributor }) => contributor.coreMember?.name ?? contributor.name)
@@ -1373,7 +1373,7 @@ export function ProjectTimeline({
                 </p>
               </div>
             ) : (
-              <p className="mt-2 text-[10px] text-muted-foreground">{copy.noCommits}</p>
+              <p className="mt-2 text-xs text-muted-foreground">{copy.noCommits}</p>
             )}
           </div>
         </div>

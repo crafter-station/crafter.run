@@ -39,7 +39,7 @@ export function CurrentlyListening({ listening, label }: { listening: Listening;
 
   return (
     <div>
-      <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{label}</p>
+      <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">{label}</p>
       <div className="mt-4 flex items-center gap-4">
         {record}
         <div className="min-w-0">

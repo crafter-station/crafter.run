@@ -2,32 +2,32 @@
 
 import { SignInButton, UserButton, useAuth } from "@clerk/nextjs"
 import Link from "next/link"
+import { stationCopy } from "@/lib/station-copy"
 
 import { type Locale, withLocale } from "@/lib/i18n"
 
-export function AuthActions({ locale, mobile = false }: { locale: Locale; mobile?: boolean }) {
+export function AuthActions({ locale }: { locale: Locale }) {
   const { isLoaded, isSignedIn } = useAuth()
-  const className = mobile
-    ? "inline-flex items-center justify-center border border-line px-4 py-3 text-sm font-medium"
-    : "inline-flex h-16 items-center border-l border-line px-4 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors hover:bg-accent-surface/10"
+  const t = stationCopy[locale]
+  const className = "station-auth-link"
 
   if (!isLoaded) return null
 
   return isSignedIn ? (
     <>
         <Link href={withLocale("/settings/profile", locale)} className={className}>
-          Edit profile
+          {t.profile}
         </Link>
         <Link href={withLocale("/ships/new", locale)} className={className}>
-          Ship something
+          {t.newShip}
         </Link>
-        <div className={mobile ? "flex items-center justify-center py-3" : "flex h-16 items-center border-l border-line px-4"}>
+        <div className="flex items-center py-2">
           <UserButton />
         </div>
     </>
   ) : (
     <SignInButton mode="modal">
-      <button type="button" className={className}>Sign in</button>
+      <button type="button" className={className}>{t.signIn}</button>
     </SignInButton>
   )
 }

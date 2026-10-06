@@ -4,7 +4,6 @@ import { notFound, redirect } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
 import { ShipDraftEditor } from "@/components/ship-draft-editor"
-import { SiteHeader } from "@/components/site-header"
 import { env } from "@/env"
 import { isLocale } from "@/lib/i18n"
 
@@ -28,10 +27,10 @@ export default async function DraftPage({ params }: { params: Promise<{ lang: st
 
   return (
     <>
-      <SiteHeader locale={lang} />
+
       <main className="flex-1">
-        <Container innerClassName="px-6 py-16 md:px-10 md:py-24">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Review draft</p>
+        <Container innerClassName="station-form-page">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">Review draft</p>
           <h1 className="mt-5 text-5xl font-semibold tracking-tighter">Check every detail.</h1>
           <div className="mt-12"><ShipDraftEditor initialShip={parsed.data.ship} locale={lang} /></div>
         </Container>

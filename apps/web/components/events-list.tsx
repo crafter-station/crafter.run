@@ -67,7 +67,7 @@ export function EventsList({
                   aria-pressed={active}
                   onClick={() => setActiveTag(tag)}
                   className={cn(
-                    "border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] transition-colors",
+                    "border px-3 py-1 font-label text-xs uppercase tracking-[0.18em] transition-colors",
                     active
                       ? "border-foreground bg-foreground text-background"
                       : "border-line text-muted-foreground hover:border-foreground hover:text-foreground",
@@ -123,7 +123,7 @@ function EventSection({
 }) {
   return (
     <section className="border-b px-6 py-12 md:px-10">
-      <h2 className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+      <h2 className="font-label text-xs uppercase tracking-[0.3em] text-accent">
         {label}
       </h2>
       <div className="mt-6 divide-y divide-line border-t border-line">
@@ -206,7 +206,7 @@ function UpcomingEventRow({
                 {event.description.slice(0, 220)}
               </p>
             ) : null}
-            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 font-label text-xs uppercase tracking-[0.14em] text-muted-foreground">
               <span>{event.date}</span>
               <span>{event.location}</span>
             </div>
@@ -234,7 +234,7 @@ function PastEventRow({ event }: { event: EventListItem }) {
           <Tags tags={event.tags} />
         </div>
       </div>
-      <div className="flex flex-wrap gap-x-5 gap-y-2 pl-16 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground sm:pl-0">
+      <div className="flex flex-wrap gap-x-5 gap-y-2 pl-16 font-label text-xs uppercase tracking-[0.14em] text-muted-foreground sm:pl-0">
         <span>{event.date}</span>
         <span>{event.location}</span>
       </div>

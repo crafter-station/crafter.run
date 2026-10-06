@@ -241,7 +241,7 @@ function NextProjectsBoardContent() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl">
+    <div className="station-board mx-auto max-w-4xl">
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <div className="mb-4 flex justify-center">
           <DialogTrigger asChild>
@@ -252,7 +252,7 @@ function NextProjectsBoardContent() {
           </DialogTrigger>
         </div>
         <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-none border-line bg-background p-4 sm:max-w-xl sm:p-6">
-          <div className="mb-1 inline-flex w-fit items-center gap-2 border border-line bg-background px-3 py-1 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+          <div className="mb-1 inline-flex w-fit items-center gap-2 border border-line bg-background px-3 py-1 font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
             <Sparkles className="h-3 w-3" />
             GPT screened
           </div>
@@ -275,7 +275,7 @@ function NextProjectsBoardContent() {
               required
               className="mt-2 min-h-36 resize-none rounded-none border-line bg-background/80 text-base focus-visible:ring-foreground/40"
             />
-            <div className="mt-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="mt-2 flex items-center justify-between font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
               <span>Required</span>
               <span>{idea.length}/600</span>
             </div>
@@ -311,7 +311,7 @@ function NextProjectsBoardContent() {
       <section className="overflow-hidden border border-line bg-card/70">
         <div className="flex flex-col justify-between gap-4 border-b border-line p-4 md:flex-row md:items-center md:p-6">
           <div>
-            <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+            <div className="inline-flex items-center gap-2 font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
               <Radio className={cn("h-3.5 w-3.5", realtimeStatus === "ready" ? "text-emerald-300" : "text-muted-foreground")} />
               Realtime queue
             </div>
@@ -356,8 +356,8 @@ function NextProjectsBoardContent() {
                   </button>
 
                   <div className="min-w-0">
-                    <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-muted-foreground sm:mb-3 sm:text-xs">
-                      <span className="font-mono uppercase tracking-[0.18em]">#{String(index + 1).padStart(2, "0")}</span>
+                    <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground sm:mb-3 sm:text-xs">
+                      <span className="font-label uppercase tracking-[0.18em]">#{String(index + 1).padStart(2, "0")}</span>
                       {project.alias ? (
                         <>
                           <span className="min-w-0 wrap-break-word">by {project.alias}</span>

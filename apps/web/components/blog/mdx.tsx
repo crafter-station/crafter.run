@@ -97,7 +97,7 @@ function heading(level: 2 | 3 | 4, anchorLabel: string) {
           <a
             href={`#${id}`}
             aria-label={anchorLabel}
-            className={`ml-2 font-mono text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 ${FOCUS}`}
+            className={`ml-2 font-label text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 ${FOCUS}`}
           >
             #
           </a>
@@ -117,7 +117,7 @@ const components = (article: ArticleCopy, locale: Locale) => ({
     <ul className={`${BODY} list-disc space-y-2 pl-5 marker:text-muted-foreground`} {...props} />
   ),
   ol: (props: ComponentPropsWithoutRef<"ol">) => (
-    <ol className={`${BODY} list-decimal space-y-2 pl-5 marker:font-mono marker:text-xs marker:text-muted-foreground`} {...props} />
+    <ol className={`${BODY} list-decimal space-y-2 pl-5 marker:font-label marker:text-xs marker:text-muted-foreground`} {...props} />
   ),
   li: (props: ComponentPropsWithoutRef<"li">) => <li className="pl-1" {...props} />,
   strong: (props: ComponentPropsWithoutRef<"strong">) => <strong className="font-semibold" {...props} />,
@@ -148,7 +148,7 @@ const components = (article: ArticleCopy, locale: Locale) => ({
   ),
   th: (props: ComponentPropsWithoutRef<"th">) => (
     <th
-      className="whitespace-nowrap border-b border-line bg-secondary/60 px-4 py-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-muted-foreground"
+      className="whitespace-nowrap border-b border-line bg-secondary/60 px-4 py-2.5 font-label text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground"
       {...props}
     />
   ),

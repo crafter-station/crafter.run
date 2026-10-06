@@ -14,7 +14,7 @@ export const ArrowLink = React.forwardRef<HTMLElement, ArrowLinkProps>(
       <Comp
         ref={ref}
         className={cn(
-          "group inline-flex items-center text-sm text-zinc-500 transition-colors duration-200 group-hover:text-zinc-700 dark:text-zinc-500 dark:group-hover:text-zinc-400",
+          "station-quiet-link group inline-flex items-center text-sm font-semibold text-foreground transition-colors duration-200 group-hover:text-accent",
           className,
         )}
         {...props}
@@ -22,12 +22,12 @@ export const ArrowLink = React.forwardRef<HTMLElement, ArrowLinkProps>(
         {children}
         <span
           className={cn(
-            "ml-2 inline-flex size-[30px] items-center justify-center rounded-full border border-zinc-200 bg-zinc-100 transition-colors duration-200 group-hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-900 dark:group-hover:border-zinc-600",
+            "station-link-arrow ml-2 inline-flex size-7 shrink-0 items-center justify-center rounded-sm border border-line bg-secondary/50 transition-colors duration-200 group-hover:border-foreground/40",
           )}
         >
           <ArrowUpRight
             className={cn(
-              "size-4 text-zinc-500 transition-all duration-200 group-hover:rotate-45 group-hover:text-zinc-700 dark:text-zinc-500 dark:group-hover:text-zinc-400",
+              "size-4 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5",
             )}
           />
         </span>
