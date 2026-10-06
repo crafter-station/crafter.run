@@ -15,7 +15,9 @@ const ALLOW = [
   "/api/workshop-questions",
 ]
 
-const DISALLOW = ["/_next/", "/api/"]
+// /_next/ stays crawlable: it holds the CSS, JS and fonts Google needs to
+// render a page the way a visitor sees it.
+const DISALLOW = ["/api/"]
 
 /* Every product reads its own user-agent; naming them keeps the per-bot
    policy reviewable. All allowed: Crafter Station wants to be the cited

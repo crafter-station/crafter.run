@@ -11,6 +11,7 @@ export const dynamicParams = false
 const copy = {
   en: {
     eyebrow: "Impact · Petdex · Q2 2026",
+    metaTitle: "Petdex Impact Report, Q2 2026",
     title: "The project behind 96.72% of Crafter Station's Q2 star growth.",
     description: "Petdex generated 28,875 npm downloads and 3,218 net new stars during OSSCAR's published Q2 measurement window.",
     githubEyebrow: "GitHub attribution",
@@ -25,6 +26,7 @@ const copy = {
   },
   es: {
     eyebrow: "Impacto · Petdex · Q2 2026",
+    metaTitle: "Reporte de impacto de Petdex, Q2 2026",
     title: "El proyecto detrás del 96.72% del crecimiento de estrellas de Crafter Station en Q2.",
     description: "Petdex generó 28,875 descargas npm y 3,218 nuevas estrellas netas durante la ventana Q2 publicada por OSSCAR.",
     githubEyebrow: "Atribución en GitHub",
@@ -39,6 +41,7 @@ const copy = {
   },
   pt: {
     eyebrow: "Impacto · Petdex · Q2 2026",
+    metaTitle: "Relatório de impacto do Petdex, Q2 2026",
     title: "O projeto por tras de 96.72% do crescimento de estrelas da Crafter Station no Q2.",
     description: "O Petdex gerou 28,875 downloads npm e 3,218 novas estrelas liquidas durante a janela Q2 publicada pela OSSCAR.",
     githubEyebrow: "Atribuicao no GitHub",
@@ -53,6 +56,7 @@ const copy = {
   },
   zh: {
     eyebrow: "影响力 · Petdex · 2026 年 Q2",
+    metaTitle: "Petdex 影响力报告，2026 年 Q2",
     title: "贡献了 Crafter Station Q2 star 增长 96.72% 的项目。",
     description: "在 OSSCAR 公布的 Q2 统计窗口内，Petdex 带来了 28,875 次 npm 下载和 3,218 颗净新增 star。",
     githubEyebrow: "GitHub 归因",
@@ -67,6 +71,7 @@ const copy = {
   },
   ja: {
     eyebrow: "インパクト · Petdex · 2026年Q2",
+    metaTitle: "Petdex インパクトレポート、2026年Q2",
     title: "Crafter Station の Q2 スター成長の96.72%を生んだプロジェクト。",
     description: "OSSCAR が公表した Q2 の計測期間中、Petdex は28,875件の npm ダウンロードと3,218の純増スターを生み出しました。",
     githubEyebrow: "GitHub での寄与",
@@ -98,7 +103,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params
   if (!isLocale(lang)) return {}
   const t = copy[lang]
-  return buildMetadata({ locale: lang, path: "/impact/petdex", title: "Petdex Impact Report, Q2 2026", description: t.description })
+  return buildMetadata({ locale: lang, path: "/impact/petdex", title: t.metaTitle, description: t.description })
 }
 
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {

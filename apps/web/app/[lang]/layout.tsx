@@ -49,7 +49,6 @@ export default async function LocaleLayout({
         className={`flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
         <ClerkProvider
-          dynamic
           appearance={{
             theme: shadcn,
             elements: {

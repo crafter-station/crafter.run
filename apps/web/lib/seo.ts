@@ -7,6 +7,19 @@ import { socialImageUrl } from "@/lib/og"
 
 export const baseUrl = siteConfig.url
 
+const SERP_DESCRIPTION_MAX = 160
+
+/** Fits a description into the ~160 characters a search result shows, ending
+ *  on a sentence when one fits, else on a word. Social cards keep the full text. */
+export function serpDescription(text: string): string {
+  if (text.length <= SERP_DESCRIPTION_MAX) return text
+  const head = text.slice(0, SERP_DESCRIPTION_MAX)
+  const sentence = Math.max(...[". ", "。", "! ", "? "].map((stop) => head.lastIndexOf(stop)))
+  if (sentence >= 80) return head.slice(0, sentence + 1).trim()
+  const word = head.slice(0, SERP_DESCRIPTION_MAX - 1).lastIndexOf(" ")
+  return `${head.slice(0, word > 80 ? word : SERP_DESCRIPTION_MAX - 1).trim()}…`
+}
+
 export const indexablePaths = [
   "/",
   "/crafters",
@@ -83,7 +96,7 @@ export function buildMetadata({
   return {
     metadataBase: new URL(baseUrl),
     title: fullTitle,
-    description,
+    description: serpDescription(description),
     alternates: {
       canonical: url,
       languages: languageAlternates(path),
