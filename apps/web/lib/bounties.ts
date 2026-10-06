@@ -4,6 +4,8 @@ export type Bounty = {
   slug: string
   title: string
   prize: string
+  rewardCount: number
+  eventStartsAt: string
   image?: string
   speakers: Array<{ name: string; detail: string; url: string }>
   speakersNote: string
@@ -18,6 +20,8 @@ export const bounties: Bounty[] = [
     slug: "1",
     title: "5 entradas gratis para AI Frontier Conf '26",
     prize: "Sábado 17 de octubre, 9am, UTEC Barranco",
+    rewardCount: 5,
+    eventStartsAt: "2026-10-17T14:00:00Z",
     image: "/bounties/bounty-1-frontier-og-v1.jpg",
     speakers: [
       { name: "Jorge Escobedo", detail: "Head of AI, Yape", url: "https://www.linkedin.com/in/jescob/" },

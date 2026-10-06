@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next"
+import { bounties } from "@/lib/bounties"
 
 import { blogUpdated, getPost, getSlugs, pageCount, postLanguageAlternates, postLocales } from "@/lib/blog"
 import { locales } from "@/lib/i18n"
@@ -29,7 +30,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     .map((page) =>
       page.slugs.length > 0 ? `/docs/${page.slugs.join("/")}` : "/docs",
     )
-  const paths = [...staticPaths, ...memberPaths, ...docsPaths]
+  const bountyPaths = bounties.map(bounty => `/bounties/${bounty.slug}`)
+  const paths = [...staticPaths, ...memberPaths, ...docsPaths, ...bountyPaths]
 
   const localizedEntries = paths.flatMap((path) =>
     locales.map((locale) => ({

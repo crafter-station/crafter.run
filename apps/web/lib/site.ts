@@ -42,6 +42,7 @@ export const navSections = [
     items: [
       { key: "crafters", href: "/crafters" },
       { key: "ships", href: "/ships" },
+      { key: "bounties", href: "/bounties" },
       { key: "team", href: "/team" },
     ],
   },

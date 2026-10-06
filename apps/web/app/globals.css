@@ -10,6 +10,7 @@
 @import './station-universe.css';
 @import './station-agenda.css';
 @import './station-pages.css';
+@import './station-bounties.css';
 
 @custom-variant dark (&:is(.dark *));
 

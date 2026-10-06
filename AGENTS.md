@@ -54,6 +54,13 @@
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
 
 ## Station Visual System
+- **Bounties editorial, October 6, 2026:** read
+  `docs/handoffs/bounties-editorial-2026-10-06.md`. `/[lang]/bounties` is the
+  localized challenge board; details share its paper, honey and terracotta
+  visual system in `station-bounties.css`. Keep the original campaign image;
+  its subdued ink treatment is CSS-only. Preserve actual deadline status,
+  auth/submission behavior and reward rules. The first bounty is closed.
+  No fabricated winners or open challenges. The root is in More and sitemap.
 - **Release authorized, October 5, 2026:** hide the contact email form for
   this launch; keep the community/collaboration links. Crafter Sans is used
   only as site typography, not launched as a font product: `/font` is not a
