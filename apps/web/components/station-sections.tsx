@@ -46,7 +46,7 @@ export function StationEvents({ locale }: { locale: Locale }) {
         </div>
       </div>
       <div className="home-posters">
-        <Link href={withLocale("/events#hot-reload",locale)} className="home-poster home-poster-brew">
+        <Link href={withLocale("/events/hot-reload",locale)} className="home-poster home-poster-brew">
           <div className="home-poster-meta station-label">CRAFTER PRESENTS</div>
           <h3>Hot<br />Reload<span className="home-poster-star" aria-hidden="true">✳</span></h3>
           <CoffeeArt />
