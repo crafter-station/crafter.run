@@ -14,7 +14,7 @@ import type { Locale } from "@/lib/i18n"
 
 /* Adds the Luma email to the Clerk account as a verified secondary address
    (https://clerk.com/docs/guides/development/custom-flows/account-updates/add-email).
-   The menu page checks Luma against every verified address, so a refresh is
+   Event pages check Luma against every verified address, so a refresh is
    all it takes once the code is accepted. */
 export function LinkLumaEmail({ locale }: { locale: Locale }) {
   const t = hotReloadCopy[locale]
@@ -23,9 +23,25 @@ export function LinkLumaEmail({ locale }: { locale: Locale }) {
   const [email, setEmail] = useState("")
   const [code, setCode] = useState("")
   const [address, setAddress] = useState<EmailAddressResource | null>(null)
+  const [verifiedEmail, setVerifiedEmail] = useState<string | null>(null)
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const createEmailAddress = useReverification((value: string) => user?.createEmailAddress({ email: value }))
+
+  function refreshWithEmail(value: string) {
+    setVerifiedEmail(value)
+    setAddress(null)
+    setCode("")
+    router.refresh()
+  }
+
+  function reset() {
+    setVerifiedEmail(null)
+    setAddress(null)
+    setEmail("")
+    setCode("")
+    setError(null)
+  }
 
   async function sendCode(event: React.FormEvent) {
     event.preventDefault()
@@ -39,6 +55,10 @@ export function LinkLumaEmail({ locale }: { locale: Locale }) {
       await user.reload()
       const target = user.emailAddresses.find((item) => item.id === created?.id)
       if (!target) throw new Error()
+      if (target.verification.status === "verified") {
+        refreshWithEmail(target.emailAddress)
+        return
+      }
       await target.prepareVerification({ strategy: "email_code" })
       setAddress(target)
     } catch {
@@ -56,14 +76,28 @@ export function LinkLumaEmail({ locale }: { locale: Locale }) {
     try {
       const result = await address.attemptVerification({ code: code.trim() })
       if (result.verification.status !== "verified") throw new Error()
-      router.refresh()
+      await user?.reload()
+      refreshWithEmail(result.emailAddress)
     } catch {
       setError(t.verifyError)
+    } finally {
       setPending(false)
     }
   }
 
   const step = address ? 2 : 1
+
+  if (verifiedEmail) return (
+    <div className="mt-6 border-t border-line pt-5">
+      <h3 className="text-base font-medium text-foreground">{t.linkedTitle}</h3>
+      <p className="mt-1 break-words text-sm text-muted-foreground" role="status">
+        {hotReloadText(t.linkedBody, { email: verifiedEmail })}
+      </p>
+      <button type="button" onClick={reset} className="mt-3 text-sm underline underline-offset-4">
+        {t.anotherEmail}
+      </button>
+    </div>
+  )
 
   return (
     <div className="mt-6 border-t border-line pt-5">
@@ -71,7 +105,7 @@ export function LinkLumaEmail({ locale }: { locale: Locale }) {
         <h3 className="text-base font-medium text-foreground">{t.linkTitle}</h3>
         <span className="font-mono text-xs text-muted-foreground">{step}/2</span>
       </div>
-      <p className="mt-1 text-sm text-muted-foreground">
+      <p className="mt-1 break-words text-sm text-muted-foreground">
         {address
           ? hotReloadText(t.codeSent, { email: address.emailAddress })
           : t.linkBody}
@@ -88,6 +122,7 @@ export function LinkLumaEmail({ locale }: { locale: Locale }) {
               autoComplete="one-time-code"
               placeholder="123456"
               value={code}
+              disabled={pending}
               onChange={(e) => setCode(e.target.value)}
               className="h-10 flex-1 font-mono tracking-[0.3em]"
             />
@@ -98,6 +133,7 @@ export function LinkLumaEmail({ locale }: { locale: Locale }) {
               autoComplete="email"
               placeholder={t.emailPlaceholder}
               value={email}
+              disabled={pending}
               onChange={(e) => setEmail(e.target.value)}
               className="h-10 flex-1"
             />
@@ -114,11 +150,8 @@ export function LinkLumaEmail({ locale }: { locale: Locale }) {
         {address ? (
           <button
             type="button"
-            onClick={() => {
-              setAddress(null)
-              setCode("")
-              setError(null)
-            }}
+            disabled={pending}
+            onClick={reset}
             className="mt-2 text-xs text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
           >
             {t.anotherEmail}
