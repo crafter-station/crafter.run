@@ -7,6 +7,7 @@ import { accessEventDate, accessOpen, findAccessEvent } from "@/lib/access-event
 import { eventAccessCopy } from "@/lib/event-access-copy"
 import { readOwnAccess } from "@/lib/event-access-store"
 import { getEventGuest } from "@/lib/event-guest"
+import { hotReloadCopy } from "@/lib/hot-reload-copy"
 import { isLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 import "@/app/station-event-access.css"
@@ -50,7 +51,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         <LinkLumaEmail locale={lang} />
       </Notice>
     } else {
-      content = <Notice title={t.unavailableTitle} body={t.unavailableBody}><a href={path}>{t.retry}</a></Notice>
+      content = <Notice title={t.unavailableTitle} body={hotReloadCopy[lang].unavailableBody}>
+        <a href={path}>{t.retry}</a>
+        <LinkLumaEmail locale={lang} />
+      </Notice>
     }
   }
   return <main className="event-entry-page">

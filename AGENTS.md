@@ -54,6 +54,13 @@
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
 
 ## Station Visual System
+- **Event email recovery, October 6, 2026:** read
+  `docs/handoffs/event-email-recovery-2026-10-06.md`. DevDay and Hot Reload
+  share alternate-email recovery for signed-in guests when Luma is unavailable,
+  not found or not approved. Clerk verifies ownership before the server uses
+  the address. Keep the verified success state even if Luma remains unavailable;
+  never interpret an email OTP as event approval. No real email/account updates
+  were performed in QA. Calendar-key/SQL/E2E requirements remain outstanding.
 - **DevDay entry flow, October 6, 2026 — activation pending:** read
   `docs/handoffs/devday-event-access-2026-10-06.md`. DevDay Exchange Community:
   Lima is October 21, 18:00–21:00 Lima, FISI–UNMSM, Luma `1iz8daqt`.

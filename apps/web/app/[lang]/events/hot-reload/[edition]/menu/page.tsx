@@ -82,7 +82,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     content = <EventMenuForm locale={lang} edition={String(edition.number)} menu={menu} closesAt={deadline}
       email={check.email} defaultName={defaultName} existing={existing} />
   } else if (check?.status === "not-approved") {
-    content = <Notice title={t.pendingTitle}><p>{hotReloadText(t.pendingGuest, { email: check.email })}</p></Notice>
+    content = <Notice title={t.pendingTitle}>
+      <p>{hotReloadText(t.pendingGuest, { email: check.email })}</p>
+      <LinkLumaEmail locale={lang} />
+    </Notice>
   } else if (check?.status === "not-found") {
     content = (
       <Notice title={t.missingTitle}>
@@ -92,7 +95,11 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
       </Notice>
     )
   } else {
-    content = <Notice title={t.unavailableTitle}><p>{t.unavailableBody}</p></Notice>
+    content = <Notice title={t.unavailableTitle}>
+      <p>{t.unavailableBody}</p>
+      <a className="mt-3 inline-block underline underline-offset-4" href={path}>{t.checkAgain}</a>
+      <LinkLumaEmail locale={lang} />
+    </Notice>
   }
 
   return (
