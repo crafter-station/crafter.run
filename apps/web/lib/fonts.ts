@@ -1,5 +1,5 @@
 import localFont from "next/font/local"
-import { Noto_Sans_JP, Noto_Sans_SC } from "next/font/google"
+import "./noto-fonts.css"
 
 const crafterText = localFont({
   src: [
@@ -13,7 +13,4 @@ const crafter = localFont({
   src: "../app/fonts/CrafterSansPreview-Medium.woff2",
   variable: "--font-crafter", weight: "500", style: "normal", display: "swap",
 })
-// Only fetch the unicode slices needed by the current page.
-const sc = Noto_Sans_SC({ subsets: ["latin"], variable: "--font-noto-sc", weight: ["400", "500", "700"], preload: false })
-const jp = Noto_Sans_JP({ subsets: ["latin"], variable: "--font-noto-jp", weight: ["400", "500", "700"], preload: false })
-export const stationFonts = [crafterText, crafter, sc, jp].map((font) => font.variable).join(" ")
+export const stationFonts = [crafterText.variable, crafter.variable, "station-noto-fallbacks"].join(" ")
