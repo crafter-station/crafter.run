@@ -4,7 +4,7 @@ import sharp from "sharp"
 import type { SocialCardData } from "@/lib/og-data"
 
 const files = new Map<string, Promise<Buffer>>()
-function localFile(relative: string, kind: "font" | "art" | "portrait" | "bounty" | "blog") {
+function localFile(relative: string, kind: "font" | "art" | "portrait" | "bounty" | "blog" | "event") {
   const key = `${kind}/${relative}`
   let file = files.get(key)
   if (!file) {
@@ -13,6 +13,7 @@ function localFile(relative: string, kind: "font" | "art" | "portrait" | "bounty
       : kind === "art" ? join(process.cwd(), "public/og/art", relative)
       : kind === "portrait" ? join(process.cwd(), "public/team/station-ink", relative)
       : kind === "bounty" ? join(process.cwd(), "public/bounties", relative)
+      : kind === "event" ? join(process.cwd(), "public/events", relative)
       : join(process.cwd(), "public/og/blog", relative)
     file = readFile(path).catch(error => { files.delete(key); throw error })
     files.set(key, file)
@@ -26,6 +27,7 @@ async function imageBytes(source: string) {
     if (source.startsWith("/team/station-ink/")) return localFile(source.slice("/team/station-ink/".length), "portrait")
     if (source.startsWith("/bounties/")) return localFile(source.slice("/bounties/".length), "bounty")
     if (source.startsWith("/og/blog/")) return localFile(source.slice("/og/blog/".length), "blog")
+    if (source.startsWith("/events/")) return localFile(source.slice("/events/".length), "event")
   }
   const url = new URL(source)
   if (url.protocol !== "https:" || url.username || url.password || url.port ||

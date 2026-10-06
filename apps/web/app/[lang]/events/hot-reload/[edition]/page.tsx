@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { HotReloadHero, VenueLink } from "@/components/hot-reload-hero"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { findEdition } from "@/lib/hot-reload"
+import { hotReloadMetadata } from "@/lib/hot-reload-seo"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { HACK0_CALENDAR_URL } from "@/lib/hack0-calendar-data"
 
@@ -15,9 +16,10 @@ function LinkedinIcon() {
   )
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ edition: string }> }) {
-  const edition = findEdition((await params).edition)
-  return edition ? { title: `Hot Reload #${edition.number}`, description: `Hot Reload #${edition.number} en ${edition.venue}, ${edition.city}.` } : {}
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; edition: string }> }) {
+  const { lang, edition: number } = await params
+  const edition = findEdition(number)
+  return isLocale(lang) && edition ? hotReloadMetadata(lang, edition) : {}
 }
 
 export default async function Page({ params }: { params: Promise<{ lang: string; edition: string }> }) {

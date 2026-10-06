@@ -3,6 +3,8 @@ import { OG_VERSION, socialImageUrl, socialText } from "./og"
 import { resolveSocialCard } from "./og-data"
 import { buildMetadata, indexablePaths } from "./seo"
 import { locales } from "./i18n"
+import { hotReloadEditions, type HotReloadEdition } from "./hot-reload"
+import { hotReloadMetadata } from "./hot-reload-seo"
 
 describe("social previews", () => {
   test("every indexable page advertises the same localized image on OG and Twitter", () => {
@@ -68,5 +70,92 @@ describe("social previews", () => {
     expect(data.locale).toBe("en")
     expect(data.title).toBe("Craft. Ship. Repeat.")
     expect(data.kind).toBe("home")
+  })
+
+  test("Hot Reload index, editions and menus have their own localized OG and Twitter metadata", async () => {
+    for (const locale of locales) {
+      const pages = [
+        hotReloadMetadata(locale),
+        ...hotReloadEditions.flatMap(edition => [
+          hotReloadMetadata(locale, edition),
+          ...(edition.menu && edition.lumaEventId ? [hotReloadMetadata(locale, edition, true)] : []),
+        ]),
+      ]
+      const paths = new Set<string>()
+      for (const metadata of pages) {
+        const images = metadata.openGraph!.images as Array<{ url: string }>
+        expect(images[0].url).toBe((metadata.twitter!.images as string[])[0])
+        const url = new URL(images[0].url, "https://crafter.run")
+        const path = url.searchParams.get("path")!
+        paths.add(path)
+        expect(metadata.alternates!.canonical).toBe(`https://crafter.run/${locale}${path}`)
+        const data = await resolveSocialCard(url.searchParams)
+        expect(data.kind).toBe("hot-reload")
+        expect(data.art).toBe("hot-reload")
+        expect(data.path).toBe(path)
+        expect(data.unavailable).toBeUndefined()
+        if (path.endsWith("/menu")) expect(metadata.robots).toEqual({ index: false })
+      }
+      expect(paths.size).toBe(pages.length)
+    }
+  })
+
+  test("Hot Reload previews read future editions from the public catalog without per-edition OG code", async () => {
+    const future: HotReloadEdition = {
+      number: 42, venue: "Future venue", city: "Another city", partner: "Community",
+      date: "A future announced date", time: "15:00",
+      poster: "/events/hot-reload/future.avif", menu: true, lumaEventId: "future-fixture",
+    }
+    hotReloadEditions.push(future)
+    try {
+      const metadata = hotReloadMetadata("es", future)
+      const images = metadata.openGraph!.images as Array<{ url: string }>
+      const params = new URL(images[0].url, "https://crafter.run").searchParams
+      params.set("title", "Old name")
+      params.set("description", "Old venue")
+      const data = await resolveSocialCard(params)
+      expect(data.title).toBe("Hot Reload #42")
+      expect(data.description).toContain(future.venue)
+      expect(data.detail).toBe("A future announced date · 15:00 · Another city")
+      expect(data.poster).toBe(future.poster)
+      expect(data.eyebrow).toBe("Crafter Station × Community")
+
+      future.socialPoster = "/events/hot-reload/future-social.png"
+      const menu = await resolveSocialCard(new URLSearchParams({ path: "/events/hot-reload/42/menu", lang: "es" }))
+      expect(menu.title).toBe("Elige tu pedido")
+      expect(menu.eyebrow).toBe("Hot Reload #42")
+      expect(menu.description).toContain(future.venue)
+      expect(menu.poster).toBe(future.socialPoster)
+
+      delete future.date
+      delete future.time
+      delete future.poster
+      delete future.socialPoster
+      delete future.partner
+      const pending = await resolveSocialCard(params)
+      expect(pending.detail).toBe("Fecha por anunciar · Another city")
+      expect(pending.poster).toBeUndefined()
+      expect(pending.art).toBe("hot-reload")
+      expect(pending.eyebrow).not.toContain("Vercel")
+
+      delete future.lumaEventId
+      const unavailableMenu = await resolveSocialCard(new URLSearchParams({ path: "/events/hot-reload/42/menu", lang: "es" }))
+      expect(unavailableMenu.unavailable).toBe(true)
+      future.lumaEventId = "future-fixture"
+      future.menu = false
+      const disabledMenu = await resolveSocialCard(new URLSearchParams({ path: "/events/hot-reload/42/menu", lang: "es" }))
+      expect(disabledMenu.unavailable).toBe(true)
+    } finally {
+      hotReloadEditions.splice(hotReloadEditions.indexOf(future), 1)
+    }
+  })
+
+  test("nonexistent Hot Reload routes cannot claim a real edition or accept an arbitrary poster", async () => {
+    for (const path of ["/events/hot-reload/9999", "/events/hot-reload/1/private", "/events/hot-reload/1/menu/extra"]) {
+      const data = await resolveSocialCard(new URLSearchParams({ path, title: "Invented event", image: "https://example.com/event.png" }))
+      expect(data.title).toBe("Hot Reload")
+      expect(data.poster).toBeUndefined()
+      expect(data.unavailable).toBe(true)
+    }
   })
 })

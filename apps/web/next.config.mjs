@@ -57,6 +57,7 @@ const nextConfig = {
       "./public/og/blog/**/*",
       "./public/team/station-ink/*.webp",
       "./public/bounties/**/*",
+      "./public/events/**/*",
     ],
   },
   async rewrites() {

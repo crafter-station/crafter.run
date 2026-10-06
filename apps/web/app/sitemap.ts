@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next"
 import { bounties } from "@/lib/bounties"
+import { hotReloadEditions } from "@/lib/hot-reload"
+import { hotReloadPath } from "@/lib/hot-reload-seo"
 
 import { blogUpdated, getPost, getSlugs, pageCount, postLanguageAlternates, postLocales } from "@/lib/blog"
 import { locales } from "@/lib/i18n"
@@ -31,7 +33,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
       page.slugs.length > 0 ? `/docs/${page.slugs.join("/")}` : "/docs",
     )
   const bountyPaths = bounties.map(bounty => `/bounties/${bounty.slug}`)
-  const paths = [...staticPaths, ...memberPaths, ...docsPaths, ...bountyPaths]
+  const eventPaths = hotReloadEditions.map(edition => hotReloadPath(edition))
+  const paths = [...staticPaths, ...memberPaths, ...docsPaths, ...bountyPaths, ...eventPaths]
 
   const localizedEntries = paths.flatMap((path) =>
     locales.map((locale) => ({

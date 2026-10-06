@@ -3,7 +3,7 @@ import { type Locale, withLocale } from "@/lib/i18n"
 import { homeCopy } from "@/lib/home-copy"
 import { bucleCopy } from "@/lib/bucle-copy"
 
-function CoffeeArt() {
+export function CoffeeArt() {
   return <svg viewBox="0 0 430 310" className="home-coffee-art" fill="none" aria-hidden="true">
     <g className="home-coffee-steam" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
       <path d="M167 101c-58-47 66-45 16-96M220 98c55-49-66-49-13-93M258 107c-35-30 47-36 23-69" />

@@ -13,6 +13,8 @@ export type HotReloadEdition = {
   partner?: string
   seats?: number
   poster?: string
+  /** Optional compatible copy when the source poster uses an unsupported codec. */
+  socialPoster?: string
   lumaUrl?: string
   lumaEventId?: string
   announcements?: Announcement[]
@@ -30,6 +32,7 @@ export const hotReloadEditions: HotReloadEdition[] = [
     time: "10:00 a. m.",
     partner: "Vercel",
     poster: "/events/hot-reload/01.avif",
+    socialPoster: "/events/hot-reload/01-social.png",
     lumaUrl: "https://luma.com/7o3puw27",
     lumaEventId: "evt-lzVFBY3M7lMWmH7",
     announcements: [

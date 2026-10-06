@@ -64,6 +64,10 @@ Measured contrast for text/background, muted text/background, accent/background,
   content. OG/Twitter share versioned 1200×630 images. Noto SC/JP are local
   server fonts, so rendering requires no font-provider requests. See
   `docs/handoffs/social-previews-2026-10-06.md`.
+  Hot Reload adds warm sage paper and the existing coffee illustration;
+  edition/menu cards use the catalog's original poster and public event
+  details. Future editions inherit this treatment through the catalog.
+  See `docs/handoffs/hot-reload-social-2026-10-06.md`.
   The SVG favicon responds to the browser theme. API, RSS, sitemap, MCP,
   Markdown twins and well-known endpoints retain their existing behavior.
 
