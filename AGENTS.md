@@ -54,6 +54,12 @@
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
 
 ## Station Visual System
+- **Makeables temporarily hidden, October 6, 2026:** user asked to hide it
+  for now. Do not render `StationMakeables` on the homepage or expose the
+  Makeables participation card on Contact. The component, artwork, styles
+  and all five translations are preserved for later restoration. This
+  supersedes the Makeables visibility in the previous handoff; Bounties
+  and its real speaker photos remain published.
 - **Makeables / Bounties breathing room, October 6, 2026:** read
   `docs/handoffs/bounties-breathing-2026-10-06.md`. Keep the open Makeables
   composition and its custom pass/card/sticker art. Bounties uses unboxed
