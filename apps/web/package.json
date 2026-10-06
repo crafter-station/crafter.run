@@ -8,6 +8,8 @@
     "db:migrate:supabase": "bun scripts/migrate-supabase-boards.ts",
     "start": "next start",
     "lint": "eslint .",
+    "generate:social-art": "bun scripts/generate-social-art.tsx",
+    "generate:social-fallbacks": "bun scripts/generate-social-fallbacks.ts",
     "generate:project-timeline": "bun scripts/generate-project-timeline.ts"
   },
   "dependencies": {

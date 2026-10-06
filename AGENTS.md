@@ -48,12 +48,20 @@
 - `RESEND_API_KEY` is validated but not currently used; `/api/contact` only validates email and returns `204`.
 
 ## Assets And Config Gotchas
-- `apps/web/scripts/generate-assets.ts` is a Bun-only Sharp script with no package script; it regenerates OG images and icons from `apps/web/public/effecto-poster-original.jpg`, writing into `apps/web/public/` and `apps/web/app/`.
+- `apps/web/scripts/generate-assets.ts` regenerates icons and calls the shared social fallback generator. For OG work alone, use `bun run --cwd apps/web generate:social-art` and `generate:social-fallbacks`; the latter needs the app on localhost:8875 or `OG_ORIGIN`. Never restore the retired photo-background OG composition.
 - `apps/web/next.config.mjs` sets `images.unoptimized: true`, allows dev origin `dev.cueva.io`, and permanently redirects `/vibe` to Luma.
 - Configure separate Vercel projects with Root Directories `apps/web` and `apps/api`. Point `api.crafter.run` at the API project, set the web project's `API_URL` and `NEXT_PUBLIC_API_URL` to that origin, and keep app-specific cron configuration in `apps/web/vercel.json`.
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
 
 ## Station Visual System
+- **Social previews, October 6, 2026:** read
+  `docs/handoffs/social-previews-2026-10-06.md`. `/og` renders the editorial
+  paper/pastel family with Crafter Display/Text, section artwork and canonical
+  content for articles, team, bounties, public profiles and Ships. OG/Twitter
+  share versioned 1200×630 URLs; Ships now have their own metadata.
+  Preserve approved portraits and the original bounty poster. Local Noto
+  SC/JP WOFFs remove request-time font downloads; keep their OFL licenses
+  and the `/og` file-tracing declarations. Makeables remains hidden.
 - **Makeables temporarily hidden, October 6, 2026:** user asked to hide it
   for now. Do not render `StationMakeables` on the homepage or expose the
   Makeables participation card on Contact. The component, artwork, styles

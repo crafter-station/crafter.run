@@ -70,11 +70,11 @@ const frontmatterSchema = z.object({
    */
   order: z.number().int().optional(),
   /**
-   * Hand-authored social card, overriding the generated one.
+   * Optional artwork, composed inside the shared editorial social card.
    *
    * A path under `public/` (`/og/blog/<slug>.jpg`) or an absolute URL. Must be
-   * 1200x630: every consumer crops to that ratio. Omit it and the post gets the
-   * generated card from `/og`, which is the right answer for almost every post.
+   * 1200x630 is recommended. Without it, the card uses the site's own
+   * article illustration. Titles and bylines always come from this record.
    */
   image: z
     .string()

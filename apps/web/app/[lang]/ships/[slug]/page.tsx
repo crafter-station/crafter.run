@@ -7,6 +7,7 @@ import { ShipEditLink } from "@/components/ship-edit-link"
 import { ShipUpvote } from "@/components/ship-upvote"
 import { isLocale } from "@/lib/i18n"
 import { getPublishedShip } from "@/lib/ships"
+import { buildMetadata } from "@/lib/seo"
 
 const copy = {
   en: { eyebrow: "Community Ship", by: "Shipped by" },
@@ -15,6 +16,16 @@ const copy = {
   zh: { eyebrow: "社区作品", by: "创作者" },
   ja: { eyebrow: "コミュニティ Ship", by: "制作者" },
 } as const
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }) {
+  const { lang, slug } = await params
+  if (!isLocale(lang)) return {}
+  const ship = await getPublishedShip(slug)
+  if (!ship) return {}
+  return buildMetadata({
+    locale: lang, path: `/ships/${ship.slug}`, title: ship.name, description: ship.tagline,
+  })
+}
 
 export default async function ShipPage({ params }: { params: Promise<{ lang: string; slug: string }> }) {
   const { lang, slug } = await params

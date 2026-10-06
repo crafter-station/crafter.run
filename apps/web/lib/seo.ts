@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server"
 
 import { defaultLocale, isLocale, locales, type Locale } from "@/lib/i18n"
 import { siteConfig } from "@/lib/site"
+import { socialImageUrl } from "@/lib/og"
 
 export const baseUrl = siteConfig.url
 
@@ -56,10 +57,8 @@ export function languageAlternates(path: string) {
   }
 }
 
-export function ogImageUrl(title: string, locale: Locale, eyebrow?: string) {
-  const params = new URLSearchParams({ title, lang: locale })
-  if (eyebrow) params.set("eyebrow", eyebrow)
-  return `/og?${params.toString()}`
+export function ogImageUrl(title: string, locale: Locale, eyebrow?: string, options: { path?: string; description?: string } = {}) {
+  return socialImageUrl(title, locale, { ...options, eyebrow })
 }
 
 export function buildMetadata({
@@ -79,7 +78,7 @@ export function buildMetadata({
   const fullTitle =
     title === siteConfig.name ? `${siteConfig.name} · ${siteConfig.tagline[locale]}` : `${title} | ${siteConfig.name}`
   const ogTitle = title === siteConfig.name ? siteConfig.tagline[locale] : title
-  const ogImage = image?.url ?? ogImageUrl(ogTitle, locale)
+  const ogImage = image?.url ?? ogImageUrl(ogTitle, locale, undefined, { path, description })
 
   return {
     metadataBase: new URL(baseUrl),
@@ -99,7 +98,7 @@ export function buildMetadata({
           url: ogImage,
           width: 1200,
           height: 630,
-          alt: image?.alt ?? `${siteConfig.name} · ${siteConfig.tagline[locale]}`,
+          alt: image?.alt ?? fullTitle,
         },
       ],
       type: "website",

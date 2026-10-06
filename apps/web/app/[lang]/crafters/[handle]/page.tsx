@@ -32,21 +32,12 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     title: member.displayName,
     description,
   })
-  const image = new URLSearchParams({
-    title: member.displayName,
-    lang,
-    handle: member.handle,
-  })
-  const imageUrl = `/og?${image.toString()}`
-
   return {
     ...metadata,
     openGraph: {
       ...metadata.openGraph,
-      images: [{ url: imageUrl, width: 1200, height: 630, alt: `${member.displayName} (@${member.handle})` }],
       type: "profile",
     },
-    twitter: { ...metadata.twitter, images: [imageUrl] },
   }
 }
 

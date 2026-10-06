@@ -58,7 +58,14 @@ Measured contrast for text/background, muted text/background, accent/background,
 - Timeline/OSS metrics: existing data visualizations and controls; theme-aware colors and corrected sticky offset for the new navigation.
 - Hackathons immersive page: retains its content and interaction, adopts both palettes and the shared site shell.
 - Localized and global 404: typography and theme; the standalone global 404 keeps its auth-independent document and theme control.
-- Social preview images use Station colors, the original symbol and local Crafter Sans Text fonts (Noto subsets for CJK). The SVG favicon responds to the browser theme. SEO URLs, API, RSS, sitemap, MCP, Markdown twins and well-known endpoints keep their existing routes and behavior.
+- Social previews use warm paper, section pastel palettes, the original symbol,
+  Crafter Display/Text and the site's own illustrations. Articles, approved
+  team portraits, bounties, public profiles and Ships supply their actual
+  content. OG/Twitter share versioned 1200×630 images. Noto SC/JP are local
+  server fonts, so rendering requires no font-provider requests. See
+  `docs/handoffs/social-previews-2026-10-06.md`.
+  The SVG favicon responds to the browser theme. API, RSS, sitemap, MCP,
+  Markdown twins and well-known endpoints retain their existing behavior.
 
 ## Authoring
 

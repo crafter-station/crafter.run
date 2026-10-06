@@ -37,7 +37,6 @@ export async function generateMetadata({
     path: `/bounties/${bounty.slug}`,
     title,
     description: content.summary,
-    image: bounty.image ? { url: bounty.image, alt: title } : undefined,
   })
 }
 
