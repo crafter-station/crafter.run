@@ -10,6 +10,8 @@ import { defaultLocale, isLocale, type Locale } from "@/lib/i18n"
 import { socialKind, socialLabels, socialText, type SocialKind } from "@/lib/og"
 import { getCrafterProfile, getPublishedShip } from "@/lib/ships"
 import { activeTeamMembers, featuredTeamMembers } from "@/lib/team"
+import { accessEventDay, findAccessEvent } from "@/lib/access-events"
+import { eventAccessCopy } from "@/lib/event-access-copy"
 
 export type SocialCardData = {
   locale: Locale
@@ -63,6 +65,16 @@ export async function resolveSocialCard(params: URLSearchParams): Promise<Social
   }
   if (path === "/team") data.portraits = featuredTeamMembers.map(member => member.image)
   if (path === "/impact/petdex") data.art = "petdex"
+  const accessMatch = /^\/events\/([^/]+)(\/access)?$/.exec(path)
+  const accessEvent = accessMatch ? findAccessEvent(accessMatch[1]) : undefined
+  if (accessEvent) {
+    const copy = eventAccessCopy[locale]
+    return {
+      ...data, title: accessEvent.title, description: accessMatch?.[2] ? copy.entryIntro : copy.intro,
+      eyebrow: copy.eyebrow, detail: `${accessEventDay(accessEvent, locale)} · ${accessEvent.venue}`,
+      poster: accessEvent.cover,
+    }
+  }
   if (kind === "hot-reload") {
     if (path === "/events/hot-reload") return { ...data, ...hotReloadPreview(locale) }
     const match = /^\/events\/hot-reload\/([^/]+)(\/menu)?$/.exec(path)

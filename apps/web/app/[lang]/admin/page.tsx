@@ -6,6 +6,8 @@ import { hotReloadDate, hotReloadEditions } from "@/lib/hot-reload"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { hotReloadCopy } from "@/lib/hot-reload-copy"
 import { getEventMenu } from "@/lib/event-menu"
+import { accessEvents } from "@/lib/access-events"
+import { eventAccessCopy } from "@/lib/event-access-copy"
 
 export const metadata = { title: "Admin", robots: { index: false } }
 
@@ -31,6 +33,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
               <span className="station-label text-muted-foreground">{t.viewOrders} →</span>
             </Link>
           ))}
+      </div>
+      <h2 className="mt-12 text-3xl">{eventAccessCopy[lang].admin}</h2>
+      <div className="mt-6 flex flex-col gap-4">
+        {accessEvents.map(event => <Link className="underline underline-offset-4" key={event.slug} href={`/${lang}/admin/event-access/${event.slug}`}>{event.title}</Link>)}
       </div>
     </main>
   )

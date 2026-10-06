@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server"
 import { defaultLocale, isLocale, locales, type Locale } from "@/lib/i18n"
 import { siteConfig } from "@/lib/site"
 import { socialImageUrl } from "@/lib/og"
+import { accessEvents } from "@/lib/access-events"
 
 export const baseUrl = siteConfig.url
 
@@ -25,6 +26,7 @@ export const indexablePaths = [
   "/crafters",
   "/events",
   "/events/hot-reload",
+  ...accessEvents.map(event => `/events/${event.slug}`),
   "/events/sponsors",
   "/hackathons",
   "/timeline",

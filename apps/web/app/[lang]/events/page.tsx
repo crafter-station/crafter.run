@@ -10,6 +10,8 @@ import { isLocale, locales, withLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 import { breadcrumbList } from "@/lib/structured-data"
 import { participationCopy } from "@/lib/participation-copy"
+import { accessEventDay, accessEvents } from "@/lib/access-events"
+import { eventAccessCopy } from "@/lib/event-access-copy"
 
 export const revalidate = 1800
 export const dynamicParams = false
@@ -64,6 +66,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           <a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer">{participation.hotReload.action}</a>
         </div>
       </section>
+      {accessEvents.filter(event => Date.parse(event.endsAt) > now).map(event => (
+        <section key={event.slug} className="agenda-program" aria-labelledby={`${event.slug}-title`}>
+          <div><p className="station-label">{eventAccessCopy[lang].eyebrow}</p><h2 id={`${event.slug}-title`}>{event.title}</h2></div>
+          <div><p>{accessEventDay(event, lang)} · {event.venue}</p>
+            <Link href={`/${lang}/events/${event.slug}`}>{eventAccessCopy[lang].approvedLink} {eventAccessCopy[lang].access}</Link>
+          </div>
+        </section>
+      ))}
       <AgendaCalendar events={calendar.events} initialNow={now} available={calendar.status === "available"} locale={lang} t={t} />
       <section className="agenda-subscribe" aria-labelledby="agenda-subscribe-title">
         <CalendarPlus size={30} strokeWidth={1.3} aria-hidden="true" /><div><h2 id="agenda-subscribe-title">{t.subscribe}</h2><p>{t.subscribeBody}</p>

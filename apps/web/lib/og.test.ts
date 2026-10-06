@@ -7,6 +7,20 @@ import { hotReloadEditions, type HotReloadEdition } from "./hot-reload"
 import { hotReloadMetadata } from "./hot-reload-seo"
 
 describe("social previews", () => {
+  test("DevDay entry cards use public event metadata, never query-supplied personal data", async () => {
+    for (const locale of locales) for (const suffix of ["", "/access"]) {
+      const card = await resolveSocialCard(new URLSearchParams({
+        lang: locale, path: `/events/devday-lima${suffix}`, title: "Private attendee",
+        description: "Private document", image: "https://example.invalid/personal.jpg",
+      }))
+      expect(card.title).toBe("DevDay Exchange Community: Lima")
+      expect(card.poster).toBe("/events/devday-lima/cover.jpg")
+      expect(card.description).not.toContain("Private")
+      expect(card.detail).toContain("UNMSM")
+    }
+    expect(indexablePaths).toContain("/events/devday-lima")
+    expect(indexablePaths).not.toContain("/events/devday-lima/access")
+  })
   test("every indexable page advertises the same localized image on OG and Twitter", () => {
     for (const locale of locales) for (const path of indexablePaths) {
       const metadata = buildMetadata({ locale, path, title: "Ideas & código / 你好", description: "Una comunidad que construye." })
