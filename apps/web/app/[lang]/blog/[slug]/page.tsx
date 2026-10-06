@@ -25,9 +25,10 @@ export function generateStaticParams() {
   return getSlugs().flatMap((slug) => postLocales(slug).map((lang) => ({ lang, slug })))
 }
 
-function cardImage(post: { image?: string; title: string }, locale: Locale) {
-  if (!post.image) return absoluteUrl(ogImageUrl(post.title, locale, `${siteConfig.name} · Blog`))
-  return post.image.startsWith("/") ? `${baseUrl}${post.image}` : post.image
+function cardImage(post: { slug: string; title: string; summary: string }, locale: Locale) {
+  return absoluteUrl(ogImageUrl(post.title, locale, "Crafter Journal", {
+    path: `/blog/${post.slug}`, description: post.summary,
+  }))
 }
 
 export async function generateMetadata({

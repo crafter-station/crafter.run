@@ -1,16 +1,14 @@
 import sharp from "sharp";
 import { writeFileSync, copyFileSync } from "fs";
 import { join } from "path";
+import { generateSocialFallbacks } from "./generate-social-fallbacks";
 
 const ROOT = join(import.meta.dir, "..");
 const PUBLIC = join(ROOT, "public");
 const APP = join(ROOT, "app");
 
 // Brand constants
-const BG = "#050505";
 const ACCENT = "#F8BC31";
-const FG = "#F5F5F5";
-const FG_DIM = "#666666";
 
 // Crafter Station logo SVG path
 const LOGO_PATH =
@@ -20,78 +18,6 @@ function logoSvg(size: number, color: string): Buffer {
   return Buffer.from(`<svg width="${size}" height="${size}" viewBox="0 0 257 257" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="${LOGO_PATH}" fill="${color}"/>
   </svg>`);
-}
-
-async function generateOG(
-  width: number,
-  height: number,
-  filename: string
-): Promise<void> {
-  // Load and process cat poster as background
-  const catBg = await sharp(join(PUBLIC, "effecto-poster-original.jpg"))
-    .resize(width, height, { fit: "cover" })
-    .modulate({ brightness: 0.35, saturation: 0.6 })
-    .blur(2)
-    .toBuffer();
-
-  // Dark gradient overlay (bottom heavy for text area)
-  const gradientOverlay = Buffer.from(`<svg width="${width}" height="${height}">
-    <defs>
-      <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="${BG}" stop-opacity="0.7"/>
-        <stop offset="40%" stop-color="${BG}" stop-opacity="0.55"/>
-        <stop offset="100%" stop-color="${BG}" stop-opacity="0.9"/>
-      </linearGradient>
-    </defs>
-    <rect width="${width}" height="${height}" fill="url(#g)"/>
-  </svg>`);
-
-  // Logo icon
-  const logoSize = 64;
-  const logoIcon = logoSvg(logoSize, ACCENT);
-
-  // Text elements
-  const textSvg = Buffer.from(`<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&amp;family=JetBrains+Mono:wght@400&amp;display=swap');
-    </style>
-
-    <!-- "by crafter station" label -->
-    <text x="${width / 2}" y="${height / 2 - 20}"
-      font-family="monospace" font-size="14" font-weight="400"
-      letter-spacing="6" fill="${FG_DIM}" text-anchor="middle"
-      text-transform="uppercase">BY CRAFTER STATION</text>
-
-    <!-- "crafter.run" title -->
-    <text x="${width / 2}" y="${height / 2 + 50}"
-      font-family="sans-serif" font-size="72" font-weight="700"
-      letter-spacing="-3" fill="${FG}" text-anchor="middle">crafter<tspan fill="${ACCENT}">.</tspan>run</text>
-
-    <!-- Tagline -->
-    <text x="${width / 2}" y="${height / 2 + 95}"
-      font-family="monospace" font-size="16" font-weight="400"
-      fill="${FG_DIM}" text-anchor="middle">Visual references &amp; open source projects</text>
-
-    <!-- Subtle border -->
-    <rect x="24" y="24" width="${width - 48}" height="${height - 48}" rx="0"
-      fill="none" stroke="${FG}" stroke-opacity="0.06" stroke-width="1"/>
-  </svg>`);
-
-  const result = await sharp(catBg)
-    .composite([
-      { input: gradientOverlay, blend: "over" },
-      {
-        input: logoIcon,
-        top: Math.round(height / 2 - 95),
-        left: Math.round(width / 2 - logoSize / 2),
-        blend: "over",
-      },
-      { input: textSvg, blend: "over" },
-    ])
-    .png({ quality: 90, compressionLevel: 9 })
-    .toFile(join(PUBLIC, filename));
-
-  console.log(`  ${filename}: ${(result.size / 1024).toFixed(0)}KB`);
 }
 
 async function generateFavicon(): Promise<void> {
@@ -209,8 +135,7 @@ async function main() {
   console.log("Generating brand assets...\n");
 
   console.log("OG Images:");
-  await generateOG(1200, 630, "og.png");
-  await generateOG(1200, 600, "og-twitter.png");
+  await generateSocialFallbacks();
 
   console.log("\nFavicon:");
   await generateFavicon();

@@ -120,7 +120,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const metaPath =
     page.slugs.length > 0 ? `/docs/${page.slugs.join("/")}` : "/docs"
   const locale = isLocale(lang) ? lang : defaultLocale
-  const ogImage = ogImageUrl(page.data.title, locale, "Crafter Station · Docs")
+  const ogImage = ogImageUrl(page.data.title, locale, undefined, { path: metaPath, description: page.data.description })
 
   return {
     metadataBase: new URL(baseUrl),

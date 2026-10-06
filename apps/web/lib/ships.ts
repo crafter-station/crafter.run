@@ -55,12 +55,13 @@ export async function listCrafters(): Promise<MemberProfile[] | null> {
   }
 }
 
-export async function getPublishedShip(slug: string): Promise<ShipDetail | null> {
+export async function getPublishedShip(slug: string, options: { signal?: AbortSignal } = {}): Promise<ShipDetail | null> {
   const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "development" ? "http://localhost:3001" : null)
   if (!apiUrl) return null
   try {
     const response = await fetch(new URL(`/v1/ships/${encodeURIComponent(slug)}`, apiUrl), {
       cache: "no-store",
+      signal: options.signal,
     })
     if (!response.ok) return null
     const parsed = shipResponseSchema.safeParse(await response.json())
@@ -70,12 +71,13 @@ export async function getPublishedShip(slug: string): Promise<ShipDetail | null>
   }
 }
 
-export async function getCrafterProfile(handle: string): Promise<MemberProfile | null> {
+export async function getCrafterProfile(handle: string, options: { signal?: AbortSignal } = {}): Promise<MemberProfile | null> {
   const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "development" ? "http://localhost:3001" : null)
   if (!apiUrl) return null
   try {
     const response = await fetch(new URL(`/v1/members/${encodeURIComponent(handle)}`, apiUrl), {
       cache: "no-store",
+      signal: options.signal,
     })
     if (!response.ok) return null
     const parsed = memberResponseSchema.safeParse(await response.json())

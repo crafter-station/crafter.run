@@ -49,6 +49,15 @@ const nextConfig = {
   // the tracer only follows imports, so the content itself has to be declared.
   outputFileTracingIncludes: {
     "/**": ["./content/blog/**/*"],
+    "/og": [
+      "./app/fonts/CrafterSansPreview-Medium.ttf",
+      "./app/fonts/CrafterSansTextPreview-Regular.ttf",
+      "./app/fonts/NotoSans*-Medium.woff",
+      "./public/og/art/*.svg",
+      "./public/og/blog/**/*",
+      "./public/team/station-ink/*.webp",
+      "./public/bounties/**/*",
+    ],
   },
   async rewrites() {
     return [
