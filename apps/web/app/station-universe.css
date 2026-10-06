@@ -1,0 +1,125 @@
+/* An illustrated field guide to the four existing Crafter areas. */
+.station-shell-universe {
+  --universe-frame: var(--station-gutter);
+  --universe-accent: #725d3d;
+  position: relative;
+  isolation: isolate;
+  background: radial-gradient(ellipse 75% 660px at 65% 220px, #d2bc8523, transparent 90%), radial-gradient(ellipse 80% 900px at 40% 65%, #bbc7b513, transparent);
+}
+.dark .station-shell-universe { --universe-accent: #d2b77d; background: radial-gradient(ellipse 80% 700px at 65% 220px, #d2bc8510, transparent 90%); }
+.station-shell-universe::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("/station/paper-grain.svg") repeat; opacity: .035; pointer-events: none; }
+.station-shell-universe :is(.station-sidebar,.station-social-rail) { color: hsl(var(--foreground) / .8); mix-blend-mode: normal; }
+.station-shell-universe .station-nav > a[aria-current="page"] { color: var(--universe-accent); }
+.universe-page { padding-inline: var(--universe-frame); }
+.universe-page .station-label { font-size: 14px; color: hsl(var(--muted-foreground)); letter-spacing: .04em; }
+.universe-page :is(a,button):focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+.universe-page h2 { font-size: 32px; line-height: 1.1; letter-spacing: -.04em; }
+.universe-page h3 { font-size: 21px; line-height: 1.35; letter-spacing: -.025em; text-wrap: pretty; }
+.universe-hero { padding-top: 48px; }
+.universe-hero-layout { display: grid; grid-template-columns: 1fr 1.05fr; align-items: center; gap: 48px; padding-block: 32px 64px; }
+.universe-hero-layout > * { min-width: 0; }
+.universe-intro h1 { font-size: var(--station-type-page); line-height: .98; letter-spacing: -.055em; }
+.universe-intro h1 > span { display: block; color: var(--universe-accent); }
+.universe-intro h1 i { display: inline-block; font-family: var(--font-sans); font-style: normal; font-size: .49em; font-weight: 400; margin-left: .2em; vertical-align: 18%; }
+.universe-intro > p { max-width: 365px; font-size: 18px; line-height: var(--station-leading-intro); color: hsl(var(--muted-foreground)); margin-top: 24px; text-wrap: pretty; }
+.universe-start { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 16px; border-radius: 6px; background: hsl(var(--foreground) / .055); margin-top: 23px; font-size: 16px; font-weight: 500; transition: background-color 180ms; }
+.universe-start:where(:hover,:focus-visible) { background: hsl(var(--foreground) / .1); }
+.universe-map { position: relative; width: 100%; aspect-ratio: 460 / 360; }
+.universe-orbits { position: absolute; inset: 0; width: 100%; height: 100%; stroke: var(--universe-accent); stroke-width: .85; opacity: .35; }
+.universe-map-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%) rotate(-10deg); color: var(--universe-accent); }
+.universe-map-center > svg { width: 36px; height: 36px; color: inherit; }
+.universe-map-node { position: absolute; width: 32%; display: flex; flex-direction: column; align-items: center; border-radius: 8px; }
+.map-research { left: 1%; top: 2%; }
+.map-lab { right: 1%; top: 5%; }
+.map-games { left: 3%; bottom: 2%; }
+.map-station { right: 3%; bottom: 0; }
+.universe-map-art { position: relative; width: 83%; aspect-ratio: 1; border-radius: 50%; background: var(--network-surface); color: var(--network-ink); display: grid; place-items: center; transform: rotate(-7deg); transition: transform 200ms; }
+.universe-map-art .network-artwork { width: 125%; height: auto; max-width: none; }
+.universe-map-art .universe-map-station-mark { position: absolute; width: 21%; height: 21%; top: 39.5%; left: 39.5%; color: inherit; }
+.universe-map-node:where(:hover,:focus-visible) .universe-map-art { transform: translateY(-4px) rotate(0); }
+.universe-map-name { display: flex; gap: 7px; align-items: center; margin-top: 10px; font-size: 16px; }
+.universe-map-name small { font: 16px var(--font-label); color: hsl(var(--muted-foreground)); }
+.universe-map-node:hover .universe-map-name { text-decoration: underline; text-underline-offset: 4px; }
+.universe-map-note { margin-top: 16px; text-align: center; font-size: 16px; line-height: 1.7; color: hsl(var(--muted-foreground)); }
+
+.universe-directory, .universe-directory section { scroll-margin-top: 32px; }
+.universe-area-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); column-gap: 36px; }
+.universe-area { display: grid; grid-template-rows: subgrid; grid-row: span 6; min-width: 0; }
+.universe-area:nth-child(n+3) { margin-top: 64px; }
+.universe-area-art { position: relative; overflow: hidden; border-radius: 6px; background: var(--network-surface); color: var(--network-ink); }
+.universe-area-top { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 21px 24px 0; }
+.universe-area-top .station-label { color: inherit; }
+.universe-area-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: .65; flex-shrink: 0; }
+.universe-illustration { position: relative; width: 100%; aspect-ratio: 480 / 300; }
+.universe-scene { display: block; width: 100%; height: 100%; }
+.universe-scene-mark { position: absolute; left: 44.4%; top: 43%; width: 12%; height: 18%; color: inherit; transform: rotate(-8deg); }
+.universe-area-heading { margin-block: 25px 12px; }
+.universe-area-body { font-size: 16px; line-height: var(--station-leading-copy); color: hsl(var(--muted-foreground)); margin-top: 13px; max-width: 470px; text-wrap: pretty; }
+.universe-topics { display: flex; flex-wrap: wrap; gap: 7px 17px; padding: 0; list-style: none; font: 16px/1.7 var(--font-label); color: hsl(var(--muted-foreground)); margin-block: 20px 24px; }
+.universe-topics li { display: inline-flex; align-items: center; gap: 7px; }
+.universe-topics li::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--network-color); flex-shrink: 0; }
+.universe-area-links { display: flex; flex-direction: column; align-items: flex-start; align-self: start; gap: 7px; }
+.universe-link { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; max-width: 100%; padding: 10px 16px; border-radius: 6px; background: var(--network-surface); color: var(--network-ink); font-size: 16px; font-weight: 500; line-height: 1.55; text-underline-offset: 5px; transition: background-color 180ms; }
+.universe-link:where(:hover,:focus-visible) { background: color-mix(in srgb,var(--network-surface),var(--network-ink) 8%); }
+.universe-link:not(.is-secondary):focus-visible { outline-offset: -5px; }
+.universe-link.is-secondary { justify-content: flex-start; padding: 5px 0; background: none; color: hsl(var(--muted-foreground)); font-weight: 400; }
+.universe-link.is-secondary:hover { color: hsl(var(--foreground)); text-decoration: underline; }
+.universe-community-links { display: flex; flex-wrap: wrap; gap: 0 20px; }
+
+.universe-starting-points { margin-block: 76px 18px; }
+.universe-starting-intro { max-width: 560px; }
+.universe-starting-intro h2 { margin-top: 14px; font-size: 32px; line-height: 1.2; text-wrap: pretty; }
+.universe-starting-intro > p:last-child { margin-top: 14px; color: hsl(var(--muted-foreground)); font-size: 16px; line-height: var(--station-leading-copy); text-wrap: pretty; }
+.universe-starting-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 16px; margin-top: 28px; }
+.universe-starting-card { display: flex; flex-direction: column; min-width: 0; padding: 24px; border-radius: 6px; background: hsl(var(--foreground) / .035); transition: background-color 180ms; }
+.universe-starting-card:where(:hover,:focus-visible) { background: hsl(var(--foreground) / .07); }
+.universe-starting-card h3 { margin-top: 20px; font-size: 22px; }
+.universe-starting-card > p { color: hsl(var(--muted-foreground)); font-size: 16px; line-height: var(--station-leading-copy); margin-block: 12px 20px; }
+.universe-starting-action { margin-top: auto; font-size: 16px; font-weight: 500; line-height: 1.6; }
+.universe-starting-card:hover .universe-starting-action { text-decoration: underline; text-underline-offset: 5px; }
+
+@media (min-width: 1024px) {
+  .station-shell-universe { --universe-frame: max(200px,16vw,calc((100vw - 1120px) / 2)); }
+  .station-shell-universe .station-content { margin-inline: 0; }
+  .station-shell-universe .station-footer { padding-inline: var(--universe-frame); }
+  .station-shell-universe .station-footer-inner { padding-inline: 0; }
+}
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .universe-hero-layout { gap: 16px; }
+  .universe-intro h1 { font-size: 52px; }
+  .universe-area-grid { column-gap: 26px; }
+  .universe-area:nth-child(n+3) { margin-top: 52px; }
+  .universe-area-top { padding: 18px 18px 0; }
+  .universe-starting-card { padding: 20px 16px; }
+}
+@media (max-width: 760px) {
+  .universe-hero { padding-top: 28px; }
+  .universe-hero-layout { grid-template-columns: 1fr; gap: 32px; padding-block: 28px 44px; }
+  .universe-intro h1 { font-size: clamp(42px,9vw,60px); }
+  .universe-intro > p { max-width: 420px; margin-top: 20px; }
+  .universe-start { margin-top: 20px; }
+  .universe-atlas { width: min(100%,420px); margin-inline: auto; }
+  .universe-map-center > svg { width: 28px; height: 28px; }
+  .universe-map-name { gap: 5px; }
+  .universe-map-note { margin-top: 12px; }
+  .universe-directory, .universe-directory section { scroll-margin-top: 96px; }
+  .universe-area-grid { grid-template-columns: 1fr; gap: 44px; }
+  .universe-area { display: flex; flex-direction: column; grid-row: auto; }
+  .universe-area:nth-child(n+3) { margin-top: 0; }
+  .universe-area-top { padding: 18px 20px 0; }
+  .universe-illustration { max-height: 310px; }
+  .universe-page h2 { font-size: 28px; }
+  .universe-page h3 { font-size: 20px; }
+  .universe-area-heading { margin-block: 22px 10px; }
+  .universe-area-links { gap: 4px; }
+  .universe-topics { margin-block: 18px 20px; gap: 6px 14px; }
+  .universe-starting-points { margin-top: 56px; }
+  .universe-starting-intro h2 { font-size: 28px; }
+  .universe-starting-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 24px; }
+  .universe-starting-card { padding: 24px; }
+  .universe-starting-card h3 { margin-top: 12px; font-size: 22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .universe-map-art,.universe-start,.universe-link,.universe-starting-card { transition: none; }
+  .universe-map-node:where(:hover,:focus-visible) .universe-map-art { transform: rotate(-7deg); }
+}

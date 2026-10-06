@@ -61,7 +61,7 @@ export function CopyActions({ title, t }: { title: string; t: BlogCopy["copyMenu
                 )}
               </button>
             </TooltipTrigger>
-            <TooltipContent className="font-mono text-[10px] uppercase tracking-[0.2em]">
+            <TooltipContent className="font-label text-xs uppercase tracking-[0.2em]">
               {copied === item.key ? t.copied : item.label}
             </TooltipContent>
           </Tooltip>

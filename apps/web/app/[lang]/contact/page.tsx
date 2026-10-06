@@ -1,83 +1,53 @@
-import { notFound } from "next/navigation"
 import Link from "next/link"
+import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { ArrowLink } from "@/components/arrow-link"
-import { ContactPicker } from "@/components/contact-picker"
 import { Container, SectionGap } from "@/components/grid-container"
-import { isLocale, withLocale } from "@/lib/i18n"
+import { StationPageHero } from "@/components/station-page-hero"
+import { isLocale, locales, withLocale } from "@/lib/i18n"
+import { getParticipationPaths, participationCopy } from "@/lib/participation-copy"
 import { pageMetadata } from "@/lib/seo"
-import { getServices } from "@/lib/site"
 
 export const dynamicParams = false
-
-export function generateStaticParams() {
-  return ["en", "es", "pt", "zh", "ja"].map((lang) => ({ lang }))
-}
-
+export function generateStaticParams() { return locales.map(lang => ({ lang })) }
 export function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   return pageMetadata({ params, path: "/contact", namespace: "pages.contact" })
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ lang: string }>
-}) {
+export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
   if (!isLocale(lang)) notFound()
   const t = await getTranslations({ locale: lang, namespace: "pages.contact" })
-  const common = await getTranslations({ locale: lang, namespace: "common" })
-  const services = getServices(lang)
+  const copy = participationCopy[lang]
 
   return (
-    <>
-
-      <main className="flex-1">
-        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
-          <div className="max-w-4xl"><p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{t("eyebrow")}</p><h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">{t("title")}</h1><p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">{t("description")}</p></div>
-        </Container>
-        <SectionGap />
-        <Container innerClassName="border-b px-6 py-10 md:px-10"><p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">{t("eyebrow")}</p><h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t("section")}</h2><p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">{t("sectionDescription")}</p></Container>
-        <Container><div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">{services.map((service, i) => <Link key={service.title} href={withLocale(service.href, lang)} className={"group min-h-56 border-line p-8 transition-colors hover:bg-accent-surface/10 " + (i > 0 ? "border-t md:border-t-0 md:border-l " : "") + (i % 2 === 0 && i > 0 ? "md:border-l-0 " : "") + (i >= 2 ? "md:border-t " : "") + (i % 3 === 0 && i > 0 ? "xl:border-l-0 " : "xl:border-l ") + (i >= 3 ? "xl:border-t " : "xl:border-t-0 ")}><h3 className="text-lg tracking-tight">{service.title}</h3><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{service.body}</p><ArrowLink className="mt-8">{common("openCta")}</ArrowLink></Link>)}</div></Container>
-        <SectionGap />
-        <ContactPicker
-          eyebrow={t("pickerEyebrow")}
-          title={t("pickerTitle")}
-          description={t("pickerDescription")}
-          withLabel={t("pickerWith")}
-          tracks={[
-            {
-              id: "startup",
-              label: t("trackStartupLabel"),
-              host: "Anthony Cueva",
-              blurb: t("trackStartupBlurb"),
-              calLink: "crafter/15min",
-            },
-            {
-              id: "career",
-              label: t("trackCareerLabel"),
-              host: "Railly Hugo",
-              blurb: t("trackCareerBlurb"),
-              calLink: "railly/crafter-station-mentorship",
-            },
-            {
-              id: "oss",
-              label: t("trackOssLabel"),
-              host: "Railly Hugo",
-              blurb: t("trackOssBlurb"),
-              calLink: "railly/crafter-station-oss",
-            },
-            {
-              id: "sponsor",
-              label: t("trackSponsorLabel"),
-              host: "Anthony Cueva",
-              blurb: t("trackSponsorBlurb"),
-              calLink: "crafter/community",
-            },
-          ]}
-        />
-      </main>
-
-    </>
+    <main className="flex-1">
+      <StationPageHero eyebrow={t("eyebrow")} title={t("title")} description={t("description")} art="conversation" />
+      <SectionGap />
+      <Container>
+        <div className="station-card-grid">
+          {getParticipationPaths(lang).map(path => (
+            <Link key={path.href} href={withLocale(path.href, lang)}
+              {...(path.href.startsWith("https:") ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+              <h2 className="text-2xl">{path.title}</h2>
+              <p className="mt-4 leading-relaxed text-muted-foreground">{path.body}</p>
+              <ArrowLink>{path.action}</ArrowLink>
+            </Link>
+          ))}
+        </div>
+      </Container>
+      <SectionGap />
+      <Container>
+        <section id="collaborate" className="station-callout">
+          <span id="engineering-calendar" aria-hidden="true" />
+          <h2>{copy.contact.title}</h2>
+          <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">{copy.contact.body}</p>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <a className="station-button" href="https://crafters.chat" target="_blank" rel="noopener noreferrer">{copy.contact.community}</a>
+            <Link href={withLocale("/team", lang)} className="station-text-link">{copy.contact.team}</Link>
+          </div>
+        </section>
+      </Container>
+    </main>
   )
 }

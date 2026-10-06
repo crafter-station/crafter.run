@@ -1,11 +1,12 @@
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
-import { CTA, type CtaCopy } from "@/components/cta"
-import { FeaturedProducts } from "@/components/featured-products"
-import { StationEvents, StationFamily } from "@/components/station-sections"
+import { StationNetwork } from "@/components/crafter-network"
+import { StationEvents } from "@/components/station-sections"
 import { HeroContent } from "@/components/hero"
 import { StationOpenSource } from "@/components/station-open-source"
-import { StationPeople, StationJournal, StationExplore } from "@/components/station-home"
+import { StationPeople, StationJournal, StationContact, StationExplore } from "@/components/station-home"
+import { StationFaq } from "@/components/station-faq"
+import { StationMakeables } from "@/components/station-makeables"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 
@@ -19,21 +20,6 @@ export function generateMetadata({ params }: { params: Promise<{ lang: string }>
   return pageMetadata({ params, path: "/", namespace: "home" })
 }
 
-const ctaKeys = [
-  "eyebrow",
-  "title",
-  "description",
-  "emailLabel",
-  "emailPlaceholder",
-  "submit",
-  "sending",
-  "successTitle",
-  "successDescription",
-  "invalidEmail",
-  "genericError",
-  "networkError",
-] as const
-
 export default async function Page({
   params,
 }: {
@@ -42,10 +28,6 @@ export default async function Page({
   const { lang } = await params
   if (!isLocale(lang)) notFound()
   const t = await getTranslations({ locale: lang, namespace: "home" })
-  const tCta = await getTranslations({ locale: lang, namespace: "cta" })
-  const ctaCopy = Object.fromEntries(
-    ctaKeys.map((key) => [key, tCta(key)]),
-  ) as CtaCopy
 
   return (
       <main className="station-home flex-1">
@@ -57,13 +39,14 @@ export default async function Page({
           ossHref={withLocale("/oss", lang)}
         />
         <StationOpenSource locale={lang} />
-        <FeaturedProducts locale={lang} />
+        <StationNetwork locale={lang} />
+        <StationMakeables locale={lang} />
         <StationEvents locale={lang} />
         <StationPeople locale={lang} />
-        <StationFamily locale={lang} />
         <StationJournal locale={lang} />
-        <div className="home-contact theme-scope"><CTA copy={ctaCopy} /></div>
         <StationExplore locale={lang} />
+        <StationFaq locale={lang} />
+        <StationContact locale={lang} />
       </main>
   )
 }

@@ -7,14 +7,14 @@ export function Team({ locale }: { locale: Locale }) {
   return (
     <div id="team">
       <Container innerClassName="border-b py-6">
-        <h2 className="text-center font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+        <h2 className="text-center font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
           The crafters
         </h2>
       </Container>
       <hr className="border-line" />
       <Container innerClassName="px-6 py-12 md:px-10 md:py-16">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             One team, many timezones
           </p>
           <h3 className="mt-3 text-3xl tracking-tight md:text-4xl">

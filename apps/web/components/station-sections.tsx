@@ -1,10 +1,7 @@
 import Link from "next/link"
-import type { CSSProperties } from "react"
-import { ArrowUpRight } from "lucide-react"
-import { CrafterStationLogo } from "@/components/crafter-station-logo"
 import { type Locale, withLocale } from "@/lib/i18n"
-import { stationCopy } from "@/lib/station-copy"
 import { homeCopy } from "@/lib/home-copy"
+import { bucleCopy } from "@/lib/bucle-copy"
 
 function CoffeeArt() {
   return <svg viewBox="0 0 430 310" className="home-coffee-art" fill="none" aria-hidden="true">
@@ -38,68 +35,31 @@ function BoatArt() {
 
 export function StationEvents({ locale }: { locale: Locale }) {
   const t = homeCopy[locale]
-  const s = stationCopy[locale]
   return (
     <section className="home-events" aria-labelledby="home-events-title">
       <div className="home-events-heading">
-        <p className="station-label">04 / {s.eventsLabel}</p>
-        <h2 id="home-events-title">{t.events}</h2>
+        <h2 id="home-events-title">{bucleCopy[locale].encounter}</h2>
         <p className="home-events-intro">{t.eventsBody}</p>
+        <div className="home-section-actions">
+          <Link href={withLocale("/events",locale)} className="home-action-link">{t.calendar}</Link>
+          <Link href={withLocale("/events/sponsors",locale)} className="home-secondary-link">{t.sponsor}</Link>
+        </div>
       </div>
       <div className="home-posters">
-        <Link href={withLocale("/events",locale)} className="home-poster home-poster-brew">
-          <div className="home-poster-meta station-label"><span>CRAFTER PRESENTS</span><ArrowUpRight size={22} aria-hidden="true" /></div>
-          <h3>Code<br />Brew<span className="home-poster-star" aria-hidden="true">✳</span></h3>
+        <Link href={withLocale("/events#hot-reload",locale)} className="home-poster home-poster-brew">
+          <div className="home-poster-meta station-label">CRAFTER PRESENTS</div>
+          <h3>Hot<br />Reload<span className="home-poster-star" aria-hidden="true">✳</span></h3>
           <CoffeeArt />
           <p className="home-poster-line">{t.brew}</p>
-          <div className="home-poster-bottom station-label"><span>COFFEE / CODE / COMMUNITY</span><span>↗</span></div>
+          <div className="home-poster-bottom station-label">COFFEE / CODE / COMMUNITY</div>
         </Link>
-        <Link href={withLocale("/hackathon",locale)} className="home-poster home-poster-ship">
-          <div className="home-poster-meta station-label"><span>CRAFTER HACKATHONS</span><ArrowUpRight size={22} aria-hidden="true" /></div>
+        <Link href={withLocale("/hackathons",locale)} className="home-poster home-poster-ship">
+          <div className="home-poster-meta station-label">CRAFTER HACKATHONS</div>
           <h3><span>Ship</span><em>or</em><span className="home-sink">Sink</span></h3>
           <BoatArt />
           <p className="home-poster-line">{t.ship}</p>
-          <div className="home-poster-bottom station-label"><span>MAKE SOMETHING REAL.</span><span>↗</span></div>
+          <div className="home-poster-bottom station-label">MAKE SOMETHING REAL.</div>
         </Link>
-      </div>
-      <div className="home-events-footer">
-        <Link href={withLocale("/events",locale)} className="station-editorial-link">{t.calendar}<ArrowUpRight size={18} aria-hidden="true" /></Link>
-        <Link href={withLocale("/events/sponsors",locale)} className="station-text-link">{t.sponsor}<ArrowUpRight size={16} aria-hidden="true" /></Link>
-      </div>
-    </section>
-  )
-}
-
-export function StationFamily({ locale }: { locale: Locale }) {
-  const t = stationCopy[locale]
-  const h = homeCopy[locale]
-  const family = [
-    { name: "Station", body: t.station, color: "#F8E9A4", domain: "crafter.run", href: withLocale("/", locale) },
-    { name: "Research", body: t.research, color: "#79AC65", domain: "crafter.ing", href: "https://crafter.ing" },
-    { name: "Games", body: t.games, color: "#9D83D2", domain: "games.crafter.run", href: "https://games.crafter.run" },
-    { name: "Lab", body: t.lab, color: "#6F9BCE", domain: "circuitkit", href: "https://github.com/crafter-lab" },
-  ]
-  return (
-    <section id="family" className="home-family dark theme-scope" aria-labelledby="home-family-title">
-      <p className="station-label">06 / {h.family}</p>
-      <div className="home-family-layout">
-        <div className="home-family-story">
-          <h2 id="home-family-title">{h.familyTitle}</h2>
-          <div className="home-family-orbit" aria-hidden="true">
-            <div className="home-orbit-ring" />
-            <div className="home-orbit-ring home-orbit-ring-2" />
-            <CrafterStationLogo decorative className="home-orbit-center" />
-            {family.map((org,i) => <span key={org.name} className={`home-orbit-point orbit-${i}`} style={{"--org-color":org.color} as CSSProperties}><CrafterStationLogo decorative className="home-orbit-mark" /></span>)}
-          </div>
-          <p>{h.familyBody}</p>
-        </div>
-        <div className="home-family-directory">
-          {family.map((org,i) => <Link key={org.name} href={org.href} className={`home-org org-${i}`} style={{"--org-color":org.color} as CSSProperties} {...(org.href.startsWith("https") ? {target: "_blank", rel: "noopener noreferrer"} : {})}>
-            <span className="home-org-number station-label">0{i+1}</span>
-            <div><h3>{org.name}</h3><p>{org.body}</p><span className="station-label">{org.domain}</span></div>
-            <ArrowUpRight size={25} aria-hidden="true" />
-          </Link>)}
-        </div>
       </div>
     </section>
   )

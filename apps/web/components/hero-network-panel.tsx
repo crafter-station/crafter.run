@@ -27,7 +27,7 @@ export async function HeroNetworkPanel({
   return (
     <div className="w-full max-w-md border border-line bg-background/60 backdrop-blur-[2px]">
       <div className="flex items-center justify-between border-b border-line px-6 py-4">
-        <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-muted-foreground">
+        <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
           {eyebrow}
         </p>
         <span className="relative flex h-1.5 w-1.5">
@@ -38,13 +38,13 @@ export async function HeroNetworkPanel({
 
       <div className="grid grid-cols-2 border-b border-line">
         <div className="border-r border-line px-6 py-5">
-          <p className="font-mono text-4xl tracking-tight text-foreground">
+          <p className="font-label text-4xl tracking-tight text-foreground">
             {formatStars(totalStars)}
           </p>
           <p className="mt-1.5 text-xs text-muted-foreground">{starsLabel}</p>
         </div>
         <div className="px-6 py-5">
-          <p className="font-mono text-4xl tracking-tight text-foreground">
+          <p className="font-label text-4xl tracking-tight text-foreground">
             {repos.length}
           </p>
           <p className="mt-1.5 text-xs text-muted-foreground">{reposLabel}</p>
@@ -63,7 +63,7 @@ export async function HeroNetworkPanel({
                 style={{ width: `${Math.max(4, (repo.stars / max) * 100)}%` }}
               />
             </span>
-            <span className="w-12 shrink-0 text-right font-mono text-xs tabular-nums text-muted-foreground">
+            <span className="w-12 shrink-0 text-right font-label text-xs tabular-nums text-muted-foreground">
               {formatStars(repo.stars)}
             </span>
           </div>
@@ -71,7 +71,7 @@ export async function HeroNetworkPanel({
       </div>
 
       <div className="border-t border-line px-6 py-4">
-        <p className="font-mono text-xs text-muted-foreground">
+        <p className="font-label text-xs text-muted-foreground">
           <span className="text-accent">{totalIssues}</span> {issuesLabel}
         </p>
       </div>

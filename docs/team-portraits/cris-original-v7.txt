@@ -1,0 +1,15 @@
+Use case: style-transfer
+Asset type: Crafter Station team portrait, square editorial ink avatar.
+
+Input image 1 is the ONLY identity and geometry reference and the image to edit: Cris's original illustrated avatar, explicitly selected by the user.
+Input image 2 is Railly's approved portrait, ONLY a reference for drawing medium, cream palette, texture, framing and gaze. Do not transfer Railly's face, hair or clothing.
+
+Primary request: adapt image 1 to the editorial ink-and-pencil style of image 2 while preserving Cris's original recognizable character. Keep the original face proportions and tapered jaw, the same swept-back hairstyle, thick curved eyebrows, simple cartoon eyes and nose, short full beard and moustache, small friendly smile, neck width and ordinary shoulder proportions. Preserve the black hoodie and its small yellow C emblem. No glasses. Do not broaden his cheeks, jaw, neck or torso.
+
+Style: the same simple cartoon anatomy and warm cream facial planes as the approved series, strong charcoal ink contours with slightly imperfect printed edges, delicate pencil grain in the black hair and hoodie, a small amount of hand-drawn hatching under the jaw. Keep his full beard as a simple dark graphic shape with light pencil texture. Eyes and mouth stay very simple; no realistic facial rendering, no pores, no airbrushing, no 3D.
+
+Pose and framing: keep the head upright with the slight three-quarter orientation already in image 1, facing toward image-left as the style reference does, both eyes looking directly at the viewer. Close head-and-shoulders composition at the same head scale as image 2, all hair and both shoulders inside the square, with a small top margin. Preserve the source face silhouette and expression rather than redesigning his features.
+
+Background: completely plain pure white, no circle, no paper rectangle, no scene and no cast shadow. The portrait will be locally extracted as a transparent cutout.
+
+Constraints: one person only. Make a medium/style adaptation of this exact avatar, not a new identity. Do not add eyewear, round cheeks, a double chin, a broad neck, a bulky body, new symbols, new text or a watermark. The C emblem already present in image 1 is the only lettering.

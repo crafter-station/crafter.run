@@ -19,6 +19,12 @@ export const proxy = clerkMiddleware((_auth, request: NextRequest) => {
   const { pathname } = request.nextUrl
   const firstSegment = pathname.split("/").filter(Boolean)[0]
 
+  // These retired pages intentionally have no replacement, including at the
+  // old unlocalized URLs. Let the global 404 handle them without a locale hop.
+  if (["/opencode", "/claude-code", "/n8n", "/research"].includes(pathname)) {
+    return NextResponse.next()
+  }
+
   if (firstSegment && isLocale(firstSegment)) {
     // A URL under a locale that matches no route is served by
     // `app/global-not-found.tsx`, which renders outside `[lang]` and has no

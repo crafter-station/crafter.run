@@ -8,7 +8,6 @@ import {
   getCommunityOffers,
   getEvents,
   getResearchLinks,
-  getServices,
   getStats,
 } from "@/lib/site"
 import { type Locale } from "@/lib/i18n"
@@ -29,7 +28,7 @@ export async function ProofStats({ locale }: { locale: Locale }) {
               (i > 0 ? "md:border-l md:border-line" : "")
             }
           >
-            <p className="font-mono text-3xl tracking-tight text-accent md:text-4xl">
+            <p className="font-label text-3xl tracking-tight text-accent md:text-4xl">
               {stat.value}
             </p>
             <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -42,64 +41,6 @@ export async function ProofStats({ locale }: { locale: Locale }) {
   )
 }
 
-export async function WorkWithUsPreview({ locale }: { locale: Locale }) {
-  const t = await getTranslations({ locale, namespace: "home.workPreview" })
-  const services = getServices(locale)
-
-  return (
-    <div id="work">
-      <Container innerClassName="border-b py-6">
-        <h2 className="text-center font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          {t("section")}
-        </h2>
-      </Container>
-      <hr className="border-line" />
-      <Container>
-        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1.9fr]">
-          <div className="border-b border-line p-8 lg:border-b-0 lg:border-r">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-              {t("eyebrow")}
-            </p>
-            <h2 className="mt-4 max-w-lg text-3xl tracking-tight md:text-4xl">
-              {t("title")}
-            </h2>
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              {t("description")}
-            </p>
-            <LocalizedLink href="/team/work-with-us" locale={locale} className="group mt-8 inline-block">
-              <ArrowLink>{t("cta")}</ArrowLink>
-            </LocalizedLink>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-            {services.slice(0, 6).map((service, i) => (
-              <LocalizedLink
-                key={service.title}
-                href={service.href}
-                locale={locale}
-                className={
-                  "group flex min-h-56 flex-col justify-between p-8 transition-colors hover:bg-accent-surface/10 " +
-                  (i % 2 ? "md:border-l md:border-line " : "") +
-                  (i >= 2 ? "md:border-t md:border-line xl:border-t-0 " : "") +
-                  (i % 3 ? "xl:border-l xl:border-line " : "") +
-                  (i > 0 ? "border-t border-line md:border-t-0" : "")
-                }
-              >
-                <div>
-                  <h3 className="text-lg tracking-tight">{service.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {service.body}
-                  </p>
-                </div>
-                <ArrowLink className="mt-8">{t("cardCta")}</ArrowLink>
-              </LocalizedLink>
-            ))}
-          </div>
-        </div>
-      </Container>
-    </div>
-  )
-}
-
 export async function CollaborationStrip({ locale }: { locale: Locale }) {
   const t = await getTranslations({ locale, namespace: "home.collaborations" })
 
@@ -107,7 +48,7 @@ export async function CollaborationStrip({ locale }: { locale: Locale }) {
     <Container innerClassName="overflow-hidden">
       <div className="grid grid-cols-1 border-b border-line lg:grid-cols-[360px_1fr]">
         <div className="border-b border-line p-8 lg:border-b-0 lg:border-r">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {t("eyebrow")}
           </p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
@@ -144,7 +85,7 @@ export async function CollaborationStrip({ locale }: { locale: Locale }) {
                   }
                 />
               ) : null}
-              <span className="font-mono text-xs uppercase tracking-[0.22em] text-foreground/80 transition-colors group-hover:text-foreground">
+              <span className="font-label text-xs uppercase tracking-[0.22em] text-foreground/80 transition-colors group-hover:text-foreground">
                 {item.name}
               </span>
             </a>
@@ -163,7 +104,7 @@ export async function CommunityPreview({ locale }: { locale: Locale }) {
     <Container>
       <div className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr]">
         <div className="border-b border-line p-8 md:border-b-0 md:border-r">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {t("eyebrow")}
           </p>
           <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
@@ -184,7 +125,7 @@ export async function CommunityPreview({ locale }: { locale: Locale }) {
         <div className="divide-y divide-line">
           {communityOffers.map((offer, i) => (
             <div key={offer} className="flex items-start gap-5 p-6 md:p-8">
-              <span className="font-mono text-xs text-accent">[{i + 1}]</span>
+              <span className="font-label text-xs text-accent">[{i + 1}]</span>
               <p className="text-sm leading-relaxed text-foreground">{offer}</p>
             </div>
           ))}
@@ -204,7 +145,7 @@ export async function EventsResearchPreview({ locale }: { locale: Locale }) {
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div className="border-b border-line lg:border-b-0 lg:border-r">
           <div className="border-b border-line p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
               {t("eventsEyebrow")}
             </p>
             <h2 className="mt-3 text-3xl tracking-tight">{t("eventsTitle")}</h2>
@@ -231,7 +172,7 @@ export async function EventsResearchPreview({ locale }: { locale: Locale }) {
         </div>
         <div>
           <div className="border-b border-line p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
               {t("researchEyebrow")}
             </p>
             <h2 className="mt-3 text-3xl tracking-tight">{t("researchTitle")}</h2>
@@ -272,7 +213,7 @@ export async function CommunityQrCode({ locale }: { locale: Locale }) {
     <Container>
       <div className="grid grid-cols-1 border-t border-line md:grid-cols-[1fr_280px]">
         <div className="flex flex-col justify-center p-8 md:p-10">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {t("eyebrow")}
           </p>
           <h2 className="mt-3 max-w-2xl text-3xl tracking-tight md:text-4xl">
@@ -313,7 +254,7 @@ export async function InstagramFollow({ locale }: { locale: Locale }) {
       <div className="border-t border-line">
         <div className="grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr]">
           <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
               {t("eyebrow")}
             </p>
             <h2 className="mt-3 max-w-xl text-3xl tracking-tight md:text-4xl">
@@ -356,7 +297,7 @@ export async function OpenCalendars({ locale }: { locale: Locale }) {
     <Container>
       <div className="grid grid-cols-1 border-t border-line md:grid-cols-[0.9fr_1.1fr]">
         <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {t("eyebrow")}
           </p>
           <h2 className="mt-3 max-w-xl text-3xl tracking-tight md:text-4xl">

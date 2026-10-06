@@ -1,9 +1,9 @@
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
 import { CrafterStationLogo } from "@/components/crafter-station-logo"
 import { type Locale } from "@/lib/i18n"
 import { stationCopy } from "@/lib/station-copy"
 import { bucleCopy } from "@/lib/bucle-copy"
+import { StationAtmosphere } from "@/components/station-atmosphere"
 
 export function HeroContent({
   locale, eventsCta, eventsHref, ossCta, ossHref,
@@ -13,20 +13,20 @@ export function HeroContent({
   const t = stationCopy[locale]
   const b = bucleCopy[locale]
   return (
-      <section className="station-hero" aria-labelledby="station-title">
-        <div className="station-hero-kicker station-label"><span>01 / Crafter Station</span><span>{t.built}</span></div>
-        <div className="station-hero-grid">
-          <h1 id="station-title" lang="en"><span>Craft.</span><span>Ship.</span><span>Repeat.</span></h1>
-          <div className="station-hero-side">
-            <CrafterStationLogo decorative className="station-hero-symbol" />
-            <p className="station-hero-description">{b.hero}</p>
-            <div className="station-hero-actions">
-              <Link href={ossHref} className="station-editorial-link">{ossCta}<ArrowUpRight size={17} aria-hidden="true" /></Link>
-              <Link href={eventsHref} className="station-text-link">{eventsCta}<ArrowUpRight size={15} aria-hidden="true" /></Link>
-            </div>
+      <section className="station-masthead" aria-labelledby="station-title">
+        <StationAtmosphere />
+        <div className="station-masthead-core">
+          <div className="station-masthead-art" aria-hidden="true">
+            <CrafterStationLogo decorative />
+          </div>
+          <p className="station-label">{t.built}</p>
+          <h1 id="station-title" lang="en"><span>Craft.</span>{" "}<span>Ship.</span>{" "}<span>Repeat.</span></h1>
+          <p className="station-masthead-description">{b.hero}</p>
+          <div className="station-masthead-actions">
+            <Link href={ossHref} className="station-masthead-cta station-masthead-cta-primary">{ossCta}</Link>
+            <Link href={eventsHref} className="station-masthead-cta">{eventsCta}</Link>
           </div>
         </div>
-        <div className="station-hero-footer station-label"><span>{t.hero}</span><span>CRAFTER.RUN</span></div>
       </section>
   )
 }

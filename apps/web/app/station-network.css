@@ -1,0 +1,50 @@
+/* Four Crafter directions on the homepage. Universe has its own atlas composition. */
+.network-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 20px; }
+.network-card { display: flex; flex-direction: column; min-width: 0; padding: 27px; border-radius: 5px; background: var(--network-surface); color: var(--network-ink); }
+.station-shell .network-card:focus-visible { outline-color: var(--network-ink); outline-offset: -6px; }
+.network-card-top { display: flex; justify-content: space-between; align-items: center; gap: 18px; }
+.network-card-top .station-label { font-size: 14px; letter-spacing: .04em; }
+.network-card-art { position: relative; height: 160px; margin: 4px 0 12px; }
+.network-artwork { display: block; width: 100%; height: 100%; transition: transform 220ms; }
+.network-card:where(:hover,:focus-visible) .network-artwork { transform: translateY(-3px) rotate(-2deg); }
+.network-card:where(:hover,:focus-visible) :is(h2,h3) { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+.network-station-mark { position: absolute; width: 38px; height: 38px; left: calc(50% - 19px); top: calc(50% - 19px); }
+.network-card :is(h2,h3) { font-size: 38px; line-height: 1.1; letter-spacing: -.035em; }
+.network-card-tagline { font-size: 16px; font-weight: 500; margin-top: 10px; }
+.network-card-description { font-size: 16px; line-height: var(--station-leading-copy); opacity: .87; margin-block: 14px 24px; max-width: 380px; }
+.network-card-domain { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-top: 16px; margin-top: auto; font: 16px/1.6 var(--font-label); overflow-wrap: anywhere; }
+.home-network { padding-block: 38px 56px; }
+.home-network-heading { display: flex; align-items: start; justify-content: space-between; gap: 28px; margin-bottom: 26px; }
+.home-network-heading > div { max-width: 480px; }
+.home-network-heading p { margin-top: 12px; font-size: 16px; line-height: var(--station-leading-copy); color: hsl(var(--muted-foreground)); }
+.home-network .network-grid { grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; }
+.home-network .network-card { padding: 18px; }
+.home-network .network-card-art { height: 105px; margin-block: 12px; }
+.home-network .network-station-mark { width: 26px; height: 26px; left: calc(50% - 13px); top: calc(50% - 13px); }
+.home-network .network-card h3 { font-size: 24px; }
+.home-network .network-card-tagline { font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+.home-network .network-card-description { display: none; }
+.home-network .network-card-domain { font-size: 16px; }
+@media (max-width: 1199px) {
+  .home-network .network-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 760px) {
+  .network-grid { grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .network-card { padding: 24px; }
+  .network-card-art { height: 150px; }
+  .network-card :is(h2,h3) { font-size: 34px; }
+  .home-network { padding-block: 30px 40px; }
+  .home-network-heading { flex-direction: column; gap: 18px; }
+  .home-network .network-grid { gap: 12px; }
+  .home-network .network-card { padding: 14px; }
+  .home-network .network-card-art { height: 80px; }
+  .home-network .network-card h3 { font-size: 23px; }
+  .home-network .network-card-top .station-label { font-size: 14px; }
+  .home-network .network-station-mark { width: 20px; height: 20px; left: calc(50% - 10px); top: calc(50% - 10px); }
+  .home-network .network-card-domain { display: none; }
+  .home-network .network-card-tagline { margin-bottom: 0; font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .network-card,.network-artwork { transition: none; }
+  .network-card .network-artwork { transform: none; }
+}

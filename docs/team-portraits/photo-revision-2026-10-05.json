@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-05",
+  "workflow": "imagegen official CLI edit, user-authorized Vercel AI Gateway",
+  "model": "gpt-image-2",
+  "quality": "high",
+  "size": "1024x1024",
+  "selectedGeneration": "v5",
+  "publishedCutoutVersion": "v2",
+  "direction": "upright, looking toward the viewer, matching the existing series",
+  "style": "same simplified cartoon facial vocabulary as the approved original avatars",
+  "cliSha256": "b4345cf835e5b593b97df6bb2b70bda493b8a97eee4cabbc99b2fa57dba9b448",
+  "portraits": [
+    {
+      "username": "cris",
+      "baseAvatar": "outputs/crafter-team-portraits/cris-v1.png",
+      "baseAvatarSha256": "7177462803fd071b2ae7ed448cde009f782915eb2deb4c790dac941a828a574f",
+      "photoReference": "work/team-portraits-photo-revision/references/cris-user-photo.png",
+      "photoReferenceSha256": "03ef9708f378464c221d00e5ddbd78f3e1afade5b16cdf23796b62811ed9721f",
+      "styleReference": "apps/web/public/team/station-ink/railly-cutout-v1.webp",
+      "styleReferenceSha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4",
+      "prompt": "cris-photo-v5.txt",
+      "promptSha256": "d63c1858efbe2ea0485592b05a30e333c1a7b6fb0ccd6e6714c4cdfbc82bd132",
+      "webAsset": "apps/web/public/team/station-ink/cris-cutout-v2.webp",
+      "source": "cris-v5.png",
+      "sourceSha256": "4ab1b53569e5dcef654a64381109d5947ad65198ada800f3a4005efc0414468d",
+      "cutout": "cris-cutout-v2.png",
+      "cutoutSha256": "09565164d7e4f335d96cb425099024c12446d1ef41cf089add02749b418ca350",
+      "web": "cris-cutout-v2.webp",
+      "webSha256": "4545eb4daecbcd8e31e84beb4315efb46a72683a31942bfb3bda5dbe0352067f",
+      "webBytes": 88662,
+      "dimensions": [
+        768,
+        768
+      ],
+      "alphaBounds": [
+        149,
+        37,
+        1002,
+        961
+      ],
+      "transparentPercent": 54.59
+    },
+    {
+      "username": "liz",
+      "baseAvatar": "outputs/crafter-team-portraits/liz-v1.png",
+      "baseAvatarSha256": "e07b8d9166fc77adf55d2e4444f4076d7265db37e1801110003bc8997c98ff67",
+      "photoReference": "work/team-portraits-photo-revision/references/liz-user-photo.png",
+      "photoReferenceSha256": "b167728e29625cebfae09d7ad42ba594e509a3e667821eaf71508ffe094064e9",
+      "styleReference": "apps/web/public/team/station-ink/railly-cutout-v1.webp",
+      "styleReferenceSha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4",
+      "prompt": "liz-photo-v5.txt",
+      "promptSha256": "f0eb0ce1c4178299604364972a2ad02690fa7dcee64ffae77c59703bb4210e42",
+      "webAsset": "apps/web/public/team/station-ink/liz-cutout-v2.webp",
+      "source": "liz-v5.png",
+      "sourceSha256": "91ae61eadccdc63a292a257485383e02433f89cf2ca0fcd40a7325b1d1af25a2",
+      "cutout": "liz-cutout-v2.png",
+      "cutoutSha256": "1b8d46e5c45fc0b7d8e30ca846eb0d77b77e58eda44fe2fdb648a279a66fae7b",
+      "web": "liz-cutout-v2.webp",
+      "webSha256": "721e78a9b61d97edf51d3ca5d72a5c4cfbf5cc09583318fc0027b02d18609640",
+      "webBytes": 76176,
+      "dimensions": [
+        768,
+        768
+      ],
+      "alphaBounds": [
+        192,
+        45,
+        960,
+        952
+      ],
+      "transparentPercent": 53.77
+    }
+  ],
+  "previousAssetsPreserved": 10
+}

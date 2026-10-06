@@ -31,8 +31,6 @@ export function ProjectArt({ name, label }: { name: string; label?: string }) {
               <path d="M320 70v246M170 246l150-82 150 82" />
             </g>
           )}
-          <text x="24" y="354" fill="#20221D" fontFamily="monospace" fontSize="10" letterSpacing="1">CRAFTER / BUILT IN THE OPEN</text>
-          <text x="590" y="354" fill="#20221D" fontFamily="monospace" fontSize="10">{String(seed % 100).padStart(2, "0")}</text>
         </svg>
       )}
       {label && <span className="station-project-art-tag">{label}</span>}

@@ -5,19 +5,22 @@ import { type BlogPost, getAuthor } from "@/lib/blog"
 import { blogPostingSchema } from "@/lib/structured-data"
 import { activeTeamMembers, alumniTeamMembers, featuredTeamMembers, getTeamMember } from "./team"
 
-const formerUsernames = ["cuevaio", "emmy", "gabriel", "juan"]
+const formerUsernames = ["cuevaio", "emmy", "gabriel", "juan", "shiara"]
 
 describe("current team and historical credits", () => {
-  test("features Railly, Jibaru, Shiara and Edward in the requested homepage order", () => {
+  test("features Railly, Jibaru, Liz and Edward in the requested homepage order", () => {
     expect(featuredTeamMembers.map((member) => member.username)).toEqual([
-      "railly", "ignacio", "shiara", "edward",
+      "railly", "ignacio", "liz", "edward",
     ])
     expect(featuredTeamMembers[1].github).toBe("https://github.com/Jibaru")
     expect(featuredTeamMembers.every((member) => !member.alumni)).toBe(true)
   })
 
   test("keeps former members available for historical authorship, outside the active roster", () => {
-    expect(alumniTeamMembers.map((member) => member.username).sort()).toEqual(formerUsernames)
+    expect(alumniTeamMembers.map((member) => member.username).sort()).toEqual([
+      "cuevaio", "emmy", "juan", "shiara",
+    ])
+    expect(alumniTeamMembers.some((member) => member.username === "gabriel")).toBe(false)
     for (const username of formerUsernames) {
       expect(activeTeamMembers.some((member) => member.username === username)).toBe(false)
       expect(getAuthor(username)).toBe(getTeamMember(username)!)
@@ -29,6 +32,9 @@ describe("current team and historical credits", () => {
     expect(body.members.map((member: { username: string }) => member.username)).toEqual(
       activeTeamMembers.map((member) => member.username),
     )
+    expect(body.org.products).toEqual([])
+    expect(body.org.network.map((area: { name: string }) => area.name)).toEqual(["Research", "Lab", "Games", "Station"])
+    expect(JSON.stringify(body)).not.toMatch(/visagente|normal\.fast|cuevaio\/normal/i)
   })
 
   test("historical bylines lead to an external profile and never claim current employment", () => {

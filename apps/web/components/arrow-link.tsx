@@ -14,7 +14,7 @@ export const ArrowLink = React.forwardRef<HTMLElement, ArrowLinkProps>(
       <Comp
         ref={ref}
         className={cn(
-          "group inline-flex items-center text-sm font-semibold text-foreground transition-colors duration-200 group-hover:text-accent",
+          "station-quiet-link group inline-flex items-center text-sm font-semibold text-foreground transition-colors duration-200 group-hover:text-accent",
           className,
         )}
         {...props}
@@ -22,7 +22,7 @@ export const ArrowLink = React.forwardRef<HTMLElement, ArrowLinkProps>(
         {children}
         <span
           className={cn(
-            "ml-2 inline-flex size-7 shrink-0 items-center justify-center rounded-sm border border-line bg-secondary/50 transition-colors duration-200 group-hover:border-foreground/40",
+            "station-link-arrow ml-2 inline-flex size-7 shrink-0 items-center justify-center rounded-sm border border-line bg-secondary/50 transition-colors duration-200 group-hover:border-foreground/40",
           )}
         >
           <ArrowUpRight

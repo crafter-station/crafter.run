@@ -29,7 +29,7 @@ export function GET() {
       version: "1.0.0",
       summary: "Read-only content and catalog endpoints for crafter.run.",
       description: [
-        `${siteConfig.name} is ${siteConfig.tagline.en.toLowerCase()}: open source developer tools, products, research, and community events across Latin America.`,
+        `${siteConfig.name} is ${siteConfig.tagline.en.toLowerCase()}: open source developer tools, the Crafter network, research, and community events across Latin America.`,
         "",
         "Everything described here is public, unauthenticated, and safe to cache. No endpoint in this document writes.",
         `Agents that need to act for a user (publish a Ship, create a profile) should follow ${baseUrl}/join/agent.md, which drives the OAuth-authenticated @crafter/cli.`,
@@ -45,7 +45,7 @@ export function GET() {
     },
     tags: [
       { name: "Docs", description: "Documentation for the open source CLIs and libraries." },
-      { name: "Catalog", description: "Open source repositories, products, and community boards." },
+      { name: "Catalog", description: "Open source repositories, the Crafter network, and community boards." },
       { name: "Agents", description: "Entry points built for autonomous clients." },
     ],
     paths: {

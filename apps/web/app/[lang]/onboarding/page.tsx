@@ -17,8 +17,8 @@ export default async function OnboardingPage({ params }: { params: Promise<{ lan
     <>
 
       <main className="flex-1">
-        <Container innerClassName="mx-auto max-w-2xl px-6 py-16 md:py-24">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Crafter profile</p>
+        <Container innerClassName="station-form-page">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">Crafter profile</p>
           <h1 className="mt-5 text-5xl font-semibold tracking-tighter">Choose how you show up.</h1>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">Your handle identifies everything you ship. You can edit the rest later.</p>
           <MemberOnboardingForm locale={lang} displayName={displayName} avatarUrl={user?.imageUrl ?? null} />

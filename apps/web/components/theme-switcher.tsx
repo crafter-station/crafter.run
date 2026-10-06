@@ -10,6 +10,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { type Locale } from "@/lib/i18n"
@@ -17,9 +18,9 @@ import { stationCopy } from "@/lib/station-copy"
 import { cn } from "@/lib/utils"
 
 const modes = [
-  { value: "light", label: "Light", shortLabel: "LGT" },
-  { value: "dark", label: "Dark", shortLabel: "DRK" },
-  { value: "system", label: "System", shortLabel: "SYS" },
+  { value: "light", icon: Sun },
+  { value: "dark", icon: Moon },
+  { value: "system", icon: Monitor },
 ] as const
 
 type ThemeSwitcherProps = {
@@ -33,7 +34,7 @@ export function ThemeSwitcher({ className, label = "Theme", locale = "en", compa
   const t = stationCopy[locale]
   const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
-  const activeLabel = mounted ? modes.find((mode) => mode.value === theme)?.shortLabel ?? "SYS" : "SYS"
+  const mode = mounted ? modes.find((mode) => mode.value === theme)?.value ?? "system" : "system"
 
   // The server has no way to know the stored theme, so the labels only get
   // their active state after mount. Rendering them inert until then keeps the
@@ -50,20 +51,25 @@ export function ThemeSwitcher({ className, label = "Theme", locale = "en", compa
           aria-label={label}
           className={cn(
             "inline-flex items-center justify-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground",
+            compact && "station-control",
             className,
           )}
         >
-          <Icon className="size-4" aria-hidden="true" />
-          {!compact && <><span className="font-mono text-[10px]">{activeLabel}</span><ChevronDown className="size-3" aria-hidden="true" /></>}
+          <Icon className="size-4" strokeWidth={1.6} aria-hidden="true" />
+          <span className={compact ? "station-control-label" : "font-label text-xs"}>{t[mode]}</span>
+          <ChevronDown className="station-control-chevron size-3" aria-hidden="true" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="min-w-36">
+      <DropdownMenuContent align={compact ? "start" : "end"} side="bottom" sideOffset={6} collisionPadding={12} className="station-preference-menu">
+        <DropdownMenuLabel>{label}</DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuRadioGroup value={mounted ? theme : ""} onValueChange={setTheme}>
             {modes.map((mode) => {
+              const ModeIcon = mode.icon
               return (
                 <DropdownMenuRadioItem key={mode.value} value={mode.value}>
-                  {t[mode.value]}
+                  <ModeIcon size={17} strokeWidth={1.6} aria-hidden="true" />
+                  <span>{t[mode.value]}</span>
                 </DropdownMenuRadioItem>
               )
             })}

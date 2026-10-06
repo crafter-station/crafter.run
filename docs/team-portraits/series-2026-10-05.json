@@ -1,0 +1,199 @@
+{
+  "date": "2026-10-05",
+  "workflow": "imagegen fallback CLI, explicitly approved by user",
+  "model": "gpt-image-2",
+  "provider": "Vercel AI Gateway",
+  "mode": "edit",
+  "quality": "high",
+  "size": "1024x1024",
+  "background": "opaque white, deterministic contour extraction",
+  "cliSha256": "b4345cf835e5b593b97df6bb2b70bda493b8a97eee4cabbc99b2fa57dba9b448",
+  "extractionScript": "prepare_cutouts.py",
+  "extractionScriptSha256": "ded0fe82335382ba794c4491228158aabcc5b3aff2056c776304eeaf7553b80b",
+  "webEncoding": {
+    "format": "WebP",
+    "size": [
+      768,
+      768
+    ],
+    "quality": 88,
+    "alpha": true
+  },
+  "identityNote": "Original repository illustrations supplied identity; these are not verified photographic likenesses. Railly supplied style only.",
+  "portraits": [
+    {
+      "username": "liz",
+      "name": "Liz Riveros",
+      "identityReference": "apps/web/public/team/liz.png",
+      "identityReferenceSha256": "e6edfc3052696287d082c4d742befb08e898e9094559e5f889eca143af6be2cd",
+      "styleReference": "apps/web/public/team/station-ink/railly-cutout-v1.webp",
+      "styleReferenceSha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4",
+      "prompt": "liz-v1.txt",
+      "promptSha256": "797386871e3c1311f769e15576293d41cdb9ae6515f3e6afaa085315dbee7fb4",
+      "webAsset": "apps/web/public/team/station-ink/liz-cutout-v1.webp",
+      "generated": "liz-v1.png",
+      "generatedSha256": "e07b8d9166fc77adf55d2e4444f4076d7265db37e1801110003bc8997c98ff67",
+      "cutout": "liz-cutout-v1.png",
+      "cutoutSha256": "df6dc22b7bb27ed148a52e83cf143dd207fcc1d5a92fbd0b1f670ceddde15eb6",
+      "web": "liz-cutout-v1.webp",
+      "webSha256": "06d0c2e443c56c105001844278505670320051633058f5db7d6c65379d0b24d8",
+      "webBytes": 90266,
+      "dimensions": [
+        768,
+        768
+      ],
+      "alphaBounds": [
+        152,
+        41,
+        976,
+        1001
+      ],
+      "transparentPercent": 48.94
+    },
+    {
+      "username": "cris",
+      "name": "Cristian Correa",
+      "identityReference": "apps/web/public/team/cris.png",
+      "identityReferenceSha256": "ebfb9d2503639d9836d10483cb2a54e30b112e7e8829cb09667a35c00705515e",
+      "styleReference": "apps/web/public/team/station-ink/railly-cutout-v1.webp",
+      "styleReferenceSha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4",
+      "prompt": "cris-v1.txt",
+      "promptSha256": "71137bbce45f41296ba35b2a7c4052b410f55d9f44e1c6d9dc7a06a874666757",
+      "webAsset": "apps/web/public/team/station-ink/cris-cutout-v1.webp",
+      "generated": "cris-v1.png",
+      "generatedSha256": "7177462803fd071b2ae7ed448cde009f782915eb2deb4c790dac941a828a574f",
+      "cutout": "cris-cutout-v1.png",
+      "cutoutSha256": "1dc269ae63c9a155120b2ffbf23414f0749fb80d87be8b50f9f03ccd4f381c60",
+      "web": "cris-cutout-v1.webp",
+      "webSha256": "b355b2f3a27e6ca4c1b2b6753bfcaf02bdc7f15c6bf0dd0121a26e4f3db2f21b",
+      "webBytes": 91922,
+      "dimensions": [
+        768,
+        768
+      ],
+      "alphaBounds": [
+        139,
+        38,
+        992,
+        1008
+      ],
+      "transparentPercent": 53.59
+    },
+    {
+      "username": "nicolas",
+      "name": "Nicolas Vargas",
+      "identityReference": "apps/web/public/team/nicolas.png",
+      "identityReferenceSha256": "f26457899392948df15a05357c741a12fa85bcd4f2843c1ce27ae17bbb78cfa7",
+      "styleReference": "apps/web/public/team/station-ink/railly-cutout-v1.webp",
+      "styleReferenceSha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4",
+      "prompt": "nicolas-v1.txt",
+      "promptSha256": "9d3334080982e5e2a26eadf2e1542bd4425632402e46bbc2ff12b92cb3042c58",
+      "webAsset": "apps/web/public/team/station-ink/nicolas-cutout-v1.webp",
+      "generated": "nicolas-v1.png",
+      "generatedSha256": "203f1895682e5f3fdcc5fcdd30c0adf35b0a0fb3cf34d8f6ce32a1a1202b6353",
+      "cutout": "nicolas-cutout-v1.png",
+      "cutoutSha256": "e69f4edb423e4c9869172885b4e97b03fc9705f4fbefb217dcd0e5de919f3c67",
+      "web": "nicolas-cutout-v1.webp",
+      "webSha256": "d2081c7ad9a5cea8f305354e9fe814153acd7ec8e43da80882abc0766d605ec0",
+      "webBytes": 95364,
+      "dimensions": [
+        768,
+        768
+      ],
+      "alphaBounds": [
+        138,
+        55,
+        954,
+        980
+      ],
+      "transparentPercent": 55.67
+    },
+    {
+      "username": "nacho",
+      "name": "Ignacio Velasquez",
+      "identityReference": "apps/web/public/team/nacho.png",
+      "identityReferenceSha256": "1e2fb7da622da7d1b281d6582a119e09a8d43eaf6bda8d86bbaa986c6fcb7cdd",
+      "styleReference": "apps/web/public/team/station-ink/railly-cutout-v1.webp",
+      "styleReferenceSha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4",
+      "prompt": "nacho-v1.txt",
+      "promptSha256": "0d6583319ac8203f94bb2fd1d7c61034c89b1a37bb3326a6b47922ff854eae21",
+      "webAsset": "apps/web/public/team/station-ink/nacho-cutout-v1.webp",
+      "generated": "nacho-v1.png",
+      "generatedSha256": "ddd874ec7f8f3c1a69a89813856cc0db48319c7f3c83612d4dbc3bf8e13a2e4e",
+      "cutout": "nacho-cutout-v1.png",
+      "cutoutSha256": "9acf3829d967cec666fe3574e3e336f400dfb5407b441b76e2e12c0ae7f41acb",
+      "web": "nacho-cutout-v1.webp",
+      "webSha256": "87612a44b8bcf1a64ce6a00e76cc57b835093606d75e9fafc60b7d2b39dcbb82",
+      "webBytes": 100630,
+      "dimensions": [
+        768,
+        768
+      ],
+      "alphaBounds": [
+        100,
+        51,
+        1008,
+        1004
+      ],
+      "transparentPercent": 50.7
+    },
+    {
+      "username": "tarmeno",
+      "name": "Carlos Tarmeno",
+      "identityReference": "apps/web/public/team/tarmeno.png",
+      "identityReferenceSha256": "7046ebf62d5a5af8208f5b551cffa21ce9774487b690f1059cb6a6f539277949",
+      "styleReference": "apps/web/public/team/station-ink/railly-cutout-v1.webp",
+      "styleReferenceSha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4",
+      "prompt": "tarmeno-v1.txt",
+      "promptSha256": "d99577cc008d2bff6f1a6882bc989f85243fa97f7d361d3eae7d9748a430e10f",
+      "webAsset": "apps/web/public/team/station-ink/tarmeno-cutout-v1.webp",
+      "generated": "tarmeno-v1.png",
+      "generatedSha256": "d077ec82f0d5bfca63f3f213fa42ae8476f1f59fbffcacc21eff9f349c7928d7",
+      "cutout": "tarmeno-cutout-v1.png",
+      "cutoutSha256": "8499da9f4e16525182c549e597df571aba68d6652843ee1a77917a4655b071a5",
+      "web": "tarmeno-cutout-v1.webp",
+      "webSha256": "99dc5659de04e9b13f8b6e09282e821f84fb8ab6eeabcf7fd3be6b5b944d41b1",
+      "webBytes": 97930,
+      "dimensions": [
+        768,
+        768
+      ],
+      "alphaBounds": [
+        100,
+        38,
+        996,
+        994
+      ],
+      "transparentPercent": 50.99
+    },
+    {
+      "username": "henryjing",
+      "name": "Henry Jing",
+      "identityReference": "apps/web/public/team/henryjing.png",
+      "identityReferenceSha256": "f17bb878033e6751ecd92833667f563316c2c74efefbd2ee39727531aa2a139e",
+      "styleReference": "apps/web/public/team/station-ink/railly-cutout-v1.webp",
+      "styleReferenceSha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4",
+      "prompt": "henryjing-v1.txt",
+      "promptSha256": "1b0ef7aee66d1ce89ed57d2317364559816c8a81b51926b77929268da24c2c6c",
+      "webAsset": "apps/web/public/team/station-ink/henryjing-cutout-v1.webp",
+      "generated": "henryjing-v1.png",
+      "generatedSha256": "3ce19e4e5394ea3ed3d824ff6f7fd717e93a401fafb8d76b72ec92a8f04659da",
+      "cutout": "henryjing-cutout-v1.png",
+      "cutoutSha256": "b2c43b0e3877c17829d0f3e2c20d478f75b437590fd8e728f8aa66957628f3ba",
+      "web": "henryjing-cutout-v1.webp",
+      "webSha256": "04437ddd9bade780d3d5523742b82358433ecc8a05602c669aa74194891a36d7",
+      "webBytes": 92958,
+      "dimensions": [
+        768,
+        768
+      ],
+      "alphaBounds": [
+        157,
+        32,
+        997,
+        999
+      ],
+      "transparentPercent": 53.61
+    }
+  ]
+}

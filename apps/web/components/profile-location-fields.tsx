@@ -56,7 +56,7 @@ export function ProfileLocationFields({
 
   return (
     <fieldset className="grid min-w-0 gap-4">
-      <legend className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{title}</legend>
+      <legend className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{title}</legend>
       <p className="-mt-2 text-sm leading-6 text-muted-foreground">{description}</p>
       <input type="hidden" name={`${kind}City`} value={city} />
       <input type="hidden" name={`${kind}Region`} value={region} />
@@ -64,7 +64,7 @@ export function ProfileLocationFields({
       <input type="hidden" name={`${kind}CountryCode`} value={countryCode} />
       <div className="grid min-w-0 gap-6 sm:grid-cols-2">
         <label className="relative grid min-w-0 gap-2 text-sm">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{cityLabel}</span>
+          <span className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{cityLabel}</span>
           <input
             value={city}
             autoComplete="off"
@@ -96,7 +96,7 @@ export function ProfileLocationFields({
           ) : null}
         </label>
         <label className="grid min-w-0 gap-2 text-sm">
-          <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{countryLabel}</span>
+          <span className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{countryLabel}</span>
           <select
             value={countryCode}
             onChange={(event) => updateCountry(event.target.value)}
@@ -115,7 +115,7 @@ export function ProfileLocationFields({
         </label>
       </div>
       <label className="grid min-w-0 gap-2 text-sm">
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{regionLabel}</span>
+        <span className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{regionLabel}</span>
         <input
           value={region}
           maxLength={120}

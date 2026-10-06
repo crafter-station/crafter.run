@@ -9,6 +9,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { JsonLd } from "@/components/json-ld"
 import { SiteShell } from "@/components/site-shell"
 import { SiteFooter } from "@/components/site-footer"
+import { StationEventTeaser } from "@/components/station-event-teaser"
 import { stationFonts } from "@/lib/fonts"
 import { ThemeProvider } from "@/components/theme-provider"
 
@@ -80,7 +81,8 @@ export default async function LocaleLayout({
         >
           <ThemeProvider>
             <JsonLd data={[organizationSchema(lang), webSiteSchema(lang)]} />
-            <SiteShell locale={lang} footer={<SiteFooter locale={lang} />}>{children}</SiteShell>
+            <SiteShell locale={lang} footer={<SiteFooter locale={lang} />}
+              event={<StationEventTeaser locale={lang} />}>{children}</SiteShell>
             <Analytics />
           </ThemeProvider>
         </ClerkProvider>

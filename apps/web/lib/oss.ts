@@ -19,7 +19,7 @@ type Seed = Omit<OssRepo, "name" | "url">
  *
  * Accents come from each project's own palette, read from its source where
  * one exists: petdex, agentfiles, tinte, elements, one-hunter-vscode,
- * skill-kit, hack0, normal, build4latam and reporte-co from their committed CSS
+ * skill-kit, hack0, build4latam and reporte-co from their committed CSS
  * or theme config, neon-cli from neon.com/brand. text0 is converted from the
  * oklch values in its globals.css. trx (Whisper), survey-cli and li-metrics are
  * close matches rather than declared tokens. charts and cligentic have no
@@ -122,14 +122,6 @@ const seeds: Seed[] = [
       "Mapa 8-bit en vivo de los ships, cooking sessions y eventos de la comunidad Crafter Station en LATAM",
     language: "TypeScript",
     accent: "from-amber-300 via-amber-500 to-emerald-500",
-  },
-  {
-    repo: "cuevaio/normal",
-    stars: 5,
-    openIssues: 0,
-    description: "Your WhatsApp, inside ChatGPT and Claude",
-    language: "TypeScript",
-    accent: "from-stone-200 via-orange-300 to-stone-800",
   },
   {
     repo: "crafter-station/charts",

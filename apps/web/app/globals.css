@@ -3,6 +3,13 @@
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 @import './station.css';
+@import './station-home.css';
+@import './station-oss.css';
+@import './station-network.css';
+@import './station-journal.css';
+@import './station-universe.css';
+@import './station-agenda.css';
+@import './station-pages.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -14,18 +21,28 @@
 }
 
 @utility label {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: hsl(var(--muted-foreground));
 }
 
+@utility font-label {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+}
+
 @theme {
-  --font-sans: var(--font-geist), system-ui, sans-serif;
+  /* 16px is the interface default; compact uppercase labels explicitly use 14px. */
+  --text-xs: max(16px, 1rem);
+  --text-xs--line-height: 1.5;
+  --text-sm: max(16px, 1rem);
+  --font-sans: var(--font-crafter-text), system-ui, sans-serif;
   --font-display: var(--font-crafter), var(--font-sans);
   --font-heading: var(--font-crafter), var(--font-sans);
-  --font-mono: var(--font-geist-mono), monospace;
+  --font-label: var(--font-sans);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --color-brand: hsl(var(--station));
   --color-brand-soft: hsl(var(--station-soft));
@@ -360,11 +377,25 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-size: max(16px, 1rem);
+    font-kerning: normal;
+    font-synthesis-weight: none;
+  }
+  code, pre, kbd, samp {
+    font-family: var(--font-mono);
+  }
+  small, sub, sup {
+    font-size: max(14px, 0.875em);
   }
   ::selection {
     background-color: hsl(var(--foreground));
     color: hsl(var(--background));
   }
+}
+
+/* The only utility-size exception: small uppercase metadata, not body copy. */
+:is(.text-xs,.text-sm).uppercase {
+  font-size: max(14px, 0.875rem);
 }
 
 @layer utilities {
@@ -434,13 +465,13 @@
   --color-fd-ring: hsl(var(--ring));
 }
 
-/* CJK locales: Latin glyphs keep Geist, CJK glyphs fall through to
+/* CJK locales: Latin glyphs use Crafter Sans, CJK glyphs fall through to
    Noto Sans. Tight tracking is a Latin affordance; CJK glyphs need none. */
 html[lang="zh"] {
-  --font-sans: var(--font-geist), var(--font-noto-sc), system-ui, sans-serif;
+  --font-sans: var(--font-crafter-text), var(--font-noto-sc), system-ui, sans-serif;
 }
 html[lang="ja"] {
-  --font-sans: var(--font-geist), var(--font-noto-jp), system-ui, sans-serif;
+  --font-sans: var(--font-crafter-text), var(--font-noto-jp), system-ui, sans-serif;
 }
 html[lang="zh"] .tracking-tighter,
 html[lang="ja"] .tracking-tighter,
@@ -477,8 +508,8 @@ html[lang="ja"] .tracking-tight {
   border: 1px solid hsl(var(--line));
   border-bottom: 0;
   padding: 0.5rem 1rem;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.625rem;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: hsl(var(--muted-foreground));
@@ -502,7 +533,7 @@ html[lang="ja"] .tracking-tight {
   display: grid;
   counter-reset: line;
   font-family: var(--font-mono), monospace;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   line-height: 1.5rem;
 }
 
@@ -548,7 +579,7 @@ html[lang="ja"] .tracking-tight {
   border: 1px solid hsl(var(--line));
   background: hsl(var(--secondary) / 0.55);
   font-family: var(--font-mono), monospace;
-  font-size: 0.85em;
+  font-size: max(14px, 0.85em);
   font-weight: 500;
   white-space: nowrap;
 }

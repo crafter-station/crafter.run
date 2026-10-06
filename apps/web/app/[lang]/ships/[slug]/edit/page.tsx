@@ -28,8 +28,8 @@ export default async function EditShipPage({ params }: { params: Promise<{ lang:
   return <>
 
     <main className="flex-1">
-      <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Edit Ship</p>
+      <Container innerClassName="station-form-page">
+        <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">Edit Ship</p>
         <h1 className="mt-5 text-5xl font-semibold tracking-tighter">Keep your Ship current.</h1>
         <div className="mt-12"><ShipDraftEditor initialShip={ship} locale={lang} published /></div>
       </Container>

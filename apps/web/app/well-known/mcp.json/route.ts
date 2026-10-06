@@ -18,7 +18,7 @@ export function GET() {
     name: MCP_SERVER_NAME,
     title: siteConfig.name,
     version: MCP_SERVER_VERSION,
-    description: `Read-only access to ${siteConfig.name}: open source documentation, the repository catalog, products, the team, and community Ships.`,
+    description: `Read-only access to ${siteConfig.name}: open source documentation, the repository catalog, the four Crafter areas, the team, and community Ships.`,
     servers: [
       {
         name: MCP_SERVER_NAME,

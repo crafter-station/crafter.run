@@ -27,8 +27,8 @@ export default async function ProfileSettingsPage({ params }: { params: Promise<
     <>
 
       <main className="flex-1">
-        <Container innerClassName="mx-auto max-w-3xl px-6 py-16 md:py-24">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Profile settings</p>
+        <Container innerClassName="station-form-page">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">Profile settings</p>
           <h1 className="mt-5 text-5xl font-semibold tracking-tighter">Update how you show up.</h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">Keep your work, social links, and availability current for the Crafter community.</p>
           <MemberOnboardingForm locale={lang} displayName={member.displayName} avatarUrl={member.avatarUrl} member={member} mode="settings" />

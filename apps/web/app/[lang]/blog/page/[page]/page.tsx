@@ -8,9 +8,7 @@ import { BlogIndex } from "@/components/blog/entry-list"
 import { toEntryViews } from "@/components/blog/format"
 import { BlogHero } from "@/components/blog/hero"
 import { BlogPager } from "@/components/blog/pagination"
-import { SectionGap } from "@/components/grid-container"
 import { BLOG_KINDS, getPage, pageCount } from "@/lib/blog"
-import { blogFeedPath } from "@/lib/blog-paths"
 import { isLocale, locales, type Locale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 
@@ -74,7 +72,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   return (
     <>
 
-      <main className="flex-1">
+      <main className="journal-page">
         <BlogHero
           locale={lang}
           eyebrow={copy("eyebrow")}
@@ -83,16 +81,13 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           subtitle={t.pageOf(page, total)}
           t={t}
         />
-        <SectionGap />
         <BlogIndex
           entries={entries}
           kindOrder={BLOG_KINDS}
-          feedHref={blogFeedPath(lang)}
-          t={{ ...t.nav, kinds: t.kinds, subscribe: t.subscribe, readPost: t.readPost, empty: t.empty }}
+          t={{ ...t.nav, kinds: t.kinds, readPost: t.readPost, empty: t.empty }}
         >
           <BlogPager locale={lang} page={page} pageCount={total} t={t} />
         </BlogIndex>
-        <SectionGap />
         <BlogCta locale={lang} t={t} />
       </main>
 

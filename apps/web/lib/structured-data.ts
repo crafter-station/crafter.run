@@ -156,57 +156,6 @@ export function softwareApplicationSchema({
   }
 }
 
-type ProductEntry = {
-  slug: string
-  title: string
-  tagline: string
-  description: string
-  url: string
-  technologies: readonly string[]
-  sourceUrl?: string
-  openSource?: boolean
-}
-
-export function productListSchema({
-  products,
-  locale,
-  name,
-  path,
-}: {
-  products: readonly ProductEntry[]
-  locale: Locale
-  name: string
-  path: string
-}) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "ItemList",
-    name,
-    url: localizedUrl(path, locale),
-    numberOfItems: products.length,
-    itemListElement: products.map((product, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "SoftwareApplication",
-        name: product.title,
-        alternateName: product.tagline,
-        description: product.description,
-        url: product.url,
-        applicationCategory: "WebApplication",
-        operatingSystem: "Any",
-        keywords: product.technologies.join(", "),
-        inLanguage: locale,
-        ...(product.sourceUrl ? { codeRepository: product.sourceUrl } : {}),
-        ...(product.openSource
-          ? { isAccessibleForFree: true, offers: { "@type": "Offer", price: "0", priceCurrency: "USD" } }
-          : {}),
-        publisher: organizationRef,
-      },
-    })),
-  }
-}
-
 export function repositoryListSchema({
   repos,
   locale,

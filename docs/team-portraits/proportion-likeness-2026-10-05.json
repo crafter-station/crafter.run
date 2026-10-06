@@ -1,0 +1,99 @@
+{
+  "date": "2026-10-05",
+  "userDirection": "Preserve approved Liz framing; adapt Cris original cartoon after rejecting v6 for a widened face.",
+  "cris": {
+    "selectedGeneration": "cris-v7.png",
+    "output": "cris-cutout-v4.webp",
+    "mode": "official imagegen fallback CLI, edit",
+    "model": "gpt-image-2",
+    "gateway": "Vercel AI Gateway",
+    "quality": "high",
+    "size": "1024x1024",
+    "prompt": "prompts/cris-v7.txt",
+    "references": [
+      {
+        "role": "edit-target",
+        "path": "/Users/raillyhugo/Documents/Codex/2026-10-04/listo-enlazado-desde-agents-md-handoff/work/team-portraits-photo-revision/references/cris-selected-avatar.png",
+        "sha256": "ebfb9d2503639d9836d10483cb2a54e30b112e7e8829cb09667a35c00705515e"
+      },
+      {
+        "role": "style-only",
+        "path": "/Users/raillyhugo/Programming/crafter-station/crafter.run-bucle/apps/web/public/team/station-ink/railly-cutout-v1.webp",
+        "sha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4"
+      }
+    ],
+    "originalRepoPath": "apps/web/public/team/cris.png",
+    "originalGitCommit": "211f268",
+    "originalGitDate": "2026-08-12",
+    "userAttachmentEqualsOriginal": true,
+    "noPhotoReferencesUsedInThisGeneration": true,
+    "framing": {
+      "cropBox": [
+        44,
+        12,
+        974,
+        942
+      ],
+      "resize": [
+        1024,
+        1024
+      ],
+      "uniformScale": 1.1010752688172043,
+      "purpose": "Match head scale without changing facial geometry"
+    },
+    "generationSha256": "690c150bea0c9fa8b3fe43a50acfa5ea9a309ac42ff6beb1eccc03c63a2084c7"
+  },
+  "liz": {
+    "output": "liz-cutout-v3.webp",
+    "source": "../photo-revision/liz-cutout-v2.png",
+    "cropBox": [
+      110,
+      10,
+      940,
+      840
+    ],
+    "resize": [
+      1024,
+      1024
+    ],
+    "uniformScale": 1.2337349397590363,
+    "method": "Pillow LANCZOS crop/resize, no regeneration",
+    "userApproved": true
+  },
+  "web": {
+    "dimensions": [
+      768,
+      768
+    ],
+    "format": "webp",
+    "quality": 88,
+    "alpha": true
+  },
+  "credentials": "Process environment only; not included in artifacts.",
+  "assets": {
+    "cris": {
+      "cutout": "cris-cutout-v4.png",
+      "cutoutSha256": "3820b40125598301ea4d4d7a98a59ae7db454355097e880c0edc8921192200ed",
+      "web": "cris-cutout-v4.webp",
+      "webSha256": "d9b7f40ec8bb0d41e98f16f82bef4a08d9619f4e572efadc961c4496d3bf9077",
+      "webBytes": 99746,
+      "dimensions": [
+        768,
+        768
+      ],
+      "method": "original-avatar style transfer v7 + contour extraction"
+    },
+    "liz": {
+      "cutout": "liz-cutout-v3.png",
+      "cutoutSha256": "9cb34663af4a0374b13b4822f5b5c20e8897ce6714899eac6eaa169f56b5609a",
+      "web": "liz-cutout-v3.webp",
+      "webSha256": "49324c1bdc5b55a2ad06854fcf5abcae6b2139835a30e63d10b4d8140761dacc",
+      "webBytes": 84286,
+      "dimensions": [
+        768,
+        768
+      ],
+      "method": "approved v2 uniform crop and resize, unchanged"
+    }
+  }
+}

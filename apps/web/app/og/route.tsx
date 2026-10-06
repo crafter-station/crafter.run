@@ -36,7 +36,7 @@ async function loadGoogleFont(family: string, weight: number, text: string) {
 function titleFontFamily(lang: Locale) {
   if (lang === "zh") return { family: "Noto Sans SC", weight: 700 as const }
   if (lang === "ja") return { family: "Noto Sans JP", weight: 700 as const }
-  return { family: "Geist", weight: 700 as const }
+  return { family: "Crafter Sans Text", weight: 700 as const }
 }
 
 function titleFontSize(title: string, lang: Locale) {
@@ -79,15 +79,15 @@ export async function GET(request: Request) {
 
   const fonts: { name: string; data: ArrayBuffer; weight: 400 | 500 | 600 | 700; style: "normal" }[] = []
   try {
-    const [titleData, monoData] = await Promise.all([
+    const [titleData, textData] = await Promise.all([
       lang === "zh" || lang === "ja"
         ? loadGoogleFont(titleFont.family, titleFont.weight, title)
-        : readFile(join(process.cwd(), "app/fonts/Geist-Bold.ttf")).then((data) => new Uint8Array(data).buffer),
-      readFile(join(process.cwd(), "app/fonts/GeistMono-Regular.ttf")).then((data) => new Uint8Array(data).buffer),
+        : readFile(join(process.cwd(), "app/fonts/CrafterSansTextPreview-Bold.ttf")).then((data) => new Uint8Array(data).buffer),
+      readFile(join(process.cwd(), "app/fonts/CrafterSansTextPreview-Regular.ttf")).then((data) => new Uint8Array(data).buffer),
     ])
     fonts.push(
       { name: "title", data: titleData, weight: titleFont.weight, style: "normal" },
-      { name: "mono", data: monoData, weight: 400, style: "normal" },
+      { name: "text", data: textData, weight: 400, style: "normal" },
     )
   } catch {
     // Fall back to the bundled default font (Latin coverage only).
@@ -95,7 +95,7 @@ export async function GET(request: Request) {
 
   const hasCustomFonts = fonts.length > 0
   const titleFamily = hasCustomFonts ? "title" : undefined
-  const monoFamily = hasCustomFonts ? "mono" : undefined
+  const textFamily = hasCustomFonts ? "text" : undefined
 
   return new ImageResponse(
     (
@@ -107,6 +107,7 @@ export async function GET(request: Request) {
           backgroundColor: BACKGROUND,
           color: FOREGROUND,
           padding: 48,
+          fontFamily: textFamily,
         }}
       >
         <div
@@ -131,7 +132,7 @@ export async function GET(request: Request) {
             <div
               style={{
                 display: "flex",
-                fontFamily: monoFamily,
+                fontFamily: textFamily,
                 alignItems: "center",
                 gap: 18,
                 fontSize: 18,
@@ -148,7 +149,7 @@ export async function GET(request: Request) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontFamily: monoFamily,
+                fontFamily: textFamily,
                 fontSize: 20,
                 letterSpacing: 4,
                 color: MUTED,
@@ -198,7 +199,7 @@ export async function GET(request: Request) {
                 <div
                   style={{
                     display: "flex",
-                    fontFamily: monoFamily,
+                    fontFamily: textFamily,
                     fontSize: 18,
                     letterSpacing: 3,
                     color: ACCENT,
@@ -274,7 +275,7 @@ export async function GET(request: Request) {
                 display: "flex",
                 alignItems: "center",
                 gap: 16,
-                fontFamily: monoFamily,
+                fontFamily: textFamily,
                 fontSize: 22,
                 letterSpacing: 2,
                 color: FOREGROUND,
@@ -293,7 +294,7 @@ export async function GET(request: Request) {
             <div
               style={{
                 display: "flex",
-                fontFamily: monoFamily,
+                fontFamily: textFamily,
                 fontSize: 20,
                 letterSpacing: 2,
                 color: MUTED,

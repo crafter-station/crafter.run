@@ -9,19 +9,11 @@
     "line1": "ラテンアメリカ発、",
     "line2": "シッパーの",
     "line3": "ネットワーク。",
-    "description": "1000人以上のビルダーが集まるコミュニティ、オープンソースのエコシステム、プロダクト、リサーチ、イベントを通じて、ラテンアメリカのシッパーが出会い、学び、公開の場で開発することを支えます。",
+    "description": "Crafter Station は、コミュニティ、オープンソース、研究、ゲーム、実験、イベントを通じて、ラテンアメリカのつくる人をつなぎます。",
     "workCta": "協業のご相談",
     "communityCta": "コミュニティに参加",
     "eventsCta": "イベントを見る",
     "ossCta": "オープンソースを見る",
-    "workPreview": {
-      "section": "ラテンアメリカのグロースパートナー",
-      "eyebrow": "devtools・スタートアップ向け",
-      "title": "本当に届けたいビルダーと一緒にローンチしましょう。",
-      "description": "ハッカソン、Code Brew、ワークショップ、プロダクトローンチ、コンテンツ、コミュニティ施策を設計し、見せかけのインプレッションではなく、ラテンアメリカでの本物の採用を目指すチームを支援します。",
-      "cta": "協業のご相談",
-      "cardCta": "まずは話してみる"
-    },
     "collaborations": {
       "eyebrow": "コラボレーション",
       "description": "devtools、AIラボ、フィンテックスタートアップ、インフラ企業など、さまざまなチームやエコシステムとコラボレーションしてきました。"
@@ -67,40 +59,39 @@
   "nav": {
     "ships": "コミュニティ作品",
     "oss": "オープンソース",
-    "products": "プロダクト",
-    "events": "イベント",
+    "events": "カレンダー",
     "hackathon": "ハッカソン",
     "research": "リサーチ",
     "team": "チーム",
     "workCta": "協業のご相談",
     "communityCta": "コミュニティに参加",
     "openMenu": "メニューを開く",
-    "closeMenu": "メニューを閉じる"
+    "closeMenu": "メニューを閉じる",
+    "network": "Crafter の世界"
   },
   "footer": {
     "company": "Crafter Station",
     "build": "ビルド",
-    "productLab": "私たちが作るもの",
     "community": "コミュニティ",
     "social": "ソーシャル",
     "companyLinks": {
-      "events": "イベント",
+      "events": "カレンダー",
       "hackathon": "ハッカソン",
       "sponsorEvents": "ブランドパートナーシップ",
-      "products": "プロダクト",
       "team": "チーム",
       "workWithUs": "エンジニアリング・デザイン相談",
-      "contact": "お問い合わせ"
+      "contact": "お問い合わせ",
+      "network": "Crafter の世界"
     },
     "buildLinks": {
       "blog": "ブログ",
       "oss": "オープンソース",
       "ossMetrics": "OSS メトリクス",
-      "products": "プロダクト",
       "timeline": "プロジェクトの活動",
       "research": "リサーチ",
       "next": "Next",
-      "brand": "Brand"
+      "brand": "Brand",
+      "network": "Crafter の世界"
     },
     "communityLinks": {
       "joinCommunity": "コミュニティに参加",
@@ -114,47 +105,51 @@
     "oss": {
       "eyebrow": "オープンソース",
       "title": "オープンソース、コントリビューター歓迎。",
-      "description": "Crafter Station ネットワークのこれらのリポジトリはメンテナンスされ、外部からのコントリビューションを受け付けています。CLI、デザインシステム、エディタツール、コミュニティ基盤。ひとつ選んで、ship しましょう。",
-      "githubCta": "GitHub 組織を開く",
-      "metricsCta": "OSS メトリクスを見る",
-      "reposEyebrow": "リポジトリ",
-      "reposTitle": "メンテナンス済み、公開中、あなたの PR を待っています。",
-      "reposDescription": "GitHub のライブデータを毎日更新。スターやオープンな作業は自動で更新され、リストはチームが厳選しています。",
+      "description": "CLI、インターフェース、小さな実験。誰かが使い、試し、改善することで育つツールたち。",
+      "githubCta": "GitHub の Crafter",
+      "metricsCta": "指標を見る",
+      "reposEyebrow": "カタログ",
+      "reposTitle": "次の貢献は、ここから。",
+      "reposDescription": "実際に使えるツールと、公開されたコード。気になるものを見つけよう。",
       "descriptionPending": "説明は近日追加。",
       "openIssues": "{count} 件のオープンな issue と PR",
-      "repoCta": "コントリビュートする",
+      "repoCta": "リポジトリを見る",
       "howEyebrow": "コントリビュートの方法",
-      "howTitle": "最初のマージまでの 3 ステップ。",
-      "step1Title": "リポジトリを選ぶ",
-      "step1Description": "すでに使っているものから始めましょう。すべてのリポジトリは同じスタックです：TypeScript、Bun、Biome。",
-      "step2Title": "issue を探す",
-      "step2Description": "good-first-issue や help-wanted のラベルを探すか、コードを書く前に issue を立てて提案してください。",
-      "step3Title": "PR を出す",
-      "step3Description": "小さく焦点を絞った conventional commits の PR が最速でレビューされます。困ったらコミュニティでメンテナーに相談を。",
+      "howTitle": "小さな変更が、可能性をひらく。",
+      "step1Title": "プロジェクトを選ぶ",
+      "step1Description": "コードを読み、ツールを試し、貢献ガイドを確認。進め方はプロジェクトごとに異なります。",
+      "step2Title": "会話を始める",
+      "step2Description": "issue を探すか、改善したいことを共有しましょう。アイデアを相談することが最初の一歩です。",
+      "step3Title": "最初の PR を送る",
+      "step3Description": "小さな変更を加え、テストし、何を解決したか説明。困ったらコミュニティに相談できます。",
       "programEyebrow": "私たちのリポジトリの先へ",
-      "programTitle": "ラテンアメリカでオープンソースを作っていますか？支援します。",
-      "programDescription": "地域のオープンソースプロジェクト向けの支援プログラムを準備中です。Maca などの自社プロダクトの特典、チームによるメンターシップ、Crafter Station ネットワークでの露出。何を作っているか教えてください。",
+      "programTitle": "ラテンアメリカから、一緒につくる。",
+      "programDescription": "つくっているものを共有し、協力者を見つけ、地域のプロジェクトとともに学びましょう。",
       "programCta": "相談する",
-      "communityCta": "コミュニティに参加",
+      "communityCta": "コミュニティで話す",
       "timelineEyebrow": "アクティビティ",
-      "timelineTitle": "作業がどう進んできたかを見る。",
-      "timelineDescription": "すべての公開リポジトリを一つのタイムラインに: 各プロジェクトがいつ前進し、誰がコミットし、今どれだけ活発かがわかります。",
-      "timelineCta": "アクティビティを見る",
+      "timelineTitle": "コードは、動き続ける。",
+      "timelineDescription": "プロジェクトと、それを前へ進める人々を見てみよう。",
+      "timelineCta": "活動を見る",
       "panelEyebrow": "ネットワーク",
       "panelStars": "スター",
       "panelRepos": "リポジトリ",
-      "panelIssues": "件のコントリビュート募集中",
-      "filterAll": "すべて",
+      "panelIssues": "未解決の issue・PR",
+      "filterAll": "すべての組織",
       "filterLabel": "組織で絞り込む",
       "suggestCta": "プロジェクトを提案",
       "suggestEyebrow": "足りないツール",
-      "suggestTitle": "このエコシステムに何が足りないか教えてください。",
-      "suggestDescription": "あるべきツールがまだ存在しないなら、ボードに書いてください。アイデアは公開され、誰でも投票でき、コミュニティが押し上げたものから着手します。",
-      "suggestBoardCta": "アイデアボードを開く"
+      "suggestTitle": "ほしいツールがある？",
+      "suggestDescription": "関連するプロジェクトを見つけ、問題、背景、試したことを issue に書いてください。開発が進む場所で会話を始めましょう。",
+      "suggestBoardCta": "リポジトリを探す",
+      "heroLine1": "コードを開き、",
+      "heroLine2": "一緒につくる。",
+      "heroNote": "分かち合うためにつくる",
+      "exploreCta": "コードを探す"
     },
     "ossMetrics": {
       "eyebrow": "OSS メトリクス",
-      "title": "オープンソースを、公開運営する。",
+      "title": "オープンソースの動き。",
       "description": "Crafter Station OSS に掲載される全リポジトリのコントリビューター流入、メンテナンスのスループット、ポートフォリオの広がりを透明に公開します。",
       "catalogCta": "リポジトリを見る",
       "githubCta": "GitHub を開く",
@@ -240,13 +235,6 @@
       "contributeDescription": "メンテナンス中のリポジトリを選び、焦点の合った issue を見つけ、次の pull request を送りましょう。",
       "contributeCta": "リポジトリを探す"
     },
-    "work-with-us": {
-      "eyebrow": "エンジニアリング・デザインコンサルティング",
-      "title": "難しいプロダクト課題に Crafter Station のコアチームを。",
-      "description": "コアチームの実行力を見て、同じエンジニアリング、プロダクト、デザインの判断力を自社でも活かしたい組織のために。",
-      "section": "重要なプロダクトワークのためのシニアチーム。",
-      "sectionDescription": "プロダクトエンジニアリング、AI システム、インターフェースデザイン、デザインシステム、技術戦略、ローンチに集中して参加します。"
-    },
     "events": {
       "eyebrow": "イベント",
       "title": "ラテンアメリカ各地の Code Brew、ハッカソン、ローンチ、ワークショップ。",
@@ -261,39 +249,15 @@
       "noFilteredEvents": "この条件に一致するイベントはありません。"
     },
     "events-sponsors": {
-      "eyebrow": "コミュニティ・ブランド施策パートナーシップ",
-      "title": "ラテンアメリカのビルダーが出会い、学び、シップする場を支援する。",
-      "description": "Crafter Station と提携し、イベント開催、ブランド・プロダクト施策、ハッカソン、実際の参加を通じて注目を集めるコミュニティプログラムを実現します。",
-      "section": "ブランドの支援を、ビルダーが体験できるものへ。",
-      "sectionDescription": "イベント、Code Brew、ハッカソン、ワークショップ、ローンチ、コンテンツ、賞品、会場、フード、ハンズオン施策を目標に合わせて設計します。"
-    },
-    "hackathon": {
-      "eyebrow": "ハッカソン",
-      "title": "ラテンアメリカのビルダーが週末で本物のプロダクトを出すハッカソン。",
-      "description": "hack0 をラテンアメリカ各地で開催しています。集中できる部屋、本物の締め切り、動くデモ、そして受賞後も作り続けるチーム。",
-      "section": "つくる、見せる、出す。",
-      "sectionDescription": "どの回も同じリズムです。スポンサーのツールで始めるキックオフ、メンターが現場にいる二日間の開発、そして実際に動くものだけを評価するデモナイト。",
-      "all": "すべて",
-      "upcoming": "開催予定",
-      "past": "過去のハッカソン",
-      "register": "参加登録",
-      "noEvents": "[*] 現在公開中のハッカソンはありません。またのぞいてみてください。",
-      "noFilteredEvents": "この条件に一致するハッカソンはありません。"
-    },
-    "products": {
-      "eyebrow": "プロダクト",
-      "title": "私たちが開発し、支え、責任を持つプロダクト。",
-      "description": "音声インターフェース、エージェント向けツール、リサーチ基盤、そして販売しているライティング。リポジトリではなく、プロダクトとして運営しているものです。",
-      "section": "販売し、サポートしているもの。",
-      "sectionDescription": "それぞれチームが保守し、実際のユーザーに届けています。公開しているコードをお探しなら、オープンソースのページにあります。",
-      "ossEyebrow": "オープンソース",
-      "ossTitle": "私たちが作るものの多くは公開されています。",
-      "ossDescription": "オープンソースのリポジトリは別ページにまとめてあり、リアルタイムのスター数、オープンな issue、最初のコントリビューションへの道筋を掲載しています。",
-      "ossCta": "オープンソースを見る"
+      "eyebrow": "イベントと協力",
+      "title": "次の出会いをつくろう。",
+      "description": "つくったものが残る集まりへ。あなたの組織と、Crafter のワークショップ、ハッカソン、コミュニティをつなぎます。",
+      "section": "集まる時間を、実りあるものに。",
+      "sectionDescription": "場所、ツール、コンテンツ、支援を通じて、より多くの人が一緒に学び、つくれるように。各イベントをコミュニティに合わせて設計します。"
     },
     "ships": {
       "eyebrow": "コミュニティ作品",
-      "title": "Crafters が作り、みんなと共有する。",
+      "title": "Crafters がつくったもの。",
       "description": "Crafter コミュニティが形にしたアプリ、ツール、実験、アイデアが集まる生きたリポジトリです。",
       "installLabel": "コーディングエージェントから公開",
       "copyInstallCommand": "スキルのインストールコマンドをコピー",
@@ -334,7 +298,7 @@
     },
     "timeline": {
       "eyebrow": "オープンソースの活動",
-      "title": "公開の場で開発してきた1年。",
+      "title": "つくり続けた一年。",
       "description": "Crafter Station、Crafter Research、そしてチームの公開プロジェクトを探索できます。各プロジェクトがいつ前進したのか、誰が取り組んだのか、週ごとの活発さを見てみましょう。",
       "exploreCta": "活動を見る",
       "githubCta": "GitHub を開く",
@@ -430,26 +394,12 @@
       "catalogDescription": "オープンソースカタログで、リアルタイムのスター数、使用技術、最初のコントリビューションへの道筋を確認できます。",
       "catalogCta": "OSS カタログを開く"
     },
-    "research": {
-      "eyebrow": "リサーチ",
-      "title": "より良くシップするためのシステムを研究する。",
-      "description": "Crafter Research は、AIファーストのエンジニアリング、エージェント、開発者体験、そして現代のチームがより大きなレバレッジで開発するためのプラクティスを探求しています。",
-      "section": "現在、リサーチは独自のドメインで運営しています。",
-      "sectionDescription": "このページではリサーチユニットを紹介し、稼働中のリサーチサイト、GitHub オーガニゼーション、公開プロジェクトの活動へのリンクを掲載しています。",
-      "timelineTitle": "公開リサーチの活動はタイムラインにあります。",
-      "timelineCta": "タイムラインでリサーチを見る"
-    },
     "team": {
       "eyebrow": "チーム",
-      "title": "シップする文化を育てている人たち。",
+      "title": "Crafter をつくる人たち。",
       "description": "Crafter Station は、ラテンアメリカ各地のエンジニア、デザイナー、リサーチャー、マーケター、プロダクト担当、オペレーター、コミュニティオーガナイザーによって作られています。",
       "section": "小さなコアと、大きなネットワーク。",
       "sectionDescription": "チームは、プロダクトエンジニアリング、AI、デザインシステム、バックエンド、データ、グロース、自動化、プロジェクトマネジメント、コミュニティづくりを組み合わせています。",
-      "calendarEyebrow": "オープンカレンダー",
-      "calendarTitle": "Crafter Station メンバーとの30分の無料ミーティングを予約できます。",
-      "calendarDescription": "Crafter Station のメンバーとメンタリング、キャリア相談、プロダクトへのフィードバック、気軽な雑談を予約できます。このネットワークを可能にしてくれたコミュニティへの、私たちなりの恩返しです。",
-      "calendarInstructions": "チームページでメンバーを選び、プロフィールにあるカレンダーからご予約ください。",
-      "calendarCta": "チームのカレンダーを見る",
       "alumniEyebrow": "アルムナイ",
       "alumniTitle": "ここを一緒に築いてくれた crafters。",
       "teamCount": "{countries} か国に {members} 人の crafters",
@@ -460,13 +410,13 @@
       "areaCommunity": "コミュニティ"
     },
     "blog": {
-      "eyebrow": "ブログ",
-      "title": "作ったこと、学んだことを、書き残す。",
-      "description": "Crafter Station とその周りのビルダーによるエンジニアリングノート、コミュニティの物語、プロダクトの学び。すべての記事は、その仕事が出た日に公開します。"
+      "eyebrow": "フィールドノート · Crafter Station",
+      "title": "Crafter Journal",
+      "description": "試したこと、学んだこと、分かち合いたいこと。ラテンアメリカのつくり手による技術とカルチャー。"
     },
     "brand": {
       "eyebrow": "ブランドリソース",
-      "title": "ひと目でわかるように。",
+      "title": "Crafter のアイデンティティ。",
       "description": "記事、プレゼンテーション、イベントページ、パートナー向け資料で使える Crafter Station 公式ロゴ素材をダウンロードできます。",
       "assets": "アセット",
       "iconTitle": "ロゴアイコン",
@@ -482,47 +432,13 @@
     },
     "contact": {
       "eyebrow": "お問い合わせ",
-      "title": "正しい入り口から始めましょう。",
-      "description": "パートナーになりたいのか、一緒に作りたいのか、イベントを開催したいのか、ハッカソンのスポンサーになりたいのか、コミュニティに参加したいのか、教えてください。",
-      "section": "何をしたいですか？",
-      "sectionDescription": "会話の種類を選んでいただければ、最速で始められる方法をご案内します。",
-      "pickerEyebrow": "ミーティングを予約",
-      "pickerTitle": "話したいテーマを選んでください。",
-      "pickerDescription": "それぞれのテーマは実際にその仕事をしている担当につながるので、最初の一回で適切な相手に届きます。",
-      "pickerWith": "担当",
-      "trackStartupLabel": "エンジニアリングとデザイン",
-      "trackStartupBlurb": "難しいプロダクト課題に向けたシニアなプロダクトエンジニアリング、AI システム、インターフェースデザイン、技術戦略。",
-      "trackCareerLabel": "キャリアとメンタリング",
-      "trackCareerBlurb": "技術者としてどこへ進むか、そのために何を作るか、そして今の状態への率直なフィードバック。",
-      "trackOssLabel": "オープンソースと助成金",
-      "trackOssBlurb": "最初のコントリビューションの始め方、活動の資金づくり、アイデアを人が使うものに変える方法。",
-      "trackSponsorLabel": "ブランドパートナーシップ",
-      "trackSponsorBlurb": "ラテンアメリカのビルダーに向けたイベント、ハッカソン、ブランド・プロダクト施策。"
-    },
-    "next": {
-      "eyebrow": "/projects/next",
-      "title": "次に作るべきものに投票してください。",
-      "description": "コミュニティが取り組めるプロジェクトアイデアの、ライブでランク付けされるキューです。匿名で投稿し、よければエイリアスを残して、良いアイデアをリアルタイムで押し上げてください。"
+      "title": "お話ししましょう。",
+      "description": "つくる、学ぶ、仲間を集める。Crafter と協力する方法を見つけましょう。"
     },
     "workshopQuestions": {
       "eyebrow": "/workshops/questions",
-      "title": "ライブで答えるべき質問を投稿してください。",
+      "title": "次の質問をどうぞ。",
       "description": "参加者が確認済みの質問を投稿し、名前を添えて、最も役立つトピックを上位に押し上げるリアルタイムのワークショップキューです。"
-    },
-    "opencodeQuestions": {
-      "eyebrow": "/opencode",
-      "title": "OpenCode での開発について Anthony に聞いてみよう。",
-      "description": "OpenCode に関する質問を投稿して、ワークショップ中に Anthony がライブで答える質問に投票してください。"
-    },
-    "n8nQuestions": {
-      "eyebrow": "/n8n",
-      "title": "n8n MCP + Claude Code の自動化について Javo に聞いてみよう。",
-      "description": "n8n、MCP サーバー、Claude Code、自動化、フローについての質問を投稿して、プレゼン中に Javo がライブで答える質問に投票してください。"
-    },
-    "claudeCodeQuestions": {
-      "eyebrow": "/claude-code",
-      "title": "Claude Code での開発について Shiara に聞いてみよう。",
-      "description": "Claude Code に関する質問を投稿して、ワークショップ中に Shiara がライブで答える質問に投票してください。"
     },
     "notFound": {
       "metaTitle": "404 · ページが見つかりません",
@@ -543,6 +459,15 @@
         "events": "イベント",
         "team": "チーム"
       }
+    },
+    "network": {
+      "eyebrow": "Crafter の世界",
+      "title": "同じひらめき。四つの方向。",
+      "description": "Research、Lab、Games、Station。研究、実験、遊び、そして一緒につくる、四つのかたち。",
+      "areasLabel": "Crafter の四つの領域",
+      "exploreCta": "Crafter の世界を探す",
+      "closing": "それぞれの個性を、共通の好奇心がつなぎます。",
+      "ossCta": "オープンソースを探す"
     }
   },
   "member": {
@@ -565,12 +490,6 @@
     "tabSoftware": "ソフトウェア",
     "tabHardware": "ハードウェア",
     "tabListening": "再生中"
-  },
-  "teamWorkCallout": {
-    "eyebrow": "協業のご相談",
-    "title": "Crafter Station を支えるチームが必要ですか？",
-    "description": "プロダクトエンジニアリング、イベントパートナーシップ、コミュニティ施策、ラテンアメリカでのグロース協業は、ここから始めてください。",
-    "cta": "協業のご相談"
   },
   "cta": {
     "eyebrow": "ネットワークに参加",

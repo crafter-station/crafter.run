@@ -24,9 +24,9 @@ export function NotFoundSurface({ caption, className }: { caption: string; class
       // off the live document rather than hardcoded.
       const bodyStyles = getComputedStyle(document.body)
       const sans = bodyStyles.fontFamily || "system-ui, sans-serif"
-      const mono = bodyStyles.getPropertyValue("--font-mono").trim() || "monospace"
+      const mono = bodyStyles.getPropertyValue("--font-label").trim() || "monospace"
 
-      const captionSize = Math.max(11 * dpr, Math.min(width * 0.012, 18 * dpr))
+      const captionSize = Math.max(14 * dpr, Math.min(width * 0.012, 18 * dpr))
 
       /* Wide viewports get an editorial split: the figure sits right of center
          and the headline owns the left. Narrow ones stack, figure on top. The

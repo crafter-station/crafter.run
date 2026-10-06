@@ -1,0 +1,16 @@
+Use case: identity-preserve
+Asset type: one avatar in an existing homogeneous team portrait series.
+
+Image 1 is the EDIT TARGET: Cris's first portrait in the correct editorial ink series. Keep its black crew-neck T-shirt, shoulders, torso, neck, pose, framing, face scale and drawing technique.
+Image 2 is Railly's approved portrait: the authoritative reference for line weight, eye/nose/mouth drawing, cream facial planes, pencil texture, subtle hatched shading and relative head-to-shoulder proportions.
+Image 3 is a cropped face from Cris's original cartoon: use it ONLY to refine his identifying features and hairstyle. It is NOT a style or proportion reference. Do not copy its bold vector contours or oversized cartoon features.
+
+Edit image 1 into a cohesive final Cris portrait, as though drawn by the exact same illustrator as image 2. Keep the established slim tapered face and normal neck width of image 1. Give him the swept-back, side-parted hairstyle suggested by image 3, with lower, tidier volume than image 1's high quiff. Keep thick but naturally drawn eyebrows and the neatly trimmed full beard and moustache, drawn with the same fine pencil hatching as the hair and jaw shading in image 2. Use a small relaxed smile, not an oversized geometric grin. Simple expressive eyes in the same style as image 2 look at the viewer. Keep the slight three-quarter turn toward image-left and upright head.
+
+Very important: match image 1's head scale within the square and its head-to-shoulder ratio. Do not zoom in or enlarge the cranium. The face must feel comfortably proportioned beside image 2, neither broad-cheeked nor baby-like. The original cartoon supplies identity cues only.
+
+Clothing is exactly the plain charcoal-black round-neck short-sleeve T-shirt of images 1 and 2, with only the very fine muted yellow collar piping already present in this series. Completely blank chest. No hood, hoodie, jacket, zipper, lettering, C emblem, badge or logo.
+
+Visual finish is the existing hand-drawn editorial ink and pencil style: moderately thin organic contours, simple cream planes, restrained charcoal hatching, subtle print grain. NOT a vector sticker or emoji. Do not retain the original cartoon's heavy continuous nose line, giant solid eyes, thick tubular outlines or flat block beard. Not photorealistic, no 3D and no glossy shading.
+
+One portrait only on a completely plain pure-white background, without a circle, border, shadow or scene. Preserve the same square crop, top margin and shoulder placement as image 1. No glasses, no text, no watermark.

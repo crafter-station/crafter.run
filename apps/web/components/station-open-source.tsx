@@ -1,12 +1,9 @@
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
 import { type Locale, withLocale } from "@/lib/i18n"
 import { getOssRepos } from "@/lib/oss"
-import { stationCopy } from "@/lib/station-copy"
 import { bucleCopy } from "@/lib/bucle-copy"
 
 export async function StationOpenSource({ locale }: { locale: Locale }) {
-  const t = stationCopy[locale]
   const b = bucleCopy[locale]
   const repos = await getOssRepos()
   const selected = [
@@ -19,25 +16,21 @@ export async function StationOpenSource({ locale }: { locale: Locale }) {
   })
 
   return (
-    <section className="station-open-source dark theme-scope" aria-labelledby="home-oss-title">
-      <div className="station-feature-top station-label"><span>02 / Crafter Open Source</span><span>{t.built}</span></div>
-      <div className="station-oss-heading">
-        <h2 id="home-oss-title">{b.ossTitle}</h2>
-        <p>{b.ossSubtitle}</p>
+    <section className="home-source" aria-labelledby="home-oss-title">
+      <div className="home-source-heading">
+        <div>
+          <h2 id="home-oss-title">{b.ossTitle}</h2>
+          <p className="home-source-note">{b.ossBody}</p>
+        </div>
+        <Link href={withLocale("/oss", locale)} className="home-action-link">{b.ossExplore}</Link>
       </div>
-      <div className="station-feature-list">
+      <div className="home-source-list">
         {selected.map((repo, i) => (
-          <Link key={repo.repo} href={repo.url} target="_blank" rel="noopener noreferrer" className="station-feature-row">
-            <span className="station-row-number">{String(i + 1).padStart(2, "0")}</span>
+          <Link key={repo.repo} href={repo.url} target="_blank" rel="noopener noreferrer" className="home-source-project">
+            <span className="station-label">{String(i + 1).padStart(2, "0")} / {repo.category}</span>
             <h3>{repo.name}</h3>
-            <span className="station-row-category">{repo.category}</span>
-            <ArrowUpRight size={22} aria-hidden="true" />
           </Link>
         ))}
-      </div>
-      <div className="station-feature-footer">
-        <p>{b.ossBody}</p>
-        <Link href={withLocale("/oss", locale)} className="station-editorial-link">{b.ossExplore}<ArrowUpRight size={17} aria-hidden="true" /></Link>
       </div>
     </section>
   )

@@ -21,5 +21,6 @@ describe("OSS repository catalog", () => {
     expect(body.repos).not.toContain("Railly/vcut")
     expect(body.repos).not.toContain("crafter-research/sunat-cli")
     expect(body.repos).not.toContain("crafter-research/legalize-pe-engine")
+    expect(body.repos).not.toContain("cuevaio/normal")
   })
 })

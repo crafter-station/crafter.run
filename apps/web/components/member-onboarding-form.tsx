@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation"
 import { type FormEvent, useState } from "react"
 
 import { ProfileLocationFields } from "@/components/profile-location-fields"
-import { publicApiUrl, shipsApi } from "@/lib/ships-client"
+import { shipsApi } from "@/lib/ships-client"
 import { cn } from "@/lib/utils"
 
 export function MemberOnboardingForm({
@@ -93,7 +93,7 @@ export function MemberOnboardingForm({
       <Field label="Handle" name="handle" placeholder="your-handle" defaultValue={member?.handle} required minLength={3} maxLength={40} />
       <Field label="Display name" name="displayName" defaultValue={member?.displayName ?? displayName} required maxLength={80} />
       <label className="grid gap-2 text-sm">
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Short bio</span>
+        <span className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">Short bio</span>
         <textarea name="bio" rows={4} maxLength={280} defaultValue={member?.bio ?? ""} className="border border-line bg-background px-4 py-3 outline-none focus:border-accent" />
       </label>
       <div className="grid gap-6 border-t border-line pt-6 sm:grid-cols-2">
@@ -130,7 +130,7 @@ export function MemberOnboardingForm({
       {mode === "settings" ? (
         <section className="grid min-w-0 gap-6 border border-line bg-secondary/30 p-5 sm:p-6">
           <div>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Private career preferences</p>
+            <p className="font-label text-xs uppercase tracking-[0.2em] text-accent">Private career preferences</p>
             <h2 className="mt-2 text-xl tracking-tight">Help the right partners find you.</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">This information is hidden from your public profile and shared only with trusted partners looking for great engineers like you.</p>
           </div>
@@ -140,7 +140,7 @@ export function MemberOnboardingForm({
             <Field label="Currency" name="salaryCurrency" minLength={3} maxLength={3} size={3} autoComplete="off" defaultValue={member?.salaryRange?.currency ?? ""} placeholder="USD" />
           </div>
           <fieldset className="grid gap-3">
-            <legend className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Open to</legend>
+            <legend className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">Open to</legend>
             <div className="flex flex-wrap gap-3">
               {["remote", "onsite", "hybrid"].map((arrangement) => (
                 <label key={arrangement} className="flex items-center gap-2 border border-line bg-background px-4 py-3 text-sm capitalize">
@@ -157,7 +157,7 @@ export function MemberOnboardingForm({
         </section>
       ) : null}
       <label className="grid gap-2 text-sm">
-        <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Roles open to</span>
+        <span className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">Roles open to</span>
         <textarea name="rolesOpenTo" rows={4} defaultValue={member?.rolesOpenTo.join("\n") ?? ""} placeholder={"Frontend engineer\nProduct designer"} className="border border-line bg-background px-4 py-3 outline-none focus:border-accent" />
         <span className="text-xs text-muted-foreground">One role per line, up to 10.</span>
       </label>
@@ -175,7 +175,6 @@ export function MemberOnboardingForm({
       <button disabled={pending} className="w-fit bg-foreground px-6 py-3 text-sm font-medium text-background disabled:opacity-50">
         {pending ? "Saving..." : mode === "settings" ? "Save profile" : "Create Crafter profile"}
       </button>
-      <p className="font-mono text-[10px] text-muted-foreground">API: {publicApiUrl}</p>
     </form>
   )
 }
@@ -198,7 +197,7 @@ function Field(props: React.InputHTMLAttributes<HTMLInputElement> & { label: str
   const { label, className, ...input } = props
   return (
     <label className="grid min-w-0 gap-2 text-sm">
-      <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{label}</span>
+      <span className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{label}</span>
       <input {...input} className={cn("w-full min-w-0 border border-line bg-background px-4 py-3 outline-none focus:border-accent", className)} />
     </label>
   )

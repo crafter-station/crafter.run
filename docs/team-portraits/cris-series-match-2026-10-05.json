@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-05",
+  "request": "Homogeneous drawing style, smaller proportionate head, plain black T-shirt; no hood or chest C. Liz unchanged.",
+  "model": "gpt-image-2",
+  "mode": "official imagegen CLI edit",
+  "gateway": "Vercel AI Gateway",
+  "quality": "high",
+  "size": "1024x1024",
+  "prompt": "prompts/cris-v8.txt",
+  "references": [
+    {
+      "role": "edit target; correct series composition and plain black T-shirt",
+      "path": "/Users/raillyhugo/Documents/Codex/2026-10-04/listo-enlazado-desde-agents-md-handoff/outputs/crafter-team-portraits/cris-v1.png",
+      "sha256": "7177462803fd071b2ae7ed448cde009f782915eb2deb4c790dac941a828a574f"
+    },
+    {
+      "role": "approved drawing style and proportions",
+      "path": "/Users/raillyhugo/Programming/crafter-station/crafter.run-bucle/apps/web/public/team/station-ink/railly-cutout-v1.webp",
+      "sha256": "f41cd53913282f2dee14d8445805de3d6cf087d5fd5690f778946eca4152bce4"
+    },
+    {
+      "role": "identity cues only; cropped original cartoon, no clothing",
+      "path": "/Users/raillyhugo/Documents/Codex/2026-10-04/listo-enlazado-desde-agents-md-handoff/work/team-portraits-photo-revision/references/cris-face-only.png",
+      "sha256": "a725ce35c417e73ffc4bfaa2882af394c896698be9a8d297c1c30fcde833b7d6"
+    }
+  ],
+  "originalFaceReferenceCrop": [
+    210,
+    25,
+    790,
+    640
+  ],
+  "originalFaceSource": "apps/web/public/team/cris.png",
+  "integrationTarget": "apps/web/public/team/station-ink/cris-cutout-v5.webp",
+  "lizPreservedSha256": "49324c1bdc5b55a2ad06854fcf5abcae6b2139835a30e63d10b4d8140761dacc",
+  "credentials": "Process environment only, not written to artifacts.",
+  "asset": {
+    "generation": "cris-v8.png",
+    "generationSha256": "220b9f5a2c67e9c5201e81d27c2d9c042766294de842c49471947e8a68e29f42",
+    "cutout": "cris-cutout-v5.png",
+    "cutoutSha256": "aa7c4dcf0814fe816bb4da0ab406e212d38865e8afdcb8b8ac9e34214720a445",
+    "web": "cris-cutout-v5.webp",
+    "webSha256": "7771eaeef23f77ed3ac45dbfb1934419a68d1d90ef2cab2176d12b910b54fbfa",
+    "webBytes": 87396,
+    "dimensions": [
+      768,
+      768
+    ],
+    "method": "v8 + contour extraction + uniform framing crop",
+    "cropBox": [
+      80,
+      30,
+      940,
+      890
+    ],
+    "uniformScale": 1.1906976744186046
+  },
+  "lizPreservedPath": "apps/web/public/team/station-ink/liz-cutout-v3.webp"
+}

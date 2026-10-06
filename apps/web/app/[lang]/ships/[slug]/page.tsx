@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
 import { notFound } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
@@ -27,11 +26,11 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
   return (
     <>
 
-      <main className="flex-1">
+      <main className="station-ship-detail flex-1">
         <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
+          <div className="station-ship-layout">
             <article>
-              <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">{t.eyebrow}</p>
+              <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">{t.eyebrow}</p>
               <h1 className="mt-5 text-5xl font-semibold tracking-tighter md:text-7xl">{ship.name}</h1>
               <p className="mt-5 max-w-3xl text-xl leading-8 text-muted-foreground">{ship.tagline}</p>
               {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mt-10 aspect-video w-full border border-line object-cover" /> : null}
@@ -44,20 +43,20 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
                 slug={ship.slug}
               />
             </article>
-            <aside className="h-fit border border-line p-6 lg:sticky lg:top-28">
+            <aside className="station-ship-owner h-fit p-6 lg:sticky lg:top-8">
               <div className="mb-8">
                 <ShipUpvote shipId={ship.id} slug={ship.slug} initialVoteCount={ship.voteCount} locale={lang} />
               </div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">{t.by}</p>
+              <p className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{t.by}</p>
               <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="mt-3 block text-xl font-medium hover:text-accent">
                 {ship.owner.displayName}
               </Link>
-              <p className="mt-1 font-mono text-xs text-muted-foreground">@{ship.owner.handle}</p>
+              <p className="mt-1 font-label text-xs text-muted-foreground">@{ship.owner.handle}</p>
               <div className="mt-4"><ShipEditLink locale={lang} ownerHandle={ship.owner.handle} slug={ship.slug} /></div>
-              <div className="mt-8 grid gap-3">
+              <div className="station-profile-links mt-8">
                 {ship.links.map((link) => (
                   <Link key={`${link.type}-${link.url}`} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between border border-line px-4 py-3 text-sm capitalize hover:border-accent">
-                    {link.type}<ArrowUpRight className="size-4" />
+                    {link.type}
                   </Link>
                 ))}
               </div>

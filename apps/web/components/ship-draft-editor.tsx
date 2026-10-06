@@ -131,7 +131,7 @@ export function ShipDraftEditor({ initialShip, locale, published = false }: { in
         </button>
       </form>
       <aside className="h-fit border border-line p-6 lg:sticky lg:top-28">
-        <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">{published ? "Public Ship" : "Private draft"}</p>
+        <p className="font-label text-xs uppercase tracking-[0.25em] text-accent">{published ? "Public Ship" : "Private draft"}</p>
         {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mt-5 aspect-video w-full border border-line object-cover" /> : null}
         <h2 className="mt-5 text-2xl tracking-tight">{ship.name}</h2>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">{ship.tagline}</p>

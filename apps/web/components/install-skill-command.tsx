@@ -28,7 +28,7 @@ export function InstallSkillCommand({
 
   return (
     <div className="mt-8 max-w-2xl">
-      <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+      <p className="mb-3 font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
         {label}
       </p>
       <button

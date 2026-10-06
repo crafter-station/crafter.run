@@ -1,5 +1,24 @@
 # Crafter identity and Crafter Sans continuity
 
+## Current font follow-up — October 2, 2026
+
+The user requested Crafter Sans for the entire interface, including metadata;
+system monospace only for code. The current source workspace and handoff are
+`/Users/raillyhugo/Programming/crafter-station/font/TEXT-HANDOFF.md`.
+
+Bucle Display 0.200 is unchanged. Text Preview 0.301 adds experimental static
+Regular 400, Medium 500, SemiBold 600 and Bold 700 cuts with real contour
+changes and extra text spacing. All 12 binaries pass structural/shaping
+checks, 6,725 pairs per weight, and a byte-identical second build. Further
+manual optical work, hinting and cross-platform review remain.
+
+The website loads Crafter for body, controls and metadata and the original
+display master for titles. No Geist is loaded. Noto remains for CJK glyphs.
+Default UI/body is now 16px; principal descriptions are 18px on desktop and
+mobile; 14px is restricted to compact uppercase labels and explicit details
+or code. No remote font repository, license decision or release was made.
+The rest of this document is the preserved October 1 checkpoint.
+
 October 1, 2026. Final implementation checkpoint: `7f3d5fa` on `feat/station-bucle`.
 This documentation checkpoint does not change runtime behavior.
 

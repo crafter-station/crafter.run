@@ -1,3 +1,4 @@
+import { StationPageHero } from "@/components/station-page-hero"
 import Link from "next/link"
 import { ArrowUpRight, PackageOpen, Terminal } from "lucide-react"
 import { getTranslations } from "next-intl/server"
@@ -35,40 +36,18 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
     <>
 
       <main className="flex-1">
-        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end">
-            <div className="max-w-4xl">
-              <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">{t("eyebrow")}</p>
-              <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">
-                {t("title")}
-              </h1>
-              <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
-                {t("description")}
-              </p>
-              <InstallSkillCommand
-                label={t("installLabel")}
-                copyLabel={t("copyInstallCommand")}
-                copiedLabel={t("copiedInstallCommand")}
-              />
-            </div>
-            <div className="grid grid-cols-2 border border-line bg-background">
-              <Stat
-                value={shipsResult === null ? "--" : ships.length}
-                label={t("shipCount", { count: ships.length })}
-              />
-              <Stat
-                value={shipsResult === null ? "--" : crafterCount}
-                label={t("crafterCount", { count: crafterCount })}
-                bordered
-              />
-            </div>
-          </div>
-        </Container>
+        <StationPageHero eyebrow={t("eyebrow")} title={t("title")} description={t("description")} art="ships">
+          <InstallSkillCommand label={t("installLabel")} copyLabel={t("copyInstallCommand")} copiedLabel={t("copiedInstallCommand")} />
+        </StationPageHero>
+        <Container><div className="station-stat-strip station-stat-strip-two">
+          <Stat value={shipsResult === null ? "--" : ships.length} label={t("shipCount", { count: ships.length })} />
+          <Stat value={shipsResult === null ? "--" : crafterCount} label={t("crafterCount", { count: crafterCount })} />
+        </div></Container>
 
         <SectionGap />
 
         <Container innerClassName="border-b px-6 py-10 md:px-10">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {t("manifestEyebrow")}
           </p>
           <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t("manifestTitle")}</h2>
@@ -82,25 +61,25 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
               description={t("unavailableDescription")}
             />
           ) : ships.length === 0 ? (
-            <div className="grid min-h-96 place-items-center px-6 py-20 text-center">
+            <div className="station-directory-empty grid place-items-center text-center">
               <div className="max-w-lg">
                 <PackageOpen className="mx-auto size-8 text-accent" strokeWidth={1.5} />
                 <h2 className="mt-6 text-3xl tracking-tight">{t("emptyTitle")}</h2>
                 <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-muted-foreground">
                   {t("emptyDescription")}
                 </p>
-                <div className="mx-auto mt-8 flex w-fit items-center gap-3 border border-line bg-secondary/30 px-4 py-3 text-left font-mono text-xs">
+                <div className="mx-auto mt-8 flex w-fit items-center gap-3 border border-line bg-secondary/30 px-4 py-3 text-left font-label text-xs">
                   <Terminal className="size-4 text-accent" />
                   <span className="text-muted-foreground">$</span>
                   <code>crafter ship</code>
-                  <span className="border border-line px-2 py-0.5 text-[9px] uppercase tracking-wider text-muted-foreground">
+                  <span className="border border-line px-2 py-0.5 text-xs uppercase tracking-wider text-muted-foreground">
                     {t("comingSoon")}
                   </span>
                 </div>
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+            <div className="station-card-grid">
               {ships.map((ship, index) => (
                 <article
                   key={ship.id}
@@ -108,11 +87,11 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
                 >
                   {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mb-6 aspect-video w-full border border-line object-cover" /> : null}
                   <div className="flex items-start justify-between gap-6">
-                    <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-muted-foreground">
+                    <p className="font-label text-xs uppercase tracking-[0.28em] text-muted-foreground">
                       {String(index + 1).padStart(3, "0")}
                     </p>
                     <div className="flex items-center gap-3">
-                      <p className="font-mono text-[10px] text-muted-foreground">@{ship.owner.handle}</p>
+                      <p className="font-label text-xs text-muted-foreground">@{ship.owner.handle}</p>
                       <ShipUpvote shipId={ship.id} slug={ship.slug} initialVoteCount={ship.voteCount} locale={lang} />
                     </div>
                   </div>
@@ -133,7 +112,7 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.18em] transition-colors hover:text-accent"
+                          className="inline-flex items-center gap-1.5 font-label text-xs uppercase tracking-[0.18em] transition-colors hover:text-accent"
                         >
                           {t(`links.${link.type}`)}
                           <ArrowUpRight className="size-3" />
@@ -155,8 +134,8 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
 function Stat({ value, label, bordered = false }: { value: number | string; label: string; bordered?: boolean }) {
   return (
     <div className={bordered ? "border-l border-line p-5" : "p-5"}>
-      <p className="font-mono text-3xl font-medium tabular-nums">{value}</p>
-      <p className="mt-2 font-mono text-[9px] uppercase tracking-[0.22em] text-muted-foreground">{label}</p>
+      <p className="font-label text-3xl font-medium tabular-nums">{value}</p>
+      <p className="mt-2 font-label text-xs uppercase tracking-[0.22em] text-muted-foreground">{label}</p>
     </div>
   )
 }
@@ -171,7 +150,7 @@ function RepositoryMessage({
   description: string
 }) {
   return (
-    <div className="grid min-h-96 place-items-center px-6 py-20 text-center">
+    <div className="station-directory-empty grid place-items-center text-center">
       <div className="max-w-lg">
         {icon}
         <h2 className="mt-6 text-3xl tracking-tight">{title}</h2>

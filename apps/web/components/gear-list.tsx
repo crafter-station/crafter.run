@@ -19,7 +19,7 @@ export function GearList({
           (variant === "auto" && items.some((item) => item.detail))
         return (
           <div key={group.category}>
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60">
+            <p className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground/60">
               {group.category}
             </p>
             {hasDetail ? (
@@ -28,7 +28,7 @@ export function GearList({
                   <div key={item.name} className="flex items-baseline justify-between gap-6 py-2.5">
                     <span className="text-sm text-foreground">{item.name}</span>
                     {item.detail ? (
-                      <span className="shrink-0 text-right font-mono text-xs text-muted-foreground">{item.detail}</span>
+                      <span className="shrink-0 text-right font-label text-xs text-muted-foreground">{item.detail}</span>
                     ) : null}
                   </div>
                 ))}

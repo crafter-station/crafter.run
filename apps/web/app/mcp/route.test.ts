@@ -76,6 +76,21 @@ describe("MCP endpoint", () => {
       expect(tool.annotations.readOnlyHint).toBe(true)
     }
     expect(tools.map((tool) => tool.name)).toContain("search_docs")
+    expect(tools.map((tool) => tool.name)).toContain("list_network")
+    expect(tools.map((tool) => tool.name)).not.toContain("list_products")
+  })
+
+  test("exposes the four Crafter areas in place of the retired product catalog", async () => {
+    const { body } = await rpc({
+      jsonrpc: "2.0", id: 9, method: "tools/call",
+      params: { name: "list_network", arguments: { locale: "es" } },
+    })
+    expect(body.result.isError).toBe(false)
+    const data = body.result.structuredContent
+    expect(data.areas.map((area: { name: string }) => area.name)).toEqual(["Research", "Lab", "Games", "Station"])
+    expect(data.areas.find((area: { id: string }) => area.id === "station").url).toBe("https://crafter.run/es")
+    expect(data.areas[0].description).toContain("Preguntas abiertas")
+    expect(JSON.stringify(data)).not.toMatch(/visagente|normal\.fast|cuevaio\/normal/i)
   })
 
   test("returns doc content through tools/call", async () => {
@@ -111,9 +126,9 @@ describe("MCP endpoint", () => {
     const usernames = body.result.structuredContent.members.map((member: { username: string }) => member.username)
     expect(usernames).toContain("railly")
     expect(usernames).toContain("ignacio")
-    expect(usernames).toContain("shiara")
+    expect(usernames).toContain("liz")
     expect(usernames).toContain("edward")
-    for (const username of ["cuevaio", "emmy", "gabriel", "juan"]) {
+    for (const username of ["cuevaio", "emmy", "gabriel", "juan", "shiara"]) {
       expect(usernames).not.toContain(username)
     }
   })

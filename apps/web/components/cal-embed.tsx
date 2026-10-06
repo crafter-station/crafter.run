@@ -108,7 +108,7 @@ export function CalEmbed({ calLink, namespace }: { calLink: string; namespace: s
       // second iframe next to the stale one.
       key={calTheme}
       ref={embedRef}
-      className="mx-auto h-[660px] w-full max-w-[1380px] overflow-scroll border-x border-line"
+      className="station-cal-embed mx-auto h-[660px] w-full max-w-[1380px] overflow-scroll border-x border-line"
     />
   )
 }

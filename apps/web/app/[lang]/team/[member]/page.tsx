@@ -175,7 +175,7 @@ export default async function Page({
   const impact = teamMember.username === "railly" ? raillyImpact[lang] : null
 
   const heading =
-    "font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground"
+    "font-label text-xs uppercase tracking-[0.3em] text-muted-foreground"
 
   const projectLinks = teamMember.projects?.length
     ? teamMember.projects.map((project) =>
@@ -266,31 +266,31 @@ export default async function Page({
           <Link href={withLocale("/team", lang)} className="group mb-10 inline-block">
             <ArrowLink>{t("back")}</ArrowLink>
           </Link>
-          <div className="grid gap-10 lg:grid-cols-[300px_1fr] lg:gap-16">
+          <div className="station-profile-layout">
             {/* Sticky identity sidebar */}
-            <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
-              <div className="relative size-32 overflow-hidden border border-line bg-secondary md:size-40">
+            <aside className="station-profile-identity space-y-8 lg:sticky lg:top-8 lg:self-start">
+              <div className="station-profile-portrait relative overflow-hidden bg-secondary">
                 <Image src={teamMember.image} alt={teamMember.name} fill className="object-cover" />
               </div>
               <div>
                 <h1 className="text-3xl font-semibold tracking-[-0.04em]">{teamMember.name}</h1>
                 <p className="mt-1 text-muted-foreground">{teamMember.role}</p>
-                <div className="mt-4 space-y-1.5 font-mono text-xs text-muted-foreground">
+                <div className="mt-4 space-y-1.5 font-label text-xs text-muted-foreground">
                   {teamMember.location ? <p>📍 {teamMember.location}</p> : null}
                   {teamMember.timezone ? <p>🕒 <LocalTime timezone={teamMember.timezone} /></p> : null}
                   {teamMember.joinedYear ? <p>◇ {t("joined")} {teamMember.joinedYear}</p> : null}
                 </div>
               </div>
               {links.length || teamMember.wechat ? (
-                <div className="divide-y divide-line border-y border-line">
+                <div className="station-profile-links">
                   {links.map((link) => (
-                    <Link key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between py-2.5 font-mono text-xs text-muted-foreground transition-colors hover:text-foreground">
+                    <Link key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between py-2.5 font-label text-xs text-muted-foreground transition-colors hover:text-foreground">
                       {link.label}
                       <span aria-hidden>↗</span>
                     </Link>
                   ))}
                   {teamMember.wechat ? (
-                    <p className="flex items-center justify-between gap-4 py-2.5 font-mono text-xs text-muted-foreground">
+                    <p className="flex items-center justify-between gap-4 py-2.5 font-label text-xs text-muted-foreground">
                       <span>WeChat</span>
                       <span className="select-all">{teamMember.wechat}</span>
                     </p>
@@ -307,24 +307,23 @@ export default async function Page({
             {/* Scrolling content */}
             <div className="min-w-0">
               <section>
-                <p className="flex items-start gap-4 text-sm leading-relaxed text-muted-foreground">
-                  <span className="font-mono text-accent">[*]</span>
+                <p className="station-profile-bio text-muted-foreground">
                   <span>{bio}</span>
                 </p>
               </section>
               {impact ? (
-                <section className="mt-10 border-y border-line">
-                  <p className="px-4 py-4 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:px-6">
+                <section className="station-data-panel mt-10">
+                  <p className="px-4 py-4 font-label text-xs uppercase tracking-[0.3em] text-muted-foreground md:px-6">
                     {impact.eyebrow}
                   </p>
-                  <div className="grid grid-cols-2 border-t border-line md:grid-cols-4">
+                  <div className="station-stat-strip station-stat-strip-two">
                     {impact.metrics.map(([value, label], index) => (
                       <div
                         key={label}
                         className={`${index % 2 ? "border-l" : ""} ${index > 1 ? "border-t md:border-t-0" : ""} ${index > 0 ? "md:border-l" : ""} border-line px-4 py-5 md:px-5`}
                       >
                         <p className="text-xl font-semibold tracking-tight">{value}</p>
-                        <p className="mt-1 font-mono text-[10px] text-muted-foreground">{label}</p>
+                        <p className="mt-1 font-label text-xs text-muted-foreground">{label}</p>
                       </div>
                     ))}
                   </div>

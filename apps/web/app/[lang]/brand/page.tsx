@@ -1,3 +1,4 @@
+import { StationPageHero } from "@/components/station-page-hero"
 import { DesignSystemGuide } from "@/components/design-system-guide"
 import Image from "next/image"
 import { Download } from "lucide-react"
@@ -37,7 +38,7 @@ function AssetCard({
   const assetLabel = name === "icon" ? "logo" : name === "logo-wordmark" ? "logo and wordmark" : "wordmark"
 
   return (
-    <article className="overflow-hidden border border-line bg-background">
+    <article className="station-brand-asset overflow-hidden">
       <div
         className={`relative flex h-72 items-center justify-center p-10 md:h-80 md:p-14 ${
           dark ? "bg-[#0d0d0d]" : "bg-[#f4f2ee]"
@@ -53,7 +54,7 @@ function AssetCard({
         />
       </div>
       <div className="border-t border-line p-5 md:p-6">
-        <p className="font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground">
+        <p className="font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
           {previewLabel}
         </p>
         <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -62,7 +63,7 @@ function AssetCard({
               key={format}
               href={`/brand/${basename}.${format}`}
               download
-              className="group inline-flex h-10 items-center justify-between border border-line px-3 font-mono text-[10px] uppercase tracking-[0.15em] transition-colors hover:border-foreground/40 hover:bg-foreground hover:text-background"
+              className="group inline-flex h-10 items-center justify-between border border-line px-3 font-label text-xs uppercase tracking-[0.15em] transition-colors hover:border-foreground/40 hover:bg-foreground hover:text-background"
             >
               {format}
               <Download className="h-3.5 w-3.5 opacity-50 transition-opacity group-hover:opacity-100" />
@@ -87,19 +88,12 @@ export default async function Page({
     <>
 
       <main className="flex-1">
-        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
-          <div className="max-w-4xl">
-            <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-accent">
-              {t("eyebrow")}
-            </p>
-            <h1 className="mt-5 text-balance text-5xl font-semibold tracking-tighter md:text-7xl">
-              {t("title")}
-            </h1>
-            <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
-              {t("description")}
-            </p>
-          </div>
-        </Container>
+        <StationPageHero
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          description={t("description")}
+          art="brand"
+        />
 
         <SectionGap />
         <DesignSystemGuide locale={lang} />
@@ -107,7 +101,7 @@ export default async function Page({
 
         <Container className="scroll-mt-24" innerClassName="px-6 py-14 md:px-10 md:py-20">
           <div className="mb-8 max-w-2xl md:mb-10">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
               01 / {t("assets")}
             </p>
             <h2 id="assets" className="mt-3 text-3xl tracking-tight md:text-4xl">{t("iconTitle")}</h2>
@@ -125,7 +119,7 @@ export default async function Page({
 
         <Container innerClassName="px-6 py-14 md:px-10 md:py-20">
           <div className="mb-8 max-w-2xl md:mb-10">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
               02 / {t("assets")}
             </p>
             <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t("standaloneTitle")}</h2>
@@ -143,7 +137,7 @@ export default async function Page({
 
         <Container innerClassName="px-6 py-14 md:px-10 md:py-20">
           <div className="mb-8 max-w-2xl md:mb-10">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+            <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
               03 / {t("assets")}
             </p>
             <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t("wordmarkTitle")}</h2>
@@ -160,7 +154,7 @@ export default async function Page({
         <SectionGap />
 
         <Container innerClassName="grid gap-8 px-6 py-14 md:grid-cols-[1fr_2fr] md:px-10 md:py-20">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {t("usageTitle")}
           </p>
           <p className="max-w-2xl text-lg leading-8 text-foreground/80">{t("usageDescription")}</p>

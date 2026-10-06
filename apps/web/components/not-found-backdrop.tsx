@@ -114,7 +114,7 @@ export function NotFoundFigure({ caption }: { caption: string }) {
       <span className="font-bold leading-none tracking-tight text-[22vw] text-foreground lg:text-[13rem]">
         404
       </span>
-      <span className="mt-6 font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
+      <span className="mt-6 font-label text-xs uppercase tracking-[0.4em] text-muted-foreground">
         {caption}
       </span>
     </div>
@@ -156,7 +156,7 @@ export function NotFoundHint({ water, blackHole }: { water: string; blackHole: s
   if (mode === "still") return null
 
   return (
-    <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+    <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
       {mode === "blackHole" ? blackHole : water}
     </p>
   )
