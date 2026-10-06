@@ -1,8 +1,13 @@
 # DevDay Lima · attendee entry details
 
-Status: implemented and tested locally; **not released**. The calendar credential
-and database migration remain deployment prerequisites. No real attendee data,
-email, registration, approval or blast was created by this work.
+Status: PR #103 merged on October 6, 2026 at 22:56:23 UTC, commit
+`0543ee3e4d303e7d09570f50fbfbd8e5d0392fbf`, after the user explicitly requested
+publication while applying the SQL themselves. The calendar credential,
+database migration and real authenticated test remain activation requirements.
+No real attendee data, email, registration, approval or blast was created by
+this work. The first two production builds failed in the unrelated Google
+Noto loader; see `noto-build-recovery-2026-10-06.md` and the workspace release
+receipt for the final deployment result.
 
 ## Event and scope
 
@@ -50,7 +55,7 @@ are in the explicit download. Export rechecks Luma, excludes non-approved people
 and fails with 503 instead of exporting a partially verified list on an outage.
 CSV cells are quoted and formula-like/numeric-only values get a text prefix.
 
-## Deployment prerequisites
+## Activation requirements
 
 1. Configure **`LUMA_CODEX_API_KEY`** on `crafter-station/crafter-run` for Preview
    and Production, with access to the Codex Community calendar/event. There is
@@ -65,8 +70,9 @@ CSV cells are quoted and formula-like/numeric-only values get a text prefix.
 3. Verify a designated approved account can save, reload, edit and appear in the
    organizer CSV; verify a non-approved account cannot submit. Use explicit test
    accounts/data and remove them through an authorized test procedure.
-4. Merge only after prerequisites and preview checks are satisfied; then verify
-   the production routes and original poster.
+4. Verify the final production deployment, public routes and original poster.
+   The user's later request to merge while they apply SQL supersedes the
+   original plan to wait for these integrations before merging.
 
 No database credential is available in this local checkout. Vercel correctly
 returns `[SENSITIVE]` placeholders for restricted secrets; these were not used
