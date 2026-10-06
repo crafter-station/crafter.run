@@ -13,6 +13,9 @@ struct Composite {
 
 const EXPOSURE: f32 = 1.15;
 const SATURATION: f32 = 0.0;
+// Station cream (#f8e9a4), applied to the grayscale image so blacks stay black.
+const STATION_TINT: vec3f = vec3f(0.973, 0.914, 0.643);
+const TINT_AMOUNT: f32 = 0.75;
 
 fn aces(x: vec3f) -> vec3f {
   let a = 2.51;
@@ -32,7 +35,8 @@ fn tonemap(linearColor: vec3f, uv: vec2f) -> vec3f {
 
   color = pow(color, vec3f(1.0 / 2.2));
   let luma = dot(color, vec3f(0.2126, 0.7152, 0.0722));
-  return mix(vec3f(luma), color, SATURATION);
+  let graded = mix(vec3f(luma), color, SATURATION);
+  return graded * mix(vec3f(1.0), STATION_TINT, TINT_AMOUNT);
 }
 
 @fragment fn fs_main(@location(0) uv: vec2f) -> @location(0) vec4f {
