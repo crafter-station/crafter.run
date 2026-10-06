@@ -13,7 +13,7 @@ import { JsonLd } from "@/components/json-ld"
 import { getIndexPosts, getPost, getSlugs, postLanguageAlternates, postLocales } from "@/lib/blog"
 import { blogFeedPath, blogPath, blogPostMarkdownPath } from "@/lib/blog-paths"
 import { isLocale, type Locale } from "@/lib/i18n"
-import { absoluteUrl, baseUrl, localizedUrl, ogImageUrl } from "@/lib/seo"
+import { absoluteUrl, baseUrl, localizedUrl, ogImageUrl, serpDescription } from "@/lib/seo"
 import { siteConfig } from "@/lib/site"
 import { blogPostingSchema, breadcrumbList, sourceVideos, videoObjectSchema } from "@/lib/structured-data"
 
@@ -49,7 +49,7 @@ export async function generateMetadata({
   return {
     metadataBase: new URL(baseUrl),
     title,
-    description: post.summary,
+    description: serpDescription(post.summary),
     authors: authors.map((name) => ({ name })),
     alternates: {
       canonical: url,

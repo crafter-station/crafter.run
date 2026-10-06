@@ -13,7 +13,7 @@ import { createRelativeLink } from "fumadocs-ui/mdx"
 import { source } from "@/lib/source"
 import { getMDXComponents } from "@/components/mdx"
 import { JsonLd } from "@/components/json-ld"
-import { baseUrl, languageAlternates, localizedUrl, ogImageUrl } from "@/lib/seo"
+import { baseUrl, languageAlternates, localizedUrl, ogImageUrl, serpDescription } from "@/lib/seo"
 import { isLocale, defaultLocale } from "@/lib/i18n"
 import { organizationRef, softwareApplicationSchema } from "@/lib/structured-data"
 
@@ -125,7 +125,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return {
     metadataBase: new URL(baseUrl),
     title: page.data.title,
-    description: page.data.description,
+    description: page.data.description && serpDescription(page.data.description),
     alternates: {
       canonical: localizedUrl(metaPath, locale),
       languages: languageAlternates(metaPath),

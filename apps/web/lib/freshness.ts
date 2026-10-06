@@ -4,7 +4,7 @@
 // IndexNow only announces URLs whose lastmod is recent.
 
 /** Site pages (landing, team, projects, ...). */
-export const CONTENT_UPDATED = "2026-08-03"
+export const CONTENT_UPDATED = "2026-10-06"
 
 /** Standalone hackathon portfolio. */
 export const HACKATHONS_UPDATED = "2026-09-04"

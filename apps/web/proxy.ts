@@ -2,7 +2,7 @@ import { clerkMiddleware } from "@clerk/nextjs/server"
 import { NextResponse, type NextRequest } from "next/server"
 
 import { BLOG_POST_PATH, blogPostMarkdownRoute } from "@/lib/blog-paths"
-import { defaultLocale, isLocale, LOCALE_HEADER } from "@/lib/i18n"
+import { defaultLocale, isLocale, LOCALE_HEADER, locales, type Locale } from "@/lib/i18n"
 
 /**
  * True when a client asked for markdown and did not also ask for HTML. A
@@ -13,6 +13,20 @@ import { defaultLocale, isLocale, LOCALE_HEADER } from "@/lib/i18n"
 function wantsMarkdown(request: NextRequest) {
   const accept = request.headers.get("accept") ?? ""
   return accept.includes("text/markdown") && !accept.includes("text/html")
+}
+
+/** The first supported language in Accept-Language, by q-weight, else English. */
+function preferredLocale(request: NextRequest): Locale {
+  const ranked = (request.headers.get("accept-language") ?? "")
+    .split(",")
+    .map((part) => {
+      const [tag, ...params] = part.trim().toLowerCase().split(";")
+      const q = params.find((p) => p.trim().startsWith("q="))
+      return { lang: tag!.split("-")[0]!, q: q ? Number(q.trim().slice(2)) : 1 }
+    })
+    .filter(({ q }) => q > 0)
+    .sort((a, b) => b.q - a.q)
+  return (ranked.find(({ lang }) => (locales as readonly string[]).includes(lang))?.lang as Locale) ?? defaultLocale
 }
 
 export const proxy = clerkMiddleware((_auth, request: NextRequest) => {
@@ -46,9 +60,12 @@ export const proxy = clerkMiddleware((_auth, request: NextRequest) => {
   }
 
   const url = request.nextUrl.clone()
-  url.pathname = pathname === "/" ? `/${defaultLocale}` : `/${defaultLocale}${pathname}`
+  const locale = preferredLocale(request)
+  url.pathname = pathname === "/" ? `/${locale}` : `/${locale}${pathname}`
 
-  return NextResponse.redirect(url)
+  const response = NextResponse.redirect(url)
+  response.headers.set("Vary", "Accept-Language")
+  return response
 })
 
 export const config = {

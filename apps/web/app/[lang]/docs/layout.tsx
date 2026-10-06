@@ -70,7 +70,7 @@ const { provider } = defineI18nUI(docsI18n, {
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | Crafter Station Docs",
+    template: "%s | Crafter Station",
     default: "Crafter Station Docs",
   },
 }
