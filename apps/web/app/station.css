@@ -327,3 +327,46 @@ button[data-state="open"] > .station-control-chevron { transform: rotate(180deg)
 
 .station-shell :is(input, select, textarea, button, a, summary):focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
 .station-shell .station-event-stamp:focus-visible { outline-color: currentColor; outline-offset: -4px; }
+.hot-reload-theme { flex: 1; }
+.hot-reload-intro { padding: 48px 0; }
+.hot-reload-hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 48px; align-items: center; margin-top: 20px; }
+.hot-reload-intro h1 { font-size: clamp(40px, 4.4vw, 64px); }
+.hot-reload-collab { display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; }
+.hot-reload-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 20px; font-weight: 600; }
+.hot-reload-meta > span { white-space: nowrap; }
+.hot-reload-meta > span + span::before { content: "·"; margin-right: 14px; color: hsl(var(--muted-foreground)); }
+.hot-reload-flyer { width: 100%; max-width: 380px; justify-self: end; border-radius: 3px; transform: rotate(1.5deg); box-shadow: 0 18px 40px #0000002e; }
+.hot-reload-crumbs { display: flex; flex-wrap: wrap; gap: 8px; color: hsl(var(--muted-foreground)); }
+.hot-reload-crumbs a:hover { color: hsl(var(--foreground)); text-decoration: underline; text-underline-offset: 4px; }
+.hot-reload-body { padding: 0 0 56px; }
+.hot-reload-posts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 20px; }
+.hot-reload-posts > a { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1px solid hsl(var(--line)); border-radius: 3px; transition: background-color 180ms; }
+.hot-reload-posts > a:hover { background: hsl(var(--muted)); }
+.hot-reload-list { border-top: 1px solid hsl(var(--line)); }
+.hot-reload-list > a { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 16px 0; border-bottom: 1px solid hsl(var(--line)); }
+.hot-reload-list > a:hover h3 { text-decoration: underline; text-underline-offset: 5px; }
+.hot-reload-list img { width: 72px; height: 72px; border-radius: 3px; }
+.hot-reload-tag { padding: 4px 10px; background: #f8e9a4; color: #20221d; }
+@media (max-width: 1023px) { .hot-reload-hero { grid-template-columns: 1fr; gap: 32px; } .hot-reload-flyer { justify-self: start; max-width: 340px; } }
+@media (max-width: 640px) { .hot-reload-intro { padding: 28px 0 36px; } .hot-reload-body { padding: 0 0 48px; } .hot-reload-posts { grid-template-columns: 1fr; } .hot-reload-list > a { grid-template-columns: 56px minmax(0, 1fr); gap: 16px; } .hot-reload-list img { width: 56px; height: 56px; } .hot-reload-list > a > :last-child { grid-column: 2; justify-self: start; } }
+/* Sidebar: "Más" reads as one more nav item, preferences share a row as icons. */
+.station-more-trigger { margin-top: 0; padding: 9px 0; }
+.station-sidebar .station-more-trigger { min-height: 38px; }
+.station-more-trigger:hover > span { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
+.station-preferences { flex-direction: row; gap: 4px; }
+.station-preferences .station-control { width: auto; margin-left: -8px; }
+.station-preferences .station-control + .station-control { margin-left: 0; }
+.station-preferences .station-control-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* A lighter event ticket. */
+.station-event-stamp { width: min(100%, 112px); padding: 8px 8px 0; --ticket-stub: 32px; transform: rotate(-2deg); }
+.station-event-stamp[data-pending] { --ticket-stub: 50px; }
+.station-event-kicker { font-size: 13px; padding-bottom: 5px; }
+.station-event-day { font-size: 46px; }
+.station-event-month { font-size: 15px; }
+.station-event-month[data-wide] { font-size: 14px; }
+.station-event-weekday, .station-event-title, .station-event-link { font-size: 13px; }
+.station-event-soon { font-size: 21px; min-height: 80px; }
+.station-more-trigger { justify-content: flex-start; gap: 6px; width: auto; }
+.hot-reload-meta > span:first-child { flex-basis: 100%; }
+.hot-reload-meta > span:nth-child(2)::before { content: none; }
+@media (max-width: 640px) { .hot-reload-meta { flex-direction: column; } .hot-reload-meta > span + span::before { content: none; } }

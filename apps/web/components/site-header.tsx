@@ -30,7 +30,7 @@ function MoreNavigation({ locale, onNavigate }: { locale: Locale; onNavigate: ()
     <DropdownMenu open={expanded} onOpenChange={setExpanded}>
       <DropdownMenuTrigger asChild>
         <button type="button" className="station-more-trigger" aria-label={`${s.moreMenu}: ${s.more}`}>
-          <span>{s.moreMenu}</span><ChevronDown size={14} aria-hidden="true" />
+          <span className="station-nav-name">{s.moreMenu}</span><ChevronDown size={14} aria-hidden="true" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="station-more-menu" side="bottom" align="start" sideOffset={6} collisionPadding={12}>

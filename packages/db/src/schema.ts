@@ -395,3 +395,24 @@ export const bountySubmissions = pgTable(
     check("bounty_submissions_post_url_check", sql`${table.postUrl} ~ '^https://'`),
   ],
 )
+
+export const eventOrders = pgTable(
+  "event_orders",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    eventSlug: text("event_slug").notNull(),
+    clerkUserId: text("clerk_user_id").notNull(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    drinkId: text("drink_id").notNull(),
+    foodId: text("food_id").notNull(),
+    total: integer("total").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("event_orders_event_user_idx").on(table.eventSlug, table.clerkUserId),
+    check("event_orders_name_check", sql`char_length(trim(${table.name})) between 2 and 80`),
+    check("event_orders_total_check", sql`${table.total} between 1 and 100`),
+  ],
+)
