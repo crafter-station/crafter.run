@@ -7,7 +7,6 @@ import { notFound, redirect } from "next/navigation"
 
 import { BountySubmissionForm } from "@/components/bounty-submission-form"
 import { Container } from "@/components/grid-container"
-import { SiteHeader } from "@/components/site-header"
 import { bountyQuestionsForumUrl, getBounty, isBountyOpen } from "@/lib/bounties"
 import { getDb } from "@/lib/db"
 import { isLocale } from "@/lib/i18n"
@@ -56,11 +55,9 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
   const discordInviteUrl = socials.find((social) => social.label === "Discord")!.href
 
   return (
-    <>
-      <SiteHeader locale={lang} />
       <main className="flex-1">
         <Container innerClassName="mx-auto max-w-2xl px-6 py-16 md:py-24">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-accent">Bounty #{bounty.slug}</p>
+          <p className="font-mono text-[14px] uppercase tracking-[0.3em] text-accent">Bounty #{bounty.slug}</p>
           <h1 className="mt-5 text-4xl font-semibold tracking-tighter md:text-5xl">{bounty.title}</h1>
           <p className="mt-5 text-lg leading-8 text-muted-foreground">{bounty.prize}</p>
           <p className="mt-4 leading-7 text-muted-foreground">
@@ -78,7 +75,7 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
           </p>
 
           <section className="mt-10 border-t border-line pt-8">
-            <h2 className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">El reto</h2>
+            <h2 className="font-mono text-[14px] uppercase tracking-[0.2em] text-muted-foreground">El reto</h2>
             <ol className="mt-4 grid list-decimal gap-2 pl-5 leading-7">
               {bounty.steps.map((step) => <li key={step}>{step}</li>)}
             </ol>
@@ -106,7 +103,7 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
           </section>
 
           <section className="mt-10 border-t border-line pt-8 text-sm leading-6 text-muted-foreground">
-            <h2 className="font-mono text-[10px] uppercase tracking-[0.2em]">¿Dudas?</h2>
+            <h2 className="font-mono text-[14px] uppercase tracking-[0.2em]">¿Dudas?</h2>
             <p className="mt-3">
               Escríbelas en el{" "}
               <a href={bountyQuestionsForumUrl} target="_blank" rel="noreferrer" className="text-foreground underline underline-offset-4">foro de preguntas del Discord</a>
@@ -116,6 +113,5 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
           </section>
         </Container>
       </main>
-    </>
   )
 }

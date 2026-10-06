@@ -34,3 +34,20 @@ no describe el entorno de Vercel.
 No crear otro proyecto de Vercel, cambiar dominios ni ejecutar migraciones
 como parte de esta publicación. El proyecto y las features de `main` ya
 están en producción.
+
+## Candidata comprobada
+
+- Los ocho commits de `main` se incorporaron sin conflictos.
+- La página de bounties ahora hereda el encabezado del layout, evitando
+  duplicarlo; sus etiquetas respetan el mínimo de 14 px del redesign.
+- `bun run build`: tres tareas correctas, 253 páginas generadas.
+- Suite completa: 96 pruebas, 0 fallos.
+- Typecheck web: solo los seis errores preexistentes de
+  `scripts/migrate-supabase-boards.ts`; sin errores nuevos de páginas o
+  componentes. El build conserva la configuración previa que omite este check.
+- El manifiesto de rutas compiladas no contiene el specimen de la fuente;
+  los archivos de distribución ya no están en `public/`.
+- Vercel confirma integración GitHub con `crafter-station/crafter.run`,
+  producción desde `main`, Root Directory `apps/web` y variables de
+  autenticación presentes en preview y producción. No se exportaron valores
+  de secretos a los informes.
