@@ -54,6 +54,14 @@
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
 
 ## Station Visual System
+- **Makeables / Bounties breathing room, October 6, 2026:** read
+  `docs/handoffs/bounties-breathing-2026-10-06.md`. Keep the open Makeables
+  composition and its custom pass/card/sticker art. Bounties uses unboxed
+  sections and vertical steps; the detail has no sticky reward sidebar.
+  Five real speaker portraits from the official UTEC event page live in
+  `public/bounties/speakers` with source/hash provenance in `docs/bounties`.
+  Their muted treatment is CSS-only. Preserve bounty rules, the closed
+  deadline, original poster, approved team portraits and runtime fonts.
 - **Bounties editorial, October 6, 2026:** read
   `docs/handoffs/bounties-editorial-2026-10-06.md`. `/[lang]/bounties` is the
   localized challenge board; details share its paper, honey and terracotta

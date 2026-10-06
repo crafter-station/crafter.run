@@ -7,7 +7,7 @@ export type Bounty = {
   rewardCount: number
   eventStartsAt: string
   image?: string
-  speakers: Array<{ name: string; detail: string; url: string }>
+  speakers: Array<{ name: string; detail: string; image: string; url: string }>
   speakersNote: string
   steps: string[]
   rewards: string[]
@@ -24,12 +24,12 @@ export const bounties: Bounty[] = [
     eventStartsAt: "2026-10-17T14:00:00Z",
     image: "/bounties/bounty-1-frontier-og-v1.jpg",
     speakers: [
-      { name: "Jorge Escobedo", detail: "Head of AI, Yape", url: "https://www.linkedin.com/in/jescob/" },
-      { name: "Luis Huayaney", detail: "Head of AI, Mibanco", url: "https://www.linkedin.com/in/luishuayaney/" },
-      { name: "Adolfo Valdivieso", detail: "Turbo AI, Stanford", url: "https://www.linkedin.com/in/adolfovaldivieso/" },
-      { name: "Arturo Deza", detail: "Artificio, MIT & Harvard", url: "https://x.com/ArtDeza" },
+      { name: "Jorge Escobedo", image: "/bounties/speakers/jorge-escobedo.webp", detail: "Head of AI, Yape", url: "https://www.linkedin.com/in/jescob/" },
+      { name: "Luis Huayaney", image: "/bounties/speakers/luis-huayaney.webp", detail: "Head of AI, Mibanco", url: "https://www.linkedin.com/in/luishuayaney/" },
+      { name: "Adolfo Valdivieso", image: "/bounties/speakers/adolfo-valdivieso.webp", detail: "Turbo AI, Stanford", url: "https://www.linkedin.com/in/adolfovaldivieso/" },
+      { name: "Arturo Deza", image: "/bounties/speakers/arturo-deza.webp", detail: "Artificio, MIT & Harvard", url: "https://x.com/ArtDeza" },
       {
-        name: "Ignacio Velásquez",
+        name: "Ignacio Velásquez", image: "/bounties/speakers/ignacio-velasquez.webp",
         detail: "Crafter Station",
         url: "https://www.linkedin.com/in/ignacio-vel%C3%A1squez-franco-3a5765204/",
       },
