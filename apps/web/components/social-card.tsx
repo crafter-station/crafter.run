@@ -17,6 +17,7 @@ export function SocialCard({ data, assets }: { data: SocialCardData; assets: Ass
   const p = socialPalettes[data.kind]
   const home = data.kind === "home"
   const profile = Boolean(data.portrait)
+  const eventPoster = data.kind === "hot-reload"
   const cjk = data.locale === "zh" || data.locale === "ja"
   const title = socialText(data.title, cjk ? 100 : 170)
   const titleSize = home ? 94 : profile ? (title.length > 25 ? 62 : 76)
@@ -70,9 +71,9 @@ export function SocialCard({ data, assets }: { data: SocialCardData; assets: Ass
             <img src={image} alt="" width={169} height={178} style={{ objectFit: "contain", objectPosition: "bottom" }} />
           </div>)}
         </div> : assets.poster ? <div style={{ display: "flex", width: 390, height: 350, position: "relative", alignItems: "center" }}>
-          <div style={{ position: "absolute", width: 355, height: 250, left: 10, top: 65,
+          <div style={{ position: "absolute", width: eventPoster ? 310 : 355, height: eventPoster ? 310 : 250, left: 10, top: eventPoster ? 20 : 65,
             borderRadius: 15, background: p.accent, opacity: .35, transform: "rotate(8deg)" }} />
-          <img src={assets.poster} alt="" width={390} height={240} style={{ objectFit: "contain", borderRadius: 12, transform: "rotate(-5deg)" }} />
+          <img src={assets.poster} alt="" width={eventPoster ? 340 : 390} height={eventPoster ? 340 : 240} style={{ objectFit: "contain", borderRadius: 12, transform: "rotate(-5deg)" }} />
           {data.kind === "bounties" && <img src={assets.art} alt="" width={175} height={130} style={{ position: "absolute", right: -5, bottom: -2 }} />}
         </div> : <img src={assets.art} alt="" width={415} height={350} style={{ objectFit: "contain" }} />}
       </div>

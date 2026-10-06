@@ -10,11 +10,13 @@ import { BountyArtwork } from "../components/bounty-artwork"
 import { JournalArtwork } from "../components/blog/artwork"
 import { OpenSourceAssembly, OssProjectArt } from "../components/oss-art"
 import { StationPageArt, type PageArtwork } from "../components/station-page-art"
+import { CoffeeArt } from "../components/station-sections"
 
 const destination = join(import.meta.dir, "../public/og/art")
 const drawings: Array<[string, React.ReactElement, string]> = [
   ["oss", <OpenSourceAssembly />, "#294135"],
   ["bounties", <BountyArtwork />, "#76532c"],
+  ["hot-reload", <CoffeeArt />, "#566044"],
   ["petdex", <OssProjectArt name="petdex" />, "#324b3e"],
   ...(["people", "conversation", "research", "workshop", "ships", "brand", "events"] as PageArtwork[])
     .map((kind): [string, React.ReactElement, string] => [kind, <StationPageArt kind={kind} />, "#4b5543"]),

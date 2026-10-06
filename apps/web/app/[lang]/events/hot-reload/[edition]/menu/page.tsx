@@ -11,12 +11,15 @@ import { getDb } from "@/lib/db"
 import { getEventGuest } from "@/lib/event-guest"
 import { eventMenu } from "@/lib/event-menu"
 import { findEdition } from "@/lib/hot-reload"
+import { hotReloadMetadata } from "@/lib/hot-reload-seo"
 import { isLocale } from "@/lib/i18n"
 
-export const metadata = {
-  title: "Hot Reload: elige tu pedido",
-  description: `Elige una bebida y una comida de ${eventMenu.venue} para el Hot Reload.`,
-  robots: { index: false },
+export async function generateMetadata({ params }: { params: Promise<{ lang: string; edition: string }> }) {
+  const { lang, edition: number } = await params
+  const edition = findEdition(number)
+  return isLocale(lang) && edition?.menu && edition.lumaEventId
+    ? hotReloadMetadata(lang, edition, true)
+    : { robots: { index: false } }
 }
 
 async function getExistingOrder(clerkUserId: string): Promise<ExistingOrder | null> {

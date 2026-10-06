@@ -24,6 +24,7 @@ export const indexablePaths = [
   "/",
   "/crafters",
   "/events",
+  "/events/hot-reload",
   "/events/sponsors",
   "/hackathons",
   "/timeline",

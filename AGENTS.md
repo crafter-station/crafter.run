@@ -54,6 +54,14 @@
 - `opencode.jsonc` defines `../crafter.com` as the legacy Crafter Station site reference; use it only when current copy/design intent is not clear from this repo.
 
 ## Station Visual System
+- **Hot Reload social previews, October 6, 2026:** read
+  `docs/handoffs/hot-reload-social-2026-10-06.md`. Index, dynamic editions
+  and menus use the shared OG system with their own metadata in five
+  locales. Adding `hotReloadEditions` entries automatically supplies
+  edition metadata, OG data and sitemap entries; menus stay `noindex`.
+  Use public catalog fields only, never guest/order data in previews.
+  The original AVIF remains intact; its compatible `socialPoster` PNG
+  avoids unsupported codecs. Keep `public/events` in `/og` tracing.
 - **Social previews, October 6, 2026:** read
   `docs/handoffs/social-previews-2026-10-06.md`. `/og` renders the editorial
   paper/pastel family with Crafter Display/Text, section artwork and canonical

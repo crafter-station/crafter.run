@@ -3,6 +3,8 @@ import { getAuthor, getPost } from "@/lib/blog"
 import { bountyContent, bountyCopy, bountyDate } from "@/lib/bounty-copy"
 import { getBounty, isBountyOpen } from "@/lib/bounties"
 import { bucleCopy } from "@/lib/bucle-copy"
+import { findEdition } from "@/lib/hot-reload"
+import { hotReloadPreview } from "@/lib/hot-reload-seo"
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n"
 import { socialKind, socialLabels, socialText, type SocialKind } from "@/lib/og"
 import { getCrafterProfile, getPublishedShip } from "@/lib/ships"
@@ -27,7 +29,7 @@ export type SocialCardData = {
 
 const artByKind: Record<SocialKind, string> = {
   home: "brand", oss: "oss", universe: "research", journal: "journal-signal",
-  events: "events", bounties: "bounties", team: "people", people: "people",
+  events: "events", "hot-reload": "hot-reload", bounties: "bounties", team: "people", people: "people",
   ships: "ships", docs: "workshop", contact: "conversation", brand: "brand", metrics: "oss",
 }
 
@@ -60,6 +62,16 @@ export async function resolveSocialCard(params: URLSearchParams): Promise<Social
   }
   if (path === "/team") data.portraits = featuredTeamMembers.map(member => member.image)
   if (path === "/impact/petdex") data.art = "petdex"
+  if (kind === "hot-reload") {
+    if (path === "/events/hot-reload") return { ...data, ...hotReloadPreview(locale) }
+    const match = /^\/events\/hot-reload\/([^/]+)(\/menu)?$/.exec(path)
+    const edition = match ? findEdition(match[1]) : undefined
+    const menu = Boolean(match?.[2])
+    if (!edition || (menu && (!edition.menu || !edition.lumaEventId))) {
+      return { ...data, ...hotReloadPreview(locale), unavailable: true }
+    }
+    return { ...data, ...hotReloadPreview(locale, edition, menu) }
+  }
   const [section, id, extra] = path.split("/").filter(Boolean)
   if (!id || extra) return data
   if (section === "team") {

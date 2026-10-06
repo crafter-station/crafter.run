@@ -4,11 +4,12 @@ import { notFound } from "next/navigation"
 import { HotReloadHero } from "@/components/hot-reload-hero"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { hotReloadEditions } from "@/lib/hot-reload"
+import { hotReloadMetadata } from "@/lib/hot-reload-seo"
 import { isLocale, withLocale } from "@/lib/i18n"
 
-export const metadata = {
-  title: "Hot Reload",
-  description: "Café, código y comunidad. Todas las ediciones de Hot Reload de Crafter Station.",
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params
+  return isLocale(lang) ? hotReloadMetadata(lang) : {}
 }
 
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
