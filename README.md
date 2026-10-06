@@ -1,210 +1,41 @@
 ![Crafter Station](https://crafter.run/og?v=station-20261006&lang=en&path=%2F&title=Craft.+Ship.+Repeat.&description=A+community+turning+curiosity+into+projects.)
 
-<p align="center">
-	<h1 align="center"><b>Crafter Station</b></h1>
-<p align="center">
-    Craft. Ship. Repeat.
-    <br />
-    A community turning curiosity into projects.
-    <br />
-    <br />
-    <a href="https://crafter.run">Website</a>
-    ·
-    <a href="https://crafter.run/en/oss">Open source</a>
-    ·
-    <a href="https://crafter.run/en/events">Events</a>
-    ·
-    <a href="https://crafter.run/en/ships">Ships</a>
-    ·
-    <a href="https://crafter.run/en/docs">Docs</a>
-    ·
-    <a href="https://discord.gg/kgsjU4sD7">Discord</a>
-  </p>
-</p>
+# Crafter Station
 
-<p align="center">
-  <a href="https://www.npmjs.com/package/@crafter/cli">
-    <img src="https://img.shields.io/npm/v/%40crafter%2Fcli?style=for-the-badge&label=%40crafter%2Fcli&color=cb3837&logo=npm" alt="npm version" />
-  </a>
-</p>
+Craft. Ship. Repeat. A community turning curiosity into projects.
 
-## About Crafter Station
+Crafter is one spark with four directions:
 
-Crafter Station is the LatAm network of shippers: a community and open source ecosystem where builders meet, learn, and ship in public. This monorepo runs all of it: the website, the Ships API and directory, the published CLI, shared contracts, and the database schema.
+- **[Research](https://crafter.ing)**: open questions about AI, agents, and engineering.
+- **[Lab](https://github.com/crafter-lab)**: hardware, fabrication, and physical prototypes.
+- **[Games](https://games.crafter.run)**: worlds we build and play.
+- **[Station](https://crafter.run)**: the community, with Hot Reload meetups, Bounties, and Ships.
 
-## Features
+This repo is the Station: the website at [crafter.run](https://crafter.run), its API, and the [`@crafter/cli`](https://www.npmjs.com/package/@crafter/cli).
 
-**Open source**: The tools the community builds and maintains, with docs for every CLI.<br/>
-**Events**: Hot Reload, workshops, and hackathons, synced from the Luma calendar.<br/>
-**Crafters directory**: Public profiles for every registered member of the community, localized in five languages.<br/>
-**Ships**: A build-in-public directory. Projects go through a reviewable draft before publishing, then collect votes and changelog-style updates.<br/>
-**Crafter CLI**: A deterministic command-line client for authentication, onboarding, and draft-first shipping, published as [`@crafter/cli`](https://www.npmjs.com/package/@crafter/cli).<br/>
-**Agent skill**: The `crafter-ship` skill teaches coding agents to ship a project safely: draft first, explicit confirmation, honest provenance.<br/>
-**Open API**: A versioned Hono API with an OpenAPI document at [`api.crafter.run/openapi.json`](https://api.crafter.run/openapi.json).<br/>
+[Universe](https://crafter.run/en/universe) · [Open source](https://crafter.run/en/oss) · [Events](https://crafter.run/en/events) · [Discord](https://discord.gg/kgsjU4sD7)
 
-## Ship with your agent
+## Run it
 
-Ship a project from any repository:
+Requires [Bun](https://bun.sh). The site runs without credentials; database and auth pages need the variables in the `.env.example` files.
 
 ```bash
-npx skills add crafter-station/crafter.run --skill crafter-ship
-```
-
-## Get started
-
-Requires [Bun 1.3.14](https://bun.sh/docs/installation). The marketing site runs without credentials; database-backed pages need `DATABASE_URL` and authentication needs Clerk keys.
-
-```bash
-git clone https://github.com/crafter-station/crafter.run.git
-cd crafter.run
 bun install
-
 cp apps/web/.env.example apps/web/.env.local
 cp apps/api/.env.example apps/api/.env
-
 bun run dev
 ```
 
-The web app runs at [localhost:3000](http://localhost:3000) and the API at [localhost:3001](http://localhost:3001). Run them independently with `bun run dev:web` or `bun run dev:api`.
+Web on [localhost:3000](http://localhost:3000), API on [localhost:3001](http://localhost:3001).
 
-## Architecture
-
-- Monorepo
-- Bun
-- Turborepo
-- TypeScript
-- Next.js 16
-- React 19
-- Hono
-- Tailwind CSS 4
-- Drizzle ORM
-- Zod
-- next-intl
-
-### Hosting
-
-- Vercel (website, API, blob storage, cron)
-- Neon (PostgreSQL)
-- Clerk (authentication and CLI OAuth)
-
-### Services
-
-- OpenAI (content moderation)
-- Luma (events)
-- Portal (realtime boards)
-- GitHub Actions + Changesets (CI and npm releases)
-- thum.io (Ship screenshots)
-
-## Repository structure
-
-| Path | Purpose |
+| Path | What |
 | --- | --- |
-| [`apps/web`](apps/web) | Next.js website, localized in English, Spanish, Portuguese, Chinese, and Japanese |
-| [`apps/api`](apps/api) | Hono API for members, Ships, votes, uploads, and OAuth-backed CLI access |
-| [`packages/contracts`](packages/contracts) | Shared Zod request and response schemas |
-| [`packages/db`](packages/db) | Drizzle schema and PostgreSQL migration history |
-| [`packages/cli`](packages/cli) | Published `crafter` command-line client |
-| [`skills/crafter-ship`](skills/crafter-ship) | Agent workflow for creating reviewable Ship drafts |
-
-## Development
-
-<details>
-<summary><b>Environment variables</b></summary>
-
-Start with the checked-in example files: [`apps/web/.env.example`](apps/web/.env.example) and [`apps/api/.env.example`](apps/api/.env.example).
-
-| Variable | Used by | Purpose |
-| --- | --- | --- |
-| `DATABASE_URL` | Web, API, DB | PostgreSQL connection for boards, members, and Ships |
-| `API_URL` | Web server | Server-side API origin; defaults to `http://localhost:3001` in development |
-| `NEXT_PUBLIC_API_URL` | Web browser | Browser-facing API origin |
-| `CLERK_SECRET_KEY` | Web, API | Clerk server authentication |
-| `CLERK_WEBHOOK_SIGNING_SECRET` | Web | Verifies Clerk `user.updated` webhooks at `/api/webhooks/clerk` |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Web | Clerk browser authentication |
-| `CLERK_PUBLISHABLE_KEY` | API | Clerk token verification |
-| `WEB_ORIGINS` | API | Comma-separated browser origins allowed by CORS |
-| `CRAFTER_OAUTH_CLIENT_ID` | API | OAuth client whose tokens the API accepts. It does not configure the CLI; the public CLI always uses Crafter's production OAuth application. |
-| `OPENAI_API_KEY` | Web, API | Optional AI spam moderation |
-| `GITHUB_TOKEN` | Web | Optional higher-rate GitHub data fetching |
-| `LUMA_API_KEY` | Web | Optional event data from Luma |
-| `NEXT_PUBLIC_PORTAL_KEY` / `PORTAL_SECRET` | Web | Optional board realtime updates and invalidation |
-| `CRON_SECRET` | Web | Protects cron and indexing routes |
-
-Configure a Clerk webhook endpoint at `https://crafter.run/api/webhooks/clerk`, subscribe it to `user.updated`, and set its signing secret as `CLERK_WEBHOOK_SIGNING_SECRET` on the web project.
-
-Do not commit populated environment files or credentials.
-
-</details>
-
-<details>
-<summary><b>Database</b></summary>
-
-The schema and the single migration history live in `packages/db`. After setting `DATABASE_URL`, apply existing migrations with:
-
-```bash
-bun run db:migrate
-```
-
-After changing [`packages/db/src/schema.ts`](packages/db/src/schema.ts), generate a migration with:
-
-```bash
-bun run db:generate
-```
-
-Review generated SQL before applying or committing it.
-
-</details>
-
-<details>
-<summary><b>Useful commands</b></summary>
-
-| Command | Description |
-| --- | --- |
-| `bun run dev` | Run the web and API development servers |
-| `bun run dev:web` | Run only the web app |
-| `bun run dev:api` | Run only the API |
-| `bun run build` | Run the production build through Turbo |
-| `bun test apps/api` | Run API tests |
-| `bun test packages/cli` | Run CLI tests |
-| `bun run cli -- <command>` | Run the CLI directly from source |
-| `bun run db:generate` | Generate a Drizzle migration |
-| `bun run db:migrate` | Apply pending database migrations |
-
-</details>
-
-## Crafter CLI
-
-The CLI keeps humans in control: profiles and Ships are drafted, shown, and only submitted after explicit confirmation.
-
-```bash
-npm install --global @crafter/cli@latest
-
-crafter login
-crafter whoami
-crafter handle <handle>
-crafter onboard --file profile.json --confirm
-crafter ship
-crafter publish <draft-id> --revision <updated-at> --confirm
-```
-
-See [`packages/cli/README.md`](packages/cli/README.md) for the complete workflow.
+| `apps/web` | Next.js site |
+| `apps/api` | Hono API |
+| `packages/db` | Drizzle schema and migrations |
+| `packages/contracts` | Shared Zod schemas |
+| `packages/cli` | `crafter` CLI |
 
 ## Contributing
 
-Keep changes focused and place code at the narrowest appropriate layer:
-
-- Public pages and components belong in `apps/web`.
-- API behavior belongs in `apps/api`.
-- Cross-app validation contracts belong in `packages/contracts`.
-- Schema and migrations belong in `packages/db`.
-- User-facing copy should stay aligned across the five locale files in `apps/web/messages`.
-
-Before opening a pull request, run the relevant tests and the production build:
-
-```bash
-bun test apps/api
-bun test packages/cli
-bun run build
-```
-
-Pull requests are squash-merged. Found a bug or have an idea? [Open an issue](https://github.com/crafter-station/crafter.run/issues).
+Run `bun test apps/api`, `bun test packages/cli`, and `bun run build` before opening a PR. Found a bug? [Open an issue](https://github.com/crafter-station/crafter.run/issues).
