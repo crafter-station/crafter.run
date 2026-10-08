@@ -18,7 +18,11 @@
     radial-gradient(ellipse at 94% 22%, #a7bfa51a, transparent 36%),
     hsl(var(--background));
 }
+.station-shell-font { isolation: isolate; }
 .station-shell-font .station-content { margin-inline: 0; }
+/* WebGPU contour field (components/font-field). Below the content, above the shell background. */
+.font-field { position: fixed; inset: 0; z-index: -1; width: 100vw; height: 100vh; pointer-events: none; opacity: 0; transition: opacity 900ms ease; }
+.font-field[data-ready] { opacity: 1; }
 .station-shell-font .station-header-compact .station-mobile-top {
   padding-inline: clamp(24px, 5vw, 72px);
   background: hsl(var(--background) / .94);

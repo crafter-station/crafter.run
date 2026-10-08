@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useId, useMemo, useRef, useState, type PointerEvent } from "react"
+import { useEffect, useId, useMemo, useRef, useState } from "react"
 import { loadOutlines, skeleton, type FontCut, type OutlineData } from "@/lib/font-outlines"
 
 const TRACKING = -24
@@ -21,7 +21,53 @@ export function FontWordmark({ cut, word, label, guides: guideLabels }: {
   const svg = useRef<SVGSVGElement>(null)
   const [data, setData] = useState<OutlineData | null>(null)
   const [lens, setLens] = useState<{ x: number; y: number } | null>(null)
-  const [touched, setTouched] = useState(false)
+  const [radius, setRadius] = useState(LENS)
+  const target = useRef(LENS)
+
+  // The lens follows the pointer anywhere in the first screen. Leaving it (scrolling past,
+  // or the pointer leaving the window) shrinks the lens away instead of leaving it pinned.
+  useEffect(() => {
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches
+    const DURATION = 420
+    let frame = 0
+    let current = target.current
+    // Time-based so the shrink takes the same time on 60 and 120 Hz displays.
+    const aim = (value: number) => {
+      if (target.current === value) return
+      target.current = value
+      cancelAnimationFrame(frame)
+      if (reduced) { current = value; setRadius(value); return }
+      const from = current, start = performance.now()
+      const step = (now: number) => {
+        const t = Math.min(1, (now - start) / DURATION)
+        current = from + (value - from) * (1 - (1 - t) ** 3)
+        setRadius(current)
+        if (t < 1) frame = requestAnimationFrame(step)
+      }
+      frame = requestAnimationFrame(step)
+    }
+    const onMove = (event: globalThis.PointerEvent) => {
+      const matrix = svg.current?.getScreenCTM()
+      if (!matrix) return
+      if (event.clientY + window.scrollY > window.innerHeight) return aim(0)
+      const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(matrix.inverse())
+      setLens({ x: point.x, y: point.y })
+      aim(LENS)
+    }
+    const onOut = (event: globalThis.PointerEvent) => { if (event.relatedTarget === null) aim(0) }
+    const onScroll = () => { if (window.scrollY > window.innerHeight * 0.6) aim(0) }
+    window.addEventListener("pointermove", onMove, { passive: true })
+    window.addEventListener("pointerdown", onMove, { passive: true })
+    document.addEventListener("pointerout", onOut)
+    window.addEventListener("scroll", onScroll, { passive: true })
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener("pointermove", onMove)
+      window.removeEventListener("pointerdown", onMove)
+      document.removeEventListener("pointerout", onOut)
+      window.removeEventListener("scroll", onScroll)
+    }
+  }, [])
 
   useEffect(() => {
     let live = true
@@ -57,23 +103,14 @@ export function FontWordmark({ cut, word, label, guides: guideLabels }: {
   const parked = layout.glyphs[Math.max(0, layout.glyphs.length - 3)]
   const at = lens ?? { x: parked.x + 200, y: -data.xHeight / 2 - 60 }
 
-  function move(event: PointerEvent<SVGSVGElement>) {
-    const element = svg.current
-    const matrix = element?.getScreenCTM()
-    if (!element || !matrix) return
-    const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(matrix.inverse())
-    setLens({ x: point.x, y: point.y })
-    setTouched(true)
-  }
-
   return <h1 className="font-wordmark" aria-label={label}>
-    <svg ref={svg} viewBox={viewBox} onPointerMove={move} onPointerDown={move} aria-hidden="true" data-touched={touched || undefined}>
+    <svg ref={svg} viewBox={viewBox} aria-hidden="true">
       <defs>
         <mask id={`${id}-hole`} maskUnits="userSpaceOnUse" x={-pad} y={-layout.top - 90} width={layout.width + pad * 2} height={layout.top + 210}>
           <rect x={-pad} y={-layout.top - 90} width={layout.width + pad * 2} height={layout.top + 210} fill="white" />
-          <circle cx={at.x} cy={at.y} r={LENS} fill="black" />
+          {radius > 0.5 && <circle cx={at.x} cy={at.y} r={radius} fill="black" />}
         </mask>
-        <clipPath id={`${id}-lens`}><circle cx={at.x} cy={at.y} r={LENS} /></clipPath>
+        <clipPath id={`${id}-lens`}><circle cx={at.x} cy={at.y} r={Math.max(radius, 0.01)} /></clipPath>
       </defs>
       <g className="font-wordmark-guides">
         {layout.guides.map(g => <g key={g.label}>
@@ -94,7 +131,7 @@ export function FontWordmark({ cut, word, label, guides: guideLabels }: {
           {g.shape.nodes.map(([x, y], i) => <rect key={i} className="font-wordmark-node" x={x - 8} y={y - 8} width="16" height="16" />)}
         </g>)}
       </g>
-      <circle className="font-wordmark-ring" cx={at.x} cy={at.y} r={LENS} />
+      {radius > 0.5 && <circle className="font-wordmark-ring" cx={at.x} cy={at.y} r={radius} />}
     </svg>
   </h1>
 }

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react"
 import { CrafterStationLogo } from "@/components/crafter-station-logo"
 import { FontBucle } from "@/components/font-bucle"
+import { FontField } from "@/components/font-field"
 import { FontWordmark } from "@/components/font-wordmark"
 import { bucleCopy } from "@/lib/font-bucle-copy"
 import { fontCopy } from "@/lib/font-copy"
@@ -63,6 +64,7 @@ export function FontSpecimen({ locale }: { locale: Locale }) {
   }
 
   return <main className="font-page">
+    <FontField />
     <header className="font-hero">
       <div className="font-topline">
         <p className="station-label">Crafter Sans / {t.eyebrow}</p>
