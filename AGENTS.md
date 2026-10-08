@@ -123,10 +123,12 @@
   No fabricated winners or open challenges. The root is in More and sitemap.
 - **Release authorized, October 5, 2026:** hide the contact email form for
   this launch; keep the community/collaboration links. Crafter Sans is used
-  only as site typography, not launched as a font product: `/font` is not a
-  public route or navigation/sitemap entry. Its page is preserved in the
-  private `_font-preview` folder; distribution files and outline exports
-  live in ignored `apps/web/.work/font-preview/assets`. The sync script
+  only as site typography, not launched as a font product. Superseded on
+  October 8: `/[lang]/font` is public again as a build-in-public specimen
+  (outline lens hero, Display/Text sizes, real before/after skeletons from
+  the 0.305-0.308 builds in `public/font/history`, glyph master status).
+  It offers no downloads until a license is chosen; outline JSON lives in
+  `public/font/outlines`. The sync script
   updates runtime fonts and this private destination. User authorized
   PR + merge into the existing `crafter-run` Vercel project for `crafter.run`.
   Preserve current main's bounty features and verify the resulting deployment.
