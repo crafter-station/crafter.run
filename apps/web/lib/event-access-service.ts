@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { accessOpen, findAccessEvent } from "@/lib/access-events"
+import { accessOpen, findAccessEvent, type AccessEvent } from "@/lib/access-events"
 
 const text = (max: number) => z.string().trim().min(2).max(max).refine(value => !/[\u0000-\u001f\u007f]/.test(value))
 export const accessInputSchema = z.object({
@@ -38,7 +38,7 @@ export type AccessGuest = { userId: string | null; approved: boolean; email?: st
 
 /** Dependencies are injected so auth, isolation and cutoff are testable without real PII. */
 export async function saveEventAccess(slug: string, input: unknown, services: {
-  guest: (eventId: string, calendar: "codex") => Promise<AccessGuest>
+  guest: (eventId: string, calendar: AccessEvent["lumaCalendar"]) => Promise<AccessGuest>
   save: (values: AccessValues) => Promise<boolean>
   now?: () => number
 }): Promise<AccessResult> {

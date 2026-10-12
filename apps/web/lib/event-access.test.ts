@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { accessEventDay, accessEventHours, accessEvents, accessOpen, findAccessEvent } from "./access-events"
+import { accessEventDay, accessEventHours, accessEvents, accessOpen, findAccessEvent, type AccessEvent } from "./access-events"
 import { accessCsvCell, accessInputSchema, saveEventAccess, type AccessGuest, type AccessValues } from "./event-access-service"
 import { eventAccessCopy } from "./event-access-copy"
 import { locales } from "./i18n"
@@ -16,7 +16,7 @@ function services(guest: AccessGuest = approved, now = () => before) {
   const written: AccessValues[] = []
   const lookups: string[][] = []
   return { written, lookups, now,
-    guest: async (id: string, calendar: "codex") => { lookups.push([id, calendar]); return guest },
+    guest: async (id: string, calendar: AccessEvent["lumaCalendar"]) => { lookups.push([id, calendar]); return guest },
     save: async (values: AccessValues) => { written.push(values); return true },
   }
 }
@@ -24,7 +24,7 @@ function services(guest: AccessGuest = approved, now = () => before) {
 describe("event entry access", () => {
   test("uses the published Lima event, its own calendar and a strict cutoff", () => {
     expect(event.lumaEventId).toBe("evt-nTusHgBAKNtiP3p")
-    expect(event.lumaCalendar).toBe("codex")
+    expect(event.lumaCalendar).toBe("list")
     expect(accessEventDay(event, "es")).toBe("21 de octubre de 2026")
     expect(accessEventHours(event, "es")).toBe("18:00–21:00 · Lima")
     expect(accessOpen(event, before)).toBe(true)
@@ -36,7 +36,7 @@ describe("event entry access", () => {
   test("takes user, email and event from server approval, ignores impersonation fields", async () => {
     const service = services()
     expect(await saveEventAccess(event.slug, { ...valid, clerkUserId: "another-user", email: "other@example.invalid", eventSlug: "hot-reload-1" }, service)).toEqual({ ok: true })
-    expect(service.lookups).toEqual([[event.lumaEventId, "codex"]])
+    expect(service.lookups).toEqual([[event.lumaEventId, "list"]])
     expect(service.written).toEqual([{
       eventSlug: event.slug, clerkUserId: approved.userId!, email: approved.email!,
       fullName: valid.fullName, documentType: "dni", documentNumber: "00123456",

@@ -6,7 +6,7 @@ export type AccessEvent = {
   title: string
   lumaEventId: string
   lumaUrl: string
-  lumaCalendar: "codex"
+  lumaCalendar: "codex" | "list"
   startsAt: string
   endsAt: string
   accessClosesAt: string
@@ -21,7 +21,8 @@ export const accessEvents: AccessEvent[] = [{
   title: "DevDay Exchange Community: Lima",
   lumaEventId: "evt-nTusHgBAKNtiP3p",
   lumaUrl: "https://luma.com/1iz8daqt",
-  lumaCalendar: "codex",
+  // The Codex calendar API key is not available to us; approvals come from the imported list.
+  lumaCalendar: "list",
   startsAt: "2026-10-21T23:00:00.000Z",
   endsAt: "2026-10-22T02:00:00.000Z",
   // Operational default, not a deadline supplied by the venue.

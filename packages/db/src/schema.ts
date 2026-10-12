@@ -442,3 +442,21 @@ export const eventAccess = pgTable(
     check("event_access_equipment_check", sql`jsonb_typeof(${table.equipment}) = 'array' and jsonb_array_length(${table.equipment}) <= 10`),
   ],
 )
+
+/** Guest list for events whose Luma calendar we cannot query. Rows come from a Luma export. */
+export const eventGuest = pgTable(
+  "event_guest",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    lumaEventId: text("luma_event_id").notNull(),
+    email: text("email").notNull(),
+    name: text("name"),
+    approvalStatus: text("approval_status").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("event_guest_event_email_idx").on(table.lumaEventId, table.email),
+    check("event_guest_email_check", sql`${table.email} = lower(${table.email})`),
+  ],
+)

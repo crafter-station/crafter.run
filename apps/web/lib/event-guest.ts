@@ -1,8 +1,8 @@
 import { currentUser } from "@clerk/nextjs/server"
 
-import { checkLumaGuest } from "@/lib/luma-guests"
+import { checkLumaGuest, type GuestSource } from "@/lib/luma-guests"
 
-export async function getEventGuest(lumaEventId: string, calendar: "default" | "codex" = "default") {
+export async function getEventGuest(lumaEventId: string, calendar: GuestSource = "default") {
   const user = await currentUser()
   if (!user) return { user: null, check: null }
   const emails = user.emailAddresses
