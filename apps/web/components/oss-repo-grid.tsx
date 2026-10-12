@@ -1,13 +1,13 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { type CSSProperties, useMemo, useState } from "react"
 import Link from "next/link"
-import { ChevronDown, Code2, Search, Star, Users, X } from "lucide-react"
+import { ChevronDown, Code2, Search, Star, X } from "lucide-react"
 import type { Locale } from "@/lib/i18n"
 import type { OssRepo } from "@/lib/oss"
 import { filterOssRepos } from "@/lib/oss-filter"
 import { stationCopy } from "@/lib/station-copy"
-import { OssProjectArt } from "@/components/oss-art"
+import { OssProjectArt, RepoGlyph, repoTone } from "@/components/oss-art"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 const featuredArt: Record<string, string> = {
@@ -49,18 +49,6 @@ export function OssRepoGrid({ repos, eyebrow, title, intro, starsLabel, allLabel
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button type="button" className="oss-filter-control" aria-label={filterLabel}><Users size={15} aria-hidden="true" /><span>{owner === "all" ? allLabel : owner}</span><ChevronDown size={14} aria-hidden="true" /></button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" sideOffset={8} collisionPadding={16} className="station-preference-menu oss-filter-menu">
-            <DropdownMenuLabel>{filterLabel}</DropdownMenuLabel>
-            <DropdownMenuRadioGroup value={owner} onValueChange={setOwner}>
-              <DropdownMenuRadioItem value="all">{allLabel}<span className="oss-option-count">{repos.length}</span></DropdownMenuRadioItem>
-              {owners.map(([name, count]) => <DropdownMenuRadioItem key={name} value={name}>{name}<span className="oss-option-count">{count}</span></DropdownMenuRadioItem>)}
-            </DropdownMenuRadioGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
             <button type="button" className="oss-filter-control" aria-label={t.language}><Code2 size={15} aria-hidden="true" /><span>{language === "all" ? t.allLanguages : language}</span><ChevronDown size={14} aria-hidden="true" /></button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" sideOffset={8} collisionPadding={16} className="station-preference-menu oss-filter-menu">
@@ -72,6 +60,10 @@ export function OssRepoGrid({ repos, eyebrow, title, intro, starsLabel, allLabel
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <div className="oss-chips" role="group" aria-label={filterLabel}>
+        <button type="button" aria-pressed={owner === "all"} onClick={() => setOwner("all")}>{allLabel}<span>{repos.length}</span></button>
+        {owners.map(([name, count]) => <button key={name} type="button" aria-pressed={owner === name} onClick={() => setOwner(owner === name ? "all" : name)}>{name}<span>{count}</span></button>)}
+      </div>
       <div className="oss-results">
         <p role="status" aria-live="polite" aria-atomic="true">{visible.length} / {repos.length} {t.results}</p>
         {filtered && <button type="button" onClick={reset}>{t.reset}<X size={13} aria-hidden="true" /></button>}
@@ -79,11 +71,12 @@ export function OssRepoGrid({ repos, eyebrow, title, intro, starsLabel, allLabel
       <div className={`oss-repo-grid${filtered ? " is-filtered" : ""}`}>
         {visible.map(repo => {
           const art = featuredArt[repo.repo]
+          const tone = repoTone(repo.repo)
           return (
-            <article key={repo.repo} className={`oss-repo-card${art ? ` oss-card-${art} has-art` : ""}`}>
+            <article key={repo.repo} className={`oss-repo-card${art ? ` oss-card-${art} has-art` : ""}`} style={art ? undefined : { "--oss-tone": tone.bg, "--oss-tone-ink": tone.ink } as CSSProperties}>
               <Link className="oss-repo-card-link" href={repo.url} target="_blank" rel="noopener noreferrer" aria-label={`${repoCta}: ${repo.repo}`}>
                 <div className="oss-card-top"><span>{repo.repo.split("/")[0]}</span><span className="oss-star-count"><Star size={12} aria-hidden="true" /><span>{repo.stars.toLocaleString(locale)}<span className="sr-only"> {starsLabel}</span></span></span></div>
-                {art && <div className="oss-project-art"><OssProjectArt name={art} /></div>}
+                {art ? <div className="oss-project-art"><OssProjectArt name={art} /></div> : <RepoGlyph repo={repo.repo} />}
                 <h3>{repo.name}</h3>
                 <p className="oss-card-description">{repo.description ?? descriptionPending}</p>
                 <div className="oss-card-footer">

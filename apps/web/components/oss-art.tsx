@@ -116,3 +116,51 @@ export function ContributionPath() {
     </svg>
   )
 }
+
+const glyphTones = [
+  { bg: "#dfe7cf", ink: "#3b5a3c" },
+  { bg: "#e6dfee", ink: "#5a4a6c" },
+  { bg: "#d4e3df", ink: "#33544c" },
+  { bg: "#efe4cc", ink: "#6b5330" },
+  { bg: "#e9d9d6", ink: "#6d3f3a" },
+  { bg: "#d8e0ea", ink: "#344a66" },
+]
+
+function hash(value: string) {
+  let h = 2166136261
+  for (const char of value) h = Math.imul(h ^ char.charCodeAt(0), 16777619)
+  return h >>> 0
+}
+
+export function repoTone(repo: string) {
+  return glyphTones[hash(repo) % glyphTones.length]
+}
+
+// Deterministic mirrored 5x5 pixel mark per repository, in the Crafter pixel idiom.
+export function RepoGlyph({ repo }: { repo: string }) {
+  const h = hash(repo)
+  const cells: [number, number][] = []
+  for (let y = 0; y < 5; y++) for (let x = 0; x < 3; x++) {
+    if ((h >> (y * 3 + x)) & 1) { cells.push([x, y]); if (x < 2) cells.push([4 - x, y]) }
+  }
+  if (cells.length < 6) cells.push([2, 1], [1, 2], [3, 2], [2, 3])
+  return (
+    <svg className="oss-repo-glyph" viewBox="0 0 5 5" aria-hidden="true">
+      {cells.map(([x, y]) => <rect key={`${x}-${y}`} x={x} y={y} width="1.02" height="1.02" fill="currentColor" />)}
+    </svg>
+  )
+}
+
+export function OpenStamp({ text }: { text: string }) {
+  return (
+    <svg className="oss-stamp" viewBox="0 0 200 200" aria-hidden="true">
+      <defs><path id="oss-stamp-ring" d="M100 100m-74 0a74 74 0 1 1 148 0a74 74 0 1 1-148 0" /></defs>
+      <circle cx="100" cy="100" r="96" fill="var(--oss-stamp-bg)" />
+      <circle cx="100" cy="100" r="56" fill="none" stroke="currentColor" strokeDasharray="2 5" opacity=".5" />
+      <g className="oss-stamp-ring"><text fontSize="14.5" letterSpacing="2.6" fill="currentColor"><textPath href="#oss-stamp-ring">{text}</textPath></text></g>
+      <g transform="translate(74 76) scale(5.2)" fill="currentColor">
+        {pets.flatMap((row, y) => [...row].map((pixel, x) => pixel === "1" ? <rect key={`${x}-${y}`} x={x} y={y} width="1.02" height="1.02" /> : null))}
+      </g>
+    </svg>
+  )
+}
