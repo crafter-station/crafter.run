@@ -45,6 +45,9 @@ export function HotReloadGame({ title, close }: { title: string; close: string }
       <button type="button" className="hot-reload-game-close" onClick={() => setOpen(false)}>
         {close} ✕
       </button>
+      <a className="hot-reload-game-made" href="https://github.com/crafter-games/dotframe" target="_blank" rel="noreferrer">
+        made with <strong>dotframe</strong>
+      </a>
     </div>
   )
 }
