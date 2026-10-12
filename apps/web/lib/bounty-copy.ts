@@ -15,7 +15,7 @@ export const bountyCopy = {
     rewards: "Five tickets. Two ways in.", speakers: "People you'll learn from", speakersIntro: "On the AI Frontier Conf '26 lineup.",
     eventLink: "Explore the conference", all: "All bounties", join: "Join the Discord",
     questions: "Need a hand?", questionsBody: "Ask in the bounty forum. The community is a good place to start.",
-    forum: "Ask a question", closedTitle: "That's a wrap for this one.",
+    forum: "Ask a question", winnersTitle: "Winners", winnersIntro: "Three projects built with AI over a weekend. Each one won a ticket.", invitedTitle: "Also going", invitedBody: "The two leftover tickets went to community members invited to come to Lima.", closedTitle: "That's a wrap for this one.",
     closedBody: "Submissions are closed. Thanks to everyone who built something and shared it.",
     entry: "Your entry", signInBody: "Sign in with your Crafter account to send your post.",
     signIn: "Sign in to participate", closingNote: "All deadlines are shown in Lima time (UTC−5).",
@@ -42,7 +42,7 @@ export const bountyCopy = {
     rewards: "Cinco entradas. Dos caminos.", speakers: "Gente de quien aprender", speakersIntro: "En el programa de AI Frontier Conf '26.",
     eventLink: "Conocer la conferencia", all: "Todos los bounties", join: "Únete al Discord",
     questions: "¿Una mano?", questionsBody: "Deja tu pregunta en el foro del bounty. La comunidad es un buen lugar para empezar.",
-    forum: "Hacer una pregunta", closedTitle: "Este reto ya cerró.",
+    forum: "Hacer una pregunta", winnersTitle: "Ganadores", winnersIntro: "Tres proyectos construidos con IA en un fin de semana. Cada uno ganó una entrada.", invitedTitle: "También van", invitedBody: "Las dos entradas restantes fueron para miembros de la comunidad invitados a venir a Lima.", closedTitle: "Este reto ya cerró.",
     closedBody: "Ya no recibimos envíos. Gracias a quienes construyeron algo y lo compartieron.",
     entry: "Tu participación", signInBody: "Inicia sesión con tu cuenta de Crafter para mandar tu post.",
     signIn: "Iniciar sesión para participar", closingNote: "Los horarios de cierre están en hora de Lima (UTC−5).",
@@ -69,7 +69,7 @@ export const bountyCopy = {
     rewards: "Cinco ingressos. Dois caminhos.", speakers: "Gente com quem aprender", speakersIntro: "Na programação da AI Frontier Conf '26.",
     eventLink: "Conhecer a conferência", all: "Todos os bounties", join: "Entre no Discord",
     questions: "Precisa de uma mão?", questionsBody: "Deixe sua pergunta no fórum do bounty. A comunidade é um bom lugar para começar.",
-    forum: "Fazer uma pergunta", closedTitle: "Este desafio chegou ao fim.",
+    forum: "Fazer uma pergunta", winnersTitle: "Vencedores", winnersIntro: "Três projetos construídos com IA em um fim de semana. Cada um ganhou um ingresso.", invitedTitle: "Também vão", invitedBody: "Os dois ingressos restantes foram para membros da comunidade convidados a vir a Lima.", closedTitle: "Este desafio chegou ao fim.",
     closedBody: "Os envios estão encerrados. Obrigado a quem criou algo e compartilhou.",
     entry: "Sua participação", signInBody: "Entre com sua conta Crafter para enviar seu post.",
     signIn: "Entrar para participar", closingNote: "Os prazos seguem o horário de Lima (UTC−5).",
@@ -96,7 +96,7 @@ export const bountyCopy = {
     rewards: "五张门票。两种获奖方式。", speakers: "与这些人一起学习", speakersIntro: "AI Frontier Conf '26 演讲嘉宾。",
     eventLink: "了解大会", all: "全部 bounties", join: "加入 Discord",
     questions: "需要帮助？", questionsBody: "在 bounty 论坛提问。社区是一个很好的起点。",
-    forum: "提出问题", closedTitle: "本次挑战已结束。",
+    forum: "提出问题", winnersTitle: "获奖者", winnersIntro: "三个在一个周末用 AI 构建的项目，每个都赢得了一张门票。", invitedTitle: "同样前往", invitedBody: "剩下的两张门票送给了受邀来利马的社区成员。", closedTitle: "本次挑战已结束。",
     closedBody: "提交已截止。感谢所有动手创造并分享作品的人。",
     entry: "你的作品", signInBody: "使用 Crafter 账号登录后提交帖子。",
     signIn: "登录并参与", closingNote: "截止时间均为利马时间（UTC−5）。",
@@ -123,7 +123,7 @@ export const bountyCopy = {
     rewards: "5枚のチケット。2つのチャンス。", speakers: "学びを届ける人たち", speakersIntro: "AI Frontier Conf '26 の登壇者。",
     eventLink: "カンファレンスを見る", all: "すべての bounties", join: "Discord に参加",
     questions: "手助けが必要？", questionsBody: "Bounty フォーラムで質問しよう。コミュニティが出発点になります。",
-    forum: "質問する", closedTitle: "今回の挑戦は終了しました。",
+    forum: "質問する", winnersTitle: "受賞者", winnersIntro: "週末に AI で作られた 3 つのプロジェクト。それぞれがチケットを獲得しました。", invitedTitle: "こちらも参加", invitedBody: "残りの 2 枚は、リマに招待したコミュニティメンバーに贈られました。", closedTitle: "今回の挑戦は終了しました。",
     closedBody: "応募は締め切りました。つくって、共有してくれた皆さんに感謝します。",
     entry: "あなたの応募", signInBody: "Crafter アカウントでログインして投稿を送信。",
     signIn: "ログインして参加", closingNote: "締め切りはすべてリマ時間（UTC−5）です。",
@@ -139,11 +139,12 @@ export const bountyCopy = {
   },
 } as const
 
-type Content = Pick<Bounty, "title" | "speakersNote" | "steps" | "rewards"> & { summary: string }
+type Content = Pick<Bounty, "title" | "speakersNote" | "steps" | "rewards"> & { summary: string; winnerDetails?: string[] }
 const frontierContent: Record<Locale, Content> = {
   es: {
     title: "5 entradas gratis para AI Frontier Conf '26",
     summary: "Construye con IA, muestra lo que hiciste y lleva tu curiosidad a la conferencia.",
+    winnerDetails: ["Un editor de pixel art open source donde Claude dibuja y anima solo.", "Finanzas personales que se registran solas desde tus correos del BCP y Yape.", "Verifica afirmaciones en tiempo real mientras alguien habla."],
     speakersNote: "Ignacio monta agentes autónomos en vivo en el Builder Track.",
     steps: ["Este finde construye algo con IA.", "Hazle un video con Opus 5.5.", "Postéalo en X, LinkedIn o IG etiquetando a @RaillyHugo y @crafterstation, con el link del evento.", "Manda el link de tu post aquí antes del lunes 5 de octubre a las 4 p. m. (hora Perú)."],
     rewards: ["3 entradas para los mejores posts.", "2 entradas sorteadas entre todos los que participen."],
@@ -151,6 +152,7 @@ const frontierContent: Record<Locale, Content> = {
   en: {
     title: "5 free tickets to AI Frontier Conf '26",
     summary: "Build with AI, show what you made, and take your curiosity to the conference.",
+    winnerDetails: ["An open-source pixel art editor where Claude draws and animates on its own.", "Personal finance that logs itself from your BCP and Yape emails.", "Checks claims in real time while someone is speaking."],
     speakersNote: "Ignacio builds autonomous agents live in the Builder Track.",
     steps: ["Build something with AI over the weekend.", "Make a video about it with Opus 5.5.", "Post it on X, LinkedIn, or Instagram, tagging @RaillyHugo and @crafterstation and including the event link.", "Send your post link here before Monday, October 5 at 4 p.m. (Peru time)."],
     rewards: ["3 tickets for the best posts.", "2 tickets drawn among all participants."],
@@ -158,6 +160,7 @@ const frontierContent: Record<Locale, Content> = {
   pt: {
     title: "5 ingressos grátis para a AI Frontier Conf '26",
     summary: "Crie com IA, mostre seu trabalho e leve sua curiosidade para a conferência.",
+    winnerDetails: ["Um editor de pixel art open source onde o Claude desenha e anima sozinho.", "Finanças pessoais que se registram sozinhas a partir dos seus e-mails do BCP e do Yape.", "Verifica afirmações em tempo real enquanto alguém fala."],
     speakersNote: "Ignacio cria agentes autônomos ao vivo no Builder Track.",
     steps: ["Crie algo com IA neste fim de semana.", "Faça um vídeo sobre isso com Opus 5.5.", "Publique no X, LinkedIn ou Instagram, marcando @RaillyHugo e @crafterstation e incluindo o link do evento.", "Envie o link do post aqui antes de segunda-feira, 5 de outubro, às 16h (horário do Peru)."],
     rewards: ["3 ingressos para os melhores posts.", "2 ingressos sorteados entre todos os participantes."],
@@ -165,6 +168,7 @@ const frontierContent: Record<Locale, Content> = {
   zh: {
     title: "5 张 AI Frontier Conf '26 免费门票",
     summary: "用 AI 创造作品，展示你的成果，带着好奇心走进大会。",
+    winnerDetails: ["开源像素画编辑器，Claude 会自己绘制和制作动画。", "根据你的 BCP 和 Yape 邮件自动记账的个人理财工具。", "在有人讲话时实时核查其说法。"],
     speakersNote: "Ignacio 将在 Builder Track 现场构建自主智能体。",
     steps: ["在周末用 AI 创造一个作品。", "用 Opus 5.5 为它制作一个视频。", "发布到 X、LinkedIn 或 Instagram，标记 @RaillyHugo 和 @crafterstation，并附上活动链接。", "在 10 月 5 日星期一下午 4 点（秘鲁时间）前，在这里提交帖子链接。"],
     rewards: ["3 张门票颁给最佳帖子。", "2 张门票从所有参与者中抽取。"],
@@ -172,6 +176,7 @@ const frontierContent: Record<Locale, Content> = {
   ja: {
     title: "AI Frontier Conf '26 の無料チケット5枚",
     summary: "AI でつくり、成果を見せて、好奇心をカンファレンスへ持っていこう。",
+    winnerDetails: ["Claude が自分で描いてアニメーションするオープンソースのピクセルアートエディタ。", "BCP と Yape のメールから自動で記録される家計管理。", "誰かが話している間に、その主張をリアルタイムで検証します。"],
     speakersNote: "Ignacio が Builder Track で自律エージェントをライブで構築します。",
     steps: ["週末に AI を使って何かをつくる。", "Opus 5.5 で紹介動画をつくる。", "X、LinkedIn、Instagram に投稿し、@RaillyHugo と @crafterstation をタグ付け。イベントのリンクも添える。", "10月5日（月）午後4時（ペルー時間）までに、ここで投稿リンクを送信する。"],
     rewards: ["優秀な投稿にチケット3枚。", "参加者全員から抽選でチケット2枚。"],

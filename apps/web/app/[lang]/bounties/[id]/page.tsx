@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server"
 import { bountySubmissions } from "@crafter/db/schema"
 import { and, eq } from "drizzle-orm"
-import { ArrowLeft, CalendarDays, MapPin, Ticket } from "lucide-react"
+import { ArrowLeft, ArrowUpRight, CalendarDays, MapPin, Ticket, Trophy } from "lucide-react"
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -87,6 +87,22 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
         </aside>
       </div>
       {!open && <section className="bounty-closed"><h2>{t.closedTitle}</h2><p>{t.closedBody}</p></section>}
+
+      {bounty.winners?.length ? <section className="bounty-winners bounty-editorial-section" aria-labelledby="bounty-winners-title">
+        <div><p className="station-label">Bounty #{bounty.slug.padStart(2, "0")}</p><h2 id="bounty-winners-title">{t.winnersTitle}</h2><p>{t.winnersIntro}</p></div>
+        <ol>{bounty.winners.map((winner, index) => <li key={winner.name}>
+          <span className="bounty-winner-place" aria-hidden="true"><Trophy size={18} strokeWidth={1.75} />{index + 1}</span>
+          <div>
+            <h3>{winner.project}<span> · {winner.name}</span></h3>
+            {content.winnerDetails?.[index] ? <p>{content.winnerDetails[index]}</p> : null}
+            <div className="bounty-winner-links">{winner.links.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer">{link.label}<ArrowUpRight size={14} aria-hidden="true" /></a>)}</div>
+          </div>
+        </li>)}</ol>
+        {bounty.invited?.length ? <div className="bounty-invited">
+          <h3>{t.invitedTitle}</h3><p>{t.invitedBody}</p>
+          <ul>{bounty.invited.map(person => <li key={person.url}><a href={person.url} target="_blank" rel="noopener noreferrer">{person.name}<ArrowUpRight size={14} aria-hidden="true" /></a></li>)}</ul>
+        </div> : null}
+      </section> : null}
 
       <section className="bounty-brief bounty-editorial-section" aria-labelledby="bounty-challenge">
         <div><p className="station-label">{t.challenge}</p><h2 id="bounty-challenge">{t.challengeIntro}</h2></div>
