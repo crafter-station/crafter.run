@@ -127,7 +127,8 @@
   October 8: `/[lang]/font` is public again as a build-in-public specimen
   (outline lens hero, Display/Text sizes, real before/after skeletons from
   the 0.305-0.308 builds in `public/font/history`, glyph master status).
-  It offers no downloads until a license is chosen; outline JSON lives in
+  Crafter Sans is OFL 1.1 with Reserved Font Name (`app/fonts/CrafterSans-OFL.txt`);
+  the page still offers no downloads. Outline JSON lives in
   `public/font/outlines`. The sync script
   updates runtime fonts and this private destination. User authorized
   PR + merge into the existing `crafter-run` Vercel project for `crafter.run`.
