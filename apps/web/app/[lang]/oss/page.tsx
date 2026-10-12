@@ -3,7 +3,7 @@ import Link from "next/link"
 import { getTranslations } from "next-intl/server"
 import { GitBranch, GitPullRequest, Lightbulb, MessageCircle, Star } from "lucide-react"
 import { OssRepoGrid } from "@/components/oss-repo-grid"
-import { ContributionPath } from "@/components/oss-art"
+import { ContributionPath, OpenStamp, RepoGlyph, repoTone } from "@/components/oss-art"
 import { JsonLd } from "@/components/json-ld"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { getOssRepos } from "@/lib/oss"
@@ -39,6 +39,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       ]} />
       <main className="oss-page">
         <section className="oss-hero" aria-labelledby="oss-title">
+          <div className="oss-hero-glow" aria-hidden="true"><i /><i /><i /><i /></div>
+          <OpenStamp text="BUILT IN THE OPEN · MADE IN LATAM · " />
           <div className="oss-hero-topline">
             <span className="station-label">Crafter / Open Source</span>
             <span className="oss-open-note"><i aria-hidden="true" />{t("heroNote")}</span>
@@ -64,6 +66,13 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             </div>
           </div>
         </section>
+        <div className="oss-marquee" aria-hidden="true">
+          <div className="oss-marquee-track">
+            {[0, 1].map(copy => <div key={copy}>{repos.map(repo => (
+              <span key={repo.repo} style={{ color: repoTone(repo.repo).ink }}><RepoGlyph repo={repo.repo} />{repo.name}</span>
+            ))}</div>)}
+          </div>
+        </div>
         <OssRepoGrid
           locale={lang} eyebrow={t("reposEyebrow")} title={t("reposTitle")} intro={t("reposDescription")}
           starsLabel={t("panelStars")}
