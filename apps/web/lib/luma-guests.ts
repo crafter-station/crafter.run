@@ -1,4 +1,5 @@
 import { env } from "@/env"
+import { checkListedGuest } from "@/lib/event-guest-list"
 
 /* Luma's Get Guest accepts the guest's email as `id`:
    https://docs.luma.com/reference/get_v1-events-guests-get */
@@ -9,6 +10,9 @@ export type GuestCheck =
   | { status: "not-approved"; email: string; approvalStatus: string }
   | { status: "not-found" }
   | { status: "unavailable" }
+
+/** "list" reads the guest list imported into our database instead of a Luma calendar. */
+export type GuestSource = "default" | "codex" | "list"
 
 async function getGuest(eventId: string, email: string, apiKey: string) {
   const url = new URL(LUMA_GUEST_URL)
@@ -22,7 +26,8 @@ async function getGuest(eventId: string, email: string, apiKey: string) {
 
 /* Checks every verified email on the account, so a member signed in with a
    different address than the one they used on Luma still gets through. */
-export async function checkLumaGuest(eventId: string, emails: string[], calendar: "default" | "codex" = "default"): Promise<GuestCheck> {
+export async function checkLumaGuest(eventId: string, emails: string[], calendar: GuestSource = "default"): Promise<GuestCheck> {
+  if (calendar === "list") return checkListedGuest(eventId, emails)
   const apiKey = calendar === "codex" ? env.LUMA_CODEX_API_KEY : env.LUMA_API_KEY
   if (!apiKey) return { status: "unavailable" }
   try {
