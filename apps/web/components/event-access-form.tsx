@@ -1,13 +1,12 @@
 "use client"
 
-import { Camera, Globe, IdCard, Laptop, type LucideIcon, Package, Plug, Plus, Smartphone, Tablet, X, BookUser } from "lucide-react"
+import { BookUser, Globe, IdCard, Info, Laptop, type LucideIcon, Plus, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { submitEventAccess } from "@/app/[lang]/events/[event]/access/actions"
 import { accessInputSchema, type AccessDetails, type AccessField, type AccessResult } from "@/lib/event-access-service"
 import { eventAccessCopy } from "@/lib/event-access-copy"
 import type { Locale } from "@/lib/i18n"
 
-const itemIcons: LucideIcon[] = [Laptop, Plug, Tablet, Smartphone, Camera, Package]
 const documentIcons: Record<AccessDetails["documentType"], LucideIcon> = { dni: IdCard, foreign: Globe, passport: BookUser }
 type Item = { id: number; type: number; brand: string; model: string }
 let nextItemId = 0
@@ -130,27 +129,32 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
       </div>
       <div className="entry-field-group">
         <div className="entry-field">
-          <span className="entry-label" id="equipment-label">{t.equipment}</span>
+          <span className="entry-label-row">
+            <span className="entry-label" id="equipment-label">{t.equipment}</span>
+            <span className="entry-info">
+              <button type="button" className="entry-info-trigger" aria-label={t.equipmentInfoLabel} aria-describedby="equipment-info"><Info aria-hidden size={16} /></button>
+              <span role="tooltip" id="equipment-info" className="entry-info-bubble">{t.equipmentInfo}</span>
+            </span>
+          </span>
           <p id="equipment-hint" className="entry-hint">{t.equipmentHint}</p>
           {noEquipment ? null : <ul className="entry-items" aria-labelledby="equipment-label" aria-describedby="equipment-hint">
             {items.map((item, index) => {
-              const Icon = itemIcons[item.type]
               const invalid = fields.includes("equipmentText") && !item.brand.trim()
               return <li key={item.id} className="entry-item">
-                <span className="entry-item-icon" aria-hidden><Icon size={20} strokeWidth={1.75} /></span>
-                <select aria-label={`${t.equipment} ${index + 1}`} value={item.type} onChange={event => updateItem(item.id, { type: Number(event.target.value) })}>
-                  {t.itemTypes.map((label, type) => <option key={label} value={type}>{label}</option>)}
-                </select>
-                <input aria-label={t.brand} placeholder={t.brandPlaceholder} value={item.brand} maxLength={50} autoComplete="off" aria-invalid={invalid}
-                  data-field={index === 0 ? "equipmentText" : undefined} onChange={event => updateItem(item.id, { brand: event.target.value })} />
-                <input aria-label={t.model} placeholder={t.modelPlaceholder} value={item.model} maxLength={60} autoComplete="off"
-                  onChange={event => updateItem(item.id, { model: event.target.value })} />
+                <span className="entry-item-icon" aria-hidden><Laptop size={20} strokeWidth={1.75} /></span>
+                <label className="entry-item-field"><span>{t.brand}</span>
+                  <input value={item.brand} maxLength={50} autoComplete="off" aria-invalid={invalid}
+                    data-field={index === 0 ? "equipmentText" : undefined} onChange={event => updateItem(item.id, { brand: event.target.value })} />
+                </label>
+                <label className="entry-item-field"><span>{t.model}</span>
+                  <input value={item.model} maxLength={60} autoComplete="off" onChange={event => updateItem(item.id, { model: event.target.value })} />
+                </label>
                 <button type="button" className="entry-item-remove" aria-label={`${t.removeItem} ${index + 1}`} disabled={items.length === 1}
                   onClick={() => setItems(current => current.filter(entry => entry.id !== item.id))}><X aria-hidden size={18} /></button>
               </li>
             })}
           </ul>}
-          {noEquipment || items.length >= 10 ? null : <button type="button" className="entry-add-item" onClick={() => setItems(current => [...current, newItem(1)])}>
+          {noEquipment || items.length >= 10 ? null : <button type="button" className="entry-add-item" onClick={() => setItems(current => [...current, newItem()])}>
             <Plus aria-hidden size={18} />{t.addItem}
           </button>}
           {error("equipmentText")}
