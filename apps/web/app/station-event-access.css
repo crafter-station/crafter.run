@@ -37,6 +37,37 @@
 .entry-field label { font-size: 16px; font-weight: 500; }
 .entry-field input, .entry-field select, .entry-field textarea { width: 100%; min-width: 0; border: 1px solid hsl(var(--line)); border-radius: 5px; background: hsl(var(--background)); color: hsl(var(--foreground)); padding: 13px 14px; font: inherit; font-size: 16px; }
 .entry-field textarea { resize: vertical; line-height: 1.7; }
+.entry-field select, .entry-item select { appearance: none; padding-right: 44px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23888' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; background-size: 16px; cursor: pointer; }
+.entry-field input::placeholder, .entry-item input::placeholder { color: hsl(var(--muted-foreground)); opacity: .6; }
+.entry-label, .entry-choice legend { font-size: 16px; font-weight: 500; }
+.entry-choice { border: 0; padding: 0; margin: 28px 0 0; }
+.entry-choice legend { margin-bottom: 10px; padding: 0; }
+.entry-segments { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.entry-segment { display: flex; align-items: center; gap: 10px; border: 1px solid hsl(var(--line)); border-radius: 5px; padding: 13px 14px; cursor: pointer; color: hsl(var(--muted-foreground)); transition: border-color .15s, color .15s, background .15s; }
+.entry-segment input { position: absolute; opacity: 0; pointer-events: none; }
+.entry-segment:has(input:checked) { border-color: var(--entry-accent); color: hsl(var(--foreground)); background: var(--entry-surface); }
+.entry-segment:has(input:checked) svg { color: var(--entry-accent); }
+.entry-segment:has(input:focus-visible) { outline: 2px solid var(--entry-accent); outline-offset: 3px; }
+.entry-field-spaced { margin-top: 24px; }
+.entry-items { display: grid; gap: 10px; margin: 4px 0 0; padding: 0; list-style: none; }
+.entry-item { display: grid; grid-template-columns: 44px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.2fr) 40px; align-items: center; gap: 8px; }
+.entry-item-icon { display: grid; place-items: center; height: 48px; border-radius: 5px; background: var(--entry-surface); color: var(--entry-accent); }
+.entry-item select, .entry-item input { width: 100%; min-width: 0; height: 48px; border: 1px solid hsl(var(--line)); border-radius: 5px; background-color: hsl(var(--background)); color: hsl(var(--foreground)); padding: 0 12px; font: inherit; font-size: 16px; }
+.entry-item select { padding-right: 40px; background-position: right 12px center; }
+.entry-item [aria-invalid="true"] { outline: 2px solid #ae4a3e; outline-offset: 1px; }
+.entry-item-remove, .entry-add-item { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 5px; color: hsl(var(--muted-foreground)); cursor: pointer; font: inherit; }
+.entry-item-remove { height: 48px; border: 0; background: none; }
+.entry-item-remove:hover:not(:disabled), .entry-add-item:hover { color: hsl(var(--foreground)); }
+.entry-item-remove:disabled { opacity: .3; cursor: default; }
+.entry-add-item { justify-self: start; border: 1px dashed hsl(var(--line)); background: none; padding: 11px 16px; margin-top: 4px; }
+.entry-item select:focus-visible, .entry-item input:focus-visible, .entry-item-remove:focus-visible, .entry-add-item:focus-visible { outline: 2px solid var(--entry-accent); outline-offset: 2px; }
+@media (max-width: 640px) {
+  .entry-segments { grid-template-columns: 1fr; }
+  .entry-item { grid-template-columns: 44px minmax(0, 1fr) 40px; grid-template-areas: "icon type remove" "brand brand brand" "model model model"; }
+  .entry-item-icon { grid-area: icon; } .entry-item select { grid-area: type; } .entry-item-remove { grid-area: remove; }
+  .entry-item input:nth-of-type(1) { grid-area: brand; } .entry-item input:nth-of-type(2) { grid-area: model; }
+  .entry-item + .entry-item { padding-top: 12px; border-top: 1px solid hsl(var(--line)); }
+}
 .entry-field [aria-invalid="true"] { outline: 2px solid #ae4a3e; outline-offset: 1px; }
 .entry-field-pair { display: grid; grid-template-columns: .85fr 1.15fr; gap: 24px; margin-top: 28px; }
 .entry-hint { font-size: 16px; line-height: 1.65; color: hsl(var(--muted-foreground)); margin-top: 12px; }
