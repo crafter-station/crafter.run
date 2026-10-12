@@ -85,16 +85,17 @@ Source, reproducible builder, UFO/SVG output and validation:
 No Geist family is loaded. System monospace is reserved for code; Noto covers
 CJK. Use 16px for body/controls, 18px for main descriptions, and 14px only for
 compact uppercase labels or explicit small-code/detail exceptions.
-No public release or license change was made. The following notes describe
-the original, preserved display binary.
+Crafter Sans (Display and Text) is licensed under the SIL Open Font License 1.1
+with Reserved Font Name "Crafter Sans"; see `CrafterSans-OFL.txt`. The notes
+below describe the original, preserved display binary.
 
 Self-hosted Medium 500, preview version 0.200, for Crafter Station's display
 typography. The WOFF2 is copied unchanged from the approved Bucle 0.2 package.
 
 The complete editable UFO, SVG sources, builder and validation reports are in
-the local `crafter-sans-bucle-v02` deliverable. This file is not covered by the
-neighboring Geist or Martian Grotesk OFL licenses. A public distribution license
-for Crafter Sans has not been selected.
+the local `crafter-sans-bucle-v02` deliverable. Crafter Sans has its own OFL
+notice in `CrafterSans-OFL.txt`; the neighboring Geist and Martian Grotesk
+notices cover only those families.
 
 The user's release direction is **private development at
 `crafter-station/font` for now, open source later**. The repository could not
