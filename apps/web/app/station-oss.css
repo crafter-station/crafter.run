@@ -203,7 +203,7 @@ html:is([lang="zh"],[lang="ja"]) .oss-display-title { font-size: clamp(38px,4vw,
 
 /* Personality layer: living glow, stamp, language chips, toned cards */
 .oss-hero { position: relative; isolation: isolate; }
-.oss-hero-glow { position: absolute; inset: -40px calc(var(--oss-frame) * -1) -60px; z-index: -1; overflow: hidden; pointer-events: none; mask-image: linear-gradient(to bottom, #000 65%, transparent); }
+.oss-hero-glow { position: absolute; inset: -40px 0 -60px; z-index: -1; overflow: hidden; pointer-events: none; mask-image: linear-gradient(to bottom, #000 65%, transparent); }
 .oss-hero-glow i { position: absolute; width: 46vw; max-width: 620px; aspect-ratio: 1; border-radius: 50%; filter: blur(70px); opacity: .55; animation: oss-drift 22s ease-in-out infinite alternate; }
 .oss-hero-glow i:nth-child(1) { background: #cfe3a6; top: -12%; left: 18%; }
 .oss-hero-glow i:nth-child(2) { background: #ddd0ec; top: 20%; right: -6%; animation-delay: -6s; animation-duration: 26s; }
@@ -260,3 +260,5 @@ html:is([lang="zh"],[lang="ja"]) .oss-display-title { font-size: clamp(38px,4vw,
 @media (prefers-reduced-motion: reduce) { .oss-marquee-track { animation: none; } }
 .dark .oss-marquee-track span { color: hsl(var(--foreground)) !important; }
 @media (max-width: 760px) { .oss-marquee-track span { font-size: 20px; } }
+.oss-page { overflow-x: clip; }
+.dark .oss-stamp { color: #334c37; }
