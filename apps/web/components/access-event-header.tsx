@@ -24,10 +24,10 @@ export function AccessEventHeader({ event, locale, entry = false }: { event: Acc
         <a href={event.lumaUrl} target="_blank" rel="noopener noreferrer">{t.request}</a>
       </div> : null}
     </div>
-    {!entry ? <figure className="entry-poster">
+    <figure className="entry-poster">
       {/* Original event art; presentation is CSS-only. */}
       <img src={event.cover} alt={event.title} width={800} height={800} />
-      <figcaption>{t.format}</figcaption>
-    </figure> : null}
+      {!entry ? <figcaption>{t.format}</figcaption> : null}
+    </figure>
   </header>
 }
