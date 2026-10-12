@@ -19,6 +19,8 @@ export function SiteShell({ children, footer, event, locale }: { children: React
   const bounties = pathname === `/${locale}/bounties` || pathname.startsWith(`/${locale}/bounties/`)
   const pages = !docs && !home && !oss && !universe && !agenda && !journal && !bounties && !font
   const route = pathname.slice(locale.length + 1)
+  // Hot Reload carries its own identity end to end, without the station header or footer.
+  if (/^\/events\/hot-reload(\/|$)/.test(route)) return <div id="site-content">{children}</div>
   const tone = /^\/(oss|timeline|impact)(\/|$)/.test(route) ? "green"
     : /^\/(ships|workshops)(\/|$)/.test(route) ? "violet"
       : /^\/(events|hackathons)(\/|$)/.test(route) ? "blue" : "warm"
