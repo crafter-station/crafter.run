@@ -63,7 +63,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         </div>
         <div>
           <p>{participation.hotReload.body}</p>
-          <a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer">{participation.hotReload.action}</a>
+          <Link href={withLocale("/events/hot-reload", lang)}>{participation.hotReload.action}</Link>
         </div>
       </section>
       {accessEvents.filter(event => Date.parse(event.endsAt) > now).map(event => (

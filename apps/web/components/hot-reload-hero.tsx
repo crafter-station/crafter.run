@@ -1,6 +1,7 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 
+import { CrafterStationLogo } from "@/components/crafter-station-logo"
 import { hotReloadDate, hotReloadTime, hotReloadStatus, type HotReloadEdition } from "@/lib/hot-reload"
 import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
 import { type Locale, withLocale } from "@/lib/i18n"
@@ -10,6 +11,16 @@ function VercelMark() {
     <svg viewBox="0 0 76 65" width="12" height="11" fill="currentColor" aria-hidden="true">
       <path d="M37.6 0 75.2 65H0z" />
     </svg>
+  )
+}
+
+/* "Crafter Station × Vercel" with each name led by its mark. */
+export function HotReloadByline({ partner }: { partner?: string }) {
+  return (
+    <span className="hot-reload-byline">
+      <span><CrafterStationLogo decorative width={12} height={12} className="" /> Crafter Station</span>
+      {partner ? <>{" × "}<span>{partner === "Vercel" ? <VercelMark /> : null} {partner}</span></> : null}
+    </span>
   )
 }
 

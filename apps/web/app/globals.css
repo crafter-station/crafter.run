@@ -12,6 +12,7 @@
 @import './station-pages.css';
 @import './station-bounties.css';
 @import './station-font.css';
+@import './station-hot-reload.css';
 
 @custom-variant dark (&:is(.dark *));
 

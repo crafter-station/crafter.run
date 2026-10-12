@@ -4,16 +4,16 @@ import { and, eq } from "drizzle-orm"
 import { eventOrders } from "@crafter/db/schema"
 
 import { EventMenuForm, type ExistingOrder } from "@/components/event-menu-form"
-import { HotReloadHero } from "@/components/hot-reload-hero"
+import { VenueLink } from "@/components/hot-reload-hero"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { LinkLumaEmail } from "@/components/link-luma-email"
 import { getDb } from "@/lib/db"
 import { getEventGuest } from "@/lib/event-guest"
 import { getEventMenu, localizedEventMenu } from "@/lib/event-menu"
-import { eventMoney, hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
+import { eventMoney, hotReloadCopy, hotReloadIdentity, hotReloadText } from "@/lib/hot-reload-copy"
 import { eventOrderSlug, findEdition, hotReloadDeadline, orderDeadline, ordersOpen } from "@/lib/hot-reload"
 import { hotReloadMetadata } from "@/lib/hot-reload-seo"
-import { isLocale } from "@/lib/i18n"
+import { isLocale, withLocale } from "@/lib/i18n"
 
 export const dynamic = "force-dynamic"
 
@@ -38,9 +38,9 @@ async function getExistingOrder(eventSlug: string, clerkUserId: string): Promise
 
 function Notice({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="max-w-xl border border-line p-6">
-      <h2 className="text-2xl">{title}</h2>
-      <div className="mt-3 leading-relaxed text-muted-foreground">{children}</div>
+    <div className="hot-reload-ticket">
+      <h2>{title}</h2>
+      <div className="hot-reload-ticket-body">{children}</div>
     </div>
   )
 }
@@ -51,6 +51,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const sourceMenu = edition && getEventMenu(edition)
   if (!isLocale(lang) || !edition || !sourceMenu || !edition.lumaEventId) notFound()
   const t = hotReloadCopy[lang]
+  const id = hotReloadIdentity[lang]
   const menu = localizedEventMenu(sourceMenu, lang)
   const deadline = orderDeadline(edition)
   const open = ordersOpen(edition)
@@ -67,14 +68,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     ) : (
       <Notice title={deadline === null ? t.ordersPending : t.ordersClosed}>
         <p>{deadline === null ? t.pendingBody : t.closedBody}</p>
-        {!user ? <Link className="station-button mt-5" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link> : <p className="mt-3">{t.noOrder}</p>}
+        {!user ? <Link className="hot-reload-display hot-reload-cta" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link> : <p className="mt-3">{t.noOrder}</p>}
       </Notice>
     )
   } else if (!user) {
     content = (
       <Notice title={t.signInTitle}>
         <p>{t.signInBody}</p>
-        <Link className="station-button mt-5" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link>
+        <Link className="hot-reload-display hot-reload-cta" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link>
       </Notice>
     )
   } else if (check?.status === "approved") {
@@ -103,21 +104,37 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   }
 
   return (
-    <HotReloadTheme>
-      <HotReloadHero
-        locale={lang}
-        crumbs={[
-          { label: t.agenda, href: "/events" },
-          { label: "Hot Reload", href: "/events/hot-reload" },
-          { label: `#${edition.number}`, href: `/events/hot-reload/${edition.number}` },
-          { label: t.order },
-        ]}
-        title={open ? t.menu : deadline === null ? t.ordersPending : t.ordersClosed}
-        description={<>{hotReloadText(t.menuIntro, { venue: edition.venue, amount: eventMoney(menu.maxTotal, lang, menu.currency) })}
-          {deadline !== null ? <span className="mt-3 block">{hotReloadText(t.deadline, { date: hotReloadDeadline(edition, lang)! })}</span> : null}</>}
-        edition={edition}
-      />
-      <section className="pb-14">{content}</section>
+    <HotReloadTheme locale={lang}>
+      <section className="hot-reload-menu-head">
+        <div className="hot-reload-edition-copy">
+          <nav aria-label={t.agenda} className="hot-reload-caps hot-reload-crumbs">
+            <Link href={withLocale("/events", lang)}>{t.agenda}</Link> / <Link href={withLocale("/events/hot-reload", lang)}>Hot Reload</Link> /{" "}
+            <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">{t.order}</span>
+          </nav>
+          <h1>{open ? t.menu : deadline === null ? t.ordersPending : t.ordersClosed}</h1>
+          <dl className="hot-reload-facts">
+            <div>
+              <dt>{id.where}</dt>
+              <dd><VenueLink edition={edition} /> · {edition.city}</dd>
+            </div>
+            <div>
+              <dt>{id.treat}</dt>
+              <dd>{hotReloadText(t.menuIntro, { venue: edition.venue, amount: eventMoney(menu.maxTotal, lang, menu.currency) })}</dd>
+            </div>
+            {deadline !== null ? (
+              <div>
+                <dt>{id.until}</dt>
+                <dd>{hotReloadDeadline(edition, lang)}</dd>
+              </div>
+            ) : null}
+          </dl>
+        </div>
+        {edition.poster ? (
+          // biome-ignore lint/performance/noImgElement: images are unoptimized site-wide
+          <img src={edition.poster} alt="" width={400} height={400} className="hot-reload-poster" />
+        ) : null}
+      </section>
+      <section className="hot-reload-menu-body">{content}</section>
     </HotReloadTheme>
   )
 }
