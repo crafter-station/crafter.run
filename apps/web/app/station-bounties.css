@@ -165,3 +165,21 @@
 @media (prefers-reduced-motion:reduce) {
   .bounty-card-action > span, .bounty-speaker-photo img { transition: none; }
 }
+
+.bounty-winners > div:first-child p:not(.station-label) { font-size: 16px; line-height: 1.75; color: hsl(var(--muted-foreground)); margin-top: 16px; max-width: 360px; }
+.bounty-winners ol { display: grid; gap: 0; margin: 0; padding: 0; list-style: none; }
+.bounty-winners ol > li { display: grid; grid-template-columns: 56px minmax(0,1fr); gap: 16px; padding-block: 24px; border-top: 1px solid hsl(var(--border)); }
+.bounty-winners ol > li:last-child { border-bottom: 1px solid hsl(var(--border)); }
+.bounty-winner-place { align-self: start; display: inline-flex; align-items: center; gap: 6px; font-size: 22px; line-height: 1.3; color: hsl(var(--muted-foreground)); }
+.bounty-winners ol > li:first-child .bounty-winner-place { color: hsl(var(--foreground)); }
+.bounty-winners h3 { font-size: 22px; line-height: 1.3; }
+.bounty-winners h3 span { color: hsl(var(--muted-foreground)); }
+.bounty-winners li p { font-size: 16px; line-height: 1.7; color: hsl(var(--muted-foreground)); margin-top: 8px; }
+.bounty-winner-links, .bounty-invited ul { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 14px; padding: 0; list-style: none; }
+.bounty-winner-links a, .bounty-invited a { display: inline-flex; align-items: center; gap: 4px; font-size: 15px; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: hsl(var(--border)); }
+.bounty-winner-links a:hover, .bounty-invited a:hover { text-decoration-color: currentColor; }
+.bounty-winners { row-gap: 40px; }
+.bounty-invited { grid-column: 2; }
+.bounty-invited h3 { font-size: 18px; }
+.bounty-invited p { font-size: 16px; line-height: 1.7; color: hsl(var(--muted-foreground)); margin-top: 8px; }
+@media (max-width: 760px) { .bounty-invited { grid-column: auto; } }

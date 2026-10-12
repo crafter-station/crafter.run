@@ -13,6 +13,10 @@ export type Bounty = {
   rewards: string[]
   eventUrl: string
   closesAt: string
+  /** Ordered by place. Project descriptions are localized in bounty-copy. */
+  winners?: Array<{ name: string; project: string; links: Array<{ label: string; url: string }> }>
+  /** Leftover tickets given outside the challenge. */
+  invited?: Array<{ name: string; url: string }>
 }
 
 export const bounties: Bounty[] = [
@@ -48,6 +52,25 @@ export const bounties: Bounty[] = [
     ],
     eventUrl: "https://eventos.utec.edu.pe/ai-frontier-conf-26",
     closesAt: "2026-10-05T21:00:00Z",
+    winners: [
+      { name: "Jorge Nureña", project: "PixelForge", links: [
+        { label: "Post", url: "https://www.linkedin.com/feed/update/urn:li:activity:7512522927188254720/" },
+        { label: "GitHub", url: "https://github.com/GeorgeTech20/pixelforge" },
+      ] },
+      { name: "Joseph Chuquipiondo", project: "Luca", links: [
+        { label: "Post", url: "https://www.linkedin.com/feed/update/urn:li:activity:7512962092753383425/" },
+        { label: "lucaa.lat", url: "https://lucaa.lat" },
+        { label: "GitHub", url: "https://github.com/JosephRobles23/luca" },
+      ] },
+      { name: "Ronal Arela", project: "Fact-checker", links: [
+        { label: "LinkedIn", url: "https://www.linkedin.com/in/rwarela/" },
+        { label: "Demo", url: "https://vaesfc-demo.yellowpebble-5c6955f6.eastus.azurecontainerapps.io" },
+      ] },
+    ],
+    invited: [
+      { name: "Fernando Juárez", url: "https://www.linkedin.com/in/fernandevjuarez/" },
+      { name: "Cristian Olivera", url: "https://www.linkedin.com/in/cristian-olivera-chavez/" },
+    ],
   },
 ]
 
