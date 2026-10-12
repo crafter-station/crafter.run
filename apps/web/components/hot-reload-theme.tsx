@@ -3,6 +3,7 @@ import Link from "next/link"
 import type { ReactNode } from "react"
 
 import { HotReloadByline } from "@/components/hot-reload-hero"
+import { HotReloadGame, HotReloadGameTrigger } from "@/components/hot-reload-game"
 import { HotReloadEdges } from "@/components/hot-reload-edges"
 import { HotReloadReload, HotReloadTrigger } from "@/components/hot-reload-reload"
 import { HotReloadThemeToggle } from "@/components/hot-reload-theme-toggle"
@@ -29,11 +30,15 @@ export function HotReloadTheme({ locale, fit, children }: { locale: Locale; fit?
         {children}
         <footer style={ruleFade} className="hot-reload-bleed hot-reload-bleed-t hot-reload-foot">
           <Link href={withLocale("/events/hot-reload", locale)}><HotReloadByline partner="Vercel" /></Link>
-          <HotReloadTrigger press={t.press} toast={t.toast} />
+          <span className="hot-reload-foot-keys">
+            <HotReloadTrigger press={t.press} toast={t.toast} />
+            <HotReloadGameTrigger press={t.play} touch={t.playTouch} />
+          </span>
           <Link href={withLocale("/", locale)}>crafter.run</Link>
         </footer>
       </div>
       <HotReloadReload copy={t} />
+      <HotReloadGame title={t.game} close={t.close} />
       <svg className="hot-reload-grain" aria-hidden="true">
         <filter id="hot-reload-grain">
           <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch" />
