@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 
 import { HotReloadBadgeShare } from "@/components/hot-reload-badge-share"
 import { HotReloadBadgeView } from "@/components/hot-reload-badge-view"
+import { MakeablesWall } from "@/components/hot-reload-badge-stage"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { findEdition } from "@/lib/hot-reload"
 import { editionBadge, isBadgeVariant } from "@/lib/hot-reload-badge"
@@ -55,6 +56,7 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <HotReloadTheme locale={lang} fit>
+      <MakeablesWall />
       <section className="hot-reload-badge-page" data-editor="">
         <HotReloadBadgeView
           design={badgeDesign.design}

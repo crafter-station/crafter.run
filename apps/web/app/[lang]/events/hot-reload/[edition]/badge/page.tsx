@@ -2,6 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { HotReloadBadgeEditor } from "@/components/hot-reload-badge-editor"
+import { MakeablesWall } from "@/components/hot-reload-badge-stage"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { LinkLumaEmail } from "@/components/link-luma-email"
 import { isAdminUser } from "@/lib/admin"
@@ -102,6 +103,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
 
   return (
     <HotReloadTheme locale={lang} fit>
+      <MakeablesWall />
       <section className="hot-reload-badge-page" data-editor={editing ? "" : undefined}>
         {editing ? null : head}
         {content}
