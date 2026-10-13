@@ -10,3 +10,5 @@ mv out/entry.js out/index.js
 The 3D badge loads `facets.bin.gz` from `public/events/hot-reload/badge/prism/`, copied from makeables `apps/web/public/prism/`.
 
 Replace it with the npm package once makeables exports the renderer as a library.
+
+Local patch after bundling: the laminated (lanyard) scene caps its pixel ratio at 1.5 instead of 2 (`Math.min(window.devicePixelRatio,1.5)` in `laminated-scene-*.js`). The Hot Reload canvas spreads past its column, and at 2x the flip and drag dropped frames on a fast laptop.

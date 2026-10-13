@@ -71,7 +71,7 @@ function MakeablesMark() {
 }
 
 /** A faint diagonal billboard behind the badge: who made it. */
-function MakeablesWall() {
+export function MakeablesWall() {
   const row = Array.from({ length: 6 }, (_, i) => (
     <span key={i}>
       <MakeablesMark />
@@ -213,16 +213,37 @@ export function HotReloadBadgeStage({ design, prints, variant, name, labels, vie
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("badge") === "card") setFallback(true)
   }, [])
+  // The canvas spans the whole viewport width, centred on the stage so the card stays centred:
+  // a swung or dragged card is never cut at a canvas edge.
+  const scene = useRef<HTMLDivElement>(null)
+  const [bounds, setBounds] = useState<CSSProperties>({})
+  useEffect(() => {
+    const element = scene.current
+    if (!element) return
+    const measure = () => {
+      const box = element.getBoundingClientRect()
+      const center = box.left + box.width / 2
+      const width = 2 * Math.max(center, window.innerWidth - center)
+      setBounds({ left: center - width / 2 - box.left, width })
+    }
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(element)
+    window.addEventListener("resize", measure)
+    return () => {
+      observer.disconnect()
+      window.removeEventListener("resize", measure)
+    }
+  }, [])
   const shown = stamping ? "3d" : view
   const loaded = scenes.some((scene) => scene.ready)
   const newest = scenes.findLastIndex((scene) => scene.ready)
   return (
     <div className="hot-reload-badge-stage">
-      <div className="hot-reload-badge-scene">
-        <MakeablesWall />
+      <div ref={scene} className="hot-reload-badge-scene">
         {shown === "3d" && !loaded && !fallback ? <BadgeLoading label={labels.printing} /> : null}
         {shown === "3d" && fallback && prints ? (
-          <div className="hot-reload-badge-swing" data-hit={hit ? "" : undefined}>
+          <div className="hot-reload-badge-swing" style={bounds} data-hit={hit ? "" : undefined}>
             <BadgeCard prints={prints} variant={variant} flip={labels.flip} />
             {stamping ? (
               <Stamper
@@ -237,7 +258,7 @@ export function HotReloadBadgeStage({ design, prints, variant, name, labels, vie
           </div>
         ) : null}
         {shown === "3d" && !fallback && design && prints ? (
-          <div className="hot-reload-badge-swing" data-hit={hit ? "" : undefined}>
+          <div className="hot-reload-badge-swing" style={bounds} data-hit={hit ? "" : undefined}>
             {scenes.map((scene, index) => (
               <div key={scene.id} className="hot-reload-badge-layer" data-ready={scene.ready ? "" : undefined} data-leaving={index < newest ? "" : undefined}>
                 <Suspense fallback={null}>

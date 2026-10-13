@@ -242,7 +242,8 @@
 .hot-reload-badge-hint { font-size: 12px; line-height: 1.6; opacity: 0.72; }
 
 /* Makeables billboard: the wordmark in acid, tilted and repeated faintly behind the card. */
-.hot-reload-badge-wall { position: absolute; inset: -20% -40%; z-index: 0; overflow: hidden; pointer-events: none; color: #d7ff3c; opacity: 0.07; }
+/* Spans the viewport behind the whole page (the column is centred, so 50% - 50vw is the viewport edge). */
+.hot-reload-badge-wall { position: absolute; top: 0; bottom: 0; left: calc(50% - 50vw); width: 100vw; z-index: -1; overflow: hidden; pointer-events: none; color: #d7ff3c; opacity: 0.07; }
 .dark .hot-reload-badge-wall { opacity: 0.06; }
 .hot-reload-badge-wall > div { position: absolute; inset: -20%; display: grid; align-content: center; gap: 4vh; transform: rotate(-14deg); }
 .hot-reload-badge-wall p { display: flex; gap: 6vh; white-space: nowrap; font-family: var(--hr-display), sans-serif; font-size: 9vh; line-height: 1; text-transform: uppercase; }
@@ -273,7 +274,7 @@
 .hot-reload-theme:has(.hot-reload-badge-page) .hot-reload-top, .hot-reload-theme:has(.hot-reload-badge-page) .hot-reload-foot { position: relative; z-index: 2; }
 
 /* The renderer frames the whole lanyard; enlarge the canvas around the card and let the ribbon run off the top. */
-.hot-reload-badge-swing { position: absolute; inset: -36% -60% -22%; z-index: 1; transform-origin: 50% 12%; container-type: size; }
+.hot-reload-badge-swing { position: absolute; top: -36%; bottom: -22%; z-index: 1; transform-origin: 50% 12%; container-type: size; }
 /* Lanyard swap: the old scene fades out first, then the new one fades in, so two cards never overlap. */
 .hot-reload-badge-layer { position: absolute; inset: 0; opacity: 0; transition: opacity 0.25s ease 0.2s; }
 .hot-reload-badge-layer[data-ready] { opacity: 1; }
@@ -380,7 +381,7 @@
   /* The badge is the page: no site header, footer or heading; the fields fold behind one toggle. */
   .hot-reload-theme:has(.hot-reload-badge-page[data-editor]) .hot-reload-top, .hot-reload-theme:has(.hot-reload-badge-page[data-editor]) .hot-reload-foot,
   .hot-reload-badge-page[data-editor] .hot-reload-badge-controls > .hot-reload-badge-head, .hot-reload-badge-page[data-editor] .hot-reload-badge-controls > .hot-reload-badge-hint { display: none; }
-  .hot-reload-badge-swing { inset: -16% -30% -10%; }
+  .hot-reload-badge-swing { top: -16%; bottom: -10%; }
   .hot-reload-badge-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; gap: 8px; padding: 8px 20px 12px; }
   .hot-reload-badge-views { grid-column: 1 / -1; order: -1; }
   .hot-reload-badge-edit { display: grid; gap: 0; }
