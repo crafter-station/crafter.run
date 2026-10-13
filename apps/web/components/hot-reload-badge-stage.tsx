@@ -1,6 +1,6 @@
 "use client"
 
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
+import { type CSSProperties, lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
 
 import { type BadgeVariant, badgeVariants } from "@/lib/hot-reload-badge"
 
@@ -12,8 +12,8 @@ export type BadgePrints = { front: string; back: string }
 type Labels = Record<"front" | "back" | "view3d" | "viewFlat" | "flip", string>
 
 /** The 3D badge shows the pressed prints as-is: each face becomes one full-bleed image layer of the design. */
-function BadgeModel({ design, prints, variant, name, flip, onReady }: {
-  design: Design; prints: BadgePrints; variant: BadgeVariant; name: string; flip: string; onReady: () => void
+function BadgeModel({ design, prints, variant, name, flip, onReady, onFallback }: {
+  design: Design; prints: BadgePrints; variant: BadgeVariant; name: string; flip: string; onReady: () => void; onFallback: () => void
 }) {
   const [appearance, setAppearance] = useState<Record<string, unknown> | null>(null)
   const document = useMemo(() => {
@@ -33,7 +33,7 @@ function BadgeModel({ design, prints, variant, name, flip, onReady }: {
         data={{ name, role: "", number: 0, eventName: "Hot Reload", document, portraitUrl: "", imageUrls: { "print-front": prints.front, "print-back": prints.back } }}
         appearance={appearance}
         assetsBaseUrl="/events/hot-reload/badge/prism"
-        onStatus={(status) => status !== "loading" && onReady()}
+        onStatus={(status) => (status === "fallback" ? onFallback() : status === "ready" && onReady())}
       />
     </div>
   )
@@ -81,6 +81,44 @@ function MakeablesWall() {
   return (
     <div className="hot-reload-badge-wall" aria-hidden="true">
       <div>{Array.from({ length: 9 }, (_, i) => <p key={i}>{row}</p>)}</div>
+    </div>
+  )
+}
+
+/**
+ * Without a working 3D renderer: the same prints as a hung card built in CSS. Ribbon in the lanyard's
+ * colors, a soft shadow, light sheen, a tilt that follows the pointer, and a click to flip.
+ */
+function BadgeCard({ prints, variant, flip }: { prints: BadgePrints; variant: BadgeVariant; flip: string }) {
+  const [back, setBack] = useState(false)
+  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const material = badgeVariants[variant]
+  return (
+    <div className="hot-reload-badge-card-scene">
+      <span className="hot-reload-badge-card-strap" style={{ background: material.strap, color: material.lanyard.ink }}>
+        {"text" in material.lanyard ? <span>{material.lanyard.text}</span> : null}
+      </span>
+      <span className="hot-reload-badge-card-clasp" />
+      <button
+        type="button"
+        className="hot-reload-badge-card"
+        title={flip}
+        aria-label={flip}
+        data-back={back ? "" : undefined}
+        style={{ "--tilt-x": `${tilt.y * -8}deg`, "--tilt-y": `${tilt.x * 10}deg` } as CSSProperties}
+        onClick={() => setBack((side) => !side)}
+        onPointerMove={(event) => {
+          const box = event.currentTarget.getBoundingClientRect()
+          setTilt({ x: (event.clientX - box.left) / box.width - 0.5, y: (event.clientY - box.top) / box.height - 0.5 })
+        }}
+        onPointerLeave={() => setTilt({ x: 0, y: 0 })}
+      >
+        {(["front", "back"] as const).map((side) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={side} className={`hot-reload-badge-card-${side}`} src={prints[side]} width={1024} height={1536} alt="" />
+        ))}
+        <span className="hot-reload-badge-card-sheen" />
+      </button>
     </div>
   )
 }
@@ -170,6 +208,11 @@ export function HotReloadBadgeStage({ design, prints, variant, name, labels, vie
     const timer = setTimeout(() => setScenes((current) => current.slice(current.findLastIndex((scene) => scene.ready))), 450)
     return () => clearTimeout(timer)
   }, [scenes])
+  // `?badge=card` previews the CSS card on a device that does render 3D.
+  const [fallback, setFallback] = useState(false)
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("badge") === "card") setFallback(true)
+  }, [])
   const shown = stamping ? "3d" : view
   const loaded = scenes.some((scene) => scene.ready)
   const newest = scenes.findLastIndex((scene) => scene.ready)
@@ -177,13 +220,28 @@ export function HotReloadBadgeStage({ design, prints, variant, name, labels, vie
     <div className="hot-reload-badge-stage">
       <div className="hot-reload-badge-scene">
         <MakeablesWall />
-        {shown === "3d" && !loaded ? <BadgeLoading label={labels.printing} /> : null}
-        {shown === "3d" && design && prints ? (
+        {shown === "3d" && !loaded && !fallback ? <BadgeLoading label={labels.printing} /> : null}
+        {shown === "3d" && fallback && prints ? (
+          <div className="hot-reload-badge-swing" data-hit={hit ? "" : undefined}>
+            <BadgeCard prints={prints} variant={variant} flip={labels.flip} />
+            {stamping ? (
+              <Stamper
+                onImpact={() => {
+                  setHit(true)
+                  setTimeout(() => setHit(false), 900)
+                  onImpact?.()
+                }}
+                onDone={() => onStamped?.()}
+              />
+            ) : null}
+          </div>
+        ) : null}
+        {shown === "3d" && !fallback && design && prints ? (
           <div className="hot-reload-badge-swing" data-hit={hit ? "" : undefined}>
             {scenes.map((scene, index) => (
               <div key={scene.id} className="hot-reload-badge-layer" data-ready={scene.ready ? "" : undefined} data-leaving={index < newest ? "" : undefined}>
                 <Suspense fallback={null}>
-                  <BadgeModel design={design} prints={prints} variant={scene.variant} name={name} flip={labels.flip} onReady={() => ready(scene.id)} />
+                  <BadgeModel design={design} prints={prints} variant={scene.variant} name={name} flip={labels.flip} onReady={() => ready(scene.id)} onFallback={() => setFallback(true)} />
                 </Suspense>
               </div>
             ))}
