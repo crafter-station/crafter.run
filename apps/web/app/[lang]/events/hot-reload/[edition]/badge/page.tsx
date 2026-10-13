@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         <Link href={withLocale("/events", lang)}>{t.agenda}</Link> / <Link href={withLocale("/events/hot-reload", lang)}>Hot Reload</Link> /{" "}
         <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">{b.badge}</span>
       </nav>
-      <h1>{b.title}</h1>
+      <h1>{b.titleLead}<br />{b.titleName}</h1>
     </header>
   )
   let editing = false

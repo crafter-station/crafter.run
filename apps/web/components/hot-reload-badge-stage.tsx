@@ -50,6 +50,41 @@ function BadgeLoading({ label }: { label: string }) {
   )
 }
 
+/** The Makeables symbol: five rounded arms with two pill eyes, from makeables `components/brand/mark.tsx`. */
+function MakeablesMark() {
+  return (
+    <svg viewBox="-4 -4 108 112" aria-hidden="true">
+      <mask id="hr-makeables-mark" maskUnits="userSpaceOnUse" x="-10" y="-10" width="120" height="130">
+        <g fill="#fff">
+          {[0, 72, 144, 216, 288].map((angle) => (
+            <rect key={angle} x="37.5" y="6" width="25" height="46" rx="12.5" transform={`rotate(${angle} 50 52)`} />
+          ))}
+          <circle cx="50" cy="52" r="15" />
+        </g>
+        <g fill="#000">
+          {[43.3, 56.7].map((x) => <rect key={x} x={x - 3.6} y="41.5" width="7.2" height="13" rx="3.6" />)}
+        </g>
+      </mask>
+      <rect x="-10" y="-10" width="120" height="130" fill="currentColor" mask="url(#hr-makeables-mark)" />
+    </svg>
+  )
+}
+
+/** A faint diagonal billboard behind the badge: who made it. */
+function MakeablesWall() {
+  const row = Array.from({ length: 6 }, (_, i) => (
+    <span key={i}>
+      <MakeablesMark />
+      makeables.dev
+    </span>
+  ))
+  return (
+    <div className="hot-reload-badge-wall" aria-hidden="true">
+      <div>{Array.from({ length: 9 }, (_, i) => <p key={i}>{row}</p>)}</div>
+    </div>
+  )
+}
+
 export type BadgeView = "3d" | "flat"
 
 export function HotReloadBadgeViews({ view, onChange, disabled, labels }: {
@@ -137,14 +172,16 @@ export function HotReloadBadgeStage({ design, prints, variant, name, labels, vie
   }, [scenes])
   const shown = stamping ? "3d" : view
   const loaded = scenes.some((scene) => scene.ready)
+  const newest = scenes.findLastIndex((scene) => scene.ready)
   return (
     <div className="hot-reload-badge-stage">
       <div className="hot-reload-badge-scene">
+        <MakeablesWall />
         {shown === "3d" && !loaded ? <BadgeLoading label={labels.printing} /> : null}
         {shown === "3d" && design && prints ? (
           <div className="hot-reload-badge-swing" data-hit={hit ? "" : undefined}>
-            {scenes.map((scene) => (
-              <div key={scene.id} className="hot-reload-badge-layer" data-ready={scene.ready ? "" : undefined}>
+            {scenes.map((scene, index) => (
+              <div key={scene.id} className="hot-reload-badge-layer" data-ready={scene.ready ? "" : undefined} data-leaving={index < newest ? "" : undefined}>
                 <Suspense fallback={null}>
                   <BadgeModel design={design} prints={prints} variant={scene.variant} name={name} flip={labels.flip} onReady={() => ready(scene.id)} />
                 </Suspense>

@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { type ReactNode, useEffect, useRef, useState } from "react"
 
@@ -10,7 +11,7 @@ import { type BadgeVariant, badgeVariants, type HotReloadBadgeDesign, isStampLay
 
 type Person = { name: string; role: string; eventName: string }
 type Labels = Record<"intro" | "edit" | "name" | "photo" | "photoHint" | "front" | "back" | "view3d" | "viewFlat" | "flip" | "variant" | "printing" | "error"
-  | "publish" | "publishing" | "republish" | "errorAuth" | "errorApproval" | "errorEarly" | "errorName" | "errorImage" | "errorUnavailable", string>
+  | "stamp" | "stamping" | "save" | "shareCta" | "publishing" | "errorAuth" | "errorApproval" | "errorEarly" | "errorName" | "errorImage" | "errorUnavailable", string>
 type Layer = { id: string } & Record<string, unknown>
 type Design = { front: { background: string; layers: Layer[] }; back: { background: string; layers: Layer[] } } & Record<string, unknown>
 
@@ -45,6 +46,9 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
   const [number, setNumber] = useState(savedNumber)
   const [variant, setVariant] = useState(savedVariant)
   const [stamped, setStamped] = useState(savedNumber !== null)
+  const [published, setPublished] = useState<{ number: number; name: string; photo: string; variant: BadgeVariant } | null>(
+    savedNumber === null ? null : { number: savedNumber, name: person.name, photo: portrait ?? placeholderPortrait, variant: savedVariant },
+  )
   const [stamping, setStamping] = useState(false)
   const [design, setDesign] = useState<Design | null>(null)
   const [prints, setPrints] = useState<BadgePrints | null>(null)
@@ -57,6 +61,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
   const pendingNumber = useRef<number | null>(null)
   const [editing, setEditing] = useState(true)
   const [view, setView] = useState<BadgeView>("3d")
+  const dirty = published !== null && (published.name !== name || published.photo !== photo || published.variant !== variant)
 
   useEffect(() => {
     if (window.matchMedia("(max-width: 899px)").matches) setEditing(false)
@@ -103,34 +108,57 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
     }
   }, [badge, design, person, name, photo, number, stamped, badgeUrl])
 
-  async function publish() {
+  /** Waits for the print of `key` (number:stamped) to be on the faces, then uploads it. */
+  async function upload(key: string) {
+    if (faces.current.key !== key)
+      await new Promise<void>((resolve, reject) => {
+        waiting.current = { key, resolve, reject }
+      })
+    waiting.current = null
+    const [frontJpeg, backJpeg] = await Promise.all(faces.current.sides.map(toJpeg))
+    const form = new FormData()
+    form.set("front", frontJpeg, "front.jpg")
+    form.set("back", backJpeg, "back.jpg")
+    return uploadBadge(edition, form)
+  }
+
+  /** First publish: the stamp lands, its impact swaps in the stamped, numbered print, and that print is uploaded. */
+  async function stamp() {
     setPublishing(true)
     setFailure(null)
     try {
       const claim = await claimBadge(edition, name, variant)
       if (!claim.ok) return setFailure(claim.error)
-      const key = `${claim.number}:true`
       const animation = new Promise<void>((resolve) => (stamperDone.current = resolve))
-      const printed = faces.current.key === key ? Promise.resolve() : new Promise<void>((resolve, reject) => {
-        waiting.current = { key, resolve, reject }
-      })
-      // The stamp lands first; its impact swaps in the stamped, numbered print (see onImpact below).
       pendingNumber.current = claim.number
       setStamping(true)
-      await Promise.all([printed, animation])
-      waiting.current = null
-      const [frontJpeg, backJpeg] = await Promise.all(faces.current.sides.map(toJpeg))
-      const form = new FormData()
-      form.set("front", frontJpeg, "front.jpg")
-      form.set("back", backJpeg, "back.jpg")
-      const upload = await uploadBadge(edition, form)
-      if (!upload.ok) return setFailure(upload.error)
-      router.push(`${new URL(badgeUrl).pathname}/${upload.number}`)
+      const [result] = await Promise.all([upload(`${claim.number}:true`), animation])
+      if (!result.ok) return setFailure(result.error)
+      setPublished({ number: result.number, name, photo, variant })
     } catch (error) {
-      console.error(error)
+      console.error("[hot-reload badge] stamp failed", error)
       setFailure("unavailable")
     } finally {
       setStamping(false)
+      setPublishing(false)
+    }
+  }
+
+  /** Later edits: same number, already stamped, no animation. */
+  async function save() {
+    setPublishing(true)
+    setFailure(null)
+    try {
+      const claim = await claimBadge(edition, name, variant)
+      if (!claim.ok) return setFailure(claim.error)
+      const result = await upload(`${claim.number}:true`)
+      if (!result.ok) return setFailure(result.error)
+      setPublished({ number: result.number, name, photo, variant })
+      router.refresh()
+    } catch (error) {
+      console.error("[hot-reload badge] save failed", error)
+      setFailure("unavailable")
+    } finally {
       setPublishing(false)
     }
   }
@@ -158,45 +186,60 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
         }}
         onStamped={() => stamperDone.current()}
       />
-      <div className="hot-reload-badge-controls">
-        {children}
-        <HotReloadBadgeViews view={view} onChange={setView} disabled={stamping} labels={labels} />
-        {/* On phones the fields fold away so the badge keeps the screen; the summary only shows there. */}
-        <details className="hot-reload-badge-edit" open={editing} onToggle={(event) => setEditing(event.currentTarget.open)}>
-          <summary className="hot-reload-caps">{labels.edit} ↻</summary>
-          <div className="hot-reload-badge-fields">
-          <div className="hot-reload-badge-group">
-            <label>
-              <span className="hot-reload-caps">{labels.name}</span>
-              <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} autoComplete="name" disabled={publishing} />
-            </label>
-            <label className="hot-reload-caps hot-reload-badge-photo">
-              {labels.photo} ↻
-              <input type="file" accept="image/*" className="sr-only" disabled={publishing} onChange={(event) => pickPhoto(event.target.files?.[0])} />
-            </label>
-            <p className="hot-reload-badge-hint">{labels.photoHint}</p>
-          </div>
-          <fieldset className="hot-reload-badge-variants">
-            <legend className="hot-reload-caps">{labels.variant}</legend>
-            <div>
-              {(Object.keys(badgeVariants) as BadgeVariant[]).map((option) => (
-                <label key={option} title={option.toUpperCase()}>
-                  <input type="radio" name="variant" value={option} checked={variant === option} disabled={publishing} onChange={() => setVariant(option)} />
-                  <span style={{ background: badgeVariants[option].strap, color: badgeVariants[option].lanyard.ink }}>{option.toUpperCase()}</span>
-                </label>
-              ))}
-            </div>
-          </fieldset>
-          </div>
-        </details>
-        <div className="hot-reload-badge-publish">
-          <button type="button" className="hot-reload-display hot-reload-cta" onClick={publish} disabled={publishing || status !== "ready"}>
-            {publishing ? labels.publishing : savedNumber ? labels.republish : labels.publish} ↻
+      {published ? null : (
+        <div className="hot-reload-badge-stampbar">
+          <button type="button" className="hot-reload-display hot-reload-cta" onClick={stamp} disabled={publishing || status !== "ready"}>
+            {publishing ? labels.stamping : labels.stamp}
           </button>
           {status === "error" ? <p className="hot-reload-badge-hint" role="alert">{labels.error}</p> : null}
           {failure ? <p className="hot-reload-badge-hint" role="alert">{labels[errorLabel[failure]]}</p> : null}
         </div>
-      </div>
+      )}
+      {published ? (
+        <div className="hot-reload-badge-controls">
+          {children}
+          <HotReloadBadgeViews view={view} onChange={setView} disabled={stamping} labels={labels} />
+          {/* On phones the fields fold away so the badge keeps the screen; the summary only shows there. */}
+          <details className="hot-reload-badge-edit" open={editing} onToggle={(event) => setEditing(event.currentTarget.open)}>
+            <summary className="hot-reload-caps">{labels.edit} ↻</summary>
+            <div className="hot-reload-badge-fields">
+              <div className="hot-reload-badge-group">
+                <label>
+                  <span className="hot-reload-caps">{labels.name}</span>
+                  <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} autoComplete="name" disabled={publishing} />
+                </label>
+                <label className="hot-reload-caps hot-reload-badge-photo">
+                  {labels.photo} ↻
+                  <input type="file" accept="image/*" className="sr-only" disabled={publishing} onChange={(event) => pickPhoto(event.target.files?.[0])} />
+                </label>
+                <p className="hot-reload-badge-hint">{labels.photoHint}</p>
+              </div>
+              <fieldset className="hot-reload-badge-variants">
+                <legend className="hot-reload-caps">{labels.variant}</legend>
+                <div>
+                  {(Object.keys(badgeVariants) as BadgeVariant[]).map((option) => (
+                    <label key={option} title={option.toUpperCase()}>
+                      <input type="radio" name="variant" value={option} checked={variant === option} disabled={publishing} onChange={() => setVariant(option)} />
+                      <span style={{ background: badgeVariants[option].strap, color: badgeVariants[option].lanyard.ink }}>{option.toUpperCase()}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              {dirty ? (
+                <button type="button" className="hot-reload-caps hot-reload-badge-photo" onClick={save} disabled={publishing || status !== "ready"}>
+                  {publishing ? labels.publishing : labels.save}
+                </button>
+              ) : null}
+            </div>
+          </details>
+          <div className="hot-reload-badge-publish">
+            <Link className="hot-reload-display hot-reload-cta" href={`${new URL(badgeUrl).pathname}/${published.number}`}>
+              {labels.shareCta} ↗
+            </Link>
+            {failure ? <p className="hot-reload-badge-hint" role="alert">{labels[errorLabel[failure]]}</p> : null}
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }
