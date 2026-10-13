@@ -1,7 +1,8 @@
 "use client"
 
 import * as SelectPrimitive from "@radix-ui/react-select"
-import { BookUser, Check, ChevronDown, Globe, IdCard, Info, Laptop, type LucideIcon, Plus, X } from "lucide-react"
+import confetti from "canvas-confetti"
+import { BookUser, Check, ChevronDown, CircleCheck, Globe, IdCard, Info, Laptop, type LucideIcon, Plus, X } from "lucide-react"
 import { type SimpleIcon, siAcer, siApple, siAsus, siDell, siHp, siHuawei, siLenovo, siLg, siMsi, siSamsung, siToshiba } from "simple-icons"
 import { useEffect, useId, useRef, useState } from "react"
 import { submitEventAccess } from "@/app/[lang]/events/[event]/access/actions"
@@ -139,7 +140,14 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
     try {
       const response = await submitEventAccess(slug, input)
       setResult(response)
-      if (response.ok) { setSaved(true); setDirty(false) }
+      if (response.ok) {
+        setSaved(true); setDirty(false)
+        if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          const colors = ["#f5e6a6", "#c8d9a3", "#ffffff", "#e9b872"]
+          confetti({ particleCount: 90, spread: 70, startVelocity: 45, origin: { x: 0.3, y: 0.75 }, angle: 60, colors })
+          confetti({ particleCount: 90, spread: 70, startVelocity: 45, origin: { x: 0.7, y: 0.75 }, angle: 120, colors })
+        }
+      }
     } catch {
       setResult({ ok: false, error: "unavailable" })
     } finally {
@@ -230,13 +238,13 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
       </div>
       <div className="entry-privacy">
         <h3>{t.privacyTitle}</h3><p>{t.privacy}</p>
-        <label className="entry-checkbox"><input type="checkbox" name="consent" data-field="consent" required {...fieldProps("consent")} />{t.consent}</label>
+        <label className="entry-checkbox"><input type="checkbox" name="consent" data-field="consent" defaultChecked={Boolean(existing)} required {...fieldProps("consent")} />{t.consent}</label>
         {error("consent")}
       </div>
       <button className="station-button" type="submit">{busy ? t.saving : saved ? t.update : t.save}</button>
     </fieldset>
     <div ref={feedback} tabIndex={-1} aria-live="polite" className="entry-feedback">
-      {closed ? <p>{t.closedBody}</p> : result && !result.ok ? <p role="alert">{t.errors[result.error]}</p> : saved && !dirty ? <><h3>{t.saved}</h3><p>{t.savedBody}</p></> : null}
+      {closed ? <p>{t.closedBody}</p> : result && !result.ok ? <p role="alert">{t.errors[result.error]}</p> : saved && !dirty ? <div className="entry-success" key={String(result?.ok)}><CircleCheck aria-hidden size={28} strokeWidth={1.75} /><div><h3>{t.saved}</h3><p>{t.savedBody}</p></div></div> : null}
     </div>
   </form>
 }
