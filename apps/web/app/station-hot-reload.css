@@ -230,21 +230,40 @@
 .hot-reload-ticket-body { margin-top: 12px; font-size: 13px; line-height: 1.65; opacity: 0.85; }
 .hot-reload-ticket .hot-reload-cta { margin-top: 20px; font-size: 22px; }
 .hot-reload-ticket a:not(.hot-reload-cta) { text-decoration: underline; text-underline-offset: 4px; }
-.hot-reload-badge-editor { display: grid; gap: 24px; }
-@media (min-width: 900px) { .hot-reload-badge-editor { grid-template-columns: minmax(0, 1fr) 18rem; align-items: start; } }
-.hot-reload-badge-faces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.hot-reload-badge-faces figure { display: grid; gap: 8px; }
-.hot-reload-badge-slot { aspect-ratio: 2 / 3; border: 2px solid var(--hr-ink); background: color-mix(in srgb, var(--hr-ink) 6%, var(--hr-paper)); }
-.hot-reload-badge-face { display: block; width: 100%; height: 100%; }
+/* Badge editor: one viewport; the badge owns the space, the controls sit in a narrow rail. */
+.hot-reload-theme[data-fit]:has(.hot-reload-badge-page) .hot-reload-column { height: 100dvh; min-height: 0; }
+.hot-reload-badge-page { flex: 1; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 12px; padding: 12px 0; }
+.hot-reload-badge-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 20px; }
+.hot-reload-theme .hot-reload-badge-head h1 { font-size: clamp(22px, 3.2vh, 32px); }
+.hot-reload-badge-head .hot-reload-badge-hint { flex-basis: 100%; }
+.hot-reload-badge-editor { min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 12px; }
+@media (min-width: 900px) { .hot-reload-badge-editor { grid-template-columns: minmax(0, 1fr) 17rem; grid-template-rows: minmax(0, 1fr); gap: 32px; } }
+.hot-reload-badge-stage { position: relative; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 8px; }
+.hot-reload-badge-views { display: flex; gap: 0; justify-self: start; border: 2px solid var(--hr-ink); font-size: 11px; }
+.hot-reload-badge-views button { padding: 6px 12px; }
+.hot-reload-badge-views button[aria-selected="true"] { background: var(--hr-ink); color: var(--hr-paper); }
+.hot-reload-badge-model { min-height: 0; height: 100%; cursor: grab; }
+.hot-reload-badge-faces { min-height: 0; height: 100%; display: flex; justify-content: center; align-items: center; gap: 16px; container-type: size; }
+.hot-reload-badge-faces[hidden] { display: none; }
+.hot-reload-badge-faces figure { display: grid; gap: 6px; }
+/* Two faces side by side, as large as both the width and the height (minus the caption) allow. */
+.hot-reload-badge-slot { width: min(calc(50cqw - 8px), calc((100cqh - 26px) * 2 / 3)); aspect-ratio: 2 / 3; border: 2px solid var(--hr-ink); background: color-mix(in srgb, var(--hr-ink) 6%, var(--hr-paper)); }
+.hot-reload-badge-face { display: block; width: 100%; height: 100%; object-fit: contain; }
 .hot-reload-badge-editor[data-status="printing"] .hot-reload-badge-slot { opacity: 0.55; transition: opacity 0.2s; }
 .hot-reload-badge-status { min-height: 1.2em; font-size: 11px; }
-.hot-reload-badge-controls { display: grid; gap: 14px; }
+.hot-reload-badge-controls { display: grid; align-content: center; gap: 12px; }
 .hot-reload-badge-controls label { display: grid; gap: 6px; }
 .hot-reload-badge-controls input:not([type="file"]) { border: 2px solid var(--hr-ink); background: var(--hr-paper); padding: 10px 12px; font: inherit; color: inherit; }
 .hot-reload-badge-photo { cursor: pointer; border: 2px solid var(--hr-ink); padding: 10px 12px; text-align: center; }
 .hot-reload-badge-photo:hover { background: var(--hr-butter); color: var(--hr-coffee); }
 .hot-reload-badge-photo:focus-within { outline: 2px solid var(--hr-ink); outline-offset: 2px; }
 .hot-reload-badge-hint { font-size: 12px; line-height: 1.6; opacity: 0.75; }
+.hot-reload-badge-controls .hot-reload-cta { font-size: 22px; }
+@media (max-width: 899px) {
+  .hot-reload-badge-head .hot-reload-badge-hint, .hot-reload-badge-controls .hot-reload-badge-hint:not([role="alert"]), .hot-reload-badge-status:empty { display: none; }
+  .hot-reload-badge-controls { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+  .hot-reload-badge-controls label:first-of-type, .hot-reload-badge-controls .hot-reload-cta, .hot-reload-badge-controls [role="alert"], .hot-reload-badge-status { grid-column: 1 / -1; }
+}
 .hot-reload-theme fieldset legend > span:first-child { font-family: var(--hr-display), sans-serif; font-weight: 400; text-transform: uppercase; font-size: 28px; letter-spacing: 0; }
 .hot-reload-theme fieldset ul { border-width: 2px; border-color: var(--hr-ink); }
 .hot-reload-theme fieldset [role="tab"] { text-transform: uppercase; letter-spacing: 0.08em; }

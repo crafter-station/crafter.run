@@ -81,18 +81,18 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   }
 
   return (
-    <HotReloadTheme locale={lang}>
-      <section className="hot-reload-menu-head">
-        <div className="hot-reload-edition-copy">
+    <HotReloadTheme locale={lang} fit>
+      <section className="hot-reload-badge-page">
+        <header className="hot-reload-badge-head">
           <nav aria-label={t.agenda} className="hot-reload-caps hot-reload-crumbs">
             <Link href={withLocale("/events", lang)}>{t.agenda}</Link> / <Link href={withLocale("/events/hot-reload", lang)}>Hot Reload</Link> /{" "}
             <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">{b.badge}</span>
           </nav>
           <h1>{b.title}</h1>
-          <p className="hot-reload-edition-body">{hotReloadText(b.intro, { number: edition.number })}</p>
-        </div>
+          <p className="hot-reload-badge-hint">{hotReloadText(b.intro, { number: edition.number })}</p>
+        </header>
+        {content}
       </section>
-      <section className="hot-reload-menu-body">{content}</section>
     </HotReloadTheme>
   )
 }

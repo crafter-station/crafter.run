@@ -1,20 +1,51 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
 
 import { type BadgeError, claimBadge, uploadBadge } from "@/app/[lang]/events/hot-reload/[edition]/badge/actions"
 import { pressBadge } from "@/lib/badge-press"
 import type { HotReloadBadgeDesign } from "@/lib/hot-reload-badge"
 
 type Person = { name: string; role: string; eventName: string }
-type Labels = Record<"name" | "photo" | "photoHint" | "front" | "back" | "printing" | "error" | "publish" | "publishing" | "republish"
+type Labels = Record<"name" | "photo" | "photoHint" | "front" | "back" | "view3d" | "viewFlat" | "flip" | "printing" | "error" | "publish" | "publishing" | "republish"
   | "errorAuth" | "errorApproval" | "errorEarly" | "errorName" | "errorImage" | "errorUnavailable", string>
 
 const errorLabel = { auth: "errorAuth", approval: "errorApproval", early: "errorEarly", name: "errorName", image: "errorImage", unavailable: "errorUnavailable" } as const
 
 /** Neutral portrait used until the attendee has a Clerk photo or uploads one. */
 const placeholderPortrait = "/events/hot-reload/badge/portrait.png"
+
+const PrismBadge = lazy(() => import("@/vendor/makeables-renderer/index.js").then((module) => ({ default: module.PrismBadge })))
+
+type Prints = { design: { front: { background: string }; back: { background: string } } & Record<string, unknown>; front: string; back: string }
+
+/** The 3D badge shows the pressed prints as-is: each face becomes one full-bleed image layer of the same design. */
+function BadgeModel({ prints, person, flip }: { prints: Prints; person: Person & { number: number }; flip: string }) {
+  const [appearance, setAppearance] = useState<Record<string, unknown> | null>(null)
+  const document = useMemo(() => {
+    const face = (side: "front" | "back") => ({
+      background: prints.design[side].background,
+      layers: [{ kind: "image", id: `print-${side}`, asset: `print-${side}`, x: 0, y: 0, w: 1024, h: 1536, opacity: 1, fit: "cover", radius: 0 }],
+    })
+    return { ...prints.design, assets: {}, front: face("front"), back: face("back") }
+  }, [prints])
+  useEffect(() => {
+    import("@/vendor/makeables-renderer/index.js").then((module) => setAppearance(module.designAppearance(document)))
+  }, [document])
+  if (!appearance) return null
+  return (
+    <div className="hot-reload-badge-model" title={flip}>
+      <PrismBadge
+        data={{ ...person, document, portraitUrl: "", imageUrls: { "print-front": prints.front, "print-back": prints.back } }}
+        appearance={appearance}
+        assetsBaseUrl="/events/hot-reload/badge/prism"
+        fallbackUrl={prints.front}
+        reverseFallbackUrl={prints.back}
+      />
+    </div>
+  )
+}
 
 const toJpeg = (canvas: HTMLCanvasElement) =>
   new Promise<Blob>((resolve, reject) => canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("toBlob failed"))), "image/jpeg"))
@@ -32,6 +63,8 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
   const [photo, setPhoto] = useState(portrait ?? placeholderPortrait)
   const [number, setNumber] = useState(savedNumber)
   const [status, setStatus] = useState<"printing" | "ready" | "error">("printing")
+  const [view, setView] = useState<"3d" | "flat">("3d")
+  const [prints, setPrints] = useState<Prints | null>(null)
   const [publishing, setPublishing] = useState(false)
   const [failure, setFailure] = useState<BadgeError | null>(null)
   const front = useRef<HTMLDivElement>(null)
@@ -45,7 +78,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
       setStatus("printing")
       try {
         const [{ renderDesignFace, designImageUrls }, document] = await Promise.all([
-          import("@/vendor/makeables-renderer.js"),
+          import("@/vendor/makeables-renderer/index.js"),
           fetch(badge.design, { signal: controller.signal }).then((response) => response.json()),
         ])
         const data = {
@@ -59,6 +92,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
         ])
         if (controller.signal.aborted) return
         faces.current = { number, sides }
+        setPrints({ design: document, front: sides[0].toDataURL("image/jpeg"), back: sides[1].toDataURL("image/jpeg") })
         for (const [slot, face] of [[front, sides[0]], [back, sides[1]]] as const) {
           face.className = "hot-reload-badge-face"
           slot.current?.replaceChildren(face)
@@ -117,7 +151,20 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
 
   return (
     <div className="hot-reload-badge-editor" data-status={status}>
-      <div className="hot-reload-badge-faces" aria-busy={status === "printing"}>
+      <div className="hot-reload-badge-stage">
+      <div className="hot-reload-badge-views hot-reload-caps" role="tablist">
+        {(["3d", "flat"] as const).map((option) => (
+          <button key={option} type="button" role="tab" aria-selected={view === option} onClick={() => setView(option)}>
+            {option === "3d" ? labels.view3d : labels.viewFlat}
+          </button>
+        ))}
+      </div>
+      {view === "3d" && prints ? (
+        <Suspense fallback={null}>
+          <BadgeModel prints={prints} person={{ ...person, name: name.trim() || person.name, number: number ?? 0 }} flip={labels.flip} />
+        </Suspense>
+      ) : null}
+      <div className="hot-reload-badge-faces" aria-busy={status === "printing"} hidden={view !== "flat"}>
         <figure>
           <div ref={front} className="hot-reload-badge-slot" />
           <figcaption className="hot-reload-caps">{labels.front}</figcaption>
@@ -126,6 +173,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
           <div ref={back} className="hot-reload-badge-slot" />
           <figcaption className="hot-reload-caps">{labels.back}</figcaption>
         </figure>
+      </div>
       </div>
       <div className="hot-reload-badge-controls">
         <p className="hot-reload-caps hot-reload-badge-status" role="status">
