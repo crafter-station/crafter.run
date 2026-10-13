@@ -45,7 +45,8 @@ export async function checkLumaGuest(eventId: string, emails: string[], calendar
       pending ??= { status: "not-approved", email, approvalStatus: guest.approval_status }
     }
     return pending ?? { status: "not-found" }
-  } catch {
+  } catch (error) {
+    console.warn("[luma] guest lookup failed", error)
     return { status: "unavailable" }
   }
 }
