@@ -20,14 +20,10 @@ export async function checkListedGuest(eventId: string, emails: string[]): Promi
   }
 }
 
-/* Remembers an approval Luma confirmed, so a later lookup can still answer when Luma rate-limits. */
-export async function rememberApprovedGuest(eventId: string, email: string, name: string | null) {
+/* Saves a guest's Luma status, from a lookup or a webhook, so later checks skip Luma. */
+export async function saveGuest(eventId: string, email: string, name: string | null, approvalStatus: string) {
   const db = getDb()
   if (!db) return
-  try {
-    await db.insert(eventGuest).values({ lumaEventId: eventId, email: email.toLowerCase(), name, approvalStatus: "approved" })
-      .onConflictDoUpdate({ target: [eventGuest.lumaEventId, eventGuest.email], set: { name, approvalStatus: "approved", updatedAt: sql`now()` } })
-  } catch (error) {
-    console.warn("[luma] could not remember approved guest", error)
-  }
+  await db.insert(eventGuest).values({ lumaEventId: eventId, email: email.toLowerCase(), name, approvalStatus })
+    .onConflictDoUpdate({ target: [eventGuest.lumaEventId, eventGuest.email], set: { name, approvalStatus, updatedAt: sql`now()` } })
 }

@@ -1,5 +1,5 @@
 import { env } from "@/env"
-import { checkListedGuest, rememberApprovedGuest } from "@/lib/event-guest-list"
+import { checkListedGuest, saveGuest } from "@/lib/event-guest-list"
 
 /* Luma's Get Guest accepts the guest's email as `id`:
    https://docs.luma.com/reference/get_v1-events-guests-get */
@@ -38,13 +38,16 @@ export async function checkLumaGuest(eventId: string, emails: string[], calendar
   if (calendar === "list") return checkListedGuest(eventId, emails)
   const apiKey = calendar === "codex" ? env.LUMA_CODEX_API_KEY : env.LUMA_API_KEY
   if (!apiKey) return { status: "unavailable" }
+  // The Luma webhook keeps event_guest current, so an approved row answers without spending Luma's rate limit.
+  const listed = await checkListedGuest(eventId, emails)
+  if (listed.status === "approved") return listed
   try {
     let pending: GuestCheck | null = null
     for (const email of emails) {
       const guest = await getGuest(eventId, email, apiKey)
       if (!guest) continue
       if (guest.approval_status === "approved") {
-        await rememberApprovedGuest(eventId, email, guest.user_name)
+        await saveGuest(eventId, email, guest.user_name, "approved").catch((error) => console.warn("[luma] could not save guest", error))
         return { status: "approved", email, name: guest.user_name, checkedIn: guest.event_tickets?.some((ticket) => ticket.checked_in_at) ?? false }
       }
       pending ??= { status: "not-approved", email, approvalStatus: guest.approval_status }
@@ -52,8 +55,6 @@ export async function checkLumaGuest(eventId: string, emails: string[], calendar
     return pending ?? { status: "not-found" }
   } catch (error) {
     console.warn("[luma] guest lookup failed", error)
-    // Luma blocks the calendar for a minute past its rate limit; fall back to the approvals already seen or imported.
-    const listed = await checkListedGuest(eventId, emails)
-    return listed.status === "approved" ? listed : { status: "unavailable" }
+    return { status: "unavailable" }
   }
 }
