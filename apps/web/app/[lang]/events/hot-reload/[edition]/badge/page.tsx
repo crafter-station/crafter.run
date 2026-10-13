@@ -7,6 +7,7 @@ import { LinkLumaEmail } from "@/components/link-luma-email"
 import { getEventGuest } from "@/lib/event-guest"
 import { findEdition } from "@/lib/hot-reload"
 import { editionBadge } from "@/lib/hot-reload-badge"
+import { getUserBadge } from "@/lib/hot-reload-badge-store"
 import { hotReloadBadgeCopy } from "@/lib/hot-reload-badge-copy"
 import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
 import { isLocale, withLocale } from "@/lib/i18n"
@@ -42,17 +43,19 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
       </Notice>
     )
   } else if (check?.status === "approved") {
+    const saved = await getUserBadge(edition.number, user.id)
     content = (
       <HotReloadBadgeEditor
         badge={badge}
         portrait={user.hasImage ? user.imageUrl : null}
         person={{
-          name: check.name ?? [user.firstName, user.lastName].filter(Boolean).join(" "),
+          name: saved?.name ?? check.name ?? [user.firstName, user.lastName].filter(Boolean).join(" "),
           role: b.role,
-          number: 0,
           eventName: `Hot Reload #${edition.number}`,
-          publicUrl: `https://crafter.run${withLocale(`/events/hot-reload/${edition.number}`, lang)}`,
         }}
+        edition={String(edition.number)}
+        number={saved?.number ?? null}
+        badgeUrl={`https://crafter.run${path}`}
         labels={b}
       />
     )

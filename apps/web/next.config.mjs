@@ -39,6 +39,8 @@ const nextConfig = {
     // so an unmatched URL has no locale to render inside. `global-not-found`
     // is Next's convention for exactly that shape; see app/global-not-found.tsx.
     globalNotFound: true,
+    // Hot Reload badges upload both printed faces in one action; 4.5 MB is Vercel's request body limit.
+    serverActions: { bodySizeLimit: "4.5mb" },
   },
   // The App Router will not route a directory whose name starts with a dot, so
   // the well-known documents are built under /well-known and surfaced at their
