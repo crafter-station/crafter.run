@@ -1,12 +1,43 @@
 "use client"
 
-import { BookUser, Globe, IdCard, Info, Laptop, type LucideIcon, Plus, X } from "lucide-react"
+import * as SelectPrimitive from "@radix-ui/react-select"
+import { BookUser, Check, ChevronDown, Globe, IdCard, Info, Laptop, type LucideIcon, Plus, X } from "lucide-react"
+import { type SimpleIcon, siAcer, siApple, siAsus, siDell, siHp, siHuawei, siLenovo, siLg, siMsi, siSamsung, siToshiba } from "simple-icons"
 import { useEffect, useRef, useState } from "react"
 import { submitEventAccess } from "@/app/[lang]/events/[event]/access/actions"
 import { accessInputSchema, type AccessDetails, type AccessField, type AccessResult } from "@/lib/event-access-service"
 import { eventAccessCopy } from "@/lib/event-access-copy"
 import type { Locale } from "@/lib/i18n"
 
+const laptopBrands: [string, SimpleIcon | null][] = [["Apple", siApple], ["Lenovo", siLenovo], ["HP", siHp], ["Dell", siDell], ["Asus", siAsus], ["Acer", siAcer],
+  ["MSI", siMsi], ["Samsung", siSamsung], ["Huawei", siHuawei], ["Microsoft", null], ["LG", siLg], ["Toshiba", siToshiba]]
+
+function BrandMark({ icon }: { icon: SimpleIcon | null }) {
+  return icon ? <svg viewBox="0 0 24 24" width={16} height={16} fill="currentColor" aria-hidden><path d={icon.path} /></svg>
+    : <Laptop aria-hidden size={16} strokeWidth={1.75} />
+}
+
+function BrandSelect({ value, onChange, placeholder, other, invalid, field }: {
+  value: string; onChange: (value: string) => void; placeholder: string; other: string; invalid: boolean; field?: string
+}) {
+  const options = [...laptopBrands, ...(value && value !== other && !laptopBrands.some(([brand]) => brand === value) ? [[value, null] as [string, null]] : []), [other, null] as [string, null]]
+  return <SelectPrimitive.Root value={value} onValueChange={onChange}>
+    <SelectPrimitive.Trigger className="entry-brand-trigger" aria-invalid={invalid} data-field={field}>
+      <SelectPrimitive.Value placeholder={placeholder} />
+      <SelectPrimitive.Icon asChild><ChevronDown aria-hidden size={16} /></SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content className="entry-brand-menu" position="popper" sideOffset={6}>
+        <SelectPrimitive.Viewport>
+          {options.map(([brand, icon]) => <SelectPrimitive.Item key={brand} value={brand} className="entry-brand-option">
+            <SelectPrimitive.ItemText><span className="entry-brand-label"><BrandMark icon={icon} />{brand}</span></SelectPrimitive.ItemText>
+            <SelectPrimitive.ItemIndicator className="entry-brand-check"><Check aria-hidden size={16} /></SelectPrimitive.ItemIndicator>
+          </SelectPrimitive.Item>)}
+        </SelectPrimitive.Viewport>
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
+  </SelectPrimitive.Root>
+}
 const documentIcons: Record<AccessDetails["documentType"], LucideIcon> = { dni: IdCard, foreign: Globe, passport: BookUser }
 type Item = { id: number; type: number; brand: string; model: string }
 let nextItemId = 0
@@ -141,13 +172,12 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
             {items.map((item, index) => {
               const invalid = fields.includes("equipmentText") && !item.brand.trim()
               return <li key={item.id} className="entry-item">
-                <span className="entry-item-icon" aria-hidden><Laptop size={20} strokeWidth={1.75} /></span>
-                <label className="entry-item-field"><span>{t.brand}</span>
-                  <input value={item.brand} maxLength={50} autoComplete="off" aria-invalid={invalid}
-                    data-field={index === 0 ? "equipmentText" : undefined} onChange={event => updateItem(item.id, { brand: event.target.value })} />
-                </label>
+                <div className="entry-item-field"><span>{t.brand}</span>
+                  <BrandSelect value={item.brand} onChange={brand => updateItem(item.id, { brand })} placeholder={t.brandPlaceholder} other={t.brandOther}
+                    invalid={invalid} field={index === 0 ? "equipmentText" : undefined} />
+                </div>
                 <label className="entry-item-field"><span>{t.model}</span>
-                  <input value={item.model} maxLength={60} autoComplete="off" onChange={event => updateItem(item.id, { model: event.target.value })} />
+                  <input value={item.model} maxLength={60} autoComplete="off" placeholder={t.modelPlaceholder} onChange={event => updateItem(item.id, { model: event.target.value })} />
                 </label>
                 <button type="button" className="entry-item-remove" aria-label={`${t.removeItem} ${index + 1}`} disabled={items.length === 1}
                   onClick={() => setItems(current => current.filter(entry => entry.id !== item.id))}><X aria-hidden size={18} /></button>
