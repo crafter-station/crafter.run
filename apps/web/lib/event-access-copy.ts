@@ -29,6 +29,7 @@ const en = {
   errors: { closed: "The submission deadline has passed.", auth: "Sign in again to continue.", approval: "Your registration must be approved on Luma.", unavailable: "We couldn’t save your details. Please try again later.", invalid: "Check the highlighted fields and confirm the use of your details." },
   fieldError: "Please check this field.", admin: "Event entry", export: "Download accepted attendees CSV", empty: "No entry details have been submitted.", email: "Email", status: "Luma status", updated: "Updated", adminUnavailable: "The entry list or Luma verification is temporarily unavailable.", notApproved: "Not approved", verified: "Approved", unverified: "Not verified",
   adminHelp: "Acceptance is checked again before export. Only currently approved attendees are included. Keep the downloaded file private and share it only with the people coordinating venue access.",
+  progress: "approved guests have completed their entry details", missing: "Missing", completed: "Completed", notListed: "Submitted but no longer approved", copyEmails: "Copy emails", copied: "Copied", lastSync: "Guest list synced", none: "Nobody here.",
 }
 type Copy = { [K in keyof typeof en]: typeof en[K] extends string ? string : typeof en[K] extends string[] ? string[] : Record<keyof typeof en.errors, string> }
 
@@ -61,6 +62,7 @@ export const eventAccessCopy: Record<Locale, Copy> = {
     errors: { closed: "Ya cerró el plazo para enviar datos.", auth: "Vuelve a iniciar sesión para continuar.", approval: "Tu registro debe estar aprobado en Luma.", unavailable: "No pudimos guardar tus datos. Inténtalo en un momento.", invalid: "Revisa los campos señalados y confirma el uso de tus datos." },
     fieldError: "Revisa este campo.", admin: "Ingreso a eventos", export: "Descargar CSV de aceptados", empty: "Todavía no se enviaron datos de ingreso.", email: "Correo", status: "Estado en Luma", updated: "Actualizado", adminUnavailable: "La lista o la verificación de Luma no están disponibles por el momento.", notApproved: "Sin aprobación", verified: "Aprobado", unverified: "Sin verificar",
     adminHelp: "La aceptación se vuelve a verificar antes de exportar. Solo se incluyen personas aprobadas en ese momento. Mantén el archivo privado y compártelo solo con quienes coordinan el ingreso al local.",
+    progress: "personas aprobadas completaron sus datos de ingreso", missing: "Faltan", completed: "Completaron", notListed: "Enviaron datos pero ya no están aprobados", copyEmails: "Copiar correos", copied: "Copiado", lastSync: "Lista de invitados sincronizada", none: "Nadie aquí.",
   },
   pt: {
     agenda: "Agenda", eyebrow: "Comunidade Codex · Lima", city: "Uma tarde para construir juntos.",
@@ -87,6 +89,7 @@ export const eventAccessCopy: Record<Locale, Copy> = {
     errors: { closed: "O prazo para enviar dados terminou.", auth: "Entre novamente para continuar.", approval: "Sua inscrição precisa estar aprovada no Luma.", unavailable: "Não conseguimos salvar. Tente novamente mais tarde.", invalid: "Confira os campos destacados e confirme o uso dos dados." },
     fieldError: "Confira este campo.", admin: "Entrada em eventos", export: "Baixar CSV de aprovados", empty: "Nenhum dado de entrada foi enviado.", email: "E-mail", status: "Status no Luma", updated: "Atualizado", adminUnavailable: "A lista ou a verificação do Luma está temporariamente indisponível.", notApproved: "Sem aprovação", verified: "Aprovado", unverified: "Não verificado",
     adminHelp: "A aprovação é verificada novamente antes da exportação. Apenas pessoas aprovadas no momento são incluídas. Mantenha o arquivo privado e compartilhe apenas com quem coordena a entrada.",
+    progress: "pessoas aprovadas preencheram os dados de entrada", missing: "Faltam", completed: "Preencheram", notListed: "Enviaram dados mas não estão mais aprovados", copyEmails: "Copiar e-mails", copied: "Copiado", lastSync: "Lista de convidados sincronizada", none: "Ninguém aqui.",
   },
   zh: {
     agenda: "活动", eyebrow: "Codex 社区 · 利马", city: "一起动手创造的夜晚。",
@@ -113,6 +116,7 @@ export const eventAccessCopy: Record<Locale, Copy> = {
     errors: { closed: "信息提交已截止。", auth: "请重新登录以继续。", approval: "你的报名必须先在 Luma 获批。", unavailable: "无法保存信息，请稍后重试。", invalid: "请检查标出的字段，并确认信息使用授权。" },
     fieldError: "请检查此字段。", admin: "活动入场", export: "下载获批名单 CSV", empty: "尚无人提交入场信息。", email: "邮箱", status: "Luma 状态", updated: "更新时间", adminUnavailable: "名单或 Luma 验证暂时不可用。", notApproved: "未获批", verified: "已获批", unverified: "未验证",
     adminHelp: "导出前会重新验证报名状态，仅包含当时获批的参与者。请妥善保管文件，仅与负责场地入场的人员共享。",
+    progress: "名获批参与者已填写入场信息", missing: "未填写", completed: "已填写", notListed: "已提交但不再获批", copyEmails: "复制邮箱", copied: "已复制", lastSync: "嘉宾名单同步于", none: "暂无。",
   },
   ja: {
     agenda: "イベント", eyebrow: "Codex コミュニティ · リマ", city: "一緒につくる夕べ。",
@@ -140,5 +144,6 @@ export const eventAccessCopy: Record<Locale, Copy> = {
     errors: { closed: "送信期限を過ぎています。", auth: "再度ログインしてください。", approval: "Luma での承認が必要です。", unavailable: "保存できませんでした。後でもう一度お試しください。", invalid: "表示された項目と情報利用への同意を確認してください。" },
     fieldError: "この項目を確認してください。", admin: "イベント入場", export: "承認済み参加者の CSV をダウンロード", empty: "入場情報はまだありません。", email: "メール", status: "Luma の状態", updated: "更新日時", adminUnavailable: "名簿または Luma の確認が一時的に利用できません。", notApproved: "未承認", verified: "承認済み", unverified: "未確認",
     adminHelp: "出力前に承認状況を再確認し、その時点で承認済みの方だけを含めます。ファイルは非公開で保管し、入場調整の担当者だけと共有してください。",
+    progress: "名の承認済み参加者が入場情報を入力済み", missing: "未入力", completed: "入力済み", notListed: "提出済みだが承認が外れた方", copyEmails: "メールをコピー", copied: "コピーしました", lastSync: "ゲスト名簿の同期", none: "該当なし。",
   },
 }
