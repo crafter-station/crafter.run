@@ -1,11 +1,7 @@
 import { currentUser } from "@clerk/nextjs/server"
 
-const adminEmails = new Set(["raillyhugo@gmail.com"])
-
+/** Admins have `{ "role": "admin" }` in their Clerk public metadata. */
 export async function getAdmin() {
   const user = await currentUser()
-  const isAdmin = user?.emailAddresses.some(
-    (address) => address.verification?.status === "verified" && adminEmails.has(address.emailAddress.toLowerCase()),
-  )
-  return isAdmin ? user : null
+  return user?.publicMetadata?.role === "admin" ? user : null
 }

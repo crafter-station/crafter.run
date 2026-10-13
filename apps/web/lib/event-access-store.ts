@@ -47,3 +47,14 @@ export async function listAccessForAdmin(event: AccessEvent) {
     return null
   }
 }
+
+/** Admin callers must authorize before reading. Raw submissions; pair with listApprovedGuests. */
+export async function listAccessRows(event: AccessEvent) {
+  const db = getDb()
+  if (!db) return null
+  try {
+    return await db.select().from(eventAccess).where(eq(eventAccess.eventSlug, event.slug)).orderBy(asc(eventAccess.createdAt))
+  } catch {
+    return null
+  }
+}
