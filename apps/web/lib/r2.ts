@@ -17,11 +17,14 @@ export function r2Configured() {
 export async function r2Put(key: string, body: Uint8Array, contentType: string) {
   const r2 = bucket()
   if (!r2) throw new Error("R2 is not configured")
-  const response = await r2.client.fetch(`${r2.base}/${key}`, {
+  // Sign, then send the bytes ourselves: passing the signed Request through Next's server fetch
+  // turned the body into a stream without a length, and R2 answers 411 to that.
+  const signed = await r2.client.sign(`${r2.base}/${key}`, {
     method: "PUT",
-    headers: { "Content-Type": contentType },
+    headers: { "Content-Type": contentType, "Content-Length": String(body.byteLength) },
     body,
   })
+  const response = await fetch(signed.url, { method: "PUT", headers: signed.headers, body, cache: "no-store" })
   if (!response.ok) throw new Error(`R2 put failed with ${response.status}`)
 }
 
