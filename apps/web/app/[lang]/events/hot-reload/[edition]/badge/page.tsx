@@ -1,0 +1,98 @@
+import Link from "next/link"
+import { notFound } from "next/navigation"
+
+import { HotReloadBadgeEditor } from "@/components/hot-reload-badge-editor"
+import { HotReloadTheme } from "@/components/hot-reload-theme"
+import { LinkLumaEmail } from "@/components/link-luma-email"
+import { getEventGuest } from "@/lib/event-guest"
+import { findEdition } from "@/lib/hot-reload"
+import { editionBadge } from "@/lib/hot-reload-badge"
+import { getUserBadge } from "@/lib/hot-reload-badge-store"
+import { hotReloadBadgeCopy } from "@/lib/hot-reload-badge-copy"
+import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
+import { isLocale, withLocale } from "@/lib/i18n"
+
+export const dynamic = "force-dynamic"
+export const metadata = { robots: { index: false } }
+
+function Notice({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="hot-reload-ticket">
+      <h2>{title}</h2>
+      <div className="hot-reload-ticket-body">{children}</div>
+    </div>
+  )
+}
+
+export default async function Page({ params }: { params: Promise<{ lang: string; edition: string }> }) {
+  const { lang, edition: number } = await params
+  const edition = findEdition(number)
+  const badge = edition && editionBadge(edition)
+  if (!isLocale(lang) || !edition || !badge || !edition.lumaEventId) notFound()
+  const t = hotReloadCopy[lang]
+  const b = hotReloadBadgeCopy[lang]
+  const path = `/${lang}/events/hot-reload/${edition.number}/badge`
+  const { user, emails, check } = await getEventGuest(edition.lumaEventId)
+
+  let content: React.ReactNode
+  if (!user) {
+    content = (
+      <Notice title={b.title}>
+        <p>{b.signInBody}</p>
+        <Link className="hot-reload-display hot-reload-cta" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link>
+      </Notice>
+    )
+  } else if (check?.status === "approved") {
+    const saved = await getUserBadge(edition.number, user.id)
+    content = (
+      <HotReloadBadgeEditor
+        badge={badge}
+        portrait={user.hasImage ? user.imageUrl : null}
+        person={{
+          name: saved?.name ?? check.name ?? [user.firstName, user.lastName].filter(Boolean).join(" "),
+          role: b.role,
+          eventName: `Hot Reload #${edition.number}`,
+        }}
+        edition={String(edition.number)}
+        number={saved?.number ?? null}
+        badgeUrl={`https://crafter.run${path}`}
+        labels={b}
+      />
+    )
+  } else if (check?.status === "not-approved") {
+    content = <Notice title={t.pendingTitle}>
+      <p>{hotReloadText(t.pendingGuest, { email: check.email })}</p>
+      <LinkLumaEmail locale={lang} />
+    </Notice>
+  } else if (check?.status === "not-found") {
+    content = (
+      <Notice title={t.missingTitle}>
+        <p>{hotReloadText(t.missingGuest, { emails: emails?.join(", ") ?? "" })}</p>
+        {edition.lumaUrl ? <a className="mt-3 inline-block underline underline-offset-4" href={edition.lumaUrl} target="_blank" rel="noopener noreferrer">{t.requestSpot}</a> : null}
+        <LinkLumaEmail locale={lang} />
+      </Notice>
+    )
+  } else {
+    content = <Notice title={t.unavailableTitle}>
+      <p>{t.unavailableBody}</p>
+      <a className="mt-3 inline-block underline underline-offset-4" href={path}>{t.checkAgain}</a>
+      <LinkLumaEmail locale={lang} />
+    </Notice>
+  }
+
+  return (
+    <HotReloadTheme locale={lang}>
+      <section className="hot-reload-menu-head">
+        <div className="hot-reload-edition-copy">
+          <nav aria-label={t.agenda} className="hot-reload-caps hot-reload-crumbs">
+            <Link href={withLocale("/events", lang)}>{t.agenda}</Link> / <Link href={withLocale("/events/hot-reload", lang)}>Hot Reload</Link> /{" "}
+            <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">{b.badge}</span>
+          </nav>
+          <h1>{b.title}</h1>
+          <p className="hot-reload-edition-body">{hotReloadText(b.intro, { number: edition.number })}</p>
+        </div>
+      </section>
+      <section className="hot-reload-menu-body">{content}</section>
+    </HotReloadTheme>
+  )
+}

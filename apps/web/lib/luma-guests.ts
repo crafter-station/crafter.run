@@ -6,7 +6,7 @@ import { checkListedGuest } from "@/lib/event-guest-list"
 const LUMA_GUEST_URL = "https://public-api.luma.com/v1/events/guests/get"
 
 export type GuestCheck =
-  | { status: "approved"; email: string; name: string | null }
+  | { status: "approved"; email: string; name: string | null; checkedIn?: boolean }
   | { status: "not-approved"; email: string; approvalStatus: string }
   | { status: "not-found" }
   | { status: "unavailable" }
@@ -21,7 +21,12 @@ async function getGuest(eventId: string, email: string, apiKey: string) {
   const response = await fetch(url, { headers: { "x-luma-api-key": apiKey }, cache: "no-store", signal: AbortSignal.timeout(8000) })
   if (response.status === 404 || response.status === 400) return null
   if (!response.ok) throw new Error(`Luma guest lookup failed with ${response.status}`)
-  return (await response.json()) as { user_email: string; user_name: string | null; approval_status: string }
+  return (await response.json()) as {
+    user_email: string
+    user_name: string | null
+    approval_status: string
+    event_tickets?: { checked_in_at: string | null }[]
+  }
 }
 
 /* Checks every verified email on the account, so a member signed in with a
@@ -35,7 +40,8 @@ export async function checkLumaGuest(eventId: string, emails: string[], calendar
     for (const email of emails) {
       const guest = await getGuest(eventId, email, apiKey)
       if (!guest) continue
-      if (guest.approval_status === "approved") return { status: "approved", email, name: guest.user_name }
+      if (guest.approval_status === "approved")
+        return { status: "approved", email, name: guest.user_name, checkedIn: guest.event_tickets?.some((ticket) => ticket.checked_in_at) ?? false }
       pending ??= { status: "not-approved", email, approvalStatus: guest.approval_status }
     }
     return pending ?? { status: "not-found" }

@@ -169,6 +169,13 @@
       "when": 1791773817141,
       "tag": "0023_event_guest",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1791861560346,
+      "tag": "0024_hot_reload_badges",
+      "breakpoints": true
     }
   ]
 }

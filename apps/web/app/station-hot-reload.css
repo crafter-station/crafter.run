@@ -230,6 +230,21 @@
 .hot-reload-ticket-body { margin-top: 12px; font-size: 13px; line-height: 1.65; opacity: 0.85; }
 .hot-reload-ticket .hot-reload-cta { margin-top: 20px; font-size: 22px; }
 .hot-reload-ticket a:not(.hot-reload-cta) { text-decoration: underline; text-underline-offset: 4px; }
+.hot-reload-badge-editor { display: grid; gap: 24px; }
+@media (min-width: 900px) { .hot-reload-badge-editor { grid-template-columns: minmax(0, 1fr) 18rem; align-items: start; } }
+.hot-reload-badge-faces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.hot-reload-badge-faces figure { display: grid; gap: 8px; }
+.hot-reload-badge-slot { aspect-ratio: 2 / 3; border: 2px solid var(--hr-ink); background: color-mix(in srgb, var(--hr-ink) 6%, var(--hr-paper)); }
+.hot-reload-badge-face { display: block; width: 100%; height: 100%; }
+.hot-reload-badge-editor[data-status="printing"] .hot-reload-badge-slot { opacity: 0.55; transition: opacity 0.2s; }
+.hot-reload-badge-status { min-height: 1.2em; font-size: 11px; }
+.hot-reload-badge-controls { display: grid; gap: 14px; }
+.hot-reload-badge-controls label { display: grid; gap: 6px; }
+.hot-reload-badge-controls input:not([type="file"]) { border: 2px solid var(--hr-ink); background: var(--hr-paper); padding: 10px 12px; font: inherit; color: inherit; }
+.hot-reload-badge-photo { cursor: pointer; border: 2px solid var(--hr-ink); padding: 10px 12px; text-align: center; }
+.hot-reload-badge-photo:hover { background: var(--hr-butter); color: var(--hr-coffee); }
+.hot-reload-badge-photo:focus-within { outline: 2px solid var(--hr-ink); outline-offset: 2px; }
+.hot-reload-badge-hint { font-size: 12px; line-height: 1.6; opacity: 0.75; }
 .hot-reload-theme fieldset legend > span:first-child { font-family: var(--hr-display), sans-serif; font-weight: 400; text-transform: uppercase; font-size: 28px; letter-spacing: 0; }
 .hot-reload-theme fieldset ul { border-width: 2px; border-color: var(--hr-ink); }
 .hot-reload-theme fieldset [role="tab"] { text-transform: uppercase; letter-spacing: 0.08em; }
