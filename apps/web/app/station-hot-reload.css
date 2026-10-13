@@ -350,11 +350,11 @@
 
 /* Rail: heading, view switch, fields, lanyard, publish; each group breathes, items inside sit close. */
 /* The rail sits over the canvas; a card swung under it blurs instead of covering the text. */
-.hot-reload-badge-controls { position: relative; z-index: 2; min-height: 0; margin: 0 -20px; background: color-mix(in srgb, var(--hr-paper) 55%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); -webkit-mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 20px), transparent), linear-gradient(transparent, #000 24px, #000 calc(100% - 24px), transparent); -webkit-mask-composite: source-in; mask-image: linear-gradient(90deg, transparent, #000 20px, #000 calc(100% - 20px), transparent), linear-gradient(transparent, #000 24px, #000 calc(100% - 24px), transparent); mask-composite: intersect; display: flex; flex-direction: column; justify-content: center; gap: 28px; padding: 24px 20px; }
-.hot-reload-badge-fields { display: grid; gap: 28px; }
+.hot-reload-badge-controls { position: relative; z-index: 2; min-height: 0; margin: 0 -20px; background: color-mix(in srgb, var(--hr-paper) 55%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); display: flex; flex-direction: column; justify-content: center; gap: 28px; padding: 24px 20px; }
+.hot-reload-badge-edit, .hot-reload-badge-fields { display: grid; gap: 28px; }
 .hot-reload-badge-group { display: grid; gap: 10px; }
 .hot-reload-badge-group label { display: grid; gap: 8px; }
-.hot-reload-badge-controls input:not([type="file"], [type="radio"]), .hot-reload-badge-drawer input:not([type="file"], [type="radio"]) { border: 2px solid var(--hr-ink); background: var(--hr-paper); padding: 10px 12px; font: inherit; color: inherit; }
+.hot-reload-badge-controls input:not([type="file"], [type="radio"]) { border: 2px solid var(--hr-ink); background: var(--hr-paper); padding: 10px 12px; font: inherit; color: inherit; }
 .hot-reload-badge-photo { cursor: pointer; border: 2px solid var(--hr-ink); padding: 10px 12px; text-align: center; }
 .hot-reload-badge-photo:hover { background: var(--hr-butter); color: var(--hr-coffee); }
 .hot-reload-badge-photo:focus-within { outline: 2px solid var(--hr-ink); outline-offset: 2px; }
@@ -375,6 +375,7 @@
 .hot-reload-badge-variants span { display: grid; place-items: center; width: 48px; height: 48px; padding: 0; border: 2px solid var(--hr-ink); font-family: var(--hr-display), sans-serif; font-size: 20px; line-height: 1; }
 .hot-reload-badge-variants input:checked + span { outline: 2px solid var(--hr-ink); outline-offset: 3px; }
 .hot-reload-badge-variants input:focus-visible + span { outline: 2px dashed var(--hr-ink); outline-offset: 3px; }
+@media (min-width: 900px) { .hot-reload-badge-edit summary { display: none; } }
 
 @media (max-width: 899px) {
   /* The badge is the page: no site header, footer or heading; the fields fold behind one toggle. */
@@ -383,8 +384,14 @@
   .hot-reload-badge-swing { top: -16%; bottom: -10%; }
   .hot-reload-badge-controls { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; gap: 8px; padding: 8px 20px 12px; }
   .hot-reload-badge-views { grid-column: 1 / -1; order: -1; }
-  .hot-reload-badge-edit-toggle { display: grid; place-items: center; min-height: 48px; padding: 0 12px; border: 2px solid var(--hr-ink); font-size: 11px; white-space: nowrap; }
+  .hot-reload-badge-edit { display: grid; gap: 0; }
+  .hot-reload-badge-edit[open] { grid-column: 1 / -1; gap: 12px; }
+  .hot-reload-badge-fields { gap: 12px; padding-top: 12px; }
+  .hot-reload-badge-edit summary { display: grid; place-items: center; min-height: 48px; padding: 0 12px; border: 2px solid var(--hr-ink); font-size: 11px; white-space: nowrap; cursor: pointer; list-style: none; }
+  .hot-reload-badge-edit summary::-webkit-details-marker { display: none; }
+  .hot-reload-badge-group .hot-reload-badge-hint { display: none; }
   .hot-reload-badge-publish .hot-reload-cta { display: grid; place-items: center; min-height: 48px; padding-block: 0; font-size: 18px; white-space: nowrap; }
+  .hot-reload-badge-edit[open] ~ .hot-reload-badge-publish { grid-column: 1 / -1; }
   .hot-reload-badge-variants { grid-template-columns: auto 1fr; align-items: center; }
   .hot-reload-badge-variants legend { float: left; padding: 0; }
 }
@@ -412,9 +419,3 @@
 .hot-reload-game-made { position: absolute; top: 12px; left: 12px; padding: 8px 12px; color: var(--hr-ink); font-size: 12px; letter-spacing: 0.04em; opacity: 0.7; }
 .hot-reload-game-made:hover { opacity: 1; }
 .hot-reload-foot-keys { display: flex; flex-wrap: wrap; gap: 4px 20px; }
-
-/* Phone drawer for the badge fields: portalled inside the editor so it keeps the Hot Reload theme. */
-.hot-reload-badge-drawer { max-height: 85dvh; border: 2px solid var(--hr-ink); border-bottom: 0; border-radius: 16px 16px 0 0; background: var(--hr-paper); color: var(--hr-ink); font-family: var(--hr-mono), monospace; }
-.hot-reload-badge-drawer > div:first-child { background: color-mix(in srgb, var(--hr-ink) 30%, transparent); }
-.hot-reload-badge-drawer h2 { padding: 16px 20px 0; font-size: 28px; }
-.hot-reload-badge-drawer .hot-reload-badge-fields { gap: 20px; overflow-y: auto; padding: 16px 20px max(20px, env(safe-area-inset-bottom)); }
