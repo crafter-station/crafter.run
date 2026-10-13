@@ -2,6 +2,7 @@ import { and, eq, sql } from "drizzle-orm"
 import { hotReloadBadges } from "@crafter/db/schema"
 
 import { getDb } from "@/lib/db"
+import type { BadgeVariant } from "@/lib/hot-reload-badge"
 
 export type BadgeSide = "front" | "back"
 
@@ -17,6 +18,7 @@ const columns = {
   clerkUserId: hotReloadBadges.clerkUserId,
   name: hotReloadBadges.name,
   checkedIn: hotReloadBadges.checkedIn,
+  variant: hotReloadBadges.variant,
   updatedAt: hotReloadBadges.updatedAt,
 }
 
@@ -43,18 +45,18 @@ function numberTaken(error: unknown): boolean {
 }
 
 /** Reserves the attendee's number (next free one on first publish, the same one afterwards). */
-export async function reserveBadge(edition: number, clerkUserId: string, name: string, checkedIn: boolean) {
+export async function reserveBadge(edition: number, clerkUserId: string, name: string, checkedIn: boolean, variant: BadgeVariant) {
   const db = getDb()
   if (!db) throw new Error("Database is not configured")
   // Two first publishes can read the same max; the loser retries against the new max.
   for (;;) {
     try {
       const [badge] = await db.insert(hotReloadBadges).values({
-        edition, clerkUserId, name, checkedIn,
+        edition, clerkUserId, name, checkedIn, variant,
         number: sql`(select coalesce(max(${hotReloadBadges.number}), 0) + 1 from ${hotReloadBadges} where ${hotReloadBadges.edition} = ${edition})`,
       }).onConflictDoUpdate({
         target: [hotReloadBadges.edition, hotReloadBadges.clerkUserId],
-        set: { name, checkedIn: sql`${hotReloadBadges.checkedIn} or ${checkedIn}`, updatedAt: sql`now()` },
+        set: { name, variant, checkedIn: sql`${hotReloadBadges.checkedIn} or ${checkedIn}`, updatedAt: sql`now()` },
       }).returning(columns)
       return badge
     } catch (error) {

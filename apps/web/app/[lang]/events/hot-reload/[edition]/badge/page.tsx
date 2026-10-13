@@ -6,7 +6,7 @@ import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { LinkLumaEmail } from "@/components/link-luma-email"
 import { getEventGuest } from "@/lib/event-guest"
 import { findEdition } from "@/lib/hot-reload"
-import { editionBadge } from "@/lib/hot-reload-badge"
+import { editionBadge, isBadgeVariant } from "@/lib/hot-reload-badge"
 import { getUserBadge } from "@/lib/hot-reload-badge-store"
 import { hotReloadBadgeCopy } from "@/lib/hot-reload-badge-copy"
 import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
@@ -55,8 +55,9 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         }}
         edition={String(edition.number)}
         number={saved?.number ?? null}
+        variant={isBadgeVariant(saved?.variant) ? saved.variant : "a"}
         badgeUrl={`https://crafter.run${path}`}
-        labels={b}
+        labels={{ ...b, intro: hotReloadText(b.intro, { number: edition.number }) }}
       />
     )
   } else if (check?.status === "not-approved") {
@@ -89,7 +90,6 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">{b.badge}</span>
           </nav>
           <h1>{b.title}</h1>
-          <p className="hot-reload-badge-hint">{hotReloadText(b.intro, { number: edition.number })}</p>
         </header>
         {content}
       </section>

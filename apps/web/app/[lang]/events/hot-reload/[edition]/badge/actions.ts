@@ -2,7 +2,7 @@
 
 import { getEventGuest } from "@/lib/event-guest"
 import { findEdition } from "@/lib/hot-reload"
-import { editionBadge } from "@/lib/hot-reload-badge"
+import { editionBadge, isBadgeVariant } from "@/lib/hot-reload-badge"
 import { badgeImageKey, getUserBadge, reserveBadge } from "@/lib/hot-reload-badge-store"
 import { r2Configured, r2Put } from "@/lib/r2"
 
@@ -23,13 +23,14 @@ async function attendee(editionNumber: string): Promise<Result<{ edition: number
 }
 
 /** Gives the attendee their badge number, so the print can carry it before it is uploaded. */
-export async function claimBadge(editionNumber: string, rawName: string): Promise<Result<{ number: number }>> {
+export async function claimBadge(editionNumber: string, rawName: string, variant: string): Promise<Result<{ number: number }>> {
   const guest = await attendee(editionNumber)
   if (!guest.ok) return guest
   const name = rawName.trim()
   if (name.length < 2 || name.length > 80) return { ok: false, error: "name" }
+  if (!isBadgeVariant(variant)) return { ok: false, error: "unavailable" }
   try {
-    const badge = await reserveBadge(guest.edition, guest.userId, name, guest.checkedIn)
+    const badge = await reserveBadge(guest.edition, guest.userId, name, guest.checkedIn, variant)
     return { ok: true, number: badge.number }
   } catch (error) {
     console.error(error)
