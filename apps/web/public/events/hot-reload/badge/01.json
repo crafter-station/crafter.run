@@ -19,13 +19,15 @@
   "artPrompt": "",
   "material": {
     "holder": "pvc",
-    "strap": "#112f52",
+    "strap": "#1c1b17",
     "lanyard": {
       "print": "text",
-      "ink": "#ffffff",
-      "text": "Herbarium",
+      "ink": "#f9e28e",
+      "text": "HOT RELOAD",
       "font": "sans",
-      "width": 20
+      "width": 20,
+      "ribbon": "polyester",
+      "clasp": "lobster"
     },
     "card": {
       "finish": "matte",

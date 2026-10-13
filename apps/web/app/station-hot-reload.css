@@ -230,21 +230,103 @@
 .hot-reload-ticket-body { margin-top: 12px; font-size: 13px; line-height: 1.65; opacity: 0.85; }
 .hot-reload-ticket .hot-reload-cta { margin-top: 20px; font-size: 22px; }
 .hot-reload-ticket a:not(.hot-reload-cta) { text-decoration: underline; text-underline-offset: 4px; }
-.hot-reload-badge-editor { display: grid; gap: 24px; }
-@media (min-width: 900px) { .hot-reload-badge-editor { grid-template-columns: minmax(0, 1fr) 18rem; align-items: start; } }
-.hot-reload-badge-faces { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.hot-reload-badge-faces figure { display: grid; gap: 8px; }
-.hot-reload-badge-slot { aspect-ratio: 2 / 3; border: 2px solid var(--hr-ink); background: color-mix(in srgb, var(--hr-ink) 6%, var(--hr-paper)); }
-.hot-reload-badge-face { display: block; width: 100%; height: 100%; }
+/* Badge editor: one viewport; the badge owns the space, the controls sit in a narrow rail. */
+.hot-reload-theme[data-fit]:has(.hot-reload-badge-page) .hot-reload-column { height: 100dvh; min-height: 0; }
+.hot-reload-badge-page { flex: 1; min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: clamp(8px, 2vh, 20px); padding: clamp(12px, 2.5vh, 24px) 0 12px; }
+.hot-reload-badge-head { display: grid; gap: 8px; }
+.hot-reload-badge-head .hot-reload-crumbs { font-size: 11px; opacity: 0.7; }
+.hot-reload-theme .hot-reload-badge-head h1 { font-size: clamp(30px, 5.5vh, 52px); }
+.hot-reload-badge-editor { min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 12px; }
+@media (min-width: 900px) { .hot-reload-badge-editor { grid-template-columns: minmax(0, 1fr) 16rem; grid-template-rows: minmax(0, 1fr); gap: 24px; } }
+.hot-reload-badge-stage { position: relative; min-height: 0; display: grid; }
+/* The renderer frames the whole lanyard; scale it up around the card and let the ribbon run off the top. */
+.hot-reload-badge-scene { position: relative; min-height: 0; overflow: hidden; container-type: size; }
+/* Crops only the top of the ribbons, so the lanyard reads as a lanyard and the card stays large. */
+.hot-reload-badge-swing { position: absolute; inset: -6% -14% -4%; transform-origin: 50% 12%; }
+/* The stamp pushes the card away from the camera; it pivots back on the lanyard hook. */
+.hot-reload-badge-scene { perspective: 900px; }
+.hot-reload-badge-swing[data-hit] { animation: hot-reload-swing 0.9s cubic-bezier(0.2, 0.7, 0.3, 1); }
+@keyframes hot-reload-swing {
+  0% { transform: none; }
+  10% { transform: rotateX(9deg) translateZ(-24px); }
+  34% { transform: rotateX(-5deg); }
+  58% { transform: rotateX(2.5deg) rotateZ(0.6deg); }
+  80% { transform: rotateX(-1deg); }
+  100% { transform: none; }
+}
+/* Aimed at the stamp ring as the renderer frames the card: about 6.7cqh right of centre, 66.7% down. */
+.hot-reload-stamper { --w: 11.4cqh; position: absolute; left: calc(50% + 6.7cqh - var(--w) / 2); top: calc(66.7% - var(--w) / 2); width: var(--w); aspect-ratio: 1; pointer-events: none; z-index: 2; animation: hot-reload-stamp 1.5s cubic-bezier(0.45, 0, 0.25, 1) forwards; }
+.hot-reload-stamper svg { position: relative; display: block; width: 100%; height: 100%; animation: inherit; animation-name: hot-reload-stamp-body; }
+.hot-reload-stamper-shadow { position: absolute; inset: 4%; border-radius: 50%; background: #000; filter: blur(12px); animation: inherit; animation-name: hot-reload-stamp-shadow; }
+/* 0-41%: approach from the camera; 41%: rubber on the card; 52-72%: held; then it lifts back toward the viewer. */
+@keyframes hot-reload-stamp { 0%, 100% { opacity: 0; } 12%, 80% { opacity: 1; } }
+@keyframes hot-reload-stamp-body {
+  0% { transform: scale(3.2) translate(10%, -12%); filter: blur(6px); }
+  30% { transform: scale(1.6) translate(3%, -4%); filter: blur(1px); }
+  41% { transform: scale(0.98); filter: none; }
+  46%, 72% { transform: scale(1); filter: none; }
+  100% { transform: scale(3) translate(-8%, -14%); filter: blur(5px); }
+}
+@keyframes hot-reload-stamp-shadow {
+  0% { transform: translate(28%, 22%) scale(1.6); opacity: 0; }
+  41%, 72% { transform: translate(3%, 3%) scale(1); opacity: 0.45; }
+  100% { transform: translate(26%, 24%) scale(1.6); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .hot-reload-stamper { display: none; } .hot-reload-badge-swing[data-hit] { animation: none; } }
+/* View switch floats in the scene corner so the badge keeps the full height. */
+.hot-reload-badge-views { position: absolute; top: 0; right: 0; z-index: 3; display: flex; border: 2px solid var(--hr-ink); background: var(--hr-paper); font-size: 11px; }
+.hot-reload-badge-views button { padding: 6px 12px; }
+.hot-reload-badge-views button[aria-selected="true"] { background: var(--hr-ink); color: var(--hr-paper); }
+.hot-reload-badge-model { height: 100%; cursor: grab; }
+.hot-reload-badge-faces { min-height: 0; height: 100%; display: flex; justify-content: center; align-items: center; gap: 16px; container-type: size; }
+.hot-reload-badge-faces[hidden] { display: none; }
+.hot-reload-badge-faces figure { display: grid; gap: 6px; }
+/* Two faces side by side, as large as both the width and the height (minus the caption) allow. */
+.hot-reload-badge-slot { width: min(calc(50cqw - 8px), calc((100cqh - 26px) * 2 / 3)); aspect-ratio: 2 / 3; border: 2px solid var(--hr-ink); background: color-mix(in srgb, var(--hr-ink) 6%, var(--hr-paper)); }
+.hot-reload-badge-face { display: block; width: 100%; height: 100%; object-fit: contain; }
 .hot-reload-badge-editor[data-status="printing"] .hot-reload-badge-slot { opacity: 0.55; transition: opacity 0.2s; }
 .hot-reload-badge-status { min-height: 1.2em; font-size: 11px; }
-.hot-reload-badge-controls { display: grid; gap: 14px; }
+.hot-reload-badge-controls { display: grid; align-content: center; gap: 12px; }
 .hot-reload-badge-controls label { display: grid; gap: 6px; }
-.hot-reload-badge-controls input:not([type="file"]) { border: 2px solid var(--hr-ink); background: var(--hr-paper); padding: 10px 12px; font: inherit; color: inherit; }
+.hot-reload-badge-controls input:not([type="file"], [type="radio"]) { border: 2px solid var(--hr-ink); background: var(--hr-paper); padding: 10px 12px; font: inherit; color: inherit; }
 .hot-reload-badge-photo { cursor: pointer; border: 2px solid var(--hr-ink); padding: 10px 12px; text-align: center; }
 .hot-reload-badge-photo:hover { background: var(--hr-butter); color: var(--hr-coffee); }
 .hot-reload-badge-photo:focus-within { outline: 2px solid var(--hr-ink); outline-offset: 2px; }
 .hot-reload-badge-hint { font-size: 12px; line-height: 1.6; opacity: 0.75; }
+.hot-reload-badge-variants { display: flex; align-items: center; gap: 8px; border: 0; padding: 0; }
+.hot-reload-theme .hot-reload-badge-variants legend { float: left; margin-right: 8px; font-family: var(--hr-mono), monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; }
+.hot-reload-theme .hot-reload-badge-variants label, .hot-reload-theme fieldset.hot-reload-badge-variants label:has(input:checked) { position: relative; display: block; cursor: pointer; background: none; color: inherit; }
+.hot-reload-theme .hot-reload-badge-variants input { position: absolute; inset: 0; margin: 0; border: 0; padding: 0; width: 1px; height: 1px; opacity: 0; appearance: none; pointer-events: none; }
+.hot-reload-badge-variants span { display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 2px solid var(--hr-ink); font-family: var(--hr-display), sans-serif; font-size: 18px; line-height: 1; }
+.hot-reload-badge-variants input:checked + span { outline: 2px solid var(--hr-ink); outline-offset: 3px; }
+.hot-reload-badge-variants input:focus-visible + span { outline: 2px dashed var(--hr-ink); outline-offset: 3px; }
+/* The badge page takes the badge's own paper and ink in both themes. */
+.hot-reload-theme:has(.hot-reload-badge-page) { --hr-paper: #f3eee2; --hr-ink: #1c1b17; }
+.dark .hot-reload-theme:has(.hot-reload-badge-page) { --hr-paper: #1c1b17; --hr-ink: #f3eee2; }
+.hot-reload-badge-controls .hot-reload-cta { font-size: 22px; }
+.hot-reload-badge-edit { display: grid; gap: 12px; }
+@media (max-width: 899px) {
+  .hot-reload-theme .hot-reload-badge-head h1 { font-size: clamp(24px, 7vw, 32px); }
+  .hot-reload-badge-controls .hot-reload-badge-hint:not([role="alert"]), .hot-reload-badge-status:empty { display: none; }
+  .hot-reload-badge-controls { grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; gap: 8px 12px; }
+  .hot-reload-badge-controls > label:not(.hot-reload-badge-photo), .hot-reload-badge-controls .hot-reload-cta, .hot-reload-badge-controls [role="alert"], .hot-reload-badge-status { grid-column: 1 / -1; }
+  .hot-reload-badge-variants legend { display: none; }
+  /* The badge is the page: no site header or footer, the crumbs go, and the fields fold into one row. */
+  .hot-reload-theme:has(.hot-reload-badge-page) .hot-reload-top, .hot-reload-theme:has(.hot-reload-badge-page) .hot-reload-foot, .hot-reload-badge-head .hot-reload-crumbs { display: none; }
+  .hot-reload-badge-page { gap: 4px; padding-top: 10px; }
+  .hot-reload-badge-editor { gap: 8px; }
+  .hot-reload-badge-controls { grid-template-columns: auto minmax(0, 1fr); }
+  .hot-reload-badge-edit { display: grid; align-self: stretch; }
+  .hot-reload-badge-edit:not([open]) { gap: 0; }
+  .hot-reload-badge-edit[open] { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: center; }
+  .hot-reload-badge-edit summary { display: grid; place-items: center; min-height: 48px; padding: 0 12px; white-space: nowrap; font-size: 11px; border: 2px solid var(--hr-ink); cursor: pointer; list-style: none; }
+  .hot-reload-badge-edit[open] summary { grid-column: 1 / -1; padding: 8px; }
+  .hot-reload-badge-edit summary::-webkit-details-marker { display: none; }
+  .hot-reload-badge-controls .hot-reload-cta { grid-column: auto; display: grid; place-items: center; min-height: 48px; padding-block: 0; font-size: 18px; white-space: nowrap; }
+  .hot-reload-badge-controls { grid-template-columns: minmax(0, 1fr) auto; }
+  .hot-reload-badge-edit[open] ~ .hot-reload-cta { grid-column: 1 / -1; }
+}
+@media (min-width: 900px) { .hot-reload-badge-edit summary { display: none; } }
 .hot-reload-theme fieldset legend > span:first-child { font-family: var(--hr-display), sans-serif; font-weight: 400; text-transform: uppercase; font-size: 28px; letter-spacing: 0; }
 .hot-reload-theme fieldset ul { border-width: 2px; border-color: var(--hr-ink); }
 .hot-reload-theme fieldset [role="tab"] { text-transform: uppercase; letter-spacing: 0.08em; }

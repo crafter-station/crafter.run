@@ -5,8 +5,8 @@ import { useState } from "react"
 
 type Labels = Record<"share" | "shareX" | "shareLinkedIn" | "copy" | "copied" | "download" | "edit" | "madeWith", string>
 
-export function HotReloadBadgeShare({ url, image, fileName, text, linkedInText, editPath, labels }: {
-  url: string; image: string; fileName: string; text: string; linkedInText: string; editPath: string | null; labels: Labels
+export function HotReloadBadgeShare({ url, image, fileName, text, linkedInText, editPath, description, labels }: {
+  url: string; image: string; fileName: string; text: string; linkedInText: string; editPath: string | null; description: string; labels: Labels
 }) {
   const [copied, setCopied] = useState(false)
   const x = `https://x.com/intent/post?${new URLSearchParams({ text, url })}`
@@ -24,6 +24,7 @@ export function HotReloadBadgeShare({ url, image, fileName, text, linkedInText, 
 
   return (
     <div className="hot-reload-badge-controls">
+      <p className="hot-reload-badge-hint">{description}</p>
       <h2 className="hot-reload-display">{labels.share}</h2>
       <a className="hot-reload-display hot-reload-cta" href={x} target="_blank" rel="noopener noreferrer">{labels.shareX} ↗</a>
       <a className="hot-reload-display hot-reload-cta" href={linkedIn} target="_blank" rel="noopener noreferrer" onClick={() => copy(`${linkedInText}\n${url}`)}>

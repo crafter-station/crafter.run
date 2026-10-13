@@ -4,9 +4,10 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { HotReloadBadgeShare } from "@/components/hot-reload-badge-share"
+import { HotReloadBadgeView } from "@/components/hot-reload-badge-view"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { findEdition } from "@/lib/hot-reload"
-import { editionBadge } from "@/lib/hot-reload-badge"
+import { editionBadge, isBadgeVariant } from "@/lib/hot-reload-badge"
 import { hotReloadBadgeCopy } from "@/lib/hot-reload-badge-copy"
 import { badgeImagePath, getBadgeByNumber } from "@/lib/hot-reload-badge-store"
 import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
@@ -44,6 +45,7 @@ export default async function Page({ params }: { params: Params }) {
   const found = await load(params)
   if (!found) notFound()
   const { lang, edition, badge } = found
+  const badgeDesign = editionBadge(edition)!
   const t = hotReloadCopy[lang]
   const b = hotReloadBadgeCopy[lang]
   const user = await currentUser()
@@ -52,37 +54,34 @@ export default async function Page({ params }: { params: Params }) {
   const path = `/${lang}/events/hot-reload/${edition.number}/badge`
 
   return (
-    <HotReloadTheme locale={lang}>
-      <section className="hot-reload-menu-head">
-        <div className="hot-reload-edition-copy">
+    <HotReloadTheme locale={lang} fit>
+      <section className="hot-reload-badge-page">
+        <header className="hot-reload-badge-head">
           <nav aria-label={t.agenda} className="hot-reload-caps hot-reload-crumbs">
             <Link href={withLocale("/events", lang)}>{t.agenda}</Link> / <Link href={withLocale("/events/hot-reload", lang)}>Hot Reload</Link> /{" "}
             <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">Nº {number}</span>
           </nav>
           <h1>{badge.name}</h1>
-          <p className="hot-reload-edition-body">{hotReloadText(b.shareDescription, values)}</p>
+        </header>
+        <div className="hot-reload-badge-editor">
+          <HotReloadBadgeView
+            design={badgeDesign.design}
+            prints={{ front: badgeImagePath(badge, "front"), back: badgeImagePath(badge, "back") }}
+            variant={isBadgeVariant(badge.variant) ? badge.variant : "a"}
+            name={badge.name}
+            labels={b}
+          />
+          <HotReloadBadgeShare
+            url={`https://crafter.run${path}/${badge.number}`}
+            image={badgeImagePath(badge, "front")}
+            fileName={`hot-reload-${edition.number}-${number}.jpg`}
+            text={hotReloadText(b.shareText, values)}
+            linkedInText={hotReloadText(b.shareTextLinkedIn, values)}
+            editPath={user?.id === badge.clerkUserId ? path : null}
+            description={hotReloadText(b.shareDescription, values)}
+            labels={b}
+          />
         </div>
-      </section>
-      <section className="hot-reload-menu-body hot-reload-badge-editor">
-        <div className="hot-reload-badge-faces">
-          {(["front", "back"] as const).map((side) => (
-            <figure key={side}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="hot-reload-badge-slot hot-reload-badge-face" src={badgeImagePath(badge, side)} width={1024} height={1536}
-                alt={`${hotReloadText(b.shareTitle, values)} · ${b[side]}`} />
-              <figcaption className="hot-reload-caps">{b[side]}</figcaption>
-            </figure>
-          ))}
-        </div>
-        <HotReloadBadgeShare
-          url={`https://crafter.run${path}/${badge.number}`}
-          image={badgeImagePath(badge, "front")}
-          fileName={`hot-reload-${edition.number}-${number}.jpg`}
-          text={hotReloadText(b.shareText, values)}
-          linkedInText={hotReloadText(b.shareTextLinkedIn, values)}
-          editPath={user?.id === badge.clerkUserId ? path : null}
-          labels={b}
-        />
       </section>
     </HotReloadTheme>
   )

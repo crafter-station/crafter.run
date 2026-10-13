@@ -1,0 +1,2 @@
+ALTER TABLE "hot_reload_badges" ADD COLUMN "variant" text DEFAULT 'a' NOT NULL;--> statement-breakpoint
+ALTER TABLE "hot_reload_badges" ADD CONSTRAINT "hot_reload_badges_variant_check" CHECK ("hot_reload_badges"."variant" in ('a', 'b', 'c'));

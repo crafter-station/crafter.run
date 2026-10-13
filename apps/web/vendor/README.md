@@ -1,9 +1,12 @@
-`makeables-renderer.js` is a browser bundle of `renderDesignFace` and `designImageUrls` from crafter-station/makeables, built from origin/main e2dbf8d:
+`makeables-renderer/` is a browser bundle of crafter-station/makeables `packages/renderer` (`renderDesignFace`, `designImageUrls`, `designAppearance`, `PrismBadge`, `defaultPrismAppearance`), built from origin/main e2dbf8d:
 
 ```bash
 cd makeables && pnpm install --frozen-lockfile && pnpm build:packages
-printf "export { renderDesignFace } from \"./packages/renderer/src/face.ts\"\nexport { designImageUrls } from \"./packages/renderer/src/design-assets.ts\"\n" > entry.ts
-cd packages/renderer && bun build ../../entry.ts --target=browser --format=esm --minify --conditions=makeables-source --external react --external react-dom --outfile makeables-renderer.js
+printf 'export { renderDesignFace, designImageUrls, PrismBadge, defaultPrismAppearance, designAppearance } from "./packages/renderer/dist/index.js"\n' > entry.ts
+bun build entry.ts --target=browser --format=esm --minify --splitting --external react --external react-dom --external react/jsx-runtime --outdir out
+mv out/entry.js out/index.js
 ```
+
+The 3D badge loads `facets.bin.gz` from `public/events/hot-reload/badge/prism/`, copied from makeables `apps/web/public/prism/`.
 
 Replace it with the npm package once makeables exports the renderer as a library.

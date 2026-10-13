@@ -427,10 +427,13 @@ export const hotReloadBadges = pgTable(
     clerkUserId: text("clerk_user_id").notNull(),
     name: text("name").notNull(),
     checkedIn: boolean("checked_in").notNull(),
+    /** Lanyard and holder picked by the attendee: a, b or c. */
+    variant: text("variant").default("a").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
   },
   (table) => [
+    check("hot_reload_badges_variant_check", sql`${table.variant} in ('a', 'b', 'c')`),
     uniqueIndex("hot_reload_badges_edition_user_idx").on(table.edition, table.clerkUserId),
     uniqueIndex("hot_reload_badges_edition_number_idx").on(table.edition, table.number),
     check("hot_reload_badges_name_check", sql`char_length(trim(${table.name})) between 2 and 80`),
