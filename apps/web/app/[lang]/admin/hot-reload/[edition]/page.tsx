@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation"
 
+import { GuestProgress } from "@/components/guest-progress"
 import { getAdmin } from "@/lib/admin"
+import { guestProgress, listApprovedGuests } from "@/lib/approved-guests"
 import { getEventMenu } from "@/lib/event-menu"
 import { eventMoney, hotReloadCopy } from "@/lib/hot-reload-copy"
 import { listEventOrders, tally } from "@/lib/event-orders"
@@ -37,7 +39,11 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const t = hotReloadCopy[lang]
   const money = (value: number) => eventMoney(value, lang, menu.currency)
 
-  const orders = await listEventOrders(edition, lang)
+  const [orders, approved] = await Promise.all([
+    listEventOrders(edition, lang),
+    edition.lumaEventId ? listApprovedGuests(edition.lumaEventId) : null,
+  ])
+  const progress = orders && approved && guestProgress(approved, orders)
   const total = orders?.reduce((sum, order) => sum + order.total, 0) ?? 0
 
   return (
@@ -66,6 +72,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
               </div>
             ))}
           </dl>
+
+          {progress ? (
+            <GuestProgress done={progress.completed.length} total={progress.total} missing={progress.missing} syncedAt={progress.syncedAt}
+              labels={t} locale={lang} timeZone={edition.timeZone} />
+          ) : null}
+          {progress?.notListed.length ? (
+            <p className="mt-6 text-sm text-muted-foreground">{t.notListed}: {progress.notListed.map(order => order.email).join(", ")}</p>
+          ) : null}
 
           <div className="mt-10 grid gap-10 lg:grid-cols-2">
             <Tally title={t.drinks} rows={tally(orders, "drink")} />

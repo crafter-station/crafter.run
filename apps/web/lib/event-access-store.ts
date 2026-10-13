@@ -1,6 +1,6 @@
 import "server-only"
-import { eventAccess, eventGuest } from "@crafter/db/schema"
-import { and, asc, eq, max } from "drizzle-orm"
+import { eventAccess } from "@crafter/db/schema"
+import { and, asc, eq } from "drizzle-orm"
 import type { AccessEvent } from "@/lib/access-events"
 import { getDb } from "@/lib/db"
 import type { AccessDetails, AccessValues } from "@/lib/event-access-service"
@@ -48,26 +48,12 @@ export async function listAccessForAdmin(event: AccessEvent) {
   }
 }
 
-/** Admin callers must authorize before reading. Imported guest list joined to submitted entry details by email. */
-export async function listAccessDashboard(event: AccessEvent) {
+/** Admin callers must authorize before reading. Raw submissions; pair with listApprovedGuests. */
+export async function listAccessRows(event: AccessEvent) {
   const db = getDb()
-  if (!db || event.lumaCalendar !== "list") return null
+  if (!db) return null
   try {
-    const [guests, rows, [sync]] = await Promise.all([
-      db.select({ email: eventGuest.email, name: eventGuest.name }).from(eventGuest)
-        .where(and(eq(eventGuest.lumaEventId, event.lumaEventId), eq(eventGuest.approvalStatus, "approved"))).orderBy(asc(eventGuest.name)),
-      db.select().from(eventAccess).where(eq(eventAccess.eventSlug, event.slug)).orderBy(asc(eventAccess.createdAt)),
-      db.select({ at: max(eventGuest.updatedAt) }).from(eventGuest).where(eq(eventGuest.lumaEventId, event.lumaEventId)),
-    ])
-    const byEmail = new Map(rows.map(row => [row.email.toLowerCase(), row]))
-    const approved = new Set(guests.map(guest => guest.email))
-    return {
-      syncedAt: sync?.at ?? null,
-      total: guests.length,
-      missing: guests.filter(guest => !byEmail.has(guest.email)),
-      completed: rows.filter(row => approved.has(row.email.toLowerCase())),
-      notListed: rows.filter(row => !approved.has(row.email.toLowerCase())),
-    }
+    return await db.select().from(eventAccess).where(eq(eventAccess.eventSlug, event.slug)).orderBy(asc(eventAccess.createdAt))
   } catch {
     return null
   }
