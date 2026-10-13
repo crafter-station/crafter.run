@@ -23,7 +23,7 @@ export function HotReloadBadgeShare({ url, image, fileName, text, linkedInText, 
   }
 
   return (
-    <div className="hot-reload-badge-controls">
+    <div className="hot-reload-badge-group">
       <p className="hot-reload-badge-hint">{description}</p>
       <h2 className="hot-reload-display">{labels.share}</h2>
       <a className="hot-reload-display hot-reload-cta" href={x} target="_blank" rel="noopener noreferrer">{labels.shareX} ↗</a>

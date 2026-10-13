@@ -1,10 +1,10 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { type ReactNode, useEffect, useRef, useState } from "react"
 
 import { type BadgeError, claimBadge, uploadBadge } from "@/app/[lang]/events/hot-reload/[edition]/badge/actions"
-import { type BadgePrints, HotReloadBadgeStage } from "@/components/hot-reload-badge-stage"
+import { type BadgePrints, type BadgeView, HotReloadBadgeStage, HotReloadBadgeViews } from "@/components/hot-reload-badge-stage"
 import { pressBadge } from "@/lib/badge-press"
 import { type BadgeVariant, badgeVariants, type HotReloadBadgeDesign, isStampLayer } from "@/lib/hot-reload-badge"
 
@@ -28,7 +28,7 @@ const withoutStamp = (design: Design): Design => ({
   front: { ...design.front, layers: design.front.layers.map((layer) => (isStampLayer(layer.id) ? { ...layer, visible: false } : layer)) },
 })
 
-export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition, number: savedNumber, variant: savedVariant, badgeUrl }: {
+export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition, number: savedNumber, variant: savedVariant, badgeUrl, children }: {
   badge: HotReloadBadgeDesign; person: Person; portrait: string | null; labels: Labels
   edition: string
   /** The attendee's badge number once claimed; the print shows 000 until then. */
@@ -36,6 +36,8 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
   variant: BadgeVariant
   /** Public badge URL without the number, e.g. https://crafter.run/es/events/hot-reload/1/badge */
   badgeUrl: string
+  /** Page heading, shown at the top of the side rail. */
+  children?: ReactNode
 }) {
   const router = useRouter()
   const [name, setName] = useState(person.name)
@@ -54,6 +56,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
   const stamperDone = useRef<() => void>(() => {})
   const pendingNumber = useRef<number | null>(null)
   const [editing, setEditing] = useState(true)
+  const [view, setView] = useState<BadgeView>("3d")
 
   useEffect(() => {
     if (window.matchMedia("(max-width: 899px)").matches) setEditing(false)
@@ -147,6 +150,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
         variant={variant}
         name={name}
         labels={labels}
+        view={view}
         stamping={stamping}
         onImpact={() => {
           setStamped(true)
@@ -155,38 +159,43 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
         onStamped={() => stamperDone.current()}
       />
       <div className="hot-reload-badge-controls">
+        {children}
+        <HotReloadBadgeViews view={view} onChange={setView} disabled={stamping} labels={labels} />
         {/* On phones the fields fold away so the badge keeps the screen; the summary only shows there. */}
         <details className="hot-reload-badge-edit" open={editing} onToggle={(event) => setEditing(event.currentTarget.open)}>
-        <summary className="hot-reload-caps">{labels.edit} ↻</summary>
-        <p className="hot-reload-badge-hint">{labels.intro}</p>
-        <p className="hot-reload-caps hot-reload-badge-status" role="status">
-          {status === "printing" ? labels.printing : status === "error" ? labels.error : ""}
-        </p>
-        <label>
-          <span className="hot-reload-caps">{labels.name}</span>
-          <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} autoComplete="name" disabled={publishing} />
-        </label>
-        <label className="hot-reload-caps hot-reload-badge-photo">
-          {labels.photo} ↻
-          <input type="file" accept="image/*" className="sr-only" disabled={publishing} onChange={(event) => pickPhoto(event.target.files?.[0])} />
-        </label>
-        <p className="hot-reload-badge-hint">{labels.photoHint}</p>
-        <fieldset className="hot-reload-badge-variants">
-          <legend className="hot-reload-caps">{labels.variant}</legend>
-          {(Object.keys(badgeVariants) as BadgeVariant[]).map((option) => (
-            <label key={option} title={option.toUpperCase()}>
-              <input type="radio" name="variant" value={option} checked={variant === option} disabled={publishing} onChange={() => setVariant(option)} />
-              <span style={{ background: badgeVariants[option].strap, color: "lanyard" in badgeVariants[option] ? badgeVariants[option].lanyard.ink : undefined }}>
-                {option.toUpperCase()}
-              </span>
+          <summary className="hot-reload-caps">{labels.edit} ↻</summary>
+          <div className="hot-reload-badge-fields">
+          <div className="hot-reload-badge-group">
+            <label>
+              <span className="hot-reload-caps">{labels.name}</span>
+              <input value={name} onChange={(event) => setName(event.target.value)} maxLength={80} autoComplete="name" disabled={publishing} />
             </label>
-          ))}
-        </fieldset>
+            <label className="hot-reload-caps hot-reload-badge-photo">
+              {labels.photo} ↻
+              <input type="file" accept="image/*" className="sr-only" disabled={publishing} onChange={(event) => pickPhoto(event.target.files?.[0])} />
+            </label>
+            <p className="hot-reload-badge-hint">{labels.photoHint}</p>
+          </div>
+          <fieldset className="hot-reload-badge-variants">
+            <legend className="hot-reload-caps">{labels.variant}</legend>
+            <div>
+              {(Object.keys(badgeVariants) as BadgeVariant[]).map((option) => (
+                <label key={option} title={option.toUpperCase()}>
+                  <input type="radio" name="variant" value={option} checked={variant === option} disabled={publishing} onChange={() => setVariant(option)} />
+                  <span style={{ background: badgeVariants[option].strap, color: badgeVariants[option].lanyard.ink }}>{option.toUpperCase()}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          </div>
         </details>
-        <button type="button" className="hot-reload-display hot-reload-cta" onClick={publish} disabled={publishing || status !== "ready"}>
-          {publishing ? labels.publishing : savedNumber ? labels.republish : labels.publish} ↻
-        </button>
-        {failure ? <p className="hot-reload-badge-hint" role="alert">{labels[errorLabel[failure]]}</p> : null}
+        <div className="hot-reload-badge-publish">
+          <button type="button" className="hot-reload-display hot-reload-cta" onClick={publish} disabled={publishing || status !== "ready"}>
+            {publishing ? labels.publishing : savedNumber ? labels.republish : labels.publish} ↻
+          </button>
+          {status === "error" ? <p className="hot-reload-badge-hint" role="alert">{labels.error}</p> : null}
+          {failure ? <p className="hot-reload-badge-hint" role="alert">{labels[errorLabel[failure]]}</p> : null}
+        </div>
       </div>
     </div>
   )

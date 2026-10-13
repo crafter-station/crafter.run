@@ -55,22 +55,21 @@ export default async function Page({ params }: { params: Params }) {
 
   return (
     <HotReloadTheme locale={lang} fit>
-      <section className="hot-reload-badge-page">
-        <header className="hot-reload-badge-head">
-          <nav aria-label={t.agenda} className="hot-reload-caps hot-reload-crumbs">
-            <Link href={withLocale("/events", lang)}>{t.agenda}</Link> / <Link href={withLocale("/events/hot-reload", lang)}>Hot Reload</Link> /{" "}
-            <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">Nº {number}</span>
-          </nav>
-          <h1>{badge.name}</h1>
-        </header>
-        <div className="hot-reload-badge-editor">
-          <HotReloadBadgeView
-            design={badgeDesign.design}
-            prints={{ front: badgeImagePath(badge, "front"), back: badgeImagePath(badge, "back") }}
-            variant={isBadgeVariant(badge.variant) ? badge.variant : "a"}
-            name={badge.name}
-            labels={b}
-          />
+      <section className="hot-reload-badge-page" data-editor="">
+        <HotReloadBadgeView
+          design={badgeDesign.design}
+          prints={{ front: badgeImagePath(badge, "front"), back: badgeImagePath(badge, "back") }}
+          variant={isBadgeVariant(badge.variant) ? badge.variant : "a"}
+          name={badge.name}
+          labels={b}
+        >
+          <header className="hot-reload-badge-head">
+            <nav aria-label={t.agenda} className="hot-reload-caps hot-reload-crumbs">
+              <Link href={withLocale("/events", lang)}>{t.agenda}</Link> / <Link href={withLocale("/events/hot-reload", lang)}>Hot Reload</Link> /{" "}
+              <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">Nº {number}</span>
+            </nav>
+            <h1>{badge.name}</h1>
+          </header>
           <HotReloadBadgeShare
             url={`https://crafter.run${path}/${badge.number}`}
             image={badgeImagePath(badge, "front")}
@@ -81,7 +80,7 @@ export default async function Page({ params }: { params: Params }) {
             description={hotReloadText(b.shareDescription, values)}
             labels={b}
           />
-        </div>
+        </HotReloadBadgeView>
       </section>
     </HotReloadTheme>
   )

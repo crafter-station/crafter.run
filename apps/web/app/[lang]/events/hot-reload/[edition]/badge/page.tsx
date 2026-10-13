@@ -34,6 +34,16 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const path = `/${lang}/events/hot-reload/${edition.number}/badge`
   const { user, emails, check } = await getEventGuest(edition.lumaEventId)
 
+  const head = (
+    <header className="hot-reload-badge-head">
+      <nav aria-label={t.agenda} className="hot-reload-caps hot-reload-crumbs">
+        <Link href={withLocale("/events", lang)}>{t.agenda}</Link> / <Link href={withLocale("/events/hot-reload", lang)}>Hot Reload</Link> /{" "}
+        <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">{b.badge}</span>
+      </nav>
+      <h1>{b.title}</h1>
+    </header>
+  )
+  let editing = false
   let content: React.ReactNode
   if (!user) {
     content = (
@@ -44,6 +54,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     )
   } else if (check?.status === "approved") {
     const saved = await getUserBadge(edition.number, user.id)
+    editing = true
     content = (
       <HotReloadBadgeEditor
         badge={badge}
@@ -57,8 +68,11 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         number={saved?.number ?? null}
         variant={isBadgeVariant(saved?.variant) ? saved.variant : "a"}
         badgeUrl={`https://crafter.run${path}`}
-        labels={{ ...b, intro: hotReloadText(b.intro, { number: edition.number }) }}
-      />
+        labels={b}
+      >
+        {head}
+        <p className="hot-reload-badge-hint">{hotReloadText(b.intro, { number: edition.number })}</p>
+      </HotReloadBadgeEditor>
     )
   } else if (check?.status === "not-approved") {
     content = <Notice title={t.pendingTitle}>
@@ -83,14 +97,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
 
   return (
     <HotReloadTheme locale={lang} fit>
-      <section className="hot-reload-badge-page">
-        <header className="hot-reload-badge-head">
-          <nav aria-label={t.agenda} className="hot-reload-caps hot-reload-crumbs">
-            <Link href={withLocale("/events", lang)}>{t.agenda}</Link> / <Link href={withLocale("/events/hot-reload", lang)}>Hot Reload</Link> /{" "}
-            <Link href={withLocale(`/events/hot-reload/${edition.number}`, lang)}>#{edition.number}</Link> / <span aria-current="page">{b.badge}</span>
-          </nav>
-          <h1>{b.title}</h1>
-        </header>
+      <section className="hot-reload-badge-page" data-editor={editing ? "" : undefined}>
+        {editing ? null : head}
         {content}
       </section>
     </HotReloadTheme>
