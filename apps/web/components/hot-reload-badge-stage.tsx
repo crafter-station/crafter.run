@@ -12,7 +12,9 @@ export type BadgePrints = { front: string; back: string }
 type Labels = Record<"front" | "back" | "view3d" | "viewFlat" | "flip", string>
 
 /** The 3D badge shows the pressed prints as-is: each face becomes one full-bleed image layer of the design. */
-function BadgeModel({ design, prints, variant, name, flip }: { design: Design; prints: BadgePrints; variant: BadgeVariant; name: string; flip: string }) {
+function BadgeModel({ design, prints, variant, name, flip, onReady }: {
+  design: Design; prints: BadgePrints; variant: BadgeVariant; name: string; flip: string; onReady: () => void
+}) {
   const [appearance, setAppearance] = useState<Record<string, unknown> | null>(null)
   const document = useMemo(() => {
     const face = (side: "front" | "back") => ({
@@ -31,9 +33,35 @@ function BadgeModel({ design, prints, variant, name, flip }: { design: Design; p
         data={{ name, role: "", number: 0, eventName: "Hot Reload", document, portraitUrl: "", imageUrls: { "print-front": prints.front, "print-back": prints.back } }}
         appearance={appearance}
         assetsBaseUrl="/events/hot-reload/badge/prism"
-        fallbackUrl={prints.front}
-        reverseFallbackUrl={prints.back}
+        onStatus={(status) => status !== "loading" && onReady()}
       />
+    </div>
+  )
+}
+
+/** Placeholder card while the 3D scene and the print load, so the stage never reads as empty. */
+function BadgeLoading({ label }: { label: string }) {
+  return (
+    <div className="hot-reload-badge-loading" role="status">
+      <span className="hot-reload-badge-loading-strap" />
+      <span className="hot-reload-badge-loading-card"><span /></span>
+      <span className="hot-reload-caps">{label}</span>
+    </div>
+  )
+}
+
+export type BadgeView = "3d" | "flat"
+
+export function HotReloadBadgeViews({ view, onChange, disabled, labels }: {
+  view: BadgeView; onChange: (view: BadgeView) => void; disabled?: boolean; labels: Record<"view3d" | "viewFlat", string>
+}) {
+  return (
+    <div className="hot-reload-badge-views hot-reload-caps" role="tablist">
+      {(["3d", "flat"] as const).map((option) => (
+        <button key={option} type="button" role="tab" aria-selected={view === option} disabled={disabled} onClick={() => onChange(option)}>
+          {option === "3d" ? labels.view3d : labels.viewFlat}
+        </button>
+      ))}
     </div>
   )
 }
@@ -84,28 +112,54 @@ function Stamper({ onImpact, onDone }: { onImpact: () => void; onDone: () => voi
   )
 }
 
-export function HotReloadBadgeStage({ design, prints, variant, name, labels, stamping, onImpact, onStamped }: {
-  design: Design | null; prints: BadgePrints | null; variant: BadgeVariant; name: string; labels: Labels
-  stamping?: boolean; onImpact?: () => void; onStamped?: () => void
+export function HotReloadBadgeStage({ design, prints, variant, name, labels, view, stamping, onImpact, onStamped }: {
+  design: Design | null; prints: BadgePrints | null; variant: BadgeVariant; name: string
+  labels: Record<"front" | "back" | "flip" | "printing", string>
+  view: BadgeView; stamping?: boolean; onImpact?: () => void; onStamped?: () => void
 }) {
-  const [view, setView] = useState<"3d" | "flat">("3d")
   const [hit, setHit] = useState(false)
+  // One scene per lanyard: a new lanyard loads under the current one and fades in once it renders.
+  const [scenes, setScenes] = useState<{ id: number; variant: BadgeVariant; ready: boolean }[]>([{ id: 0, variant, ready: false }])
+  useEffect(() => {
+    setScenes((current) => {
+      const last = current.at(-1)
+      return last?.variant === variant ? current : [...current, { id: (last?.id ?? 0) + 1, variant, ready: false }]
+    })
+  }, [variant])
+  const ready = (id: number) =>
+    setScenes((current) => current.map((scene) => (scene.id === id && !scene.ready ? { ...scene, ready: true } : scene)))
+  // Drop the scenes under the newest rendered one once its fade-in (0.4s) has finished.
+  useEffect(() => {
+    const newest = scenes.findLastIndex((scene) => scene.ready)
+    if (newest <= 0) return
+    const timer = setTimeout(() => setScenes((current) => current.slice(current.findLastIndex((scene) => scene.ready))), 450)
+    return () => clearTimeout(timer)
+  }, [scenes])
   const shown = stamping ? "3d" : view
+  const loaded = scenes.some((scene) => scene.ready)
   return (
-    <div className="hot-reload-badge-stage" data-variant={variant}>
-      <div className="hot-reload-badge-views hot-reload-caps" role="tablist">
-        {(["3d", "flat"] as const).map((option) => (
-          <button key={option} type="button" role="tab" aria-selected={shown === option} disabled={stamping} onClick={() => setView(option)}>
-            {option === "3d" ? labels.view3d : labels.viewFlat}
-          </button>
-        ))}
-      </div>
+    <div className="hot-reload-badge-stage">
       <div className="hot-reload-badge-scene">
+        {shown === "3d" && !loaded ? <BadgeLoading label={labels.printing} /> : null}
         {shown === "3d" && design && prints ? (
           <div className="hot-reload-badge-swing" data-hit={hit ? "" : undefined}>
-            <Suspense fallback={null}>
-              <BadgeModel design={design} prints={prints} variant={variant} name={name} flip={labels.flip} />
-            </Suspense>
+            {scenes.map((scene) => (
+              <div key={scene.id} className="hot-reload-badge-layer" data-ready={scene.ready ? "" : undefined}>
+                <Suspense fallback={null}>
+                  <BadgeModel design={design} prints={prints} variant={scene.variant} name={name} flip={labels.flip} onReady={() => ready(scene.id)} />
+                </Suspense>
+              </div>
+            ))}
+            {stamping ? (
+              <Stamper
+                onImpact={() => {
+                  setHit(true)
+                  setTimeout(() => setHit(false), 900)
+                  onImpact?.()
+                }}
+                onDone={() => onStamped?.()}
+              />
+            ) : null}
           </div>
         ) : null}
         {shown === "flat" && prints ? (
@@ -118,16 +172,6 @@ export function HotReloadBadgeStage({ design, prints, variant, name, labels, sta
               </figure>
             ))}
           </div>
-        ) : null}
-        {stamping ? (
-          <Stamper
-            onImpact={() => {
-              setHit(true)
-              setTimeout(() => setHit(false), 900)
-              onImpact?.()
-            }}
-            onDone={() => onStamped?.()}
-          />
         ) : null}
       </div>
     </div>
