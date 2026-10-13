@@ -9,6 +9,7 @@ export type AgendaCopy = {
   empty: string; noUpcoming: string; unavailable: string; reset: string; more: string
   subscribe: string; subscribeBody: string; ical: string; archive: string
   invite: string; inviteBody: string; propose: string; collaborate: string
+  passport: string; passportTitle: string; passportBody: string; stamps: string
 }
 
 export const agendaCopy: Record<Locale, AgendaCopy> = {
@@ -25,6 +26,7 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     subscribe: "Que el próximo encuentro llegue a tu calendario.", subscribeBody: "Suscríbete al calendario de hack0 para recibir las nuevas fechas y sus cambios.",
     ical: "Feed iCal", invite: "¿Tienes algo en mente?", inviteBody: "El calendario también reúne eventos de la comunidad. Propón el tuyo desde hack0.",
     propose: "Proponer un evento en Luma", collaborate: "Colabora con Crafter",
+    passport: "PASAPORTE HACK0", passportTitle: "Ciudades donde ya nos vimos.", passportBody: "Cada sello es una ciudad del calendario, contada desde Luma. La próxima puede ser la tuya.", stamps: "{count} ciudades",
   },
   en: {
     name: "hack0 Calendar", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["See you", "at hack0."],
@@ -39,6 +41,7 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     subscribe: "Let the next gathering find your calendar.", subscribeBody: "Subscribe to the hack0 calendar for new dates and updates.",
     ical: "iCal feed", invite: "Have something in mind?", inviteBody: "The calendar also brings together community events. Submit yours through hack0.",
     propose: "Submit an event on Luma", collaborate: "Collaborate with Crafter",
+    passport: "HACK0 PASSPORT", passportTitle: "Cities where we have already met.", passportBody: "Each stamp is a city on the calendar, counted from Luma. The next one could be yours.", stamps: "{count} cities",
   },
   pt: {
     name: "Agenda hack0", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["Nos vemos", "no hack0."],
@@ -53,6 +56,7 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     subscribe: "Que o próximo encontro chegue ao seu calendário.", subscribeBody: "Assine o calendário do hack0 para receber novas datas e atualizações.",
     ical: "Feed iCal", invite: "Tem algo em mente?", inviteBody: "O calendário também reúne eventos da comunidade. Envie o seu pelo hack0.",
     propose: "Propor um evento no Luma", collaborate: "Colabore com a Crafter",
+    passport: "PASSAPORTE HACK0", passportTitle: "Cidades onde já nos encontramos.", passportBody: "Cada carimbo é uma cidade do calendário, contada a partir do Luma. A próxima pode ser a sua.", stamps: "{count} cidades",
   },
   zh: {
     name: "hack0 活动日历", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["相聚", "在 hack0。"],
@@ -67,6 +71,7 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     subscribe: "让下一次相聚出现在你的日历里。", subscribeBody: "订阅 hack0 日历，获取新活动日期及更新。",
     ical: "iCal 订阅", invite: "有活动想法？", inviteBody: "日历也收录社区活动。通过 hack0 提交你的活动。",
     propose: "在 Luma 提交活动", collaborate: "与 Crafter 合作",
+    passport: "HACK0 护照", passportTitle: "我们已经相聚过的城市。", passportBody: "每个印章都是日历上的一座城市，数据来自 Luma。下一座也许就是你的城市。", stamps: "{count} 座城市",
   },
   ja: {
     name: "hack0 カレンダー", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["会おう、", "hack0 で。"],
@@ -81,5 +86,6 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     subscribe: "次の集まりを、あなたのカレンダーに。", subscribeBody: "hack0 のカレンダーを購読して、新しい日程や変更を受け取りましょう。",
     ical: "iCal フィード", invite: "何か企画していますか？", inviteBody: "コミュニティのイベントも掲載しています。hack0 からお送りください。",
     propose: "Luma でイベントを提案", collaborate: "Crafter と協力する",
+    passport: "HACK0 パスポート", passportTitle: "これまでに集まった都市。", passportBody: "スタンプはカレンダーに載った都市で、Luma から数えています。次はあなたの街かもしれません。", stamps: "{count} 都市",
   },
 }

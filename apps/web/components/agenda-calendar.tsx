@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react"
 import { CalendarDays, Search, X } from "lucide-react"
 import type { Locale } from "@/lib/i18n"
 import type { AgendaCopy } from "@/lib/agenda-copy"
+import { agendaCity } from "@/lib/agenda-cities"
+import { CitySkyline } from "@/components/city-skyline"
 import { HACK0_CALENDAR_URL, HACK0_TIME_ZONE, hack0DateParts, partitionHack0Events, type Hack0Event } from "@/lib/hack0-calendar-data"
 
 const PAGE_SIZE = 12
@@ -61,15 +63,18 @@ export function AgendaCalendar({ events, initialNow, available, locale, t }: {
         {visible.map((event, index) => {
           const date = hack0DateParts(event, locale, timeZone)
           const ended = Date.parse(event.endAt) <= now
+          const city = agendaCity(event.location)
           return <a key={event.id} href={event.url} target="_blank" rel="noopener noreferrer"
             className={`agenda-event agenda-tone-${index % 3}${ended ? " is-past" : ""}`}>
-            <div className="agenda-event-date" aria-hidden="true"><span>{date.month}</span><strong>{date.day}</strong></div>
+            <div className="agenda-event-date" aria-hidden="true"><span>{date.month}</span><strong>{date.day}</strong>
+              {city && <span className="agenda-event-city"><CitySkyline city={city.key} />{city.code}</span>}</div>
             <div className="agenda-event-body">
               <time dateTime={event.startAt}>{date.full} · {date.time ?? t.allDay}</time>
               <h3>{event.title}</h3>
               {event.host && <p className="agenda-event-host">{t.by} {event.host}</p>}
               <p className="agenda-event-location">{event.location || t.locationPending}</p>
             </div>
+
           </a>
         })}
       </div>}
