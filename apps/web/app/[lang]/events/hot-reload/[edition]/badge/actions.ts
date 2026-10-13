@@ -1,6 +1,7 @@
 "use server"
 
 import { getEventGuest } from "@/lib/event-guest"
+import { isAdminUser } from "@/lib/admin"
 import { findEdition } from "@/lib/hot-reload"
 import { editionBadge, isBadgeVariant } from "@/lib/hot-reload-badge"
 import { badgeImageKey, getUserBadge, reserveBadge } from "@/lib/hot-reload-badge-store"
@@ -23,8 +24,9 @@ async function attendee(editionNumber: string): Promise<Result<{ edition: number
   if (check?.status === "unavailable") return refuse("guest", "unavailable", "luma lookup failed")
   if (check?.status !== "approved") return refuse("guest", "approval", check?.status)
   // Luma check-in proves attendance; an approved guest also qualifies once the edition has started.
+  // Admins skip the timing so the team can test before the day.
   const checkedIn = check.checkedIn === true
-  if (!checkedIn && (!edition.startsAt || Date.now() < Date.parse(edition.startsAt))) return refuse("guest", "early")
+  if (!checkedIn && !isAdminUser(user) && (!edition.startsAt || Date.now() < Date.parse(edition.startsAt))) return refuse("guest", "early")
   return { ok: true, edition: edition.number, userId: user.id, checkedIn }
 }
 
