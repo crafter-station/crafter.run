@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { HotReloadBadgeEditor } from "@/components/hot-reload-badge-editor"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { LinkLumaEmail } from "@/components/link-luma-email"
+import { isAdminUser } from "@/lib/admin"
 import { getEventGuest } from "@/lib/event-guest"
 import { findEdition } from "@/lib/hot-reload"
 import { editionBadge, isBadgeVariant } from "@/lib/hot-reload-badge"
@@ -69,7 +70,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         variant={isBadgeVariant(saved?.variant) ? saved.variant : "a"}
         badgeUrl={`https://crafter.run${path}`}
         // Same rule as the server action: checked in on Luma, or the edition has started.
-        stampLocked={check.checkedIn || (edition.startsAt !== undefined && Date.now() >= Date.parse(edition.startsAt))
+        stampLocked={check.checkedIn || isAdminUser(user) || (edition.startsAt !== undefined && Date.now() >= Date.parse(edition.startsAt))
           ? null
           : hotReloadText(b.stampLocked, { date: edition.startsAt ? new Intl.DateTimeFormat(lang, { weekday: "long", day: "numeric", month: "long", hour: "numeric", minute: "2-digit", timeZone: edition.timeZone }).format(new Date(edition.startsAt)) : "" })}
         labels={b}
