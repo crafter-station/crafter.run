@@ -68,6 +68,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         number={saved?.number ?? null}
         variant={isBadgeVariant(saved?.variant) ? saved.variant : "a"}
         badgeUrl={`https://crafter.run${path}`}
+        // Same rule as the server action: checked in on Luma, or the edition has started.
+        stampLocked={check.checkedIn || (edition.startsAt !== undefined && Date.now() >= Date.parse(edition.startsAt))
+          ? null
+          : hotReloadText(b.stampLocked, { date: edition.startsAt ? new Intl.DateTimeFormat(lang, { weekday: "long", day: "numeric", month: "long", hour: "numeric", minute: "2-digit", timeZone: edition.timeZone }).format(new Date(edition.startsAt)) : "" })}
         labels={b}
       >
         {head}

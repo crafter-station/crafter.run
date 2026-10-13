@@ -29,7 +29,7 @@ const withoutStamp = (design: Design): Design => ({
   front: { ...design.front, layers: design.front.layers.map((layer) => (isStampLayer(layer.id) ? { ...layer, visible: false } : layer)) },
 })
 
-export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition, number: savedNumber, variant: savedVariant, badgeUrl, children }: {
+export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition, number: savedNumber, variant: savedVariant, badgeUrl, stampLocked, children }: {
   badge: HotReloadBadgeDesign; person: Person; portrait: string | null; labels: Labels
   edition: string
   /** The attendee's badge number once claimed; the print shows 000 until then. */
@@ -37,6 +37,8 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
   variant: BadgeVariant
   /** Public badge URL without the number, e.g. https://crafter.run/es/events/hot-reload/1/badge */
   badgeUrl: string
+  /** Why stamping is not open yet (no Luma check-in and the edition has not started), or null when it is. */
+  stampLocked: string | null
   /** Page heading, shown at the top of the side rail. */
   children?: ReactNode
 }) {
@@ -188,9 +190,10 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
       />
       {published ? null : (
         <div className="hot-reload-badge-stampbar">
-          <button type="button" className="hot-reload-display hot-reload-cta" onClick={stamp} disabled={publishing || status !== "ready"}>
+          <button type="button" className="hot-reload-display hot-reload-cta" onClick={stamp} disabled={publishing || status !== "ready" || stampLocked !== null}>
             {publishing ? labels.stamping : labels.stamp}
           </button>
+          {stampLocked ? <p className="hot-reload-caps hot-reload-badge-locked">{stampLocked}</p> : null}
           {status === "error" ? <p className="hot-reload-badge-hint" role="alert">{labels.error}</p> : null}
           {failure ? <p className="hot-reload-badge-hint" role="alert">{labels[errorLabel[failure]]}</p> : null}
         </div>

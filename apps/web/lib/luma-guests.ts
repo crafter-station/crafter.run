@@ -18,7 +18,10 @@ async function getGuest(eventId: string, email: string, apiKey: string) {
   const url = new URL(LUMA_GUEST_URL)
   url.searchParams.set("event_id", eventId)
   url.searchParams.set("id", email)
-  const response = await fetch(url, { headers: { "x-luma-api-key": apiKey }, cache: "no-store", signal: AbortSignal.timeout(8000) })
+  // Luma allows 200 requests a minute per calendar and blocks for a minute past that
+  // (https://docs.luma.com/reference/rate-limits); every page view and action asks again,
+  // so one answer per guest is reused for that same minute.
+  const response = await fetch(url, { headers: { "x-luma-api-key": apiKey }, next: { revalidate: 60 }, signal: AbortSignal.timeout(8000) })
   if (response.status === 404 || response.status === 400) return null
   if (!response.ok) throw new Error(`Luma guest lookup failed with ${response.status}`)
   return (await response.json()) as {

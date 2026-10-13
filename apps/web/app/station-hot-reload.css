@@ -252,10 +252,13 @@
 .hot-reload-theme:not(.dark *) .hot-reload-badge-wall { color: #8fae00; }
 
 /* Before the first stamp the page is the badge and one button. */
-.hot-reload-badge-stampbar { position: absolute; left: 50%; bottom: clamp(16px, 5vh, 48px); z-index: 3; display: grid; justify-items: center; gap: 10px; transform: translateX(-50%); text-align: center; }
+/* Its own row under the scene, so the button never lands on the card. */
+.hot-reload-badge-stampbar { position: relative; z-index: 3; display: grid; justify-items: center; gap: 10px; padding: 8px 0 clamp(16px, 4vh, 40px); text-align: center; }
+.hot-reload-badge-stampbar .hot-reload-cta:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.hot-reload-badge-locked { max-width: 30rem; font-size: 11px; line-height: 1.6; opacity: 0.8; }
 .hot-reload-badge-stampbar .hot-reload-cta { font-size: clamp(24px, 3.4vh, 34px); padding: 14px 40px; white-space: nowrap; box-shadow: 0 18px 40px #0000004d; }
 .hot-reload-badge-stampbar .hot-reload-badge-hint { max-width: 26rem; padding: 6px 10px; background: color-mix(in srgb, var(--hr-paper) 80%, transparent); backdrop-filter: blur(10px); }
-.hot-reload-badge-editor:not(:has(.hot-reload-badge-controls)) { grid-template-columns: minmax(0, 1fr); position: relative; }
+.hot-reload-badge-editor:not(:has(.hot-reload-badge-controls)) { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; position: relative; }
 
 .hot-reload-badge-editor { min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: 12px; }
 @media (min-width: 900px) { .hot-reload-badge-editor { grid-template-columns: minmax(0, 1fr) 19rem; grid-template-rows: minmax(0, 1fr); gap: 40px; } }
