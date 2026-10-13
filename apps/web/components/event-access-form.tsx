@@ -3,10 +3,11 @@
 import * as SelectPrimitive from "@radix-ui/react-select"
 import { BookUser, Check, ChevronDown, Globe, IdCard, Info, Laptop, type LucideIcon, Plus, X } from "lucide-react"
 import { type SimpleIcon, siAcer, siApple, siAsus, siDell, siHp, siHuawei, siLenovo, siLg, siMsi, siSamsung, siToshiba } from "simple-icons"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { submitEventAccess } from "@/app/[lang]/events/[event]/access/actions"
 import { accessInputSchema, type AccessDetails, type AccessField, type AccessResult } from "@/lib/event-access-service"
 import { eventAccessCopy } from "@/lib/event-access-copy"
+import { laptopModels } from "@/lib/laptop-models"
 import type { Locale } from "@/lib/i18n"
 
 const laptopBrands: [string, SimpleIcon | null][] = [["Apple", siApple], ["Lenovo", siLenovo], ["HP", siHp], ["Dell", siDell], ["Asus", siAsus], ["Acer", siAcer],
@@ -17,11 +18,42 @@ function BrandMark({ icon }: { icon: SimpleIcon | null }) {
     : <Laptop aria-hidden size={16} strokeWidth={1.75} />
 }
 
+function ModelCombobox({ brand, value, onChange, placeholder, noMatch }: {
+  brand: string; value: string; onChange: (value: string) => void; placeholder: string; noMatch: string
+}) {
+  const id = useId()
+  const [open, setOpen] = useState(false)
+  const [active, setActive] = useState(-1)
+  const query = value.trim().toLowerCase().split(/\s+/).filter(Boolean)
+  const options = (laptopModels[brand] ?? []).filter(model => model !== value && query.every(word => model.toLowerCase().includes(word))).slice(0, 8)
+  const show = open && Boolean(laptopModels[brand]) && (options.length > 0 || query.length > 0)
+  const pick = (model: string) => { onChange(model); setOpen(false); setActive(-1) }
+  return <div className="entry-model">
+    <input id={id} value={value} maxLength={60} autoComplete="off" placeholder={placeholder} role="combobox" aria-expanded={show} aria-controls={`${id}-list`}
+      aria-autocomplete="list" aria-activedescendant={show && active >= 0 ? `${id}-option-${active}` : undefined}
+      onChange={event => { onChange(event.target.value); setOpen(true); setActive(-1) }}
+      onFocus={() => setOpen(true)} onBlur={() => setOpen(false)}
+      onKeyDown={event => {
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+          event.preventDefault(); setOpen(true)
+          if (options.length) setActive(current => (current + (event.key === "ArrowDown" ? 1 : -1) + options.length) % options.length)
+        } else if (event.key === "Enter" && show && active >= 0) { event.preventDefault(); pick(options[active]) }
+        else if (event.key === "Escape") setOpen(false)
+      }} />
+    {show ? <ul id={`${id}-list`} role="listbox" className="entry-brand-menu entry-model-menu">
+      {options.length ? options.map((model, index) => <li key={model} id={`${id}-option-${index}`} role="option" aria-selected={index === active}
+        className="entry-brand-option" data-highlighted={index === active ? "" : undefined}
+        onMouseDown={event => { event.preventDefault(); pick(model) }} onMouseEnter={() => setActive(index)}>{model}</li>)
+        : <li className="entry-model-empty">{noMatch}</li>}
+    </ul> : null}
+  </div>
+}
+
 function BrandSelect({ value, onChange, placeholder, other, invalid, field }: {
   value: string; onChange: (value: string) => void; placeholder: string; other: string; invalid: boolean; field?: string
 }) {
   const options = [...laptopBrands, ...(value && value !== other && !laptopBrands.some(([brand]) => brand === value) ? [[value, null] as [string, null]] : []), [other, null] as [string, null]]
-  return <SelectPrimitive.Root value={value} onValueChange={onChange}>
+  return <SelectPrimitive.Root value={value} onValueChange={brand => brand && onChange(brand)}>
     <SelectPrimitive.Trigger className="entry-brand-trigger" aria-invalid={invalid} data-field={field}>
       <SelectPrimitive.Value placeholder={placeholder} />
       <SelectPrimitive.Icon asChild><ChevronDown aria-hidden size={16} /></SelectPrimitive.Icon>
@@ -64,6 +96,10 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
   const [noEquipment, setNoEquipment] = useState(existing?.equipment.length === 0)
   const [documentType, setDocumentType] = useState<AccessDetails["documentType"]>(existing?.documentType ?? "dni")
   const [items, setItems] = useState<Item[]>(() => existing?.equipment.length ? parseItems(existing.equipment, t.itemTypes) : [newItem()])
+  useEffect(() => {
+    if (!existing && /Mac/.test(navigator.userAgent) && !/iPhone|iPad/.test(navigator.userAgent))
+      setItems(current => current.length === 1 && !current[0].brand ? [{ ...current[0], brand: "Apple" }] : current)
+  }, [existing])
   const updateItem = (id: number, patch: Partial<Item>) => setItems(current => current.map(item => item.id === id ? { ...item, ...patch } : item))
   const [busy, setBusy] = useState(false)
   const [saved, setSaved] = useState(Boolean(existing))
@@ -177,10 +213,11 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
                     invalid={invalid} field={index === 0 ? "equipmentText" : undefined} />
                 </div>
                 <label className="entry-item-field"><span>{t.model}</span>
-                  <input value={item.model} maxLength={60} autoComplete="off" placeholder={t.modelPlaceholder} onChange={event => updateItem(item.id, { model: event.target.value })} />
+                  <ModelCombobox brand={item.brand} value={item.model} onChange={model => updateItem(item.id, { model })} placeholder={t.modelPlaceholder} noMatch={t.modelNoMatch} />
                 </label>
                 <button type="button" className="entry-item-remove" aria-label={`${t.removeItem} ${index + 1}`} disabled={items.length === 1}
                   onClick={() => setItems(current => current.filter(entry => entry.id !== item.id))}><X aria-hidden size={18} /></button>
+                {item.brand && item.brand !== t.brandOther ? <p className="entry-item-help">{item.brand === "Apple" ? t.modelHelpMac : t.modelHelpWindows}</p> : null}
               </li>
             })}
           </ul>}
