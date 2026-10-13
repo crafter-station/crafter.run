@@ -1,5 +1,5 @@
 import { env } from "@/env"
-import { checkListedGuest } from "@/lib/event-guest-list"
+import { checkListedGuest, rememberApprovedGuest } from "@/lib/event-guest-list"
 
 /* Luma's Get Guest accepts the guest's email as `id`:
    https://docs.luma.com/reference/get_v1-events-guests-get */
@@ -43,13 +43,17 @@ export async function checkLumaGuest(eventId: string, emails: string[], calendar
     for (const email of emails) {
       const guest = await getGuest(eventId, email, apiKey)
       if (!guest) continue
-      if (guest.approval_status === "approved")
+      if (guest.approval_status === "approved") {
+        await rememberApprovedGuest(eventId, email, guest.user_name)
         return { status: "approved", email, name: guest.user_name, checkedIn: guest.event_tickets?.some((ticket) => ticket.checked_in_at) ?? false }
+      }
       pending ??= { status: "not-approved", email, approvalStatus: guest.approval_status }
     }
     return pending ?? { status: "not-found" }
   } catch (error) {
     console.warn("[luma] guest lookup failed", error)
-    return { status: "unavailable" }
+    // Luma blocks the calendar for a minute past its rate limit; fall back to the approvals already seen or imported.
+    const listed = await checkListedGuest(eventId, emails)
+    return listed.status === "approved" ? listed : { status: "unavailable" }
   }
 }

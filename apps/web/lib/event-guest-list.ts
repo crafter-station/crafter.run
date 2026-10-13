@@ -1,5 +1,5 @@
 import { eventGuest } from "@crafter/db/schema"
-import { and, eq, inArray } from "drizzle-orm"
+import { and, eq, inArray, sql } from "drizzle-orm"
 import { getDb } from "@/lib/db"
 import type { GuestCheck } from "@/lib/luma-guests"
 
@@ -17,5 +17,17 @@ export async function checkListedGuest(eventId: string, emails: string[]): Promi
     return pending ? { status: "not-approved", email: pending.email, approvalStatus: pending.approvalStatus } : { status: "not-found" }
   } catch {
     return { status: "unavailable" }
+  }
+}
+
+/* Remembers an approval Luma confirmed, so a later lookup can still answer when Luma rate-limits. */
+export async function rememberApprovedGuest(eventId: string, email: string, name: string | null) {
+  const db = getDb()
+  if (!db) return
+  try {
+    await db.insert(eventGuest).values({ lumaEventId: eventId, email: email.toLowerCase(), name, approvalStatus: "approved" })
+      .onConflictDoUpdate({ target: [eventGuest.lumaEventId, eventGuest.email], set: { name, approvalStatus: "approved", updatedAt: sql`now()` } })
+  } catch (error) {
+    console.warn("[luma] could not remember approved guest", error)
   }
 }
