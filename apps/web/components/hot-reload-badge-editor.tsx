@@ -9,7 +9,7 @@ import { pressBadge } from "@/lib/badge-press"
 import { type BadgeVariant, badgeVariants, type HotReloadBadgeDesign, isStampLayer } from "@/lib/hot-reload-badge"
 
 type Person = { name: string; role: string; eventName: string }
-type Labels = Record<"intro" | "name" | "photo" | "photoHint" | "front" | "back" | "view3d" | "viewFlat" | "flip" | "variant" | "printing" | "error"
+type Labels = Record<"intro" | "edit" | "name" | "photo" | "photoHint" | "front" | "back" | "view3d" | "viewFlat" | "flip" | "variant" | "printing" | "error"
   | "publish" | "publishing" | "republish" | "errorAuth" | "errorApproval" | "errorEarly" | "errorName" | "errorImage" | "errorUnavailable", string>
 type Layer = { id: string } & Record<string, unknown>
 type Design = { front: { background: string; layers: Layer[] }; back: { background: string; layers: Layer[] } } & Record<string, unknown>
@@ -53,6 +53,11 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
   const waiting = useRef<{ key: string; resolve: () => void; reject: (error: unknown) => void } | null>(null)
   const stamperDone = useRef<() => void>(() => {})
   const pendingNumber = useRef<number | null>(null)
+  const [editing, setEditing] = useState(true)
+
+  useEffect(() => {
+    if (window.matchMedia("(max-width: 899px)").matches) setEditing(false)
+  }, [])
 
   useEffect(() => {
     fetch(badge.design).then((response) => response.json()).then(setDesign, () => setStatus("error"))
@@ -150,6 +155,9 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
         onStamped={() => stamperDone.current()}
       />
       <div className="hot-reload-badge-controls">
+        {/* On phones the fields fold away so the badge keeps the screen; the summary only shows there. */}
+        <details className="hot-reload-badge-edit" open={editing} onToggle={(event) => setEditing(event.currentTarget.open)}>
+        <summary className="hot-reload-caps">{labels.edit} ↻</summary>
         <p className="hot-reload-badge-hint">{labels.intro}</p>
         <p className="hot-reload-caps hot-reload-badge-status" role="status">
           {status === "printing" ? labels.printing : status === "error" ? labels.error : ""}
@@ -174,6 +182,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
             </label>
           ))}
         </fieldset>
+        </details>
         <button type="button" className="hot-reload-display hot-reload-cta" onClick={publish} disabled={publishing || status !== "ready"}>
           {publishing ? labels.publishing : savedNumber ? labels.republish : labels.publish} ↻
         </button>

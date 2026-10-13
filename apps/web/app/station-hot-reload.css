@@ -304,13 +304,29 @@
 .hot-reload-theme:has(.hot-reload-badge-page) { --hr-paper: #f3eee2; --hr-ink: #1c1b17; }
 .dark .hot-reload-theme:has(.hot-reload-badge-page) { --hr-paper: #1c1b17; --hr-ink: #f3eee2; }
 .hot-reload-badge-controls .hot-reload-cta { font-size: 22px; }
+.hot-reload-badge-edit { display: grid; gap: 12px; }
 @media (max-width: 899px) {
   .hot-reload-theme .hot-reload-badge-head h1 { font-size: clamp(24px, 7vw, 32px); }
   .hot-reload-badge-controls .hot-reload-badge-hint:not([role="alert"]), .hot-reload-badge-status:empty { display: none; }
-  .hot-reload-badge-controls { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 8px 12px; }
+  .hot-reload-badge-controls { grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; gap: 8px 12px; }
   .hot-reload-badge-controls > label:not(.hot-reload-badge-photo), .hot-reload-badge-controls .hot-reload-cta, .hot-reload-badge-controls [role="alert"], .hot-reload-badge-status { grid-column: 1 / -1; }
   .hot-reload-badge-variants legend { display: none; }
+  /* The badge is the page: no site header or footer, the crumbs go, and the fields fold into one row. */
+  .hot-reload-theme:has(.hot-reload-badge-page) .hot-reload-top, .hot-reload-theme:has(.hot-reload-badge-page) .hot-reload-foot, .hot-reload-badge-head .hot-reload-crumbs { display: none; }
+  .hot-reload-badge-page { gap: 4px; padding-top: 10px; }
+  .hot-reload-badge-editor { gap: 8px; }
+  .hot-reload-badge-controls { grid-template-columns: auto minmax(0, 1fr); }
+  .hot-reload-badge-edit { display: grid; align-self: stretch; }
+  .hot-reload-badge-edit:not([open]) { gap: 0; }
+  .hot-reload-badge-edit[open] { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 12px; align-items: center; }
+  .hot-reload-badge-edit summary { display: grid; place-items: center; min-height: 48px; padding: 0 12px; white-space: nowrap; font-size: 11px; border: 2px solid var(--hr-ink); cursor: pointer; list-style: none; }
+  .hot-reload-badge-edit[open] summary { grid-column: 1 / -1; padding: 8px; }
+  .hot-reload-badge-edit summary::-webkit-details-marker { display: none; }
+  .hot-reload-badge-controls .hot-reload-cta { grid-column: auto; display: grid; place-items: center; min-height: 48px; padding-block: 0; font-size: 18px; white-space: nowrap; }
+  .hot-reload-badge-controls { grid-template-columns: minmax(0, 1fr) auto; }
+  .hot-reload-badge-edit[open] ~ .hot-reload-cta { grid-column: 1 / -1; }
 }
+@media (min-width: 900px) { .hot-reload-badge-edit summary { display: none; } }
 .hot-reload-theme fieldset legend > span:first-child { font-family: var(--hr-display), sans-serif; font-weight: 400; text-transform: uppercase; font-size: 28px; letter-spacing: 0; }
 .hot-reload-theme fieldset ul { border-width: 2px; border-color: var(--hr-ink); }
 .hot-reload-theme fieldset [role="tab"] { text-transform: uppercase; letter-spacing: 0.08em; }
