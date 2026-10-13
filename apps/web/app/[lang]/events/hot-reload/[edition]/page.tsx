@@ -6,6 +6,8 @@ import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { findEdition, hotReloadDate, hotReloadStatus, hotReloadTime, ordersOpen } from "@/lib/hot-reload"
 import { hotReloadCopy, hotReloadIdentity, hotReloadText } from "@/lib/hot-reload-copy"
 import { getEventMenu } from "@/lib/event-menu"
+import { editionBadge } from "@/lib/hot-reload-badge"
+import { hotReloadBadgeCopy } from "@/lib/hot-reload-badge-copy"
 import { hotReloadMetadata } from "@/lib/hot-reload-seo"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { HACK0_CALENDAR_URL } from "@/lib/hack0-calendar-data"
@@ -72,6 +74,11 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             {getEventMenu(edition) && edition.lumaEventId ? (
               <Link href={withLocale(`/events/hot-reload/${edition.number}/menu`, lang)} className="hot-reload-display hot-reload-cta">
                 {ordersOpen(edition) ? t.menu : t.viewOrder} ↻
+              </Link>
+            ) : null}
+            {editionBadge(edition) && edition.lumaEventId ? (
+              <Link href={withLocale(`/events/hot-reload/${edition.number}/badge`, lang)} className="hot-reload-display hot-reload-cta">
+                {hotReloadBadgeCopy[lang].badge} ↻
               </Link>
             ) : null}
             <a href={edition.lumaUrl ?? HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer" className="hot-reload-caps">
