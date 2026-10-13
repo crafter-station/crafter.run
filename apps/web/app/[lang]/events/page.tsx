@@ -12,6 +12,8 @@ import { breadcrumbList } from "@/lib/structured-data"
 import { participationCopy } from "@/lib/participation-copy"
 import { accessEventDay, accessEvents } from "@/lib/access-events"
 import { eventAccessCopy } from "@/lib/event-access-copy"
+import { agendaCity, type AgendaCity } from "@/lib/agenda-cities"
+import { CitySkyline } from "@/components/city-skyline"
 
 export const revalidate = 1800
 export const dynamicParams = false
@@ -32,6 +34,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const { upcoming } = partitionHack0Events(calendar.events, now)
   const featured = upcoming[0]
   const date = featured ? hack0DateParts(featured, lang) : null
+  const featuredCity = featured ? agendaCity(featured.location) : null
+  const visited = new Map<string, AgendaCity & { count: number }>()
+  for (const event of calendar.events) {
+    const city = agendaCity(event.location)
+    if (!city || Date.parse(event.startAt) > now) continue
+    visited.set(city.key, { ...city, count: (visited.get(city.key)?.count ?? 0) + 1 })
+  }
+  const stamps = [...visited.values()].sort((a, b) => b.count - a.count)
   const subscriptionLinks = [
     { label: "Google Calendar", href: `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(HACK0_ICAL_URL)}` },
     { label: "Apple Calendar", href: HACK0_ICAL_URL.replace("https:", "webcal:") },
@@ -48,7 +58,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             <div className="agenda-hero-actions"><a href="#calendar">{t.explore}</a><a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer">{t.follow}</a></div>
           </div>
           {featured && date ? <a className="agenda-ticket" href={featured.url} target="_blank" rel="noopener noreferrer">
-            <div className="agenda-ticket-top"><span>{Date.parse(featured.startAt) <= now ? t.happening : t.next}</span></div>
+            <div className="agenda-ticket-top"><span>{Date.parse(featured.startAt) <= now ? t.happening : t.next}</span><strong>{featuredCity?.code ?? "✳"}</strong></div>
+            <CitySkyline city={featuredCity?.key ?? "other"} className="agenda-ticket-skyline" />
             <div className="agenda-ticket-date" aria-hidden="true"><span>{date.day}</span><span>{date.month}<i>✳</i></span></div>
             <h2>{featured.title}</h2><p>{featured.location || t.locationPending}</p>
             <div className="agenda-ticket-bottom"><time dateTime={featured.startAt}>{date.full}<br />{date.time ?? t.allDay}{!featured.allDay && " · Lima (UTC−5)"}</time><span className="agenda-barcode" aria-hidden="true" /></div>
@@ -56,6 +67,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             <p>{calendar.status === "unavailable" ? t.unavailable : t.noUpcoming}</p><a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer">{t.follow}</a></div>}
         </div>
       </header>
+      {stamps.length > 0 && <section className="agenda-passport" aria-labelledby="agenda-passport-title">
+        <div className="agenda-passport-intro"><p className="station-label">{t.passport} · {t.stamps.replace("{count}", String(stamps.length))}</p>
+          <h2 id="agenda-passport-title">{t.passportTitle}</h2><p>{t.passportBody}</p></div>
+        <ul className="agenda-stamps">{stamps.map((city, index) => <li key={city.key} className={`agenda-stamp agenda-stamp-${index % 4}`}>
+          <CitySkyline city={city.key} className="agenda-stamp-skyline" />
+          <strong>{city.code}</strong><span>{city.name}</span><small>{(city.count === 1 ? t.result : t.results).replace("{count}", String(city.count))}</small>
+        </li>)}</ul>
+      </section>}
       <section id="hot-reload" className="agenda-program" aria-labelledby="hot-reload-title">
         <div>
           <p className="station-label">{participation.hotReload.eyebrow}</p>
