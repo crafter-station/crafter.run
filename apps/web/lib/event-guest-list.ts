@@ -1,5 +1,5 @@
 import { eventGuest } from "@crafter/db/schema"
-import { and, eq, inArray } from "drizzle-orm"
+import { and, eq, inArray, sql } from "drizzle-orm"
 import { getDb } from "@/lib/db"
 import type { GuestCheck } from "@/lib/luma-guests"
 
@@ -18,4 +18,12 @@ export async function checkListedGuest(eventId: string, emails: string[]): Promi
   } catch {
     return { status: "unavailable" }
   }
+}
+
+/* Saves a guest's Luma status, from a lookup or a webhook, so later checks skip Luma. */
+export async function saveGuest(eventId: string, email: string, name: string | null, approvalStatus: string) {
+  const db = getDb()
+  if (!db) return
+  await db.insert(eventGuest).values({ lumaEventId: eventId, email: email.toLowerCase(), name, approvalStatus })
+    .onConflictDoUpdate({ target: [eventGuest.lumaEventId, eventGuest.email], set: { name, approvalStatus, updatedAt: sql`now()` } })
 }
