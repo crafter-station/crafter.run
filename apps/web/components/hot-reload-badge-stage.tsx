@@ -138,8 +138,16 @@ export function HotReloadBadgeViews({ view, onChange, disabled, labels }: {
   )
 }
 
+/** Stamp ring in design units: centre x, centre y and diameter on the 1024 × 1536 face. */
+export type StampRing = readonly [cx: number, cy: number, d: number]
+
+/* Same calibration as the Hot Reload default in CSS (ring at 700, 1150, 300). */
+const stampPosition = ([cx, cy, d]: StampRing) => ({
+  "--stamp-x": `${((cx - 512) * 0.03245).toFixed(2)}cqh`, "--stamp-y": `${(30.55 + cy * 0.03204).toFixed(2)}%`, "--w": `${(d * 0.03467).toFixed(2)}cqh`,
+}) as CSSProperties
+
 /** Rubber stamp that drops on the card; `onImpact` fires when it hits, so the print can switch to the stamped one. */
-function Stamper({ onImpact, onDone }: { onImpact: () => void; onDone: () => void }) {
+function Stamper({ onImpact, onDone, at }: { onImpact: () => void; onDone: () => void; at?: StampRing }) {
   const callbacks = useRef({ onImpact, onDone })
   callbacks.current = { onImpact, onDone }
   useEffect(() => {
@@ -154,7 +162,7 @@ function Stamper({ onImpact, onDone }: { onImpact: () => void; onDone: () => voi
   }, [])
   return (
     // Seen from the camera: the stamp travels toward the card along the view axis, rubber face flat on the print.
-    <div className="hot-reload-stamper" aria-hidden="true">
+    <div className="hot-reload-stamper" aria-hidden="true" style={at ? stampPosition(at) : undefined}>
       <span className="hot-reload-stamper-shadow" />
       <svg viewBox="0 0 200 200">
         <defs>
@@ -184,8 +192,8 @@ function Stamper({ onImpact, onDone }: { onImpact: () => void; onDone: () => voi
   )
 }
 
-export function HotReloadBadgeStage({ design, prints, variant, variants = badgeVariants, name, labels, view, stamping, onImpact, onStamped }: {
-  design: Design | null; prints: BadgePrints | null; variant: BadgeVariant; variants?: BadgeVariants; name: string
+export function HotReloadBadgeStage({ design, prints, variant, variants = badgeVariants, stamp, name, labels, view, stamping, onImpact, onStamped }: {
+  design: Design | null; prints: BadgePrints | null; variant: BadgeVariant; variants?: BadgeVariants; stamp?: StampRing; name: string
   labels: Record<"front" | "back" | "flip" | "printing", string>
   view: BadgeView; stamping?: boolean; onImpact?: () => void; onStamped?: () => void
 }) {
@@ -246,6 +254,7 @@ export function HotReloadBadgeStage({ design, prints, variant, variants = badgeV
             <BadgeCard prints={prints} material={variants[variant]} flip={labels.flip} />
             {stamping ? (
               <Stamper
+                at={stamp}
                 onImpact={() => {
                   setHit(true)
                   setTimeout(() => setHit(false), 900)
@@ -267,6 +276,7 @@ export function HotReloadBadgeStage({ design, prints, variant, variants = badgeV
             ))}
             {stamping ? (
               <Stamper
+                at={stamp}
                 onImpact={() => {
                   setHit(true)
                   setTimeout(() => setHit(false), 900)

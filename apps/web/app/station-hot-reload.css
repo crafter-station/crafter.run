@@ -320,7 +320,7 @@
 @keyframes hot-reload-sheen { from { background-position: 150% 0; } to { background-position: -100% 0; } }
 
 /* Aimed at the stamp ring in canvas units: 6.1cqh right of centre, 67.4% down. */
-.hot-reload-stamper { --w: 10.4cqh; position: absolute; left: calc(50% + 6.1cqh - var(--w) / 2); top: calc(67.4% - var(--w) / 2); width: var(--w); aspect-ratio: 1; pointer-events: none; z-index: 2; animation: hot-reload-stamp 1.5s cubic-bezier(0.45, 0, 0.25, 1) forwards; }
+.hot-reload-stamper { --w: 10.4cqh; position: absolute; left: calc(50% + var(--stamp-x, 6.1cqh) - var(--w) / 2); top: calc(var(--stamp-y, 67.4%) - var(--w) / 2); width: var(--w); aspect-ratio: 1; pointer-events: none; z-index: 2; animation: hot-reload-stamp 1.5s cubic-bezier(0.45, 0, 0.25, 1) forwards; }
 .hot-reload-stamper svg { position: relative; display: block; width: 100%; height: 100%; animation: inherit; animation-name: hot-reload-stamp-body; }
 .hot-reload-stamper-shadow { position: absolute; inset: 4%; border-radius: 50%; background: #000; filter: blur(12px); animation: inherit; animation-name: hot-reload-stamp-shadow; }
 /* 0-41%: approach from the camera; 41%: rubber on the card; 52-72%: held; then it lifts back toward the viewer. */
@@ -583,3 +583,18 @@
 .event-badge-theme .entry-brand-check { color: var(--dd-green); }
 .event-badge-theme .entry-info-bubble { background: var(--hr-ink); color: var(--hr-paper); border-radius: 10px; }
 .event-badge-theme .entry-feedback h3 { font-weight: 500; }
+/* Badge pages: outlined circles stay in the background so the stamp button is the only filled color. */
+.event-badge-theme .dd-face { background: transparent !important; box-shadow: none !important; border: 2px solid currentColor; opacity: 0.55; }
+.event-badge-theme .dd-face[data-c="blue"] { color: var(--dd-blue); }
+.event-badge-theme .dd-face[data-c="orange"] { color: var(--dd-orange); }
+.event-badge-theme .dd-face[data-c="green"] { color: var(--dd-green); }
+.event-badge-theme .dd-face[data-c="purple"] { color: var(--dd-purple); }
+.event-badge-theme .dd-face[data-c="grey"] { color: var(--dd-muted); }
+.event-badge-theme .dd-face[data-c="black"] { color: var(--hr-ink); }
+.event-badge-theme .hot-reload-badge-stampbar .hot-reload-cta {
+  min-height: 60px; padding: 0 32px; border: 0; background: var(--dd-green); color: #000; font-size: 19px; font-weight: 600;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--dd-green) 55%, transparent); animation: dd-stamp-pulse 2.2s ease-out infinite;
+}
+.event-badge-theme .hot-reload-badge-stampbar .hot-reload-cta:disabled { animation: none; opacity: 0.6; }
+@keyframes dd-stamp-pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dd-green) 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 18px transparent; } }
+@media (prefers-reduced-motion: reduce) { .event-badge-theme .hot-reload-badge-stampbar .hot-reload-cta { animation: none; } }
