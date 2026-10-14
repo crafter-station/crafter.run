@@ -1,4 +1,4 @@
-import { and, eq, sql } from "drizzle-orm"
+import { and, desc, eq, sql } from "drizzle-orm"
 import { hotReloadBadges } from "@crafter/db/schema"
 
 import { getDb } from "@/lib/db"
@@ -62,5 +62,17 @@ export async function reserveBadge(edition: number, clerkUserId: string, name: s
     } catch (error) {
       if (!numberTaken(error)) throw error
     }
+  }
+}
+
+/** Every claimed badge of an edition, newest first, for the admin. Null when the database is unavailable. */
+export async function listEditionBadges(edition: number) {
+  const db = getDb()
+  if (!db) return null
+  try {
+    return await db.select({ ...columns, createdAt: hotReloadBadges.createdAt }).from(hotReloadBadges)
+      .where(eq(hotReloadBadges.edition, edition)).orderBy(desc(hotReloadBadges.createdAt))
+  } catch {
+    return null
   }
 }

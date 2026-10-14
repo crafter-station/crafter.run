@@ -3,11 +3,10 @@
 import { getEventGuest } from "@/lib/event-guest"
 import { isAdminUser } from "@/lib/admin"
 import { findEdition } from "@/lib/hot-reload"
-import { editionBadge, isBadgeVariant } from "@/lib/hot-reload-badge"
+import { type BadgeError, editionBadge, isBadgeVariant } from "@/lib/hot-reload-badge"
 import { badgeImageKey, getUserBadge, reserveBadge } from "@/lib/hot-reload-badge-store"
 import { r2Configured, r2Put } from "@/lib/r2"
 
-export type BadgeError = "auth" | "approval" | "early" | "name" | "image" | "unavailable"
 type Result<T> = ({ ok: true } & T) | { ok: false; error: BadgeError }
 
 /** Logs why a badge action was refused, so a failed publish in production can be traced from the function logs. */

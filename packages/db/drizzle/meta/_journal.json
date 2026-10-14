@@ -183,6 +183,13 @@
       "when": 1791866485654,
       "tag": "0025_hot_reload_badge_variant",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1791947021434,
+      "tag": "0026_event_badges",
+      "breakpoints": true
     }
   ]
 }

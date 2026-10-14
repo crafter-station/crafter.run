@@ -2,6 +2,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { HotReloadBadgeEditor } from "@/components/hot-reload-badge-editor"
+import { claimBadge, uploadBadge } from "./actions"
 import { MakeablesWall } from "@/components/hot-reload-badge-stage"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { LinkLumaEmail } from "@/components/link-luma-email"
@@ -66,7 +67,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           role: b.role,
           eventName: `Hot Reload #${edition.number}`,
         }}
-        edition={String(edition.number)}
+        claim={claimBadge.bind(null, String(edition.number))}
+        upload={uploadBadge.bind(null, String(edition.number))}
         number={saved?.number ?? null}
         variant={isBadgeVariant(saved?.variant) ? saved.variant : "a"}
         badgeUrl={`https://crafter.run${path}`}

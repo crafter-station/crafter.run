@@ -4,6 +4,9 @@ import { findAccessEvent } from "@/lib/access-events"
 import { eventAccessCopy } from "@/lib/event-access-copy"
 import { isLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
+import { DevdayEventBody, DevdayHero } from "@/components/devday-event"
+import { EventBadgeTheme } from "@/components/event-badge-theme"
+import { findEventBadge } from "@/lib/event-badge"
 import "@/app/station-event-access.css"
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; event: string }> }) {
@@ -18,6 +21,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const event = findAccessEvent(slug)
   if (!isLocale(lang) || !event) notFound()
   const t = eventAccessCopy[lang]
+  // Events with their own identity skip the station shell (site-shell.tsx) and bring their frame.
+  if (findEventBadge(event.slug)) return <EventBadgeTheme locale={lang} event={event}><DevdayHero event={event} locale={lang} /><DevdayEventBody event={event} locale={lang} /></EventBadgeTheme>
   return <main className="event-entry-page">
     <AccessEventHeader event={event} locale={lang} />
     <section className="entry-steps">

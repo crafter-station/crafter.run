@@ -10,6 +10,9 @@ import { getEventGuest } from "@/lib/event-guest"
 import { hotReloadCopy } from "@/lib/hot-reload-copy"
 import { isLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
+import { DevdayHero } from "@/components/devday-event"
+import { EventBadgeTheme } from "@/components/event-badge-theme"
+import { findEventBadge } from "@/lib/event-badge"
 import "@/app/station-event-access.css"
 
 export const dynamic = "force-dynamic"
@@ -57,11 +60,15 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
       </Notice>
     }
   }
-  return <main className="event-entry-page">
-    <AccessEventHeader event={event} locale={lang} entry />
+  const themed = findEventBadge(event.slug)
+  const Frame = themed ? "div" : "main"
+  const page = <Frame className="event-entry-page">
+    {themed ? <DevdayHero event={event} locale={lang} entry /> : <AccessEventHeader event={event} locale={lang} entry />}
     <section className="entry-access-content">
       <p className="entry-deadline">{t.deadline} <strong>{accessEventDate(event, lang, true)}</strong> ({t.lima}).</p>
       {content}
     </section>
-  </main>
+  </Frame>
+  // Events with their own identity skip the station shell (site-shell.tsx) and bring their frame.
+  return themed ? <EventBadgeTheme locale={lang} event={event}>{page}</EventBadgeTheme> : page
 }

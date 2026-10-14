@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import { AccessModule } from "@/components/admin/access-module"
+import { BadgesModule } from "@/components/admin/badges-module"
 import { OrdersModule } from "@/components/admin/orders-module"
 import { getAdmin } from "@/lib/admin"
 import { adminEventsCopy, findAdminEvent } from "@/lib/admin-events"
@@ -26,5 +27,6 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     <p className="mt-3 text-muted-foreground">{date}{approved ? ` · ${approved.guests.length} ${t.approved}` : ""}</p>
     {event.access ? <AccessModule lang={lang} event={event.access} approved={approved} /> : null}
     {event.orders ? <OrdersModule lang={lang} edition={event.orders} approved={approved} /> : null}
+    <BadgesModule lang={lang} event={event} approved={approved} />
   </main>
 }

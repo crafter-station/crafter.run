@@ -4,10 +4,9 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { type ReactNode, useEffect, useRef, useState } from "react"
 
-import { type BadgeError, claimBadge, uploadBadge } from "@/app/[lang]/events/hot-reload/[edition]/badge/actions"
 import { type BadgePrints, type BadgeView, HotReloadBadgeStage, HotReloadBadgeViews } from "@/components/hot-reload-badge-stage"
 import { pressBadge } from "@/lib/badge-press"
-import { type BadgeVariant, badgeVariants, type HotReloadBadgeDesign, isStampLayer } from "@/lib/hot-reload-badge"
+import { type BadgeError, type BadgeVariant, type BadgeVariants, badgeVariants as hotReloadVariants, type HotReloadBadgeDesign, isStampLayer } from "@/lib/hot-reload-badge"
 
 type Person = { name: string; role: string; eventName: string }
 type Labels = Record<"intro" | "edit" | "name" | "photo" | "photoHint" | "front" | "back" | "view3d" | "viewFlat" | "flip" | "variant" | "printing" | "error"
@@ -15,10 +14,12 @@ type Labels = Record<"intro" | "edit" | "name" | "photo" | "photoHint" | "front"
 type Layer = { id: string } & Record<string, unknown>
 type Design = { front: { background: string; layers: Layer[] }; back: { background: string; layers: Layer[] } } & Record<string, unknown>
 
+type Result = { ok: true; number: number } | { ok: false; error: BadgeError }
+
 const errorLabel = { auth: "errorAuth", approval: "errorApproval", early: "errorEarly", name: "errorName", image: "errorImage", unavailable: "errorUnavailable" } as const
 
 /** Neutral portrait used until the attendee has a Clerk photo or uploads one. */
-const placeholderPortrait = "/events/hot-reload/badge/portrait.png"
+const defaultPortrait = "/events/hot-reload/badge/portrait.png"
 
 const toJpeg = (canvas: HTMLCanvasElement) =>
   new Promise<Blob>((resolve, reject) => canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error("toBlob failed"))), "image/jpeg"))
@@ -29,9 +30,13 @@ const withoutStamp = (design: Design): Design => ({
   front: { ...design.front, layers: design.front.layers.map((layer) => (isStampLayer(layer.id) ? { ...layer, visible: false } : layer)) },
 })
 
-export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition, number: savedNumber, variant: savedVariant, badgeUrl, stampLocked, children }: {
+export function HotReloadBadgeEditor({ badge, person, portrait, labels, claim: claimBadge, upload: uploadBadge, variants: badgeVariants = hotReloadVariants, placeholderPortrait = defaultPortrait, number: savedNumber, variant: savedVariant, badgeUrl, stampLocked, children }: {
   badge: HotReloadBadgeDesign; person: Person; portrait: string | null; labels: Labels
-  edition: string
+  /** Server actions already bound to the event: reserve the number, then store both printed faces. */
+  claim: (name: string, variant: string) => Promise<Result>
+  upload: (form: FormData) => Promise<Result>
+  variants?: BadgeVariants
+  placeholderPortrait?: string
   /** The attendee's badge number once claimed; the print shows 000 until then. */
   number: number | null
   variant: BadgeVariant
@@ -88,8 +93,8 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
           document, portraitUrl: photo, imageUrls: designImageUrls(document),
         }
         const sides = await Promise.all([
-          renderDesignFace(data, "front", controller.signal).then((face) => pressBadge(face, { photo: badge.photo })),
-          renderDesignFace(data, "back", controller.signal).then((face) => pressBadge(face, { protect: badge.protect })),
+          renderDesignFace(data, "front", controller.signal).then((face) => badge.press === false ? face : pressBadge(face, { photo: badge.photo })),
+          renderDesignFace(data, "back", controller.signal).then((face) => badge.press === false ? face : pressBadge(face, { protect: badge.protect })),
         ])
         if (controller.signal.aborted) return
         faces.current = { key, sides }
@@ -121,7 +126,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
     const form = new FormData()
     form.set("front", frontJpeg, "front.jpg")
     form.set("back", backJpeg, "back.jpg")
-    return uploadBadge(edition, form)
+    return uploadBadge(form)
   }
 
   /** First publish: the stamp lands, its impact swaps in the stamped, numbered print, and that print is uploaded. */
@@ -129,7 +134,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
     setPublishing(true)
     setFailure(null)
     try {
-      const claim = await claimBadge(edition, name, variant)
+      const claim = await claimBadge(name, variant)
       if (!claim.ok) return setFailure(claim.error)
       const animation = new Promise<void>((resolve) => (stamperDone.current = resolve))
       pendingNumber.current = claim.number
@@ -151,7 +156,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
     setPublishing(true)
     setFailure(null)
     try {
-      const claim = await claimBadge(edition, name, variant)
+      const claim = await claimBadge(name, variant)
       if (!claim.ok) return setFailure(claim.error)
       const result = await upload(`${claim.number}:true`)
       if (!result.ok) return setFailure(result.error)
@@ -178,6 +183,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, edition,
         design={design}
         prints={prints}
         variant={variant}
+        variants={badgeVariants}
         name={name}
         labels={labels}
         view={view}
