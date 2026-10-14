@@ -7,7 +7,7 @@ import { hotReloadBadgeCopy } from "@/lib/hot-reload-badge-copy"
 import type { Locale } from "@/lib/i18n"
 
 /** DevDay-site hero: date and venue on one line, the title in event colors, lede and pill actions. */
-export function DevdayHero({ event, locale, entry = false }: { event: AccessEvent; locale: Locale; entry?: boolean }) {
+export function DevdayHero({ event, locale, entry = false, admin = false }: { event: AccessEvent; locale: Locale; entry?: boolean; admin?: boolean }) {
   const t = eventAccessCopy[locale]
   const weekday = new Intl.DateTimeFormat(locale, { timeZone: event.timeZone, weekday: "long" }).format(new Date(event.startsAt))
   return (
@@ -31,7 +31,8 @@ export function DevdayHero({ event, locale, entry = false }: { event: AccessEven
         <div className="dd-actions">
           <Link className="dd-pill" href={`/${locale}/events/${event.slug}/access`}>{t.access}</Link>
           <a className="dd-pill dd-pill-ghost" href={event.lumaUrl} target="_blank" rel="noopener noreferrer">{t.request} ↗</a>
-          {findEventBadge(event.slug)?.entry ? <Link className="dd-pill dd-pill-ghost" href={`/${locale}/events/${event.slug}/badge`}>{hotReloadBadgeCopy[locale].badge}</Link> : null}
+          {/* Admins see the badge before it opens to everyone. */}
+          {findEventBadge(event.slug)?.entry || admin ? <Link className="dd-pill dd-pill-ghost" href={`/${locale}/events/${event.slug}/badge`}>{hotReloadBadgeCopy[locale].badge}</Link> : null}
         </div>
       )}
     </section>
