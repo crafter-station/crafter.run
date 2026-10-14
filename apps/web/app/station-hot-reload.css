@@ -216,7 +216,7 @@
   --accent: 47 90% 77%; --accent-foreground: 48 10% 10%; --secondary: 47 90% 77%; --secondary-foreground: 48 10% 10%;
 }
 .hot-reload-theme input, .hot-reload-theme button { font-family: inherit; }
-.hot-reload-theme input:not([type="radio"]) { border-radius: 0; border-color: var(--hr-ink); }
+.hot-reload-theme:not(.event-badge-theme) input:not([type="radio"]) { border-radius: 0; border-color: var(--hr-ink); }
 
 /* Menu page: the edition sheet up top, the order (or the sign-in ticket) below. */
 .hot-reload-menu-head { display: grid; align-items: end; gap: 32px; padding: 32px 0 28px; border-bottom: 2px solid var(--hr-ink); }
@@ -395,21 +395,21 @@
   .hot-reload-badge-variants { grid-template-columns: auto 1fr; align-items: center; }
   .hot-reload-badge-variants legend { float: left; padding: 0; }
 }
-.hot-reload-theme fieldset legend > span:first-child { font-family: var(--hr-display), sans-serif; font-weight: 400; text-transform: uppercase; font-size: 28px; letter-spacing: 0; }
-.hot-reload-theme fieldset ul { border-width: 2px; border-color: var(--hr-ink); }
-.hot-reload-theme fieldset [role="tab"] { text-transform: uppercase; letter-spacing: 0.08em; }
-.hot-reload-theme fieldset [role="tab"][aria-selected="true"] { background: var(--hr-ink); color: var(--hr-paper); border-color: var(--hr-ink); }
-.hot-reload-theme label.bg-muted, .hot-reload-theme fieldset label:has(input:checked) { background: var(--hr-butter); color: var(--hr-coffee); }
-.hot-reload-theme fieldset label:has(input:checked) .text-muted-foreground { color: color-mix(in srgb, var(--hr-coffee) 70%, transparent); }
-.hot-reload-theme fieldset label:has(input:checked) span[aria-hidden] { border-color: var(--hr-coffee); }
-.hot-reload-theme fieldset label:has(input:checked) span[aria-hidden] > span { background: var(--hr-coffee); }
-.hot-reload-theme .station-button { font-family: var(--hr-display), sans-serif; text-transform: uppercase; font-size: 20px; letter-spacing: 0; }
-.hot-reload-theme .font-display { font-family: var(--hr-display), sans-serif; }
-.hot-reload-theme fieldset label:has(input:checked) * { color: var(--hr-coffee); opacity: 1; }
-.hot-reload-theme fieldset legend { font-family: var(--hr-display), sans-serif; font-weight: 400; text-transform: uppercase; font-size: 28px; letter-spacing: 0; }
-.hot-reload-theme fieldset legend .font-mono, .hot-reload-theme fieldset legend button { font-family: var(--hr-mono), monospace; font-size: 12px; text-transform: none; }
-.hot-reload-theme form > .sticky { border-top: 2px solid var(--hr-ink); background: color-mix(in srgb, var(--hr-paper) 88%, transparent); }
-.hot-reload-theme form > .sticky .bg-\[\#f8e9a4\] { background: var(--hr-butter); }
+.hot-reload-theme:not(.event-badge-theme) fieldset legend > span:first-child { font-family: var(--hr-display), sans-serif; font-weight: 400; text-transform: uppercase; font-size: 28px; letter-spacing: 0; }
+.hot-reload-theme:not(.event-badge-theme) fieldset ul { border-width: 2px; border-color: var(--hr-ink); }
+.hot-reload-theme:not(.event-badge-theme) fieldset [role="tab"] { text-transform: uppercase; letter-spacing: 0.08em; }
+.hot-reload-theme:not(.event-badge-theme) fieldset [role="tab"][aria-selected="true"] { background: var(--hr-ink); color: var(--hr-paper); border-color: var(--hr-ink); }
+.hot-reload-theme:not(.event-badge-theme) label.bg-muted, .hot-reload-theme:not(.event-badge-theme) fieldset label:has(input:checked) { background: var(--hr-butter); color: var(--hr-coffee); }
+.hot-reload-theme:not(.event-badge-theme) fieldset label:has(input:checked) .text-muted-foreground { color: color-mix(in srgb, var(--hr-coffee) 70%, transparent); }
+.hot-reload-theme:not(.event-badge-theme) fieldset label:has(input:checked) span[aria-hidden] { border-color: var(--hr-coffee); }
+.hot-reload-theme:not(.event-badge-theme) fieldset label:has(input:checked) span[aria-hidden] > span { background: var(--hr-coffee); }
+.hot-reload-theme:not(.event-badge-theme) .station-button { font-family: var(--hr-display), sans-serif; text-transform: uppercase; font-size: 20px; letter-spacing: 0; }
+.hot-reload-theme:not(.event-badge-theme) .font-display { font-family: var(--hr-display), sans-serif; }
+.hot-reload-theme:not(.event-badge-theme) fieldset label:has(input:checked) * { color: var(--hr-coffee); opacity: 1; }
+.hot-reload-theme:not(.event-badge-theme) fieldset legend { font-family: var(--hr-display), sans-serif; font-weight: 400; text-transform: uppercase; font-size: 28px; letter-spacing: 0; }
+.hot-reload-theme:not(.event-badge-theme) fieldset legend .font-mono, .hot-reload-theme:not(.event-badge-theme) fieldset legend button { font-family: var(--hr-mono), monospace; font-size: 12px; text-transform: none; }
+.hot-reload-theme:not(.event-badge-theme) form > .sticky { border-top: 2px solid var(--hr-ink); background: color-mix(in srgb, var(--hr-paper) 88%, transparent); }
+.hot-reload-theme:not(.event-badge-theme) form > .sticky .bg-\[\#f8e9a4\] { background: var(--hr-butter); }
 
 /* G to play: the dotframe game takes the whole screen. */
 .hot-reload-game { position: fixed; inset: 0; z-index: 1001; background: var(--hr-paper); animation: hot-reload-game-open 0.5s cubic-bezier(.7, 0, .2, 1) both; }
@@ -553,3 +553,33 @@
   .dd-lockup .dd-unmsm { height: 20px; }
   .dd-x { font-size: 14px; }
 }
+/* DevDay access form: hairline fields, pill inputs, outlined segments and checks. */
+.event-badge-theme .entry-form { max-width: 720px; }
+.event-badge-theme .entry-form-heading h2 { font-size: clamp(32px, 3.4vw, 48px); }
+.event-badge-theme .entry-choice legend, .event-badge-theme .entry-label, .event-badge-theme .entry-field label { font: 500 16px/1.4 "OpenAI Sans", Arial, sans-serif; text-transform: none; }
+.event-badge-theme .entry-field input, .event-badge-theme .entry-item input, .event-badge-theme .entry-brand-trigger {
+  height: 52px; border: 1px solid var(--dd-line); border-radius: 9999px; background: var(--dd-field); color: var(--hr-ink); padding: 0 22px; font: 400 16px "OpenAI Sans", Arial, sans-serif;
+}
+.event-badge-theme .entry-field input:focus-visible, .event-badge-theme .entry-item input:focus-visible, .event-badge-theme .entry-brand-trigger:focus-visible { outline: none; border-color: var(--hr-ink); box-shadow: 0 0 0 3px color-mix(in srgb, var(--dd-green) 35%, transparent); }
+.event-badge-theme .entry-segment { height: 52px; border: 1px solid var(--dd-line); border-radius: 9999px; background: transparent; color: var(--dd-muted); padding: 0 20px; }
+.event-badge-theme .entry-segment:has(input:checked) { border-color: var(--hr-ink); background: var(--hr-ink); color: var(--hr-paper); }
+.event-badge-theme .entry-segment:has(input:checked) svg { color: var(--hr-paper); }
+.event-badge-theme .entry-segment input { opacity: 0; }
+.event-badge-theme .entry-items { gap: 16px; border: 0; }
+.event-badge-theme .entry-item { border: 0; padding: 0; }
+.event-badge-theme .entry-item-field { font-size: 14px; color: var(--dd-muted); }
+.event-badge-theme .entry-item-remove { height: 52px; border-radius: 9999px; }
+.event-badge-theme .entry-add-item { border: 1px dashed var(--dd-line); border-radius: 9999px; padding: 12px 20px; color: var(--hr-ink); }
+.event-badge-theme .entry-hint, .event-badge-theme .entry-item-help { color: var(--dd-muted); font-size: 14px; }
+.event-badge-theme .entry-checkbox { align-items: center; font-size: 16px; }
+.event-badge-theme .entry-checkbox input { appearance: none; width: 22px; height: 22px; margin: 0; border: 1px solid var(--dd-line); border-radius: 6px; background: var(--dd-field); display: grid; place-items: center; cursor: pointer; }
+.event-badge-theme .entry-checkbox input:checked { background: var(--dd-green); border-color: var(--dd-green); }
+.event-badge-theme .entry-checkbox input:checked::after { content: ""; width: 6px; height: 11px; border: solid #000; border-width: 0 2px 2px 0; transform: translateY(-1px) rotate(45deg); }
+.event-badge-theme .entry-privacy { background: transparent; border: 1px solid var(--dd-line); border-radius: 4px; padding: 24px; }
+.event-badge-theme .entry-privacy h3 { font-weight: 500; }
+.event-badge-theme .entry-brand-menu { border: 1px solid var(--dd-line); border-radius: 16px; background: var(--hr-paper); color: var(--hr-ink); font-family: "OpenAI Sans", Arial, sans-serif; box-shadow: 0 16px 40px rgb(0 0 0 / .25); }
+.event-badge-theme .entry-brand-option { border-radius: 10px; }
+.event-badge-theme .entry-brand-option[data-highlighted] { background: var(--dd-field); }
+.event-badge-theme .entry-brand-check { color: var(--dd-green); }
+.event-badge-theme .entry-info-bubble { background: var(--hr-ink); color: var(--hr-paper); border-radius: 10px; }
+.event-badge-theme .entry-feedback h3 { font-weight: 500; }

@@ -53,12 +53,14 @@ function BrandSelect({ value, onChange, placeholder, other, invalid, field }: {
   value: string; onChange: (value: string) => void; placeholder: string; other: string; invalid: boolean; field?: string
 }) {
   const options = [...laptopBrands, ...(value && value !== other && !laptopBrands.some(([brand]) => brand === value) ? [[value, null] as [string, null]] : []), [other, null] as [string, null]]
+  // The menu portals next to the trigger's themed scope, so event identities (DevDay) style it too.
+  const [scope, setScope] = useState<HTMLElement | null>(null)
   return <SelectPrimitive.Root value={value} onValueChange={brand => brand && onChange(brand)}>
-    <SelectPrimitive.Trigger className="entry-brand-trigger" aria-invalid={invalid} data-field={field}>
+    <SelectPrimitive.Trigger ref={node => setScope(node?.closest<HTMLElement>(".theme-scope") ?? null)} className="entry-brand-trigger" aria-invalid={invalid} data-field={field}>
       <SelectPrimitive.Value placeholder={placeholder} />
       <SelectPrimitive.Icon asChild><ChevronDown aria-hidden size={16} /></SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
-    <SelectPrimitive.Portal>
+    <SelectPrimitive.Portal container={scope}>
       <SelectPrimitive.Content className="entry-brand-menu" position="popper" sideOffset={6}>
         <SelectPrimitive.Viewport>
           {options.map(([brand, icon]) => <SelectPrimitive.Item key={brand} value={brand} className="entry-brand-option">

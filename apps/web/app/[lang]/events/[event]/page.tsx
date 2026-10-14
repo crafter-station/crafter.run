@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import { AccessEventHeader } from "@/components/access-event-header"
+import { getAdmin } from "@/lib/admin"
 import { findAccessEvent } from "@/lib/access-events"
 import { eventAccessCopy } from "@/lib/event-access-copy"
 import { isLocale } from "@/lib/i18n"
@@ -22,7 +23,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   if (!isLocale(lang) || !event) notFound()
   const t = eventAccessCopy[lang]
   // Events with their own identity skip the station shell (site-shell.tsx) and bring their frame.
-  if (findEventBadge(event.slug)) return <EventBadgeTheme locale={lang} event={event}><DevdayHero event={event} locale={lang} /><DevdayEventBody event={event} locale={lang} /></EventBadgeTheme>
+  if (findEventBadge(event.slug)) return <EventBadgeTheme locale={lang} event={event}><DevdayHero event={event} locale={lang} admin={Boolean(await getAdmin())} /><DevdayEventBody event={event} locale={lang} /></EventBadgeTheme>
   return <main className="event-entry-page">
     <AccessEventHeader event={event} locale={lang} />
     <section className="entry-steps">
