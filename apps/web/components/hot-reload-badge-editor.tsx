@@ -184,6 +184,7 @@ export function HotReloadBadgeEditor({ badge, person, portrait, labels, claim: c
         prints={prints}
         variant={variant}
         variants={badgeVariants}
+        stamp={badge.stamp}
         name={name}
         labels={labels}
         view={view}

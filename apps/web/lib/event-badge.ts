@@ -25,6 +25,7 @@ const badges: Record<string, EventBadge> = {
     placeholder: "/events/devday-lima/badge/portrait.png",
     photo: [262, 430, 500, 500],
     protect: [[352, 690, 320, 320]],
+    stamp: [750, 910, 280],
     // Flat OpenAI DevDay colors; the letterpress would dither them.
     press: false,
     variants: {

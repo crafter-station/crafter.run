@@ -9,6 +9,8 @@ export type HotReloadBadgeDesign = {
   photo: Rect
   /** Back regions left untouched by the press pass (the QR must stay scannable). */
   protect: Rect[]
+  /** Stamp ring (centre x, centre y, diameter) where the rubber stamp lands; Hot Reload's is the CSS default. */
+  stamp?: readonly [cx: number, cy: number, d: number]
   /** False prints the flat render as-is, for flat-color designs the letterpress would dither. */
   press?: boolean
 }

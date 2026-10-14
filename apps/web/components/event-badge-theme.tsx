@@ -13,12 +13,10 @@ const openaiMark = "M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.04
 
 const support: Record<Locale, string> = { en: "Organized by", es: "Organizado por", pt: "Organizado por", zh: "主办方", ja: "主催" }
 
-/** Emoticon circles from the Exchange poster, only behind the full-screen badge pages. */
+/** Emoticon circles from the Exchange poster, outlined behind the badge pages and kept away from the stamp button. */
 const faces: { c: string; face: string; size: string; style: CSSProperties }[] = [
   { c: "blue", face: "> <", size: "clamp(96px,12vw,190px)", style: { left: "3%", top: "16%" } },
-  { c: "orange", face: "‾ ‾", size: "clamp(80px,9vw,150px)", style: { right: "17%", top: "24%" } },
   { c: "grey", face: "* *", size: "clamp(56px,6vw,96px)", style: { right: "4%", top: "13%" } },
-  { c: "green", face: "+ +", size: "clamp(100px,12vw,190px)", style: { right: "3%", top: "50%" } },
   { c: "black", face: "^ ^", size: "clamp(54px,6vw,90px)", style: { left: "7%", top: "62%" } },
   { c: "purple", face: "o o", size: "clamp(90px,11vw,170px)", style: { right: "16%", bottom: "9%" } },
   { c: "green", face: "‾ +", size: "clamp(40px,4vw,60px)", style: { left: "15%", top: "50%" } },
