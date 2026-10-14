@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { usePathname } from "next/navigation"
 import { SiteHeader } from "@/components/site-header"
+import { findEventBadge } from "@/lib/event-badge"
 import type { Locale } from "@/lib/i18n"
 import { stationCopy } from "@/lib/station-copy"
 
@@ -21,6 +22,9 @@ export function SiteShell({ children, footer, event, locale }: { children: React
   const route = pathname.slice(locale.length + 1)
   // Hot Reload carries its own identity end to end, without the station header or footer.
   if (/^\/events\/hot-reload(\/|$)/.test(route)) return <div id="site-content">{children}</div>
+  // So do one-off events with their own identity (their pages wrap themselves in EventBadgeTheme).
+  const eventSlug = /^\/events\/([^/]+)/.exec(route)?.[1]
+  if (eventSlug && findEventBadge(eventSlug)) return <div id="site-content">{children}</div>
   const tone = /^\/(oss|timeline|impact)(\/|$)/.test(route) ? "green"
     : /^\/(ships|workshops)(\/|$)/.test(route) ? "violet"
       : /^\/(events|hackathons)(\/|$)/.test(route) ? "blue" : "warm"

@@ -2,7 +2,7 @@
 
 import { type CSSProperties, lazy, Suspense, useEffect, useMemo, useRef, useState } from "react"
 
-import { type BadgeVariant, badgeVariants } from "@/lib/hot-reload-badge"
+import { type BadgeMaterial, type BadgeVariant, type BadgeVariants, badgeVariants } from "@/lib/hot-reload-badge"
 
 const renderer = () => import("@/vendor/makeables-renderer/index.js")
 const PrismBadge = lazy(() => renderer().then((module) => ({ default: module.PrismBadge })))
@@ -12,8 +12,8 @@ export type BadgePrints = { front: string; back: string }
 type Labels = Record<"front" | "back" | "view3d" | "viewFlat" | "flip", string>
 
 /** The 3D badge shows the pressed prints as-is: each face becomes one full-bleed image layer of the design. */
-function BadgeModel({ design, prints, variant, name, flip, onReady, onFallback }: {
-  design: Design; prints: BadgePrints; variant: BadgeVariant; name: string; flip: string; onReady: () => void; onFallback: () => void
+function BadgeModel({ design, prints, material, name, flip, onReady, onFallback }: {
+  design: Design; prints: BadgePrints; material: BadgeMaterial; name: string; flip: string; onReady: () => void; onFallback: () => void
 }) {
   const [appearance, setAppearance] = useState<Record<string, unknown> | null>(null)
   const document = useMemo(() => {
@@ -21,8 +21,8 @@ function BadgeModel({ design, prints, variant, name, flip, onReady, onFallback }
       background: design[side].background,
       layers: [{ kind: "image", id: `print-${side}`, asset: `print-${side}`, x: 0, y: 0, w: 1024, h: 1536, opacity: 1, fit: "cover", radius: 0 }],
     })
-    return { ...design, material: badgeVariants[variant], assets: {}, front: face("front"), back: face("back") }
-  }, [design, variant])
+    return { ...design, material, assets: {}, front: face("front"), back: face("back") }
+  }, [design, material])
   useEffect(() => {
     renderer().then((module) => setAppearance(module.designAppearance(document)))
   }, [document])
@@ -89,14 +89,13 @@ export function MakeablesWall() {
  * Without a working 3D renderer: the same prints as a hung card built in CSS. Ribbon in the lanyard's
  * colors, a soft shadow, light sheen, a tilt that follows the pointer, and a click to flip.
  */
-function BadgeCard({ prints, variant, flip }: { prints: BadgePrints; variant: BadgeVariant; flip: string }) {
+function BadgeCard({ prints, material, flip }: { prints: BadgePrints; material: BadgeMaterial; flip: string }) {
   const [back, setBack] = useState(false)
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
-  const material = badgeVariants[variant]
   return (
     <div className="hot-reload-badge-card-scene">
       <span className="hot-reload-badge-card-strap" style={{ background: material.strap, color: material.lanyard.ink }}>
-        {"text" in material.lanyard ? <span>{material.lanyard.text}</span> : null}
+        {material.lanyard.text ? <span>{material.lanyard.text}</span> : null}
       </span>
       <span className="hot-reload-badge-card-clasp" />
       <button
@@ -185,8 +184,8 @@ function Stamper({ onImpact, onDone }: { onImpact: () => void; onDone: () => voi
   )
 }
 
-export function HotReloadBadgeStage({ design, prints, variant, name, labels, view, stamping, onImpact, onStamped }: {
-  design: Design | null; prints: BadgePrints | null; variant: BadgeVariant; name: string
+export function HotReloadBadgeStage({ design, prints, variant, variants = badgeVariants, name, labels, view, stamping, onImpact, onStamped }: {
+  design: Design | null; prints: BadgePrints | null; variant: BadgeVariant; variants?: BadgeVariants; name: string
   labels: Record<"front" | "back" | "flip" | "printing", string>
   view: BadgeView; stamping?: boolean; onImpact?: () => void; onStamped?: () => void
 }) {
@@ -244,7 +243,7 @@ export function HotReloadBadgeStage({ design, prints, variant, name, labels, vie
         {shown === "3d" && !loaded && !fallback ? <BadgeLoading label={labels.printing} /> : null}
         {shown === "3d" && fallback && prints ? (
           <div className="hot-reload-badge-swing" style={bounds} data-hit={hit ? "" : undefined}>
-            <BadgeCard prints={prints} variant={variant} flip={labels.flip} />
+            <BadgeCard prints={prints} material={variants[variant]} flip={labels.flip} />
             {stamping ? (
               <Stamper
                 onImpact={() => {
@@ -262,7 +261,7 @@ export function HotReloadBadgeStage({ design, prints, variant, name, labels, vie
             {scenes.map((scene, index) => (
               <div key={scene.id} className="hot-reload-badge-layer" data-ready={scene.ready ? "" : undefined} data-leaving={index < newest ? "" : undefined}>
                 <Suspense fallback={null}>
-                  <BadgeModel design={design} prints={prints} variant={scene.variant} name={name} flip={labels.flip} onReady={() => ready(scene.id)} onFallback={() => setFallback(true)} />
+                  <BadgeModel design={design} prints={prints} material={variants[scene.variant]} name={name} flip={labels.flip} onReady={() => ready(scene.id)} onFallback={() => setFallback(true)} />
                 </Suspense>
               </div>
             ))}

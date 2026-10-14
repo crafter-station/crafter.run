@@ -440,6 +440,28 @@ export const hotReloadBadges = pgTable(
   ],
 )
 
+/** One collectible badge per attendee of a one-off event (keyed by its slug); images live in R2 under the badge number. */
+export const eventBadges = pgTable(
+  "event_badges",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    eventSlug: text("event_slug").notNull(),
+    number: integer("number").notNull(),
+    clerkUserId: text("clerk_user_id").notNull(),
+    name: text("name").notNull(),
+    checkedIn: boolean("checked_in").notNull(),
+    variant: text("variant").default("a").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    check("event_badges_variant_check", sql`${table.variant} in ('a', 'b', 'c')`),
+    uniqueIndex("event_badges_event_user_idx").on(table.eventSlug, table.clerkUserId),
+    uniqueIndex("event_badges_event_number_idx").on(table.eventSlug, table.number),
+    check("event_badges_name_check", sql`char_length(trim(${table.name})) between 2 and 80`),
+  ],
+)
+
 /** Private venue-entry records. Not part of the public members or Ships API. */
 export const eventAccess = pgTable(
   "event_access",

@@ -9,6 +9,8 @@ export type HotReloadBadgeDesign = {
   photo: Rect
   /** Back regions left untouched by the press pass (the QR must stay scannable). */
   protect: Rect[]
+  /** False prints the flat render as-is, for flat-color designs the letterpress would dither. */
+  press?: boolean
 }
 
 const badges: Record<number, HotReloadBadgeDesign> = {
@@ -20,7 +22,7 @@ export function editionBadge(edition: HotReloadEdition) {
 }
 
 /** Lanyard and holder an attendee picks for their badge; every edition offers the same three. */
-export const badgeVariants = {
+export const badgeVariants: BadgeVariants = {
   a: {
     holder: "pvc", strap: "#1c1b17",
     lanyard: { print: "text", ink: "#f9e28e", text: "HOT RELOAD", font: "sans", width: 20, ribbon: "polyester", clasp: "lobster" },
@@ -36,11 +38,21 @@ export const badgeVariants = {
     lanyard: { print: "diagonal", ink: "#1c1b17", width: 20, ribbon: "satin", clasp: "lobster", opener: true },
     card: { finish: "gloss", punch: "round" }, surface: "satin", roughness: 0.6, iridescence: 0, speed: 0.12,
   },
-} as const
+}
 
-export type BadgeVariant = keyof typeof badgeVariants
+export type BadgeVariant = "a" | "b" | "c"
 
-export const isBadgeVariant = (value: unknown): value is BadgeVariant => typeof value === "string" && value in badgeVariants
+export type BadgeError = "auth" | "approval" | "early" | "name" | "image" | "unavailable"
+
+/** Makeables material per variant: holder, strap, lanyard and card finish. */
+export type BadgeMaterial = {
+  holder: string; strap: string; surface: string; roughness: number; iridescence: number; speed: number
+  lanyard: { ink: string; text?: string } & Record<string, unknown>
+  card: Record<string, unknown>
+}
+export type BadgeVariants = Record<BadgeVariant, BadgeMaterial>
+
+export const isBadgeVariant = (value: unknown): value is BadgeVariant => value === "a" || value === "b" || value === "c"
 
 /** Layers of the "ASISTÍ" stamp; the print leaves them out until attendance is confirmed. */
 export const isStampLayer = (id: string) => id.startsWith("stamp-")
