@@ -440,17 +440,13 @@
       "metaTitle": "404 · Página no encontrada",
       "metaDescription": "Esa página no existe. Todo lo que Crafter Station ha shipeado está a un clic.",
       "eyebrow": "Error 404 · Crafter Station",
-      "caption": "Página no encontrada",
       "title": "Esta página nunca se shipeó.",
       "description": "La URL que seguiste no existe o se movió a otro lado. Todo lo que sí shipeamos está a un clic.",
-      "hint": "Mueve el cursor sobre el agua.",
-      "hintBlackHole": "Mueve el cursor sobre el horizonte de sucesos.",
       "homeCta": "Volver al inicio",
       "ossCta": "Explorar código abierto",
       "suggestionsLabel": "O ve directo a",
       "links": {
         "docs": "Docs",
-        "oss": "Código abierto",
         "ships": "Ships",
         "events": "Eventos",
         "team": "Equipo"

@@ -10,9 +10,9 @@ const wgslLoader = require.resolve("@vgpu/wgsl/loader-webpack");
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@crafter/contracts", "@crafter/db"],
-  // `components/black-hole` imports its shaders the way it imports modules:
-  // `import bake from "./bake.wgsl"`, and those files import each other in
-  // turn. This loader is what resolves that graph, strips the declarations
+  // `components/font-field` imports its shaders the way it imports modules:
+  // `import source from "./field.wgsl"`, and WGSL files may import each other
+  // in turn. This loader is what resolves that graph, strips the declarations
   // nothing reached, and hands back compiled WGSL source.
   turbopack: {
     rules: {

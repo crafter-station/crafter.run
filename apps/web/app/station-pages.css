@@ -52,6 +52,13 @@
 .station-shell-pages .station-quiet-link { gap: 0; font-size: 16px; font-weight: 500; padding: 10px 16px; min-height: 44px; border-radius: 7px; background: hsl(var(--foreground) / .055); }
 .station-shell-pages .station-quiet-link > .station-link-arrow { display: none; }
 .station-shell-pages a:where(:hover,:focus-visible) .station-quiet-link { color: var(--page-accent); background: hsl(var(--foreground) / .09); }
+.station-not-found { min-height: min(720px, calc(100svh - 240px)); }
+.station-not-found-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.station-not-found-links { margin-top: 32px; }
+.station-not-found-links .station-label { color: hsl(var(--muted-foreground)); }
+.station-not-found-links ul { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.station-not-found-links a { display: inline-flex; align-items: center; }
+.station-shell-pages .station-not-found-links a:where(:hover,:focus-visible) { color: var(--page-accent); background: hsl(var(--foreground) / .09); }
 .station-card-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
 .station-card-grid > * { border: 0; border-radius: 14px; min-width: 0; min-height: 0; padding: 28px; background: var(--page-surface); }
 .station-card-grid > a { display: flex; flex-direction: column; align-items: flex-start; transition: background-color 180ms; }
@@ -194,6 +201,7 @@
 }
 @media (max-width: 767px) {
   .station-inner-hero-layout { grid-template-columns: 1fr; gap: 12px; }
+  .station-not-found-actions > a { flex: 1 1 200px; }
   .station-page-art { max-width: 290px; justify-self: center; }
   .station-shell-pages .station-page-intro { padding-block: 34px 12px; }
   .station-inner-hero h1 { font-size: clamp(36px,8vw,52px); margin-top: 18px; }

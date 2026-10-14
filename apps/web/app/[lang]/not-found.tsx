@@ -18,7 +18,7 @@ export default async function NotFound() {
   return (
     <>
 
-      <main className="flex-1">
+      <main className="station-not-found flex-1">
         <NotFoundView locale={locale} />
       </main>
 
