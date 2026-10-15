@@ -44,7 +44,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
     } else if (check?.status === "approved") {
       try {
         const existing = await readOwnAccess(slug, user.id)
-        content = <EventAccessForm locale={lang} slug={slug} email={check.email} defaultName={check.name ?? [user.firstName, user.lastName].filter(Boolean).join(" ")} existing={existing} closesAt={event.accessClosesAt} />
+        content = <EventAccessForm locale={lang} slug={slug} email={check.email} defaultName={check.name ?? [user.firstName, user.lastName].filter(Boolean).join(" ")} existing={existing} closesAt={event.accessClosesAt} whatsappUrl={event.whatsappUrl} />
       } catch {
         content = <Notice title={t.unavailableTitle} body={t.unavailableBody}><a href={path}>{t.retry}</a></Notice>
       }

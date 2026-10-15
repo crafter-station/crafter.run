@@ -5,6 +5,7 @@ import { BookUser, Check, ChevronDown, Globe, IdCard, Info, Laptop, type LucideI
 import { type SimpleIcon, siAcer, siApple, siAsus, siDell, siHp, siHuawei, siLenovo, siLg, siMsi, siSamsung, siToshiba } from "simple-icons"
 import { useEffect, useId, useRef, useState } from "react"
 import { submitEventAccess } from "@/app/[lang]/events/[event]/access/actions"
+import { EventWhatsAppInvite } from "@/components/event-whatsapp-invite"
 import { accessInputSchema, type AccessDetails, type AccessField, type AccessResult } from "@/lib/event-access-service"
 import { eventAccessCopy } from "@/lib/event-access-copy"
 import { laptopModels } from "@/lib/laptop-models"
@@ -89,9 +90,9 @@ function parseItems(lines: string[], types: string[]): Item[] {
 const serializeItems = (items: Item[], types: string[]) =>
   items.filter(item => item.brand.trim()).map(item => `${types[item.type]} — ${[item.brand.trim(), item.model.trim()].filter(Boolean).join(" ")}`).join("\n")
 
-export function EventAccessForm({ locale, slug, email, defaultName, existing, closesAt }: {
+export function EventAccessForm({ locale, slug, email, defaultName, existing, closesAt, whatsappUrl }: {
   locale: Locale; slug: string; email: string; defaultName: string
-  existing: AccessDetails | null; closesAt: string
+  existing: AccessDetails | null; closesAt: string; whatsappUrl?: string
 }) {
   const t = eventAccessCopy[locale]
   const [vehicle, setVehicle] = useState(Boolean(existing?.vehiclePlate))
@@ -107,6 +108,7 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
   const [saved, setSaved] = useState(Boolean(existing))
   const [dirty, setDirty] = useState(false)
   const [result, setResult] = useState<AccessResult | null>(null)
+  const [invite, setInvite] = useState(false)
   const [closed, setClosed] = useState(Date.now() >= Date.parse(closesAt))
   const feedback = useRef<HTMLDivElement>(null)
   useEffect(() => {
@@ -141,7 +143,11 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
     try {
       const response = await submitEventAccess(slug, input)
       setResult(response)
-      if (response.ok) { setSaved(true); setDirty(false) }
+      if (response.ok) {
+        setSaved(true)
+        setDirty(false)
+        if (whatsappUrl) setInvite(true)
+      }
     } catch {
       setResult({ ok: false, error: "unavailable" })
     } finally {
@@ -240,5 +246,6 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
     <div ref={feedback} tabIndex={-1} aria-live="polite" className="entry-feedback">
       {closed ? <p>{t.closedBody}</p> : result && !result.ok ? <p role="alert">{t.errors[result.error]}</p> : saved && !dirty ? <><h3>{t.saved}</h3><p>{t.savedBody}</p></> : null}
     </div>
+    {whatsappUrl ? <EventWhatsAppInvite locale={locale} whatsappUrl={whatsappUrl} open={invite} onOpenChange={setInvite} /> : null}
   </form>
 }
