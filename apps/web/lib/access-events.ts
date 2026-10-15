@@ -14,6 +14,8 @@ export type AccessEvent = {
   venue: string
   address: string
   cover: string
+  /** Invite shown once entry details are saved. Omit until the group link is ready. */
+  whatsappUrl?: string
 }
 
 export const accessEvents: AccessEvent[] = [{
@@ -31,6 +33,7 @@ export const accessEvents: AccessEvent[] = [{
   venue: "FISI · UNMSM",
   address: "Av. Carlos Germán Amezaga #375, Cercado de Lima",
   cover: "/events/devday-lima/cover.jpg",
+  whatsappUrl: "https://chat.whatsapp.com/KnPTQwq8kHs4ubLm13sk6N",
 }]
 
 export function findAccessEvent(slug: string) {
