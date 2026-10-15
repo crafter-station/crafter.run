@@ -22,6 +22,8 @@ export type HotReloadEdition = {
   /** Optional compatible copy when the source poster uses an unsupported codec. */
   socialPoster?: string
   lumaUrl?: string
+  /** Group chat attendees are invited to once their order is saved. */
+  whatsappUrl?: string
   lumaEventId?: string
   announcements?: Announcement[]
   menu?: string
@@ -49,6 +51,7 @@ export const hotReloadEditions: HotReloadEdition[] = [
     socialPoster: "/events/hot-reload/01-social.png",
     lumaUrl: "https://luma.com/7o3puw27",
     lumaEventId: "evt-lzVFBY3M7lMWmH7",
+    whatsappUrl: "https://chat.whatsapp.com/DI2eDxE2ofg6sm6cN5tB50",
     announcements: [
       {
         author: "Railly Hugo",

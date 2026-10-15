@@ -6,6 +6,8 @@ import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog"
+import { HotReloadWhatsApp } from "@/components/hot-reload-whatsapp"
 import { submitEventOrder } from "@/app/[lang]/events/hot-reload/[edition]/menu/actions"
 import type { LocalizedEventMenu, MenuItem } from "@/lib/event-menu"
 import { eventMoney, hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
@@ -141,6 +143,7 @@ export function EventMenuForm({
   email,
   defaultName,
   existing,
+  whatsappUrl,
 }: {
   locale: Locale
   edition: string
@@ -150,6 +153,7 @@ export function EventMenuForm({
   email: string
   defaultName: string
   existing: ExistingOrder | null
+  whatsappUrl?: string
 }) {
   const t = hotReloadCopy[locale]
   const money = (value: number) => eventMoney(value, locale, menu.currency)
@@ -172,6 +176,7 @@ export function EventMenuForm({
   const [pending, setPending] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirmation, setConfirmation] = useState(false)
+  const [invite, setInvite] = useState(false)
 
   const drink = drinks.find((item) => item.id === drinkId)
   const food = foods.find((item) => item.id === foodId)
@@ -193,6 +198,7 @@ export function EventMenuForm({
       }
       setSaved({ name: name.trim(), drinkId: result.drinkId, foodId: result.foodId, total: result.total })
       setConfirmation(true)
+      if (whatsappUrl) setInvite(true)
     } catch {
       setError(t.errorUnavailable)
     } finally {
@@ -212,6 +218,17 @@ export function EventMenuForm({
         </> : <p className="mt-3">{t.noOrder}</p>}
         <p className="mt-4 text-muted-foreground">{closed ? t.closedBody : t.savedBody}</p>
         {!closed ? <Button type="button" variant="outline" className="mt-6" onClick={() => setConfirmation(false)}>{t.change}</Button> : null}
+        {whatsappUrl ? (
+          <Dialog open={invite} onOpenChange={setInvite}>
+            <DialogContent className="hot-reload-theme hot-reload-invite">
+              <HotReloadWhatsApp />
+              <DialogTitle className="hot-reload-display text-center text-5xl">{t.whatsappTitle}</DialogTitle>
+              <DialogDescription className="text-center text-muted-foreground">{t.whatsappBody}</DialogDescription>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="station-button hot-reload-invite-cta" onClick={() => setInvite(false)}>{t.whatsappJoin}</a>
+              <button type="button" className="hot-reload-trigger text-xs" onClick={() => setInvite(false)}>{t.whatsappLater}</button>
+            </DialogContent>
+          </Dialog>
+        ) : null}
       </div>
     )
   }

@@ -598,3 +598,8 @@
 .event-badge-theme .hot-reload-badge-stampbar .hot-reload-cta:disabled { animation: none; opacity: 0.6; }
 @keyframes dd-stamp-pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dd-green) 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 18px transparent; } }
 @media (prefers-reduced-motion: reduce) { .event-badge-theme .hot-reload-badge-stampbar .hot-reload-cta { animation: none; } }
+
+/* WhatsApp invite shown once an order is saved. */
+.hot-reload-invite { display: flex; flex-direction: column; align-items: center; gap: 16px; max-width: 28rem; padding: 40px 24px 24px; border: 2px solid var(--hr-ink); border-radius: 0; min-height: 0; }
+.hot-reload-invite-mark { width: 11rem; height: 11rem; animation: reload-wobble 1.4s ease-in-out both; }
+.hot-reload-invite-cta { display: flex; width: 100%; justify-content: center; padding: 14px 20px; margin-top: 8px; }

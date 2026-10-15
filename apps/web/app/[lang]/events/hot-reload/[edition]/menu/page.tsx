@@ -81,7 +81,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   } else if (check?.status === "approved") {
     const defaultName = check.name ?? [user.firstName, user.lastName].filter(Boolean).join(" ")
     content = <EventMenuForm locale={lang} edition={String(edition.number)} menu={menu} closesAt={deadline}
-      email={check.email} defaultName={defaultName} existing={existing} />
+      email={check.email} defaultName={defaultName} existing={existing} whatsappUrl={edition.whatsappUrl} />
   } else if (check?.status === "not-approved") {
     content = <Notice title={t.pendingTitle}>
       <p>{hotReloadText(t.pendingGuest, { email: check.email })}</p>
