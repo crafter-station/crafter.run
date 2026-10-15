@@ -603,3 +603,28 @@
 .hot-reload-invite { display: flex; flex-direction: column; align-items: center; gap: 16px; max-width: 28rem; padding: 40px 24px 24px; border: 2px solid var(--hr-ink); border-radius: 0; min-height: 0; }
 .hot-reload-invite-mark { width: 11rem; height: 11rem; animation: reload-wobble 1.4s ease-in-out both; }
 .hot-reload-invite-cta { display: flex; width: 100%; justify-content: center; padding: 14px 20px; margin-top: 8px; }
+
+/* DevDay / Codex WhatsApp invite after entry details are saved. */
+.dd-invite {
+  display: flex; flex-direction: column; align-items: center; gap: 16px; width: calc(100% - 32px); max-width: 28rem;
+  max-height: min(90dvh, 100%); min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+  padding: 40px 28px 28px; border: 1px solid var(--dd-line); border-radius: 16px; background: var(--hr-paper); color: var(--hr-ink);
+  box-shadow: none; font-family: "OpenAI Sans", Arial, sans-serif;
+}
+.dd-invite-mark { width: clamp(5.5rem, 28vw, 9rem); height: clamp(5.5rem, 28vw, 9rem); flex-shrink: 0; color: var(--hr-ink); }
+.dd-invite-title { margin: 0; text-align: center; font-size: clamp(24px, 6vw, 40px); font-weight: 400; line-height: 1.15; letter-spacing: -0.02em; }
+.dd-invite-body { margin: 0; max-width: 22rem; text-align: center; font-size: 16px; line-height: 1.55; color: var(--dd-muted); }
+.dd-invite-cta {
+  display: flex; width: 100%; justify-content: center; margin-top: 8px; min-height: 48px; flex-shrink: 0;
+  border-color: var(--dd-green) !important; background: var(--dd-green) !important; color: #000 !important;
+}
+.dd-invite-later {
+  appearance: none; border: 0; background: none; padding: 8px 12px; cursor: pointer; flex-shrink: 0;
+  font: 500 14px/1 "OpenAI Sans", Arial, sans-serif; color: var(--dd-muted);
+}
+.dd-invite-later:hover { color: var(--hr-ink); }
+.dd-invite [data-radix-dialog-close], .dd-invite > button.absolute { color: var(--hr-ink); }
+@media (max-height: 640px) {
+  .dd-invite { gap: 12px; padding: 28px 20px 20px; }
+  .dd-invite-mark { width: 5.5rem; height: 5.5rem; }
+}
