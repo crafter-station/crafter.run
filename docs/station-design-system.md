@@ -57,7 +57,7 @@ Measured contrast for text/background, muted text/background, accent/background,
 - Sponsors/impact/generic workshop boards/contact: shared title scale, spacing, colors and navigation. Sponsor marks work on light surfaces too. The standalone Research and three tool landing pages were removed on October 3.
 - Timeline/OSS metrics: existing data visualizations and controls; theme-aware colors and corrected sticky offset for the new navigation.
 - Hackathons immersive page: retains its content and interaction, adopts both palettes and the shared site shell.
-- Localized and global 404: typography and theme; the standalone global 404 keeps its auth-independent document and theme control.
+- Localized and global 404: both render inside the site shell as a secondary-page introduction with the `lost` drawing (a 404 browser card and a paper boat), home/open source actions and quiet links. The global 404 keeps its auth-independent document; the black hole and water backdrops were retired in October 2026.
 - Social previews use warm paper, section pastel palettes, the original symbol,
   Crafter Display/Text and the site's own illustrations. Articles, approved
   team portraits, bounties, public profiles and Ships supply their actual

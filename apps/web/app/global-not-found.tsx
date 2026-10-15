@@ -1,13 +1,12 @@
 import type { Metadata, Viewport } from "next"
 import { headers } from "next/headers"
-import Link from "next/link"
 import { stationFonts } from "@/lib/fonts"
 import { getTranslations } from "next-intl/server"
 
 import { NotFoundView } from "@/components/not-found-view"
-import { SiteWordmark } from "@/components/site-wordmark"
-import { ThemeSwitcher } from "@/components/theme-switcher"
-import { stationCopy } from "@/lib/station-copy"
+import { SiteFooter } from "@/components/site-footer"
+import { SiteShell } from "@/components/site-shell"
+import { StationEventTeaser } from "@/components/station-event-teaser"
 import { ThemeProvider } from "@/components/theme-provider"
 import {
   defaultLocale,
@@ -29,9 +28,9 @@ import "./globals.css"
  * which bypasses rendering and owns its own document, which is why the fonts
  * and stylesheet are imported again here.
  *
- * That also means no Clerk provider, so the page carries a wordmark instead of
- * the full navigation. A 404 raised inside a localized route keeps the real
- * header and footer, through `app/[lang]/not-found.tsx`.
+ * That also means no Clerk provider. Nothing in the site shell needs one, so the
+ * page still gets the same navigation, event invitation and footer as a 404
+ * raised inside a localized route through `app/[lang]/not-found.tsx`.
  */
 
 /**
@@ -78,17 +77,12 @@ export default async function GlobalNotFound() {
         className={`flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
         <ThemeProvider>
-          <header className="w-full">
-            <div className="mx-auto flex w-full max-w-[1380px] items-center justify-between px-4 py-6 sm:px-6 md:px-10">
-              <Link href={`/${locale}`} className="inline-flex transition-opacity hover:opacity-70">
-                <SiteWordmark />
-              </Link>
-              <ThemeSwitcher locale={locale} label={`${stationCopy[locale].light} / ${stationCopy[locale].dark}`} />
-            </div>
-          </header>
-          <main className="flex-1">
-            <NotFoundView locale={locale} />
-          </main>
+          <SiteShell locale={locale} footer={<SiteFooter locale={locale} />}
+            event={<StationEventTeaser locale={locale} />}>
+            <main className="station-not-found flex-1">
+              <NotFoundView locale={locale} />
+            </main>
+          </SiteShell>
         </ThemeProvider>
       </body>
     </html>

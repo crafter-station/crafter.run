@@ -1,6 +1,6 @@
 import { CrafterStationLogo } from "@/components/crafter-station-logo"
 
-export type PageArtwork = "people" | "conversation" | "research" | "workshop" | "ships" | "brand" | "events"
+export type PageArtwork = "people" | "conversation" | "research" | "workshop" | "ships" | "brand" | "events" | "lost"
 
 // Original, decorative drawings. Content and controls always live outside the SVG.
 export function StationPageArt({ kind }: { kind: PageArtwork }) {
@@ -110,6 +110,26 @@ export function StationPageArt({ kind }: { kind: PageArtwork }) {
               <path d="M278 204h5m5 0h3m5 0h9m5 0h3m5 0h6" strokeWidth="7" />
             </g>
             <path d="M332 51v22m-11-11h22M35 149h10" />
+          </>}
+          {kind === "lost" && <>
+            <ellipse cx="200" cy="124" rx="168" ry="70" strokeDasharray="2 8" opacity=".3" transform="rotate(-10 200 124)" />
+            <g transform="rotate(-7 170 118)">
+              <rect x="64" y="40" width="212" height="150" rx="14" fill="var(--page-art-paper)" />
+              <path d="M64 70h212" opacity=".3" />
+              {[82, 96, 110].map(x => <circle key={x} cx={x} cy="55" r="3" fill="currentColor" />)}
+              <path d="M126 162V98l-34 44h46m102 20V98l-34 44h46" strokeWidth="3" />
+              <ellipse cx="171" cy="130" rx="19" ry="32" fill="var(--page-art-yellow)" strokeWidth="3" />
+            </g>
+            <path d="M256 200c-44 16-112 18-168 2" strokeDasharray="2 8" opacity=".45" />
+            <g transform="rotate(8 316 170)">
+              <path d="M262 172h104l-18 26h-68Z" fill="var(--page-art-yellow)" />
+              <path d="M314 166V102l38 64Z" fill="var(--page-art-paper)" />
+              <path d="M306 166v-46l-30 46Z" fill="var(--page-art-green)" />
+              <path d="M310 172V96" />
+            </g>
+            <path d="M246 216c14-7 28-7 42 0s28 7 42 0 28-7 42 0" opacity=".5" />
+            <path d="M344 46v20m-10-10h20M34 92l10 10m0-10-10 10" />
+            <circle cx="46" cy="176" r="5" fill="var(--page-art-lilac)" />
           </>}
         </g>
       </svg>
