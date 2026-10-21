@@ -65,6 +65,12 @@ export async function confirmPresence(eventSlug: string, clerkUserId: string, in
   return { ok: false, error: locked ? "locked" : "code" }
 }
 
+/** Marks the owner's code as taken the first time they open or copy it. */
+export async function markClaimed(eventSlug: string, clerkUserId: string) {
+  await db().update(eventCreditCode).set({ claimedAt: sql`coalesce(${eventCreditCode.claimedAt}, now())` })
+    .where(and(eq(eventCreditCode.eventSlug, eventSlug), eq(eventCreditCode.assignedTo, clerkUserId), eq(eventCreditCode.status, "assigned")))
+}
+
 export async function reportCode(eventSlug: string, clerkUserId: string) {
   await db().update(eventCreditEntry).set({ reportedAt: sql`now()` })
     .where(and(eq(eventCreditEntry.eventSlug, eventSlug), eq(eventCreditEntry.clerkUserId, clerkUserId)))
@@ -150,7 +156,7 @@ export async function resetRound(eventSlug: string) {
   await database.batch([
     database.delete(eventCreditEntry).where(eq(eventCreditEntry.eventSlug, eventSlug)),
     database.delete(eventCreditRound).where(eq(eventCreditRound.eventSlug, eventSlug)),
-    database.update(eventCreditCode).set({ status: "free", assignedTo: null, assignedAt: null }).where(eq(eventCreditCode.eventSlug, eventSlug)),
+    database.update(eventCreditCode).set({ status: "free", assignedTo: null, assignedAt: null, claimedAt: null }).where(eq(eventCreditCode.eventSlug, eventSlug)),
   ])
 }
 
@@ -162,9 +168,14 @@ export async function listCreditsForAdmin(eventSlug: string) {
     database.select().from(eventCreditCode).where(eq(eventCreditCode.eventSlug, eventSlug)),
   ])
   const owner = new Map(codes.filter(code => code.status === "assigned").map(code => [code.assignedTo, code.code]))
+  const names = new Map(entries.map(entry => [entry.clerkUserId, entry.name]))
   return {
     round,
     entries: entries.map(entry => ({ ...entry, code: owner.get(entry.clerkUserId) ?? null })),
+    board: codes.map(code => ({
+      id: code.id, code: code.code, reserve: code.reserve, status: code.status as "free" | "assigned" | "burned",
+      owner: code.assignedTo ? names.get(code.assignedTo) ?? null : null, assignedAt: code.assignedAt, claimedAt: code.claimedAt,
+    })),
     codes: {
       free: codes.filter(code => code.status === "free" && !code.reserve).length,
       reserve: codes.filter(code => code.status === "free" && code.reserve).length,

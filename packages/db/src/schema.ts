@@ -553,6 +553,8 @@ export const eventCreditCode = pgTable(
     status: text("status").default("free").notNull(),
     assignedTo: text("assigned_to"),
     assignedAt: timestamp("assigned_at", { withTimezone: true, mode: "string" }),
+    /** First time the owner opened or copied the code; redemption itself happens outside crafter.run. */
+    claimedAt: timestamp("claimed_at", { withTimezone: true, mode: "string" }),
   },
   (table) => [
     uniqueIndex("event_credit_code_event_code_idx").on(table.eventSlug, table.code),
