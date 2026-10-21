@@ -190,6 +190,13 @@
       "when": 1791947021434,
       "tag": "0026_event_badges",
       "breakpoints": true
+    },
+    {
+      "idx": 27,
+      "version": "7",
+      "when": 1792606867799,
+      "tag": "0027_event_credits",
+      "breakpoints": true
     }
   ]
 }

@@ -505,3 +505,58 @@ export const eventGuest = pgTable(
     check("event_guest_email_check", sql`${table.email} = lower(${table.email})`),
   ],
 )
+
+/** One credit round per event: the admin opens a presence window, then closes it to hand out codes. */
+export const eventCreditRound = pgTable(
+  "event_credit_round",
+  {
+    eventSlug: text("event_slug").primaryKey(),
+    state: text("state").default("idle").notNull(),
+    code: text("code"),
+    openedAt: timestamp("opened_at", { withTimezone: true, mode: "string" }),
+    closedAt: timestamp("closed_at", { withTimezone: true, mode: "string" }),
+  },
+  (table) => [check("event_credit_round_state_check", sql`${table.state} in ('idle', 'open', 'closed')`)],
+)
+
+/** Who checked in for credits: listed Luma guests and the walk-in waitlist. */
+export const eventCreditEntry = pgTable(
+  "event_credit_entry",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    eventSlug: text("event_slug").notNull(),
+    clerkUserId: text("clerk_user_id").notNull(),
+    kind: text("kind").notNull(),
+    name: text("name").notNull(),
+    email: text("email").notNull(),
+    presentAt: timestamp("present_at", { withTimezone: true, mode: "string" }),
+    attempts: integer("attempts").default(0).notNull(),
+    lockedUntil: timestamp("locked_until", { withTimezone: true, mode: "string" }),
+    reportedAt: timestamp("reported_at", { withTimezone: true, mode: "string" }),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("event_credit_entry_event_user_idx").on(table.eventSlug, table.clerkUserId),
+    check("event_credit_entry_kind_check", sql`${table.kind} in ('luma', 'waitlist')`),
+    check("event_credit_entry_name_check", sql`char_length(trim(${table.name})) between 2 and 120`),
+  ],
+)
+
+/** Single-use credit codes. A burned code stays recorded against the person it failed for. */
+export const eventCreditCode = pgTable(
+  "event_credit_code",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    eventSlug: text("event_slug").notNull(),
+    code: text("code").notNull(),
+    reserve: boolean("reserve").default(false).notNull(),
+    status: text("status").default("free").notNull(),
+    assignedTo: text("assigned_to"),
+    assignedAt: timestamp("assigned_at", { withTimezone: true, mode: "string" }),
+  },
+  (table) => [
+    uniqueIndex("event_credit_code_event_code_idx").on(table.eventSlug, table.code),
+    uniqueIndex("event_credit_code_assigned_idx").on(table.eventSlug, table.assignedTo).where(sql`${table.status} = 'assigned'`),
+    check("event_credit_code_status_check", sql`${table.status} in ('free', 'assigned', 'burned')`),
+  ],
+)
