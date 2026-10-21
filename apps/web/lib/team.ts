@@ -545,7 +545,7 @@ export const teamMembers: TeamMember[] = [
   {
     username: "tarmeno",
     name: "Carlos Tarmeno",
-    role: "Frontend Engineer",
+    role: "Co-founder · Frontend Engineer",
     location: "Lima, Peru",
     image: "/team/station-ink/tarmeno-cutout-v1.webp",
     bio: {
@@ -590,7 +590,7 @@ export const teamMembers: TeamMember[] = [
   {
     username: "edward",
     name: "Edward Ramos",
-    role: "Frontend Engineer",
+    role: "Co-founder · Senior Frontend Engineer",
     location: "Lima, Peru",
     timezone: "America/Lima",
     image: "/team/station-ink/edward-cutout-v1.webp",
