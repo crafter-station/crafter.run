@@ -47,6 +47,12 @@ export function CreditsControls({ slug, state, code }: { slug: string; state: Ro
         return result
       })
     }}>
+      <label className="text-sm">Subir CSV (columna credit_url) o pegar abajo
+        <input type="file" accept=".csv,text/csv,text/plain" className="mt-2 block text-sm" onChange={async event => {
+          const file = event.target.files?.[0]
+          if (file) setCodes(await file.text())
+        }} />
+      </label>
       <Textarea value={codes} onChange={event => setCodes(event.target.value)} rows={4} placeholder="Un código por línea" className="font-mono" />
       <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={reserve} onChange={event => setReserve(event.target.checked)} />Importar como reserva (no entran al reparto)</label>
       <Button type="submit" disabled={pending || !codes.trim()}>Importar códigos</Button>

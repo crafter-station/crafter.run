@@ -1,3 +1,4 @@
+import { CreditsBoard } from "@/components/admin/credits-board"
 import { CreditsControls, CreditsTable } from "@/components/admin/credits-controls"
 import type { AccessEvent } from "@/lib/access-events"
 import { listCreditsForAdmin } from "@/lib/event-credits"
@@ -16,6 +17,7 @@ export async function CreditsModule({ event }: { event: AccessEvent }) {
         Códigos: {data.codes.free} libres · {data.codes.reserve} reserva · {data.codes.assigned} asignados · {data.codes.burned} quemados
       </p>
       <CreditsControls slug={event.slug} state={data.round.state} code={data.round.code} />
+      <CreditsBoard tiles={data.board} />
       <CreditsTable slug={event.slug} entries={data.entries.map(entry => ({
         userId: entry.clerkUserId, name: entry.name, email: entry.email, kind: entry.kind,
         present: Boolean(entry.presentAt), reported: Boolean(entry.reportedAt), code: entry.code,

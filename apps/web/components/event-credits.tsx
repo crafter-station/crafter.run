@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { confirmCredits, joinWaitlist, reportCredits } from "@/app/[lang]/events/[event]/credits/actions"
+import { claimCredits, confirmCredits, joinWaitlist, reportCredits } from "@/app/[lang]/events/[event]/credits/actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -55,9 +55,10 @@ export function CreditsPanel({ locale, slug, kind, state, present, code, reporte
   if (code) {
     return <div className="entry-notice">
       <h2>{t.yourCode}</h2>
-      <p className="mt-6 break-all font-mono text-[clamp(22px,4vw,34px)] text-foreground">{code}</p>
+      <p className="mt-6 break-all font-mono text-[clamp(16px,3vw,26px)] text-foreground">{code}</p>
       <div className="mt-6 flex flex-wrap gap-3">
-        <Button onClick={async () => { await navigator.clipboard.writeText(code); setCopied(true) }}>{copied ? t.copied : t.copy}</Button>
+        {/^https:\/\//.test(code) ? <Button asChild><a href={code} target="_blank" rel="noopener noreferrer" onClick={() => void claimCredits(slug)}>{t.open}</a></Button> : null}
+        <Button variant={/^https:\/\//.test(code) ? "outline" : "default"} onClick={async () => { await navigator.clipboard.writeText(code); setCopied(true); void claimCredits(slug) }}>{copied ? t.copied : t.copy}</Button>
         <Button variant="outline" disabled={flagged || pending} onClick={() => start(async () => { if ((await reportCredits(slug)).ok) setFlagged(true) })}>{t.report}</Button>
       </div>
       {flagged ? <p role="status">{t.reported}</p> : null}

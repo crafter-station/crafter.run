@@ -1,0 +1,1 @@
+ALTER TABLE "event_credit_code" ADD COLUMN "claimed_at" timestamp with time zone;

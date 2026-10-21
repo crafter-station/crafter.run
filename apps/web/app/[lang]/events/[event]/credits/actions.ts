@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache"
 import { findAccessEvent } from "@/lib/access-events"
-import { type CreditError, confirmPresence, readEntry, reportCode, saveEntry } from "@/lib/event-credits"
+import { type CreditError, confirmPresence, markClaimed, readEntry, reportCode, saveEntry } from "@/lib/event-credits"
 import { getEventGuest } from "@/lib/event-guest"
 import { locales } from "@/lib/i18n"
 
@@ -53,6 +53,17 @@ export async function reportCredits(slug: string): Promise<Result> {
   try {
     if (!(await readEntry(slug, current.user.id))) return { ok: false, error: "entry" }
     await reportCode(slug, current.user.id)
+    return { ok: true }
+  } catch {
+    return { ok: false, error: "unavailable" }
+  }
+}
+
+export async function claimCredits(slug: string): Promise<Result> {
+  const current = await guest(slug)
+  if (!current) return { ok: false, error: "auth" }
+  try {
+    await markClaimed(slug, current.user.id)
     return { ok: true }
   } catch {
     return { ok: false, error: "unavailable" }

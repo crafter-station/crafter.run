@@ -197,6 +197,13 @@
       "when": 1792606867799,
       "tag": "0027_event_credits",
       "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1792608198011,
+      "tag": "0028_event_credit_claimed",
+      "breakpoints": true
     }
   ]
 }

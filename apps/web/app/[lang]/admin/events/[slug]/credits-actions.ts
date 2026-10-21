@@ -24,7 +24,7 @@ async function run(slug: string, action: () => Promise<string | void>): Promise<
 }
 
 export async function adminImportCodes(slug: string, text: string, reserve: boolean) {
-  return run(slug, async () => String(await importCodes(slug, text.split(/\r?\n/), reserve)))
+  return run(slug, async () => String(await importCodes(slug, text.split(/\r?\n/).map(line => line.split(",")[0].replace(/^"|"$/g, "")).filter(line => !/^credit_url$/i.test(line.trim())), reserve)))
 }
 export async function adminOpenRound(slug: string) {
   return run(slug, () => openRound(slug))
