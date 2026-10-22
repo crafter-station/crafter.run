@@ -13,6 +13,7 @@ const en = {
   report: "My code doesn’t work", reported: "We let the organizers know. Ask a facilitator.",
   missedBody: "You didn’t confirm your presence in time. Ask a facilitator if you were in the room.",
   noCreditBody: "There were no credits left for the waitlist this time. Thanks for coming.",
+  badge: "Get your badge", badgeLocked: "Your badge unlocks once you claim your Codex credit code from this event.",
   unavailable: "We can’t check right now. Try again in a moment.", retry: "Try again",
   errors: { auth: "Sign in again.", unavailable: "Something failed. Try again.", closed: "The window is not open.", code: "That code doesn’t match the screen.", locked: "Too many attempts. Wait a minute.", entry: "Check in first.", name: "Write your full name." },
 }
@@ -31,6 +32,7 @@ const es: Copy = {
   report: "Mi código no funciona", reported: "Les avisamos a los organizadores. Busca a un facilitador.",
   missedBody: "No confirmaste tu presencia a tiempo. Si estabas en la sala, habla con un facilitador.",
   noCreditBody: "Esta vez no quedaron créditos para la waitlist. Gracias por venir.",
+  badge: "Saca tu badge", badgeLocked: "Tu badge se desbloquea cuando reclames tu código de créditos de Codex de este evento.",
   unavailable: "No podemos verificar ahora. Intenta en un momento.", retry: "Reintentar",
   errors: { auth: "Vuelve a iniciar sesión.", unavailable: "Algo falló. Intenta de nuevo.", closed: "La ventana no está abierta.", code: "Ese código no coincide con la pantalla.", locked: "Demasiados intentos. Espera un minuto.", entry: "Primero haz check-in.", name: "Escribe tu nombre completo." },
 }

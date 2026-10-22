@@ -33,10 +33,10 @@ export function CreditsControls({ slug, state, code }: { slug: string; state: Ro
       <span className="station-label">Ventana: {state}{state === "open" && code ? ` · código ${code}` : ""}</span>
       <Button disabled={pending || state === "open"} onClick={() => act("Ventana abierta", () => adminOpenRound(slug))}>Abrir ventana</Button>
       <Button disabled={pending || state !== "open"} onClick={() => {
-        if (confirm("¿Cerrar la ventana y repartir los créditos?")) act("Asignados", () => adminCloseRound(slug))
+        if (confirm("¿Cerrar la ventana y repartir los créditos?")) act("Códigos asignados en este cierre (0 si ya estaba cerrada; revisa el tablero)", () => adminCloseRound(slug))
       }}>Cerrar y repartir</Button>
       <Button variant="outline" disabled={pending} onClick={() => {
-        if (confirm("Borra check-ins, ventana y asignaciones. Solo para ensayos. ¿Seguir?")) act("Reiniciado", () => adminResetRound(slug))
+        if (prompt(`Borra check-ins, ventana y asignaciones. Solo para ensayos. Escribe ${slug} para confirmar.`) === slug) act("Reiniciado", () => adminResetRound(slug))
       }}>Reiniciar (ensayo)</Button>
     </div>
     <form className="grid max-w-xl gap-3" onSubmit={event => {

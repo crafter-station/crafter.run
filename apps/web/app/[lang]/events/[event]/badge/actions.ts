@@ -4,7 +4,8 @@ import { isAdminUser } from "@/lib/admin"
 import { findAccessEvent } from "@/lib/access-events"
 import { findEventBadge } from "@/lib/event-badge"
 import { eventBadgeImageKey, getUserEventBadge, reserveEventBadge } from "@/lib/event-badge-store"
-import { getEventGuest } from "@/lib/event-guest"
+import { currentUser } from "@clerk/nextjs/server"
+import { readAttendance } from "@/lib/event-credits"
 import { type BadgeError, isBadgeVariant } from "@/lib/hot-reload-badge"
 import { r2Configured, r2Put } from "@/lib/r2"
 
@@ -19,14 +20,14 @@ function refuse(step: string, error: BadgeError, detail?: unknown): { ok: false;
 async function attendee(slug: string): Promise<Result<{ event: string; userId: string; checkedIn: boolean }>> {
   const event = findAccessEvent(slug)
   if (!event || !findEventBadge(event.slug)) return refuse("event", "unavailable", slug)
-  const { user, check } = await getEventGuest(event.lumaEventId, event.lumaCalendar)
+  const user = await currentUser()
   if (!user) return refuse("guest", "auth")
-  if (check?.status === "unavailable") return refuse("guest", "unavailable", "guest lookup failed")
-  if (check?.status !== "approved") return refuse("guest", "approval", check?.status)
-  // Same rule as Hot Reload: checked in, or the event has started. Admins skip the timing to test before the day.
-  const checkedIn = check.checkedIn === true
-  if (!checkedIn && !isAdminUser(user) && Date.now() < Date.parse(event.startsAt)) return refuse("guest", "early")
-  return { ok: true, event: event.slug, userId: user.id, checkedIn }
+  // Attendance is proven by claiming the credit code handed out in the room, Luma or waitlist alike.
+  if (isAdminUser(user)) return { ok: true, event: event.slug, userId: user.id, checkedIn: true }
+  const attended = await readAttendance(event.slug, user.id).catch(() => undefined)
+  if (attended === undefined) return refuse("guest", "unavailable", "attendance lookup failed")
+  if (!attended) return refuse("guest", "early")
+  return { ok: true, event: event.slug, userId: user.id, checkedIn: true }
 }
 
 /** Gives the attendee their badge number, so the print can carry it before it is uploaded. */

@@ -1,16 +1,17 @@
+import { currentUser } from "@clerk/nextjs/server"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { EventBadgeTheme } from "@/components/event-badge-theme"
 import { HotReloadBadgeEditor } from "@/components/hot-reload-badge-editor"
 import { MakeablesWall } from "@/components/hot-reload-badge-stage"
-import { LinkLumaEmail } from "@/components/link-luma-email"
 import { isAdminUser } from "@/lib/admin"
 import { findAccessEvent } from "@/lib/access-events"
 import { findEventBadge } from "@/lib/event-badge"
 import { eventBadgeCopy } from "@/lib/event-badge-copy"
 import { getUserEventBadge } from "@/lib/event-badge-store"
-import { getEventGuest } from "@/lib/event-guest"
+import { readAttendance } from "@/lib/event-credits"
+import { eventCreditsCopy } from "@/lib/event-credits-copy"
 import { isBadgeVariant } from "@/lib/hot-reload-badge"
 import { hotReloadCopy, hotReloadText } from "@/lib/hot-reload-copy"
 import { isLocale, withLocale } from "@/lib/i18n"
@@ -36,7 +37,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const t = hotReloadCopy[lang]
   const b = eventBadgeCopy(lang, badge.name)
   const path = `/${lang}/events/${event.slug}/badge`
-  const { user, emails, check } = await getEventGuest(event.lumaEventId, event.lumaCalendar)
+  const user = await currentUser()
 
   const head = (
     <header className="hot-reload-badge-head">
@@ -56,54 +57,46 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         <Link className="hot-reload-display hot-reload-cta" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link>
       </Notice>
     )
-  } else if (check?.status === "approved") {
-    const saved = await getUserEventBadge(event.slug, user.id)
-    editing = true
-    content = (
-      <HotReloadBadgeEditor
-        badge={badge}
-        variants={badge.variants}
-        placeholderPortrait={badge.placeholder}
-        portrait={user.hasImage ? user.imageUrl : null}
-        person={{
-          name: saved?.name ?? check.name ?? [user.firstName, user.lastName].filter(Boolean).join(" "),
-          role: b.role,
-          eventName: badge.name,
-        }}
-        claim={claimEventBadge.bind(null, event.slug)}
-        upload={uploadEventBadge.bind(null, event.slug)}
-        number={saved?.number ?? null}
-        variant={isBadgeVariant(saved?.variant) ? saved.variant : "a"}
-        badgeUrl={`https://crafter.run${path}`}
-        // Same rule as the server action: checked in, or the event has started.
-        stampLocked={check.checkedIn || isAdminUser(user) || Date.now() >= Date.parse(event.startsAt)
-          ? null
-          : hotReloadText(b.stampLocked, { date: new Intl.DateTimeFormat(lang, { weekday: "long", day: "numeric", month: "long", hour: "numeric", minute: "2-digit", timeZone: event.timeZone }).format(new Date(event.startsAt)) })}
-        labels={b}
-      >
-        {head}
-        <p className="hot-reload-badge-hint">{b.intro}</p>
-      </HotReloadBadgeEditor>
-    )
-  } else if (check?.status === "not-approved") {
-    content = <Notice title={t.pendingTitle}>
-      <p>{hotReloadText(t.pendingGuest, { email: check.email })}</p>
-      <LinkLumaEmail locale={lang} />
-    </Notice>
-  } else if (check?.status === "not-found") {
-    content = (
-      <Notice title={t.missingTitle}>
-        <p>{hotReloadText(t.missingGuest, { emails: emails?.join(", ") ?? "" })}</p>
-        <a className="mt-3 inline-block underline underline-offset-4" href={event.lumaUrl} target="_blank" rel="noopener noreferrer">{t.requestSpot}</a>
-        <LinkLumaEmail locale={lang} />
-      </Notice>
-    )
   } else {
-    content = <Notice title={t.unavailableTitle}>
-      <p>{t.unavailableBody}</p>
-      <a className="mt-3 inline-block underline underline-offset-4" href={path}>{t.checkAgain}</a>
-      <LinkLumaEmail locale={lang} />
-    </Notice>
+    // The badge proves attendance: it unlocks once the account claimed the credit code handed out in the room.
+    const attended = isAdminUser(user) ? { name: [user.firstName, user.lastName].filter(Boolean).join(" ") } : await readAttendance(event.slug, user.id).catch(() => undefined)
+    if (attended === undefined) {
+      content = <Notice title={t.unavailableTitle}>
+        <p>{t.unavailableBody}</p>
+        <a className="mt-3 inline-block underline underline-offset-4" href={path}>{t.checkAgain}</a>
+      </Notice>
+    } else if (!attended) {
+      content = <Notice title={b.title}>
+        <p>{eventCreditsCopy[lang].badgeLocked}</p>
+        <Link className="hot-reload-display hot-reload-cta" href={`/${lang}/events/${event.slug}/credits`}>{eventCreditsCopy[lang].title}</Link>
+      </Notice>
+    } else {
+      const saved = await getUserEventBadge(event.slug, user.id)
+      editing = true
+      content = (
+        <HotReloadBadgeEditor
+          badge={badge}
+          variants={badge.variants}
+          placeholderPortrait={badge.placeholder}
+          portrait={user.hasImage ? user.imageUrl : null}
+          person={{
+            name: saved?.name ?? attended?.name ?? [user.firstName, user.lastName].filter(Boolean).join(" "),
+            role: b.role,
+            eventName: badge.name,
+          }}
+          claim={claimEventBadge.bind(null, event.slug)}
+          upload={uploadEventBadge.bind(null, event.slug)}
+          number={saved?.number ?? null}
+          variant={isBadgeVariant(saved?.variant) ? saved.variant : "a"}
+          badgeUrl={`https://crafter.run${path}`}
+          stampLocked={null}
+          labels={b}
+        >
+          {head}
+          <p className="hot-reload-badge-hint">{b.intro}</p>
+        </HotReloadBadgeEditor>
+      )
+    }
   }
 
   return (
