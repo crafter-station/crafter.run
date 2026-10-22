@@ -35,7 +35,10 @@ export async function readOwnCode(eventSlug: string, clerkUserId: string) {
 }
 
 /** A Luma guest keeps their kind if they first joined the waitlist and later linked their Luma email. */
-export async function saveEntry(eventSlug: string, clerkUserId: string, kind: CreditKind, name: string, email: string) {
+export async function saveEntry(eventSlug: string, clerkUserId: string, kind: CreditKind, rawName: string, email: string) {
+  // Imported Luma names can be one letter or very long; the table only accepts 2 to 120 characters.
+  const trimmed = rawName.trim()
+  const name = (trimmed.length >= 2 ? trimmed : email || "Asistente").slice(0, 120)
   await db().insert(eventCreditEntry).values({ eventSlug, clerkUserId, kind, name, email })
     .onConflictDoUpdate({
       target: [eventCreditEntry.eventSlug, eventCreditEntry.clerkUserId],
@@ -56,13 +59,22 @@ export async function confirmPresence(eventSlug: string, clerkUserId: string, in
     await db().update(eventCreditEntry).set({ presentAt: sql`now()`, attempts: 0 }).where(where)
     return { ok: true }
   }
-  const attempts = entry.attempts + 1
-  const locked = attempts >= MAX_ATTEMPTS
-  await db().update(eventCreditEntry).set({
-    attempts: locked ? 0 : attempts,
-    lockedUntil: locked ? sql`now() + make_interval(secs => ${LOCK_SECONDS})` : entry.lockedUntil,
-  }).where(where)
-  return { ok: false, error: locked ? "locked" : "code" }
+  // One atomic increment, so parallel guesses cannot all read the same count and skip the lock.
+  const [row] = await db().update(eventCreditEntry).set({
+    attempts: sql`case when ${eventCreditEntry.attempts} + 1 >= ${MAX_ATTEMPTS} then 0 else ${eventCreditEntry.attempts} + 1 end`,
+    lockedUntil: sql`case when ${eventCreditEntry.attempts} + 1 >= ${MAX_ATTEMPTS} then now() + make_interval(secs => ${LOCK_SECONDS}) else ${eventCreditEntry.lockedUntil} end`,
+  }).where(and(where, sql`(${eventCreditEntry.lockedUntil} is null or ${eventCreditEntry.lockedUntil} < now())`))
+    .returning({ attempts: eventCreditEntry.attempts })
+  return { ok: false, error: !row || row.attempts === 0 ? "locked" : "code" }
+}
+
+/** Attendance proof for the badge: the account opened or copied the credit code it was handed. */
+export async function readAttendance(eventSlug: string, clerkUserId: string) {
+  const [row] = await db().select({ name: eventCreditEntry.name, claimedAt: eventCreditCode.claimedAt })
+    .from(eventCreditEntry)
+    .innerJoin(eventCreditCode, and(eq(eventCreditCode.eventSlug, eventCreditEntry.eventSlug), eq(eventCreditCode.assignedTo, eventCreditEntry.clerkUserId), eq(eventCreditCode.status, "assigned")))
+    .where(and(eq(eventCreditEntry.eventSlug, eventSlug), eq(eventCreditEntry.clerkUserId, clerkUserId))).limit(1)
+  return row?.claimedAt ? { name: row.name } : null
 }
 
 /** Marks the owner's code as taken the first time they open or copy it. */
@@ -127,8 +139,10 @@ export async function closeRound(eventSlug: string) {
 /** Hands one code to a person by hand, from the leftover pool first and the reserve after. */
 export async function assignCode(eventSlug: string, clerkUserId: string, burnCurrent: boolean) {
   const database = db()
+  // Burns only when a replacement is free, so a failed code is never taken away with nothing in its place.
   const burn = database.update(eventCreditCode).set({ status: "burned" })
-    .where(and(eq(eventCreditCode.eventSlug, eventSlug), eq(eventCreditCode.assignedTo, clerkUserId), eq(eventCreditCode.status, "assigned")))
+    .where(and(eq(eventCreditCode.eventSlug, eventSlug), eq(eventCreditCode.assignedTo, clerkUserId), eq(eventCreditCode.status, "assigned"),
+      sql`exists (select 1 from event_credit_code f where f.event_slug = ${eventSlug} and f.status = 'free')`))
   const assign = database.execute(sql`
     update event_credit_code set status = 'assigned', assigned_to = ${clerkUserId}, assigned_at = now()
     where id = (

@@ -33,20 +33,21 @@ export function WaitlistForm({ locale, slug, defaultName }: { locale: Locale; sl
   </form>
 }
 
-type PanelProps = { locale: Locale; slug: string; kind: "luma" | "waitlist"; state: RoundState; present: boolean; code: string | null; reported: boolean }
+type PanelProps = { locale: Locale; slug: string; kind: "luma" | "waitlist"; state: RoundState; present: boolean; code: string | null; reported: boolean; taken: boolean }
 
-export function CreditsPanel({ locale, slug, kind, state, present, code, reported }: PanelProps) {
+export function CreditsPanel({ locale, slug, kind, state, present, code, reported, taken }: PanelProps) {
   const t = eventCreditsCopy[locale]
   const router = useRouter()
   const [input, setInput] = useState("")
   const [error, setError] = useState<CreditError | null>(null)
   const [copied, setCopied] = useState(false)
   const [flagged, setFlagged] = useState(reported)
+  const [claimed, setClaimed] = useState(taken)
   const [pending, start] = useTransition()
 
   // The round is driven from the admin, so the page follows it until a code arrives.
   useEffect(() => {
-    if (code || (state === "closed" && !present)) return
+    if (code || state === "closed") return
     const id = setInterval(() => router.refresh(), POLL_MS)
     return () => clearInterval(id)
   }, [code, state, present, router])
@@ -57,11 +58,12 @@ export function CreditsPanel({ locale, slug, kind, state, present, code, reporte
       <h2>{t.yourCode}</h2>
       <p className="mt-6 break-all font-mono text-[clamp(16px,3vw,26px)] text-foreground">{code}</p>
       <div className="mt-6 flex flex-wrap gap-3">
-        {/^https:\/\//.test(code) ? <Button asChild><a href={code} target="_blank" rel="noopener noreferrer" onClick={() => void claimCredits(slug)}>{t.open}</a></Button> : null}
-        <Button variant={/^https:\/\//.test(code) ? "outline" : "default"} onClick={async () => { await navigator.clipboard.writeText(code); setCopied(true); void claimCredits(slug) }}>{copied ? t.copied : t.copy}</Button>
+        {/^https:\/\//.test(code) ? <Button asChild><a href={code} target="_blank" rel="noopener noreferrer" onClick={() => { void claimCredits(slug).then(() => setClaimed(true)) }}>{t.open}</a></Button> : null}
+        <Button variant={/^https:\/\//.test(code) ? "outline" : "default"} onClick={async () => { await navigator.clipboard.writeText(code); setCopied(true); void claimCredits(slug).then(() => setClaimed(true)) }}>{copied ? t.copied : t.copy}</Button>
         <Button variant="outline" disabled={flagged || pending} onClick={() => start(async () => { if ((await reportCredits(slug)).ok) setFlagged(true) })}>{t.report}</Button>
       </div>
       {flagged ? <p role="status">{t.reported}</p> : null}
+      {claimed ? <Button asChild variant="outline" className="mt-6"><a href={`/${locale}/events/${slug}/badge`}>{t.badge}</a></Button> : null}
     </div>
   }
   if (state === "closed") {

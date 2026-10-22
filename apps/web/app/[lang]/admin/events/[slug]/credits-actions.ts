@@ -23,8 +23,15 @@ async function run(slug: string, action: () => Promise<string | void>): Promise<
   }
 }
 
+/** Accepts the export with a credit_url column anywhere, or plain lines of codes. */
+function parseCodes(text: string) {
+  const rows = text.split(/\r?\n/).map(line => line.split(",").map(cell => cell.trim().replace(/^"|"$/g, "")))
+  const column = rows[0]?.findIndex(cell => /^credit_url$/i.test(cell)) ?? -1
+  return column >= 0 ? rows.slice(1).map(row => row[column] ?? "") : rows.map(row => row[0] ?? "")
+}
+
 export async function adminImportCodes(slug: string, text: string, reserve: boolean) {
-  return run(slug, async () => String(await importCodes(slug, text.split(/\r?\n/).map(line => line.split(",")[0].replace(/^"|"$/g, "")).filter(line => !/^credit_url$/i.test(line.trim())), reserve)))
+  return run(slug, async () => String(await importCodes(slug, parseCodes(text), reserve)))
 }
 export async function adminOpenRound(slug: string) {
   return run(slug, () => openRound(slug))
