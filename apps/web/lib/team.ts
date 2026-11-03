@@ -698,6 +698,7 @@ export const teamMembers: TeamMember[] = [
         items: [
           { name: "MacBook Pro M5 Pro" },
           { name: "iPhone 16e" },
+          { name: "Apple Watch S11", detail: "Health tracking" },
         ],
       },
     ],
