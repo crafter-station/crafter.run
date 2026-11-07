@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { hack0DateParts, parseHack0Calendar, partitionHack0Events } from "./hack0-calendar-data"
+import { hack0DateParts, hack0EventSlug, parseHack0Calendar, partitionHack0Events } from "./hack0-calendar-data"
 
 const event = (fields = "") => `BEGIN:VEVENT
 UID:evt-test@events.lu.ma
@@ -44,5 +44,15 @@ describe("hack0 public calendar", () => {
   test("ignores alarm descriptions and rejects an upstream error page", () => {
     expect(parseHack0Calendar(feed(event("BEGIN:VALARM\nDESCRIPTION:Reminder\nEND:VALARM")))[0].host).toBe("Crafter")
     expect(() => parseHack0Calendar("<html>Unavailable</html>")).toThrow()
+  })
+})
+
+describe("hack0EventSlug", () => {
+  test("matches hack0's public event slug", () => {
+    expect(hack0EventSlug("Notion Students Summit", "https://luma.com/p3rwlp1b")).toBe("notion-students-summit-p3rwlp1b")
+    expect(hack0EventSlug("Cómo construí un agente", "https://lu.ma/gyp5nbma/")).toBe("como-construi-un-agente-gyp5nbma")
+  })
+  test("has no slug when the URL is the calendar itself", () => {
+    expect(hack0EventSlug("Microsoft Build 2026", "https://luma.com/hack0")).toBeNull()
   })
 })

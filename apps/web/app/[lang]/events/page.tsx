@@ -5,7 +5,7 @@ import { AgendaCalendar } from "@/components/agenda-calendar"
 import { JsonLd } from "@/components/json-ld"
 import { agendaCopy } from "@/lib/agenda-copy"
 import { fetchHack0Calendar } from "@/lib/hack0-calendar"
-import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, hack0DateParts, partitionHack0Events } from "@/lib/hack0-calendar-data"
+import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, HACK0_LUMA_URL, hack0DateParts, partitionHack0Events } from "@/lib/hack0-calendar-data"
 import { isLocale, locales, withLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 import { breadcrumbList } from "@/lib/structured-data"
@@ -14,6 +14,8 @@ import { accessEventDay, accessEvents } from "@/lib/access-events"
 import { eventAccessCopy } from "@/lib/event-access-copy"
 import { agendaCity, type AgendaCity } from "@/lib/agenda-cities"
 import { CitySkyline } from "@/components/city-skyline"
+import { Hack0Mark, Hack0Wordmark } from "@/components/hack0-mark"
+import { CrafterStationLogo } from "@/components/crafter-station-logo"
 
 export const revalidate = 1800
 export const dynamicParams = false
@@ -22,6 +24,13 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params
   if (!isLocale(lang)) return {}
   return buildMetadata({ locale: lang, path: "/events", title: agendaCopy[lang].name, description: agendaCopy[lang].description })
+}
+
+// Titles end in "hack0." in every locale; render the name as the hack0 wordmark.
+function withWordmark(line: string) {
+  const at = line.indexOf("hack0")
+  if (at < 0) return line
+  return <>{line.slice(0, at)}<Hack0Wordmark />{line.slice(at + 5)}</>
 }
 
 export default async function Page({ params }: { params: Promise<{ lang: string }> }) {
@@ -52,12 +61,12 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
     <JsonLd data={breadcrumbList(lang, [{ name: "Crafter Station", path: "/" }, { name: t.name, path: "/events" }])} />
     <main className="agenda-page">
       <header className="agenda-hero">
-        <div className="agenda-topline"><p className="station-label">{t.eyebrow}</p><a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer">luma.com/hack0</a></div>
+        <div className="agenda-topline"><p className="station-label">{t.eyebrow}</p><a className="agenda-site" href={HACK0_CALENDAR_URL} target="_blank" rel="noopener"><Hack0Wordmark />.dev</a></div>
         <div className="agenda-hero-layout">
-          <div className="agenda-intro"><h1>{t.title[0]}<span>{t.title[1]}</span></h1><p>{t.description}</p>
+          <div className="agenda-intro"><h1>{t.title[0]}<span>{withWordmark(t.title[1])}</span></h1><p>{t.description}</p>
             <div className="agenda-hero-actions"><a href="#calendar">{t.explore}</a><a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer">{t.follow}</a></div>
           </div>
-          {featured && date ? <a className="agenda-ticket" href={featured.url} target="_blank" rel="noopener noreferrer">
+          {featured && date ? <a className="agenda-ticket" href={featured.href} target="_blank" rel="noopener noreferrer">
             <div className="agenda-ticket-top"><span>{Date.parse(featured.startAt) <= now ? t.happening : t.next}</span><strong>{featuredCity?.code ?? "✳"}</strong></div>
             <CitySkyline city={featuredCity?.key ?? "other"} className="agenda-ticket-skyline" />
             <div className="agenda-ticket-date" aria-hidden="true"><span>{date.day}</span><span>{date.month}<i>✳</i></span></div>
@@ -67,6 +76,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             <p>{calendar.status === "unavailable" ? t.unavailable : t.noUpcoming}</p><a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer">{t.follow}</a></div>}
         </div>
       </header>
+      <div className="agenda-handoff" aria-hidden="true"><CrafterStationLogo decorative /><span /><Hack0Mark /></div>
       {stamps.length > 0 && <section className="agenda-passport" aria-labelledby="agenda-passport-title">
         <div className="agenda-passport-intro"><p className="station-label">{t.passport} · {t.stamps.replace("{count}", String(stamps.length))}</p>
           <h2 id="agenda-passport-title">{t.passportTitle}</h2><p>{t.passportBody}</p></div>
@@ -99,7 +109,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           <div className="agenda-subscribe-links">{subscriptionLinks.map(link => <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>)}</div></div>
       </section>
       <section className="agenda-invitation"><h2>{t.invite}</h2><p>{t.inviteBody}</p>
-        <div className="agenda-invitation-actions"><a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener noreferrer">{t.propose}</a><Link href={withLocale("/events/sponsors", lang)}>{t.collaborate}</Link><Link href={withLocale("/hackathons", lang)}>{participation.history}</Link></div>
+        <div className="agenda-invitation-actions"><a href={HACK0_LUMA_URL} target="_blank" rel="noopener noreferrer">{t.propose}</a><Link href={withLocale("/events/sponsors", lang)}>{t.collaborate}</Link><Link href={withLocale("/hackathons", lang)}>{participation.history}</Link></div>
       </section>
     </main>
   </>

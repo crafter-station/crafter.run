@@ -13,4 +13,12 @@ const crafter = localFont({
   src: "../app/fonts/CrafterSansPreview-Medium.woff2",
   variable: "--font-crafter", weight: "500", style: "normal", display: "swap",
 })
-export const stationFonts = [crafterText.variable, crafter.variable, "station-noto-fallbacks"].join(" ")
+// hack0's typeface, used only where the calendar speaks as hack0. Not preloaded.
+const hack0Mono = localFont({
+  src: [
+    { path: "../app/fonts/JetBrainsMono-500.woff2", weight: "500" },
+    { path: "../app/fonts/JetBrainsMono-700.woff2", weight: "700" },
+    { path: "../app/fonts/JetBrainsMono-800.woff2", weight: "800" },
+  ], variable: "--font-hack0", display: "swap", preload: false,
+})
+export const stationFonts = [crafterText.variable, crafter.variable, hack0Mono.variable, "station-noto-fallbacks"].join(" ")

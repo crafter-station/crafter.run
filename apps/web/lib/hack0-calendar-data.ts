@@ -1,4 +1,7 @@
-export const HACK0_CALENDAR_URL = "https://luma.com/hack0"
+export const HACK0_SITE_URL = "https://hack0.dev"
+export const HACK0_CALENDAR_URL = HACK0_SITE_URL
+// Luma stays the source of the feed and the place to submit an event.
+export const HACK0_LUMA_URL = "https://luma.com/hack0"
 // Public subscription URL exposed by hack0's “Add iCal Subscription” control.
 export const HACK0_ICAL_URL = "https://api.luma.com/ics/get?entity=calendar&id=cal-HBdmsARYSzYhpuc"
 export const HACK0_TIME_ZONE = "America/Lima"
@@ -11,7 +14,10 @@ export interface Hack0Event {
   allDay: boolean
   location: string
   host: string
+  /** Luma event page, the feed source. */
   url: string
+  /** Public page to link: the hack0.dev event when it exists, Luma otherwise. */
+  href: string
 }
 
 function unescapeText(text: string) {
@@ -74,11 +80,29 @@ export function parseHack0Calendar(ics: string): Hack0Event[] {
     // Preserve that uncertainty instead of labelling it “Online”.
     const publicLocation = /^https?:\/\//i.test(location) ? "" : location
     records.set(id, { sequence, event: {
-      id, title, startAt, endAt, allDay, url, location: publicLocation,
+      id, title, startAt, endAt, allDay, url, href: url, location: publicLocation,
       host: description.match(/(?:^|\n)Hosted by ([^\n]+)/)?.[1]?.trim() ?? "",
     } })
   }
   return [...records.values()].flatMap(record => record.event ? [record.event] : [])
+}
+
+function slugify(text: string) {
+  return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 80)
+}
+
+/** Mirrors hack0's eventSlug(): the event name plus the Luma URL code, e.g.
+ * "Notion Students Summit" + luma.com/p3rwlp1b → notion-students-summit-p3rwlp1b.
+ * Returns null when the URL has no event code (it points at the calendar). */
+export function hack0EventSlug(title: string, url: string): string | null {
+  const code = url.replace(/^https?:\/\/[^/]+\//, "").replace(/\/+$/, "")
+  if (!code || code === "hack0" || code.includes("/")) return null
+  return `${slugify(title)}-${slugify(code)}`.replace(/^-+/, "")
+}
+
+export function hack0EventUrl(slug: string) {
+  return `${HACK0_SITE_URL}/eventos/${slug}`
 }
 
 export function partitionHack0Events(events: Hack0Event[], now = Date.now()) {

@@ -64,7 +64,7 @@ export function AgendaCalendar({ events, initialNow, available, locale, t }: {
           const date = hack0DateParts(event, locale, timeZone)
           const ended = Date.parse(event.endAt) <= now
           const city = agendaCity(event.location)
-          return <a key={event.id} href={event.url} target="_blank" rel="noopener noreferrer"
+          return <a key={event.id} href={event.href} target="_blank" rel="noopener noreferrer"
             className={`agenda-event agenda-tone-${index % 3}${ended ? " is-past" : ""}`}>
             <div className="agenda-event-date" aria-hidden="true"><span>{date.month}</span><strong>{date.day}</strong>
               {city && <span className="agenda-event-city"><CitySkyline city={city.key} />{city.code}</span>}</div>
