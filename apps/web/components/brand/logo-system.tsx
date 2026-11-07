@@ -30,7 +30,6 @@ const assets = [
 ] as const
 
 const formats = ["svg", "png", "webp", "jpg"] as const
-const scale = [16, 24, 32, 64, 200] as const
 
 export function LogoSystem({ locale }: { locale: Locale }) {
   const t = brandCopy[locale]
@@ -83,33 +82,41 @@ export function LogoSystem({ locale }: { locale: Locale }) {
 
       <h3 className="brand-step">02 / {t.scale}</h3>
       <div className="brand-card brand-scale">
-        <div className="brand-scale-row">
-          {scale.map((size) => (
-            <figure key={size}>
-              <Mark size={size} />
-              <figcaption>{size} px</figcaption>
+        <figure className="brand-scale-hero">
+          <div><Mark size={200} /></div>
+          <figcaption>200 px</figcaption>
+        </figure>
+        <div className="brand-scale-side">
+          <div className="brand-scale-row">
+            {([64, 32, 24, 16] as const).map((size) => (
+              <figure key={size}>
+                <div><Mark size={size} /></div>
+                <figcaption>{size} px</figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="brand-scale-row" data-row="lockups">
+            <figure>
+              <div><Lockup /></div>
+              <figcaption>1×</figcaption>
             </figure>
-          ))}
+            <figure>
+              <div><Lockup layout="row" unit={0.72} /></div>
+              <figcaption>18 px</figcaption>
+            </figure>
+            <figure>
+              <div>
+                <span className="brand-favicon-tab">
+                  <img src="/icon.svg" width={16} height={16} alt="" />
+                  Crafter Station
+                </span>
+              </div>
+              <figcaption>{t.favicon}</figcaption>
+            </figure>
+          </div>
         </div>
-        <div className="brand-scale-row brand-scale-small">
-          <figure>
-            <Lockup />
-            <figcaption>1×</figcaption>
-          </figure>
-          <figure>
-            <Lockup layout="row" unit={0.72} />
-            <figcaption>18 px</figcaption>
-          </figure>
-          <figure>
-            <span className="brand-favicon-tab">
-              <img src="/icon.svg" width={16} height={16} alt="" />
-              Crafter Station
-            </span>
-            <figcaption>{t.favicon}</figcaption>
-          </figure>
-        </div>
-        <p className="brand-note">{t.scaleNote}</p>
       </div>
+      <p className="brand-note">{t.scaleNote}</p>
 
       <h3 className="brand-step">03 / {t.tests}</h3>
       <div className="brand-tests">
@@ -227,20 +234,17 @@ export function BrandHero({
         <div className="brand-hero-side">
           <p className="brand-hero-description">{description}</p>
           <div className="brand-hero-actions">
-            <a
-              className="brand-hero-cta"
-              data-tone="primary"
-              href="/brand/crafter-station-logo-stacked-light.svg"
-              download
-            >
-              {t.download} / {t.onLight}
+            <a className="brand-hero-cta" data-theme-file="light" href="/brand/crafter-station-logo-stacked-light.svg" download>
+              {t.download}
+              <span>SVG</span>
               <Download aria-hidden="true" />
             </a>
-            <a className="brand-hero-cta" href="/brand/crafter-station-logo-stacked-dark.svg" download>
-              {t.download} / {t.onDark}
+            <a className="brand-hero-cta" data-theme-file="dark" href="/brand/crafter-station-logo-stacked-dark.svg" download>
+              {t.download}
+              <span>SVG</span>
               <Download aria-hidden="true" />
             </a>
-            <a className="brand-hero-cta" data-tone="ghost" href="#assets">
+            <a className="brand-hero-link" href="#assets">
               {t.allFormats}
               <ArrowDown aria-hidden="true" />
             </a>

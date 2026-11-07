@@ -1,29 +1,34 @@
-/* /brand hero: the first viewport is the logo itself. */
-.brand-hero { display: flex; flex-direction: column; gap: 28px; min-height: 100svh; padding: 42px var(--station-gutter) 24px; }
-.brand-hero-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 460px); align-items: end; gap: 24px 48px; }
+/* /brand hero: the first viewport is the logo itself. One action, one quiet link. */
+.brand-hero { display: flex; flex-direction: column; gap: 48px; min-height: 100svh; padding: 42px var(--station-gutter) 32px; }
+.brand-hero-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); align-items: end; gap: 28px 64px; }
 .brand-hero h1 { margin-top: 18px; font-size: var(--station-type-page); line-height: 1.05; }
-.brand-hero-description { max-width: 560px; font-size: 18px; line-height: 1.6; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
-.brand-hero-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
-.brand-hero-cta { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border-radius: 8px; background: hsl(var(--foreground) / .07); font-size: 15px; transition: background-color 160ms ease-out, box-shadow 160ms ease-out, transform 120ms ease-out; }
-.brand-hero-cta svg { width: 16px; height: 16px; opacity: .7; transition: transform 200ms cubic-bezier(.2, .7, .2, 1), opacity 160ms ease-out; }
-.brand-hero-cta:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+.brand-hero-description { max-width: 420px; font-size: 17px; line-height: 1.6; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
+.brand-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 24px; }
+.brand-hero-cta { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px; border-radius: 8px; background: hsl(var(--foreground)); color: hsl(var(--background)); font-size: 15px; transition: background-color 160ms ease-out, transform 120ms ease-out; }
+.brand-hero-cta > span { font: 11px var(--font-label); letter-spacing: .08em; opacity: .6; }
+.brand-hero-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 15px; color: hsl(var(--muted-foreground)); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; text-decoration-thickness: 1px; transition: color 160ms ease-out, text-decoration-color 160ms ease-out; }
+.brand-hero-cta svg, .brand-hero-link svg { width: 16px; height: 16px; transition: transform 200ms cubic-bezier(.2, .7, .2, 1); }
+.brand-hero-cta svg { opacity: .7; }
+.brand-hero-cta:focus-visible, .brand-hero-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
 .brand-hero-cta:active { transform: scale(.98); }
-/* Each hover stays inside its own level: solid dims, tonal deepens, ghost gains its edge. */
-.brand-hero-cta[data-tone="primary"] { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+/* Solid action dims and its icon drops; the link only gains ink and an underline. */
 @media (hover: hover) {
-  .brand-hero-cta[data-tone="primary"]:hover { background: hsl(var(--foreground) / .86); }
-  .brand-hero-cta:not([data-tone]):hover { background: hsl(var(--foreground) / .13); }
-  .brand-hero-cta[data-tone="ghost"]:hover { background: hsl(var(--foreground) / .04); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .45); }
-  .brand-hero-cta:hover svg { opacity: 1; transform: translateY(2px); }
+  .brand-hero-cta:hover { background: hsl(var(--foreground) / .86); }
+  .brand-hero-cta:hover svg { transform: translateY(2px); }
+  .brand-hero-link:hover { color: hsl(var(--foreground)); text-decoration-color: currentColor; }
+  .brand-hero-link:hover svg { transform: translateY(2px); }
 }
-.brand-hero-cta[data-tone="ghost"] { background: transparent; box-shadow: inset 0 0 0 1px hsl(var(--line)); }
+/* Offer the file that matches the active theme. */
+.brand-hero-cta[data-theme-file="dark"] { display: none; }
+.dark .brand-hero-cta[data-theme-file="light"] { display: none; }
+.dark .brand-hero-cta[data-theme-file="dark"] { display: inline-flex; }
 @media (prefers-reduced-motion: reduce) {
-  .brand-hero-cta, .brand-hero-cta svg { transition: none; }
-  .brand-hero-cta:active, .brand-hero-cta:hover svg { transform: none; }
+  .brand-hero-cta, .brand-hero-cta svg, .brand-hero-link svg { transition: none; }
+  .brand-hero-cta:active, .brand-hero-cta:hover svg, .brand-hero-link:hover svg { transform: none; }
 }
 .brand-hero-stage { position: relative; flex: 1; display: grid; place-items: center; min-height: 360px; border-radius: 16px; background: var(--page-surface); }
 .brand-hero-stage .brand-lockup { --u: clamp(2.4px, .55vw, 6px) !important; margin-bottom: 28px; }
-.brand-hero-spec { position: absolute; left: 22px; bottom: 18px; right: 22px; font: 12px/1.4 var(--font-label); letter-spacing: .04em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+.brand-hero-spec { position: absolute; left: 24px; bottom: 22px; right: 24px; font: 12px/1.4 var(--font-label); letter-spacing: .04em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
 
 /* /brand logo system. The lockup mirrors .station-brand in station.css:
    32u mark, 10u gap, 21u Crafter Sans Bucle at line-height .95, tracking -.035em. */
@@ -34,29 +39,35 @@
 
 .brand-system { --brand-paper: #f7f7f2; --brand-ink: #20221d; --brand-dark: #191b17; --brand-light-ink: #f3f3e9; --brand-accent-light: #705400; --brand-accent-dark: #f4d56d; }
 .station-shell-pages .brand-system { padding-inline: 0; }
-.brand-step { margin-top: 56px; margin-bottom: 20px; font-size: 20px; }
+.brand-step { margin-top: 112px; margin-bottom: 28px; font-size: 20px; }
 .brand-note { margin-top: 16px; max-width: 640px; font-size: 14px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
 .brand-card { margin: 0; border-radius: 14px; background: var(--page-surface); color: hsl(var(--foreground)); }
-.brand-card figcaption { display: grid; gap: 4px; padding: 0 22px 20px; font-size: 14px; line-height: 1.5; }
+.brand-card figcaption { display: grid; gap: 4px; padding: 0 24px 24px; font-size: 14px; line-height: 1.5; }
 .brand-card figcaption strong { font-weight: 500; }
 .brand-card figcaption span { color: hsl(var(--muted-foreground)); }
-.brand-stage { display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 32px 22px; }
+.brand-stage { display: flex; align-items: center; justify-content: center; min-height: 240px; padding: 40px 24px; }
 
-.brand-tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.brand-tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .brand-avatars { gap: 16px; }
 .brand-avatar { display: grid; place-items: center; width: 88px; height: 88px; border-radius: 22px; }
 .brand-avatar > svg { width: 52px; height: 52px; }
 .brand-avatar[data-tone="ink"] { background: var(--brand-ink); color: var(--brand-paper); }
 .brand-avatar[data-tone="accent"] { background: var(--brand-accent-dark); color: var(--brand-ink); }
 
-.brand-scale { padding: 28px 22px 22px; }
-.brand-scale figure { margin: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
-.brand-scale figcaption { font: 12px/1.4 var(--font-label); letter-spacing: .04em; text-transform: uppercase; color: hsl(var(--muted-foreground)); padding: 0; }
-.brand-scale-row { display: flex; align-items: flex-end; gap: 36px; flex-wrap: wrap; }
-.brand-scale-small { margin-top: 36px; padding-top: 28px; border-top: 1px solid hsl(var(--line)); }
+.brand-scale { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 0; padding: 0; overflow: hidden; }
+.brand-scale figure { margin: 0; display: grid; grid-template-rows: 1fr auto; justify-items: center; gap: 14px; min-width: 0; }
+.brand-scale figure > div { display: flex; align-items: flex-end; justify-content: center; }
+.brand-scale figcaption { padding: 0; font: 12px/1.4 var(--font-label); letter-spacing: .04em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+.brand-scale-hero { padding: 48px 32px 32px; }
+.brand-scale-hero > div { align-items: center !important; }
+.brand-scale-side { display: grid; grid-template-rows: 1fr 1fr; border-left: 1px solid hsl(var(--line)); }
+.brand-scale-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: stretch; padding: 40px 24px 28px; }
+.brand-scale-row[data-row="lockups"] { grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid hsl(var(--line)); }
+.brand-scale-row[data-row="lockups"] figure > div { align-items: center; }
+.brand-scale + .brand-note { margin-top: 16px; }
 .brand-favicon-tab { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px; border-radius: 8px 8px 0 0; background: hsl(var(--background)); font: 12px var(--font-sans); }
 
-.brand-tests { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.brand-tests { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
 .brand-tests .brand-stage { min-height: 170px; border-radius: 14px 14px 0 0; }
 .brand-tests figcaption { padding-top: 16px; }
 .brand-tests [data-test="one-ink"] .brand-stage { background: var(--brand-paper); color: var(--brand-ink); }
@@ -83,7 +94,7 @@
   65%, 100% { opacity: 1; transform: none; }
 }
 
-.brand-downloads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 24px; }
+.brand-downloads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
 .brand-download { padding: 20px; }
 .brand-download h4 { font-size: 16px; font-weight: 500; margin-bottom: 14px; }
 .brand-download-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
@@ -122,7 +133,10 @@
 @media (max-width: 560px) {
   .brand-tiers, .brand-tests, .brand-palettes { grid-template-columns: 1fr; }
   .brand-motion .brand-lockup { --u: 2.2px !important; }
-  .brand-scale-row { gap: 24px; }
+  .brand-scale { grid-template-columns: 1fr; }
+  .brand-scale-side { grid-template-rows: auto; border-left: 0; border-top: 1px solid hsl(var(--line)); }
+  .brand-scale-row { padding: 28px 16px 24px; }
+  .brand-scale-row[data-row="lockups"] { grid-template-columns: 1fr; gap: 28px; }
   .brand-formats a { padding: 0 8px; letter-spacing: .04em; }
 }
 
