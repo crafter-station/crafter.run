@@ -6,22 +6,32 @@ import { ThemeSwitcher } from "@/components/theme-switcher"
 import type { Locale } from "@/lib/i18n"
 import { stationCopy } from "@/lib/station-copy"
 import fontVersions from "@/lib/font-versions.json"
+import { brandPalette } from "@/lib/brand"
 
 export function DesignSystemGuide({ locale }: { locale: Locale }) {
   const t = stationCopy[locale]
-  const swatches = [
-    { name: "Station / Soft", className: "bg-brand-soft text-[#20221d]", value: "#F8E9A4" },
-    { name: "Station / Signal", className: "bg-brand text-[#20221d]", value: "#FFC107" },
-    { name: "Canvas", className: "bg-background text-foreground", value: "background" },
-    { name: "Surface", className: "bg-card text-card-foreground", value: "card" },
-    { name: "Ink", className: "bg-foreground text-background", value: "foreground" },
+  const palettes = [
+    { id: "light", name: t.light, colors: brandPalette.light },
+    { id: "dark", name: t.dark, colors: brandPalette.dark },
   ]
   return (
     <section className="station-section station-brand-guide" id="system">
       <div className="station-section-heading"><div><p className="station-eyebrow">Crafter / Design system</p><h2>{t.guide}</h2></div><ThemeSwitcher locale={locale} label={`${t.light} / ${t.dark} / ${t.system}`} className="min-h-11 rounded border border-line px-4" /></div>
       <p className="max-w-2xl text-muted-foreground leading-7">{t.guideIntro}</p>
       <h3 className="mt-12 text-xl">01 / {t.palette}</h3>
-      <div className="station-guide-grid">{swatches.map((swatch) => <div key={swatch.name} className={`station-swatch ${swatch.className}`}><span>{swatch.name}</span><span>{swatch.value}</span></div>)}</div>
+      <div className="brand-palettes">
+        {palettes.map((palette) => (
+          <div key={palette.name} className="brand-palette" data-theme-preview={palette.id} style={{ background: palette.colors.paper, color: palette.colors.ink }}>
+            <p>{palette.name}</p>
+            <ul>
+              {Object.entries(palette.colors).map(([token, value]) => (
+                <li key={token}><span style={{ background: value }} /><span>{token}</span><span>{value}</span></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p className="brand-signal"><span />Signal {brandPalette.signal}</p>
       <h3 id="typography" className="mt-12 text-xl">02 / {t.typography}</h3>
       <div className="station-guide-specimen">
         <p className="font-display text-4xl tracking-tight md:text-6xl">Craft. Ship. Repeat.</p>
