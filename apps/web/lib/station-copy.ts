@@ -2,7 +2,7 @@
 export const stationCopy = {
   en: {
     skip: "Skip to content", home: "Station", docs: "Documentation", more: "Explore Crafter", moreMenu: "More", visualSystem: "Design system",
-    close: "Close menu", built: "Built in the open", join: "Come build with us",
+    close: "Close menu", built: "Built in the open", builders: "1,000+ builders", nonProfit: "Non-profit", place: "Lima, Peru", ownType: "We drew our own typeface", join: "Come build with us",
     nextEvent: "Next gathering", seeYouSoon: "See you\nsoon.", viewCalendar: "See the calendar", joinEvent: "Join us", social: "Find us elsewhere",
     note: "Good things are made together.", family: "One family. Many ways to make.",
     caption: "An idea is a beginning. Together is Crafter.",
@@ -20,7 +20,7 @@ export const stationCopy = {
   },
   es: {
     skip: "Saltar al contenido", home: "Station", docs: "Documentación", more: "Explorar Crafter", moreMenu: "Más", visualSystem: "Sistema visual",
-    close: "Cerrar menú", built: "Hecho en abierto", join: "Ven a construir",
+    close: "Cerrar menú", built: "Hecho en abierto", builders: "+1.000 builders", nonProfit: "Sin fines de lucro", place: "Lima, Perú", ownType: "Dibujamos nuestra propia tipografía", join: "Ven a construir",
     nextEvent: "Próximo encuentro", seeYouSoon: "Nos vemos\npronto.", viewCalendar: "Ver calendario", joinEvent: "Quiero ir", social: "Encuéntranos también en",
     note: "Las cosas buenas se hacen en compañía.", family: "Una familia. Muchas formas de hacer.",
     caption: "Una idea es un comienzo. Hacerla juntos es Crafter.",
@@ -38,7 +38,7 @@ export const stationCopy = {
   },
   pt: {
     skip: "Ir para o conteúdo", home: "Station", docs: "Documentação", more: "Explorar Crafter", moreMenu: "Mais", visualSystem: "Sistema visual",
-    close: "Fechar menu", built: "Feito em aberto", join: "Venha construir",
+    close: "Fechar menu", built: "Feito em aberto", builders: "+1.000 builders", nonProfit: "Sem fins lucrativos", place: "Lima, Peru", ownType: "Desenhamos nossa própria fonte", join: "Venha construir",
     nextEvent: "Próximo encontro", seeYouSoon: "Até\nbreve.", viewCalendar: "Ver calendário", joinEvent: "Quero ir", social: "Encontre-nos também em",
     note: "Coisas boas são feitas em companhia.", family: "Uma família. Muitas formas de criar.",
     caption: "Uma ideia é o começo. Criar juntos é Crafter.",
@@ -56,7 +56,7 @@ export const stationCopy = {
   },
   zh: {
     skip: "跳转到内容", home: "Station", docs: "文档", more: "探索 Crafter", moreMenu: "更多", visualSystem: "设计系统",
-    close: "关闭菜单", built: "开放共建", join: "一起创造",
+    close: "关闭菜单", built: "开放共建", builders: "1,000+ 位开发者", nonProfit: "非营利组织", place: "秘鲁利马", ownType: "我们设计了自己的字体", join: "一起创造",
     nextEvent: "下一场聚会", seeYouSoon: "期待\n相见。", viewCalendar: "查看日历", joinEvent: "报名参加", social: "在这些平台找到我们",
     note: "美好的事物，一起创造。", family: "一个大家庭，多种创造方式。",
     caption: "想法是起点。携手创造，就是 Crafter。",
@@ -74,7 +74,7 @@ export const stationCopy = {
   },
   ja: {
     skip: "コンテンツへ", home: "Station", docs: "ドキュメント", more: "Crafter を探索", moreMenu: "その他", visualSystem: "デザインシステム",
-    close: "メニューを閉じる", built: "オープンにつくる", join: "一緒につくろう",
+    close: "メニューを閉じる", built: "オープンにつくる", builders: "1,000+ 人のビルダー", nonProfit: "非営利団体", place: "ペルー・リマ", ownType: "書体も自分たちでつくりました", join: "一緒につくろう",
     nextEvent: "次のイベント", seeYouSoon: "また\n会おう。", viewCalendar: "カレンダーを見る", joinEvent: "参加する", social: "ソーシャルメディア",
     note: "いいものは、一緒につくる。", family: "ひとつの家族。つくり方は、いろいろ。",
     caption: "アイデアは始まり。一緒につくるのが Crafter。",

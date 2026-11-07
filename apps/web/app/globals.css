@@ -4,6 +4,7 @@
 @import 'fumadocs-ui/css/preset.css';
 @import './station.css';
 @import './station-home.css';
+@import './station-hero.css';
 @import './station-oss.css';
 @import './station-network.css';
 @import './station-journal.css';
