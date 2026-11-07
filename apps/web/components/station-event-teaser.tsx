@@ -28,7 +28,7 @@ export async function StationEventTeaser({ locale }: { locale: Locale }) {
     : null
 
   return (
-    <a className="station-event-stamp" href={event?.url ?? HACK0_CALENDAR_URL}
+    <a className="station-event-stamp" href={event?.href ?? HACK0_CALENDAR_URL}
       data-pending={!event || undefined}
       target="_blank" rel="noopener noreferrer"
       aria-label={event
