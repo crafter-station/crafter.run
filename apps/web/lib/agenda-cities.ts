@@ -1,6 +1,6 @@
 // Pixel skylines for the cities hack0 travels to. Grid is 28×12:
 // "#" ink, "+" half tone, "~" water, "." empty. Original drawings, not maps.
-export type AgendaCityKey = "lim" | "aqp" | "bog" | "mde" | "baq" | "bue" | "sao" | "rio" | "mex" | "mad" | "other"
+export type AgendaCityKey = "lim" | "aqp" | "bog" | "mde" | "baq" | "bue" | "sao" | "rio" | "mex" | "mad" | "cus" | "other"
 
 export interface AgendaCity { key: AgendaCityKey; code: string; name: string }
 
@@ -145,6 +145,20 @@ export const agendaCityArt: Record<AgendaCityKey, string[]> = {
     "+++++++++#########++++++++++",
     "############################",
   ],
+  cus: [
+    "....................++......",
+    "...................++++.....",
+    "....#.....#.......++++++....",
+    "...###...###.....++++++++...",
+    "...#+#...#+#....++++++++++..",
+    "...###...###...++++++++++++.",
+    "...#+#####+#..++++++++++++++",
+    "..##########.+++++++++++++++",
+    "..#+#+##+#+#++++++++++++++++",
+    "..####.#####++++++++++++++++",
+    "+.####.#####++#.#.#.#.#.#.++",
+    "############################",
+  ],
   other: [
     "............................",
     "............................",
@@ -164,6 +178,7 @@ export const agendaCityArt: Record<AgendaCityKey, string[]> = {
 const cities: Array<AgendaCity & { match: RegExp }> = [
   // Lima postcodes first: "Av. Arequipa 265, Lima 15046" is Lima, not Arequipa.
   { key: "lim", code: "LIM", name: "Lima", match: /\blima\b|\b15\d{3}\b|barranco|miraflores(, peru| 15)|san isidro|la molina|surco|magdalena|san miguel|jesus maria|lince/ },
+  { key: "cus", code: "CUS", name: "Cusco", match: /cusco|cuzco/ },
   { key: "aqp", code: "AQP", name: "Arequipa", match: /arequipa|yanahuara|\b04\d{3}\b/ },
   { key: "bog", code: "BOG", name: "Bogotá", match: /bogota|usaquen/ },
   { key: "mde", code: "MDE", name: "Medellín", match: /medellin/ },
@@ -175,6 +190,12 @@ const cities: Array<AgendaCity & { match: RegExp }> = [
   // "Av. Quito y Madrid" is in Ecuador; only Spanish addresses count.
   { key: "mad", code: "MAD", name: "Madrid", match: /madrid.*(spain|espana)|\b28\d{3} madrid/ },
 ]
+
+// Approximate longitudes, so the skyline reads west to east like a map.
+export const cityLongitude: Partial<Record<AgendaCityKey, number>> = {
+  mex: -99.1, lim: -77, mde: -75.6, baq: -74.8, bog: -74.1, cus: -72, aqp: -71.5,
+  bue: -58.4, sao: -46.6, rio: -43.2, mad: -3.7,
+}
 
 export function agendaCity(location: string): AgendaCity | null {
   if (!location) return null

@@ -1,14 +1,15 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { AgendaCalendar } from "@/components/agenda-calendar"
+import type { HorizonCity } from "@/components/agenda-horizon"
 import { CrafterStationLogo } from "@/components/crafter-station-logo"
 import { Hack0Wordmark } from "@/components/hack0-mark"
 import { JsonLd } from "@/components/json-ld"
-import { agendaCity, type AgendaCity } from "@/lib/agenda-cities"
+import { agendaCity, cityLongitude, type AgendaCity } from "@/lib/agenda-cities"
 import { agendaCopy } from "@/lib/agenda-copy"
 import { accessEventDay, accessEvents } from "@/lib/access-events"
 import { fetchHack0Calendar } from "@/lib/hack0-calendar"
-import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, HACK0_LUMA_URL } from "@/lib/hack0-calendar-data"
+import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, HACK0_LUMA_URL, hack0DateParts, partitionHack0Events } from "@/lib/hack0-calendar-data"
 import { isLocale, locales, withLocale } from "@/lib/i18n"
 import { participationCopy } from "@/lib/participation-copy"
 import { buildMetadata } from "@/lib/seo"
@@ -44,6 +45,15 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
     visited.set(city.key, { ...city, count: (visited.get(city.key)?.count ?? 0) + 1 })
   }
   const cities = [...visited.values()].sort((a, b) => b.count - a.count)
+  const next = partitionHack0Events(calendar.events, now).upcoming[0]
+  const nextCity = next ? agendaCity(next.location) : null
+  const nextDate = next ? hack0DateParts(next, lang) : null
+  const horizon: HorizonCity[] = [...cities]
+  if (nextCity && !visited.has(nextCity.key)) horizon.push({ ...nextCity, count: 0 })
+  horizon.sort((a, b) => (cityLongitude[a.key] ?? 0) - (cityLongitude[b.key] ?? 0))
+  // Emoji read as decoration in the list but swamp a 112px headline.
+  const nextTitle = next ? next.title.replace(/[\p{Extended_Pictographic}\u{FE0F}\u{200D}]/gu, "").replace(/\s+/g, " ").trim() : ""
+  const titleSize = !next ? "m" : nextTitle.length > 44 ? "s" : nextTitle.length > 24 ? "m" : "l"
   const subscriptionLinks = [
     { label: "Google", href: `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(HACK0_ICAL_URL)}` },
     { label: "Apple", href: HACK0_ICAL_URL.replace("https:", "webcal:") },
@@ -65,20 +75,23 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           <span className="ev-times" aria-hidden="true">×</span>
           <a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener"><Hack0Wordmark /></a>
         </p>
-        <h1>{t.title[0]} {withWordmark(t.title[1])}</h1>
-        <p className="ev-intro">{t.description}</p>
-        <div className="ev-actions">
-          <a className="ev-primary" href="#calendar">{t.explore}</a>
-          <a className="ev-link" href={HACK0_CALENDAR_URL} target="_blank" rel="noopener">{t.follow} ↗</a>
+        <div className="ev-hero-main">
+          <p className="ev-kicker">{next ? (Date.parse(next.startAt) <= now ? t.happening : t.next) : t.eyebrow}</p>
+          <h1 data-size={titleSize}><span className="sr-only">{t.name}. </span>{next ? nextTitle : <>{t.title[0]} {withWordmark(t.title[1])}</>}</h1>
+          <div className="ev-hero-row">
+            {next && nextDate ? <p className="ev-data">
+              <time dateTime={next.startAt}>{nextDate.full.toUpperCase()}</time>
+              <span>{nextDate.time ?? t.allDay}</span>
+              {nextCity && <span>{nextCity.code}</span>}
+              {next.host && <span>{next.host}</span>}
+            </p> : <p className="ev-data">{t.description}</p>}
+            <a className="ev-primary" href={next?.href ?? HACK0_CALENDAR_URL} target="_blank" rel="noopener">{next ? t.details : t.follow} ↗</a>
+          </div>
         </div>
       </header>
 
-      <AgendaCalendar events={calendar.events} initialNow={now} available={calendar.status === "available"} locale={lang} t={t} />
+      <AgendaCalendar events={calendar.events} initialNow={now} available={calendar.status === "available"} locale={lang} t={t} cities={horizon} nextCity={nextCity?.key ?? null} />
 
-      {cities.length > 0 && <p className="ev-cities">
-        <span>{t.citiesLabel}</span>
-        {cities.map(city => <span key={city.key} title={city.name}>{city.code}<sup>{city.count}</sup></span>)}
-      </p>}
 
       <footer className="ev-foot">
         <div>
