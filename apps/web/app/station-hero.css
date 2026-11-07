@@ -1,0 +1,65 @@
+/* Landing hero as a type specimen: the headline is Crafter Sans, and two of its
+   letters show the drawing behind them. One warm light on the first glyph; the
+   headline stands on an annotated baseline. */
+.hero-specimen { position: relative; isolation: isolate; justify-content: center; min-height: min(900px, 100svh); padding-block: 56px 48px; }
+.hero-light { position: absolute; z-index: -1; left: -14%; top: 8%; width: 880px; height: 880px; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, hsl(var(--accent) / .16), transparent 62%); }
+.dark .hero-light { background: radial-gradient(circle, #f4d56d2e, transparent 60%); }
+.hero-eyebrow { display: flex; flex-wrap: wrap; gap: 6px 26px; font: 500 13px var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+.hero-specimen h1 { --lh: .9; display: flex; flex-direction: column; margin-top: 28px; font-size: clamp(72px, 11.6vw, 168px); line-height: var(--lh); letter-spacing: -.06em; white-space: normal; }
+.hero-line { display: block; white-space: nowrap; }
+.hero-line-gold { color: hsl(var(--accent)); }
+.dark .hero-specimen .hero-line-gold { color: #f8e9a4; }
+.hero-drawn { position: relative; display: inline-block; color: transparent; }
+/* The line box is shorter than the font's ascent-to-descent box, so its top sits half the difference above the span. */
+.hero-drawn > svg { position: absolute; left: 0; top: calc((var(--lh) * 1em - var(--glyph-h)) / 2); overflow: visible; }
+.hero-drawn-outline { fill: none; stroke: hsl(var(--accent)); stroke-width: 11; stroke-dasharray: 1; stroke-dashoffset: 0; transition: fill 240ms ease-out; }
+.dark .hero-drawn-outline { stroke: #f4d56d; }
+.hero-drawn-skeleton { opacity: 1; transition: opacity 240ms ease-out; }
+.hero-drawn-skeleton path { stroke: hsl(var(--foreground) / .55); stroke-width: 4; fill: none; }
+.hero-drawn-skeleton circle { fill: hsl(var(--background)); stroke: hsl(var(--foreground) / .6); stroke-width: 3; }
+.hero-drawn-skeleton rect { fill: hsl(var(--accent)); }
+.dark .hero-drawn-skeleton rect { fill: #f4d56d; }
+@media (hover: hover) {
+  .hero-drawn:hover .hero-drawn-outline { fill: hsl(var(--foreground)); }
+  .hero-drawn:hover .hero-drawn-skeleton { opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-drawn-outline { animation: hero-draw 1100ms cubic-bezier(.4, 0, .2, 1) both; animation-delay: var(--d); }
+  .hero-drawn-skeleton { animation: hero-fade 400ms ease-out both; animation-delay: calc(var(--d) + 900ms); }
+}
+@keyframes hero-draw { from { stroke-dashoffset: 1; } }
+@keyframes hero-fade { from { opacity: 0; } }
+.hero-baseline { position: relative; margin-top: 10px; height: 1px; background: hsl(var(--foreground) / .28); }
+.hero-baseline > span { position: absolute; right: 0; top: 8px; font: 500 11px var(--font-label); letter-spacing: .06em; color: hsl(var(--muted-foreground)); }
+.hero-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px 48px; margin-top: 40px; }
+.hero-specimen .station-masthead-description { margin-top: 0; max-width: 440px; font-size: 20px; text-wrap: pretty; }
+.hero-specimen .station-masthead-actions { margin-top: 0; justify-content: flex-end; }
+@media (max-width: 760px) {
+  .hero-specimen { min-height: 0; padding-block: 40px 40px; }
+  .hero-specimen h1 { --lh: .92; font-size: clamp(64px, 19vw, 84px); }
+  .hero-light { width: 420px; height: 420px; left: -30%; }
+  .hero-baseline > span { display: none; }
+  .hero-foot { flex-direction: column; align-items: stretch; margin-top: 28px; }
+  .hero-specimen .station-masthead-description { font-size: 17px; }
+  .hero-specimen .station-masthead-actions { flex-direction: column; align-items: stretch; }
+  .hero-specimen .station-masthead-cta { max-width: none; width: 100%; }
+}
+
+/* Specimen panel: the face's lowercase and figures, then what we ship, as sample text. */
+.hero-specimen { display: grid; grid-template-columns: minmax(0, 1fr) 360px; column-gap: 48px; align-content: center; }
+.hero-specimen > :not(.hero-panel, .hero-light) { grid-column: 1 / -1; }
+.hero-specimen > h1 { grid-column: 1; grid-row: 2; }
+.hero-panel { grid-column: 2; grid-row: 2; align-self: end; display: grid; gap: 18px; padding-bottom: 8px; }
+.hero-panel-label { display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px solid hsl(var(--foreground) / .18); font: 500 11px var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+.hero-panel-grid { display: grid; grid-template-columns: repeat(6, 1fr); row-gap: 2px; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 40px; line-height: 1.15; color: hsl(var(--foreground) / .45); }
+.hero-panel-grid > span { transition: color 160ms ease-out; }
+@media (hover: hover) { .hero-panel-grid > span:hover { color: hsl(var(--accent)); } .dark .hero-panel-grid > span:hover { color: #f8e9a4; } }
+.hero-panel-repos { display: grid; list-style: none; padding: 0; margin: 0; border-top: 1px solid hsl(var(--foreground) / .18); }
+.hero-panel-repos a { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; min-height: 40px; padding-top: 8px; border-bottom: 1px solid hsl(var(--foreground) / .1); font-family: var(--font-crafter), sans-serif; font-size: 20px; letter-spacing: -.02em; color: hsl(var(--accent)); }
+.dark .hero-panel-repos a { color: #f8e9a4; }
+.hero-panel-repos a > span:last-child { font: 500 12px var(--font-label); letter-spacing: .04em; color: hsl(var(--muted-foreground)); }
+@media (hover: hover) { .hero-panel-repos a:hover > span:first-child { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; } }
+@media (max-width: 1099px) {
+  .hero-specimen { display: flex; }
+  .hero-panel { display: none; }
+}

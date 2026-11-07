@@ -1,10 +1,8 @@
 /* Station home: one centered frame, varied editorial density. */
 .station-home {
-  --atmosphere-ink: #78683d;
   position: relative;
   isolation: isolate;
 }
-.dark .station-home { --atmosphere-ink: #dfd1a0; }
 .station-shell-home {
   position: relative;
   isolation: isolate;
@@ -77,13 +75,6 @@
 .station-masthead-cta:hover { background: hsl(var(--muted)); border-color: hsl(var(--foreground) / .45); }
 .station-masthead-cta-primary { background: hsl(var(--primary)); border-color: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
 .station-masthead-cta-primary:hover { background: hsl(var(--primary) / .88); border-color: hsl(var(--primary) / .88); }
-.station-atmosphere { position: absolute; z-index: -1; inset: -80px 0 -170px; overflow: hidden; pointer-events: none; color: var(--atmosphere-ink); mask-image: linear-gradient(to bottom, transparent, #000 200px, #000 72%, transparent); }
-.station-atmosphere-light { position: absolute; inset: 0; background: radial-gradient(ellipse 43% 45% at 50% 35%, #c9ad5519, transparent 75%); }
-.station-atmosphere-contours, .station-atmosphere-canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.station-atmosphere-contours { opacity: .2; mask-image: radial-gradient(ellipse 30% 15% at 50% 48%, transparent, #000 150%); transition: opacity 1s; }
-.station-atmosphere-canvas { display: block; opacity: 0; color: var(--atmosphere-ink); transition: opacity 1.2s; }
-.station-atmosphere[data-renderer="gpu"] .station-atmosphere-canvas { opacity: 1; }
-.station-atmosphere[data-renderer="gpu"] .station-atmosphere-contours { opacity: .05; }
 
 /* Open source is an index, not another masthead. */
 .home-source { padding-block: 28px 48px; }
