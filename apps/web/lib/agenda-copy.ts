@@ -10,11 +10,12 @@ export type AgendaCopy = {
   subscribe: string; subscribeBody: string; ical: string; archive: string
   invite: string; inviteBody: string; propose: string; collaborate: string
   passport: string; passportTitle: string; passportBody: string; stamps: string
+  subscribeLabel: string; crafterLabel: string; submitLabel: string; citiesLabel: string
 }
 
 export const agendaCopy: Record<Locale, AgendaCopy> = {
   es: {
-    name: "Agenda hack0", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["Nos vemos", "en hack0."],
+    name: "Eventos hack0", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["Nos vemos", "en hack0."],
     description: "Meetups, hackathons y buenas conversaciones. La agenda que compartimos para que el próximo encuentro esté un poco más cerca.",
     explore: "Explorar la agenda", follow: "Ver todo en hack0.dev", next: "Próximo en la agenda", happening: "Está pasando", details: "Ver evento",
     upcoming: "Próximos", past: "Archivo", all: "Todos", source: "Del calendario público de hack0",
@@ -27,9 +28,10 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ical: "Feed iCal", invite: "¿Tienes algo en mente?", inviteBody: "El calendario también reúne eventos de la comunidad. Propón el tuyo desde hack0.",
     propose: "Proponer un evento en Luma", collaborate: "Colabora con Crafter",
     passport: "PASAPORTE HACK0", passportTitle: "Ciudades donde ya nos vimos.", passportBody: "Cada sello es una ciudad del calendario, contada desde hack0. La próxima puede ser la tuya.", stamps: "{count} ciudades",
+    subscribeLabel: "Suscribirse", crafterLabel: "Encuentros de Crafter", submitLabel: "¿Organizas algo?", citiesLabel: "Ciudades",
   },
   en: {
-    name: "hack0 Calendar", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["See you", "at hack0."],
+    name: "hack0 Events", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["See you", "at hack0."],
     description: "Meetups, hackathons, and good conversations. Our shared calendar brings the next gathering a little closer.",
     explore: "Explore the calendar", follow: "See everything on hack0.dev", next: "Next on the calendar", happening: "Happening now", details: "View event",
     upcoming: "Upcoming", past: "Archive", all: "All", source: "From the public hack0 calendar",
@@ -42,9 +44,10 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ical: "iCal feed", invite: "Have something in mind?", inviteBody: "The calendar also brings together community events. Submit yours through hack0.",
     propose: "Submit an event on Luma", collaborate: "Collaborate with Crafter",
     passport: "HACK0 PASSPORT", passportTitle: "Cities where we have already met.", passportBody: "Each stamp is a city on the calendar, counted from hack0. The next one could be yours.", stamps: "{count} cities",
+    subscribeLabel: "Subscribe", crafterLabel: "Crafter gatherings", submitLabel: "Hosting something?", citiesLabel: "Cities",
   },
   pt: {
-    name: "Agenda hack0", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["Nos vemos", "no hack0."],
+    name: "Eventos hack0", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["Nos vemos", "no hack0."],
     description: "Meetups, hackathons e boas conversas. Uma agenda compartilhada para deixar o próximo encontro um pouco mais perto.",
     explore: "Explorar a agenda", follow: "Ver tudo no hack0.dev", next: "Próximo na agenda", happening: "Acontecendo agora", details: "Ver evento",
     upcoming: "Próximos", past: "Arquivo", all: "Todos", source: "Do calendário público do hack0",
@@ -57,9 +60,10 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ical: "Feed iCal", invite: "Tem algo em mente?", inviteBody: "O calendário também reúne eventos da comunidade. Envie o seu pelo hack0.",
     propose: "Propor um evento no Luma", collaborate: "Colabore com a Crafter",
     passport: "PASSAPORTE HACK0", passportTitle: "Cidades onde já nos encontramos.", passportBody: "Cada carimbo é uma cidade do calendário, contada a partir do hack0. A próxima pode ser a sua.", stamps: "{count} cidades",
+    subscribeLabel: "Assinar", crafterLabel: "Encontros da Crafter", submitLabel: "Vai organizar algo?", citiesLabel: "Cidades",
   },
   zh: {
-    name: "hack0 活动日历", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["相聚", "在 hack0。"],
+    name: "hack0 活动", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["相聚", "在 hack0。"],
     description: "聚会、黑客松和有趣的交流。通过共享日历，让下一次相聚离我们更近。",
     explore: "探索日历", follow: "在 hack0.dev 查看全部", next: "下一场活动", happening: "正在进行", details: "查看活动",
     upcoming: "即将举行", past: "往期", all: "全部", source: "来自 hack0 公开日历",
@@ -72,9 +76,10 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ical: "iCal 订阅", invite: "有活动想法？", inviteBody: "日历也收录社区活动。通过 hack0 提交你的活动。",
     propose: "在 Luma 提交活动", collaborate: "与 Crafter 合作",
     passport: "HACK0 护照", passportTitle: "我们已经相聚过的城市。", passportBody: "每个印章都是日历上的一座城市，数据来自 hack0。下一座也许就是你的城市。", stamps: "{count} 座城市",
+    subscribeLabel: "订阅", crafterLabel: "Crafter 聚会", submitLabel: "想办活动？", citiesLabel: "城市",
   },
   ja: {
-    name: "hack0 カレンダー", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["会おう、", "hack0 で。"],
+    name: "hack0 イベント", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["会おう、", "hack0 で。"],
     description: "ミートアップ、ハッカソン、楽しい会話。みんなのカレンダーで、次の集まりをもっと身近に。",
     explore: "予定を探す", follow: "hack0.dev ですべて見る", next: "次の予定", happening: "開催中", details: "イベントを見る",
     upcoming: "開催予定", past: "アーカイブ", all: "すべて", source: "hack0 の公開カレンダーから",
@@ -87,5 +92,6 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ical: "iCal フィード", invite: "何か企画していますか？", inviteBody: "コミュニティのイベントも掲載しています。hack0 からお送りください。",
     propose: "Luma でイベントを提案", collaborate: "Crafter と協力する",
     passport: "HACK0 パスポート", passportTitle: "これまでに集まった都市。", passportBody: "スタンプはカレンダーに載った都市で、hack0 から数えています。次はあなたの街かもしれません。", stamps: "{count} 都市",
+    subscribeLabel: "購読", crafterLabel: "Crafter の集まり", submitLabel: "何か開催しますか？", citiesLabel: "都市",
   },
 }

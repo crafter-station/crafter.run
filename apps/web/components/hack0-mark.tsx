@@ -1,5 +1,5 @@
 /** hack0 mark: a stadium 0 broken by a slash. `bg` must match the surface behind it. */
-export function Hack0Mark({ size, bg = "var(--agenda-bg)", className }: { size?: number | string; bg?: string; className?: string }) {
+export function Hack0Mark({ size, bg = "hsl(var(--background))", className }: { size?: number | string; bg?: string; className?: string }) {
   return (
     <svg viewBox="0 0 64 64" width={size} height={size} className={className} aria-hidden="true">
       <rect x="17" y="6" width="30" height="52" rx="15" fill="none" stroke="currentColor" strokeWidth="8" />
