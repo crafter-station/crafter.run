@@ -1,11 +1,12 @@
-/* Landing hero: the name is the subject, the knot is the scene, proof sits at the fold. */
+/* Landing hero: the name is the subject, the knot is the scene, proof sits at the fold.
+   The scene is a WebGPU halftone of the knot; the outline knot is the fallback. */
+.hero-field { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 900ms ease-out; pointer-events: none; }
+.hero-field[data-ready] { opacity: 1; }
+.hero-field[data-ready] + .hero-knot { display: none; }
 .hero-name { position: relative; isolation: isolate; overflow: hidden; justify-content: center; min-height: min(900px, 100svh); padding-block: 72px 40px; }
 .hero-knot { position: absolute; z-index: -1; top: -56%; right: -22%; width: min(1100px, 82vw); height: auto; pointer-events: none; }
 .hero-knot path { fill: none; stroke: hsl(var(--accent)); stroke-width: 1.2; vector-effect: non-scaling-stroke; opacity: .35; stroke-dasharray: 1; stroke-dashoffset: 0; }
 .dark .hero-knot path { stroke: #f4d56d; opacity: .2; }
-/* One warm pool behind the name. */
-.hero-light { position: absolute; z-index: -1; left: 2%; top: 4%; width: 920px; height: 920px; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, #f4d56d38, transparent 55%); }
-.dark .hero-light { background: radial-gradient(circle, #f4d56d21, transparent 55%); }
 .hero-eyebrow { display: flex; flex-wrap: wrap; gap: 6px 26px; font: 500 13px var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
 .hero-name h1 { margin-top: 24px; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(64px, 9.6vw, 140px); line-height: .92; letter-spacing: -.05em; white-space: nowrap; -webkit-text-stroke: .012em currentColor; paint-order: stroke fill; }
 .hero-claim { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px 48px; margin-top: 32px; }
@@ -48,7 +49,6 @@
   .hero-name { min-height: 0; padding-block: 40px 32px; }
   .hero-name h1 { white-space: normal; font-size: clamp(56px, 17vw, 76px); line-height: .9; }
   .hero-knot { top: -10%; right: -70%; width: 160vw; }
-  .hero-light { width: 420px; height: 420px; left: -30%; }
   .hero-claim > p { font-size: 17px; }
   .hero-actions { flex-direction: column; }
   .hero-cta, .hero-cta-ghost { justify-content: center; }

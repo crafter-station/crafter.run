@@ -10,6 +10,7 @@ import { getOssRepos } from "@/lib/oss"
 import { fetchHack0Calendar } from "@/lib/hack0-calendar"
 import { partitionHack0Events } from "@/lib/hack0-calendar-data"
 import { BRAND_MARK_PATH } from "@/lib/brand"
+import { HeroField } from "@/components/hero-field"
 import fontVersions from "@/lib/font-versions.json"
 
 export async function HeroContent({
@@ -27,8 +28,8 @@ export async function HeroContent({
   const next = partitionHack0Events(calendar.events).upcoming[0]
   return (
       <section className="station-masthead hero-name" aria-labelledby="station-title">
+        <HeroField />
         <svg className="hero-knot" viewBox="-8 -8 273 273" aria-hidden="true"><path d={BRAND_MARK_PATH} pathLength={1} /></svg>
-        <div className="hero-light" aria-hidden="true" />
         <p className="hero-eyebrow"><span>{t.nonProfit}</span><span>{t.place}</span><span>{t.builders}</span></p>
         <h1 id="station-title"><span className="sr-only">{`${siteConfig.tagline[locale]}. `}</span>crafter station</h1>
         <div className="hero-claim">
