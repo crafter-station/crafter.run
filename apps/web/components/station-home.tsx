@@ -1,7 +1,10 @@
 import Link from "next/link"
 import { type Locale, withLocale } from "@/lib/i18n"
 import { homeCopy } from "@/lib/home-copy"
-import { featuredTeamMembers, teamMembers } from "@/lib/team"
+import { activeTeamMembers, featuredTeamMembers, teamMembers } from "@/lib/team"
+import { HomePortraits } from "@/components/home-portraits"
+
+const portrait = (person: { username: string; name: string; image: string }) => ({ username: person.username, name: person.name, image: person.image })
 import { getIndexPosts } from "@/lib/blog"
 
 // Original decorative drawings for Station's editorial spread.
@@ -69,17 +72,7 @@ export function StationPeople({ locale }: { locale: Locale }) {
         </defs>
       </svg>
       <div className="home-people-heading"><h2 id="home-people-title">{t.people}</h2><span className="home-handwritten" aria-hidden="true">hello, world :)</span></div>
-      <div className="home-portraits">
-        {featuredTeamMembers.map((person,i) => <Link href={withLocale(`/team/${person.username}`,locale)} key={person.username} className="home-portrait">
-          <div className="home-portrait-image">
-            <div className="home-portrait-cutout" style={{ clipPath: `url(#portrait-crop-${i})` }}>
-              <span className="home-portrait-plate" style={{ clipPath: `url(#portrait-shape-${i})` }} aria-hidden="true" />
-              <img src={person.image} alt="" width="768" height="768" loading="lazy" />
-            </div>
-          </div>
-          <div className="home-portrait-caption"><span>{person.name}</span><span className="station-label">0{i+1}</span></div>
-        </Link>)}
-      </div>
+      <HomePortraits initial={featuredTeamMembers.map(portrait)} pool={activeTeamMembers.filter(person => person.image).map(portrait)} locale={locale} />
       <div className="home-people-footer">
         <p>{t.peopleBody}</p>
         <div>

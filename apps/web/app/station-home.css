@@ -127,7 +127,9 @@
 .home-handwritten { font-family: var(--font-display); color: hsl(var(--accent)); font-size: 18px; transform: rotate(-8deg); }
 .home-portrait-defs { position: absolute; pointer-events: none; }
 .home-portraits { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 20px; padding: 8px 4px 20px; }
-.home-portrait { min-width: 0; transition: transform 220ms; }
+.home-portrait { min-width: 0; transition: transform 220ms, opacity 160ms ease-out; }
+.home-portraits[data-swapping] .home-portrait { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .home-portrait { transition: none; } }
 .home-portrait:nth-child(1) { transform: rotate(-3deg); }
 .home-portrait:nth-child(2) { transform: rotate(2deg); margin-top: 20px; }
 .home-portrait:nth-child(3) { transform: rotate(-2deg); margin-top: -8px; }
