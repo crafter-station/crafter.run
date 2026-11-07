@@ -1,6 +1,5 @@
-import { StationPageHero } from "@/components/station-page-hero"
 import { DesignSystemGuide } from "@/components/design-system-guide"
-import { LogoSystem } from "@/components/brand/logo-system"
+import { BrandHero, LogoSystem } from "@/components/brand/logo-system"
 import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 
@@ -31,12 +30,7 @@ export default async function Page({
     <>
 
       <main className="flex-1">
-        <StationPageHero
-          eyebrow={t("eyebrow")}
-          title={t("title")}
-          description={t("description")}
-          art="brand"
-        />
+        <BrandHero locale={lang} eyebrow={t("eyebrow")} title={t("title")} description={t("description")} />
 
         <SectionGap />
         <LogoSystem locale={lang} />

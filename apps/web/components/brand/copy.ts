@@ -33,6 +33,9 @@ export type BrandCopy = {
   wordmark: string
   onLight: string
   onDark: string
+  download: string
+  allFormats: string
+  primarySpec: string
 }
 
 export const brandCopy: Record<Locale, BrandCopy> = {
@@ -65,6 +68,9 @@ export const brandCopy: Record<Locale, BrandCopy> = {
     wordmark: "Wordmark",
     onLight: "On light",
     onDark: "On dark",
+    download: "Download SVG",
+    allFormats: "All formats",
+    primarySpec: "Primary lockup / Crafter Sans Bucle 500 / mark 32, gap 10, type 21",
   },
   es: {
     eyebrow: "Crafter / Sistema de logo",
@@ -95,6 +101,9 @@ export const brandCopy: Record<Locale, BrandCopy> = {
     wordmark: "Wordmark",
     onLight: "Sobre claro",
     onDark: "Sobre oscuro",
+    download: "Descargar SVG",
+    allFormats: "Todos los formatos",
+    primarySpec: "Lockup principal / Crafter Sans Bucle 500 / mark 32, gap 10, texto 21",
   },
   pt: {
     eyebrow: "Crafter / Sistema de logo",
@@ -125,6 +134,9 @@ export const brandCopy: Record<Locale, BrandCopy> = {
     wordmark: "Wordmark",
     onLight: "Sobre claro",
     onDark: "Sobre escuro",
+    download: "Baixar SVG",
+    allFormats: "Todos os formatos",
+    primarySpec: "Lockup principal / Crafter Sans Bucle 500 / marca 32, espaço 10, texto 21",
   },
   zh: {
     eyebrow: "Crafter / 标志系统",
@@ -155,6 +167,9 @@ export const brandCopy: Record<Locale, BrandCopy> = {
     wordmark: "文字标志",
     onLight: "浅色背景",
     onDark: "深色背景",
+    download: "下载 SVG",
+    allFormats: "全部格式",
+    primarySpec: "主组合标志 / Crafter Sans Bucle 500 / 标志 32，间距 10，文字 21",
   },
   ja: {
     eyebrow: "Crafter / ロゴシステム",
@@ -185,5 +200,8 @@ export const brandCopy: Record<Locale, BrandCopy> = {
     wordmark: "ワードマーク",
     onLight: "明るい背景",
     onDark: "暗い背景",
+    download: "SVG をダウンロード",
+    allFormats: "すべての形式",
+    primarySpec: "メインロックアップ / Crafter Sans Bucle 500 / マーク 32、間隔 10、文字 21",
   },
 }

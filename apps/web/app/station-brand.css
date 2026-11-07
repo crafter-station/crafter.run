@@ -1,3 +1,30 @@
+/* /brand hero: the first viewport is the logo itself. */
+.brand-hero { display: flex; flex-direction: column; gap: 28px; min-height: 100svh; padding: 42px var(--station-gutter) 24px; }
+.brand-hero-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 460px); align-items: end; gap: 24px 48px; }
+.brand-hero h1 { margin-top: 18px; font-size: var(--station-type-page); line-height: 1.05; }
+.brand-hero-description { max-width: 560px; font-size: 18px; line-height: 1.6; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
+.brand-hero-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.brand-hero-cta { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border-radius: 8px; background: hsl(var(--foreground) / .07); font-size: 15px; transition: background-color 160ms ease-out, box-shadow 160ms ease-out, transform 120ms ease-out; }
+.brand-hero-cta svg { width: 16px; height: 16px; opacity: .7; transition: transform 200ms cubic-bezier(.2, .7, .2, 1), opacity 160ms ease-out; }
+.brand-hero-cta:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 2px; }
+.brand-hero-cta:active { transform: scale(.98); }
+/* Each hover stays inside its own level: solid dims, tonal deepens, ghost gains its edge. */
+.brand-hero-cta[data-tone="primary"] { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+@media (hover: hover) {
+  .brand-hero-cta[data-tone="primary"]:hover { background: hsl(var(--foreground) / .86); }
+  .brand-hero-cta:not([data-tone]):hover { background: hsl(var(--foreground) / .13); }
+  .brand-hero-cta[data-tone="ghost"]:hover { background: hsl(var(--foreground) / .04); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .45); }
+  .brand-hero-cta:hover svg { opacity: 1; transform: translateY(2px); }
+}
+.brand-hero-cta[data-tone="ghost"] { background: transparent; box-shadow: inset 0 0 0 1px hsl(var(--line)); }
+@media (prefers-reduced-motion: reduce) {
+  .brand-hero-cta, .brand-hero-cta svg { transition: none; }
+  .brand-hero-cta:active, .brand-hero-cta:hover svg { transform: none; }
+}
+.brand-hero-stage { position: relative; flex: 1; display: grid; place-items: center; min-height: 360px; border-radius: 16px; background: var(--page-surface); }
+.brand-hero-stage .brand-lockup { --u: clamp(2.4px, .55vw, 6px) !important; margin-bottom: 28px; }
+.brand-hero-spec { position: absolute; left: 22px; bottom: 18px; right: 22px; font: 12px/1.4 var(--font-label); letter-spacing: .04em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+
 /* /brand logo system. The lockup mirrors .station-brand in station.css:
    32u mark, 10u gap, 21u Crafter Sans Bucle at line-height .95, tracking -.035em. */
 .brand-lockup { --u: 1px; display: inline-flex; align-items: center; gap: calc(var(--u) * 10); color: inherit; }
@@ -16,8 +43,6 @@
 .brand-stage { display: flex; align-items: center; justify-content: center; min-height: 200px; padding: 32px 22px; }
 
 .brand-tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.brand-tier-primary { grid-column: 1 / -1; }
-.brand-tier-primary .brand-stage { min-height: 340px; }
 .brand-avatars { gap: 16px; }
 .brand-avatar { display: grid; place-items: center; width: 88px; height: 88px; border-radius: 22px; }
 .brand-avatar > svg { width: 52px; height: 52px; }
@@ -86,13 +111,16 @@
 .brand-signal { display: flex; align-items: center; gap: 12px; margin-top: 12px; font-size: 14px; color: hsl(var(--muted-foreground)); }
 .brand-signal > span:first-child { width: 12px; height: 12px; flex-shrink: 0; background: #ffc107; }
 
+@media (max-width: 1180px) {
+  .brand-hero-head { grid-template-columns: 1fr; }
+}
 @media (max-width: 900px) {
   .brand-tiers, .brand-tests { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brand-hero-head { grid-template-columns: 1fr; }
   .brand-downloads { grid-template-columns: 1fr; }
 }
 @media (max-width: 560px) {
   .brand-tiers, .brand-tests, .brand-palettes { grid-template-columns: 1fr; }
-  .brand-tier-primary .brand-lockup { --u: 2.2px !important; }
   .brand-motion .brand-lockup { --u: 2.2px !important; }
   .brand-scale-row { gap: 24px; }
   .brand-formats a { padding: 0 8px; letter-spacing: .04em; }
