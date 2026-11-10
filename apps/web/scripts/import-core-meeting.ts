@@ -13,7 +13,7 @@ loadEnvConfig(process.cwd())
 const args = process.argv.slice(2)
 const slugFlag = args.indexOf("--slug")
 const slugArg = slugFlag >= 0 ? args[slugFlag + 1] : undefined
-const [summaryPath, transcriptPath] = args.filter((arg, index) => !arg.startsWith("--") && index !== slugFlag + 1)
+const [summaryPath, transcriptPath] = args.filter((arg, index) => !arg.startsWith("--") && (slugFlag < 0 || index !== slugFlag + 1))
 const dryRun = args.includes("--dry-run")
 if (!summaryPath) throw new Error("Usage: bun scripts/import-core-meeting.ts <summary.md> [transcript.md] [--slug <slug>] [--dry-run]")
 
