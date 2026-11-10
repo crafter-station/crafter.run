@@ -50,11 +50,23 @@
 .cm-face img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transform: scale(1.18) translateY(6%); }
 .cm-faces-sm li + li { margin-left: -10px; }
 .cm-faces-sm .cm-face { width: 38px; height: 38px; }
-.cm-faces-md { gap: 18px 14px; }
+.cm-faces-md { gap: 20px 22px; }
 .cm-faces-md li { display: grid; justify-items: center; gap: 8px; }
 .cm-faces-md .cm-face { width: 60px; height: 60px; transition: transform 200ms; }
 .cm-faces-md li:hover .cm-face { transform: translateY(-3px) rotate(-3deg); }
-.cm-face-name { font: 12px/1 var(--cm-mono); color: var(--cm-soft); }
+.cm-face-name { display: grid; justify-items: center; gap: 6px; max-width: 132px; font: 13px/1.25 var(--font-sans); text-align: center; color: var(--cm-soft); text-wrap: balance; }
+.cm-you { font: 600 10px/1 var(--cm-mono); letter-spacing: .1em; text-transform: uppercase; padding: 4px 7px 3px; border-radius: 999px; color: hsl(var(--background)); background: var(--page-accent); }
+.cm-face-you .cm-face { box-shadow: 0 0 0 3px hsl(var(--background)), 0 0 0 5px var(--page-accent); }
+.cm-face-you .cm-face-name { color: hsl(var(--foreground)); font-weight: 600; }
+.cm-faces-md .cm-face-you .cm-face { transform: translateY(-3px) rotate(-3deg); }
+.cm-faces-sm .cm-face-you { position: relative; z-index: 1; }
+.cm-attended { margin-left: 10px; padding: 3px 8px 2px; border-radius: 999px; color: hsl(var(--background)); background: var(--page-accent); }
+.cm-index-side { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; }
+.cm-whoami { display: inline-flex; align-items: center; gap: 12px; padding: 6px 16px 6px 6px; border-radius: 999px; background: var(--page-surface); }
+.cm-whoami .cm-face { width: 40px; height: 40px; box-shadow: 0 0 0 2px var(--page-accent); }
+.cm-whoami > span:last-child { display: grid; line-height: 1.2; }
+.cm-whoami .station-label { font-size: 11px; color: var(--cm-soft); }
+.cm-whoami strong { font-weight: 600; }
 
 /* Meeting hero */
 .cm-hero { padding-block: 40px 36px; }

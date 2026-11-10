@@ -22,6 +22,9 @@ const es = {
   lockedTitle: "Esto es del core.",
   lockedBody: "Las reuniones del core son privadas. Entra con la cuenta de GitHub que figura en crafter.run/team.",
   signIn: "Entrar",
+  you: "Tú",
+  signedInAs: "Entraste como",
+  attended: "Estuviste",
 }
 
 const en: typeof es = {
@@ -46,6 +49,9 @@ const en: typeof es = {
   lockedTitle: "This belongs to the core.",
   lockedBody: "Core meetings are private. Sign in with the GitHub account listed on crafter.run/team.",
   signIn: "Sign in",
+  you: "You",
+  signedInAs: "Signed in as",
+  attended: "You were there",
 }
 
 export const coreCopy: Record<Locale, typeof es> = { es, en, pt: en, zh: en, ja: en }
