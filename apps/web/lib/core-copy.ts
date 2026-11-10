@@ -1,0 +1,51 @@
+import type { Locale } from "@/lib/i18n"
+
+const es = {
+  core: "Core",
+  meetings: "Reuniones",
+  indexTitle: "Lo que hablamos como core.",
+  indexDescription: "Resúmenes y transcripts de cada reunión del core, con dueños y pendientes. Solo lo ven los 10 de crafter.run/team.",
+  count: (n: number) => (n === 1 ? "1 reunión" : `${n} reuniones`),
+  empty: "Todavía no hay reuniones guardadas.",
+  unavailable: "No pudimos leer las reuniones ahora. Prueba de nuevo en un rato.",
+  minutes: (n: number) => `${n} min`,
+  people: (n: number) => `${n} crafters`,
+  duration: "Duración",
+  attendees: "Asistentes",
+  summary: "Resumen",
+  transcript: "Transcript",
+  contents: "En esta reunión",
+  noTranscript: "Esta reunión no tiene transcript.",
+  transcriptNote: "Transcripción automática, sin corregir. Nombres y términos pueden venir mal.",
+  back: "Todas las reuniones",
+  lockedEyebrow: "Solo Core",
+  lockedTitle: "Esto es del core.",
+  lockedBody: "Las reuniones del core son privadas. Entra con la cuenta de GitHub que figura en crafter.run/team.",
+  signIn: "Entrar",
+}
+
+const en: typeof es = {
+  core: "Core",
+  meetings: "Meetings",
+  indexTitle: "What we talked about as the core.",
+  indexDescription: "Summaries and transcripts of every core meeting, with owners and open items. Only the 10 people on crafter.run/team can see them.",
+  count: (n) => (n === 1 ? "1 meeting" : `${n} meetings`),
+  empty: "No meetings saved yet.",
+  unavailable: "We couldn't read the meetings right now. Try again in a while.",
+  minutes: (n) => `${n} min`,
+  people: (n) => `${n} crafters`,
+  duration: "Duration",
+  attendees: "Attendees",
+  summary: "Summary",
+  transcript: "Transcript",
+  contents: "In this meeting",
+  noTranscript: "This meeting has no transcript.",
+  transcriptNote: "Automatic, uncorrected transcription. Names and terms may be wrong.",
+  back: "All meetings",
+  lockedEyebrow: "Core only",
+  lockedTitle: "This belongs to the core.",
+  lockedBody: "Core meetings are private. Sign in with the GitHub account listed on crafter.run/team.",
+  signIn: "Sign in",
+}
+
+export const coreCopy: Record<Locale, typeof es> = { es, en, pt: en, zh: en, ja: en }

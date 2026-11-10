@@ -562,3 +562,27 @@ export const eventCreditCode = pgTable(
     check("event_credit_code_status_check", sql`${table.status} in ('free', 'assigned', 'burned')`),
   ],
 )
+
+/** Core team meeting records. Private: read only by Core members behind Clerk, never by the public APIs. */
+export const coreMeetings = pgTable(
+  "core_meetings",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    slug: text("slug").notNull(),
+    title: text("title").notNull(),
+    heldAt: timestamp("held_at", { withTimezone: true, mode: "string" }).notNull(),
+    durationMinutes: integer("duration_minutes"),
+    summary: text("summary").notNull(),
+    attendees: jsonb("attendees").$type<string[]>().notNull(),
+    body: text("body").notNull(),
+    transcript: text("transcript"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("core_meetings_slug_idx").on(table.slug),
+    index("core_meetings_held_at_idx").on(table.heldAt),
+    check("core_meetings_slug_check", sql`${table.slug} ~ '^[a-z0-9]+(-[a-z0-9]+)*$'`),
+    check("core_meetings_attendees_check", sql`jsonb_typeof(${table.attendees}) = 'array'`),
+  ],
+)
