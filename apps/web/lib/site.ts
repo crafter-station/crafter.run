@@ -11,11 +11,11 @@ export const siteConfig = {
   name: "Crafter Station",
   domain: "crafter.run",
   tagline: {
-    en: "The LatAm network of shippers",
-    es: "La red LatAm de shippers",
-    pt: "A rede LatAm de shippers",
-    zh: "拉美的 shipper 网络",
-    ja: "ラテンアメリカのシッパーネットワーク",
+    en: "The open source community of builders in Peru and LATAM",
+    es: "La comunidad open source de builders de Perú y LATAM",
+    pt: "A comunidade open source de builders do Peru e da LATAM",
+    zh: "秘鲁与拉美的开源 builder 社区",
+    ja: "ペルーとラテンアメリカのオープンソース・ビルダーコミュニティ",
   },
   description: {
     es: "Crafter Station conecta a quienes construyen en LatAm: comunidad, código abierto, investigación, juegos, experimentos y encuentros.",
