@@ -1,4 +1,6 @@
 import type { Metadata } from "next"
+import type { CSSProperties } from "react"
+import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
@@ -121,7 +123,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
 
       <main className="journal-article">
         <BandChrome />
-        <header className="journal-band" data-chrome-band>
+        <header className="journal-band" data-chrome-band style={post.band ? ({ "--band": post.band } as CSSProperties) : undefined}>
           <nav aria-label="Breadcrumb" className="journal-band-crumbs">
             <Link href={blogPath(lang)}>{t.breadcrumbBlog}</Link>
             <span aria-hidden>/</span>
@@ -146,6 +148,17 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
               {t.readingTime(minutes)}
             </span>
           </div>
+          {post.image && (
+            <Image
+              src={post.image}
+              alt=""
+              width={1536}
+              height={1024}
+              priority
+              sizes="(min-width: 1024px) 1040px, 100vw"
+              className="journal-band-art"
+            />
+          )}
         </header>
 
         <article className="journal-article-body">

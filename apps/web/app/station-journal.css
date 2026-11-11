@@ -151,6 +151,7 @@
 .journal-band-summary { margin-top: 28px; max-width: 640px; font-size: 20px; line-height: 1.55; color: var(--band-soft); text-wrap: pretty; }
 .journal-band-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 36px; font-size: 16px; }
 .journal-band-byline { display: inline-flex; align-items: center; gap: 12px; font-weight: 600; }
+.journal-band-art { display: block; width: 100%; max-width: 1040px; height: auto; margin-top: 48px; border-radius: 4px; }
 .journal-article-body { min-width: 0; padding-block: 64px 8px; }
 .journal-article .blog-body { max-width: 72ch; font-size: 19px; line-height: 1.8; }
 .journal-article .blog-body :is(h2, h3) { font-family: var(--font-crafter-text), var(--font-sans); font-weight: 700; letter-spacing: -.03em; }
