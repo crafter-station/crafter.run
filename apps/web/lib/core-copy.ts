@@ -25,6 +25,9 @@ const es = {
   you: "Tú",
   signedInAs: "Entraste como",
   attended: "Estuviste",
+  copySummary: "Copiar resumen en markdown",
+  copyTranscript: "Copiar transcript en markdown",
+  copied: "Copiado",
 }
 
 const en: typeof es = {
@@ -52,6 +55,9 @@ const en: typeof es = {
   you: "You",
   signedInAs: "Signed in as",
   attended: "You were there",
+  copySummary: "Copy summary as Markdown",
+  copyTranscript: "Copy transcript as Markdown",
+  copied: "Copied",
 }
 
 export const coreCopy: Record<Locale, typeof es> = { es, en, pt: en, zh: en, ja: en }

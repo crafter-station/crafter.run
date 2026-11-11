@@ -42,3 +42,4 @@ export async function getCoreMeeting(slug: string): Promise<CoreMeeting | null> 
     .limit(1)
   return row ?? null
 }
+

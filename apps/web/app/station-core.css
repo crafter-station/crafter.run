@@ -88,6 +88,13 @@
 .cm-tabs a:hover { color: hsl(var(--foreground)); }
 .cm-tabs a[aria-current="page"] { color: hsl(var(--background)); background: hsl(var(--foreground)); }
 
+.cm-tabs-wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.cm-copy { display: inline-flex; align-items: center; gap: 9px; padding: 10px 16px; border: 1px solid var(--cm-line); border-radius: 999px; font-size: 14px; font-weight: 500; color: var(--cm-soft); transition: color 160ms, border-color 160ms, background-color 160ms; }
+.cm-copy svg { width: 17px; height: 17px; }
+.cm-copy:hover { color: hsl(var(--foreground)); border-color: hsl(var(--foreground) / .35); }
+.cm-copy:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 3px; }
+.cm-copy[data-copied] { color: hsl(var(--background)); background: var(--page-accent); border-color: var(--page-accent); }
+
 /* Body */
 .cm-body { display: grid; grid-template-columns: 220px minmax(0, 760px); gap: clamp(32px, 6vw, 96px); padding-block: 40px 40px; }
 .cm-toc { position: sticky; top: 84px; align-self: start; }

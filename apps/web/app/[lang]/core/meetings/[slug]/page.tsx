@@ -2,12 +2,15 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { Attendees, CoreLocked, formatMeetingDate } from "@/components/core/core-parts"
+import { CopyMarkdown } from "@/components/core/copy-markdown"
 import { compileMeeting, InlineStrong } from "@/components/core/meeting-markdown"
 import { Container } from "@/components/grid-container"
 import { getCoreViewer } from "@/lib/core"
 import { coreCopy } from "@/lib/core-copy"
+import { meetingMarkdown } from "@/lib/core-meeting-note"
 import { getCoreMeeting } from "@/lib/core-meetings"
 import { isLocale } from "@/lib/i18n"
+import { getTeamMember } from "@/lib/team"
 
 import "@/app/station-core.css"
 
@@ -31,6 +34,10 @@ export default async function Page({ params, searchParams }: Props) {
   const { content, sections } = await compileMeeting(transcriptView ? (meeting.transcript ?? "") : meeting.body)
 
   const numbered = sections.some((section) => section.num)
+  const markdown = meetingMarkdown(meeting, transcriptView ? "transcript" : "summary", {
+    date: formatMeetingDate(meeting.heldAt, lang) as string,
+    attendees: meeting.attendees.map((username) => getTeamMember(username)?.name ?? username),
+  })
 
   return (
     <main className="cm-page flex-1">
@@ -76,6 +83,9 @@ export default async function Page({ params, searchParams }: Props) {
             {t.transcript}
           </Link>
         </nav>
+        {!transcriptView || meeting.transcript ? (
+          <CopyMarkdown markdown={markdown} label={transcriptView ? t.copyTranscript : t.copySummary} copiedLabel={t.copied} />
+        ) : null}
       </Container>
 
       <Container innerClassName="cm-body">
