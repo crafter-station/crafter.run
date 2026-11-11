@@ -1,0 +1,27 @@
+/* Products: one wide card per product, drawn in the product's own palette in both themes. */
+.products-hero-art { color: hsl(var(--foreground)); }
+.products-list { display: grid; gap: 20px; padding-bottom: 64px; }
+.product-card-link { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; overflow: hidden; border-radius: 18px; background: var(--page-surface); color: inherit; text-decoration: none; transition: transform 180ms, box-shadow 180ms; }
+.product-card-link:hover { transform: translateY(-2px); box-shadow: 0 24px 50px -30px rgb(0 0 0 / .45); }
+.product-card-link:focus-visible { outline: 2px solid hsl(var(--ring)); outline-offset: 3px; }
+.product-card-art { display: grid; place-items: center; padding: 24px; }
+.product-card-art svg { width: 100%; max-width: 440px; height: auto; }
+.product-card-ojito .product-card-art { background: #f3efe7; }
+.product-card-maca .product-card-art { background: #141413; }
+.product-card-body { display: flex; flex-direction: column; gap: 12px; padding: 32px; }
+.product-card-meta { display: flex; align-items: center; gap: 10px; color: hsl(var(--muted-foreground)); }
+.product-status { padding: 3px 10px; border-radius: 999px; background: color-mix(in srgb, var(--page-accent) 14%, transparent); color: var(--page-accent); }
+.product-card-body h2 { margin: 4px 0 0; font-size: var(--station-type-section); line-height: 1.05; }
+.product-tagline { font-size: 18px; line-height: 1.5; font-weight: 500; }
+.product-description { line-height: 1.65; color: hsl(var(--muted-foreground)); }
+.product-features { display: grid; gap: 6px; margin: 4px 0 0; padding: 0; list-style: none; }
+.product-features li { position: relative; padding-left: 18px; line-height: 1.55; }
+.product-features li::before { content: ""; position: absolute; left: 0; top: .6em; width: 7px; height: 7px; border-radius: 2px; background: var(--page-accent); }
+.product-card-ojito .product-features li::before { background: #ff5a1f; }
+.product-card-maca .product-features li::before { background: #dabe4d; }
+.product-cta { display: inline-flex; align-items: center; gap: 6px; margin-top: auto; padding-top: 12px; font-weight: 600; }
+.products-made-by { color: hsl(var(--muted-foreground)); text-align: center; margin-top: 8px; }
+@media (max-width: 860px) {
+  .product-card-link { grid-template-columns: 1fr; }
+  .product-card-body { padding: 24px; }
+}
