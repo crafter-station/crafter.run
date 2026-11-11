@@ -1,4 +1,5 @@
 // Turns an Obsidian meeting note into a core_meetings row. Pure: no file or database access.
+import type { CoreMeeting } from "./core-meetings"
 import { teamMembers } from "./team"
 
 export type ParsedMeeting = {
@@ -110,4 +111,11 @@ export function parseTranscriptNote(note: string) {
       return `${heading}\n\n${paragraphs(lines.join(" "))}`
     })
     .join("\n\n")
+}
+
+/** The meeting as one Markdown document, the way it reads on the page. */
+export function meetingMarkdown(meeting: CoreMeeting, view: "summary" | "transcript", facts: { date: string; attendees: string[] }) {
+  const header = [`# ${meeting.title}${view === "transcript" ? " · Transcript" : ""}`, "", [facts.date, meeting.durationMinutes ? `${meeting.durationMinutes} min` : null, facts.attendees.join(", ")].filter(Boolean).join(" · ")]
+  const body = view === "transcript" ? [meeting.transcript ?? ""] : [`> ${meeting.summary}`, "", meeting.body]
+  return `${[...header, "", ...body].join("\n").trim()}\n`
 }

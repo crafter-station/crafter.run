@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 
-import { matchAttendee, parseMeetingNote, parseTranscriptNote } from "./core-meeting-note"
+import { matchAttendee, meetingMarkdown, parseMeetingNote, parseTranscriptNote } from "./core-meeting-note"
 import { findCoreMember } from "./core-members"
 
 type Account = Parameters<typeof findCoreMember>[0]
@@ -106,5 +106,20 @@ describe("parseTranscriptNote", () => {
     expect(transcript.startsWith("## 00:00 a 01:00\n\n")).toBe(true)
     expect(transcript).not.toContain("Nota del vault")
     expect(transcript.split("\n\n").length).toBeGreaterThan(2)
+  })
+})
+
+describe("meetingMarkdown", () => {
+  const meeting = { slug: "s", title: "Sync", heldAt: "", durationMinutes: 30, summary: "Lo **clave**.", attendees: [], body: "## 1. Plan\n\nTexto.", transcript: "## 00:00\n\nHola." }
+  const facts = { date: "8 de noviembre de 2026", attendees: ["Railly Hugo", "Liz Riveros"] }
+
+  test("summary carries the title, facts, summary quote and body", () => {
+    expect(meetingMarkdown(meeting, "summary", facts)).toBe(
+      "# Sync\n\n8 de noviembre de 2026 · 30 min · Railly Hugo, Liz Riveros\n\n> Lo **clave**.\n\n## 1. Plan\n\nTexto.\n",
+    )
+  })
+
+  test("transcript carries the title, facts and transcript only", () => {
+    expect(meetingMarkdown(meeting, "transcript", facts)).toBe("# Sync · Transcript\n\n8 de noviembre de 2026 · 30 min · Railly Hugo, Liz Riveros\n\n## 00:00\n\nHola.\n")
   })
 })
