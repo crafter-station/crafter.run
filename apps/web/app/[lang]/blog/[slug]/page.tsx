@@ -2,9 +2,9 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import { AuthorList, AvatarGroup } from "@/components/blog/avatar"
+import { AvatarGroup } from "@/components/blog/avatar"
+import { BandChrome } from "@/components/blog/band-chrome"
 import { blogCopy } from "@/components/blog/copy"
-import { CopyActions } from "@/components/blog/copy-menu"
 import { BlogCta } from "@/components/blog/cta"
 import { byline, dateLabel, entryAuthors, readingMinutes, toEntryViews } from "@/components/blog/format"
 import { BlogBody } from "@/components/blog/mdx"
@@ -120,97 +120,37 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
       />
 
       <main className="journal-article">
-        <Container innerClassName="station-page-intro px-6 py-12 md:px-10 md:py-20">
-          <div className="max-w-4xl">
-            <nav
-              aria-label="Breadcrumb"
-              className="flex flex-wrap items-center gap-x-3 gap-y-1 font-label text-xs uppercase tracking-[0.35em]"
-            >
-              <Link href={blogPath(lang)} className="text-muted-foreground transition-colors hover:text-foreground">
-                {t.breadcrumbBlog}
-              </Link>
-              <span aria-hidden className="text-muted-foreground">/</span>
-              <span className="text-accent">{t.kinds[post.kind]}</span>
-            </nav>
-            <h1 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.045em] md:text-6xl md:leading-[1.02]">
-              {post.title}
-            </h1>
-            <p className="mt-6 max-w-2xl text-pretty text-lg leading-8 text-muted-foreground">{post.summary}</p>
-            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
-              <span className="inline-flex items-center gap-2.5">
-                <AvatarGroup authors={authors} size={24} />
-                <span>{byline(post.authors, lang)}</span>
-              </span>
-              <span className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
-                <time dateTime={post.date}>{dateLabel(post.date, lang)}</time>
-                <span aria-hidden> · </span>
-                {t.readingTime(minutes)}
-              </span>
-            </div>
+        <BandChrome />
+        <header className="journal-band" data-chrome-band>
+          <nav aria-label="Breadcrumb" className="journal-band-crumbs">
+            <Link href={blogPath(lang)}>{t.breadcrumbBlog}</Link>
+            <span aria-hidden>/</span>
+            <span>{t.kinds[post.kind]}</span>
+          </nav>
+          <h1>{post.title}</h1>
+          <p className="journal-band-summary">{post.summary}</p>
+          <div className="journal-band-meta">
+            <span className="journal-band-byline">
+              <AvatarGroup authors={authors} size={32} />
+              <span>{byline(post.authors, lang)}</span>
+            </span>
+            <span>
+              <time dateTime={post.date}>{dateLabel(post.date, lang)}</time>
+              {updated && (
+                <>
+                  <span aria-hidden> · </span>
+                  {t.rail.updated} <time dateTime={updated}>{dateLabel(updated, lang)}</time>
+                </>
+              )}
+              <span aria-hidden> · </span>
+              {t.readingTime(minutes)}
+            </span>
           </div>
-        </Container>
+        </header>
 
-        <SectionGap />
-
-        <Container>
-          <div className="journal-article-layout">
-            <article className="journal-article-body">
-              <div className="max-w-[68ch]">
-                <BlogBody source={post.body} article={t.article} locale={lang} />
-              </div>
-            </article>
-
-            {/* Article metadata follows the body on mobile and sits in a
-                quiet, sticky rail beside it on desktop. */}
-            <aside className="journal-article-rail">
-              <div className="flex flex-col gap-8 px-6 py-8 md:px-8 lg:sticky lg:top-24 lg:py-14">
-                <div>
-                  <p className="label mb-3">{t.rail.authors}</p>
-                  <AuthorList authors={authors} locale={lang} />
-                </div>
-                <dl className="grid grid-cols-2 gap-x-6 gap-y-5 lg:grid-cols-1">
-                  <div>
-                    <dt className="label mb-1.5">{t.rail.published}</dt>
-                    <dd className="text-sm">
-                      <time dateTime={post.date}>{dateLabel(post.date, lang)}</time>
-                    </dd>
-                  </div>
-                  {updated && (
-                    <div>
-                      <dt className="label mb-1.5">{t.rail.updated}</dt>
-                      <dd className="text-sm">
-                        <time dateTime={updated}>{dateLabel(updated, lang)}</time>
-                      </dd>
-                    </div>
-                  )}
-                  <div>
-                    <dt className="label mb-1.5">{t.rail.reading}</dt>
-                    <dd className="text-sm">{t.readingTime(minutes)}</dd>
-                  </div>
-                  <div>
-                    <dt className="label mb-1.5">{t.rail.kind}</dt>
-                    <dd className="text-sm">{t.kinds[post.kind]}</dd>
-                  </div>
-                </dl>
-                <div>
-                  <p className="label mb-3">{t.rail.share}</p>
-                  <CopyActions title={post.title} t={t.copyMenu} />
-                </div>
-                <div className="journal-article-utilities">
-                  <a
-                    href={blogPostMarkdownPath(lang, slug)}
-                    className="text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    {t.readAsMarkdown}
-                  </a>
-                  <a href={blogFeedPath(lang)} className="text-muted-foreground transition-colors hover:text-foreground">
-                    {t.subscribe}
-                  </a>
-                </div>
-              </div>
-            </aside>
-          </div>
-        </Container>
+        <article className="journal-article-body">
+          <BlogBody source={post.body} article={t.article} locale={lang} />
+        </article>
 
         {more.length > 0 && (
           <>
@@ -249,8 +189,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           </>
         )}
 
-        <SectionGap />
-        <BlogCta locale={lang} t={t} />
+        <BlogCta locale={lang} t={t} markdownHref={blogPostMarkdownPath(lang, slug)} />
       </main>
 
     </>

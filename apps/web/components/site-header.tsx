@@ -46,7 +46,7 @@ function MoreNavigation({ locale, onNavigate }: { locale: Locale; onNavigate: ()
           ))}
           <DropdownMenuGroup className="station-more-resources">
             <DropdownMenuItem asChild><Link href={withLocale("/docs", locale)} onClick={close}>{s.docs}</Link></DropdownMenuItem>
-            <DropdownMenuItem asChild><Link href={withLocale("/community", locale)} onClick={close}>{t.communityCta}</Link></DropdownMenuItem>
+            <DropdownMenuItem asChild><a href="https://crafters.chat" target="_blank" rel="noopener noreferrer" onClick={close}>{t.communityCta}</a></DropdownMenuItem>
             <DropdownMenuItem asChild><Link href={withLocale("/brand", locale)} onClick={close}>{s.visualSystem}</Link></DropdownMenuItem>
           </DropdownMenuGroup>
       </DropdownMenuContent>
@@ -98,6 +98,7 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
         {navigation()}
       </div>
       {!compact && <StationSocials label={s.social} className="station-social-rail" />}
+      {!compact && <a className="station-rail-cta" href="https://crafters.chat" target="_blank" rel="noopener noreferrer">{t.communityCta}</a>}
       <div className="station-mobile-top">
         <Link href={withLocale("/", locale)}><SiteWordmark /></Link>
         <div className="flex items-center gap-4">
