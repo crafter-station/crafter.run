@@ -6,24 +6,27 @@ import { coreCopy } from "@/lib/core-copy"
 import type { Locale } from "@/lib/i18n"
 import { getTeamMember } from "@/lib/team"
 
-export function Attendees({ usernames, size = "md" }: { usernames: string[]; size?: "sm" | "md" }) {
+/** Full names as on crafter.run/team. The signed-in member's face is marked so they find themselves. */
+export function Attendees({ usernames, viewer, youLabel, size = "md" }: { usernames: string[]; viewer?: string; youLabel: string; size?: "sm" | "md" }) {
   const members = usernames.flatMap((username) => getTeamMember(username) ?? [])
-  const first = (name: string) => name.split(" ")[0]
-  // Two people share a first name: add the initial of the first surname to both.
-  const label = (name: string) =>
-    members.filter((member) => first(member.name) === first(name)).length > 1
-      ? `${first(name)} ${name.split(" ")[1]?.[0] ?? ""}.`
-      : first(name)
   return (
     <ul className={`cm-faces cm-faces-${size}`}>
-      {members.map((member) => (
-        <li key={member.username} title={member.name}>
-          <span className="cm-face">
-            <Image src={member.image} alt="" width={96} height={96} />
-          </span>
-          {size === "md" ? <span className="cm-face-name">{label(member.name)}</span> : null}
-        </li>
-      ))}
+      {members.map((member) => {
+        const you = member.username === viewer
+        return (
+          <li key={member.username} title={you ? `${member.name} (${youLabel})` : member.name} className={you ? "cm-face-you" : undefined}>
+            <span className="cm-face">
+              <Image src={member.image} alt="" width={96} height={96} />
+            </span>
+            {size === "md" ? (
+              <span className="cm-face-name">
+                {member.name}
+                {you ? <span className="cm-you">{youLabel}</span> : null}
+              </span>
+            ) : null}
+          </li>
+        )
+      })}
     </ul>
   )
 }

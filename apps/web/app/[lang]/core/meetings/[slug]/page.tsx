@@ -63,7 +63,7 @@ export default async function Page({ params, searchParams }: Props) {
               <dd>{t.people(meeting.attendees.length)}</dd>
             </div>
           </dl>
-          <Attendees usernames={meeting.attendees} />
+          <Attendees usernames={meeting.attendees} viewer={viewer.member?.username} youLabel={t.you} />
         </div>
       </Container>
 

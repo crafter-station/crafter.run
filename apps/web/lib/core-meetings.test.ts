@@ -5,8 +5,9 @@ import { findCoreMember } from "./core-members"
 
 type Account = Parameters<typeof findCoreMember>[0]
 
-const account = (github: string[] = [], emails: [string, string][] = []) =>
+const account = (github: string[] = [], emails: [string, string][] = [], publicMetadata: Record<string, unknown> = {}) =>
   ({
+    publicMetadata,
     externalAccounts: github.map((username) => ({ provider: "oauth_github", username })),
     emailAddresses: emails.map(([emailAddress, status]) => ({ emailAddress, verification: { status } })),
   }) as unknown as Account
@@ -16,9 +17,19 @@ describe("findCoreMember", () => {
     expect(findCoreMember(account(["railly"]))?.username).toBe("railly")
   })
 
+  test("every active member has a GitHub to match on", () => {
+    expect(findCoreMember(account(["LizethRiveros"]))?.username).toBe("liz")
+  })
+
   test("rejects alumni and strangers", () => {
     expect(findCoreMember(account(["shiarauzo"]))).toBeNull()
     expect(findCoreMember(account(["someone-else"]))).toBeNull()
+  })
+
+  test("a member pinned in Clerk metadata wins, and must be on the active roster", () => {
+    expect(findCoreMember(account([], [], { member: "liz" }))?.username).toBe("liz")
+    expect(findCoreMember(account(["railly"], [], { member: "liz" }))?.username).toBe("liz")
+    expect(findCoreMember(account([], [], { member: "shiara" }))).toBeNull()
   })
 
   test("matches a listed email only when it is verified", () => {

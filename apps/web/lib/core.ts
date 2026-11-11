@@ -8,8 +8,9 @@ import type { TeamMember } from "@/lib/team"
 export type CoreViewer = { state: "signed-out" } | { state: "outsider" } | { state: "core"; member: TeamMember | null }
 
 /**
- * Core is the active roster in `lib/team.ts`. Admins, and accounts with `{ "role": "core" }`
- * in Clerk public metadata, are let in too, for members whose GitHub or email is not listed.
+ * Core is the active roster in `lib/team.ts`, matched by `findCoreMember`. Admins, and accounts
+ * with `{ "role": "core" }` in Clerk public metadata, are let in too; `member` is then null
+ * unless the metadata also pins `{ "member": "<username>" }`.
  */
 export async function getCoreViewer(): Promise<CoreViewer> {
   const user = await currentUser()

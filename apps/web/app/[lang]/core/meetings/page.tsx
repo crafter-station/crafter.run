@@ -1,3 +1,4 @@
+import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
@@ -22,6 +23,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   const t = coreCopy[lang]
   const meetings = await listCoreMeetings()
+  const me = viewer.member
 
   return (
     <main className="cm-page flex-1">
@@ -32,7 +34,20 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <h1>{t.indexTitle}</h1>
         <div className="cm-index-meta">
           <p>{t.indexDescription}</p>
-          {meetings?.length ? <span className="station-label">{t.count(meetings.length)}</span> : null}
+          <span className="cm-index-side">
+            {me ? (
+              <span className="cm-whoami">
+                <span className="cm-face">
+                  <Image src={me.image} alt="" width={64} height={64} />
+                </span>
+                <span>
+                  <span className="station-label">{t.signedInAs}</span>
+                  <strong>{me.name}</strong>
+                </span>
+              </span>
+            ) : null}
+            {meetings?.length ? <span className="station-label">{t.count(meetings.length)}</span> : null}
+          </span>
         </div>
       </Container>
 
@@ -54,6 +69,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
                     <span className="station-label cm-row-meta">
                       {date.weekday}
                       {meeting.durationMinutes ? ` · ${t.minutes(meeting.durationMinutes)}` : ""} · {t.people(meeting.attendees.length)}
+                      {me && meeting.attendees.includes(me.username) ? <span className="cm-attended">{t.attended}</span> : null}
                     </span>
                     <h2>{meeting.title}</h2>
                     <p>
@@ -61,7 +77,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
                     </p>
                   </span>
                   <span className="cm-row-side">
-                    <Attendees usernames={meeting.attendees} size="sm" />
+                    <Attendees usernames={meeting.attendees} viewer={me?.username} youLabel={t.you} size="sm" />
                     <span className="cm-arrow" aria-hidden="true">→</span>
                   </span>
                 </Link>
