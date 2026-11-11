@@ -99,7 +99,7 @@
       "hack0": "hack0.dev",
       "shippingBible": "Shipping Bible"
     },
-    "copyright": "© {year} Crafter Station. Built fast, built well."
+    "copyright": "© {year} Crafter Station. {tagline}."
   },
   "pages": {
     "oss": {

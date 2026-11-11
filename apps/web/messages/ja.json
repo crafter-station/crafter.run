@@ -99,7 +99,7 @@
       "hack0": "hack0.dev",
       "shippingBible": "Shipping Bible"
     },
-    "copyright": "© {year} Crafter Station. 速く作り、うまく作る。"
+    "copyright": "© {year} Crafter Station. {tagline}."
   },
   "pages": {
     "oss": {
