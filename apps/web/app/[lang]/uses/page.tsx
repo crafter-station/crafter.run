@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { connection } from "next/server"
 import { getTranslations } from "next-intl/server"
 
 import { ArrowLink } from "@/components/arrow-link"
@@ -28,6 +29,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const { lang } = await params
   if (!isLocale(lang)) notFound()
   const t = await getTranslations({ locale: lang, namespace: "pages.uses" })
+  // The inventory lives in Neon, whose URL is only available at request time.
+  await connection()
   const assets = await listPublicAssets()
   const perks = assets?.filter((asset) => asset.perk) ?? []
 
