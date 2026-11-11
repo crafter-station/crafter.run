@@ -211,7 +211,7 @@
 - The homepage hero leads with the name, set in Crafter Sans Bucle. Legacy liquid surfaces remain available but unused.
 - Light/dark tokens live in `app/globals.css`; shared layouts live in `app/station.css`, homepage compositions in `app/station-home.css`, the Open Source workbench in `app/station-oss.css`, the homepage area cards in `app/station-network.css`, the Journal in `app/station-journal.css`, the Crafter Universe atlas in `app/station-universe.css`, and the hack0 calendar in `app/station-agenda.css`. Keep both palettes, reduced motion, five locales, and `.theme-scope` working.
 - `/universe` is Crafter Universe (Universo Crafter): the renamed and expanded Network page about Research, Lab, Games and Station. Its atlas, area descriptions and actual exploration links use `lib/universe-copy.ts`; the shared directory remains `lib/network.ts`. `/network` and `/products` permanently redirect to `/universe`. Crafter Hub is deferred future work: do not add a Hub page, physical venue, café, coworking, studio or proposed programs to the current site. This user correction supersedes the earlier Hub iteration in `docs/handoffs/journal-and-hub.md`. The homepage retains its four compact area cards, and `list_network` describes those areas. Do not reintroduce the retired product catalog, Visagente promotion or withdrawn Normal repositories. Public links retain an empty legacy `products` array.
-- `/blog` is Crafter Journal: an illustrated editorial index, with compact filters and search, and a quieter article layout. Original SVG cover art is in `components/blog/artwork.tsx`. Keep posts in canonical chronological order, authorship, five-locale fallbacks, pagination, RSS, Markdown twins, MDX and code rendering intact.
+- `/blog` is Crafter Journal: an illustrated editorial index, with compact filters and search, and a band-header article layout (see Journal Posts below). Original SVG cover art for the index is in `components/blog/artwork.tsx`. Keep posts in canonical chronological order, authorship, five-locale fallbacks, pagination, RSS, Markdown twins, MDX and code rendering intact.
 - Current Journal/Universe scope is recorded in `docs/handoffs/journal-and-universe.md`; the subsequent OSS metrics, hack0 calendar and Journal masthead iteration is in `docs/handoffs/hack0-agenda-and-metrics.md`.
 - Fonts are self-hosted through `lib/fonts.ts`. Crafter Sans Text Preview 0.309 supplies real 400/500/600/700 outlines for all body/interface/metadata text; the unchanged Bucle Display 0.200 uses Medium 500. Geist is no longer loaded. Use system monospace only for code and retain Noto CJK fallbacks. Current font source/handoff: `/Users/raillyhugo/Programming/crafter-station/font/TEXT-HANDOFF.md`. Text weights are development prototypes, not a finished hinted/variable family.
 - Default website body, buttons, menus, forms and ordinary metadata to **16px**. Main descriptions use **18px**, including the homepage hero on mobile. **14px** is an explicit exception for compact uppercase labels and small code/details. `text-xs`/`text-sm` default to 16px; their uppercase variants may use 14px. Reflow instead of shrinking to fit.
@@ -219,3 +219,33 @@
 - Keep marketing copy free of cache/fallback/API implementation notes. The homepage closes with ten localized FAQs, then community/collaboration contact links, then the compact footer. The email form is hidden for launch. FAQ copy and destinations live in `lib/faq-copy.ts`; preserve the native keyboard-operable accordion. Journal keeps “Crafter Journal” on one line, including mobile; OSS uses the shared display scale while its numeric metrics remain prominent. See `docs/handoffs/readable-type-and-faq.md`.
 - Separate marketing compositions with spacing, typography and soft surfaces; do not reintroduce repetitive horizontal rules or the removed “Gente curiosa. Cosas por hacer.” strip. The sidebar hack0 invitation is a compact ticket with a prominent day/month and outlined transparent notches. Keep its 14 px minimum type, accessible full date/title and keyboard focus.
 - Sidebar preferences are stacked, with full native language names and matching animated menus. “More” opens a single-column dropdown below its trigger, retaining grouped destinations and keyboard navigation. Keep homepage actions near their title/copy, with a clear primary action and quieter secondary links; avoid repeated arrow decorations on links and cards.
+
+## Journal Posts
+
+- Ship every post in all five locales (`es`, `en`, `pt`, `zh`, `ja`) with identical `date`, `order`, `image` and `band`. Spanish and English come first; outside Spanish, say when an event or talk is held in Spanish.
+- Earlier posts live in `apps/web/content/blog-archive/`. The loader reads only `content/blog/`, so archived posts are not served. Restore one by moving its files back.
+- Copy: plain words, active voice, sentence case, no em dashes. Numbers come from a source you can link (GitHub API, Luma, the site's own data), checked on the day of writing. Do not call Crafter Station a non-profit, and do not publish revenue splits or other internal decisions.
+- Post page layout (`app/[lang]/blog/[slug]/page.tsx`, styles in `app/station-journal.css`):
+  - The header is a full-bleed `.journal-band` in the brand gold (`--band`, default `#f4d56d`, with `--band-ink` `#20221d`) holding the breadcrumb, title, summary, byline, date and reading time. There is no metadata rail; the body runs at 72ch and 19px.
+  - The band carries `data-chrome-band`. `components/blog/band-chrome.tsx` marks each fixed sidebar, social rail and rail CTA item with `data-on-band` while it sits over the band, so its ink switches per item. Any new fixed chrome needs a selector in that list.
+  - h2/h3 in the body use Crafter Sans Text Bold (700). Bucle has a single weight; never synthesize bold on it. The h1 stays in Bucle.
+  - Journal pages show a fixed "Join the community" button above the social rail, linking to `https://crafters.chat` (the WhatsApp community). There is no `/community` route.
+  - After the body: `EventPromo`, then `BlogCta` with the RSS and markdown links.
+- Hero artwork: optional `image: "/blog/<slug>/hero.webp"` renders inside the band. Set `band: "#rrggbb"` to the artwork's background so the two meet without a seam. House style is editorial ink: hand-drawn black linework with flat fills on gold, near-black ink, cream and one muted sage accent, with no text in the image. Generate at 1536x1024 (a timeout under 900 s fails at that size), then convert:
+
+  ```bash
+  ai image -m openai/gpt-image-2 --size 1536x1024 --timeout 900 -o hero.png "Editorial ink line illustration, hand-drawn confident black linework with flat color fills, like a premium tech magazine cover. Palette: warm gold background #f4d56d, near-black ink #20221d, cream paper #f3f3e9, one muted sage green accent. Scene: <scene>. No text, no letters, no logos, no words anywhere. Wide composition, calm and spacious."
+  magick hero.png -quality 82 apps/web/public/blog/<slug>/hero.webp
+  magick hero.png -crop 1536x60+0+0 -resize 1x1! -format "%[hex:p{0,0}]" info:   # value for band
+  ```
+
+- In-post images: `<Figure src="/blog/<slug>/name.webp" alt="..." caption="..." size="1440x900" />`, with an optional `wide`. MDX attributes must be plain strings because JSX expressions such as `{1440}` are blocked. Prefer real product screenshots over generated art inside the body, and write `alt` and `caption` per locale. The `.md` twin turns each `Figure` into a markdown image with an italic caption.
+- Event promos: `lib/promos.ts` holds the upcoming event shown after every post (link, square cover in `public/promos/`, `endsAt`, copy for each locale). Pages are static, so a promo drops out on the first build after `endsAt`. Leave out prices that change before the event, such as presale tiers.
+- Dev server gotcha: the blog loader caches post content in memory. After editing MDX attributes or frontmatter, restart `next dev` before trusting a render error.
+
+## Entity And Footer
+
+- `siteConfig.tagline` in `lib/site.ts` ("La comunidad open source de builders de Perú y LATAM", five locales) feeds the home title, OG title, the `Organization` slogan, OpenAPI and docs descriptions, and the footer copyright line. Change it there only.
+- The footer links Team, Contact, Brand and `/llms.txt`. Keep `llms.txt` linked.
+- The Discord invite in `lib/site.ts` and `README.md` must be a non-expiring link; check it with `curl -s https://discord.com/api/v10/invites/<code>?with_expiration=true`.
+
