@@ -16,7 +16,10 @@ async function coreActor() {
 }
 
 function revalidate() {
-  for (const locale of locales) revalidatePath(`/${locale}/core/inventory`)
+  for (const locale of locales) {
+    revalidatePath(`/${locale}/core/inventory`)
+    revalidatePath(`/${locale}/uses`)
+  }
 }
 
 export async function saveAsset(input: unknown, previousSlug?: string): Promise<InventoryResult> {

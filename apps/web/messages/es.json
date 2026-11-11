@@ -451,6 +451,22 @@
       "exploreCta": "Explorar el universo Crafter",
       "closing": "Cada espacio tiene su carácter. La curiosidad es compartida.",
       "ossCta": "Explorar el código abierto"
+    },
+    "uses": {
+      "eyebrow": "Uses",
+      "title": "Con qué construimos.",
+      "description": "Las herramientas que usamos como equipo y dónde encontrarnos. Si eres crew, algunas vienen con beneficios.",
+      "sections": {
+        "tool": "Herramientas",
+        "account": "Plataformas",
+        "social": "Dónde encontrarnos"
+      },
+      "perk": "Perk",
+      "perksEyebrow": "Perks",
+      "perksTitle": "Lo que recibe el crew.",
+      "perksCta": "Quiero sumarme",
+      "empty": "Todavía no hay nada publicado aquí.",
+      "unavailable": "No pudimos cargar esta lista ahora. Prueba de nuevo en un rato."
     }
   },
   "member": {
