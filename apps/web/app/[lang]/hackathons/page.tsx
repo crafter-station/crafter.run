@@ -21,15 +21,6 @@ const hackathons = [
     raised: 9500,
   },
   {
-    name: "She Ships",
-    href: "https://sheships.org/hackathons/2026",
-    year: "2026",
-    duration: "48h",
-    prize: 1500,
-    prizeType: "published",
-    raised: 12500,
-  },
-  {
     name: "The realtime hackathon",
     href: "https://hack.useportal.co/",
     year: "2026",
@@ -133,9 +124,9 @@ const pageCopy = {
     tagline: "Focused rooms, real deadlines, working products.",
     scroll: "Scroll to explore",
     prizesLabel: "Prize pools",
-    prizesCaption: "across four Crafter hackathons",
+    prizesCaption: "across three Crafter hackathons",
     fundingLabel: "Funds raised",
-    fundingCaption: "across four Crafter hackathons",
+    fundingCaption: "across three Crafter hackathons",
     valueLabel: "Tools and credits offered",
     valueCaption: "for participants and winning teams",
     creditPartnersLabel: "Credits provided by",
@@ -145,8 +136,8 @@ const pageCopy = {
     communityPartners: "Partners",
     lumaSubscribers: "Luma subscribers",
     communityMembers: "Community members",
-    ledgerTitle: "Four formats. One standard: ship.",
-    places: ["Lima, Peru", "Online, LATAM", "Online", "5 cities, LATAM"],
+    ledgerTitle: "Three formats. One standard: ship.",
+    places: ["Lima, Peru", "Online", "5 cities, LATAM"],
     cashPrize: "cash prizes",
     publishedPrize: "published prize",
     countriesLabel: "Regional reach",
@@ -169,9 +160,9 @@ const pageCopy = {
     tagline: "Espacios enfocados, deadlines reales, productos que funcionan.",
     scroll: "Sigue para explorar",
     prizesLabel: "Premios publicados",
-    prizesCaption: "entre cuatro Crafter hackathons",
+    prizesCaption: "entre tres Crafter hackathons",
     fundingLabel: "Fondos recaudados",
-    fundingCaption: "entre cuatro Crafter hackathons",
+    fundingCaption: "entre tres Crafter hackathons",
     valueLabel: "Herramientas y créditos ofrecidos",
     valueCaption: "para participantes y equipos ganadores",
     creditPartnersLabel: "Créditos entregados por",
@@ -181,8 +172,8 @@ const pageCopy = {
     communityPartners: "Partners",
     lumaSubscribers: "Suscriptores en Luma",
     communityMembers: "Miembros de la comunidad",
-    ledgerTitle: "Cuatro formatos. Un estándar: shippear.",
-    places: ["Lima, Perú", "Online, LATAM", "Online", "5 ciudades, LATAM"],
+    ledgerTitle: "Tres formatos. Un estándar: shippear.",
+    places: ["Lima, Perú", "Online", "5 ciudades, LATAM"],
     cashPrize: "premios en cash",
     publishedPrize: "premio publicado",
     countriesLabel: "Alcance regional",
@@ -205,9 +196,9 @@ const pageCopy = {
     tagline: "Espaços focados, prazos reais, produtos funcionando.",
     scroll: "Role para explorar",
     prizesLabel: "Prêmios publicados",
-    prizesCaption: "em quatro Crafter hackathons",
+    prizesCaption: "em três Crafter hackathons",
     fundingLabel: "Recursos captados",
-    fundingCaption: "em quatro Crafter hackathons",
+    fundingCaption: "em três Crafter hackathons",
     valueLabel: "Ferramentas e créditos oferecidos",
     valueCaption: "para participantes e equipes vencedoras",
     creditPartnersLabel: "Créditos oferecidos por",
@@ -217,8 +208,8 @@ const pageCopy = {
     communityPartners: "Parceiros",
     lumaSubscribers: "Assinantes no Luma",
     communityMembers: "Membros da comunidade",
-    ledgerTitle: "Quatro formatos. Um padrão: lançar.",
-    places: ["Lima, Peru", "Online, LATAM", "Online", "5 cidades, LATAM"],
+    ledgerTitle: "Três formatos. Um padrão: lançar.",
+    places: ["Lima, Peru", "Online", "5 cidades, LATAM"],
     cashPrize: "prêmios em dinheiro",
     publishedPrize: "prêmio publicado",
     countriesLabel: "Alcance regional",
@@ -240,9 +231,9 @@ const pageCopy = {
     tagline: "专注的空间，真实的截止时间，能运行的产品。",
     scroll: "滚动浏览",
     prizesLabel: "已公布奖金池",
-    prizesCaption: "来自四场 Crafter 黑客松",
+    prizesCaption: "来自三场 Crafter 黑客松",
     fundingLabel: "筹集资金",
-    fundingCaption: "来自四场 Crafter 黑客松",
+    fundingCaption: "来自三场 Crafter 黑客松",
     valueLabel: "提供的工具与额度",
     valueCaption: "面向参与者和获胜团队",
     creditPartnersLabel: "额度提供方",
@@ -252,8 +243,8 @@ const pageCopy = {
     communityPartners: "合作伙伴",
     lumaSubscribers: "Luma 订阅者",
     communityMembers: "社区成员",
-    ledgerTitle: "四种形式，一个标准：交付。",
-    places: ["秘鲁利马", "拉美线上", "线上", "拉美 5 座城市"],
+    ledgerTitle: "三种形式，一个标准：交付。",
+    places: ["秘鲁利马", "线上", "拉美 5 座城市"],
     cashPrize: "现金奖金",
     publishedPrize: "已公布奖金",
     countriesLabel: "区域覆盖",
@@ -276,9 +267,9 @@ const pageCopy = {
     tagline: "集中できる場、現実の締切、動くプロダクト。",
     scroll: "スクロールして見る",
     prizesLabel: "公表された賞金総額",
-    prizesCaption: "4つの Crafter ハッカソン合計",
+    prizesCaption: "3つの Crafter ハッカソン合計",
     fundingLabel: "調達資金",
-    fundingCaption: "4つの Crafter ハッカソン合計",
+    fundingCaption: "3つの Crafter ハッカソン合計",
     valueLabel: "提供されたツールとクレジット",
     valueCaption: "参加者と受賞チーム向け",
     creditPartnersLabel: "クレジット提供",
@@ -288,8 +279,8 @@ const pageCopy = {
     communityPartners: "パートナー",
     lumaSubscribers: "Luma 登録者",
     communityMembers: "コミュニティメンバー",
-    ledgerTitle: "4つの形式。基準はひとつ。出荷する。",
-    places: ["ペルー、リマ", "オンライン、LATAM", "オンライン", "LATAM 5都市"],
+    ledgerTitle: "3つの形式。基準はひとつ。出荷する。",
+    places: ["ペルー、リマ", "オンライン", "LATAM 5都市"],
     cashPrize: "賞金（現金）",
     publishedPrize: "公表賞金",
     countriesLabel: "地域への広がり",
@@ -365,11 +356,11 @@ export default async function HackathonsPage({
             </p>
             <p
               className={styles.money}
-              data-count="45000"
+              data-count="32500"
               data-prefix="US$"
               data-hack-reveal
             >
-              US$45,000
+              US$32,500
             </p>
             <p className={styles.metricCaption} data-hack-reveal>
               {copy.fundingCaption}
@@ -400,8 +391,8 @@ export default async function HackathonsPage({
             <p className={styles.label} data-hack-reveal>
               {copy.prizesLabel}
             </p>
-            <p className={styles.money} data-count="5300" data-prefix="US$" data-hack-reveal>
-              US$5,300
+            <p className={styles.money} data-count="3800" data-prefix="US$" data-hack-reveal>
+              US$3,800
             </p>
             <p className={styles.metricCaption} data-hack-reveal>
               {copy.prizesCaption}
