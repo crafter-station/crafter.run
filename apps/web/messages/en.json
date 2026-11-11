@@ -451,6 +451,22 @@
       "exploreCta": "Explore the Crafter Universe",
       "closing": "Every space has its own character. Curiosity connects us.",
       "ossCta": "Explore open source"
+    },
+    "uses": {
+      "eyebrow": "Uses",
+      "title": "What we build with.",
+      "description": "The tools we use as a team and where to find us. If you are on the crew, some of them come with perks.",
+      "sections": {
+        "tool": "Tools",
+        "account": "Platforms",
+        "social": "Where to find us"
+      },
+      "perk": "Perk",
+      "perksEyebrow": "Perks",
+      "perksTitle": "What the crew gets.",
+      "perksCta": "I want to join",
+      "empty": "Nothing published here yet.",
+      "unavailable": "We couldn't load this list right now. Try again in a while."
     }
   },
   "member": {

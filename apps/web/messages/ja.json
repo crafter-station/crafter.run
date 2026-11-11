@@ -451,6 +451,22 @@
       "exploreCta": "Crafter の世界を探す",
       "closing": "それぞれの個性を、共通の好奇心がつなぎます。",
       "ossCta": "オープンソースを探す"
+    },
+    "uses": {
+      "eyebrow": "Uses",
+      "title": "私たちが使っているもの。",
+      "description": "チームで使っているツールと、私たちに会える場所。crew のメンバーには特典付きのものもあります。",
+      "sections": {
+        "tool": "ツール",
+        "account": "プラットフォーム",
+        "social": "私たちに会える場所"
+      },
+      "perk": "特典",
+      "perksEyebrow": "特典",
+      "perksTitle": "crew が受け取れるもの。",
+      "perksCta": "参加したい",
+      "empty": "まだ何も公開されていません。",
+      "unavailable": "いまはこのリストを読み込めませんでした。少し時間をおいて試してください。"
     }
   },
   "member": {

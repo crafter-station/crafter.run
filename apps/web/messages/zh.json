@@ -451,6 +451,22 @@
       "exploreCta": "探索 Crafter 宇宙",
       "closing": "每个空间都有个性，共同的好奇心将我们连接。",
       "ossCta": "探索开源项目"
+    },
+    "uses": {
+      "eyebrow": "Uses",
+      "title": "我们用什么来构建。",
+      "description": "团队使用的工具，以及在哪里能找到我们。如果你是 crew 成员，其中一些附带福利。",
+      "sections": {
+        "tool": "工具",
+        "account": "平台",
+        "social": "在哪里找到我们"
+      },
+      "perk": "福利",
+      "perksEyebrow": "福利",
+      "perksTitle": "Crew 能获得什么。",
+      "perksCta": "我想加入",
+      "empty": "这里还没有发布任何内容。",
+      "unavailable": "暂时无法加载这个列表，请稍后再试。"
     }
   },
   "member": {
