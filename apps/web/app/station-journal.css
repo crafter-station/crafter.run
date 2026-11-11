@@ -157,6 +157,15 @@
 .journal-article .blog-body :is(h2, h3) { font-family: var(--font-crafter-text), var(--font-sans); font-weight: 700; letter-spacing: -.03em; }
 .journal-article .blog-body h2 { font-size: 32px; line-height: 1.2; }
 .journal-article .blog-body h3 { font-size: 24px; line-height: 1.3; }
+.journal-figure { width: 100%; margin-block: 12px; }
+.journal-figure img { display: block; width: 100%; height: auto; border: 1px solid hsl(var(--line)); border-radius: 6px; }
+.journal-figure figcaption { margin-top: 14px; font-size: 15px; line-height: 1.5; text-align: center; color: hsl(var(--muted-foreground)); text-wrap: balance; }
+.journal-promo { display: grid; grid-template-columns: 148px minmax(0, 1fr); gap: 32px; align-items: center; max-width: 72ch; margin-block: 40px 8px; padding: 28px; border-radius: 10px; background: var(--band); color: var(--band-ink); box-shadow: inset 0 0 0 2px var(--band-ink); }
+.journal-promo-art { display: block; width: 148px; height: 148px; border-radius: 6px; }
+.journal-promo h2 { font-family: var(--font-crafter-text), var(--font-sans); font-size: 26px; font-weight: 700; line-height: 1.2; letter-spacing: -.03em; text-wrap: balance; }
+.journal-promo p { margin-top: 10px; font-size: 16px; line-height: 1.55; color: var(--band-soft); }
+.journal-promo a { display: inline-flex; align-items: center; min-height: 48px; margin-top: 18px; padding: 0 22px; border-radius: 8px; background: var(--band-ink); color: var(--band); font-size: 16px; font-weight: 700; transition: opacity 160ms; }
+.journal-promo a:hover { opacity: .88; }
 .station-shell-journal [data-on-band] { color: var(--band-ink); }
 .station-rail-cta { display: none; }
 @media (min-width: 1024px) {
@@ -170,4 +179,7 @@
   .journal-article-body { padding-top: 44px; }
   .journal-article .blog-body { font-size: 18px; }
   .journal-article .blog-body h2 { font-size: 27px; }
+  .journal-promo { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 22px; }
+  .journal-promo-art { width: 112px; height: 112px; }
+  .journal-promo h2 { font-size: 22px; }
 }

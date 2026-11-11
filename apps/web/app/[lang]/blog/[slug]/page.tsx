@@ -9,6 +9,7 @@ import { BandChrome } from "@/components/blog/band-chrome"
 import { blogCopy } from "@/components/blog/copy"
 import { BlogCta } from "@/components/blog/cta"
 import { byline, dateLabel, entryAuthors, readingMinutes, toEntryViews } from "@/components/blog/format"
+import { EventPromo } from "@/components/blog/event-promo"
 import { BlogBody } from "@/components/blog/mdx"
 import { Container, SectionGap } from "@/components/grid-container"
 import { JsonLd } from "@/components/json-ld"
@@ -164,6 +165,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         <article className="journal-article-body">
           <BlogBody source={post.body} article={t.article} locale={lang} />
         </article>
+
+        <EventPromo locale={lang} />
 
         {more.length > 0 && (
           <>

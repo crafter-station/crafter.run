@@ -28,6 +28,17 @@ function stripFenceMeta(body: string): string {
   return body.replace(/^(\s*(?:```|~~~)\s*[\w+-]*)[^\n]*$/gm, "$1")
 }
 
+/** `<Figure src alt caption />` becomes a plain markdown image with its caption in italics. */
+function figuresToMarkdown(body: string): string {
+  return body.replace(/<Figure\b([^>]*?)\/>/g, (_, attrs: string) => {
+    const attr = (name: string) => new RegExp(`${name}="([^"]*)"`).exec(attrs)?.[1] ?? ""
+    const src = attr("src")
+    const image = `![${attr("alt")}](${src.startsWith("/") ? `${baseUrl}${src}` : src})`
+    const caption = attr("caption")
+    return caption ? `${image}\n\n*${caption}*` : image
+  })
+}
+
 /** One post as a standalone markdown document. */
 export function postMarkdown(post: BlogPost, locale: Locale): string {
   const t = blogCopy[locale].markdown
@@ -48,7 +59,7 @@ export function postMarkdown(post: BlogPost, locale: Locale): string {
     "",
     "---",
     "",
-    stripFenceMeta(post.body),
+    figuresToMarkdown(stripFenceMeta(post.body)),
     "",
     "---",
     "",
