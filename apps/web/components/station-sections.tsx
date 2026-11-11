@@ -2,6 +2,7 @@ import Link from "next/link"
 import { type Locale, withLocale } from "@/lib/i18n"
 import { homeCopy } from "@/lib/home-copy"
 import { bucleCopy } from "@/lib/bucle-copy"
+import { StationBackers } from "@/components/station-backers"
 
 export function CoffeeArt() {
   return <svg viewBox="0 0 430 310" className="home-coffee-art" fill="none" aria-hidden="true">
@@ -61,6 +62,7 @@ export function StationEvents({ locale }: { locale: Locale }) {
           <div className="home-poster-bottom station-label">MAKE SOMETHING REAL.</div>
         </Link>
       </div>
+      <StationBackers locale={locale} />
     </section>
   )
 }
