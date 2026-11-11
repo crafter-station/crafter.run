@@ -586,3 +586,37 @@ export const coreMeetings = pgTable(
     check("core_meetings_attendees_check", sql`jsonb_typeof(${table.attendees}) = 'array'`),
   ],
 )
+
+/**
+ * What the team has: tools, shared accounts and social profiles. Private: read and written only by
+ * Core members behind Clerk. Never stores a credential; `secretRef` points at the password manager item.
+ */
+export const teamAssets = pgTable(
+  "team_assets",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    slug: text("slug").notNull(),
+    kind: text("kind").notNull(),
+    name: text("name").notNull(),
+    url: text("url"),
+    status: text("status").notNull().default("unknown"),
+    visibility: text("visibility").notNull().default("core"),
+    owner: text("owner"),
+    access: jsonb("access").$type<string[]>().notNull().default([]),
+    perk: text("perk"),
+    notes: text("notes"),
+    secretRef: text("secret_ref"),
+    verifiedAt: timestamp("verified_at", { withTimezone: true, mode: "string" }),
+    verifiedBy: text("verified_by"),
+    createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
+  },
+  (table) => [
+    uniqueIndex("team_assets_slug_idx").on(table.slug),
+    check("team_assets_slug_check", sql`${table.slug} ~ '^[a-z0-9]+(-[a-z0-9]+)*$'`),
+    check("team_assets_kind_check", sql`${table.kind} in ('tool', 'account', 'social')`),
+    check("team_assets_status_check", sql`${table.status} in ('alive', 'dead', 'unknown')`),
+    check("team_assets_visibility_check", sql`${table.visibility} in ('public', 'crew', 'core')`),
+    check("team_assets_access_check", sql`jsonb_typeof(${table.access}) = 'array'`),
+  ],
+)

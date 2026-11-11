@@ -211,6 +211,13 @@
       "when": 1794349777923,
       "tag": "0029_core_meetings",
       "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1794375861251,
+      "tag": "0030_team_assets",
+      "breakpoints": true
     }
   ]
 }
