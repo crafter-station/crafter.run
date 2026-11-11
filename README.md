@@ -13,7 +13,7 @@ Crafter is one spark with four directions:
 
 This repo is the Station: the website at [crafter.run](https://crafter.run), its API, and the [`@crafter/cli`](https://www.npmjs.com/package/@crafter/cli).
 
-[Universe](https://crafter.run/en/universe) · [Open source](https://crafter.run/en/oss) · [Events](https://crafter.run/en/events) · [Discord](https://discord.gg/kgsjU4sD7)
+[Universe](https://crafter.run/en/universe) · [Open source](https://crafter.run/en/oss) · [Events](https://crafter.run/en/events) · [Discord](https://discord.gg/NRDWrGnxTU)
 
 ## Run it
 
