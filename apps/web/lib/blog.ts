@@ -83,6 +83,8 @@ const frontmatterSchema = z.object({
       "image must be a root-relative path (/og/...) or an https:// URL",
     )
     .optional(),
+  /** Header band colour, matched to the hero artwork's background so the two meet without a seam. */
+  band: z.string().regex(/^#[0-9a-f]{6}$/i, "band must be a #rrggbb colour").optional(),
   kind: z.enum(BLOG_KINDS),
   authors: z
     .array(z.string())
