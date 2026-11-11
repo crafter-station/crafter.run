@@ -58,7 +58,7 @@ const creditPartners = [
   { name: "Vapi", logo: "/hackathons/partners/vapi.svg", href: "https://vapi.ai" },
   { name: "Apify", logo: "/hackathons/partners/apify.svg", href: "https://apify.com" },
   { name: "Cursor", logo: "/collaborations/cursor.svg", href: "https://cursor.com" },
-  { name: "n8n", logo: "https://n8n.io/favicon.ico", href: "https://n8n.io" },
+  { name: "n8n", logo: "/hackathons/partners/n8n.svg", href: "https://n8n.io" },
   { name: "Replit", logo: "/hackathons/partners/replit.svg", href: "https://replit.com" },
 ] as const
 
@@ -71,45 +71,45 @@ const sponsors = [
   { name: "Exa", logo: "/hackathons/partners/exa.svg", href: "https://exa.ai" },
   { name: "3DevLabs", logo: "/hackathons/partners/3DevLabs.svg", href: "https://3devlabs.app" },
   { name: "Sezzle", logo: "/collaborations/sezzle.png", href: "https://sezzle.com" },
-  { name: "Lovable", logo: "https://peru.ai-hackathon.co/logo_lovable.svg", href: "https://lovable.dev" },
+  { name: "Lovable", logo: "/hackathons/partners/lovable.svg", href: "https://lovable.dev" },
   {
     name: "Huawei",
-    logo: "https://peru.ai-hackathon.co/_logo_Logo-Huawei.png",
+    logo: "/hackathons/partners/huawei.webp",
     href: "https://huawei.com",
   },
   {
     name: "Cayetano Heredia",
-    logo: "https://peru.ai-hackathon.co/logo_cayetano_BN_1.png",
+    logo: "/hackathons/partners/cayetano.webp",
     href: "https://cayetano.edu.pe",
   },
   {
     name: "Bioincuba",
-    logo: "https://peru.ai-hackathon.co/logo_bioincuba_BN_1.png",
+    logo: "/hackathons/partners/bioincuba.webp",
     href: "https://bioincuba.cayetano.pe",
   },
   {
     name: "Yavendió",
-    logo: "https://peru.ai-hackathon.co/1.png",
+    logo: "/hackathons/partners/yavendio.webp",
     href: "https://yavendio.com",
   },
   {
     name: "forHuman",
-    logo: "https://peru.ai-hackathon.co/3.png",
+    logo: "/hackathons/partners/forhuman.webp",
     href: "https://forhuman.studio",
   },
   {
     name: "Repensar",
-    logo: "https://peru.ai-hackathon.co/logo_repensar_logo.png",
+    logo: "/hackathons/partners/repensar.webp",
     href: "https://repensar.la",
   },
   {
     name: "CloudForge AI",
-    logo: "https://peru.ai-hackathon.co/_logo_logo%20cloud%20forge%20ai.png",
+    logo: "/hackathons/partners/cloudforge.svg",
     href: "https://www.cloud-forge-ai.com",
   },
   {
     name: "Little Caesars",
-    logo: "https://peru.ai-hackathon.co/logo-little-caesars.png",
+    logo: "/hackathons/partners/little-caesars.webp",
     href: "https://pe.littlecaesars.com",
   },
   { name: "UCSM", logo: "/hackathons/partners/ucsm.png", href: "https://ucsm.edu.pe" },
