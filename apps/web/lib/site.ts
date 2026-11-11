@@ -40,6 +40,7 @@ export const navSections = [
   {
     key: "community",
     items: [
+      { key: "products", href: "/products" },
       { key: "crafters", href: "/crafters" },
       { key: "ships", href: "/ships" },
       { key: "bounties", href: "/bounties" },

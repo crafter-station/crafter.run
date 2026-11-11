@@ -33,6 +33,7 @@ export const indexablePaths = [
   "/oss",
   "/oss/metrics",
   "/universe",
+  "/products",
   "/impact/petdex",
   "/ships",
   "/bounties",

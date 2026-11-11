@@ -1,5 +1,6 @@
 export const navCopy = {
   en: {
+    products: "Products",
     community: "Community",
     ships: "Ships",
     bounties: "Bounties",
@@ -23,6 +24,7 @@ export const navCopy = {
     openMenu: "Open menu",
   },
   es: {
+    products: "Productos",
     community: "Comunidad",
     ships: "Ships",
     bounties: "Bounties",
@@ -46,6 +48,7 @@ export const navCopy = {
     openMenu: "Abrir menú",
   },
   pt: {
+    products: "Produtos",
     community: "Comunidade",
     ships: "Ships",
     bounties: "Bounties",
@@ -69,6 +72,7 @@ export const navCopy = {
     openMenu: "Abrir menu",
   },
   zh: {
+    products: "产品",
     community: "社区",
     ships: "社区作品",
     bounties: "Bounties 挑战",
@@ -92,6 +96,7 @@ export const navCopy = {
     openMenu: "打开菜单",
   },
   ja: {
+    products: "プロダクト",
     community: "コミュニティ",
     ships: "コミュニティ作品",
     bounties: "Bounties",

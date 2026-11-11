@@ -108,8 +108,6 @@ const nextConfig = {
       ]),
       { source: "/network", destination: "/universe", permanent: true },
       { source: "/:lang(en|es|pt|zh|ja)/network", destination: "/:lang/universe", permanent: true },
-      { source: "/products", destination: "/universe", permanent: true },
-      { source: "/:lang(en|es|pt|zh|ja)/products", destination: "/:lang/universe", permanent: true },
       {
         source: "/vibe",
         destination: "https://luma.com/71j27cvx",
