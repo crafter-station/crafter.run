@@ -578,6 +578,7 @@ export const teamMembers: TeamMember[] = [
       ja: "チームの足並みを揃え、ロードマップを正直に保ち、シップのペースを高く維持するプロジェクトマネージャー。スピードを落とさずに、カオスに構造をもたらします。",
     },
     skills: ["Project Management", "Agile", "Scrum", "Leadership", "Communication", "Notion"],
+    github: "https://github.com/LizethRiveros",
     linkedin: "https://www.linkedin.com/in/lizethriveros/",
     joinedYear: 2024,
   },

@@ -17,6 +17,10 @@ describe("findCoreMember", () => {
     expect(findCoreMember(account(["railly"]))?.username).toBe("railly")
   })
 
+  test("every active member has a GitHub to match on", () => {
+    expect(findCoreMember(account(["LizethRiveros"]))?.username).toBe("liz")
+  })
+
   test("rejects alumni and strangers", () => {
     expect(findCoreMember(account(["shiarauzo"]))).toBeNull()
     expect(findCoreMember(account(["someone-else"]))).toBeNull()
