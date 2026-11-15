@@ -4,12 +4,16 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { ArrowLink } from "@/components/arrow-link";
 import { Container, SectionGap } from "@/components/grid-container";
+import { CrewSection } from "@/components/crew-section";
 import { TeamGrid } from "@/components/team-grid";
 import { isLocale, withLocale } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 import { alumniTeam, team } from "@/lib/site";
 import { countryCount, primaryLink } from "@/lib/team";
+import { crewMembers } from "@/lib/crew";
 import { participationCopy } from "@/lib/participation-copy";
+
+const JOIN_EMAIL = "railly@crafterstation.com";
 
 export const dynamicParams = false;
 
@@ -34,26 +38,43 @@ export default async function Page({
   return (
     <main className="flex-1">
       <StationPageHero eyebrow={t("eyebrow")} title={t("title")} description={t("description")} art="people">
-        <p className="station-team-count">{t("teamCount", { members: team.length, countries: countryCount(team) })}</p>
+        <p className="station-team-count">
+          <span>{t("teamCount", { members: team.length, countries: countryCount(team) })}</span>
+          <span>{t("crewCount", { count: crewMembers.length })}</span>
+        </p>
       </StationPageHero>
       <Container>
+        <p className="station-label text-accent station-team-core-label">Core</p>
         <TeamGrid id="team-calendars" members={team} locale={lang} filters={{
           all: t("filterAll"),
           areas: { engineering: t("areaEngineering"), design: t("areaDesign"), growth: t("areaGrowth"), community: t("areaCommunity") },
         }} />
       </Container>
       <SectionGap />
+      <Container>
+        <CrewSection
+          locale={lang}
+          copy={{
+            eyebrow: t("crewEyebrow"),
+            title: t("crewTitle"),
+            body: t("crewBody"),
+            areas: { hack0: t("crewAreaHack0"), research: t("crewAreaResearch") },
+            lead: (name) => t("crewLead", { name }),
+          }}
+        />
+      </Container>
+      <SectionGap />
       <Container innerClassName="station-callout station-team-note">
-        <div className="grid gap-8 md:grid-cols-[1fr_1.2fr] md:items-start">
+        <div id="join" className="grid gap-8 md:grid-cols-[1fr_1.2fr] md:items-start">
           <div>
-            <p className="station-label text-accent">{participation.eyebrow}</p>
-            <h2 className="mt-3">{participation.title}</h2>
+            <p className="station-label text-accent">{t("joinEyebrow")}</p>
+            <h2 className="mt-3">{t("joinTitle")}</h2>
           </div>
           <div>
-            <p className="leading-relaxed text-muted-foreground">{participation.body}</p>
+            <p className="leading-relaxed text-muted-foreground">{t("joinBody")}</p>
             <div className="mt-6 flex flex-wrap gap-3">
+              <a href={`mailto:${JOIN_EMAIL}?subject=${encodeURIComponent(t("joinSubject"))}`}><ArrowLink>{t("joinAction")}</ArrowLink></a>
               <Link href={withLocale("/oss#contribute", lang)}><ArrowLink>{participation.contribute}</ArrowLink></Link>
-              <Link href={withLocale("/events#calendar", lang)}><ArrowLink>{participation.workshops}</ArrowLink></Link>
             </div>
           </div>
         </div>

@@ -403,7 +403,19 @@
       "areaEngineering": "エンジニアリング",
       "areaDesign": "デザイン",
       "areaGrowth": "グロース",
-      "areaCommunity": "コミュニティ"
+      "areaCommunity": "コミュニティ",
+      "crewEyebrow": "Crew",
+      "crewTitle": "一緒に作っている人たち。",
+      "crewBody": "Core のメンバーと組んで、Crafter のひとつの領域に関わっている人たちです。",
+      "crewLead": "リード：{name}",
+      "crewAreaHack0": "hack0",
+      "crewAreaResearch": "Crafter Research",
+      "crewCount": "+ Crew {count} 人",
+      "joinEyebrow": "参加する",
+      "joinTitle": "参加しませんか？",
+      "joinBody": "カバーレターを railly@crafterstation.com に送ってください。あなたが誰か、何を作ってきたか、どの領域に関わりたいかを教えてください。",
+      "joinAction": "カバーレターを送る",
+      "joinSubject": "Crafter Station に参加したい"
     },
     "blog": {
       "eyebrow": "フィールドノート · Crafter Station",

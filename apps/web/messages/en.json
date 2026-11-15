@@ -403,7 +403,19 @@
       "areaEngineering": "Engineering",
       "areaDesign": "Design",
       "areaGrowth": "Growth",
-      "areaCommunity": "Community"
+      "areaCommunity": "Community",
+      "crewEyebrow": "Crew",
+      "crewTitle": "Building with us.",
+      "crewBody": "People who work on one area of Crafter alongside someone from the Core.",
+      "crewLead": "Led by {name}",
+      "crewAreaHack0": "hack0",
+      "crewAreaResearch": "Crafter Research",
+      "crewCount": "+ {count} in the Crew",
+      "joinEyebrow": "Join",
+      "joinTitle": "Want to join?",
+      "joinBody": "Send your cover letter to railly@crafterstation.com. Tell us who you are, what you have built, and which area you would like to work on.",
+      "joinAction": "Send a cover letter",
+      "joinSubject": "I want to join Crafter Station"
     },
     "blog": {
       "eyebrow": "Field notes · Crafter Station",
