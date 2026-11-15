@@ -7,6 +7,7 @@ import { searchApi } from "@/lib/search"
 import { baseUrl } from "@/lib/seo"
 import { siteConfig } from "@/lib/site"
 import { source } from "@/lib/source"
+import { crewByArea, crewOrgs } from "@/lib/crew"
 import { activeTeamMembers } from "@/lib/team"
 import { listCrafters, listPublishedShips } from "@/lib/ships"
 
@@ -228,6 +229,34 @@ const listTeam = defineTool({
   },
 })
 
+const listCrew = defineTool({
+  name: "list_crew",
+  title: "List the Crew",
+  description:
+    "People who collaborate with Crafter Station in one area (hack0, Crafter Research) alongside a Core lead, without being Core: name, role, organization, public link, and the area's lead.",
+  schema: z.object({ locale: localeInput }),
+  async run({ locale }) {
+    const language = resolveLocale(locale)
+    const areas = crewByArea().map(({ area, lead, members }) => ({
+      area,
+      lead: { username: lead.username, name: lead.name },
+      members: members.map((member) => ({
+        name: member.name,
+        role: member.role[language],
+        org: member.org ? crewOrgs[member.org] : null,
+        link: member.link,
+      })),
+    }))
+
+    return {
+      text: areas
+        .map(({ area, lead, members }) => [`${area} (lead: ${lead.name})`, ...members.map((member) => `- ${member.name}, ${member.role}${member.org ? `, ${member.org.name}` : ""} ${member.link}`)].join("\n"))
+        .join("\n\n"),
+      data: { locale: language, url: `${baseUrl}/${language}/team/crew`, areas },
+    }
+  },
+})
+
 const listShips = defineTool({
   name: "list_ships",
   title: "List community Ships",
@@ -280,10 +309,11 @@ export const tools = [
   listOssRepos,
   listNetwork,
   listTeam,
+  listCrew,
   listShips,
   listCraftersTool,
   // Each entry carries its own input schema, so the registry is widened once
-  // here rather than making every caller reason about eight distinct shapes.
+  // here rather than making every caller reason about each distinct shape.
 ] as unknown as Tool<z.ZodType>[]
 
 export function describeTools() {
