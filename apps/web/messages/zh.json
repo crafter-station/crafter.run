@@ -415,7 +415,8 @@
       "joinTitle": "想加入我们吗？",
       "joinBody": "请将你的求职信发送至 railly@crafterstation.com。告诉我们你是谁、做过什么，以及想在哪个领域贡献力量。",
       "joinAction": "发送求职信",
-      "joinSubject": "我想加入 Crafter Station"
+      "joinSubject": "我想加入 Crafter Station",
+      "crewMore": "了解 Crew"
     },
     "blog": {
       "eyebrow": "实践笔记 · Crafter Station",
@@ -479,6 +480,20 @@
       "perksCta": "我想加入",
       "empty": "这里还没有发布任何内容。",
       "unavailable": "暂时无法加载这个列表，请稍后再试。"
+    },
+    "crew": {
+      "eyebrow": "Crew",
+      "title": "不是 Core，也能与 Crafter 一起构建。",
+      "description": "Crew 是与 Core 成员一起，在 Crafter 的某个领域（如 hack0 或 Crafter Research）协作的人。",
+      "count": "Crew 共 {count} 人",
+      "howEyebrow": "如何运作",
+      "howTitle": "一个领域、一位 Core 成员，以及三个月的相互了解。",
+      "step1Title": "选择一个领域",
+      "step1Body": "用你最擅长的能力参与 hack0 或 Crafter Research。",
+      "step2Title": "与 Core 合作",
+      "step2Body": "每个领域都有一位 Core 成员负责，并与你一起工作。",
+      "step3Title": "三个月后回顾",
+      "step3Body": "我们一起看看进展如何、下一步是什么。从 Crew 也可以进入 Core。"
     }
   },
   "member": {

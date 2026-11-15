@@ -38,6 +38,7 @@ export const indexablePaths = [
   "/ships",
   "/bounties",
   "/team",
+  "/team/crew",
   "/uses",
   "/workshops/questions",
   "/blog",

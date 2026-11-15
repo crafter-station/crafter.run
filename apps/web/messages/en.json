@@ -415,7 +415,8 @@
       "joinTitle": "Want to join?",
       "joinBody": "Send your cover letter to railly@crafterstation.com. Tell us who you are, what you have built, and which area you would like to work on.",
       "joinAction": "Send a cover letter",
-      "joinSubject": "I want to join Crafter Station"
+      "joinSubject": "I want to join Crafter Station",
+      "crewMore": "What the Crew is"
     },
     "blog": {
       "eyebrow": "Field notes · Crafter Station",
@@ -479,6 +480,20 @@
       "perksCta": "I want to join",
       "empty": "Nothing published here yet.",
       "unavailable": "We couldn't load this list right now. Try again in a while."
+    },
+    "crew": {
+      "eyebrow": "Crew",
+      "title": "Build with Crafter without being Core.",
+      "description": "The Crew are people who work on one area of Crafter, like hack0 or Crafter Research, alongside someone from the Core.",
+      "count": "{count} people in the Crew",
+      "howEyebrow": "How it works",
+      "howTitle": "One area, someone from the Core, and three months to get to know each other.",
+      "step1Title": "Pick an area",
+      "step1Body": "Work on hack0 or Crafter Research with what you do best.",
+      "step2Title": "Work with the Core",
+      "step2Body": "Each area has someone from the Core who leads it and works with you.",
+      "step3Title": "Check in at three months",
+      "step3Body": "We look at how it is going and what comes next together. The Crew is also a path into the Core."
     }
   },
   "member": {

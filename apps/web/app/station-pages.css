@@ -273,3 +273,8 @@
   .station-crew-portrait img { transition: none; }
   .station-crew-person:hover .station-crew-portrait img { transform: none; }
 }
+.station-crew-steps { grid-template-columns: repeat(3,minmax(0,1fr)); list-style: none; padding: 0; }
+.station-crew-steps h3 { font-family: var(--font-display); font-size: 22px; line-height: 1.2; }
+@media (max-width: 767px) {
+  .station-crew-steps { grid-template-columns: 1fr; }
+}
