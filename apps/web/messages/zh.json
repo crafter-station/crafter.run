@@ -403,7 +403,19 @@
       "areaEngineering": "工程",
       "areaDesign": "设计",
       "areaGrowth": "增长",
-      "areaCommunity": "社区"
+      "areaCommunity": "社区",
+      "crewEyebrow": "Crew",
+      "crewTitle": "与我们一起构建。",
+      "crewBody": "与 Core 成员一起，在 Crafter 的某个领域协作的人。",
+      "crewLead": "负责人：{name}",
+      "crewAreaHack0": "hack0",
+      "crewAreaResearch": "Crafter Research",
+      "crewCount": "+ {count} 位 Crew 成员",
+      "joinEyebrow": "加入",
+      "joinTitle": "想加入我们吗？",
+      "joinBody": "请将你的求职信发送至 railly@crafterstation.com。告诉我们你是谁、做过什么，以及想在哪个领域贡献力量。",
+      "joinAction": "发送求职信",
+      "joinSubject": "我想加入 Crafter Station"
     },
     "blog": {
       "eyebrow": "实践笔记 · Crafter Station",

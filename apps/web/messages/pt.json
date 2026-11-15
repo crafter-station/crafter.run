@@ -403,7 +403,19 @@
       "areaEngineering": "Engenharia",
       "areaDesign": "Design",
       "areaGrowth": "Growth",
-      "areaCommunity": "Comunidade"
+      "areaCommunity": "Comunidade",
+      "crewEyebrow": "Crew",
+      "crewTitle": "Constroem com a gente.",
+      "crewBody": "Pessoas que colaboram em uma área da Crafter junto com alguém do Core.",
+      "crewLead": "Liderado por {name}",
+      "crewAreaHack0": "hack0",
+      "crewAreaResearch": "Crafter Research",
+      "crewCount": "+ {count} no Crew",
+      "joinEyebrow": "Participe",
+      "joinTitle": "Quer fazer parte?",
+      "joinBody": "Envie sua carta de apresentação para railly@crafterstation.com. Conte quem você é, o que já construiu e em qual área gostaria de contribuir.",
+      "joinAction": "Enviar carta de apresentação",
+      "joinSubject": "Quero fazer parte da Crafter Station"
     },
     "blog": {
       "eyebrow": "Notas de campo · Crafter Station",
