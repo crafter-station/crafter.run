@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-15",
+  "model": "openai/gpt-image-2.6-flare via ai-cli 0.7.0 (Vercel AI Gateway)",
+  "size": "1024x1024",
+  "inputs": "image 1 = identity reference (not stored in the repo), image 2 = railly-cutout-v1.webp flattened on white as JPEG (WebP references failed intermittently)",
+  "prompt": "crew-common.txt followed by <name>-v1.txt",
+  "cutout": "macOS Vision VNGenerateForegroundInstanceMaskRequest, then WebP 768x768 q88 with alpha; the page supplies the area shape (--crew-hack0, --crew-research)",
+  "portraits": {
+    "mayckol": {
+      "area": "hack0",
+      "identityReference": "AI Frontier 26 speaker photo (event portal)",
+      "prompt": "mayckol-v1.txt",
+      "cutout": "circle painted to paper, Vision cutout, light pixels above the hair removed by hand",
+      "webp": "apps/web/public/team/crew/mayckol-v1.webp",
+      "sha256": "3f4c058c5ba9b660b773298ccfc01bb9a5dc62b9ecbfbab93885341790e30de1"
+    },
+    "javo": {
+      "area": "hack0",
+      "identityReference": "AI Frontier 26 speaker photo (event portal)",
+      "prompt": "javo-v1.txt",
+      "cutout": "circle painted to paper, Vision cutout",
+      "webp": "apps/web/public/team/crew/javo-v1.webp",
+      "sha256": "6edb23cb22f8cf56720bcc6cbf2032dc39630dc7e67b7b36de7294831fc99b88"
+    },
+    "diego": {
+      "area": "research",
+      "identityReference": "X avatar @dieego_jesus",
+      "prompt": "diego-v1.txt",
+      "cutout": "Vision cutout",
+      "webp": "apps/web/public/team/crew/diego-v1.webp",
+      "sha256": "5b11f73bb310a523311541c60e35dbec3b84ae1db061c35665d81dae6fc57c0e"
+    },
+    "antony": {
+      "area": "research",
+      "identityReference": "photo supplied by Railly",
+      "prompt": "antony-v1.txt",
+      "cutout": "circle painted to paper, Vision cutout",
+      "webp": "apps/web/public/team/crew/antony-v1.webp",
+      "sha256": "63ecc9efad6f226ba35961fa451503cd4f7009a74361941af1487d13231e5662",
+      "promptNote": "crew-common.txt with 'Plain crewneck with no logos or writing.' replaced by 'No logos or writing on clothing.' to keep his sweater and collar"
+    },
+    "bruno": {
+      "area": "research",
+      "identityReference": "GitHub avatar @bdiazc90",
+      "prompt": "bruno-v1.txt",
+      "cutout": "Vision cutout",
+      "webp": "apps/web/public/team/crew/bruno-v1.webp",
+      "sha256": "1aa8d999c5e28dea9fa36e31ccdfeabac3ce83d3cf6401f930456efa91983c9f"
+    }
+  }
+}
