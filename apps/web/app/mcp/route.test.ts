@@ -133,6 +133,20 @@ describe("MCP endpoint", () => {
     }
   })
 
+  test("lists the Crew by area, apart from the Core", async () => {
+    const { body } = await rpc({
+      jsonrpc: "2.0",
+      id: 12,
+      method: "tools/call",
+      params: { name: "list_crew", arguments: { locale: "es" } },
+    })
+    const { areas } = body.result.structuredContent
+    expect(areas.map((group: { area: string }) => group.area)).toEqual(["hack0", "research"])
+    const names = areas.flatMap((group: { members: { name: string }[] }) => group.members.map((member) => member.name))
+    expect(names).toContain("Bruno Díaz")
+    expect(names).not.toContain("Railly Hugo")
+  })
+
   /* A tool that fails reports through `isError` so the model can read the
      reason and retry; only a protocol-level mistake becomes a JSON-RPC error. */
   test("separates a tool failure from a protocol error", async () => {
