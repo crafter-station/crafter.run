@@ -415,7 +415,8 @@
       "joinTitle": "参加しませんか？",
       "joinBody": "カバーレターを railly@crafterstation.com に送ってください。あなたが誰か、何を作ってきたか、どの領域に関わりたいかを教えてください。",
       "joinAction": "カバーレターを送る",
-      "joinSubject": "Crafter Station に参加したい"
+      "joinSubject": "Crafter Station に参加したい",
+      "crewMore": "Crew について"
     },
     "blog": {
       "eyebrow": "フィールドノート · Crafter Station",
@@ -479,6 +480,20 @@
       "perksCta": "参加したい",
       "empty": "まだ何も公開されていません。",
       "unavailable": "いまはこのリストを読み込めませんでした。少し時間をおいて試してください。"
+    },
+    "crew": {
+      "eyebrow": "Crew",
+      "title": "Core でなくても、Crafter と一緒に作る。",
+      "description": "Crew は、hack0 や Crafter Research など Crafter のひとつの領域で、Core のメンバーと一緒に活動する人たちです。",
+      "count": "Crew {count} 人",
+      "howEyebrow": "しくみ",
+      "howTitle": "ひとつの領域、Core のメンバー、そしてお互いを知るための3か月。",
+      "step1Title": "領域を選ぶ",
+      "step1Body": "得意なことを活かして hack0 か Crafter Research に関わります。",
+      "step2Title": "Core と一緒に動く",
+      "step2Body": "各領域には、リードとして一緒に動く Core のメンバーがいます。",
+      "step3Title": "3か月後に振り返る",
+      "step3Body": "進み具合と次の一歩を一緒に確認します。Crew から Core になる道もあります。"
     }
   },
   "member": {

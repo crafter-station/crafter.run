@@ -507,7 +507,7 @@ export const teamMembers: TeamMember[] = [
   },
   {
     username: "nacho",
-    name: "Ignacio Velasquez",
+    name: "Ignacio Velásquez",
     role: "Growth & Automation",
     location: "Arequipa, Peru",
     image: "/team/station-ink/nacho-cutout-v1.webp",

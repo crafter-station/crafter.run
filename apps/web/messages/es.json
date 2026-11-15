@@ -415,7 +415,8 @@
       "joinTitle": "¿Quieres sumarte?",
       "joinBody": "Envía tu carta de presentación a railly@crafterstation.com. Cuéntanos quién eres, qué has construido y en qué área te gustaría aportar.",
       "joinAction": "Enviar carta de presentación",
-      "joinSubject": "Quiero sumarme a Crafter Station"
+      "joinSubject": "Quiero sumarme a Crafter Station",
+      "crewMore": "Qué es el Crew"
     },
     "blog": {
       "eyebrow": "Notas de campo · Crafter Station",
@@ -479,6 +480,20 @@
       "perksCta": "Quiero sumarme",
       "empty": "Todavía no hay nada publicado aquí.",
       "unavailable": "No pudimos cargar esta lista ahora. Prueba de nuevo en un rato."
+    },
+    "crew": {
+      "eyebrow": "Crew",
+      "title": "Construye con Crafter sin ser Core.",
+      "description": "El Crew son personas que colaboran en un área de Crafter, como hack0 o Crafter Research, junto a alguien del Core.",
+      "count": "{count} personas en el Crew",
+      "howEyebrow": "Cómo funciona",
+      "howTitle": "Un área, alguien del Core y tres meses para conocernos.",
+      "step1Title": "Eliges un área",
+      "step1Body": "Colaboras en hack0 o en Crafter Research con lo que mejor sabes hacer.",
+      "step2Title": "Trabajas con el Core",
+      "step2Body": "Cada área tiene a alguien del Core que la lidera y trabaja contigo.",
+      "step3Title": "Revisamos a los tres meses",
+      "step3Body": "Vemos juntos cómo va y qué sigue. Desde el Crew también se puede llegar al Core."
     }
   },
   "member": {
