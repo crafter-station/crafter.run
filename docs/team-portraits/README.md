@@ -92,3 +92,13 @@ La preview quedó reiniciada en 8875.
 - La copia original de `feat/team-former-members` conserva intacto su diff.
 
 Rama de trabajo: `feat/station-bucle`. Vista local: `http://localhost:8875/es`. Sin commit, push ni deploy; la comprobación de configuración del destino sigue pendiente según `docs/handoffs/redesign-ship-focus-2026-10-05.md`.
+
+## Crew (15 de noviembre de 2026)
+
+Retratos del Crew en `apps/web/public/team/crew`, con el mismo trazo de la serie del Core y una paleta por área. hack0 usa tinta `#111111`, papel `#F3F0E8` y naranja `#FF3D00` (hack0.dev/brand). Crafter Research usa tinta `#07100D`, papel `#F6FBF8`, menta `#CFE7D2` y verde `#24523F` (tokens de crafter.ing).
+
+Generación: `openai/gpt-image-2.6-flare` por ai-cli. La imagen 1 es la referencia de identidad y la imagen 2 es `railly-cutout-v1.webp` aplanado en JPEG. Prompt: `crew/crew-common.txt` seguido de `crew/<nombre>-v1.txt`. Las fotos de referencia no se guardan en el repo.
+
+Recorte: `crew/cutout.swift` (Vision de macOS) sobre el retrato generado; si quedaba parte del círculo, primero se pinta del color del papel. La página pone la forma detrás con `--crew-hack0` y `--crew-research`, en tono pastel en light y apagado en dark. Procedencia, pasos por persona y hashes: `crew/crew-2026-11-15.json`.
+
+Para sumar a alguien al Crew: misma receta, prompt `<nombre>-v1.txt` con sus rasgos y la paleta de su área.
