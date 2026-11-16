@@ -423,6 +423,57 @@
       "title": "Crafter Journal",
       "description": "O que testamos, o que aprendemos e o que vale compartilhar. Engenharia e cultura de quem constrói na América Latina."
     },
+    "changelog": {
+      "eyebrow": "Changelog · Crafter Station",
+      "title": "Changelog",
+      "description": "O que a Crafter Station publica, com as pessoas e as fontes públicas por trás de cada mudança.",
+      "subscribe": "Assinar",
+      "rss": "RSS",
+      "markdownIndex": "Índice em Markdown",
+      "agents": "Para agentes",
+      "filterLabel": "Filtrar por área",
+      "all": "Tudo",
+      "areas": {
+        "research": "Research",
+        "lab": "Lab",
+        "games": "Games",
+        "station": "Station"
+      },
+      "kinds": {
+        "ship": "Ship",
+        "update": "Atualização",
+        "event": "Evento",
+        "roundup": "Resumo"
+      },
+      "results": "{count, plural, one {# mudança} other {# mudanças}}",
+      "empty": "Ainda não há nada aqui.",
+      "reset": "Mostrar todas as áreas",
+      "readEntry": "Ler a entrada",
+      "crafters": "Crafters",
+      "ships": "Ships",
+      "repos": "Repositórios",
+      "links": "Links",
+      "sources": "Fontes",
+      "newer": "Mais recente",
+      "older": "Anterior",
+      "allChanges": "Todas as mudanças",
+      "availableIn": "Disponível em {language}",
+      "languages": {
+        "en": "inglês",
+        "es": "espanhol"
+      },
+      "readAsMarkdown": "Ler em Markdown",
+      "ctaEyebrow": "Acompanhe",
+      "ctaTitle": "Receba o que publicamos, quando publicamos.",
+      "ctaBody": "Assine por e-mail ou RSS. Cada entrada aponta para suas fontes públicas.",
+      "feedTitle": "Changelog da Crafter Station",
+      "feedSubtitle": "O que a Crafter Station publica.",
+      "mdTitle": "Changelog da Crafter Station",
+      "mdIntro": "{count, plural, one {# entrada} other {# entradas}}, da mais recente para a mais antiga. Cada uma aponta para sua própria página em markdown.",
+      "published": "Publicado",
+      "area": "Área",
+      "kind": "Tipo"
+    },
     "brand": {
       "eyebrow": "Recursos da marca",
       "title": "A identidade da Crafter.",
@@ -494,6 +545,30 @@
       "step2Body": "Cada área tem alguém do Core que a lidera e trabalha com você.",
       "step3Title": "Revisão aos três meses",
       "step3Body": "Vemos juntos como está indo e o que vem depois. Do Crew também se pode chegar ao Core."
+    },
+    "newsletter": {
+      "eyebrow": "Newsletter",
+      "title": "O resumo mensal.",
+      "description": "Uma vez por mês: o que a Crafter Station lançou, quem construiu e as métricas por trás.",
+      "getsTitle": "O que você recebe",
+      "shipsTitle": "O que foi lançado",
+      "shipsBody": "Produtos, ferramentas e experimentos do mês, com links.",
+      "peopleTitle": "Quem construiu",
+      "peopleBody": "Cada lançamento dá crédito aos crafters por trás.",
+      "metricsTitle": "Os números",
+      "metricsBody": "A atividade segundo o Pulse: commits, a sequência do time e os crafters mais ativos.",
+      "perksTitle": "Crafter Perks",
+      "perksBody": "Você também terá acesso antecipado ao Crafter Perks quando abrir.",
+      "formTitle": "Entre na lista",
+      "emailLabel": "E-mail",
+      "emailPlaceholder": "voce@exemplo.com",
+      "submit": "Inscrever-me",
+      "submitting": "Inscrevendo...",
+      "subscribed": "Você está na lista.",
+      "alreadySubscribed": "Este e-mail já está na lista.",
+      "invalid": "Informe um e-mail válido.",
+      "unavailable": "A inscrição está indisponível agora. Tente novamente mais tarde.",
+      "fine": "Um e-mail por mês. Você pode cancelar a inscrição em qualquer resumo."
     }
   },
   "member": {

@@ -27,7 +27,6 @@ import { Input } from "@/components/ui/input"
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -311,11 +310,8 @@ function ProjectDetailSheet({
   const color = projectColor(project.fullName)
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent
-        side="right"
-        className="project-detail-sheet w-full overflow-y-auto p-0 data-[state=closed]:duration-150 data-[state=open]:duration-200 sm:max-w-lg"
-      >
+    <Sheet side="right" open={open} onOpenChange={onOpenChange}>
+      <SheetContent className="project-detail-sheet w-full overflow-y-auto p-0 sm:max-w-lg">
         <SheetHeader className="border-b border-line px-6 pb-6 pt-10 text-left sm:px-8">
           <div className="flex flex-wrap items-center gap-2">
             <span
@@ -527,26 +523,27 @@ function ProjectDetailSheet({
           ) : null}
 
           <div className="flex flex-wrap gap-2">
-            <Button asChild className="transition-transform duration-150 active:scale-[0.97]">
-              <a href={project.url} target="_blank" rel="noopener noreferrer">
-                {copy.openGithub}
-                <ArrowUpRight data-icon="inline-end" />
-              </a>
+            <Button
+              render={<a href={project.url} target="_blank" rel="noopener noreferrer" />}
+              className="transition-transform duration-150 active:scale-[0.97]"
+            >
+              {copy.openGithub}
+              <ArrowUpRight data-icon="inline-end" />
             </Button>
             {project.homepageUrl ? (
               <Button
-                asChild
+                render={
+                  <a
+                    href={project.homepageUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  />
+                }
                 variant="outline"
                 className="transition-transform duration-150 active:scale-[0.97]"
               >
-                <a
-                  href={project.homepageUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {copy.openWebsite}
-                  <ArrowUpRight data-icon="inline-end" />
-                </a>
+                {copy.openWebsite}
+                <ArrowUpRight data-icon="inline-end" />
               </Button>
             ) : null}
           </div>
@@ -578,6 +575,12 @@ export function ProjectTimeline({
   const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_PROJECTS)
   const scrollRef = useRef<HTMLDivElement>(null)
   const scrollFrameRef = useRef<number | null>(null)
+
+  const sortItems: { value: ProjectSort; label: string }[] = [
+    { value: "activity", label: copy.sorts.activity },
+    { value: "recent", label: copy.sorts.recent },
+    { value: "stars", label: copy.sorts.stars },
+  ]
 
   const startIndex = Math.max(0, data.weeks.length - range)
   const visibleWeeks = data.weeks.slice(startIndex)
@@ -955,7 +958,6 @@ export function ProjectTimeline({
 
             <div className="timeline-scroll overflow-x-auto">
               <ToggleGroup
-                type="single"
                 value={filter}
                 onValueChange={updateFilter}
                 variant="outline"
@@ -971,7 +973,6 @@ export function ProjectTimeline({
 
             <div className="timeline-scroll overflow-x-auto">
               <ToggleGroup
-                type="single"
                 value={org}
                 onValueChange={updateOrg}
                 variant="outline"
@@ -993,6 +994,7 @@ export function ProjectTimeline({
 
           <div className="flex items-center justify-between gap-2 sm:justify-start">
             <Select
+              items={sortItems}
               value={sort}
               onValueChange={(value) => {
                 startTransition(() => {
@@ -1005,16 +1007,13 @@ export function ProjectTimeline({
                 <SelectValue />
               </SelectTrigger>
               <SelectContent align="end">
-                <SelectGroup>
-                  <SelectItem value="activity">{copy.sorts.activity}</SelectItem>
-                  <SelectItem value="recent">{copy.sorts.recent}</SelectItem>
-                  <SelectItem value="stars">{copy.sorts.stars}</SelectItem>
-                </SelectGroup>
+                {sortItems.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
 
             <ToggleGroup
-              type="single"
               value={String(range)}
               onValueChange={updateRange}
               variant="outline"

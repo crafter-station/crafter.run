@@ -4,6 +4,7 @@ import { hotReloadEditions } from "@/lib/hot-reload"
 import { hotReloadPath } from "@/lib/hot-reload-seo"
 
 import { blogUpdated, getPost, getSlugs, pageCount, postLanguageAlternates, postLocales } from "@/lib/blog"
+import { changelogUpdated, entryLanguageAlternates, entryLocales, getEntry, getSlugs as getChangelogSlugs } from "@/lib/changelog"
 import { locales } from "@/lib/i18n"
 import {
   baseUrl,
@@ -21,6 +22,7 @@ function lastModified(path: string): Date {
   // The blog index moves whenever a post does; stamping it with the site-wide
   // content date would understate it after every publish.
   if (path === "/blog") return new Date(blogUpdated())
+  if (path === "/changelog") return new Date(changelogUpdated())
   return new Date(CONTENT_UPDATED)
 }
 
@@ -65,6 +67,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }),
   )
 
+  const changelogEntries = getChangelogSlugs().flatMap((slug) =>
+    entryLocales(slug).map((locale) => ({
+      url: localizedUrl(`/changelog/${slug}`, locale),
+      lastModified: new Date(getEntry(slug, locale)!.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+      alternates: { languages: entryLanguageAlternates(slug) },
+    })),
+  )
+
   // Archive pages 2..N, so a crawler can walk the whole blog. Page 1 is /blog.
   const archiveEntries = locales.flatMap((locale) =>
     Array.from({ length: pageCount(locale) - 1 }, (_, i) => ({
@@ -75,5 +87,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   )
 
-  return [...localizedEntries, ...postEntries, ...archiveEntries]
+  return [...localizedEntries, ...postEntries, ...changelogEntries, ...archiveEntries]
 }

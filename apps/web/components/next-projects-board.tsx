@@ -4,7 +4,7 @@ import { useEffect, useEffectEvent, useMemo, useRef, useState, useTransition } f
 import { ChevronDown, ChevronUp, Loader2, Radio, Send, Sparkles } from "lucide-react"
 import { PortalProvider, useChannel } from "@portalsdk/react"
 
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -244,11 +244,9 @@ function NextProjectsBoardContent() {
     <div className="station-board mx-auto max-w-4xl">
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <div className="mb-4 flex justify-center">
-          <DialogTrigger asChild>
-            <Button className="h-12 w-full rounded-none px-6 sm:w-auto">
-              <Send />
-              Add a project idea
-            </Button>
+          <DialogTrigger className={buttonVariants({ className: "h-12 w-full rounded-none px-6 sm:w-auto" })}>
+            <Send />
+            Add a project idea
           </DialogTrigger>
         </div>
         <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-none border-line bg-background p-4 sm:max-w-xl sm:p-6">

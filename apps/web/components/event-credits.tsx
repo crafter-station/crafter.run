@@ -58,12 +58,12 @@ export function CreditsPanel({ locale, slug, kind, state, present, code, reporte
       <h2>{t.yourCode}</h2>
       <p className="mt-6 break-all font-mono text-[clamp(16px,3vw,26px)] text-foreground">{code}</p>
       <div className="mt-6 flex flex-wrap gap-3">
-        {/^https:\/\//.test(code) ? <Button asChild><a href={code} target="_blank" rel="noopener noreferrer" onClick={() => { void claimCredits(slug).then(() => setClaimed(true)) }}>{t.open}</a></Button> : null}
+        {/^https:\/\//.test(code) ? <Button render={<a href={code} target="_blank" rel="noopener noreferrer" onClick={() => { void claimCredits(slug).then(() => setClaimed(true)) }} />}>{t.open}</Button> : null}
         <Button variant={/^https:\/\//.test(code) ? "outline" : "default"} onClick={async () => { await navigator.clipboard.writeText(code); setCopied(true); void claimCredits(slug).then(() => setClaimed(true)) }}>{copied ? t.copied : t.copy}</Button>
         <Button variant="outline" disabled={flagged || pending} onClick={() => start(async () => { if ((await reportCredits(slug)).ok) setFlagged(true) })}>{t.report}</Button>
       </div>
       {flagged ? <p role="status">{t.reported}</p> : null}
-      {claimed ? <Button asChild variant="outline" className="mt-6"><a href={`/${locale}/events/${slug}/badge`}>{t.badge}</a></Button> : null}
+      {claimed ? <Button render={<a href={`/${locale}/events/${slug}/badge`} />} variant="outline" className="mt-6">{t.badge}</Button> : null}
     </div>
   }
   if (state === "closed") {

@@ -1,6 +1,6 @@
 "use client"
 
-import * as SelectPrimitive from "@radix-ui/react-select"
+import { Select, SelectContent, SelectItem, SelectItemIcon, SelectItemIndicator, SelectTrigger, SelectValue, SelectValueIcon } from "@ui-sdk/react/select"
 import { BookUser, Check, ChevronDown, Globe, IdCard, Info, Laptop, type LucideIcon, Plus, X } from "lucide-react"
 import { type SimpleIcon, siAcer, siApple, siAsus, siDell, siHp, siHuawei, siLenovo, siLg, siMsi, siSamsung, siToshiba } from "simple-icons"
 import { useEffect, useId, useRef, useState } from "react"
@@ -50,28 +50,24 @@ function ModelCombobox({ brand, value, onChange, placeholder, noMatch }: {
   </div>
 }
 
-function BrandSelect({ value, onChange, placeholder, other, invalid, field }: {
-  value: string; onChange: (value: string) => void; placeholder: string; other: string; invalid: boolean; field?: string
+function BrandSelect({ value, onChange, label, placeholder, other, invalid, field }: {
+  value: string; onChange: (value: string) => void; label: string; placeholder: string; other: string; invalid: boolean; field?: string
 }) {
   const options = [...laptopBrands, ...(value && value !== other && !laptopBrands.some(([brand]) => brand === value) ? [[value, null] as [string, null]] : []), [other, null] as [string, null]]
-  // The menu portals next to the trigger's themed scope, so event identities (DevDay) style it too.
-  const [scope, setScope] = useState<HTMLElement | null>(null)
-  return <SelectPrimitive.Root value={value} onValueChange={brand => brand && onChange(brand)}>
-    <SelectPrimitive.Trigger ref={node => setScope(node?.closest<HTMLElement>(".theme-scope") ?? null)} className="entry-brand-trigger" aria-invalid={invalid} data-field={field}>
-      <SelectPrimitive.Value placeholder={placeholder} />
-      <SelectPrimitive.Icon asChild><ChevronDown aria-hidden size={16} /></SelectPrimitive.Icon>
-    </SelectPrimitive.Trigger>
-    <SelectPrimitive.Portal container={scope}>
-      <SelectPrimitive.Content className="entry-brand-menu" position="popper" sideOffset={6}>
-        <SelectPrimitive.Viewport>
-          {options.map(([brand, icon]) => <SelectPrimitive.Item key={brand} value={brand} className="entry-brand-option">
-            <SelectPrimitive.ItemText><span className="entry-brand-label"><BrandMark icon={icon} />{brand}</span></SelectPrimitive.ItemText>
-            <SelectPrimitive.ItemIndicator className="entry-brand-check"><Check aria-hidden size={16} /></SelectPrimitive.ItemIndicator>
-          </SelectPrimitive.Item>)}
-        </SelectPrimitive.Viewport>
-      </SelectPrimitive.Content>
-    </SelectPrimitive.Portal>
-  </SelectPrimitive.Root>
+  return <Select items={options.map(([brand]) => brand)} placeholder={placeholder} value={value || null} onValueChange={brand => brand && onChange(brand)}>
+    <SelectTrigger className="entry-brand-trigger" aria-label={label} aria-invalid={invalid} data-field={field}>
+      <SelectValueIcon className="entry-brand-icon" />
+      <SelectValue />
+      <ChevronDown aria-hidden size={16} />
+    </SelectTrigger>
+    <SelectContent className="entry-brand-menu" side="bottom" sideOffset={6}>
+      {options.map(([brand, icon]) => <SelectItem key={brand} value={brand} className="entry-brand-option">
+        <SelectItemIcon className="entry-brand-icon"><BrandMark icon={icon} /></SelectItemIcon>
+        {brand}
+        <SelectItemIndicator className="entry-brand-check"><Check aria-hidden size={16} /></SelectItemIndicator>
+      </SelectItem>)}
+    </SelectContent>
+  </Select>
 }
 const documentIcons: Record<AccessDetails["documentType"], LucideIcon> = { dni: IdCard, foreign: Globe, passport: BookUser }
 type Item = { id: number; type: number; brand: string; model: string }
@@ -156,7 +152,8 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
     }
   }
 
-  return <form className="entry-form" noValidate onChange={() => { setDirty(true); setResult(null) }} onSubmit={event => { event.preventDefault(); void submit(event.currentTarget) }}>
+  return <>
+  <form className="entry-form" noValidate onChange={() => { setDirty(true); setResult(null) }} onSubmit={event => { event.preventDefault(); void submit(event.currentTarget) }}>
     <div className="entry-form-heading">
       <span className="entry-badge">{t.approved}</span>
       <h2>{t.formTitle}</h2>
@@ -217,7 +214,7 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
               const invalid = fields.includes("equipmentText") && !item.brand.trim()
               return <li key={item.id} className="entry-item">
                 <div className="entry-item-field"><span>{t.brand}</span>
-                  <BrandSelect value={item.brand} onChange={brand => updateItem(item.id, { brand })} placeholder={t.brandPlaceholder} other={t.brandOther}
+                  <BrandSelect value={item.brand} onChange={brand => updateItem(item.id, { brand })} label={t.brand} placeholder={t.brandPlaceholder} other={t.brandOther}
                     invalid={invalid} field={index === 0 ? "equipmentText" : undefined} />
                 </div>
                 <label className="entry-item-field"><span>{t.model}</span>
@@ -246,6 +243,7 @@ export function EventAccessForm({ locale, slug, email, defaultName, existing, cl
     <div ref={feedback} tabIndex={-1} aria-live="polite" className="entry-feedback">
       {closed ? <p>{t.closedBody}</p> : result && !result.ok ? <p role="alert">{t.errors[result.error]}</p> : saved && !dirty ? <><h3>{t.saved}</h3><p>{t.savedBody}</p></> : null}
     </div>
-    {whatsappUrl ? <EventWhatsAppInvite locale={locale} whatsappUrl={whatsappUrl} open={invite} onOpenChange={setInvite} /> : null}
   </form>
+  {whatsappUrl ? <EventWhatsAppInvite locale={locale} whatsappUrl={whatsappUrl} open={invite} onOpenChange={setInvite} /> : null}
+  </>
 }

@@ -17,6 +17,7 @@ import {
 } from "@crafter/contracts"
 import { api, publicApi } from "./api"
 import { login, logout, openBrowser } from "./auth"
+import { runChangelog } from "./changelog"
 import { webPath } from "./config"
 import { inferShipMetadata } from "./metadata"
 
@@ -37,6 +38,9 @@ Usage:
   crafter publish <id> --revision <updated-at> --confirm
   crafter edit <ship-slug> --file <json-file> --revision <updated-at> --confirm
   crafter update <ship-slug> --file <json-file> --confirm
+  crafter changelog new <slug> [--area <research|lab|games|station>] [--kind <ship|update|event|roundup>]
+  crafter changelog check <dir> [--json]
+  crafter changelog submit <dir> [--confirm]
 
 Environment:
   CRAFTER_ACCESS_TOKEN              Use an access token without storing it
@@ -93,6 +97,10 @@ async function main(args: string[]): Promise<void> {
   if (command === "version" || command === "--version" || command === "-v") {
     const packageJson = JSON.parse(await readFile(new URL("../package.json", import.meta.url), "utf8")) as { version: string }
     console.log(packageJson.version)
+    return
+  }
+  if (command === "changelog") {
+    process.exitCode = await runChangelog(rest)
     return
   }
   if (command === "login") {

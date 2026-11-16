@@ -1,3 +1,7 @@
+import { getTranslations } from "next-intl/server"
+
+import { getIndexEntries } from "@/lib/changelog"
+import { entryMarkdown, type Tr } from "@/lib/changelog-markdown"
 import { source } from "@/lib/source"
 import { baseUrl } from "@/lib/seo"
 
@@ -12,7 +16,12 @@ export async function GET() {
     }),
   )
 
-  return new Response(sections.join("\n\n---\n\n"), {
+  // The changelog in English, newest first, so a model reading one file can
+  // answer "what has Crafter Station shipped" without a second request.
+  const tr = (await getTranslations({ locale: "en", namespace: "pages.changelog" })) as unknown as Tr
+  const changes = getIndexEntries("en").map((entry) => entryMarkdown(entry, "en", tr))
+
+  return new Response([...sections, ...changes].join("\n\n---\n\n"), {
     headers: { "Content-Type": "text/plain; charset=utf-8" },
   })
 }
