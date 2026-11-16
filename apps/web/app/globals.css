@@ -1,3 +1,4 @@
+@layer ui-sdk;
 @import 'tailwindcss';
 @import '@clerk/ui/themes/shadcn.css';
 @import 'fumadocs-ui/css/neutral.css';
@@ -8,6 +9,7 @@
 @import './station-oss.css';
 @import './station-network.css';
 @import './station-journal.css';
+@import './station-changelog.css';
 @import './station-universe.css';
 @import './station-agenda.css';
 @import './station-pages.css';
@@ -100,26 +102,6 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
-
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
-
-  @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-accordion-content-height);
-    }
-  }
-  @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
-    }
-  }
 }
 
 /*

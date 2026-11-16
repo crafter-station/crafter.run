@@ -2,6 +2,7 @@ import { clerkMiddleware } from "@clerk/nextjs/server"
 import { NextResponse, type NextRequest } from "next/server"
 
 import { BLOG_POST_PATH, blogPostMarkdownRoute } from "@/lib/blog-paths"
+import { CHANGELOG_ENTRY_PATH, changelogEntryMarkdownRoute } from "@/lib/changelog-paths"
 import { defaultLocale, isLocale, LOCALE_HEADER, locales, type Locale } from "@/lib/i18n"
 
 /**
@@ -53,6 +54,14 @@ export const proxy = clerkMiddleware((_auth, request: NextRequest) => {
     if (post && wantsMarkdown(request)) {
       const url = request.nextUrl.clone()
       url.pathname = blogPostMarkdownRoute(firstSegment, post[2]!)
+      return NextResponse.rewrite(url, { request: { headers } })
+    }
+
+    // Same negotiation for a changelog entry.
+    const entry = CHANGELOG_ENTRY_PATH.exec(pathname)
+    if (entry && wantsMarkdown(request)) {
+      const url = request.nextUrl.clone()
+      url.pathname = changelogEntryMarkdownRoute(firstSegment, entry[2]!)
       return NextResponse.rewrite(url, { request: { headers } })
     }
 

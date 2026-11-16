@@ -45,25 +45,22 @@ export function ThemeSwitcher({ className, label = "Theme", locale = "en", compa
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button
-          type="button"
-          aria-label={label}
-          className={cn(
-            "inline-flex items-center justify-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground",
-            compact && "station-control",
-            className,
-          )}
-        >
-          <Icon className="size-4" strokeWidth={1.6} aria-hidden="true" />
-          <span className={compact ? "station-control-label" : "font-label text-xs"}>{t[mode]}</span>
-          <ChevronDown className="station-control-chevron size-3" aria-hidden="true" />
-        </button>
+      <DropdownMenuTrigger
+        aria-label={label}
+        className={cn(
+          "inline-flex items-center justify-center gap-1.5 text-muted-foreground transition-colors hover:text-foreground",
+          compact && "station-control",
+          className,
+        )}
+      >
+        <Icon className="size-4" strokeWidth={1.6} aria-hidden="true" />
+        <span className={compact ? "station-control-label" : "font-label text-xs"}>{t[mode]}</span>
+        <ChevronDown className="station-control-chevron size-3" aria-hidden="true" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align={compact ? "start" : "end"} side="bottom" sideOffset={6} collisionPadding={12} className="station-preference-menu">
-        <DropdownMenuLabel>{label}</DropdownMenuLabel>
         <DropdownMenuGroup>
           <DropdownMenuRadioGroup value={mounted ? theme : ""} onValueChange={setTheme}>
+            <DropdownMenuLabel>{label}</DropdownMenuLabel>
             {modes.map((mode) => {
               const ModeIcon = mode.icon
               return (

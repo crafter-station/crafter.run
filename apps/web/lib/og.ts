@@ -8,7 +8,7 @@ export type SocialKind = "home" | "oss" | "universe" | "journal" | "events" | "h
 
 export function socialKind(path: string): SocialKind {
   if (path === "/") return "home"
-  if (path.startsWith("/blog")) return "journal"
+  if (path.startsWith("/blog") || path.startsWith("/changelog")) return "journal"
   if (path.startsWith("/bounties")) return "bounties"
   if (path.startsWith("/team")) return "team"
   if (path.startsWith("/crafters")) return "people"

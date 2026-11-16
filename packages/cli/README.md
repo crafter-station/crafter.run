@@ -21,6 +21,9 @@ crafter ship
 crafter publish <draft-id> --revision <updated-at> --confirm
 crafter edit <ship-slug> --file <json-file> --revision <updated-at> --confirm
 crafter update <ship-slug> --file <json-file> --confirm
+crafter changelog new <slug> [--area <research|lab|games|station>] [--kind <ship|update|event|roundup>]
+crafter changelog check <dir> [--json]
+crafter changelog submit <dir> [--confirm]
 ```
 
 `crafter handle` checks whether a Crafter handle is still available. `crafter onboard --file` creates or updates your Crafter profile from a JSON file with at least `handle` and `displayName` (run it without arguments to use the browser form instead):
@@ -60,6 +63,19 @@ Use `crafter edit` to change a published Ship's metadata. Get the current `updat
 ```
 
 `crafter update` remains the command for publishing changelog entries.
+
+## Changelog entries
+
+Members of the `crafter-station` GitHub organization can publish a changelog entry at [crafter.run/changelog](https://crafter.run/changelog) as a pull request. This path needs the [GitHub CLI](https://cli.github.com) signed in (`gh auth login`, plus `gh auth refresh -s read:org` if membership checks fail); it does not use `crafter login`.
+
+```bash
+crafter changelog new my-launch        # scaffolds ./crafter-changelog/my-launch/en.mdx and es.mdx
+crafter changelog check crafter-changelog/my-launch
+crafter changelog submit crafter-changelog/my-launch            # dry run: prints the plan, pushes nothing
+crafter changelog submit crafter-changelog/my-launch --confirm  # opens the pull request
+```
+
+Media goes in the same folder and is referenced as `/changelog/<slug>/<file>`. `check` validates offline: frontmatter, both locales with the same date, every referenced file present, and a warning above 2 MB per file or on em dashes. `submit` identifies you with `gh api user`, confirms you belong to the organization, maps your login to a current core crafter on the team page, and refuses if the branch `changelog/<slug>` or an entry with that slug already exists. With `--confirm` it creates the commit through the GitHub API on branch `changelog/<slug>` and opens a pull request; it never merges, a maintainer does. Community projects that are not core crafters use `crafter ship` instead.
 
 The CLI inspects only `README.md`, `package.json`, `crafter.ship.json`, and the Git origin by default. OAuth credentials are stored in the operating-system credential store.
 
