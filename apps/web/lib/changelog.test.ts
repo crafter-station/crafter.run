@@ -105,22 +105,29 @@ describe("changelog ordering and filters", () => {
   })
 })
 
-describe("seed entries", () => {
+describe("published entries", () => {
   test("load in both languages, newest first, and every locale index lists them all", () => {
-    expect(getSlugs()).toEqual(["pulse-2", "crafter-sans-specimen", "crafter-run-redesign"])
-    expect(entryLocales("pulse-2")).toEqual(["en", "es"])
-    expect(getIndexEntries("es").map((entry) => entry.locale)).toEqual(["es", "es", "es"])
-    // pt, zh and ja have no files: they list the English entries.
+    const slugs = getSlugs()
+    expect(slugs.length).toBeGreaterThan(0)
+    expect(new Set(slugs).size).toBe(slugs.length)
+    for (const slug of slugs) expect(entryLocales(slug)).toEqual(["en", "es"])
+    const dates = getIndexEntries("en").map((entry) => entry.date)
+    expect(dates).toEqual([...dates].sort().reverse())
+    expect(getIndexEntries("es").every((entry) => entry.locale === "es")).toBe(true)
+    // pt, zh and ja have no files: they list the English entries, one per slug.
     for (const locale of ["pt", "zh", "ja"] as const) {
-      expect(getIndexEntries(locale).map((entry) => entry.locale)).toEqual(["en", "en", "en"])
+      const index = getIndexEntries(locale)
+      expect(index.map((entry) => entry.slug)).toEqual(slugs)
+      expect(index.every((entry) => entry.locale === "en")).toBe(true)
     }
   })
 
   test("neighbours follow the timeline", () => {
-    expect(getNeighbors("crafter-sans-specimen", "en")).toMatchObject({
-      newer: { slug: "pulse-2" },
-      older: { slug: "crafter-run-redesign" },
-    })
-    expect(getNeighbors("pulse-2", "en").newer).toBeUndefined()
+    const slugs = getSlugs()
+    expect(getNeighbors(slugs[0]!, "en").newer).toBeUndefined()
+    expect(getNeighbors(slugs.at(-1)!, "en").older).toBeUndefined()
+    for (let i = 1; i < slugs.length - 1; i++) {
+      expect(getNeighbors(slugs[i]!, "en")).toMatchObject({ newer: { slug: slugs[i - 1] }, older: { slug: slugs[i + 1] } })
+    }
   })
 })

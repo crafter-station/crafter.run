@@ -43,6 +43,7 @@ export const indexablePaths = [
   "/workshops/questions",
   "/blog",
   "/changelog",
+  "/newsletter",
   "/brand",
   "/font",
   "/contact",
