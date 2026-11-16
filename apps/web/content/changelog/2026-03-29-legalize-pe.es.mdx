@@ -14,13 +14,43 @@ links:
     url: "https://legalize-pe.crafter.ing"
 image: /changelog/legalize-pe/cover.webp
 evidence:
+  - "https://legalize-pe.crafter.ing/regions"
+  - "https://legalize-pe.crafter.ing/laws/pe-con-1993"
   - "https://github.com/crafter-research/legalize-pe"
   - "https://github.com/crafter-research/legalize-pe-engine"
   - "https://legalize-pe.crafter.ing"
 ---
 
-legalize-pe es el corpus peruano de la federación legalize.dev. Cada ley es un archivo con frontmatter YAML y cada reforma es un commit, así que puedes ver cómo cambió una norma con `git log`.
+legalize-pe pone las leyes peruanas en un repositorio git. Cada una de sus 21,244 normas es un archivo Markdown con frontmatter YAML, y cada reforma es un commit con la fecha real en que se publicó, así que puedes ver cómo cambió una ley con `git log`. Es el corpus peruano de la federación [legalize.dev](https://legalize.dev). Recórrelo en [legalize-pe.crafter.ing](https://legalize-pe.crafter.ing).
 
-El corpus vive en un repositorio y el código que lo genera, audita y publica vive en legalize-pe-engine.
+<Clip src="/changelog/legalize-pe/search.mp4" poster="/changelog/legalize-pe/search.webp" size="1280x800" alt="Buscando una reforma constitucional en legalize-pe y abriéndola" caption="Busca por título o identificador y abre la norma con su fuente." />
 
-Explóralo en [legalize-pe.crafter.ing](https://legalize-pe.crafter.ing).
+## Cada reforma es un commit
+
+La Constitución de 1993 es un solo archivo con toda su historia: el texto original y las 31 reformas aplicadas desde entonces, cada una como un commit. La página web muestra la metadata, un enlace a la fuente oficial y el endpoint que devuelve la línea de tiempo de commits.
+
+<Figure src="/changelog/legalize-pe/constitution.webp" alt="La Constitución de 1993 en legalize-pe con su metadata y 31 reformas aplicadas" size="1280x800" caption="La Constitución, con sus 31 reformas como commits." />
+
+## Normas nacionales y regionales
+
+Las normas nacionales vigentes vienen del SPIJ, con fechas reales y sin OCR. El nivel regional cubre a los 25 gobiernos regionales y a Lima Metropolitana, armado desde gob.pe con el texto extraído de los PDF oficiales. Las normas sin texto legible quedan como metadata y un enlace a la fuente, nunca con texto inventado.
+
+<Figure src="/changelog/legalize-pe/regions.webp" alt="Página de jurisdicciones regionales de legalize-pe con el número de normas por región" size="1280x800" caption="26 jurisdicciones regionales, cada una con su propio corpus." />
+
+## Pruébalo
+
+Clona el corpus y lee la historia de la Constitución:
+
+```bash
+git clone https://github.com/crafter-research/legalize-pe
+cd legalize-pe
+git log --oneline -- pe/CON-1993.md
+```
+
+O pídele la misma línea de tiempo a la API:
+
+```bash
+curl https://legalize-pe.crafter.ing/api/normas/pe-con-1993/history
+```
+
+El corpus vive en [legalize-pe](https://github.com/crafter-research/legalize-pe), y el código que lo genera, audita y sirve vive en [legalize-pe-engine](https://github.com/crafter-research/legalize-pe-engine). Es una copia comunitaria para investigación, no asesoría legal.

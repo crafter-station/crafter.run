@@ -14,13 +14,43 @@ links:
     url: "https://legalize-pe.crafter.ing"
 image: /changelog/legalize-pe/cover.webp
 evidence:
+  - "https://legalize-pe.crafter.ing/regions"
+  - "https://legalize-pe.crafter.ing/laws/pe-con-1993"
   - "https://github.com/crafter-research/legalize-pe"
   - "https://github.com/crafter-research/legalize-pe-engine"
   - "https://legalize-pe.crafter.ing"
 ---
 
-legalize-pe is the Peruvian corpus of the legalize.dev federation. Each law is a file with YAML frontmatter, and each reform is a commit, so you can read how a norm changed with `git log`.
+legalize-pe puts Peruvian law in a git repository. Each of its 21,244 norms is a Markdown file with YAML frontmatter, and each reform is a commit dated on the day it was published, so you can read how a law changed with `git log`. It is the Peruvian corpus of the [legalize.dev](https://legalize.dev) federation. Browse it at [legalize-pe.crafter.ing](https://legalize-pe.crafter.ing).
 
-The corpus lives in one repository and the code that generates, audits and serves it lives in legalize-pe-engine.
+<Clip src="/changelog/legalize-pe/search.mp4" poster="/changelog/legalize-pe/search.webp" size="1280x800" alt="Searching legalize-pe for a constitutional reform and opening it" caption="Search by title or ID and open the norm with its source." />
 
-Browse it at [legalize-pe.crafter.ing](https://legalize-pe.crafter.ing).
+## Every reform is a commit
+
+The 1993 Constitution is one file with its whole history: the original text and the 31 reforms applied since, each one a commit. The web page shows the metadata, a link to the official source and the endpoint that returns the commit timeline.
+
+<Figure src="/changelog/legalize-pe/constitution.webp" alt="The 1993 Constitution on legalize-pe with metadata and 31 reforms applied" size="1280x800" caption="The Constitution, with its 31 reforms as commits." />
+
+## National and regional law
+
+National norms in force come from SPIJ, with real dates and no OCR. The regional tier covers 25 regional governments plus Lima Metropolitana, built from gob.pe with the text taken from the official PDFs. Norms without readable text stay as metadata and a link to the source, never invented text.
+
+<Figure src="/changelog/legalize-pe/regions.webp" alt="legalize-pe regional jurisdictions page with norm counts per region" size="1280x800" caption="26 regional jurisdictions, each with its own corpus." />
+
+## Try it
+
+Clone the corpus and read the history of the Constitution:
+
+```bash
+git clone https://github.com/crafter-research/legalize-pe
+cd legalize-pe
+git log --oneline -- pe/CON-1993.md
+```
+
+Or ask the API for the same timeline:
+
+```bash
+curl https://legalize-pe.crafter.ing/api/normas/pe-con-1993/history
+```
+
+The corpus lives in [legalize-pe](https://github.com/crafter-research/legalize-pe), and the code that generates, audits and serves it lives in [legalize-pe-engine](https://github.com/crafter-research/legalize-pe-engine). It is a community copy for research, not legal advice.
