@@ -268,6 +268,8 @@ export type CheckReport = {
 
 const MEDIA_REF = /(?:src|poster)="([^"]+)"/g
 
+const isGeneratorFile = (name: string) => /^(shot\.(png|webp)|cover\.webp|og-(en|es)\.jpg)$/.test(name)
+
 export function checkEntry(dirInput: string): CheckReport {
   const dir = resolve(dirInput)
   const slug = basename(dir)
@@ -316,6 +318,9 @@ export function checkEntry(dirInput: string): CheckReport {
     if (frontmatter.crafters.length === 0) warn(`${file}: crafters is empty; credit at least yourself.`)
     if (frontmatter.evidence.length === 0) warn(`${file}: evidence is empty; link the repos, PRs or pages that prove it.`)
 
+    if (frontmatter.image && !present.has(`og-${locale}.jpg`)) {
+      error(`${file}: image is set, so og-${locale}.jpg (the social card) must be in the folder; the cover generator makes it, or drop \`image\` and let a reviewer generate the cover.`)
+    }
     const refs = [frontmatter.image, frontmatter.video, ...[...content.matchAll(MEDIA_REF)].map((match) => match[1])]
     for (const ref of refs) {
       if (!ref) continue
@@ -342,13 +347,14 @@ export function checkEntry(dirInput: string): CheckReport {
   report.date = (en ?? es)?.date
 
   for (const file of report.files) {
-    if (!file.name.endsWith(".mdx") && !referenced.has(file.name) && file.name !== "shot.png") {
+    if (!file.name.endsWith(".mdx") && !referenced.has(file.name) && !isGeneratorFile(file.name)) {
       warn(`${file.name} is not referenced by either .mdx file.`)
     }
   }
   const hasCover = [en, es].some((front) => front?.image)
-  if (!hasCover && present.has("shot.png")) warn("No cover image: shot.png will be framed into the cover by a reviewer with the crafter.run generator.")
-  if (!hasCover && !present.has("shot.png")) warn("No cover image and no shot.png; the entry will render without a cover.")
+  const hasShot = present.has("shot.png") || present.has("shot.webp")
+  if (!hasCover && hasShot) warn("No cover image: the shot will be framed into the cover by a reviewer with the crafter.run generator.")
+  if (!hasCover && !hasShot) warn("No cover image and no shot.png; the entry will render without a cover.")
 
   report.ok = report.errors.length === 0
   return report

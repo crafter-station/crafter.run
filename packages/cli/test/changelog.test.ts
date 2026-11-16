@@ -126,6 +126,15 @@ describe("check", () => {
     expect(errors).toContain("/changelog/other/first.webp must be /changelog/demo/<file>")
   })
 
+  test("requires the og card when a cover image is set", () => {
+    writeFileSync(join(dir, "en.mdx"), front("image: /changelog/demo/cover.webp\n"))
+    writeFileSync(join(dir, "cover.webp"), "x")
+    expect(checkEntry(dir).errors.join("\n")).toContain("og-en.jpg")
+    writeFileSync(join(dir, "og-en.jpg"), "x")
+    writeFileSync(join(dir, "og-es.jpg"), "x")
+    expect(checkEntry(dir).errors).toEqual([])
+  })
+
   test("fails on a bad area and a date mismatch", () => {
     writeFileSync(join(dir, "es.mdx"), front().replace("area: station", "area: nope"))
     expect(checkEntry(dir).errors.join("\n")).toContain("es.mdx: area")
