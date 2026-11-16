@@ -17,8 +17,20 @@ evidence:
   - "https://latambench.org"
 ---
 
-LatamBench reruns existing Latin American benchmarks (Trueque and CHOCLO) with a judge anchored to the reference answers. It publishes the transcripts and audits the benchmarks themselves.
+LatamBench is an independent leaderboard for how well language models know Latin American culture. It reruns the Trueque and CHOCLO benchmarks with a judge anchored to the reference answers, publishes every transcript and audits the benchmarks along the way. It is built by Crafter Research and lives at [latambench.org](https://latambench.org).
 
-It matters because nobody was comparing models on this independently. Results are reproducible, and the limits are declared on the site.
+<Clip src="/changelog/latambench/leaderboard.mp4" poster="/changelog/latambench/leaderboard.webp" size="1280x800" alt="Switching the LatamBench leaderboard between Trueque and CHOCLO and sorting by hallucination" caption="Sort by hallucination and the ranking changes." />
 
-See the leaderboard at [latambench.org](https://latambench.org).
+## Three numbers per model
+
+Raw accuracy counts an honest "I don't know" the same as an invented answer. LatamBench splits every model's result into correct, abstention and hallucination, so you can see which models make things up when they fail. On CHOCLO, the regional LatamGPT model hallucinates on 53.2% of items, the highest on the board.
+
+## Two benchmarks, audited
+
+Trueque has 500 curated questions on culture, history, geography and food from 20 countries. CHOCLO covers long-tail cultural entities by country, category and difficulty, and its results are marked preliminary because the judge calibration covers Trueque only.
+
+<Figure src="/changelog/latambench/benchmarks.webp" alt="LatamBench cards for the Trueque, CHOCLO and planned in-house datasets, and the public harness section" size="1280x800" caption="The harness, raw responses, judge transcripts and calibration are all public." />
+
+## Try it
+
+Read the leaderboard at [latambench.org](https://latambench.org). To audit a verdict or run a new model, the harness, raw responses and judge transcripts are in the [GitHub repository](https://github.com/crafter-research/latambench), with seed 42 and temperature 0 so the table reproduces.
