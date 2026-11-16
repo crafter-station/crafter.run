@@ -17,8 +17,24 @@ evidence:
   - "https://peru-gov.crafter.ing"
 ---
 
-Describes lo que te está pasando y Hola, Perú busca el trámite que corresponde entre unas 32 mil páginas de gob.pe. La respuesta muestra el texto de la propia página oficial y un enlace a la fuente.
+Hola, Perú te lleva al trámite correcto de gob.pe según tu situación. Cuentas lo que te pasa con tus palabras y encuentra la ficha que corresponde entre unas 32 mil páginas de trámites, servicios y orientaciones de gob.pe. Es un prototipo no oficial de Crafter Research. Pruébalo en [peru-gov.crafter.ing](https://peru-gov.crafter.ing).
 
-Es un prototipo de Crafter Research y no un servicio del Estado.
+<Figure src="/changelog/peru-gov/home.webp" alt="Inicio de Hola, Perú con una sola caja de pregunta y situaciones de ejemplo" size="1280x800" caption="Una caja de pregunta, con ejemplos como un DNI robado o un pasaporte nuevo." />
 
-Pruébalo en [peru-gov.crafter.ing](https://peru-gov.crafter.ing).
+## El texto oficial, sin reescribir
+
+Los requisitos, costos y pasos de la respuesta son el texto oficial de gob.pe, sin cambios. Un modelo solo escribe un resumen breve a partir de esa ficha, y la respuesta siempre enlaza la fuente con su fecha. Si no queda claro qué trámite necesitas, te pregunta en vez de adivinar.
+
+## Cómo encuentra el trámite
+
+Un modelo pequeño reescribe tu pregunta como títulos de trámites al estilo de gob.pe. La pregunta y esas reescrituras se comparan con los títulos de todas las páginas principales de gob.pe del sitemap oficial, y se elige uno de los mejores candidatos, o ninguno. Si nada coincide, la app lo dice y enlaza a la búsqueda de gob.pe.
+
+<Figure src="/changelog/peru-gov/about.webp" alt="Panel Acerca de de Hola, Perú que explica que es un prototipo no oficial y cómo responde" size="1280x800" caption="El panel Acerca de explica qué es, cómo responde y qué guarda." />
+
+## Privacidad
+
+No necesitas cuenta. Para mejorar las respuestas se guardan de forma anónima las preguntas y la ficha a la que llevaron, sin tu IP y borrando números de documento, teléfonos y correos.
+
+## Pruébalo
+
+Abre [peru-gov.crafter.ing](https://peru-gov.crafter.ing) y describe tu situación. Verifica siempre requisitos, costos y plazos en la ficha oficial de gob.pe. Es un prototipo y no un servicio del Estado, y el código tiene licencia MIT en [crafter-research/peru-gov](https://github.com/crafter-research/peru-gov).
