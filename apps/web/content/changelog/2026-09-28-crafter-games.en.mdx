@@ -16,10 +16,30 @@ image: /changelog/crafter-games/cover.webp
 evidence:
   - "https://github.com/crafter-games/website"
   - "https://crafter.games"
+  - "https://github.com/crafter-games/website/blob/main/README.md"
 ---
 
-Crafter Games is the home of the games the community builds, from fighting and artillery games to ones that teach. Each entry has a poster and a short loop so you can see it before you play.
+Crafter Games is the home of the games the Crafter Station community builds, from fighting and artillery games to ones that teach. Every game is free, runs in the browser and has open source code, so you can play one and then build the next. Browse the catalog at [crafter.games](https://crafter.games).
 
-The site is open source, and adding a game is one entry in a list.
+<Clip src="/changelog/crafter-games/catalog.mp4" poster="/changelog/crafter-games/catalog.webp" size="1280x800" alt="Hovering the learning games on crafter.games, whose posters play a short loop" caption="Hover a game to see its loop before you play." />
 
-Browse the catalog at [crafter.games](https://crafter.games).
+## Games to play
+
+The recreational shelf holds a horror escape room anthology, a platform fighter starring the crafters, an artillery game with Peruvian creatures that runs locally, online or inside Discord, and a visual novel. Each card has a poster, a short loop and a Play button.
+
+<Figure src="/changelog/crafter-games/games.webp" alt="The games to play section on crafter.games with Mothlight, Crafter Smash and Craft Ones" size="1280x430" caption="Each card links straight to the game." />
+
+## Games to learn
+
+The learning shelf uses short rounds, spaced repetition and confidence calibration. learnclaudecode teaches Claude Code with labs in a real terminal, and learnaws prepares you for the AWS SAA-C03 exam with about 800 original questions.
+
+## Try it
+
+Open [crafter.games](https://crafter.games) and pick a game. To add yours, open a pull request on [crafter-games/website](https://github.com/crafter-games/website) with one entry in `src/lib/games.ts` plus its poster and loop in `public/media/`.
+
+## What it includes
+
+- Six games in the current catalog: four to play and two to learn
+- A poster and a looping preview for every game
+- Links to each game's source code
+- An open source site where adding a game is one entry in a list
