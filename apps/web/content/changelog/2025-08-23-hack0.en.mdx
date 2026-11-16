@@ -13,10 +13,29 @@ links:
     url: "https://hack0.dev"
 image: /changelog/hack0/cover.webp
 evidence:
+  - "https://luma.com/hack0"
   - "https://github.com/crafter-station/hack0"
   - "https://hack0.dev"
 ---
 
-hack0 gives visibility to tech communities and events in Latin America. It reads events from Luma calendars, Meetup groups and Eventbrite organizers, merges the same event seen in several places, and publishes the result as a single map and calendar.
+hack0 is the map of tech events in Latin America. It reads hackathons, meetups, workshops and conferences from Luma calendars, Meetup groups and Eventbrite organizers, merges the same event seen in several places into one, and publishes a page for every event, city and topic. Browse it at [hack0.dev](https://hack0.dev).
 
-You can subscribe to the calendar or browse the full archive at [hack0.dev](https://hack0.dev).
+<Clip src="/changelog/hack0/explore.mp4" poster="/changelog/hack0/explore.webp" size="1280x800" alt="Going from the hack0 globe to the event list, filtering by Colombia and switching to past events" caption="From the map to the list, filtered by country and by upcoming or past." />
+
+## Find the next event
+
+The event list has search, a city and topic filter, upcoming and past tabs, in-person and online, and one chip per country with its count. Every event links to its registration page.
+
+## The communities behind the events
+
+The communities page groups the organizers by city, with how many upcoming events each one has and how many it has run.
+
+<Figure src="/changelog/hack0/communities.webp" alt="hack0 communities page listing Lima organizers with upcoming and total events" size="1280x800" caption="Organizers grouped by city, with upcoming and total events." />
+
+## Built for apps and agents
+
+The same catalog is available through a REST API with incremental sync and CSV or JSON export, and through an MCP server with `list_events`, `get_event` and `list_calendars`. Tokens are created in the hack0 admin.
+
+## Try it
+
+Open [hack0.dev](https://hack0.dev), or subscribe to the calendar at [luma.com/hack0](https://luma.com/hack0) to get new events in your own calendar.

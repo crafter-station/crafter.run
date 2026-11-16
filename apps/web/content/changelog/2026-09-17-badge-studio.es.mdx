@@ -19,6 +19,32 @@ evidence:
   - "https://badge-studio.crafter.run"
 ---
 
-Badge Studio abre con una órbita arrastrable de badges de eventos. Puedes editar cada capa, voltear el badge, cambiar su material y exportarlo. Con la CLI `badgio` y una skill de agente, tu agente de código puede crear un documento de badge por ti.
+Badge Studio es un estudio de diseño para badges de eventos con personalidad. Elige una dirección de arte, pon tu foto y tu nombre en toda la colección, edita cada capa, cambia el material y expórtalo. Tu agente de código puede diseñar uno contigo a través del CLI `badgio`. Pruébalo en [badge-studio.crafter.run](https://badge-studio.crafter.run).
 
-Pruébalo en [badge-studio.crafter.run](https://badge-studio.crafter.run) o corre `npx badgio styles list`.
+<Clip src="/changelog/badge-studio/orbit.mp4" poster="/changelog/badge-studio/orbit.webp" size="1280x800" alt="Girando la órbita de badges de eventos de Badge Studio" caption="La portada es una órbita de badges que se arrastra, con profundidad e inercia." />
+
+## Una foto, todos los estilos
+
+Empieza con tu nombre y una foto, o una de ejemplo, y te ves en todas las direcciones a la vez: badges de hackathons, originales físicos como Térmico, Prisma y Cromo, y diseños de la comunidad. Tu foto se queda en tu navegador y puedes explorar sin cuenta.
+
+## Edita cada capa
+
+El editor muestra el badge como capas que puedes seleccionar, ocultar o bloquear, con paneles para el fondo y el material, los datos del participante, el frente y el reverso, y exportación a PNG o JSON.
+
+<Figure src="/changelog/badge-studio/editor.webp" alt="Editor de Badge Studio con un badge de The GTM Hackathon en capas, su lista de capas y los controles de exportación" size="1280x800" caption="Un diseño de 45 capas, listo para voltear y exportar." />
+
+## Diseña con tu agente
+
+El CLI `badgio` lista los estilos, crea y valida documentos de badges, y abre una vista previa en vivo que tu agente edita con las mismas herramientas que el editor. Publicar en la galería pública necesita una cuenta y pide confirmación antes de hacerlo.
+
+## Pruébalo
+
+Abre [badge-studio.crafter.run](https://badge-studio.crafter.run), o empieza desde tu terminal. El CLI necesita Node.js 22 o superior:
+
+```bash
+npx badgio styles list
+npx badgio design create --style gtm --out badge.json
+npx badgio design validate --file badge.json
+```
+
+Importa el JSON en el editor para seguir de forma visual.

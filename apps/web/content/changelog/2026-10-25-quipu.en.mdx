@@ -16,8 +16,33 @@ evidence:
   - "https://www.npmjs.com/package/@lizethriveros/quipu"
 ---
 
-Type the name of your district and quipu tells you how many of every 100 soles it has already spent this year. The same figures are available in a CLI with `--json` and as an MCP server for AI agents.
+Type the name of your district and quipu tells you how many of every 100 soles it has already spent this year. It covers any municipality, region or sector of Peru's public budget, with open MEF spending data for 2025 and 2026, and it needs no keys or accounts. The same figures come as a web page, a CLI with `--json` and an MCP server for AI agents. The package is on [npm](https://www.npmjs.com/package/@lizethriveros/quipu).
 
-It uses open MEF data for 2025 and 2026, needs no keys or accounts, and is unofficial.
+<Clip src="/changelog/quipu/terminal.mp4" poster="/changelog/quipu/terminal.webp" size="1280x800" alt="A terminal running quipu for the spending progress of the Huancavelica regional government and the ranking of regional governments" caption="Spending progress for one entity, then a ranking of regional governments." />
 
-Run `npx -y @lizethriveros/quipu mcp` to try the MCP server.
+## Progress compared with its peers
+
+`quipu avance` shows the budget for the year, what has been spent, the progress and the same month last year. A relative traffic light compares the entity with others at the same level: national, regional or local. It is not a verdict on management, only a hint of where to ask. Only closed months count, so the comparison with last year is fair.
+
+## Rankings, sectors and public works
+
+`quipu ranking` orders entities by progress and filters by level or department. `quipu funciones` shows what the money goes to, such as education, health or transport, and `quipu obras` lists the largest public works of the year with their declared progress.
+
+## An MCP server for agents
+
+`quipu mcp` starts an MCP server over stdio with tools to find an entity, read its progress, rank entities, break spending down by function and list its public works.
+
+## Try it
+
+```bash
+npx -y @lizethriveros/quipu avance "municipalidad distrital de acoria"
+npx -y @lizethriveros/quipu ranking --nivel gl --depto huancavelica --peores
+```
+
+Or add it to your agent:
+
+```json
+{ "mcpServers": { "quipu": { "command": "npx", "args": ["-y", "@lizethriveros/quipu", "mcp"] } } }
+```
+
+It is unofficial and has no relation to the MEF. Progress is accrued spending divided by the current budget for the year.

@@ -17,6 +17,28 @@ evidence:
   - "https://www.sql4all.org/"
 ---
 
-SQL4All walks you through SQL one step at a time with practical exercises and immediate feedback. The code is MIT licensed.
+SQL4All teaches SQL by doing. It is a free, open-source course of 50 exercises, from a first `SELECT` to joins and table changes, with feedback the moment you run a query. Start at [sql4all.org](https://www.sql4all.org/).
 
-Start learning at [sql4all.org](https://www.sql4all.org/).
+<Clip src="/changelog/sql4all/run.mp4" poster="/changelog/sql4all/run.webp" size="1280x800" alt="Typing a WHERE query in the SQL4All editor, running it and getting the result marked correct" caption="Write the query, run it, and see the rows and the verdict." />
+
+## Postgres in your browser
+
+Every query runs against a real PostgreSQL database inside the page, powered by [PGlite](https://pglite.dev). There is nothing to install and no server to set up. When a query has a syntax error, the editor says where it broke and shows a correct example.
+
+## 50 exercises in three levels
+
+Exercises go from beginner to intermediate to advanced. Each one states the goal, explains the clause it teaches, and offers a hint if you get stuck.
+
+<Figure src="/changelog/sql4all/exercises.webp" alt="SQL4All exercise list grouped by level, starting with beginner exercises" size="1280x800" caption="Beginner exercises cover SELECT, WHERE, ORDER BY, aliases, NULL and table changes." />
+
+## Try it
+
+Open [sql4all.org](https://www.sql4all.org/) and press Comenzar ahora. To run it locally, clone the repository and add `DATABASE_URL` to `.env.local`:
+
+```bash
+bun install
+bun run db:push
+bun dev
+```
+
+The code is MIT licensed.

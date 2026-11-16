@@ -16,8 +16,33 @@ evidence:
   - "https://www.npmjs.com/package/@lizethriveros/quipu"
 ---
 
-Escribe el nombre de tu distrito y quipu te dice cuántos de cada 100 soles ya gastó este año. Las mismas cifras están en una CLI con `--json` y como servidor MCP para agentes de IA.
+Escribe el nombre de tu distrito y quipu te dice cuántos de cada 100 soles ya gastó este año. Cubre cualquier municipalidad, región o sector del presupuesto público del Perú, con datos abiertos de gasto del MEF para 2025 y 2026, y no necesita claves ni cuentas. Las mismas cifras vienen como página web, como CLI con `--json` y como servidor MCP para agentes de IA. El paquete está en [npm](https://www.npmjs.com/package/@lizethriveros/quipu).
 
-Usa datos abiertos del MEF de 2025 y 2026, no necesita claves ni cuentas y no es oficial.
+<Clip src="/changelog/quipu/terminal.mp4" poster="/changelog/quipu/terminal.webp" size="1280x800" alt="Una terminal corriendo quipu para ver el avance del gasto del Gobierno Regional de Huancavelica y el ranking de gobiernos regionales" caption="El avance de una entidad y después el ranking de gobiernos regionales." />
 
-Corre `npx -y @lizethriveros/quipu mcp` para probar el servidor MCP.
+## Avance comparado con sus pares
+
+`quipu avance` muestra el presupuesto del año, lo gastado, el avance y el mismo mes del año pasado. Un semáforo relativo compara la entidad con las de su mismo nivel: nacional, regional o local. No es un juicio de gestión, solo una pista de dónde preguntar. Solo cuentan los meses cerrados, para que la comparación con el año anterior sea justa.
+
+## Rankings, sectores y obras
+
+`quipu ranking` ordena las entidades por avance y filtra por nivel o departamento. `quipu funciones` muestra en qué se gasta, como educación, salud o transporte, y `quipu obras` lista las obras más grandes del año con su avance declarado.
+
+## Un servidor MCP para agentes
+
+`quipu mcp` levanta un servidor MCP por stdio con herramientas para buscar una entidad, leer su avance, ordenar entidades, desglosar el gasto por función y listar sus obras.
+
+## Pruébalo
+
+```bash
+npx -y @lizethriveros/quipu avance "municipalidad distrital de acoria"
+npx -y @lizethriveros/quipu ranking --nivel gl --depto huancavelica --peores
+```
+
+O agrégalo a tu agente:
+
+```json
+{ "mcpServers": { "quipu": { "command": "npx", "args": ["-y", "@lizethriveros/quipu", "mcp"] } } }
+```
+
+Es un proyecto no oficial y no tiene relación con el MEF. El avance es el gasto devengado dividido entre el presupuesto vigente del año.

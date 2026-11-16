@@ -12,12 +12,41 @@ links:
   - label: "Abrir Petdex"
     url: "https://petdex.dev"
 evidence:
+  - "https://decrypt.co/es/372082/tu-agente-hermes-ahora-tiene-una-mascota-que-no-hace-absolutamente-nada-y-ese-es-el-punto"
+  - "https://hermes-agent.nousresearch.com/docs/user-guide/features/pets"
+  - "https://petdex.dev/download"
   - "https://github.com/crafter-station/petdex"
   - "https://www.npmjs.com/package/petdex"
   - "https://github.com/crafter-station/petdex/releases"
   - "https://petdex.dev"
 ---
 
-Petdex es una galería pública donde la comunidad envía, revisa y muestra mascotas animadas en el formato de sprites de Codex. Una galería web, una línea de comandos y una app de escritorio trabajan juntas, y instalas una mascota con un comando.
+Petdex es la galería pública de mascotas animadas para agentes de código. La comunidad envía, revisa y muestra mascotas en el formato de sprites de Codex, y cada una se instala con un solo comando. Funciona con Codex, Claude Code, Gemini CLI y más. Recorre más de 5,000 mascotas en [petdex.dev](https://petdex.dev).
 
-Tiene decenas de versiones publicadas desde mayo. Explora la galería en [petdex.dev](https://petdex.dev).
+<Clip src="/changelog/petdex/states.mp4" poster="/changelog/petdex/states.webp" size="1280x800" alt="Una mascota de Petdex pasando por sus animaciones de saludar, saltar, correr y fallar" caption="Cada mascota tiene una fila de frames para cada estado en que puede estar tu agente." />
+
+## Una galería de mascotas
+
+Cada mascota tiene su página con descripción, etiquetas, colecciones y un visor de estados: reposo, corriendo, saludando, saltando, error, esperando y revisión. Las flechas recorren el dex y la barra espaciadora elige una al azar.
+
+<Figure src="/changelog/petdex/home.webp" alt="Inicio de Petdex con el comando de instalación y una fila de mascotas destacadas" size="1280x800" caption="La portada, con el comando de instalación de la mascota destacada." />
+
+## Un CLI y una app de escritorio
+
+El CLI `petdex` instala cualquier mascota con un comando. Petdex Desktop deja la mascota flotando en tu pantalla en macOS, Windows y Linux, y la anima con cada llamada a herramientas de tu agente. Los agentes se conectan desde su configuración con un clic.
+
+## Se usa fuera de Crafter Station
+
+Nous Research agregó mascotas animadas a Hermes Agent, y los sprites salen de la galería de Petdex.
+
+<Mention href="https://decrypt.co/es/372082/tu-agente-hermes-ahora-tiene-una-mascota-que-no-hace-absolutamente-nada-y-ese-es-el-punto" author="Jose Antonio Lanz" source="Decrypt" quote="Los sprites provienen de petdex, una galería comunitaria de código abierto con más de 3.200 opciones para elegir." date="2026-06-25" />
+
+<Mention href="https://hermes-agent.nousresearch.com/docs/user-guide/features/pets" author="Nous Research" source="Documentación de Hermes Agent" quote="Las mascotas vienen de la galería pública de petdex. (traducido)" />
+
+## Pruébalo
+
+```bash
+npx petdex install boba
+```
+
+Después descarga la app de escritorio en [petdex.dev/download](https://petdex.dev/download), o envía tu propia mascota desde [petdex.dev](https://petdex.dev). El CLI y la app de escritorio llevan decenas de releases desde mayo.

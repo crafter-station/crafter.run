@@ -13,13 +13,41 @@ links:
     url: "https://sismo.crafter.run"
 image: /changelog/sismo-abierto/cover.webp
 evidence:
+  - "https://sismo.crafter.run/volcanes"
+  - "https://www.npmjs.com/package/@crafter/sismo-cli"
   - "https://github.com/crafter-research/sismo-abierto"
   - "https://github.com/crafter-research/sismo-abierto/releases"
   - "https://sismo.crafter.run"
 ---
 
-Sismo Abierto is an open-source layer over the public seismic data of Peru's Instituto Geofísico (IGP) and, experimentally, Colombia's Servicio Geológico (SGC). Every record shows where it came from.
+Sismo Abierto shows the latest earthquakes in Peru, from the public data of Peru's Instituto Geofísico (IGP), and experimentally in Colombia, from the Servicio Geológico Colombiano (SGC). Every value says where it came from and when it was fetched. Open it at [sismo.crafter.run](https://sismo.crafter.run).
+
+<Clip src="/changelog/sismo-abierto/browse.mp4" poster="/changelog/sismo-abierto/browse.webp" size="1280x800" alt="Going from the latest IGP earthquake to the year's activity and filtering to the last 30 days" caption="From the latest quake to the catalog, with the filters in the URL." />
+
+## The latest quake, with its source
+
+The home page shows the latest official earthquake with magnitude, depth, coordinates, intensity and local time, placed on the map. Below it, the source, the time it was fetched and what the source does not publish, such as its own update time.
+
+## Activity you can link to
+
+The activity page queries the official catalog by range and magnitude. The filters live in the URL, so any query can be shared and repeated. Values are marked as official, derived or not available.
+
+## Volcanoes and more
+
+The volcano page lists the 16 volcanoes the IGP publishes with their alert level, and says plainly that the source gives no update date per record. The site also has lessons built on real events, a section that checks viral claims against the catalogs, an OpenAPI 3.1 API and a CLI.
+
+<Gallery>
+  <Figure src="/changelog/sismo-abierto/latest.webp" alt="Sismo Abierto home with the latest IGP earthquake and its location on the map of Peru" size="1280x800" caption="The latest official earthquake in Peru." />
+  <Figure src="/changelog/sismo-abierto/volcanoes.webp" alt="Sismo Abierto volcano page with the published alert level of 16 volcanoes" size="1280x800" caption="Published alert levels for 16 volcanoes." />
+</Gallery>
+
+## Try it
+
+Open [sismo.crafter.run](https://sismo.crafter.run), or get the same data from your terminal:
+
+```bash
+bunx --bun @crafter/sismo-cli latest
+bunx --bun @crafter/sismo-cli events --since 7d --min-magnitude 4 --format geojson
+```
 
 It is a community project and not official. It is not an alert or prediction system and does not replace the official channels.
-
-Open it at [sismo.crafter.run](https://sismo.crafter.run).

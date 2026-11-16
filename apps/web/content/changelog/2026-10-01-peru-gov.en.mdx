@@ -17,8 +17,24 @@ evidence:
   - "https://peru-gov.crafter.ing"
 ---
 
-You describe what is happening to you, and Hola, Perú finds the matching procedure among about 32 thousand gob.pe pages. The answer shows the official page's own text and a link to the source.
+Hola, Perú routes your situation to the right gob.pe procedure. You describe what is happening to you in your own words, and it finds the matching page among about 32 thousand gob.pe procedures, services and guides. It is an unofficial prototype from Crafter Research. Try it at [peru-gov.crafter.ing](https://peru-gov.crafter.ing).
 
-It is a prototype from Crafter Research and not a government service.
+<Figure src="/changelog/peru-gov/home.webp" alt="Hola, Perú home with a single question box and example situations" size="1280x800" caption="One question box, with examples like a stolen DNI or a new passport." />
 
-Try it at [peru-gov.crafter.ing](https://peru-gov.crafter.ing).
+## The official text, not a rewrite
+
+The requirements, costs and steps in the answer are the official gob.pe text, unchanged. A model only writes a short summary from that page, and the answer always links the source with its date. If it is not clear which procedure you need, it asks instead of guessing.
+
+## How it finds the procedure
+
+A small model rewrites your question into gob.pe-style procedure titles. The question and the rewrites are matched against every top-level gob.pe page title from the official sitemap, and one of the top candidates is picked, or none. When nothing matches, the app says so and links to the gob.pe search.
+
+<Figure src="/changelog/peru-gov/about.webp" alt="Hola, Perú about panel explaining that it is an unofficial prototype and how it answers" size="1280x800" caption="The about panel says what it is, how it answers and what it stores." />
+
+## Privacy
+
+You need no account. To improve answers, questions and the page they led to are stored anonymously, without your IP and with document numbers, phone numbers and emails removed.
+
+## Try it
+
+Open [peru-gov.crafter.ing](https://peru-gov.crafter.ing) and describe your situation. Always check requirements, costs and deadlines on the official gob.pe page. It is a prototype and not a government service, and the code is MIT licensed at [crafter-research/peru-gov](https://github.com/crafter-research/peru-gov).
