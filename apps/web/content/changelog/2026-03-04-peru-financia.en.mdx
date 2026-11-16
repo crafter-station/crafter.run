@@ -13,12 +13,29 @@ links:
     url: "https://peru-financia.crafter.ing"
 image: /changelog/peru-financia/cover.webp
 evidence:
+  - "https://peru-financia.crafter.ing/donante"
   - "https://github.com/crafter-research/peru-financia"
   - "https://peru-financia.crafter.ing"
 ---
 
-peru-financia turns ONPE's political funding records into something a person can read. You can follow the money toward each party with a Sankey diagram per election, rank parties by amount received, and open the profile of any donor.
+peru-financia turns ONPE's political funding records into something a person can read: who donates, how much, to which party and in which election. It is open source, built by Crafter Research on more than 13,250 ONPE records. Explore it at [peru-financia.crafter.ing](https://peru-financia.crafter.ing).
 
-It matters because the raw ONPE tables are hard to browse. Everything is open source, so you can check the data and the code.
+<Clip src="/changelog/peru-financia/explore.mp4" poster="/changelog/peru-financia/explore.webp" size="1280x800" alt="Switching peru-financia from the Sankey view to the party ranking and the donor table" caption="One election, three views: Sankey, ranking and table." />
 
-Try it at [peru-financia.crafter.ing](https://peru-financia.crafter.ing).
+## Follow the money
+
+Pick an election and the Sankey diagram shows where each party's money came from: individual donors, self-funding or unknown sources. The ranking orders parties by the amount they received, and the table lists every contribution, with search, a filter by type and a CSV download.
+
+## Every donor has a profile
+
+The donor index counts donors by type, shows how many fund two or more parties, and breaks donations down by size. Each donor opens to a profile with the total given, the parties funded and the full history.
+
+<Figure src="/changelog/peru-financia/donors.webp" alt="peru-financia donor index with totals, top ten donors and distribution by amount" size="1280x800" caption="The donor index, from ONPE data." />
+
+## Why it exists
+
+The raw ONPE tables are hard to browse. peru-financia puts them in one place, and because the data and the code are public, anyone can check both.
+
+## Try it
+
+Open [peru-financia.crafter.ing](https://peru-financia.crafter.ing), choose an election, or search a party or donor by name from the top bar.
