@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type ReactNode } from "react"
 import Link from "next/link"
-import * as Dialog from "@radix-ui/react-dialog"
+import { Drawer, DrawerBackdrop, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from "@ui-sdk/react/drawer"
 import { usePathname } from "next/navigation"
 import { Menu, X, ChevronDown } from "lucide-react"
 import { LanguageSwitcher } from "@/components/language-switcher"
@@ -15,7 +15,7 @@ import { navSections } from "@/lib/site"
 import { stationCopy } from "@/lib/station-copy"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
-const primaryPaths: readonly string[] = ["/", "/universe", "/oss", "/events", "/blog"]
+const primaryPaths: readonly string[] = ["/", "/universe", "/oss", "/events", "/blog", "/changelog"]
 
 function MoreNavigation({ locale, onNavigate }: { locale: Locale; onNavigate: () => void }) {
   const pathname = usePathname()
@@ -28,26 +28,24 @@ function MoreNavigation({ locale, onNavigate }: { locale: Locale; onNavigate: ()
 
   return (
     <DropdownMenu open={expanded} onOpenChange={setExpanded}>
-      <DropdownMenuTrigger asChild>
-        <button type="button" className="station-more-trigger" aria-label={`${s.moreMenu}: ${s.more}`}>
-          <span className="station-nav-name">{s.moreMenu}</span><ChevronDown size={14} aria-hidden="true" />
-        </button>
+      <DropdownMenuTrigger className="station-more-trigger" aria-label={`${s.moreMenu}: ${s.more}`}>
+        <span className="station-nav-name">{s.moreMenu}</span><ChevronDown size={14} aria-hidden="true" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="station-more-menu" side="bottom" align="start" sideOffset={6} collisionPadding={12}>
           {navSections.map(section => (
             <DropdownMenuGroup key={section.key}>
               <DropdownMenuLabel>{t[section.key]}</DropdownMenuLabel>
               {section.items.filter(item => !primaryPaths.includes(item.href)).map(item => (
-                <DropdownMenuItem asChild key={item.href}><Link href={withLocale(item.href, locale)}
+                <DropdownMenuItem key={item.href} render={<Link href={withLocale(item.href, locale)}
                   aria-current={pathname === withLocale(item.href, locale) ? "page" : undefined}
-                  onClick={close}>{t[item.key]}</Link></DropdownMenuItem>
+                  onClick={close} />}>{t[item.key]}</DropdownMenuItem>
               ))}
             </DropdownMenuGroup>
           ))}
           <DropdownMenuGroup className="station-more-resources">
-            <DropdownMenuItem asChild><Link href={withLocale("/docs", locale)} onClick={close}>{s.docs}</Link></DropdownMenuItem>
-            <DropdownMenuItem asChild><a href="https://crafters.chat" target="_blank" rel="noopener noreferrer" onClick={close}>{t.communityCta}</a></DropdownMenuItem>
-            <DropdownMenuItem asChild><Link href={withLocale("/brand", locale)} onClick={close}>{s.visualSystem}</Link></DropdownMenuItem>
+            <DropdownMenuItem render={<Link href={withLocale("/docs", locale)} onClick={close} />}>{s.docs}</DropdownMenuItem>
+            <DropdownMenuItem render={<a href="https://crafters.chat" target="_blank" rel="noopener noreferrer" onClick={close} />}>{t.communityCta}</DropdownMenuItem>
+            <DropdownMenuItem render={<Link href={withLocale("/brand", locale)} onClick={close} />}>{s.visualSystem}</DropdownMenuItem>
           </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -62,7 +60,7 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
   const primary = [
     { href: "/", label: s.home }, { href: "/universe", label: t.universe },
     { href: "/oss", label: t.oss }, { href: "/events", label: t.events },
-    { href: "/blog", label: t.blog },
+    { href: "/blog", label: t.blog }, { href: "/changelog", label: t.changelog },
   ]
   const active = (href: string) => href === "/" ? pathname === withLocale("/", locale)
     : pathname === withLocale(href, locale) || pathname?.startsWith(`${withLocale(href, locale)}/`)
@@ -91,7 +89,7 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
     </>
   )
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Drawer side="right" open={open} onOpenChange={setOpen}>
     <header className={compact ? "station-header station-header-compact" : "station-header"}>
       <div className="station-sidebar">
         <Link className="station-brand" href={withLocale("/", locale)}><SiteWordmark stacked /></Link>
@@ -103,22 +101,19 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
         <Link href={withLocale("/", locale)}><SiteWordmark /></Link>
         <div className="flex items-center gap-4">
           <ThemeSwitcher locale={locale} label={t.theme} className="station-mobile-theme" />
-          <Dialog.Trigger asChild><button className="station-menu-button" type="button" aria-label={t.openMenu}
-            aria-expanded={open} aria-controls="station-menu"><Menu size={22} /></button></Dialog.Trigger>
+          <DrawerTrigger className="station-menu-button" aria-label={t.openMenu}><Menu size={22} /></DrawerTrigger>
         </div>
       </div>
-      <Dialog.Portal>
-        <Dialog.Overlay className="station-drawer-overlay" />
-        <Dialog.Content id="station-menu" className="station-drawer">
-          <Dialog.Title className="sr-only">{s.more}</Dialog.Title>
-          <Dialog.Description className="sr-only">{s.note}</Dialog.Description>
-          <div className="station-drawer-inner">
-            <div className="station-drawer-top"><SiteWordmark /><Dialog.Close asChild><button className="station-menu-button" type="button" aria-label={s.close}><X size={22} /></button></Dialog.Close></div>
-            {navigation(true)}
-          </div>
-        </Dialog.Content>
-      </Dialog.Portal>
+      <DrawerBackdrop className="station-drawer-overlay" />
+      <DrawerContent id="station-menu" className="station-drawer">
+        <DrawerTitle className="sr-only">{s.more}</DrawerTitle>
+        <DrawerDescription className="sr-only">{s.note}</DrawerDescription>
+        <div className="station-drawer-inner">
+          <div className="station-drawer-top"><SiteWordmark /><DrawerClose className="station-menu-button" aria-label={s.close}><X size={22} /></DrawerClose></div>
+          {navigation(true)}
+        </div>
+      </DrawerContent>
     </header>
-    </Dialog.Root>
+    </Drawer>
   )
 }

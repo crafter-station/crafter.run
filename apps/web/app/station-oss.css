@@ -68,7 +68,7 @@
 .oss-filter-control { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 44px; min-width: 0; padding: 10px 13px; border: 1px solid var(--oss-line); border-radius: 4px; background: hsl(var(--background) / .5); color: hsl(var(--foreground)); font-size: 16px; }
 .oss-filter-control svg { flex-shrink: 0; color: hsl(var(--muted-foreground)); }
 .oss-filter-control > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.oss-filter-control:hover, .oss-filter-control[data-state="open"] { background: var(--oss-surface); border-color: var(--oss-accent); }
+.oss-filter-control:hover, .oss-filter-control[data-open] { background: var(--oss-surface); border-color: var(--oss-accent); }
 .oss-filter-menu { min-width: 240px; max-width: calc(100vw - 32px); }
 .oss-option-count { margin-left: auto; font: 16px var(--font-label); color: hsl(var(--muted-foreground)); }
 .oss-results { display: flex; align-items: center; justify-content: space-between; min-height: 50px; gap: 16px; font: 16px/1.5 var(--font-label); color: hsl(var(--muted-foreground)); }

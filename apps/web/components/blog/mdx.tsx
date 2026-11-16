@@ -21,6 +21,7 @@ import remarkGfm from "remark-gfm"
 
 import { CodeFigure } from "@/components/blog/code-figure"
 import { Figure } from "@/components/blog/figure"
+import { Clip, Gallery, Mention } from "@/components/changelog/media"
 import { CODE_THEME } from "@/components/blog/code-theme"
 import type { BlogCopy } from "@/components/blog/copy"
 import { type Locale, withLocale } from "@/lib/i18n"
@@ -110,6 +111,9 @@ function heading(level: 2 | 3 | 4, anchorLabel: string) {
 
 const components = (article: ArticleCopy, locale: Locale) => ({
   Figure,
+  Clip,
+  Gallery,
+  Mention,
   h2: heading(2, article.sectionAnchor),
   h3: heading(3, article.sectionAnchor),
   h4: heading(4, article.sectionAnchor),

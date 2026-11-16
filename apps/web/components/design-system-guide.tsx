@@ -48,8 +48,8 @@ export function DesignSystemGuide({ locale }: { locale: Locale }) {
       </div>
       <h3 className="mt-12 text-xl">03 / {t.components}</h3>
       <div className="mt-7 flex flex-wrap items-center gap-3">
-        <Button asChild><a href="#assets">{t.primary}<ArrowUpRight aria-hidden="true" /></a></Button>
-        <Button variant="outline" asChild><a href="#typography">{t.secondary}</a></Button>
+        <Button render={<a href="#assets" />}>{t.primary}<ArrowUpRight aria-hidden="true" /></Button>
+        <Button variant="outline" render={<a href="#typography" />}>{t.secondary}</Button>
         <Button disabled>{t.disabled}</Button><Badge variant="secondary">Open source</Badge><Badge variant="outline">Station</Badge>
       </div>
       <div className="mt-8 max-w-md"><label htmlFor="system-example" className="mb-2 block text-sm">{t.field}</label><Input id="system-example" placeholder="craft → ship → repeat" /></div>

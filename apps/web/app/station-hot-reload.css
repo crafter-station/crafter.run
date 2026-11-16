@@ -623,7 +623,7 @@
   font: 500 14px/1 "OpenAI Sans", Arial, sans-serif; color: var(--dd-muted);
 }
 .dd-invite-later:hover { color: var(--hr-ink); }
-.dd-invite [data-radix-dialog-close], .dd-invite > button.absolute { color: var(--hr-ink); }
+.dd-invite [data-slot="dialog-close"], .dd-invite > button.absolute { color: var(--hr-ink); }
 @media (max-height: 640px) {
   .dd-invite { gap: 12px; padding: 28px 20px 20px; }
   .dd-invite-mark { width: 5.5rem; height: 5.5rem; }

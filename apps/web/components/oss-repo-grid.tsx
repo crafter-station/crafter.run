@@ -48,12 +48,10 @@ export function OssRepoGrid({ repos, eyebrow, title, intro, starsLabel, allLabel
           <input id="oss-search" type="search" value={query} onChange={event => setQuery(event.target.value)} placeholder={t.searchPlaceholder} />
         </div>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button type="button" className="oss-filter-control" aria-label={t.language}><Code2 size={15} aria-hidden="true" /><span>{language === "all" ? t.allLanguages : language}</span><ChevronDown size={14} aria-hidden="true" /></button>
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger className="oss-filter-control" aria-label={t.language}><Code2 size={15} aria-hidden="true" /><span>{language === "all" ? t.allLanguages : language}</span><ChevronDown size={14} aria-hidden="true" /></DropdownMenuTrigger>
           <DropdownMenuContent align="end" sideOffset={8} collisionPadding={16} className="station-preference-menu oss-filter-menu">
-            <DropdownMenuLabel>{t.language}</DropdownMenuLabel>
             <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
+              <DropdownMenuLabel>{t.language}</DropdownMenuLabel>
               <DropdownMenuRadioItem value="all">{t.allLanguages}</DropdownMenuRadioItem>
               {languages.map(name => <DropdownMenuRadioItem key={name} value={name}>{name}</DropdownMenuRadioItem>)}
             </DropdownMenuRadioGroup>

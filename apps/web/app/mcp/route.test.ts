@@ -147,6 +147,38 @@ describe("MCP endpoint", () => {
     expect(names).not.toContain("Railly Hugo")
   })
 
+  test("reports what shipped, newest first, filtered by area, day and language", async () => {
+    const call = async (args: Record<string, unknown>) =>
+      (await rpc({ jsonrpc: "2.0", id: 20, method: "tools/call", params: { name: "whats_new", arguments: args } })).body.result
+
+    const all = await call({ limit: 100 })
+    expect(all.isError).toBe(false)
+    const entries = all.structuredContent.entries as { title: string; date: string; area: string; url: string; crafters: { username: string }[] }[]
+    expect(entries.length).toBeGreaterThan(0)
+    const dates = entries.map((entry) => entry.date)
+    expect(dates).toEqual([...dates].sort().reverse())
+    expect(entries.find((entry) => entry.url === "https://crafter.run/en/changelog/pulse-2")).toMatchObject({
+      date: "2026-11-15",
+      area: "station",
+      kind: "ship",
+      crafters: [{ username: "railly", name: "Railly Hugo" }],
+    })
+
+    const since = await call({ since: "2026-10-08", limit: 100 })
+    expect(since.structuredContent.entries.every((entry: { date: string }) => entry.date >= "2026-10-08")).toBe(true)
+    const limited = await call({ limit: 2 })
+    expect(limited.structuredContent.entries).toHaveLength(2)
+
+    const games = await call({ area: "games", limit: 100 })
+    expect(games.structuredContent.entries.every((entry: { area: string }) => entry.area === "games")).toBe(true)
+
+    const es = await call({ locale: "es", limit: 100 })
+    expect(es.structuredContent.entries.every((entry: { url: string }) => entry.url.startsWith("https://crafter.run/es/changelog/"))).toBe(true)
+
+    const bad = (await rpc({ jsonrpc: "2.0", id: 21, method: "tools/call", params: { name: "whats_new", arguments: { since: "yesterday" } } })).body
+    expect(bad.result?.isError ?? true).toBe(true)
+  })
+
   /* A tool that fails reports through `isError` so the model can read the
      reason and retry; only a protocol-level mistake becomes a JSON-RPC error. */
   test("separates a tool failure from a protocol error", async () => {

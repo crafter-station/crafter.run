@@ -112,9 +112,14 @@
 .entry-brand-trigger[data-placeholder] { color: hsl(var(--muted-foreground)); }
 .entry-brand-trigger > svg { flex: none; color: hsl(var(--muted-foreground)); }
 .entry-brand-trigger:focus-visible { outline: 2px solid var(--entry-accent); outline-offset: 2px; }
-.entry-brand-label { display: inline-flex; align-items: center; gap: 10px; }
-.entry-brand-menu { z-index: 60; width: var(--radix-select-trigger-width); max-height: min(320px, var(--radix-select-content-available-height)); overflow: hidden; border: 1px solid hsl(var(--line)); border-radius: 6px; background: hsl(var(--background)); color: hsl(var(--foreground)); padding: 4px; box-shadow: 0 12px 32px rgb(0 0 0 / .35); }
-.entry-brand-option { position: relative; display: flex; align-items: center; height: 40px; padding: 0 36px 0 10px; border-radius: 4px; font-size: 15px; cursor: pointer; outline: none; user-select: none; }
+.entry-brand-icon { display: inline-flex; flex: none; }
+.entry-brand-trigger [data-slot="select-value"] { flex: 1; }
+.entry-brand-menu { z-index: 60; width: var(--anchor-width); max-height: min(320px, var(--available-height)); overflow-y: auto; border: 1px solid hsl(var(--line)); border-radius: 6px; background: hsl(var(--background)); color: hsl(var(--foreground)); padding: 4px; box-shadow: 0 12px 32px rgb(0 0 0 / .35); }
+[data-slot="select-content"].entry-brand-menu { transform-origin: var(--transform-origin); transition: opacity 150ms ease-out, scale 200ms cubic-bezier(.16, 1, .3, 1), translate 200ms cubic-bezier(.16, 1, .3, 1); }
+[data-slot="select-content"].entry-brand-menu:is([data-starting-style], [data-ending-style]) { opacity: 0; scale: .97; translate: 0 -4px; }
+[data-slot="select-content"].entry-brand-menu[data-ending-style] { transition-duration: 110ms; }
+@media (prefers-reduced-motion: reduce) { [data-slot="select-content"].entry-brand-menu { transition: opacity 150ms; } [data-slot="select-content"].entry-brand-menu:is([data-starting-style], [data-ending-style]) { scale: 1; translate: none; } }
+.entry-brand-option { position: relative; display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 36px 0 10px; border-radius: 4px; font-size: 15px; cursor: pointer; outline: none; user-select: none; }
 .entry-brand-option[data-highlighted] { background: var(--entry-surface); }
 .entry-brand-check { position: absolute; right: 10px; display: inline-flex; color: var(--entry-accent); }
 .entry-model { position: relative; }
