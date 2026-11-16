@@ -12,12 +12,41 @@ links:
   - label: "Open Petdex"
     url: "https://petdex.dev"
 evidence:
+  - "https://petdex.dev/download"
+  - "https://hermes-agent.nousresearch.com/docs/user-guide/features/pets"
+  - "https://decrypt.co/es/372082/tu-agente-hermes-ahora-tiene-una-mascota-que-no-hace-absolutamente-nada-y-ese-es-el-punto"
   - "https://github.com/crafter-station/petdex"
   - "https://www.npmjs.com/package/petdex"
   - "https://github.com/crafter-station/petdex/releases"
   - "https://petdex.dev"
 ---
 
-Petdex is a public gallery where the community submits, reviews and shows animated pets in the Codex sprite format. A web gallery, a command line and a desktop app work together, and you install a pet with one command.
+Petdex is the public gallery of animated pets for coding agents. The community submits, reviews and shows pets in the Codex sprite format, and you install one with a single command. It works with Codex, Claude Code, Gemini CLI and more. Browse more than 5,000 pets at [petdex.dev](https://petdex.dev).
 
-It has had dozens of releases since May. Browse the gallery at [petdex.dev](https://petdex.dev).
+<Clip src="/changelog/petdex/states.mp4" poster="/changelog/petdex/states.webp" size="1280x800" alt="Switching a Petdex pet between its waving, jumping, running and failed animations" caption="Every pet has a row of frames for each state your agent can be in." />
+
+## A gallery of pets
+
+Each pet has its own page with a description, tags, collections and a state viewer for idle, running, waving, jumping, failed, waiting and review. Arrow keys browse the dex and the space bar shuffles.
+
+<Figure src="/changelog/petdex/home.webp" alt="Petdex home with the install command and a row of featured pets" size="1280x800" caption="The home page, with the install command for the featured pet." />
+
+## A CLI and a desktop app
+
+The `petdex` CLI installs any pet with one command. Petdex Desktop floats the pet on your screen on macOS, Windows and Linux and animates it on every tool call your agent makes. Agents connect from its settings with one click.
+
+## Used outside Crafter Station
+
+Nous Research added animated pets to Hermes Agent, and the sprites come from the Petdex gallery.
+
+<Mention href="https://decrypt.co/es/372082/tu-agente-hermes-ahora-tiene-una-mascota-que-no-hace-absolutamente-nada-y-ese-es-el-punto" author="Jose Antonio Lanz" source="Decrypt" quote="Los sprites provienen de petdex, una galería comunitaria de código abierto con más de 3.200 opciones para elegir." date="2026-06-25" />
+
+<Mention href="https://hermes-agent.nousresearch.com/docs/user-guide/features/pets" author="Nous Research" source="Hermes Agent docs" quote="Pets come from the public petdex gallery." />
+
+## Try it
+
+```bash
+npx petdex install boba
+```
+
+Then get the desktop app at [petdex.dev/download](https://petdex.dev/download), or submit your own pet from [petdex.dev](https://petdex.dev). The CLI and the desktop app have shipped dozens of releases since May.
