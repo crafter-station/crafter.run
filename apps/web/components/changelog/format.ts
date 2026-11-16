@@ -74,21 +74,6 @@ export function toView(entry: ChangelogEntry, locale: Locale): ChangelogView {
   }
 }
 
-/** Entries bucketed by calendar month, preserving newest-first order. */
-export function groupByMonth(views: readonly ChangelogView[], locale: Locale) {
-  const format = new Intl.DateTimeFormat(INTL_LOCALE[locale], { month: "long", year: "numeric", timeZone: "UTC" })
-  const groups: { key: string; label: string; entries: ChangelogView[] }[] = []
-  for (const view of views) {
-    const key = view.date.slice(0, 7)
-    const last = groups.at(-1)
-    if (last?.key === key) {
-      last.entries.push(view)
-      continue
-    }
-    groups.push({ key, label: format.format(new Date(`${view.date}T12:00:00Z`)), entries: [view] })
-  }
-  return groups
-}
 
 /** Readable label for an evidence URL: host and path without the scheme. */
 export function evidenceLabel(url: string): string {

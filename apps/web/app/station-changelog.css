@@ -1,35 +1,35 @@
-/* Changelog: the journal's paper and ink, laid out as a dated timeline. */
+/* Changelog: a dated rail on the left, one reading column on the right. */
+.changelog-page .journal-masthead { padding-bottom: 8px; }
 .changelog-filter { text-decoration: none; }
 .changelog-filter[aria-current="page"] { color: hsl(var(--background)); background: hsl(var(--foreground)); }
-.changelog-page .journal-results { padding-block: 8px 4px; }
-.changelog-month { display: grid; grid-template-columns: 180px minmax(0,1fr); gap: 0 32px; padding-top: 40px; }
-.changelog-month > h2 { position: sticky; top: 24px; align-self: start; font: 15px/1.4 var(--font-label); text-transform: uppercase; letter-spacing: .14em; color: hsl(var(--muted-foreground)); padding-top: 6px; }
-.changelog-entries { min-width: 0; }
-.changelog-entry { display: grid; grid-template-columns: 120px minmax(0,1fr); gap: 0 28px; padding-block: 0 56px; }
-.changelog-entry + .changelog-entry { padding-top: 40px; border-top: 1px solid hsl(var(--line)); }
-.changelog-entry:last-child { padding-bottom: 8px; }
-.changelog-entry-meta { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; font: 16px/1.5 var(--font-label); color: hsl(var(--muted-foreground)); padding-top: 4px; }
-.changelog-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.changelog-area, .changelog-kind { display: inline-flex; align-items: center; gap: 7px; min-height: 28px; padding-inline: 10px; border-radius: 999px; font-size: 14px; line-height: 1; border: 1px solid hsl(var(--line)); color: hsl(var(--foreground)); }
-.changelog-area::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--area, #d7b463); }
-.changelog-kind { color: hsl(var(--muted-foreground)); }
 [data-area="station"] { --area: #e0b43a; }
 [data-area="research"] { --area: #9a7fc0; }
 [data-area="lab"] { --area: #7aa256; }
 [data-area="games"] { --area: #5c8fbe; }
+
+.changelog-list { --rail: 168px; --gap: 64px; position: relative; margin-top: 56px; max-width: calc(var(--rail) + var(--gap) + 760px); }
+.changelog-list::before { content: ""; position: absolute; top: 10px; bottom: 0; left: calc(var(--rail) + var(--gap) / 2); width: 1px; background: linear-gradient(to bottom, hsl(var(--line)), hsl(var(--line)) 85%, transparent); }
+.changelog-entry { position: relative; display: grid; grid-template-columns: var(--rail) minmax(0,1fr); column-gap: var(--gap); padding-bottom: 104px; }
+.changelog-entry::before { content: ""; position: absolute; top: 7px; left: calc(var(--rail) + var(--gap) / 2 - 4px); width: 9px; height: 9px; border-radius: 50%; background: hsl(var(--background)); border: 1px solid hsl(var(--muted-foreground) / .6); }
+.changelog-entry:first-child::before { background: var(--area); border-color: var(--area); box-shadow: 0 0 0 4px hsl(var(--background)), 0 0 0 5px color-mix(in srgb, var(--area) 45%, transparent); }
+.changelog-rail { position: sticky; top: 28px; align-self: start; text-align: right; }
+.changelog-rail time { font: 15px/1.4 var(--font-label); letter-spacing: .02em; color: hsl(var(--muted-foreground)); white-space: nowrap; }
 .changelog-entry-main { min-width: 0; }
-.changelog-cover { display: block; overflow: hidden; border-radius: 6px; border: 1px solid hsl(var(--line)); background: var(--journal-paper); aspect-ratio: 16 / 10; }
-.changelog-cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 240ms; }
-.changelog-entry:hover .changelog-cover img { transform: scale(1.015); }
-.changelog-entry h3 { font-size: clamp(26px,2.6vw,34px); line-height: 1.12; letter-spacing: -.035em; text-wrap: balance; }
-.changelog-cover + h3 { margin-top: 22px; }
-.changelog-entry h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
-.changelog-summary { margin-top: 12px; max-width: 62ch; font-size: 18px; line-height: var(--station-leading-copy); color: hsl(var(--muted-foreground)); text-wrap: pretty; }
-.changelog-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 20px; }
-.changelog-crafters { display: flex; align-items: center; gap: 10px; font-size: 16px; }
+.changelog-cover { display: block; overflow: hidden; border-radius: 12px; aspect-ratio: 16 / 10; background: var(--journal-paper); box-shadow: 0 0 0 1px hsl(var(--foreground) / .08), 0 24px 60px -32px hsl(0 0% 0% / .55); }
+.changelog-cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 500ms cubic-bezier(.2,.7,.2,1); }
+.changelog-entry:hover .changelog-cover img { transform: scale(1.012); }
+.changelog-tag { display: flex; align-items: center; gap: 8px; margin-top: 28px; font: 13px/1 var(--font-label); text-transform: uppercase; letter-spacing: .14em; color: hsl(var(--muted-foreground)); }
+.changelog-area { display: inline-flex; align-items: center; gap: 8px; color: hsl(var(--foreground)); }
+.changelog-area::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--area, #d7b463); }
+.changelog-entry h3 { margin-top: 14px; font-size: clamp(28px,2.8vw,38px); line-height: 1.08; letter-spacing: -.04em; text-wrap: balance; }
+.changelog-entry h3 a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 300ms; }
+.changelog-entry h3 a:hover { background-size: 100% 1px; }
+.changelog-summary { margin-top: 14px; max-width: 60ch; font-size: 18px; line-height: var(--station-leading-copy); color: hsl(var(--muted-foreground)); text-wrap: pretty; }
+.changelog-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 22px; }
+.changelog-crafters { display: flex; align-items: center; gap: 10px; font-size: 15px; color: hsl(var(--muted-foreground)); }
 .changelog-ships { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
-.changelog-ships a { display: inline-flex; align-items: center; min-height: 32px; padding-inline: 10px; border-radius: 6px; font: 14px var(--font-label); background: hsl(var(--foreground) / .055); }
-.changelog-ships a:hover { background: hsl(var(--foreground) / .1); }
+.changelog-ships a { display: inline-flex; align-items: center; min-height: 30px; padding-inline: 10px; border-radius: 999px; font: 13px var(--font-label); color: hsl(var(--muted-foreground)); box-shadow: inset 0 0 0 1px hsl(var(--line)); }
+.changelog-ships a:hover { color: hsl(var(--foreground)); }
 .changelog-ships a::before { content: "ship / "; opacity: .55; white-space: pre; }
 /* Permalink */
 .changelog-facts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px 48px; max-width: 72ch; padding-block: 40px 8px; border-top: 1px solid hsl(var(--line)); margin-top: 48px; }
@@ -50,14 +50,12 @@
 .changelog-pager .changelog-pager-older { text-align: right; }
 .changelog-pager-all { align-self: center; font-size: 16px; padding-inline: 8px; min-height: 44px; display: inline-flex; align-items: center; }
 .changelog-pager-all:hover { text-decoration: underline; text-underline-offset: 5px; }
-@media (max-width: 960px) {
-  .changelog-month { grid-template-columns: minmax(0,1fr); gap: 20px 0; }
-  .changelog-month > h2 { position: static; }
-}
 @media (max-width: 760px) {
-  .changelog-entry { grid-template-columns: minmax(0,1fr); gap: 16px 0; padding-bottom: 40px; }
-  .changelog-entry + .changelog-entry { padding-top: 32px; }
-  .changelog-entry-meta { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+  .changelog-list { margin-top: 32px; }
+  .changelog-list::before { left: 4px; }
+  .changelog-entry { grid-template-columns: minmax(0,1fr); row-gap: 14px; padding: 0 0 64px 28px; }
+  .changelog-entry::before { left: 0; top: 5px; }
+  .changelog-rail { position: static; text-align: left; }
   .changelog-facts { grid-template-columns: minmax(0,1fr); }
   .changelog-pager { grid-template-columns: minmax(0,1fr); }
   .changelog-pager .changelog-pager-older { text-align: left; }

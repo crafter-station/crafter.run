@@ -15,12 +15,8 @@ export function ChangelogCard({ entry, t, locale }: { entry: ChangelogView; t: C
 
   return (
     <article className="changelog-entry" data-area={entry.area}>
-      <div className="changelog-entry-meta">
+      <div className="changelog-rail">
         <time dateTime={entry.date}>{entry.dateShort}</time>
-        <p className="changelog-chips">
-          <span className="changelog-area">{t.areas[entry.area]}</span>
-          <span className="changelog-kind">{t.kinds[entry.kind]}</span>
-        </p>
       </div>
       <div className="changelog-entry-main">
         {entry.image && (
@@ -28,6 +24,11 @@ export function ChangelogCard({ entry, t, locale }: { entry: ChangelogView; t: C
             <Image src={entry.image} alt="" width={1600} height={1000} sizes="(min-width: 1024px) 720px, 100vw" />
           </Link>
         )}
+        <p className="changelog-tag">
+          <span className="changelog-area">{t.areas[entry.area]}</span>
+          <span aria-hidden="true">/</span>
+          <span>{t.kinds[entry.kind]}</span>
+        </p>
         <h3>
           <Link href={entry.href} hrefLang={entry.locale}>
             {entry.title}

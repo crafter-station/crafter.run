@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Crafter Text"; src: url("../../app/fonts/CrafterSansTextPreview-Medium.woff2") format("woff2"); font-weight: 500; }
+  @font-face { font-family: "JetBrains Mono"; src: url("../../app/fonts/JetBrainsMono-500.woff2") format("woff2"); font-weight: 500; }
+  :root { --paper: #f7f6ee; --wash: #e9edda; --ink: #272b23; --muted: #686c5e; --accent: #e0bd55; }
+  [data-area="station"] { --paper: #f8f4e5; --wash: #efe3b6; --ink: #4c452c; --muted: #867b5b; --accent: #e0b43a; }
+  [data-area="research"] { --paper: #f3eff7; --wash: #e1d6ee; --ink: #50425d; --muted: #7f718a; --accent: #9a7fc0; }
+  [data-area="lab"] { --paper: #f1f5e9; --wash: #dbe8c5; --ink: #294135; --muted: #637562; --accent: #7aa256; }
+  [data-area="games"] { --paper: #edf2f4; --wash: #d6e4ec; --ink: #324d65; --muted: #6b7f91; --accent: #5c8fbe; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1600px; height: 1000px; overflow: hidden; }
+  body {
+    position: relative; background: var(--paper); color: var(--ink);
+    font-family: "Crafter Text", system-ui, sans-serif;
+  }
+  /* soft wash pooled behind the window, plus the Station halftone grid */
+  .wash { position: absolute; inset: 0;
+    background:
+      radial-gradient(60% 70% at 50% 100%, var(--wash) 0%, transparent 70%),
+      radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink) 14%, transparent) 1.2px, transparent 1.6px) 0 0 / 28px 28px;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,.55), #000 60%);
+  }
+  .top { position: absolute; top: 64px; left: 80px; right: 80px; display: flex; align-items: center; justify-content: space-between; }
+  .mark { display: flex; align-items: center; gap: 16px; font-size: 30px; letter-spacing: -.01em; }
+  .mark img { width: 44px; height: 44px; border-radius: 10px; }
+  .window {
+    position: absolute; left: 50%; top: 176px; width: 1300px; transform: translateX(-50%);
+    border-radius: 18px 18px 0 0; overflow: hidden; background: #fff;
+    border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); border-bottom: 0;
+    box-shadow: 0 2px 0 color-mix(in srgb, #fff 70%, transparent) inset, 0 40px 90px -30px color-mix(in srgb, var(--ink) 45%, transparent), 0 12px 30px -12px color-mix(in srgb, var(--ink) 25%, transparent);
+  }
+  .chrome { height: 52px; display: flex; align-items: center; gap: 10px; padding-inline: 22px; background: color-mix(in srgb, var(--paper) 70%, #fff); border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); }
+  .chrome i { width: 13px; height: 13px; border-radius: 50%; background: color-mix(in srgb, var(--ink) 18%, transparent); }
+  .url { margin-left: 18px; flex: 0 1 460px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font: 500 17px "JetBrains Mono", monospace; color: var(--muted); background: color-mix(in srgb, var(--ink) 6%, transparent); }
+  .shot { display: block; width: 100%; height: auto; }
+</style>
+</head>
+<body>
+  <div class="wash"></div>
+  <div class="top">
+    <div class="mark"><img id="icon" alt="">crafter station</div>
+  </div>
+  <div class="window">
+    <div class="chrome"><i></i><i></i><i></i><div class="url" id="url"></div></div>
+    <img class="shot" id="shot" alt="">
+  </div>
+<script>
+  const q = new URLSearchParams(location.search)
+  document.body.dataset.area = q.get("area") || "station"
+  document.getElementById("url").textContent = q.get("host") || ""
+  document.getElementById("icon").src = "../../public/brand/crafter-station-icon-light.svg"
+  const shot = document.getElementById("shot")
+  shot.onload = () => document.body.dataset.ready = "1"
+  shot.src = q.get("shot")
+</script>
+</body>
+</html>

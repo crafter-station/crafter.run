@@ -5,7 +5,7 @@ import { getTranslations } from "next-intl/server"
 import { ChangelogCta } from "@/components/changelog/cta"
 import { ChangelogCard } from "@/components/changelog/entry-card"
 import { ChangelogFilter } from "@/components/changelog/filter"
-import { groupByMonth, toView } from "@/components/changelog/format"
+import { toView } from "@/components/changelog/format"
 import { ChangelogHero } from "@/components/changelog/hero"
 import { changelogLabels } from "@/components/changelog/labels"
 import { JsonLd } from "@/components/json-ld"
@@ -59,7 +59,6 @@ export default async function Page({
     ...CHANGELOG_AREAS.map((a) => [a, filterByArea(all, a).length]),
   ]) as Record<ChangelogArea | "all", number>
   const views = filterByArea(all, area).map((entry) => toView(entry, lang))
-  const months = groupByMonth(views, lang)
 
   return (
     <>
@@ -75,20 +74,15 @@ export default async function Page({
       <main className="journal-page changelog-page">
         <ChangelogHero locale={lang} eyebrow={page("eyebrow")} title={page("title")} description={page("description")} t={t} />
         <ChangelogFilter locale={lang} active={area} counts={counts} t={t} />
-        <p className="journal-results" role="status">{t.results(views.length)}</p>
+        <p className="sr-only" role="status">{t.results(views.length)}</p>
         {views.length === 0 ? (
           <div className="journal-empty"><p>{t.empty}</p></div>
         ) : (
-          months.map((month) => (
-            <section key={month.key} className="changelog-month" aria-labelledby={`month-${month.key}`}>
-              <h2 id={`month-${month.key}`}>{month.label}</h2>
-              <div className="changelog-entries">
-                {month.entries.map((entry) => (
-                  <ChangelogCard key={`${entry.locale}-${entry.slug}`} entry={entry} t={t} locale={lang} />
-                ))}
-              </div>
-            </section>
-          ))
+          <div className="changelog-list">
+            {views.map((entry) => (
+              <ChangelogCard key={`${entry.locale}-${entry.slug}`} entry={entry} t={t} locale={lang} />
+            ))}
+          </div>
         )}
         <ChangelogCta locale={lang} t={t} />
       </main>

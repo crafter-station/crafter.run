@@ -12,15 +12,6 @@ export function ChangelogHero({ locale, eyebrow, title, description, t }: {
     <div className="journal-topline"><p className="station-label">{eyebrow}</p></div>
     <div className="journal-title-row">
       <h1>{title}<span>.</span></h1>
-      <svg viewBox="0 0 160 160" fill="none" className="journal-emblem" aria-hidden="true">
-        <g stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <path d="M52 14v132" strokeDasharray="2 6" />
-          <circle cx="52" cy="38" r="9" fill="var(--journal-paper)" />
-          <circle cx="52" cy="80" r="9" fill="currentColor" />
-          <circle cx="52" cy="122" r="9" fill="var(--journal-paper)" />
-          <path d="M76 38h58M76 80h40M76 122h66" />
-        </g>
-      </svg>
     </div>
     <div className="journal-deck"><p>{description}</p><nav aria-label={t.rss}>
       <Link href={withLocale("/newsletter", locale)}>{t.subscribe}</Link>
