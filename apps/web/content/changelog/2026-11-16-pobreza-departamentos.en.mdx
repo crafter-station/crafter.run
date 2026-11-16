@@ -1,0 +1,54 @@
+---
+title: "pobreza-departamentos looks at why some Peruvian departments cut poverty"
+summary: "A working report on monetary poverty in 23 departments from 2015 to 2024, built on INEI figures and ENAHO microdata."
+date: 2026-11-16
+area: research
+kind: ship
+crafters:
+  - liz
+repos:
+  - crafter-research/pobreza-departamentos
+links:
+  - label: "Open the report"
+    url: "https://pobreza-departamentos.vercel.app"
+image: /changelog/pobreza-departamentos/cover.webp
+evidence:
+  - "https://pobreza-departamentos.vercel.app"
+  - "https://github.com/crafter-research/pobreza-departamentos"
+---
+
+pobreza-departamentos compares how monetary poverty changed in 23 Peruvian departments between 2015 and 2024, using official INEI figures and ENAHO microdata. Huancavelica went from 45.2% to 33.4%, the third-largest drop in the country. The departments that cut poverty the most saw income from work grow faster, while public spending shows no clear link. The report is in Spanish. Read it at [pobreza-departamentos.vercel.app](https://pobreza-departamentos.vercel.app).
+
+<Clip src="/changelog/pobreza-departamentos/series.mp4" poster="/changelog/pobreza-departamentos/series.webp" size="1280x800" alt="Switching the poverty chart between Huancavelica, the departments that cut poverty most and those that stalled, then reading each year" caption="Pick a group of departments and hover the chart to read each year." />
+
+## Poorer departments fell further
+
+Departments that started with more poverty had more room to fall, with a rank correlation of −0.60. The report lets you switch to the change against that expected trend, and Huancavelica still fell more than its starting level predicts.
+
+<Figure src="/changelog/pobreza-departamentos/baseline.webp" alt="Scatter plot of poverty in 2015 against the change to 2024 for 23 Peruvian departments, with Huancavelica highlighted" size="1280x800" caption="Poverty in 2015 against the change to 2024, by department." />
+
+## Income from work makes the difference
+
+The report tests eleven spending, service and territory factors, and none clears the noise band once the starting level is taken into account. The gap shows up in monthly income per person instead. In the six departments that cut poverty most, self-employment income grew by S/ 103 against S/ 43 in the six that cut it least. Public transfers grew by S/ 10 in both groups.
+
+<Figure src="/changelog/pobreza-departamentos/income.webp" alt="Bar chart of monthly income growth per person by source, comparing the six departments that cut poverty most with the six that cut it least" size="1280x800" caption="Income growth by source, six departments against six." />
+
+## What it does not claim
+
+These are associations between 6 and 6 departments, not causes. Lima Metropolitana, Lima provinces and Callao are left out, incomes are nominal and the spending data is from 2025. The poverty rate recalculated from ENAHO matches the official INEI figure to the hundredth.
+
+## Try it
+
+Open [the report](https://pobreza-departamentos.vercel.app) and jump between its seven sections from the top bar. Every chart links to its data. To rebuild it, clone the repository and follow the README, which lists the scripts in order and where to download the ENAHO microdata.
+
+```bash
+git clone https://github.com/crafter-research/pobreza-departamentos
+```
+
+## Sources
+
+- INEI, Evolución de la pobreza monetaria 2015-2024, statistical annex
+- ENAHO 2015-2024, modules 34 and 05, from INEI microdata
+- 2025 public spending from quipu, plus open data from OSIPTEL, INGEMMET and PCM
+
+It is a working report without external review.
