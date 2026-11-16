@@ -18,6 +18,33 @@ evidence:
   - "https://onpe-cli.crafter.run"
 ---
 
-onpe-cli queries Peru's official election results API and returns machine-readable output that an AI agent can use directly.
+onpe-cli queries Peru's official election results API from the terminal. It is for journalists, analysts and AI agents that need mesas, actas and summaries as data instead of a web page. It needs no authentication. Docs are at [onpe-cli.crafter.run](https://onpe-cli.crafter.run).
 
-Install it with `bun add -g @crafter/onpe-cli`. Docs are at [onpe-cli.crafter.run](https://onpe-cli.crafter.run).
+<Clip src="/changelog/onpe-cli/resumen.mp4" poster="/changelog/onpe-cli/resumen.webp" size="1280x800" alt="onpe-cli resumen printing counted actas and turnout, then the same data as JSON" caption="The same command gives a human view on a terminal and JSON for an agent." />
+
+## One output for people, one for agents
+
+On a terminal, `onpe-cli resumen` draws progress bars for counted actas and turnout. Piped or with `--json`, it returns JSON plus next-step hints that tell an agent which command to run after it.
+
+## From the national summary down to one mesa
+
+Look up a mesa by its code, read a full acta by ID, list ubigeos by department, province or district, or get a download URL for an acta file. `onpe-cli doctor` checks that the ONPE API is reachable before you start.
+
+<Figure src="/changelog/onpe-cli/home.webp" alt="onpe-cli homepage: Query ONPE with one CLI" size="1280x800" caption="The homepage at onpe-cli.crafter.run." />
+
+## Try it
+
+```bash
+bun add -g @crafter/onpe-cli
+onpe-cli resumen
+onpe-cli mesa 900001 --json
+```
+
+## Commands
+
+- `resumen`: general election summary
+- `ranking`: national candidate ranking
+- `mesa <codigo>` and `acta <id>`: one mesa or acta in detail
+- `ubigeos [nivel] [padre]`: departments, provinces and districts
+- `file-url <fileId>`: download URL for an acta file
+- `doctor`: API connectivity and status
