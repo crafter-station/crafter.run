@@ -15,8 +15,42 @@ image: /changelog/gh-ascii/cover.webp
 evidence:
   - "https://github.com/crafter-station/gh-ascii"
   - "https://gh.crafter.run"
+  - "https://github.com/UltimateStrength/ascii-readme"
+  - "https://github.com/UltimateStrength/ascii-train"
 ---
 
-gh-ascii convierte tu avatar en arte ASCII y toma tus estadísticas (lenguajes, repos, estrellas, commits) de la API de GitHub. No necesita hosting ni API key, y el repo incluye un workflow de GitHub Actions que actualiza la tarjeta cada día.
+gh-ascii convierte un usuario de GitHub en una tarjeta SVG estilo neofetch para el README de tu perfil: tu avatar en arte ASCII junto a estadísticas en vivo. Es para quien quiere un perfil que destaque sin alojar nada. Genera la tuya en [gh.crafter.run](https://gh.crafter.run).
 
-Genera la tuya en [gh.crafter.run](https://gh.crafter.run).
+<Clip src="/changelog/gh-ascii/generate.mp4" poster="/changelog/gh-ascii/generate.webp" size="1280x800" alt="Escribiendo un usuario en gh-ascii, generando la tarjeta oscura y cambiando al tema claro" caption="Escribe un usuario, genera y elige un tema." />
+
+## Tu avatar en ASCII
+
+gh-ascii quita el fondo detrás de la persona y elige cada carácter según cuánta tinta ocupa en la fuente de la tarjeta. Puedes ajustar el detalle entre 80 y 140 columnas, conservar el fondo original o usar cualquier URL de imagen o un archivo subido en lugar de tu avatar.
+
+## Estadísticas en vivo, sin API key
+
+El uptime, los lenguajes, repos, estrellas, commits y contribuciones salen de la API pública de GitHub al generar la tarjeta. Descarga `dark_mode.svg` y `light_mode.svg`, súbelos junto a tu README y refiérelos desde un elemento `<picture>` para que cada tema cargue su tarjeta.
+
+<Figure src="/changelog/gh-ascii/light-card.webp" alt="Tarjeta clara de gh-ascii con avatar ASCII y estadísticas de GitHub, sobre los pasos de descarga" size="1280x800" caption="Los dos temas se descargan como archivos SVG que viven en tu repo." />
+
+## Siempre al día
+
+Un SVG en el repo es una foto fija. El repo incluye un workflow de GitHub Actions que descarga los dos temas con un cron diario y solo hace commit cuando la tarjeta cambió.
+
+<Mention href="https://github.com/UltimateStrength/ascii-readme" author="Marcos (UltimateStrength)" source="GitHub" quote="Basado en un fork de crafter-station/gh-ascii de Crafter Station. (traducido)" />
+
+## Pruébalo
+
+Abre [gh.crafter.run](https://gh.crafter.run) o descarga una tarjeta directamente:
+
+```bash
+curl -fL "https://gh.crafter.run/<handle>?theme=dark" -o dark_mode.svg
+curl -fL "https://gh.crafter.run/<handle>?theme=light" -o light_mode.svg
+```
+
+## Qué incluye
+
+- `GET /<handle>` con `?theme`, `?cols=40..160`, `?image=<url>` y `?bg=keep`
+- `POST /<handle>` para generar desde una imagen local de hasta 10 MB
+- Un prompt de modo agente para que tu asistente de IA lo configure por ti
+- Un workflow de actualización diaria que puedes copiar a tu repo de perfil

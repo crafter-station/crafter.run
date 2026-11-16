@@ -18,8 +18,37 @@ evidence:
   - "https://github.com/crafter-station/crafter.run/commit/c57042f4717720e3561294a01e741e8b779aaf78"
   - "https://www.npmjs.com/package/@crafter/cli"
   - "https://crafter.run/en/ships"
+  - "https://crafter.run/en/ships/tocus"
 ---
 
-Ships is the community's shelf of what its members build. The platform arrived on August 11, 2026 together with the `@crafter/cli` package and agent-driven onboarding, so an agent can draft your profile and your first Ship. Published Ships can carry updates and media, and visitors can upvote them.
+Ships is the community's shelf of what its members build: apps, tools, experiments and ideas, each with its own page. It is for anyone in the Crafter community who wants their project seen, and you can publish from your terminal or your coding agent. Browse it at [crafter.run/ships](https://crafter.run/en/ships).
 
-The list is also available through the public API at api.crafter.run. Browse it at [crafter.run/ships](https://crafter.run/en/ships).
+<Clip src="/changelog/community-ships/browse.mp4" poster="/changelog/community-ships/browse.webp" size="1280x800" alt="Scrolling the Ships manifest on crafter.run and opening the TOCus ship page" caption="The manifest lists every Ship. Each one opens its own page." />
+
+## Ship from your coding agent
+
+Ships arrived on August 11, 2026 together with the `@crafter/cli` package and agent-driven onboarding. Install the `crafter-ship` skill and your agent can draft your profile and your first Ship from a local project. Nothing goes live until you confirm the draft.
+
+## A page for every Ship
+
+Each Ship has a cover, a description, links to its repository and website, and the person who shipped it. Published Ships can carry updates with a public changelog entry, and visitors can upvote them.
+
+<Figure src="/changelog/community-ships/ship-page.webp" alt="The TOCus ship page with cover image, description, upvote button and links" size="1280x800" caption="A Ship page shows who made it and where to try it." />
+
+## Try it
+
+Add the skill to your coding agent, or use the CLI directly. Run `crafter login` yourself in an interactive terminal.
+
+```bash
+npx skills add crafter-station/crafter.run --skill crafter-ship
+npm install --global @crafter/cli
+crafter login
+crafter ship
+```
+
+## What changed
+
+- A public directory of community Ships at [crafter.run/ships](https://crafter.run/en/ships), with upvotes
+- The [`@crafter/cli`](https://www.npmjs.com/package/@crafter/cli) package to draft, publish, edit and update Ships
+- Agent-driven onboarding that drafts your profile and your first Ship
+- The list is also available through the public API at api.crafter.run

@@ -19,10 +19,40 @@ evidence:
   - "https://github.com/crafter-games/dotframe/releases"
   - "https://www.npmjs.com/package/dotframe"
   - "https://dotframe.crafter.games"
+  - "https://github.com/crafter-games/dotframe/releases/tag/v0.1.0"
+  - "https://github.com/crafter-games/espresso"
 ---
 
-You write the game once in TypeScript and ship it to the web, iPhone, macOS, Windows and Discord. Every frame is deterministic, so an agent can play headless, rewind to any frame and find the bug your players hit.
+dotframe is a TypeScript game engine built so an AI agent can play the game it is helping you make. You write the game once and ship it to the web, iPhone, macOS, Windows and Discord. Every frame is deterministic, so your agent can play headless, look at any frame and find the bug before your players do. Read more at [dotframe.crafter.games](https://dotframe.crafter.games).
 
-Craft Ones and the Hot Reload game were built with it.
+<Clip src="/changelog/dotframe/frames.mp4" poster="/changelog/dotframe/frames.webp" size="1280x800" alt="The dotframe homepage demo paused and stepped frame by frame, with the checksum changing on each frame" caption="Pause, step back and forward. The same frame always has the same checksum." />
 
-Install it with `npm i -g dotframe` and add the agent skill with `npx skills add crafter-games/dotframe`. Read more at [dotframe.crafter.games](https://dotframe.crafter.games).
+## No screen needed, until it wants one
+
+The simulation is pure state and a fixed step. `dotframe sim` mashes inputs through 600 frames in a millisecond and prints the state as JSON. When the agent needs to see, `dotframe snap` renders that exact frame through the real WebGPU renderer as a PNG. Record a run once with `dotframe replay` and it becomes a test: every later change has to land on the same checksums.
+
+<Figure src="/changelog/dotframe/sim.webp" alt="dotframe sim output as JSON next to the explanation of how an agent plays" size="1280x800" caption="An agent reads the state instead of the screen." />
+
+## One codebase, five platforms
+
+The web build uses WebGPU, with Canvas 2D on phones. iPhone gets a native app with no web view, macOS gets one binary on SDL3 and wgpu, Windows is cross-built from a Mac, and Discord runs it as an Activity in voice. There is no JavaScript engine in the native binaries.
+
+<Figure src="/changelog/dotframe/platforms.webp" alt="dotframe platform grid with build commands, above the list of games made with dotframe" size="1280x800" caption="Each platform has its own build command. Espresso perfecto and Craft Ones run on it." />
+
+## Try it
+
+```bash
+npm i -g dotframe
+npx skills add crafter-games/dotframe
+dotframe skills get core
+```
+
+Then ask your agent to start from the fighter, platformer or blank template with `dotframe new`.
+
+## What it includes
+
+- `sim`, `snap`, `replay` and `desync` to play, render and compare runs headless
+- Rollback netplay with a relay you can deploy
+- `build` and `deploy` for web, iOS, macOS, Windows and Discord, with `--dry-run` before anything external
+- Skills bundled with each CLI version, from core to netplay and game design
+- Craft Ones and the Hot Reload game were built with it

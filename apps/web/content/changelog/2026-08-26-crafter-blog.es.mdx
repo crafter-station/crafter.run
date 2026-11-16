@@ -15,8 +15,40 @@ image: /changelog/crafter-blog/cover.webp
 evidence:
   - "https://github.com/crafter-station/crafter.run/pull/75"
   - "https://crafter.run/en/blog"
+  - "https://crafter.run/en/blog/why-crafter-station-is-open-source"
+  - "https://crafter.run/en/blog/sitemap.md"
 ---
 
-El blog vive en crafter.run/blog. Los posts se escriben en MDX y pueden existir en varios idiomas, con un feed Atom por idioma y filtros por tema. Cada post tiene además una versión `.md` para que un agente lo lea sin el marco de la página.
+El blog de Crafter Station vive en [crafter.run/blog](https://crafter.run/es/blog). Ahí el equipo escribe sobre ingeniería y cultura desde Latinoamérica, para lectores y para los agentes que usan.
 
-Los primeros posts fueron Hello, world y A website agents can read. Léelos en [crafter.run/blog](https://crafter.run/es/blog).
+<Clip src="/changelog/crafter-blog/read.mp4" poster="/changelog/crafter-blog/read.webp" size="1280x800" alt="Recorriendo el índice del blog en crafter.run y abriendo un post" caption="El índice filtra por tema y busca sin recargar." />
+
+## Escrito en MDX, en más de un idioma
+
+Los posts son archivos MDX que llegan en el mismo pull request que el trabajo que describen. Un post solo necesita los idiomas en los que está escrito. Si falta una traducción, el índice enlaza al mejor idioma disponible en lugar de a una página que no existe.
+
+## Una versión Markdown de cada post
+
+Agrega `.md` a la URL de cualquier post, o envía `Accept: text/markdown`, y recibes el mismo post en Markdown plano, sin el marco de la página. Cada idioma tiene además un feed Atom con el contenido completo y un índice en Markdown de todos los posts.
+
+<Gallery>
+  <Figure src="/changelog/crafter-blog/post.webp" alt="Un post del blog en crafter.run con título, resumen, autor e ilustración de portada" size="1280x800" caption="La página del post." />
+  <Figure src="/changelog/crafter-blog/markdown-twin.webp" alt="El mismo post servido como Markdown plano" size="1280x800" caption="El mismo post con .md al final de la URL." />
+</Gallery>
+
+## Pruébalo
+
+Abre [crafter.run/blog](https://crafter.run/es/blog) o léelo como lo haría un agente:
+
+```bash
+curl https://crafter.run/en/blog/sitemap.md
+curl https://crafter.run/en/blog/why-crafter-station-is-open-source.md
+```
+
+## Qué cambió
+
+- `/[lang]/blog` con filtros por tema y búsqueda, y una página de post con autores enlazados a sus perfiles del equipo
+- Un feed Atom por idioma en `/{locale}/blog/rss.xml`
+- Una versión Markdown de cada post y un índice en Markdown en `/{locale}/blog/sitemap.md`
+- `llms.txt` y `agents.md` incluyen el blog
+- Los primeros posts fueron Hello, world y A website agents can read ([#75](https://github.com/crafter-station/crafter.run/pull/75))

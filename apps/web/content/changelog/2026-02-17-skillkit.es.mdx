@@ -19,8 +19,36 @@ evidence:
   - "https://www.npmjs.com/package/@crafter/skillkit"
   - "https://github.com/crafter-station/skill-kit/releases"
   - "https://skillkit.crafter.run"
+  - "https://github.com/crafter-station/skill-kit/blob/main/README.md"
 ---
 
-Cada skill que instalas ocupa espacio en la ventana de contexto de tu agente. skillkit escanea tus archivos de sesión de forma local, cuenta las invocaciones y muestra qué conviene quitar. Funciona con Claude Code, Cursor, Codex y más, y nada sale de tu máquina.
+Cada skill que instalas ocupa espacio en la ventana de contexto de tu agente. skillkit es una CLI local para quienes usan agentes de código todos los días: escanea tus archivos de sesión, cuenta qué skills invocas y muestra qué conviene quitar. Funciona con Claude Code, Cursor, Codex y más, y nada sale de tu máquina. La documentación está en [skillkit.crafter.run](https://skillkit.crafter.run).
 
-Corre `bunx @crafter/skillkit stats` o lee la documentación en [skillkit.crafter.run](https://skillkit.crafter.run).
+<Clip src="/changelog/skillkit/audit.mp4" poster="/changelog/skillkit/audit.webp" size="1280x800" alt="skillkit audit revisando cuatro skills y marcando pass, warn y fail con su costo en tokens" caption="skillkit audit califica cada skill y calcula cuánto contexto consume." />
+
+## Mira cuánto te cuestan tus skills
+
+`skillkit stats` muestra las invocaciones de los últimos 30 días con sparklines, y `skillkit context` mide los tokens que se cargan en cada llamada a la API. `skillkit health` marca las skills sin uso y un presupuesto de contexto inflado, y `skillkit prune` quita lo que nunca llamas.
+
+## Audita una skill antes de publicarla
+
+`skillkit audit` revisa cualquier skill o paquete contra las buenas prácticas de Agent Skills. Reporta líneas y tokens por skill, referencias a archivos que no existen y descripciones demasiado largas. Agrega `--strict` para que el CI falle con advertencias.
+
+<Figure src="/changelog/skillkit/home.webp" alt="Portada de skillkit: Know what your AI agents cost" size="1280x800" caption="La portada en skillkit.crafter.run." />
+
+## Pruébalo
+
+skillkit corre sobre Bun. La primera vez indexa tus sesiones.
+
+```bash
+bunx @crafter/skillkit stats
+bunx @crafter/skillkit audit ./skills
+```
+
+## Qué incluye
+
+- Analítica de uso, recibos y un mapa de calor de 52 semanas entre agentes
+- Impuesto de contexto por request, con baselines guardadas para comparar
+- Auditorías, pruebas de colisión de triggers y chequeos de cobertura para quienes escriben skills
+- Un export portable `@crafter/skillkit/agentfiles` para Node y Electron
+- Almacenamiento local en `~/.skillkit/analytics.db`, sin telemetría

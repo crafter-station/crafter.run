@@ -18,6 +18,33 @@ evidence:
   - "https://onpe-cli.crafter.run"
 ---
 
-onpe-cli consulta la API oficial de resultados electorales del Perú y devuelve una salida legible por máquinas que un agente de IA puede usar directamente.
+onpe-cli consulta la API oficial de resultados electorales del Perú desde la terminal. Es para periodistas, analistas y agentes de IA que necesitan mesas, actas y resúmenes como datos y no como una página web. No requiere autenticación. La documentación está en [onpe-cli.crafter.run](https://onpe-cli.crafter.run).
 
-Instálala con `bun add -g @crafter/onpe-cli`. La documentación está en [onpe-cli.crafter.run](https://onpe-cli.crafter.run).
+<Clip src="/changelog/onpe-cli/resumen.mp4" poster="/changelog/onpe-cli/resumen.webp" size="1280x800" alt="onpe-cli resumen mostrando las actas contabilizadas y la participación, y luego los mismos datos en JSON" caption="El mismo comando da una vista para personas en la terminal y JSON para un agente." />
+
+## Una salida para personas y otra para agentes
+
+En la terminal, `onpe-cli resumen` dibuja barras de avance para las actas contabilizadas y la participación. Con un pipe o con `--json`, devuelve JSON y sugerencias del siguiente paso que le dicen al agente qué comando correr después.
+
+## Del resumen nacional a una sola mesa
+
+Busca una mesa por su código, lee un acta completa por ID, lista ubigeos por departamento, provincia o distrito, u obtén la URL de descarga de un archivo de acta. `onpe-cli doctor` revisa que la API de la ONPE responda antes de empezar.
+
+<Figure src="/changelog/onpe-cli/home.webp" alt="Portada de onpe-cli: Query ONPE with one CLI" size="1280x800" caption="La portada en onpe-cli.crafter.run." />
+
+## Pruébalo
+
+```bash
+bun add -g @crafter/onpe-cli
+onpe-cli resumen
+onpe-cli mesa 900001 --json
+```
+
+## Comandos
+
+- `resumen`: resumen general de la elección
+- `ranking`: ranking nacional de candidatos
+- `mesa <codigo>` y `acta <id>`: una mesa o un acta en detalle
+- `ubigeos [nivel] [padre]`: departamentos, provincias y distritos
+- `file-url <fileId>`: URL de descarga de un archivo de acta
+- `doctor`: conectividad y estado de la API

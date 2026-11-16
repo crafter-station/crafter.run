@@ -16,8 +16,41 @@ evidence:
   - "https://github.com/crafter-lab/circuitkit"
   - "https://www.npmjs.com/package/circuitkit"
   - "https://circuitkit.crafter.ing"
+  - "https://github.com/crafter-lab/circuitkit/blob/main/README.md"
+  - "https://circuitkit.crafter.ing/gallery"
 ---
 
-Describes módulos y conexiones y CircuitKit dibuja un diagrama de bloques, de cableado o un esquemático de forma local. Un solo documento JSON lo comparten la librería, los componentes React, la CLI y la skill para agentes.
+CircuitKit le da a tu agente de código una forma de dibujar circuitos. Describes módulos y conexiones, y genera en local un diagrama de bloques, un diagrama de cableado o un esquemático como SVG o PNG limpio. Es para makers y equipos de hardware que quieren diagramas que vivan junto a su código. Prueba el playground en [circuitkit.crafter.ing](https://circuitkit.crafter.ing).
 
-Instala `circuitkit` desde npm o prueba el playground en [circuitkit.crafter.ing](https://circuitkit.crafter.ing).
+<Clip src="/changelog/circuitkit/views.mp4" poster="/changelog/circuitkit/views.webp" size="1280x800" alt="Playground de CircuitKit cambiando un circuito de audio entre las vistas de bloques, esquemático y cableado" caption="Una fuente, tres vistas: bloques, esquemático y cableado." />
+
+## Una fuente, tres diagramas
+
+Un archivo `.ck` nombra los módulos, sus puertos y los buses que los unen. CircuitKit dibuja esa misma fuente como bloques, cableado o esquemático modular, sin coordenadas que mantener. Un bloque `presentation` opcional agrega secciones, resaltados y un flujo de señal ilustrativo para explicar el circuito.
+
+## Hecho para tu agente
+
+Pega el prompt de configuración o instala la skill y pídele el diagrama a tu agente. El paquete tipado, los componentes de React, la CLI y la skill comparten un mismo documento JSON, y todo se genera en local, sin cuenta ni backend.
+
+<Gallery>
+  <Figure src="/changelog/circuitkit/home.webp" alt="Portada de CircuitKit: Circuit diagrams for coding agents" size="1280x800" caption="La portada, con un prompt de configuración para copiar." />
+  <Figure src="/changelog/circuitkit/gallery.webp" alt="Galería de ejemplos de CircuitKit con topologías, casos borde y una prueba de estrés" size="1280x800" caption="La galería pasa cada ejemplo por el renderizador real." />
+</Gallery>
+
+## Pruébalo
+
+```bash
+npx skills add crafter-lab/circuitkit --skill circuitkit
+npm install circuitkit
+npx circuitkit grammar --json
+```
+
+O abre el [playground](https://circuitkit.crafter.ing/editor?mode=circuitkit) en tu navegador.
+
+## Qué incluye
+
+- Un lenguaje de texto compacto en archivos `.ck` o bloques de Markdown, con soporte para JSON
+- Los comandos `render`, `format` y `expand` en la CLI
+- Componentes de React y una librería tipada
+- Un servidor MCP, compilado desde el código fuente, que muestra los circuitos como imágenes en la conversación
+- Licencia Apache-2.0. Es una herramienta de dibujo, no un simulador.
