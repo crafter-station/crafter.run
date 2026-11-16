@@ -15,7 +15,7 @@ import { navSections } from "@/lib/site"
 import { stationCopy } from "@/lib/station-copy"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
-const primaryPaths: readonly string[] = ["/", "/universe", "/oss", "/events", "/blog"]
+const primaryPaths: readonly string[] = ["/", "/universe", "/oss", "/events", "/blog", "/changelog"]
 
 function MoreNavigation({ locale, onNavigate }: { locale: Locale; onNavigate: () => void }) {
   const pathname = usePathname()
@@ -62,7 +62,7 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
   const primary = [
     { href: "/", label: s.home }, { href: "/universe", label: t.universe },
     { href: "/oss", label: t.oss }, { href: "/events", label: t.events },
-    { href: "/blog", label: t.blog },
+    { href: "/blog", label: t.blog }, { href: "/changelog", label: t.changelog },
   ]
   const active = (href: string) => href === "/" ? pathname === withLocale("/", locale)
     : pathname === withLocale(href, locale) || pathname?.startsWith(`${withLocale(href, locale)}/`)

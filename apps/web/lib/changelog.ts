@@ -30,6 +30,11 @@ import { defaultLocale, locales, type Locale } from "@/lib/i18n"
 import { localizedUrl } from "@/lib/seo"
 import { getTeamMember, type TeamMember } from "@/lib/team"
 
+/** Social card for an entry with a cover: `public/changelog/<slug>/og-<locale>.jpg`. */
+export function changelogSocialCard(slug: string, locale: ChangelogLocale): string {
+  return `/changelog/${slug}/og-${locale}.jpg`
+}
+
 export const CHANGELOG_LOCALES = ["en", "es"] as const satisfies readonly Locale[]
 export type ChangelogLocale = (typeof CHANGELOG_LOCALES)[number]
 
@@ -106,7 +111,9 @@ export function parseEntry(
   }
   // Media referenced from the body (Figure, Clip, posters) must ship too.
   const bodyAssets = [...content.matchAll(/(?:src|poster)="(\/changelog\/[^"]+)"/g)].map((match) => match[1])
-  for (const asset of [parsed.data.image, parsed.data.video, ...bodyAssets]) {
+  // An entry with a cover also ships its social card, built by generate-changelog-covers.
+  const socialCard = parsed.data.image ? changelogSocialCard(slug, locale as ChangelogLocale) : undefined
+  for (const asset of [parsed.data.image, socialCard, parsed.data.video, ...bodyAssets]) {
     if (asset && !assetExists(asset)) {
       throw new Error(`"${filename}" references ${asset}, which does not exist under public/.`)
     }

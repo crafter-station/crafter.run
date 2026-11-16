@@ -27,8 +27,12 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const { lang } = await params
   if (!isLocale(lang)) return {}
   const base = await pageMetadata({ params, path: "/changelog", namespace: "pages.changelog" })
+  const page = await getTranslations({ locale: lang, namespace: "pages.changelog" })
+  const card = `${baseUrl}/changelog/og-${lang === "es" ? "es" : "en"}.jpg`
   return {
     ...base,
+    openGraph: { ...base.openGraph, images: [{ url: card, width: 1200, height: 630, alt: page("title") }] },
+    twitter: { ...base.twitter, card: "summary_large_image", images: [card] },
     alternates: {
       ...base.alternates,
       types: {

@@ -21,7 +21,7 @@ export function ChangelogCard({ entry, t, locale }: { entry: ChangelogView; t: C
       <div className="changelog-entry-main">
         {entry.image && (
           <Link href={entry.href} hrefLang={entry.locale} tabIndex={-1} aria-hidden className="changelog-cover">
-            <Image src={entry.image} alt="" width={1600} height={1000} sizes="(min-width: 1024px) 720px, 100vw" />
+            <Image src={entry.image} alt={entry.title} width={1600} height={1000} sizes="(min-width: 1024px) 720px, 100vw" />
           </Link>
         )}
         <p className="changelog-tag">

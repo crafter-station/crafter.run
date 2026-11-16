@@ -15,6 +15,8 @@ import { crafterAuthors, crafterByline, evidenceLabel } from "@/components/chang
 import { changelogLabels } from "@/components/changelog/labels"
 import { JsonLd } from "@/components/json-ld"
 import {
+  type ChangelogLocale,
+  changelogSocialCard,
   entryLanguageAlternates,
   entryLocales,
   getEntry,
@@ -47,7 +49,11 @@ const AREA_BAND: Record<string, string> = {
   games: "#adc8e2",
 }
 
-function cardImage(entry: { slug: string; title: string; summary: string }, locale: Parameters<typeof ogImageUrl>[1]) {
+function cardImage(
+  entry: { slug: string; title: string; summary: string; image?: string; locale: ChangelogLocale },
+  locale: Parameters<typeof ogImageUrl>[1],
+) {
+  if (entry.image) return absoluteUrl(changelogSocialCard(entry.slug, entry.locale))
   return absoluteUrl(
     ogImageUrl(entry.title, locale, "Crafter Changelog", { path: `/changelog/${entry.slug}`, description: entry.summary }),
   )

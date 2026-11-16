@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Crafter Display"; src: url("../../app/fonts/CrafterSansPreview-Medium.woff2") format("woff2"); font-weight: 500; }
+  @font-face { font-family: "Crafter Text"; src: url("../../app/fonts/CrafterSansTextPreview-Medium.woff2") format("woff2"); font-weight: 500; }
+  @font-face { font-family: "JetBrains Mono"; src: url("../../app/fonts/JetBrainsMono-500.woff2") format("woff2"); font-weight: 500; }
+  :root { --paper: #f8f4e5; --wash: #efe3b6; --ink: #4c452c; --muted: #867b5b; --accent: #e0b43a; }
+  [data-area="research"] { --paper: #f3eff7; --wash: #e1d6ee; --ink: #50425d; --muted: #7f718a; --accent: #9a7fc0; }
+  [data-area="lab"] { --paper: #f1f5e9; --wash: #dbe8c5; --ink: #294135; --muted: #637562; --accent: #7aa256; }
+  [data-area="games"] { --paper: #edf2f4; --wash: #d6e4ec; --ink: #324d65; --muted: #6b7f91; --accent: #5c8fbe; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body { position: relative; background: var(--paper); color: var(--ink); font-family: "Crafter Text", system-ui, sans-serif; }
+  .grid { position: absolute; inset: 0; background: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink) 13%, transparent) 1.1px, transparent 1.5px) 0 0 / 24px 24px; mask-image: linear-gradient(90deg, transparent, #000 45%); }
+  .wash { position: absolute; right: -120px; bottom: -160px; width: 760px; height: 620px; border-radius: 50%; background: var(--wash); filter: blur(70px); opacity: .9; }
+  .copy { position: absolute; left: 64px; top: 56px; bottom: 56px; width: 520px; display: flex; flex-direction: column; }
+  .mark { display: flex; align-items: center; gap: 12px; font-size: 24px; letter-spacing: -.01em; }
+  .mark img { width: 34px; height: 34px; }
+  .mark span { color: var(--muted); }
+  .tag { margin-top: auto; display: flex; align-items: center; gap: 10px; font: 500 17px/1 "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .tag::before { content: ""; width: 11px; height: 11px; border-radius: 50%; background: var(--accent); }
+  h1 { margin-top: 18px; font: 500 64px/1.02 "Crafter Display", "Crafter Text", sans-serif; letter-spacing: -.035em; text-wrap: balance; }
+  h1.long { font-size: 52px; }
+  .foot { margin-top: 26px; font: 500 17px "JetBrains Mono", monospace; color: var(--muted); }
+  .window { position: absolute; left: 620px; top: 92px; width: 760px; border-radius: 14px; overflow: hidden; background: #fff; border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); box-shadow: 0 36px 80px -30px color-mix(in srgb, var(--ink) 50%, transparent), 0 10px 24px -12px color-mix(in srgb, var(--ink) 25%, transparent); }
+  .chrome { height: 38px; display: flex; align-items: center; gap: 8px; padding-inline: 16px; background: color-mix(in srgb, var(--paper) 70%, #fff); border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); }
+  .chrome i { width: 10px; height: 10px; border-radius: 50%; background: color-mix(in srgb, var(--ink) 18%, transparent); }
+  .shot { display: block; width: 100%; }
+  /* index card: the rail of latest entries instead of a window */
+  .rail { position: absolute; left: 640px; top: 120px; right: 64px; display: flex; flex-direction: column; gap: 30px; border-left: 1px solid color-mix(in srgb, var(--ink) 22%, transparent); padding-left: 32px; }
+  .rail div { position: relative; }
+  .rail div::before { content: ""; position: absolute; left: -38px; top: 8px; width: 11px; height: 11px; border-radius: 50%; background: var(--paper); border: 1.5px solid var(--muted); }
+  .rail div:first-child::before { background: var(--accent); border-color: var(--accent); }
+  .rail time { font: 500 15px "JetBrains Mono", monospace; letter-spacing: .06em; color: var(--muted); }
+  .rail p { margin-top: 6px; font-size: 26px; line-height: 1.15; letter-spacing: -.02em; }
+</style>
+</head>
+<body>
+  <div class="grid"></div><div class="wash"></div>
+  <div class="copy">
+    <div class="mark"><img src="../../public/brand/crafter-station-icon-light.svg" alt="">crafter station <span>/ changelog</span></div>
+    <div class="tag" id="tag"></div>
+    <h1 id="title"></h1>
+    <div class="foot" id="foot">crafter.run/changelog</div>
+  </div>
+  <div class="window" id="window" hidden><div class="chrome"><i></i><i></i><i></i></div><img class="shot" id="shot" alt=""></div>
+  <div class="rail" id="rail" hidden></div>
+<script>
+  const q = new URLSearchParams(location.search)
+  document.body.dataset.area = q.get("area") || "station"
+  document.getElementById("tag").textContent = q.get("tag") || ""
+  const title = q.get("title") || ""
+  const h1 = document.getElementById("title"); h1.textContent = title
+  if (title.length > 42) h1.classList.add("long")
+  const done = () => document.fonts.ready.then(() => { document.body.dataset.ready = "1" })
+  if (q.get("shot")) {
+    const win = document.getElementById("window"); win.hidden = false
+    const shot = document.getElementById("shot"); shot.onload = done; shot.src = q.get("shot")
+  } else {
+    const rail = document.getElementById("rail"); rail.hidden = false
+    for (const item of JSON.parse(q.get("items") || "[]")) {
+      const row = document.createElement("div")
+      row.innerHTML = "<time></time><p></p>"
+      row.querySelector("time").textContent = item.date
+      row.querySelector("p").textContent = item.title
+      rail.append(row)
+    }
+    done()
+  }
+</script>
+</body>
+</html>

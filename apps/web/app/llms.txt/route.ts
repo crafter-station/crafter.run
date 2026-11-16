@@ -1,7 +1,7 @@
 import { getIndexPosts } from "@/lib/blog"
 import { blogPostPath, blogSitemapMdPath } from "@/lib/blog-paths"
 import { getIndexEntries } from "@/lib/changelog"
-import { changelogEntryPath, changelogSitemapMdPath } from "@/lib/changelog-paths"
+import { changelogEntryPath, changelogFeedPath, changelogSitemapMdPath } from "@/lib/changelog-paths"
 import { source } from "@/lib/source"
 import { baseUrl } from "@/lib/seo"
 
@@ -36,7 +36,7 @@ export function GET() {
     "",
     "## Changelog",
     "",
-    `What Crafter Station ships. Every entry is readable as markdown at its URL plus \`.md\`; the full index is at ${baseUrl}${changelogSitemapMdPath("en")}.`,
+    `What Crafter Station ships, newest first: products, tools, events and site updates from the crafter-station, crafter-research, crafter-lab and crafter-games organizations, each with the crafters who built it and its public sources. Every entry is readable as markdown at its URL plus \`.md\`; the full index is at ${baseUrl}${changelogSitemapMdPath("en")}, the Atom feed at ${baseUrl}${changelogFeedPath("en")}, and agents can ask the \`whats_new\` tool on ${baseUrl}/mcp for entries since a date.`,
     "",
     ...changes.map(
       (entry) =>

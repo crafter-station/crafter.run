@@ -6,6 +6,7 @@ import { HeroContent } from "@/components/hero"
 import { StationOpenSource } from "@/components/station-open-source"
 import { StationPeople, StationJournal, StationContact, StationExplore } from "@/components/station-home"
 import { StationFaq } from "@/components/station-faq"
+import { StationShipped } from "@/components/changelog/home-shipped"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 
@@ -37,6 +38,7 @@ export default async function Page({
           ossCta={t("ossCta")}
           ossHref={withLocale("/oss", lang)}
         />
+        <StationShipped locale={lang} />
         <StationOpenSource locale={lang} />
         <StationNetwork locale={lang} />
         <StationEvents locale={lang} />
