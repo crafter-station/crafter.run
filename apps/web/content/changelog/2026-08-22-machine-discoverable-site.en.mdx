@@ -17,6 +17,36 @@ evidence:
   - "https://crafter.run/agents.md"
 ---
 
-Agents now have their own front door to crafter.run. The site serves [llms.txt](https://crafter.run/llms.txt) and [agents.md](https://crafter.run/agents.md), and a read-only MCP server at `/mcp`.
+Agents now have their own front door to crafter.run. The site serves [llms.txt](https://crafter.run/llms.txt), [agents.md](https://crafter.run/agents.md) and a read-only MCP server at `/mcp`, so an agent can find what Crafter Station does without scraping HTML. Everything there is public and needs no authentication.
 
-It matters because more of the people who read a site are agents. Point yours at crafter.run and ask what is new.
+<Clip src="/changelog/machine-discoverable-site/terminal.mp4" poster="/changelog/machine-discoverable-site/terminal.webp" size="1280x800" alt="A terminal reading crafter.run/agents.md and listing the tools of the crafter.run MCP server" caption="agents.md is the map, and the MCP server answers tools/list with nine read-only tools." />
+
+## agents.md is the map
+
+[agents.md](https://crafter.run/agents.md) is the page an agent reads first. It lists where to fetch each thing: the docs index in `llms.txt`, the full text in `llms-full.txt`, one page as Markdown, the OpenAPI description of every read endpoint, the sitemap and the blog feed. It also covers crawl policy, freshness and how to act on a user's behalf.
+
+## A real MCP server
+
+`https://crafter.run/mcp` is a stateless MCP server over Streamable HTTP. Its tools search and read the docs, and list the open source catalog, the four Crafter organizations, the core team, the Crew, community Ships and members. Every tool is read-only. Writing, such as publishing a Ship, goes through `@crafter/cli` and its OAuth flow, and agents are told never to handle a password or a token.
+
+## Structured data and discovery
+
+Pages now carry richer JSON-LD, `robots.txt` allows the public read endpoints, and the `.well-known` manifests are generated from the same tool registry as the MCP server, so they stay in sync ([#72](https://github.com/crafter-station/crafter.run/pull/72)).
+
+## Try it
+
+Add the server to Claude Code:
+
+```bash
+claude mcp add --transport http crafter https://crafter.run/mcp
+```
+
+Or call it directly:
+
+```bash
+curl -s https://crafter.run/mcp \
+  -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+Then point your agent at crafter.run and ask what is new.

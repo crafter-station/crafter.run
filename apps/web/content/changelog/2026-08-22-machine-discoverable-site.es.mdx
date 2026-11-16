@@ -17,6 +17,36 @@ evidence:
   - "https://crafter.run/agents.md"
 ---
 
-Los agentes ahora tienen su propia puerta de entrada a crafter.run. El sitio sirve [llms.txt](https://crafter.run/llms.txt) y [agents.md](https://crafter.run/agents.md), y un servidor MCP de solo lectura en `/mcp`.
+Los agentes ya tienen su propia puerta de entrada a crafter.run. El sitio sirve [llms.txt](https://crafter.run/llms.txt), [agents.md](https://crafter.run/agents.md) y un servidor MCP de solo lectura en `/mcp`, así que un agente puede saber qué hace Crafter Station sin raspar HTML. Todo es público y no necesita autenticación.
 
-Importa porque cada vez más quienes leen un sitio son agentes. Apunta el tuyo a crafter.run y pregúntale qué hay de nuevo.
+<Clip src="/changelog/machine-discoverable-site/terminal.mp4" poster="/changelog/machine-discoverable-site/terminal.webp" size="1280x800" alt="Una terminal leyendo crafter.run/agents.md y listando las herramientas del servidor MCP de crafter.run" caption="agents.md es el mapa, y el servidor MCP responde tools/list con nueve herramientas de solo lectura." />
+
+## agents.md es el mapa
+
+[agents.md](https://crafter.run/agents.md) es la página que un agente lee primero. Dice dónde obtener cada cosa: el índice de la documentación en `llms.txt`, el texto completo en `llms-full.txt`, una página como Markdown, la descripción OpenAPI de cada endpoint de lectura, el sitemap y el feed del blog. También explica la política de rastreo, la frescura de los datos y cómo actuar en nombre de un usuario.
+
+## Un servidor MCP de verdad
+
+`https://crafter.run/mcp` es un servidor MCP sin estado sobre Streamable HTTP. Sus herramientas buscan y leen la documentación, y listan el catálogo open source, las cuatro organizaciones de Crafter, el core team, el Crew, los Ships de la comunidad y sus miembros. Todas son de solo lectura. Escribir, por ejemplo publicar un Ship, pasa por `@crafter/cli` y su flujo OAuth, y a los agentes se les indica que nunca manejen una contraseña ni un token.
+
+## Datos estructurados y descubrimiento
+
+Las páginas ahora traen JSON-LD más completo, `robots.txt` permite los endpoints públicos de lectura, y los manifiestos `.well-known` salen del mismo registro de herramientas que el servidor MCP, así que no se desincronizan ([#72](https://github.com/crafter-station/crafter.run/pull/72)).
+
+## Pruébalo
+
+Agrega el servidor a Claude Code:
+
+```bash
+claude mcp add --transport http crafter https://crafter.run/mcp
+```
+
+O llámalo directamente:
+
+```bash
+curl -s https://crafter.run/mcp \
+  -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+```
+
+Después apunta tu agente a crafter.run y pregúntale qué hay de nuevo.
