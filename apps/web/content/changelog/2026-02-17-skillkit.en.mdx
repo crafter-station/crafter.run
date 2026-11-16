@@ -19,8 +19,36 @@ evidence:
   - "https://www.npmjs.com/package/@crafter/skillkit"
   - "https://github.com/crafter-station/skill-kit/releases"
   - "https://skillkit.crafter.run"
+  - "https://github.com/crafter-station/skill-kit/blob/main/README.md"
 ---
 
-Every skill you install takes room in your agent's context window. skillkit scans your session files locally, counts invocations and shows what to prune. It works with Claude Code, Cursor, Codex and more, and nothing leaves your machine.
+Every skill you install takes room in your agent's context window. skillkit is a local CLI for people who run coding agents every day: it scans your session files, counts which skills you invoke and shows what to prune. It works with Claude Code, Cursor, Codex and more, and nothing leaves your machine. Docs are at [skillkit.crafter.run](https://skillkit.crafter.run).
 
-Run `bunx @crafter/skillkit stats` or read the docs at [skillkit.crafter.run](https://skillkit.crafter.run).
+<Clip src="/changelog/skillkit/audit.mp4" poster="/changelog/skillkit/audit.webp" size="1280x800" alt="skillkit audit checking four skills and printing pass, warn and fail with their token cost" caption="skillkit audit grades each skill and prices its context cost." />
+
+## See what your skills cost
+
+`skillkit stats` shows invocations over the last 30 days with sparklines, and `skillkit context` measures the tokens loaded on every API call. `skillkit health` flags unused skills and an oversized context budget, and `skillkit prune` removes what you never call.
+
+## Audit a skill before you ship it
+
+`skillkit audit` checks any skill or pack against Agent Skills best practices. It reports lines and tokens per skill, references that point to missing files, and descriptions that run too long. Add `--strict` to fail CI on warnings.
+
+<Figure src="/changelog/skillkit/home.webp" alt="skillkit homepage: Know what your AI agents cost" size="1280x800" caption="The homepage at skillkit.crafter.run." />
+
+## Try it
+
+skillkit runs on Bun. It indexes your sessions on the first run.
+
+```bash
+bunx @crafter/skillkit stats
+bunx @crafter/skillkit audit ./skills
+```
+
+## What it includes
+
+- Usage analytics, receipts and a 52-week heatmap across agents
+- Context tax per request, with saved baselines to compare against
+- Audits, trigger-collision tests and coverage checks for skill authors
+- A portable `@crafter/skillkit/agentfiles` export for Node and Electron
+- Local storage in `~/.skillkit/analytics.db`, with no telemetry
