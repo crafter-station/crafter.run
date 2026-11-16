@@ -17,6 +17,14 @@ import path from "node:path"
 
 import matter from "gray-matter"
 import { z } from "zod"
+import {
+  CHANGELOG_AREAS,
+  CHANGELOG_KINDS,
+  CHANGELOG_RESERVED_SLUGS,
+  changelogFrontmatterSchema,
+  type ChangelogArea,
+  type ChangelogKind,
+} from "@crafter/contracts"
 
 import { defaultLocale, locales, type Locale } from "@/lib/i18n"
 import { localizedUrl } from "@/lib/seo"
@@ -25,19 +33,9 @@ import { getTeamMember, type TeamMember } from "@/lib/team"
 export const CHANGELOG_LOCALES = ["en", "es"] as const satisfies readonly Locale[]
 export type ChangelogLocale = (typeof CHANGELOG_LOCALES)[number]
 
-export const CHANGELOG_AREAS = ["research", "lab", "games", "station"] as const
-export type ChangelogArea = (typeof CHANGELOG_AREAS)[number]
+export { CHANGELOG_AREAS, CHANGELOG_KINDS, type ChangelogArea, type ChangelogKind }
 
-export const CHANGELOG_KINDS = ["ship", "update", "event", "roundup"] as const
-export type ChangelogKind = (typeof CHANGELOG_KINDS)[number]
-
-const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
 const FILENAME = /^(\d{4}-\d{2}-\d{2})-([a-z0-9][a-z0-9-]*)\.([a-z]{2})\.mdx$/
-
-/** Segments that already mean something under /changelog. */
-const RESERVED_SLUGS = new Set(["md", "sitemap", "rss", "feed", "atom"])
-
-const https = z.string().url().refine((value) => value.startsWith("https://"), "must be an https:// URL")
 
 /** The crafters a changelog can credit: members of lib/team.ts who are not alumni. */
 export function isCrafterId(value: string): boolean {
@@ -45,14 +43,7 @@ export function isCrafterId(value: string): boolean {
   return Boolean(member && !member.alumni)
 }
 
-const frontmatterSchema = z.object({
-  title: z.string().min(1),
-  summary: z.string().min(1),
-  date: z.string().regex(ISO_DATE, "date must be YYYY-MM-DD"),
-  /** Tie-break within a day, highest first. Keep identical across locales. */
-  order: z.number().int().optional(),
-  area: z.enum(CHANGELOG_AREAS),
-  kind: z.enum(CHANGELOG_KINDS),
+const frontmatterSchema = changelogFrontmatterSchema.extend({
   crafters: z.array(z.string()).superRefine((ids, ctx) => {
     for (const id of ids) {
       const member = getTeamMember(id)
@@ -63,12 +54,6 @@ const frontmatterSchema = z.object({
       }
     }
   }),
-  ships: z.array(z.string().regex(/^[a-z0-9][a-z0-9-]*$/, "ships are /ships slugs")).optional(),
-  repos: z.array(z.string().regex(/^[\w.-]+\/[\w.-]+$/, 'repos are "org/name"')).optional(),
-  links: z.array(z.object({ label: z.string().min(1), url: https })).optional(),
-  image: z.string().startsWith("/", "image must be a root-relative path").optional(),
-  video: z.string().startsWith("/", "video must be a root-relative path").optional(),
-  evidence: z.array(https),
 })
 
 export type ChangelogEntry = Omit<z.infer<typeof frontmatterSchema>, "crafters"> & {
@@ -96,7 +81,7 @@ export function parseEntry(
   }
   const [, fileDate, slug, locale] = match as unknown as [string, string, string, string]
 
-  if (RESERVED_SLUGS.has(slug)) {
+  if (CHANGELOG_RESERVED_SLUGS.has(slug)) {
     throw new Error(`Changelog slug "${slug}" is reserved by a changelog route; rename "${filename}".`)
   }
   if (!(CHANGELOG_LOCALES as readonly string[]).includes(locale)) {
@@ -180,15 +165,16 @@ function readAll(): ChangelogEntry[] {
   const dir = contentDir()
   if (!fs.existsSync(dir)) return []
 
+  // public/ is not traced into serverless functions, so assets can only be
+  // checked where it exists: build, dev and tests. Static permalinks render at
+  // build time, which keeps a missing asset a build failure.
+  const root = publicDir()
+  const assetExists = fs.existsSync(root) ? (asset: string) => fs.existsSync(path.join(root, asset)) : () => true
   const entries = fs
     .readdirSync(dir)
     .sort()
     .filter((filename) => filename.endsWith(".mdx"))
-    .map((filename) =>
-      parseEntry(filename, fs.readFileSync(path.join(dir, filename), "utf8"), (asset) =>
-        fs.existsSync(path.join(publicDir(), asset)),
-      ),
-    )
+    .map((filename) => parseEntry(filename, fs.readFileSync(path.join(dir, filename), "utf8"), assetExists))
 
   assertConsistent(entries)
   return sortEntries(entries)

@@ -33,6 +33,7 @@
   "devDependencies": {
     "@crafter/contracts": "workspace:*",
     "@types/bun": "^1.3.0",
+    "gray-matter": "^4.0.3",
     "typescript": "5.7.3"
   }
 }
