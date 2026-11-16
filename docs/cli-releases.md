@@ -1,6 +1,6 @@
 # CLI releases
 
-`@crafter/cli` is released to npm by the [Release CLI](../.github/workflows/release-cli.yml) GitHub Actions workflow. Do not manually change the package version, edit the changelog, create a tag, or run `npm publish` for a normal release.
+`@crafter/cli` is released to npm by the [Release CLI](../.github/workflows/release.yml) GitHub Actions workflow. Do not manually change the package version, edit the changelog, create a tag, or run `npm publish` for a normal release.
 
 ## Prepare a release
 
@@ -45,7 +45,7 @@ Multiple CLI feature PRs can accumulate in the same generated release PR. Merge 
 Check the workflow run and npm registry after the release PR is merged:
 
 ```bash
-gh run list --workflow release-cli.yml --limit 5
+gh run list --workflow release.yml --limit 5
 npm view @crafter/cli version dist-tags --json
 npx @crafter/cli@latest version
 ```
@@ -57,4 +57,4 @@ The npm version must match `packages/cli/package.json`, and `latest` must point 
 - Fix test, build, Changesets, or publishing failures in a normal PR. Do not publish from a developer machine.
 - If the failure was transient and `main` is unchanged, rerun the failed GitHub Actions job or manually dispatch the `Release CLI` workflow.
 - If npm already contains the target version, do not retry publishing that version. Confirm the registry state, then fix the repository/release metadata through a follow-up changeset if needed.
-- `@crafter/cli` trusts this workflow on npm: trusted publisher `crafter-station/crafter.run`, workflow `release-cli.yml`. The job needs `id-token: write` and npm 11.5.1 or later, which it installs. Renaming the workflow file breaks publishing until the trusted publisher is updated on npmjs.com.
+- `@crafter/cli` trusts this workflow on npm: trusted publisher `crafter-station/crafter.run`, workflow `release.yml`. The job needs `id-token: write` and npm 11.5.1 or later, which it installs. Renaming the workflow file breaks publishing until the trusted publisher is updated on npmjs.com.
