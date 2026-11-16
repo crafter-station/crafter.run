@@ -19,8 +19,29 @@ evidence:
   - "https://smash.crafter.run"
 ---
 
-Crafter Smash es un juego de pelea al estilo Super Smash Flash donde los personajes son miembros de la comunidad, cada uno con sus propios ataques especiales. Tiene modo de un jugador contra la CPU, partidas en línea, dos jugadores y entrenamiento.
+Crafter Smash es un juego de pelea de plataformas 2D gratis, al estilo de Super Smash Flash, y los luchadores son miembros de la comunidad de Crafter Station dibujados en pixel art. Corre en tu navegador sobre un Canvas de HTML5, sin dependencias ni paso de build. Juega en [smash.crafter.run](https://smash.crafter.run).
 
-Es HTML, CSS y JavaScript sobre un Canvas, así que puedes leer el juego completo de una sentada.
+<Clip src="/changelog/crafter-smash/fight.mp4" poster="/changelog/crafter-smash/fight.webp" size="1280x800" alt="Railly peleando contra Jibaru en el escenario Templo Crafter, conectando golpes y especiales mientras sube el porcentaje de daño" caption="El daño se acumula como porcentaje, y el knockback crece con él." />
 
-Juega en [smash.crafter.run](https://smash.crafter.run).
+## Un juego de pelea de verdad
+
+El daño y el knockback siguen la fórmula de Melee, y el juego tiene hitlag, DI, techs, wavedash, escudos que se rompen, agarres y juego en los bordes. Cada luchador tiene sus propios especiales, un súper y una burla.
+
+## Cuatro formas de jugar
+
+Pelea contra la CPU en niveles del 1 al 9, juega en línea, juega de a dos en un mismo teclado o practica en el modo entrenamiento. Los mandos funcionan con la Gamepad API, y las teclas se pueden reasignar desde el menú de controles.
+
+<Figure src="/changelog/crafter-smash/title.webp" alt="Pantalla de título de Crafter Smash con cinco luchadores en pixel art y el menú de CPU, en línea, dos jugadores y entrenamiento" size="1280x800" caption="La pantalla de título, con cada modo a un clic." />
+
+## Lee el juego completo
+
+El juego es HTML, CSS y JavaScript sin más, así que lo puedes leer de punta a punta. La física, los personajes, la CPU y los escenarios viven cada uno en su propio archivo.
+
+## Pruébalo
+
+Juega en [smash.crafter.run](https://smash.crafter.run). Para correrlo en local, clona el [repositorio](https://github.com/crafter-games/crafter-smash) y abre la página en tu navegador.
+
+```sh
+git clone https://github.com/crafter-games/crafter-smash
+open crafter-smash/index.html
+```

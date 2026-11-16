@@ -19,8 +19,29 @@ evidence:
   - "https://smash.crafter.run"
 ---
 
-Crafter Smash is a Super Smash Flash style fighter where the characters are members of the community, each with their own special moves. It supports one player against the CPU, online play, two players and a training mode.
+Crafter Smash is a free 2D platform fighter in the style of Super Smash Flash, and the fighters are members of the Crafter Station community drawn in pixel art. It runs in your browser on an HTML5 Canvas, with no dependencies and no build step. Play at [smash.crafter.run](https://smash.crafter.run).
 
-It is plain HTML, CSS and JavaScript on a Canvas, so you can read the whole game in one sitting.
+<Clip src="/changelog/crafter-smash/fight.mp4" poster="/changelog/crafter-smash/fight.webp" size="1280x800" alt="Railly fighting Jibaru on the Templo Crafter stage, landing hits and specials while the damage percentage climbs" caption="Damage builds as a percentage, and knockback grows with it." />
 
-Play at [smash.crafter.run](https://smash.crafter.run).
+## A real fighting game
+
+Damage and knockback follow the Melee formula, and the game includes hitlag, DI, techs, wavedashing, shields that break, grabs and ledge play. Each fighter has their own specials, a super move and a taunt.
+
+## Four ways to play
+
+Fight the CPU on levels 1 to 9, play online, play two players on one keyboard, or practice in training mode. Controllers work through the Gamepad API, and keys can be remapped from the controls menu.
+
+<Figure src="/changelog/crafter-smash/title.webp" alt="Crafter Smash title screen with five pixel-art fighters and the menu for CPU, online, two players and training" size="1280x800" caption="The title screen, with every game mode one click away." />
+
+## Read the whole game
+
+The game is plain HTML, CSS and JavaScript, so you can read it end to end. Physics, characters, the CPU and stages each live in their own file.
+
+## Try it
+
+Play at [smash.crafter.run](https://smash.crafter.run). To run it locally, clone the [repository](https://github.com/crafter-games/crafter-smash) and open the page in your browser.
+
+```sh
+git clone https://github.com/crafter-games/crafter-smash
+open crafter-smash/index.html
+```
