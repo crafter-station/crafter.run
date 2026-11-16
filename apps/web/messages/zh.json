@@ -423,6 +423,57 @@
       "title": "Crafter Journal",
       "description": "记录尝试、收获与值得分享的发现。来自拉美创造者的工程实践与社区故事。"
     },
+    "changelog": {
+      "eyebrow": "更新日志 · Crafter Station",
+      "title": "更新日志",
+      "description": "Crafter Station 发布了什么，以及每次变更背后的人和公开来源。",
+      "subscribe": "订阅",
+      "rss": "RSS",
+      "markdownIndex": "Markdown 索引",
+      "agents": "面向智能体",
+      "filterLabel": "按领域筛选",
+      "all": "全部",
+      "areas": {
+        "research": "Research",
+        "lab": "Lab",
+        "games": "Games",
+        "station": "Station"
+      },
+      "kinds": {
+        "ship": "发布",
+        "update": "更新",
+        "event": "活动",
+        "roundup": "汇总"
+      },
+      "results": "{count, plural, other {# 项变更}}",
+      "empty": "这里还没有内容。",
+      "reset": "显示所有领域",
+      "readEntry": "阅读全文",
+      "crafters": "Crafters",
+      "ships": "Ships",
+      "repos": "代码仓库",
+      "links": "链接",
+      "sources": "来源",
+      "newer": "较新",
+      "older": "较早",
+      "allChanges": "全部变更",
+      "availableIn": "提供{language}版本",
+      "languages": {
+        "en": "英文",
+        "es": "西班牙文"
+      },
+      "readAsMarkdown": "以 Markdown 阅读",
+      "ctaEyebrow": "持续关注",
+      "ctaTitle": "我们一发布，你就能收到。",
+      "ctaBody": "通过邮件或 RSS 订阅。每一条都附有公开来源。",
+      "feedTitle": "Crafter Station 更新日志",
+      "feedSubtitle": "Crafter Station 发布了什么。",
+      "mdTitle": "Crafter Station 更新日志",
+      "mdIntro": "共 {count, plural, other {# 条}}，按时间倒序排列。每条都链接到自己的 markdown 页面。",
+      "published": "发布于",
+      "area": "领域",
+      "kind": "类型"
+    },
     "brand": {
       "eyebrow": "品牌资源",
       "title": "Crafter 的品牌形象。",

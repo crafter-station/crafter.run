@@ -1,3 +1,5 @@
+import { CHANGELOG_AREAS, CHANGELOG_LOCALES, crafterMember, filterByArea, getIndexEntries } from "@/lib/changelog"
+import { changelogEntryPath } from "@/lib/changelog-paths"
 import { getNetwork } from "@/lib/network"
 import { z } from "zod"
 
@@ -22,7 +24,7 @@ export const MCP_ENDPOINT = `${baseUrl}/mcp`
  */
 export const SUPPORTED_PROTOCOL_VERSIONS = ["2025-06-18", "2025-03-26", "2024-11-05"]
 
-export const MCP_INSTRUCTIONS = `Read-only access to Crafter Station: open source docs, the OSS repo catalog, the four Crafter organizations, the team, and community Ships.
+export const MCP_INSTRUCTIONS = `Read-only access to Crafter Station: open source docs, the OSS repo catalog, the four Crafter organizations, the team, community Ships, and the changelog of what shipped (whats_new).
 
 Start with search_docs for anything about the CLIs (awake, mermaid, neon-cli, skillkit, trx), then get_doc for the full page in Markdown. Every tool takes an optional locale (${locales.join(", ")}) and defaults to ${defaultLocale}.
 
@@ -302,6 +304,46 @@ const listCraftersTool = defineTool({
   },
 })
 
+const whatsNew = defineTool({
+  name: "whats_new",
+  title: "What Crafter Station shipped",
+  description:
+    "The Crafter Station changelog, newest first: what shipped, when, in which area (research, lab, games, station), by which crafters, with a permalink. Entries exist in en and es.",
+  schema: z.object({
+    since: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "since must be YYYY-MM-DD")
+      .optional()
+      .describe("Only entries dated on or after this day, YYYY-MM-DD."),
+    area: z.enum(CHANGELOG_AREAS).optional().describe(`Only one area. One of ${CHANGELOG_AREAS.join(", ")}.`),
+    locale: z.enum(CHANGELOG_LOCALES).optional().describe(`Language of titles and summaries. One of ${CHANGELOG_LOCALES.join(", ")}. Defaults to ${defaultLocale}.`),
+    limit: z.number().int().min(1).max(100).optional().describe("Maximum entries. Defaults to 20."),
+  }),
+  async run({ since, area, locale, limit }) {
+    const language = resolveLocale(locale)
+    const entries = filterByArea(getIndexEntries(language), area)
+      .filter((entry) => !since || entry.date >= since)
+      .slice(0, limit ?? 20)
+      .map((entry) => ({
+        title: entry.title,
+        summary: entry.summary,
+        date: entry.date,
+        area: entry.area,
+        kind: entry.kind,
+        crafters: entry.crafters.map((username) => ({ username, name: crafterMember(username).name })),
+        url: `${baseUrl}${changelogEntryPath(entry.locale, entry.slug)}`,
+      }))
+
+    return {
+      text:
+        entries.length === 0
+          ? "No changelog entries match."
+          : entries.map((entry) => `- ${entry.date} [${entry.area}/${entry.kind}] ${entry.title}: ${entry.summary} ${entry.url}`).join("\n"),
+      data: { locale: language, count: entries.length, entries },
+    }
+  },
+})
+
 export const tools = [
   searchDocs,
   listDocs,
@@ -312,6 +354,7 @@ export const tools = [
   listCrew,
   listShips,
   listCraftersTool,
+  whatsNew,
   // Each entry carries its own input schema, so the registry is widened once
   // here rather than making every caller reason about each distinct shape.
 ] as unknown as Tool<z.ZodType>[]

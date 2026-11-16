@@ -326,3 +326,16 @@ export type ListShipsResponse = z.infer<typeof listShipsResponseSchema>
 export type ListMembersResponse = z.infer<typeof listMembersResponseSchema>
 export type HandleAvailabilityResponse = z.infer<typeof handleAvailabilityResponseSchema>
 export type ApiErrorResponse = z.infer<typeof apiErrorResponseSchema>
+
+export {
+  CHANGELOG_AREAS,
+  CHANGELOG_ISO_DATE,
+  CHANGELOG_KINDS,
+  CHANGELOG_LOCALES,
+  CHANGELOG_RESERVED_SLUGS,
+  CHANGELOG_SLUG,
+  changelogFrontmatterSchema,
+  type ChangelogArea,
+  type ChangelogFrontmatter,
+  type ChangelogKind,
+} from "./changelog"

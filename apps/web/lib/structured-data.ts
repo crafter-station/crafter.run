@@ -464,3 +464,81 @@ export function blogIndexSchema({
     ],
   }
 }
+
+/**
+ * Changelog schemas. An entry is an `Article` section of the changelog
+ * `CollectionPage`; its crafters resolve to the same Person nodes as the
+ * blog's bylines and the team profiles.
+ */
+export function changelogIndexSchema({
+  locale,
+  url,
+  title,
+  description,
+  entries,
+}: {
+  locale: Locale
+  url: string
+  title: string
+  description: string
+  entries: readonly { title: string; url: string }[]
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        "@id": `${url}#webpage`,
+        url,
+        name: title,
+        description,
+        inLanguage: locale,
+        isPartOf: { "@id": WEBSITE_ID },
+      },
+      {
+        "@type": "ItemList",
+        "@id": `${url}#entries`,
+        numberOfItems: entries.length,
+        itemListOrder: "https://schema.org/ItemListOrderDescending",
+        itemListElement: entries.map((entry, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          url: entry.url,
+          name: entry.title,
+        })),
+      },
+    ],
+  }
+}
+
+export function changelogEntrySchema({
+  entry,
+  crafters,
+  locale,
+  url,
+  imageUrl,
+}: {
+  entry: { title: string; summary: string; date: string; area: string; evidence: readonly string[] }
+  crafters: readonly BlogAuthorNode[]
+  locale: Locale
+  url: string
+  imageUrl: string
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": `${url}#entry`,
+    headline: entry.title,
+    description: entry.summary,
+    url,
+    datePublished: instant(entry.date),
+    dateModified: instant(entry.date),
+    image: imageUrl,
+    inLanguage: locale,
+    articleSection: entry.area,
+    ...(crafters.length > 0 ? { author: authorNodes(crafters, locale) } : {}),
+    publisher: organizationRef,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    ...(entry.evidence.length > 0 ? { citation: [...entry.evidence] } : {}),
+  }
+}
