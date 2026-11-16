@@ -19,6 +19,32 @@ evidence:
   - "https://badge-studio.crafter.run"
 ---
 
-Badge Studio opens on a draggable orbit of event badges. You can edit every layer, flip the badge, change its material and export it. With the `badgio` CLI and an agent skill, your coding agent can create a badge document for you.
+Badge Studio is a design studio for event badges with personality. Pick an art direction, put your photo and name across the whole collection, edit every layer, change the material and export it. Your coding agent can design one with you through the `badgio` CLI. Try it at [badge-studio.crafter.run](https://badge-studio.crafter.run).
 
-Try it at [badge-studio.crafter.run](https://badge-studio.crafter.run) or run `npx badgio styles list`.
+<Clip src="/changelog/badge-studio/orbit.mp4" poster="/changelog/badge-studio/orbit.webp" size="1280x800" alt="Rotating the Badge Studio orbit of event badges" caption="The landing is a draggable orbit of event badges with depth and inertia." />
+
+## One photo, every style
+
+Start with your name and a photo, or a sample one, and you see yourself in every direction at once: hackathon badges, physical originals like Térmico, Prisma and Cromo, and community designs. Your photo stays in your browser, and you can explore without an account.
+
+## Edit every layer
+
+The editor shows the badge as layers you can select, hide or lock, with panels for the background and material, the participant details, front and back faces, and PNG or JSON export.
+
+<Figure src="/changelog/badge-studio/editor.webp" alt="Badge Studio editor with a layered GTM Hackathon badge, its layer list and export controls" size="1280x800" caption="A layered design with 45 layers, ready to flip and export." />
+
+## Design with your agent
+
+The `badgio` CLI lists the styles, creates and validates badge documents, and opens a live preview your agent can edit through the same tools as the editor. Publishing to the public gallery needs an account and asks before it runs.
+
+## Try it
+
+Open [badge-studio.crafter.run](https://badge-studio.crafter.run), or start from your terminal. The CLI needs Node.js 22 or newer:
+
+```bash
+npx badgio styles list
+npx badgio design create --style gtm --out badge.json
+npx badgio design validate --file badge.json
+```
+
+Import the JSON in the editor to keep going visually.
