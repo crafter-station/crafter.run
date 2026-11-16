@@ -14,8 +14,46 @@ links:
 evidence:
   - "https://github.com/crafter-station/text0"
   - "https://text0.dev"
+  - "https://x.com/nextjs/status/1915088352040423769"
+  - "https://github.com/crafter-station/text0/blob/main/README.md"
 ---
 
-text0 completa tus ideas mientras escribes y toma contexto de las referencias que le das. También puedes conversar con tu contenido, dictar por voz y pasar a un modo zen.
+text0 es un editor de texto con autocompletado que lee las referencias que le das. Está pensado para desarrolladores que escriben documentación, notas y reportes y quieren sugerencias basadas en su propio material. Pruébalo en [text0.dev](https://text0.dev).
 
-Es de código abierto y está hecho para desarrolladores. Pruébalo en [text0.dev](https://text0.dev).
+<Figure src="/changelog/text0/autocomplete.webp" alt="Editor de text0 sugiriendo el resto de una oración en gris, con memorias guardadas en el panel lateral" size="1280x838" caption="El texto gris es la sugerencia, basada en las memorias guardadas a la derecha." />
+
+## Un autocompletado que conoce tu contexto
+
+Mientras escribes, text0 propone las siguientes palabras en gris. Se apoya en las memorias y referencias que agregas en el panel del asistente, así que una sugerencia puede citar un número de una página de precios que guardaste en lugar de adivinar.
+
+## Tus documentos y memorias en un solo lugar
+
+La pantalla de inicio lista tus documentos y memorias, con búsqueda y accesos rápidos para crear uno nuevo. Las integraciones con GitHub, Linear y Notion traen contexto de afuera, y puedes conversar con tu contenido, dictar por voz o pasar al modo zen.
+
+<Figure src="/changelog/text0/home.webp" alt="Pantalla de inicio de text0 con documentos recientes y accesos a nuevo documento, nueva memoria y búsqueda" size="1280x832" caption="Documentos, memorias e integraciones comparten la misma barra lateral." />
+
+## Hecho en la Next.js Hackathon
+
+text0 nació para la primera Next.js Hackathon global, organizada por Vercel en abril de 2025, y quedó entre sus ganadores.
+
+<Mention href="https://x.com/nextjs/status/1915088352040423769" author="Next.js" source="X" quote="Felicitaciones a los ganadores de la Next.js Hackathon (traducido)" date="23 de abril de 2025" />
+
+## Pruébalo
+
+Abre [text0.dev](https://text0.dev) o córrelo en local:
+
+```bash
+git clone https://github.com/crafter-station/text0.git
+cd text0
+bun install
+bun dev
+```
+
+## Qué incluye
+
+- Autocompletado con IA que usa las referencias que le das
+- Conversación con tu contenido
+- Integraciones con GitHub, Linear y Notion
+- Entrada y salida por voz
+- Modo zen
+- Código abierto en [GitHub](https://github.com/crafter-station/text0)
