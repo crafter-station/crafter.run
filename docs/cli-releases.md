@@ -36,7 +36,7 @@ Commit the CLI changes and changeset together, push the branch, and open a PR ag
 2. The `Release CLI` workflow runs on the push to `main`. It installs dependencies, tests and builds the CLI, then Changesets opens or updates a PR titled `chore: release @crafter/cli`.
 3. Review the generated release PR. It should consume the pending changeset, update `packages/cli/package.json`, and update `packages/cli/CHANGELOG.md`.
 4. Merge the generated release PR into `main`.
-5. The workflow runs again and publishes the new version to npm with provenance using the repository `NPM_TOKEN` secret.
+5. The workflow runs again and publishes the new version to npm with provenance through npm trusted publishing (OIDC). No npm token is stored in the repository.
 
 Multiple CLI feature PRs can accumulate in the same generated release PR. Merge that PR only when all listed changes are ready to publish.
 
@@ -57,4 +57,4 @@ The npm version must match `packages/cli/package.json`, and `latest` must point 
 - Fix test, build, Changesets, or publishing failures in a normal PR. Do not publish from a developer machine.
 - If the failure was transient and `main` is unchanged, rerun the failed GitHub Actions job or manually dispatch the `Release CLI` workflow.
 - If npm already contains the target version, do not retry publishing that version. Confirm the registry state, then fix the repository/release metadata through a follow-up changeset if needed.
-- Repository maintainers must keep the `NPM_TOKEN` Actions secret valid and authorized to publish `@crafter/cli`. The workflow also requests `id-token: write` and sets npm provenance.
+- `@crafter/cli` trusts this workflow on npm: trusted publisher `crafter-station/crafter.run`, workflow `release-cli.yml`. The job needs `id-token: write` and npm 11.5.1 or later, which it installs. Renaming the workflow file breaks publishing until the trusted publisher is updated on npmjs.com.
