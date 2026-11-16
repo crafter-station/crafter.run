@@ -22,6 +22,7 @@ export const env = createEnv({
     OPENAI_API_KEY: z.string().min(1).optional(),
     OSS_RADAR_INGEST_TOKEN: z.string().min(32).optional(),
     RESEND_API_KEY: z.string().min(1).optional(),
+    RESEND_NEWSLETTER_SEGMENT_ID: z.string().min(1).optional(),
     PORTAL_SECRET: z.string().startsWith("sk_").optional(),
   },
   client: {
@@ -52,6 +53,7 @@ export const env = createEnv({
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     OSS_RADAR_INGEST_TOKEN: process.env.OSS_RADAR_INGEST_TOKEN,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
+    RESEND_NEWSLETTER_SEGMENT_ID: process.env.RESEND_NEWSLETTER_SEGMENT_ID,
     PORTAL_SECRET: process.env.PORTAL_SECRET,
   },
   emptyStringAsUndefined: true,

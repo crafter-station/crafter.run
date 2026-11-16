@@ -494,6 +494,30 @@
       "step2Body": "各領域には、リードとして一緒に動く Core のメンバーがいます。",
       "step3Title": "3か月後に振り返る",
       "step3Body": "進み具合と次の一歩を一緒に確認します。Crew から Core になる道もあります。"
+    },
+    "newsletter": {
+      "eyebrow": "ニュースレター",
+      "title": "月次ダイジェスト。",
+      "description": "月に一度、Crafter Station が何を出し、誰が作り、その裏にどんな数字があったかをお届けします。",
+      "getsTitle": "届く内容",
+      "shipsTitle": "リリース",
+      "shipsBody": "今月公開したプロダクト、ツール、実験をリンク付きで紹介します。",
+      "peopleTitle": "作った人",
+      "peopleBody": "各リリースに、関わったクラフターを明記します。",
+      "metricsTitle": "数字",
+      "metricsBody": "Pulse のアクティビティ：コミット数、チームの連続記録、最も活発な crafter。",
+      "perksTitle": "Crafter Perks",
+      "perksBody": "Crafter Perks の公開時には、いち早くアクセスできます。",
+      "formTitle": "リストに参加",
+      "emailLabel": "メールアドレス",
+      "emailPlaceholder": "you@example.com",
+      "submit": "登録する",
+      "submitting": "登録中...",
+      "subscribed": "登録しました。",
+      "alreadySubscribed": "このメールアドレスはすでに登録されています。",
+      "invalid": "有効なメールアドレスを入力してください。",
+      "unavailable": "現在、登録を受け付けていません。しばらくしてからもう一度お試しください。",
+      "fine": "月に1通。どのダイジェストからでも配信停止できます。"
     }
   },
   "member": {

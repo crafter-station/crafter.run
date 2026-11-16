@@ -494,6 +494,30 @@
       "step2Body": "Each area has someone from the Core who leads it and works with you.",
       "step3Title": "Check in at three months",
       "step3Body": "We look at how it is going and what comes next together. The Crew is also a path into the Core."
+    },
+    "newsletter": {
+      "eyebrow": "Newsletter",
+      "title": "The monthly digest.",
+      "description": "Once a month: what Crafter Station shipped, who built it and the numbers behind it.",
+      "getsTitle": "What you get",
+      "shipsTitle": "What shipped",
+      "shipsBody": "The products, tools and experiments that went out this month, with links.",
+      "peopleTitle": "Who built it",
+      "peopleBody": "Every ship credits the crafters behind it.",
+      "metricsTitle": "The numbers",
+      "metricsBody": "Activity from Pulse: commits, the team streak and the most active crafters.",
+      "perksTitle": "Crafter Perks",
+      "perksBody": "You also get first access to Crafter Perks when it opens.",
+      "formTitle": "Join the list",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "submit": "Subscribe",
+      "submitting": "Subscribing...",
+      "subscribed": "You are on the list.",
+      "alreadySubscribed": "This email is already on the list.",
+      "invalid": "Enter a valid email address.",
+      "unavailable": "Signup is unavailable right now. Try again later.",
+      "fine": "One email a month. Unsubscribe from any digest."
     }
   },
   "member": {
