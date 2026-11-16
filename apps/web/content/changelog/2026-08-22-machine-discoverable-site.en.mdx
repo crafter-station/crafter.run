@@ -1,0 +1,22 @@
+---
+title: "crafter.run becomes readable by agents"
+summary: "The site publishes llms.txt, agents.md and a read-only MCP endpoint so agents can find what Crafter Station does."
+date: 2026-08-22
+area: station
+kind: update
+crafters:
+  - railly
+repos:
+  - crafter-station/crafter.run
+links:
+  - label: "Open agents.md"
+    url: "https://crafter.run/agents.md"
+evidence:
+  - "https://github.com/crafter-station/crafter.run/pull/72"
+  - "https://crafter.run/llms.txt"
+  - "https://crafter.run/agents.md"
+---
+
+Agents now have their own front door to crafter.run. The site serves [llms.txt](https://crafter.run/llms.txt) and [agents.md](https://crafter.run/agents.md), and a read-only MCP server at `/mcp`.
+
+It matters because more of the people who read a site are agents. Point yours at crafter.run and ask what is new.
