@@ -16,10 +16,40 @@ image: /changelog/peru-ordenado/cover.webp
 evidence:
   - "https://github.com/crafter-research/peru-ordenado"
   - "https://peru-ordenado.vercel.app"
+  - "https://github.com/crafter-research/peru-ordenado/blob/main/README.md"
 ---
 
-Este mapa del Perú saca cada lugar de su sitio y los alinea en filas, ordenados por área, por inversión de los gobiernos locales o por cuánto de ella se ejecutó. Una historia guiada recorre los hallazgos.
+Este mapa del Perú saca cada departamento, provincia y distrito de su sitio y los alinea en filas a escala real, ordenados por la métrica que elijas. Es para quien quiere ver cuánto gastó su municipalidad en obras, y dónde llegan el 4G y las emergencias. El sitio ahora se llama Quipu. Ábrelo en [peru-ordenado.vercel.app](https://peru-ordenado.vercel.app).
 
-Es un prototipo no oficial de Crafter Research.
+<Clip src="/changelog/peru-ordenado/levels.mp4" poster="/changelog/peru-ordenado/levels.webp" size="1280x800" alt="Quipu pasando de provincias a distritos y ordenando todos los distritos en filas por decretos de emergencia" caption="Cambia el nivel, elige una métrica y las formas se alinean en filas." />
 
-Ábrelo en [peru-ordenado.vercel.app](https://peru-ordenado.vercel.app).
+## De 25 departamentos a 1,873 distritos
+
+Cambia entre departamentos, provincias y distritos. Al bajar, las piezas salen volando de su región, y al subir vuelven a plegarse en ella. Puedes limitar cada nivel a un solo departamento, y todo el estado vive en la URL, así que cualquier vista se puede compartir.
+
+## Ordenado por lo que te importa
+
+Las métricas incluyen área, presupuesto de inversión de los gobiernos locales, cuánto de él se ejecutó, cobertura 4G, decretos de emergencia, zonas críticas, presencia digital, población y densidad. Elige una y cada forma se alinea en filas de mayor a menor, con las primeras etiquetadas.
+
+<Gallery>
+  <Figure src="/changelog/peru-ordenado/provinces.webp" alt="Mapa de las 196 provincias del Perú coloreadas según cuánto del presupuesto de obras se gastó" size="1280x800" caption="Las 196 provincias en el mapa." />
+  <Figure src="/changelog/peru-ordenado/ordered.webp" alt="Las 196 provincias alineadas en filas por porcentaje de inversión municipal ejecutada en 2024" size="1280x800" caption="Las mismas provincias ordenadas por inversión ejecutada en 2024." />
+</Gallery>
+
+## Pruébalo
+
+Abre [peru-ordenado.vercel.app](https://peru-ordenado.vercel.app), escribe tu distrito o dale al recorrido de un minuto. Para correrlo en local:
+
+```bash
+git clone https://github.com/crafter-research/peru-ordenado.git
+cd peru-ordenado
+bun install
+bun dev
+```
+
+## Qué incluye
+
+- Una historia guiada de ocho pasos con textos calculados a partir de los datos
+- Límites del IGN, gasto de Datos Abiertos del MEF y población del Censo 2025 del INEI
+- Los datos que faltan se quedan vacíos, nada se completa por regla
+- Un prototipo no oficial de Crafter Research, inspirado en "Taxonomía territorial del Perú" de Cristian Yarasca
