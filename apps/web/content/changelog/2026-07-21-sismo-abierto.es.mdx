@@ -13,13 +13,41 @@ links:
     url: "https://sismo.crafter.run"
 image: /changelog/sismo-abierto/cover.webp
 evidence:
+  - "https://www.npmjs.com/package/@crafter/sismo-cli"
+  - "https://sismo.crafter.run/volcanes"
   - "https://github.com/crafter-research/sismo-abierto"
   - "https://github.com/crafter-research/sismo-abierto/releases"
   - "https://sismo.crafter.run"
 ---
 
-Sismo Abierto es una capa de código abierto sobre los datos sísmicos públicos del Instituto Geofísico del Perú (IGP) y, de forma experimental, del Servicio Geológico Colombiano (SGC). Cada registro muestra de dónde viene.
+Sismo Abierto muestra los últimos sismos del Perú, con los datos públicos del Instituto Geofísico del Perú (IGP), y de forma experimental los de Colombia, del Servicio Geológico Colombiano (SGC). Cada valor dice de dónde salió y a qué hora se consultó. Ábrelo en [sismo.crafter.run](https://sismo.crafter.run).
 
-Es un proyecto comunitario y no oficial. No es un sistema de alerta ni de predicción, y no reemplaza los canales oficiales.
+<Clip src="/changelog/sismo-abierto/browse.mp4" poster="/changelog/sismo-abierto/browse.webp" size="1280x800" alt="Del último sismo del IGP a la actividad del año, filtrando los últimos 30 días" caption="Del último sismo al catálogo, con los filtros en la URL." />
 
-Ábrelo en [sismo.crafter.run](https://sismo.crafter.run).
+## El último sismo, con su fuente
+
+La portada muestra el último sismo oficial con magnitud, profundidad, coordenadas, intensidad y hora local, ubicado en el mapa. Debajo aparecen la fuente, la hora de consulta y lo que la fuente no publica, como su propia hora de actualización.
+
+## Actividad que puedes enlazar
+
+La página de actividad consulta el catálogo oficial por rango y magnitud. Los filtros viven en la URL, así que cualquier consulta se puede compartir y repetir. Cada valor está marcado como oficial, derivado o no disponible.
+
+## Volcanes y más
+
+La página de volcanes lista los 16 volcanes que publica el IGP con su nivel de alerta, y dice claramente que la fuente no da fecha de actualización por registro. El sitio también tiene lecciones construidas sobre eventos reales, una sección que contrasta afirmaciones virales con los catálogos, una API OpenAPI 3.1 y un CLI.
+
+<Gallery>
+  <Figure src="/changelog/sismo-abierto/latest.webp" alt="Portada de Sismo Abierto con el último sismo del IGP y su ubicación en el mapa del Perú" size="1280x800" caption="El último sismo oficial en el Perú." />
+  <Figure src="/changelog/sismo-abierto/volcanoes.webp" alt="Página de volcanes de Sismo Abierto con el nivel publicado de 16 volcanes" size="1280x800" caption="Niveles de alerta publicados para 16 volcanes." />
+</Gallery>
+
+## Pruébalo
+
+Abre [sismo.crafter.run](https://sismo.crafter.run), o consulta los mismos datos desde tu terminal:
+
+```bash
+bunx --bun @crafter/sismo-cli latest
+bunx --bun @crafter/sismo-cli events --since 7d --min-magnitude 4 --format geojson
+```
+
+Es un proyecto comunitario y no oficial. No es un sistema de alerta ni de predicción y no reemplaza los canales oficiales.
