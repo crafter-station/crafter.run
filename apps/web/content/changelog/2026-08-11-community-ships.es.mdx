@@ -18,8 +18,37 @@ evidence:
   - "https://github.com/crafter-station/crafter.run/commit/c57042f4717720e3561294a01e741e8b779aaf78"
   - "https://www.npmjs.com/package/@crafter/cli"
   - "https://crafter.run/en/ships"
+  - "https://crafter.run/en/ships/tocus"
 ---
 
-Ships es el estante de la comunidad con lo que construyen sus miembros. La plataforma llegó el 11 de agosto de 2026 junto con el paquete `@crafter/cli` y un onboarding guiado por agentes, de modo que un agente puede redactar tu perfil y tu primer Ship. Los Ships publicados pueden llevar actualizaciones y medios, y los visitantes pueden votarlos.
+Ships es el estante de la comunidad con lo que construyen sus miembros: apps, herramientas, experimentos e ideas, cada uno con su propia página. Es para cualquier persona de la comunidad Crafter que quiera mostrar su proyecto, y puedes publicar desde tu terminal o desde tu agente de código. Explóralo en [crafter.run/ships](https://crafter.run/es/ships).
 
-La lista también está en la API pública de api.crafter.run. Explórala en [crafter.run/ships](https://crafter.run/es/ships).
+<Clip src="/changelog/community-ships/browse.mp4" poster="/changelog/community-ships/browse.webp" size="1280x800" alt="Recorriendo el listado de Ships en crafter.run y abriendo la página del ship TOCus" caption="El listado muestra cada Ship. Cada uno abre su propia página." />
+
+## Publica desde tu agente de código
+
+Ships llegó el 11 de agosto de 2026 junto con el paquete `@crafter/cli` y un onboarding guiado por agentes. Instala la skill `crafter-ship` y tu agente puede redactar tu perfil y tu primer Ship a partir de un proyecto local. Nada se publica hasta que confirmas el borrador.
+
+## Una página para cada Ship
+
+Cada Ship tiene portada, descripción, enlaces a su repositorio y sitio web, y la persona que lo publicó. Los Ships publicados pueden sumar actualizaciones con una entrada de changelog pública, y los visitantes pueden votarlos.
+
+<Figure src="/changelog/community-ships/ship-page.webp" alt="Página del ship TOCus con imagen de portada, descripción, botón de voto y enlaces" size="1280x800" caption="La página de un Ship muestra quién lo hizo y dónde probarlo." />
+
+## Pruébalo
+
+Agrega la skill a tu agente de código o usa la CLI directamente. Corre `crafter login` tú mismo en una terminal interactiva.
+
+```bash
+npx skills add crafter-station/crafter.run --skill crafter-ship
+npm install --global @crafter/cli
+crafter login
+crafter ship
+```
+
+## Qué cambió
+
+- Un directorio público de Ships de la comunidad en [crafter.run/ships](https://crafter.run/es/ships), con votos
+- El paquete [`@crafter/cli`](https://www.npmjs.com/package/@crafter/cli) para redactar, publicar, editar y actualizar Ships
+- Un onboarding guiado por agentes que redacta tu perfil y tu primer Ship
+- La lista también está en la API pública de api.crafter.run
