@@ -494,6 +494,30 @@
       "step2Body": "每个领域都有一位 Core 成员负责，并与你一起工作。",
       "step3Title": "三个月后回顾",
       "step3Body": "我们一起看看进展如何、下一步是什么。从 Crew 也可以进入 Core。"
+    },
+    "newsletter": {
+      "eyebrow": "通讯",
+      "title": "每月摘要。",
+      "description": "每月一次：Crafter Station 发布了什么、谁做的，以及背后的数据。",
+      "getsTitle": "你会收到",
+      "shipsTitle": "发布内容",
+      "shipsBody": "本月上线的产品、工具和实验，附带链接。",
+      "peopleTitle": "谁做的",
+      "peopleBody": "每个发布都会标注背后的 crafter。",
+      "metricsTitle": "数据",
+      "metricsBody": "来自 Pulse（我们公开的活动追踪器）的提交数和活跃贡献者。",
+      "perksTitle": "Crafter Perks",
+      "perksBody": "Crafter Perks 开放时，你还能优先使用。它目前还只是一个想法，尚未确认任何合作伙伴。",
+      "formTitle": "加入名单",
+      "emailLabel": "邮箱",
+      "emailPlaceholder": "you@example.com",
+      "submit": "订阅",
+      "submitting": "订阅中...",
+      "subscribed": "你已加入名单。",
+      "alreadySubscribed": "这个邮箱已在名单中。",
+      "invalid": "请输入有效的邮箱地址。",
+      "unavailable": "订阅暂时不可用，请稍后再试。",
+      "fine": "每月一封邮件。可在任意一期中退订。"
     }
   },
   "member": {

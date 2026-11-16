@@ -494,6 +494,30 @@
       "step2Body": "Cada área tiene a alguien del Core que la lidera y trabaja contigo.",
       "step3Title": "Revisamos a los tres meses",
       "step3Body": "Vemos juntos cómo va y qué sigue. Desde el Crew también se puede llegar al Core."
+    },
+    "newsletter": {
+      "eyebrow": "Newsletter",
+      "title": "El resumen mensual.",
+      "description": "Una vez al mes: lo que Crafter Station lanzó, quién lo construyó y las métricas detrás.",
+      "getsTitle": "Qué recibes",
+      "shipsTitle": "Lo que se lanzó",
+      "shipsBody": "Productos, herramientas y experimentos del mes, con enlaces.",
+      "peopleTitle": "Quién lo construyó",
+      "peopleBody": "Cada lanzamiento acredita a los crafters detrás.",
+      "metricsTitle": "Los números",
+      "metricsBody": "Commits y colaboradores activos desde Pulse, nuestro tracker público de actividad.",
+      "perksTitle": "Crafter Perks",
+      "perksBody": "También tendrás acceso anticipado a Crafter Perks cuando abra. Todavía es una idea en desarrollo, sin partners confirmados.",
+      "formTitle": "Súmate a la lista",
+      "emailLabel": "Correo",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "submit": "Suscribirme",
+      "submitting": "Suscribiendo...",
+      "subscribed": "Ya estás en la lista.",
+      "alreadySubscribed": "Este correo ya está en la lista.",
+      "invalid": "Ingresa un correo válido.",
+      "unavailable": "La suscripción no está disponible ahora. Intenta de nuevo más tarde.",
+      "fine": "Un correo al mes. Puedes darte de baja desde cualquier resumen."
     }
   },
   "member": {
