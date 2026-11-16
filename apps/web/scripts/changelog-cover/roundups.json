@@ -1,0 +1,699 @@
+[
+  {
+    "slug": "before-december-2025",
+    "ships": [
+      {
+        "name": "retest",
+        "repo": "crafter-station/retest",
+        "date": "2023-12-04",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "krafter-ui",
+        "repo": "crafter-station/krafter-ui",
+        "date": "2024-08-31",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "gradual-legacy",
+        "repo": "crafter-station/gradual-legacy",
+        "date": "2025-02-06",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "githunter",
+        "repo": "crafter-station/githunter",
+        "date": "2025-05-01",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "hipoteca-findr",
+        "repo": "crafter-station/hipoteca-findr",
+        "date": "2025-06-07",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "ultra-deep-research",
+        "repo": "crafter-station/ultra-deep-research",
+        "date": "2025-07-19",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "album0",
+        "repo": "crafter-station/album0",
+        "date": "2025-08-25",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "pong0",
+        "repo": "crafter-station/pong0",
+        "date": "2025-09-14",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "scrapi",
+        "repo": "crafter-station/scrapi",
+        "date": "2025-11-24",
+        "area": "station",
+        "thumb": true
+      }
+    ]
+  },
+  {
+    "slug": "december-2025-roundup",
+    "ships": [
+      {
+        "name": "pintel",
+        "repo": "crafter-station/pintel",
+        "date": "2025-12-03",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "gift0",
+        "repo": "crafter-station/gift0",
+        "date": "2025-12-10",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "pdf-summarizer",
+        "repo": "crafter-station/pdf-summarizer",
+        "date": "2025-12-21",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "wrapped-2025",
+        "repo": "crafter-station/wrapped-2025",
+        "date": "2025-12-30",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "p2p-chat",
+        "repo": "crafter-station/p2p-chat",
+        "date": "2025-12-31",
+        "area": "station",
+        "thumb": true
+      }
+    ]
+  },
+  {
+    "slug": "january-2026-roundup",
+    "ships": [
+      {
+        "name": "visionboard",
+        "repo": "crafter-station/visionboard",
+        "date": "2026-01-01",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "linkedin-tag-extension",
+        "repo": "crafter-station/linkedin-tag-extension",
+        "date": "2026-01-01",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "the-shipping-bible",
+        "repo": "crafter-station/the-shipping-bible",
+        "date": "2026-01-03",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "flow",
+        "repo": "crafter-station/flow",
+        "date": "2026-01-12",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "cal.date",
+        "repo": "crafter-station/cal.date",
+        "date": "2026-01-12",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "photo-booth",
+        "repo": "crafter-station/photo-booth",
+        "date": "2026-01-14",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "claude.meme",
+        "repo": "crafter-station/claude.meme",
+        "date": "2026-01-14",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "parse-benchmark",
+        "repo": "crafter-station/parse-benchmark",
+        "date": "2026-01-21",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "i18n",
+        "repo": "crafter-station/i18n",
+        "date": "2026-01-24",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "crafter-code",
+        "repo": "crafter-station/crafter-code",
+        "date": "2026-01-25",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "karaoke0",
+        "repo": "crafter-station/karaoke0",
+        "date": "2026-01-27",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "latex0",
+        "repo": "crafter-station/latex0",
+        "date": "2026-01-28",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "cadence",
+        "repo": "crafter-station/cadence",
+        "date": "2026-01-31",
+        "area": "station",
+        "thumb": true
+      }
+    ]
+  },
+  {
+    "slug": "february-2026-roundup",
+    "ships": [
+      {
+        "name": "easytalk",
+        "repo": "crafter-station/easytalk",
+        "date": "2026-02-01",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "food-peru",
+        "repo": "crafter-station/food-peru",
+        "date": "2026-02-01",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "mermaid",
+        "repo": "crafter-station/mermaid",
+        "date": "2026-02-06",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "cs.chat",
+        "repo": "crafter-station/cs.chat",
+        "date": "2026-02-07",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "espik",
+        "repo": "crafter-station/espik",
+        "date": "2026-02-12",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "pushup.ai",
+        "repo": "crafter-station/pushup.ai",
+        "date": "2026-02-17",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "skillcraft",
+        "repo": "crafter-station/skillcraft",
+        "date": "2026-02-17",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "visual-reference",
+        "repo": "crafter-station/visual-reference",
+        "date": "2026-02-18",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "speech-to-jira",
+        "repo": "crafter-station/speech-to-jira",
+        "date": "2026-02-20",
+        "area": "station",
+        "thumb": false
+      }
+    ]
+  },
+  {
+    "slug": "march-2026-roundup",
+    "ships": [
+      {
+        "name": "spoti-cli",
+        "repo": "crafter-station/spoti-cli",
+        "date": "2026-03-24",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "codex-globe",
+        "repo": "crafter-station/codex-globe",
+        "date": "2026-03-25",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "rappi-cli",
+        "repo": "crafter-station/rappi-cli",
+        "date": "2026-03-29",
+        "area": "station",
+        "thumb": false
+      }
+    ]
+  },
+  {
+    "slug": "april-2026-roundup",
+    "ships": [
+      {
+        "name": "rn-ai-elements",
+        "repo": "crafter-station/rn-ai-elements",
+        "date": "2026-04-09",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "charts",
+        "repo": "crafter-station/charts",
+        "date": "2026-04-10",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "surfacer",
+        "repo": "crafter-station/surfacer",
+        "date": "2026-04-14",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "motif",
+        "repo": "crafter-station/motif",
+        "date": "2026-04-15",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "timeline-peru",
+        "repo": "crafter-research/timeline-peru",
+        "date": "2026-04-20",
+        "area": "research",
+        "thumb": true
+      },
+      {
+        "name": "screen2prompt",
+        "repo": "crafter-station/screen2prompt",
+        "date": "2026-04-20",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "neon-cli",
+        "repo": "crafter-station/neon-cli",
+        "date": "2026-04-23",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "doomain",
+        "repo": "crafter-station/doomain",
+        "date": "2026-04-28",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "survey-cli",
+        "repo": "crafter-station/survey-cli",
+        "date": "2026-04-30",
+        "area": "station",
+        "thumb": true
+      }
+    ]
+  },
+  {
+    "slug": "may-june-2026-roundup",
+    "ships": [
+      {
+        "name": "luvy",
+        "repo": "crafter-station/luvy",
+        "date": "2026-05-18",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "s1gn",
+        "repo": "crafter-station/s1gn",
+        "date": "2026-06-02",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "maca-releases",
+        "repo": "crafter-station/maca-releases",
+        "date": "2026-06-10",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "linkedin",
+        "repo": "crafter-station/linkedin",
+        "date": "2026-06-25",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "reporte-ve",
+        "repo": "crafter-station/reporte-ve",
+        "date": "2026-06-26",
+        "area": "station",
+        "thumb": true
+      }
+    ]
+  },
+  {
+    "slug": "july-2026-roundup",
+    "ships": [
+      {
+        "name": "tab",
+        "repo": "crafter-station/tab",
+        "date": "2026-07-06",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "limon",
+        "repo": "crafter-station/limon",
+        "date": "2026-07-15",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "sv.cafe",
+        "repo": "crafter-station/sv.cafe",
+        "date": "2026-07-16",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "sort",
+        "repo": "crafter-station/sort",
+        "date": "2026-07-19",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "sweep",
+        "repo": "crafter-station/sweep",
+        "date": "2026-07-20",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "backtick",
+        "repo": "crafter-station/backtick",
+        "date": "2026-07-22",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "bancolombia-cli",
+        "repo": "crafter-station/bancolombia-cli",
+        "date": "2026-07-24",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "ubereats-cli",
+        "repo": "crafter-station/ubereats-cli",
+        "date": "2026-07-24",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "whatsapp-cli",
+        "repo": "crafter-station/whatsapp-cli",
+        "date": "2026-07-24",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "li-metrics",
+        "repo": "crafter-station/li-metrics",
+        "date": "2026-07-25",
+        "area": "station",
+        "thumb": false
+      }
+    ]
+  },
+  {
+    "slug": "august-2026-roundup",
+    "ships": [
+      {
+        "name": "crafter-tracker",
+        "repo": "crafter-station/crafter-tracker",
+        "date": "2026-08-02",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "awake",
+        "repo": "crafter-station/awake",
+        "date": "2026-08-05",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "butaca",
+        "repo": "crafter-station/butaca",
+        "date": "2026-08-14",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "osmo",
+        "repo": "crafter-station/osmo",
+        "date": "2026-08-14",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "airbridge",
+        "repo": "crafter-station/airbridge",
+        "date": "2026-08-16",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "spaceship-cli",
+        "repo": "crafter-station/spaceship-cli",
+        "date": "2026-08-19",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "blaze",
+        "repo": "crafter-station/blaze",
+        "date": "2026-08-19",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "catch-the-craft",
+        "repo": "crafter-station/catch-the-craft",
+        "date": "2026-08-27",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "limit",
+        "repo": "crafter-station/limit",
+        "date": "2026-08-30",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "farmacia",
+        "repo": "crafter-station/farmacia",
+        "date": "2026-08-31",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "fitia-cli",
+        "repo": "crafter-station/fitia-cli",
+        "date": "2026-08-31",
+        "area": "station",
+        "thumb": true
+      }
+    ]
+  },
+  {
+    "slug": "september-2026-roundup",
+    "ships": [
+      {
+        "name": "astra",
+        "repo": "crafter-station/astra",
+        "date": "2026-09-06",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "kliq",
+        "repo": "crafter-station/kliq",
+        "date": "2026-09-13",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "v-prism",
+        "repo": "crafter-station/v-prism",
+        "date": "2026-09-21",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "crafter-knot",
+        "repo": "crafter-station/crafter-knot",
+        "date": "2026-09-24",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "crafter-glass",
+        "repo": "crafter-station/crafter-glass",
+        "date": "2026-09-24",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "whatsapp-components",
+        "repo": "crafter-station/whatsapp-components",
+        "date": "2026-09-25",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "makeables-community",
+        "repo": "crafter-station/makeables-community",
+        "date": "2026-09-28",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "uber-cli",
+        "repo": "crafter-station/uber-cli",
+        "date": "2026-09-29",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "lava-wgsl",
+        "repo": "crafter-station/lava-wgsl",
+        "date": "2026-09-29",
+        "area": "station",
+        "thumb": true
+      }
+    ]
+  },
+  {
+    "slug": "october-2026-roundup",
+    "ships": [
+      {
+        "name": "learnclickhouse",
+        "repo": "crafter-games/learnclickhouse",
+        "date": "2026-10-02",
+        "area": "games",
+        "thumb": true
+      },
+      {
+        "name": "the-ones-game",
+        "repo": "crafter-games/the-ones-game",
+        "date": "2026-10-06",
+        "area": "games",
+        "thumb": true
+      },
+      {
+        "name": "posture",
+        "repo": "crafter-station/posture",
+        "date": "2026-10-26",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "crafter-clawd",
+        "repo": "crafter-station/crafter-clawd",
+        "date": "2026-10-26",
+        "area": "station",
+        "thumb": true
+      }
+    ]
+  },
+  {
+    "slug": "november-2026-roundup",
+    "ships": [
+      {
+        "name": "GIZA",
+        "repo": "crafter-station/GIZA",
+        "date": "2026-11-01",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "ig-cli",
+        "repo": "crafter-station/ig-cli",
+        "date": "2026-11-11",
+        "area": "station",
+        "thumb": false
+      },
+      {
+        "name": "twin",
+        "repo": "crafter-station/twin",
+        "date": "2026-11-13",
+        "area": "station",
+        "thumb": true
+      },
+      {
+        "name": "universidad-cifras",
+        "repo": "crafter-station/universidad-cifras",
+        "date": "2026-11-15",
+        "area": "station",
+        "thumb": true
+      }
+    ]
+  }
+]

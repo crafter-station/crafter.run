@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Crafter Display"; src: url("../../app/fonts/CrafterSansPreview-Medium.woff2") format("woff2"); }
+  @font-face { font-family: "Crafter Text"; src: url("../../app/fonts/CrafterSansTextPreview-Medium.woff2") format("woff2"); }
+  @font-face { font-family: "Mono"; src: url("../../app/fonts/JetBrainsMono-500.woff2") format("woff2"); }
+  :root { --paper: #f8f4e5; --ink: #4c452c; --muted: #867b5b; --accent: #e0b43a; --cell: color-mix(in srgb, var(--ink) 5%, transparent); }
+  [data-area="station"] { --a: #e0b43a; } [data-area="research"] { --a: #9a7fc0; } [data-area="lab"] { --a: #7aa256; } [data-area="games"] { --a: #5c8fbe; }
+  * { box-sizing: border-box; margin: 0; }
+  body { position: relative; overflow: hidden; background: var(--paper); color: var(--ink); font-family: "Crafter Text", sans-serif; }
+  .dots { position: absolute; inset: 0; background: radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--ink) 13%, transparent) 1.2px, transparent 1.6px) 0 0 / 28px 28px; }
+  .left { position: absolute; display: flex; flex-direction: column; }
+  .mark { display: flex; align-items: center; gap: .5em; }
+  .mark span { color: var(--muted); }
+  .title { margin-top: auto; font-family: "Crafter Display"; letter-spacing: -.05em; line-height: .86; }
+  .year { font-family: "Crafter Display"; color: var(--muted); letter-spacing: -.03em; }
+  .count { display: flex; align-items: baseline; gap: .3em; }
+  .count b { font-family: "Crafter Display"; font-weight: 400; color: var(--accent); letter-spacing: -.05em; line-height: 1; }
+  .months { position: absolute; display: grid; }
+  .cal { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .cal h3 { grid-column: 1 / -1; font: inherit; font-family: "Mono"; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); }
+  .dow { font-family: "Mono"; color: var(--muted); text-align: center; }
+  .day { position: relative; border-radius: 10px; background: var(--cell); font-family: "Mono"; color: var(--muted); overflow: hidden; }
+  .day.empty { background: none; }
+  .day.ship { background: #fff; color: var(--ink); box-shadow: 0 0 0 1.5px var(--a), 0 14px 26px -16px color-mix(in srgb, var(--ink) 60%, transparent); }
+  .day.ship.noshot { background: color-mix(in srgb, var(--a) 22%, #fff); }
+  .day img { position: absolute; object-fit: cover; object-position: top; border-radius: 5px; border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent); }
+  .nm { position: absolute; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: "Mono"; }
+  .more { position: absolute; font-family: "Mono"; color: var(--a); filter: brightness(.8); }
+
+  /* cover 1600x1000, one month */
+  .cover { width: 1600px; height: 1000px; }
+  .cover .left { left: 80px; top: 72px; bottom: 72px; width: 560px; }
+  .cover .mark { font-size: 28px; } .cover .mark img { width: 40px; }
+  .cover .title { font-size: 168px; } .cover .title.long { font-size: 112px; }
+  .cover .year { font-size: 64px; margin-top: 18px; }
+  .cover .count { margin-top: 44px; font-size: 34px; } .cover .count b { font-size: 120px; }
+  .cover.one .months { right: 72px; top: 92px; width: 860px; }
+  .cover.one .cal { gap: 10px; } .cover.one .dow { font-size: 18px; padding-bottom: 6px; }
+  .cover.one .day { height: 124px; padding: 10px; font-size: 18px; }
+  .cover.one .day img { left: 8px; bottom: 30px; width: calc(100% - 16px); height: 52px; }
+  .cover.one .nm { left: 10px; right: 10px; bottom: 8px; font-size: 13px; }
+  .cover.one .more { top: 9px; right: 10px; font-size: 13px; }
+  /* cover, several months: small multiples */
+  .cover.many .months { right: 72px; top: 80px; width: 860px; bottom: 80px; align-content: center; gap: 34px 30px; }
+  .cover.many .cal { gap: 5px; } .cover.many .cal h3 { font-size: 15px; padding-bottom: 6px; }
+  .cover.many .dow { display: none; }
+  .cover.many .day { aspect-ratio: 1; border-radius: 5px; font-size: 0; }
+  .cover.many .day.ship { box-shadow: 0 0 0 1.5px var(--a); background: var(--a); }
+
+  /* og 1200x630 */
+  .og { width: 1200px; height: 630px; }
+  .og .left { left: 56px; top: 48px; bottom: 48px; width: 420px; }
+  .og .mark { font-size: 21px; } .og .mark img { width: 30px; }
+  .og .title { font-size: 104px; } .og .title.long { font-size: 72px; }
+  .og .year { font-size: 40px; margin-top: 12px; }
+  .og .count { margin-top: 26px; font-size: 24px; } .og .count b { font-size: 78px; }
+  .og.one .months { right: 48px; top: 40px; width: 660px; }
+  .og.one .cal { gap: 7px; } .og.one .dow { font-size: 14px; padding-bottom: 2px; }
+  .og.one .day { height: 82px; padding: 6px 7px; font-size: 13px; }
+  .og.one .day img { left: 5px; bottom: 21px; width: calc(100% - 10px); height: 36px; }
+  .og.one .nm { left: 6px; right: 6px; bottom: 5px; font-size: 10px; }
+  .og.one .more { top: 6px; right: 7px; font-size: 10px; }
+  .og.many .months { right: 48px; top: 40px; bottom: 40px; width: 640px; align-content: center; gap: 22px 22px; }
+  .og.many .cal { gap: 4px; } .og.many .cal h3 { font-size: 12px; padding-bottom: 4px; }
+  .og.many .dow { display: none; }
+  .og.many .day { aspect-ratio: 1; border-radius: 4px; font-size: 0; }
+  .og.many .day.ship { box-shadow: 0 0 0 1.5px var(--a); background: var(--a); }
+</style>
+</head>
+<body>
+<script>
+const q = new URLSearchParams(location.search)
+const mode = q.get("mode") || "cover"
+const locale = q.get("locale") === "es" ? "es" : "en"
+const data = JSON.parse(q.get("data"))
+const thumbs = q.get("thumbs")
+
+const L = {
+  en: { months: ["January","February","March","April","May","June","July","August","September","October","November","December"], dow: ["M","T","W","T","F","S","S"], and: "and", one: "ships in one month", two: "ships in two months", many: "ships", before: "Before December" },
+  es: { months: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"], dow: ["L","M","M","J","V","S","D"], and: "y", one: "ships en un mes", two: "ships en dos meses", many: "ships", before: "Antes de diciembre" },
+}[locale]
+
+const ships = data.ships.filter((s) => s.date).sort((a, b) => a.date.localeCompare(b.date))
+const keys = [...new Set(ships.map((s) => s.date.slice(0, 7)))]
+const years = [...new Set(keys.map((k) => k.slice(0, 4)))]
+const single = keys.length === 1
+let title, year, countLabel
+if (keys.length === 1) { title = L.months[+keys[0].slice(5) - 1]; year = keys[0].slice(0, 4); countLabel = L.one }
+else if (keys.length === 2 && years.length === 1) { title = `${L.months[+keys[0].slice(5) - 1]} ${L.and} ${L.months[+keys[1].slice(5) - 1].toLowerCase()}`; year = years[0]; countLabel = L.two }
+else { title = L.before; year = `${years[0]} · ${years.at(-1)}`; countLabel = L.many }
+
+document.body.className = `${mode} ${single ? "one" : "many"}`
+const icon = "../../public/brand/crafter-station-icon-light.svg"
+let html = `<div class="dots"></div><div class="left">
+  <div class="mark"><img src="${icon}" alt="">crafter station <span>/ changelog</span></div>
+  <div class="title${title.length > 8 ? " long" : ""}">${title}</div>
+  <div class="year">${year}</div>
+  <div class="count"><b>${ships.length}</b><span>${countLabel}</span></div>
+</div><div class="months" style="grid-template-columns: repeat(${single ? 1 : Math.min(3, keys.length)}, 1fr)">`
+
+for (const key of keys) {
+  const [y, m] = key.split("-").map(Number)
+  const first = (new Date(Date.UTC(y, m - 1, 1)).getUTCDay() + 6) % 7
+  const days = new Date(Date.UTC(y, m, 0)).getUTCDate()
+  html += `<div class="cal">`
+  if (!single) html += `<h3>${L.months[m - 1].slice(0, 3)} ${y}</h3>`
+  for (const d of L.dow) html += `<div class="dow">${d}</div>`
+  for (let i = 0; i < first; i++) html += `<div class="day empty"></div>`
+  for (let day = 1; day <= days; day++) {
+    const here = ships.filter((s) => s.date === `${key}-${String(day).padStart(2, "0")}`)
+    if (!here.length) { html += `<div class="day">${single ? day : ""}</div>`; continue }
+    const lead = here.find((s) => s.thumb) ?? here[0]
+    const img = single && lead.thumb ? `<img src="${thumbs}/${lead.name}.webp" alt="">` : ""
+    html += `<div class="day ship${lead.thumb ? "" : " noshot"}" data-area="${lead.area}">${single ? day : ""}${img}`
+    if (single) html += `<span class="nm">${lead.name}</span>${here.length > 1 ? `<span class="more">+${here.length - 1}</span>` : ""}`
+    html += `</div>`
+  }
+  html += `</div>`
+}
+html += `</div>`
+document.body.insertAdjacentHTML("beforeend", html)
+Promise.all([document.fonts.ready, ...[...document.images].map((im) => im.complete ? 1 : new Promise((r) => { im.onload = im.onerror = r }))])
+  .then(() => { document.body.dataset.ready = "1" })
+</script>
+</body>
+</html>
