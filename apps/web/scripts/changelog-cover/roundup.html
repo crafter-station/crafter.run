@@ -30,6 +30,15 @@
   .nm { position: absolute; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: "Mono"; }
   .more { position: absolute; font-family: "Mono"; color: var(--a); filter: brightness(.8); }
 
+  /* several ships on one day: stacked cards and a count badge */
+  .one .day.ship.multi { box-shadow: 0 0 0 1.5px var(--a), 5px 5px 0 -1px #fff, 5px 5px 0 .5px var(--a), 10px 10px 0 -2px #fff, 10px 10px 0 -.5px color-mix(in srgb, var(--a) 70%, transparent), 0 14px 26px -16px color-mix(in srgb, var(--ink) 60%, transparent); overflow: visible; }
+  .one .day.ship.multi img { z-index: 1; }
+  .badge { position: absolute; font-family: "Mono"; color: #fff; background: var(--a); border-radius: 999px; line-height: 1; white-space: nowrap; z-index: 2; }
+  .cover.one .badge { top: -11px; right: -10px; padding: 5px 9px; font-size: 14px; }
+  .og.one .badge { top: -8px; right: -7px; padding: 4px 7px; font-size: 11px; }
+  .many .day.ship.multi { display: grid; place-items: center; color: #fff; font-family: "Mono"; }
+  .cover.many .day.ship.multi { font-size: 15px; }
+  .og.many .day.ship.multi { font-size: 11px; }
   /* cover 1600x1000, one month */
   .cover { width: 1600px; height: 1000px; }
   .cover .left { left: 80px; top: 72px; bottom: 72px; width: 560px; }
@@ -114,8 +123,9 @@ for (const key of keys) {
     if (!here.length) { html += `<div class="day">${single ? day : ""}</div>`; continue }
     const lead = here.find((s) => s.thumb) ?? here[0]
     const img = single && lead.thumb ? `<img src="${thumbs}/${lead.name}.webp" alt="">` : ""
-    html += `<div class="day ship${lead.thumb ? "" : " noshot"}" data-area="${lead.area}">${single ? day : ""}${img}`
-    if (single) html += `<span class="nm">${lead.name}</span>${here.length > 1 ? `<span class="more">+${here.length - 1}</span>` : ""}`
+    const multi = here.length > 1
+    html += `<div class="day ship${lead.thumb ? "" : " noshot"}${multi ? " multi" : ""}" data-area="${lead.area}">${single ? day : multi ? here.length : ""}${img}`
+    if (single) html += `<span class="nm">${multi ? here.map((s) => s.name).join(" + ") : lead.name}</span>${multi ? `<span class="badge">${here.length} ships</span>` : ""}`
     html += `</div>`
   }
   html += `</div>`
