@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.6.0
+
+### Minor Changes
+
+- [#176](https://github.com/crafter-station/crafter.run/pull/176) [`61d99bc`](https://github.com/crafter-station/crafter.run/commit/61d99bc69864c2106a077ba7b05866043c7cf291) Thanks [@Railly](https://github.com/Railly)! - Add `crafter changelog new`, `check` and `submit`: scaffold a changelog entry, validate it offline, and open it as a pull request to crafter-station/crafter.run through the GitHub CLI, for members of the crafter-station organization.
+
 ## 0.5.2
 
 ### Patch Changes
