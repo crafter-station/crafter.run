@@ -194,10 +194,13 @@ function readAll(): ChangelogEntry[] {
   return sortEntries(entries)
 }
 
-// Read once per process; the dev server re-evaluates the module on change.
+// Read once per process in production. Entries are files read from disk, not
+// imports, so the dev server never invalidates this module when one changes:
+// development reads fresh on every call.
 let cache: ChangelogEntry[] | null = null
 
 function allEntries(): ChangelogEntry[] {
+  if (process.env.NODE_ENV === "development") return readAll()
   cache ??= readAll()
   return cache
 }

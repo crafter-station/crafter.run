@@ -1,6 +1,6 @@
 ---
 title: El espécimen de Crafter Sans ya es público
-summary: El espécimen de Crafter Sans vive en crafter.run/font, con un fondo WebGPU.
+summary: El espécimen de la tipografía que dibujamos. Compara Display y Text, mira cada curva y pruébala con tus palabras.
 date: 2026-10-08
 area: station
 kind: ship
@@ -17,6 +17,34 @@ evidence:
   - https://github.com/crafter-station/crafter.run/pull/107
 ---
 
-El espécimen de Crafter Sans ya es público en [crafter.run/font](/font). La página tiene un fondo WebGPU.
+El espécimen de Crafter Sans ya es público en [crafter.run/font](/es/font). Crafter Sans es la tipografía que dibujamos para Crafter Station, y el espécimen muestra cómo está construida cada letra, en dos tamaños ópticos, sobre un fondo WebGPU.
 
-Salió en dos pull requests de crafter.run, #106 y #107.
+<Clip src="/changelog/crafter-sans-specimen/display-text.mp4" poster="/changelog/crafter-sans-specimen/display-text.webp" size="1280x800" alt="El hero del espécimen cambiando entre Crafter Sans Display y Text" caption="Pasa el cursor por las letras para ver sus contornos. Cambia entre Display y Text al mismo tamaño." />
+
+## Una letra, dos tamaños
+
+Crafter Sans viene en Display, para títulos, y Text, para lectura. El hero dibuja las dos con los contornos reales de la fuente, así puedes compararlas al mismo tamaño y ver dónde cambian las curvas.
+
+## Pruébala con tus palabras
+
+Escribe lo que quieras y cambia la variante, el tamaño y el espaciado para ver cómo se comporta.
+
+<Clip src="/changelog/crafter-sans-specimen/try-it.mp4" poster="/changelog/crafter-sans-specimen/try-it.webp" size="1280x800" alt="Escribiendo una frase en el probador del espécimen y cambiando a Text Bold" caption="El probador usa las mismas fuentes que publica el sitio." />
+
+## Cada curva, de cerca
+
+Elige cualquier carácter para ver su contorno real, con el avance, la altura de x y la altura de mayúsculas marcados. La página también muestra Crafter Sans en contexto, en las piezas de marca para las que se dibujó.
+
+<Gallery>
+<Figure src="/changelog/crafter-sans-specimen/characters.webp" alt="Inspector de caracteres con el contorno de la letra g" size="1280x800" caption="Caracteres" />
+<Figure src="/changelog/crafter-sans-specimen/in-context.webp" alt="Crafter Sans en el lockup Craft. Ship. Repeat." size="1280x800" caption="En contexto" />
+</Gallery>
+
+## Pruébalo
+
+Abre [crafter.run/font](/es/font). Las descargas siguen apagadas hasta elegir la licencia.
+
+## Qué cambió
+
+- El espécimen pasó de una vista privada a `/font`, con el hero de contornos, la comparación Display y Text y el estado de cada glifo ([#106](https://github.com/crafter-station/crafter.run/pull/106)).
+- La página sumó su fondo WebGPU ([#107](https://github.com/crafter-station/crafter.run/pull/107)).
