@@ -1,17 +1,11 @@
-import { Slot } from "@radix-ui/react-slot"
 import { ArrowUpRight } from "lucide-react"
 import * as React from "react"
 import { cn } from "@/lib/utils"
 
-interface ArrowLinkProps extends React.HTMLAttributes<HTMLElement> {
-  asChild?: boolean
-}
-
-export const ArrowLink = React.forwardRef<HTMLElement, ArrowLinkProps>(
-  ({ className, children, asChild = false, ...props }, ref) => {
-    const Comp = (asChild ? Slot : "span") as React.ElementType
+export const ArrowLink = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLElement>>(
+  ({ className, children, ...props }, ref) => {
     return (
-      <Comp
+      <span
         ref={ref}
         className={cn(
           "station-quiet-link group inline-flex items-center text-sm font-semibold text-foreground transition-colors duration-200 group-hover:text-accent",
@@ -31,7 +25,7 @@ export const ArrowLink = React.forwardRef<HTMLElement, ArrowLinkProps>(
             )}
           />
         </span>
-      </Comp>
+      </span>
     )
   },
 )
