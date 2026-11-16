@@ -19,10 +19,38 @@ evidence:
   - "https://github.com/crafter-research/sunat-cli/releases"
   - "https://www.npmjs.com/package/@crafter/sunat-cli"
   - "https://sunat-cli.crafter.ing"
+  - "https://github.com/crafter-research/sunat-cli/blob/main/README.md"
 ---
 
-sunat-cli lets an AI agent operate Peruvian tax procedures while a human supervises. It covers electronic invoices, SIRE, dispatch guides, the SOL mailbox, fee receipts and the REST APIs. The help output is the contract, so every command it lists exists in your installed version.
+sunat-cli lets an AI agent operate Peruvian tax procedures while a human supervises. It is for freelancers and companies that deal with SUNAT and want their agent to do the paperwork safely. It covers electronic invoices, SIRE, dispatch guides, the SOL mailbox, fee receipts and the REST APIs in one binary. Docs are at [sunat-cli.crafter.ing](https://sunat-cli.crafter.ing).
 
-It ships frequent releases and runs on Node.
+<Clip src="/changelog/sunat-cli/schema.mp4" poster="/changelog/sunat-cli/schema.webp" size="1280x800" alt="sunat-cli schema printing the fields for a fee receipt and an electronic invoice" caption="An agent asks what a command accepts and gets a versioned contract back." />
 
-Install it with `npm install -g @crafter/sunat-cli`, or read the docs at [sunat-cli.crafter.ing](https://sunat-cli.crafter.ing).
+## Contracts an agent can read
+
+`sunat-cli schema <resource>` describes what a command accepts as data, with required fields, types and defaults. The help output is the contract too, so every command it lists exists in your installed version. Output is JSON whenever stdout is not a terminal, so an agent gets parseable data without passing a flag.
+
+## Ten SUNAT surfaces behind one command
+
+SUNAT exposes SOAP with signed XML, REST with OAuth, a ticket queue, a legacy inbox, a JSON API and form sessions. sunat-cli wraps them under sixteen namespaces, from `cpe` and `sire` to `buzon` and `renta`. Commands that change something carry a trust level and a dry run.
+
+<Figure src="/changelog/sunat-cli/home.webp" alt="sunat-cli homepage with the ten SUNAT surfaces and a sample agent session" size="1280x800" caption="The docs list every surface and how much of it is covered." />
+
+## Try it
+
+It runs on Node. Read-only lookups need no session.
+
+```bash
+npm install -g @crafter/sunat-cli
+sunat-cli doctor
+sunat-cli schema f616
+sunat-cli padron ruc 20100070970
+```
+
+## What it includes
+
+- Electronic invoices, notes and dispatch guides (UBL 2.1, XAdES, SOAP)
+- SIRE sales and purchase registers
+- Fee receipts and the monthly 616 form, driven through [agent-browser](https://github.com/vercel-labs/agent-browser)
+- Read-only access to the SOL mailbox, filed declarations and the annual income tax return
+- Frequent releases on [GitHub](https://github.com/crafter-research/sunat-cli/releases)

@@ -19,10 +19,38 @@ evidence:
   - "https://github.com/crafter-research/sunat-cli/releases"
   - "https://www.npmjs.com/package/@crafter/sunat-cli"
   - "https://sunat-cli.crafter.ing"
+  - "https://github.com/crafter-research/sunat-cli/blob/main/README.md"
 ---
 
-sunat-cli permite que un agente de IA opere trámites tributarios peruanos mientras una persona supervisa. Cubre comprobantes electrónicos, SIRE, guías de remisión, el Buzón SOL, recibos por honorarios y las APIs REST. La salida de `--help` es el contrato, así que cada comando que lista existe en tu versión instalada.
+sunat-cli permite que un agente de IA opere trámites tributarios peruanos mientras una persona supervisa. Es para freelancers y empresas que lidian con la SUNAT y quieren que su agente haga el papeleo de forma segura. Cubre comprobantes electrónicos, SIRE, guías de remisión, el Buzón SOL, recibos por honorarios y las APIs REST en un solo binario. La documentación está en [sunat-cli.crafter.ing](https://sunat-cli.crafter.ing).
 
-Publica versiones con frecuencia y corre sobre Node.
+<Clip src="/changelog/sunat-cli/schema.mp4" poster="/changelog/sunat-cli/schema.webp" size="1280x800" alt="sunat-cli schema mostrando los campos de un recibo por honorarios y de una factura electrónica" caption="Un agente pregunta qué acepta un comando y recibe un contrato versionado." />
 
-Instálalo con `npm install -g @crafter/sunat-cli` o lee la documentación en [sunat-cli.crafter.ing](https://sunat-cli.crafter.ing).
+## Contratos que un agente puede leer
+
+`sunat-cli schema <recurso>` describe como datos lo que acepta un comando, con campos obligatorios, tipos y valores por defecto. La salida de `--help` también es el contrato, así que cada comando que lista existe en tu versión instalada. La salida es JSON cuando stdout no es una terminal, así que un agente recibe datos parseables sin pasar ningún flag.
+
+## Diez superficies de la SUNAT detrás de un comando
+
+La SUNAT expone SOAP con XML firmado, REST con OAuth, una cola de tickets, un buzón antiguo, una API JSON y sesiones de formularios. sunat-cli las agrupa en dieciséis namespaces, desde `cpe` y `sire` hasta `buzon` y `renta`. Los comandos que cambian algo tienen un nivel de confianza y un modo de prueba.
+
+<Figure src="/changelog/sunat-cli/home.webp" alt="Portada de sunat-cli con las diez superficies de la SUNAT y una sesión de ejemplo de un agente" size="1280x800" caption="La documentación lista cada superficie y cuánto de ella está cubierto." />
+
+## Pruébalo
+
+Corre sobre Node. Las consultas de solo lectura no necesitan sesión.
+
+```bash
+npm install -g @crafter/sunat-cli
+sunat-cli doctor
+sunat-cli schema f616
+sunat-cli padron ruc 20100070970
+```
+
+## Qué incluye
+
+- Facturas, notas y guías de remisión electrónicas (UBL 2.1, XAdES, SOAP)
+- Registros de ventas y compras del SIRE
+- Recibos por honorarios y el formulario 616 mensual, operados con [agent-browser](https://github.com/vercel-labs/agent-browser)
+- Acceso de solo lectura al Buzón SOL, a las declaraciones presentadas y a la renta anual
+- Releases frecuentes en [GitHub](https://github.com/crafter-research/sunat-cli/releases)
