@@ -13,10 +13,32 @@ links:
     url: "https://www.tryelements.dev/"
 image: /changelog/elements/cover.webp
 evidence:
+  - "https://www.tryelements.dev/docs/logos"
+  - "https://ui.shadcn.com/r/registries.json"
   - "https://github.com/crafter-station/elements"
   - "https://www.tryelements.dev/"
 ---
 
-Elements is a trusted shadcn registry of production-ready blocks for Next.js and TypeScript. Add a block like `npx shadcn@latest add @elements/clerk-sign-in` and customize the code that lands in your project. It includes theme-adaptive logos for tech companies and AI services.
+Elements is a shadcn registry of production-ready blocks for Next.js and TypeScript projects. It covers auth, payments, AI, dev tools and brand logos, and every block installs as code you own and can edit. Browse it at [tryelements.dev](https://www.tryelements.dev/).
 
-Browse the blocks at [tryelements.dev](https://www.tryelements.dev/).
+<Clip src="/changelog/elements/logos.mp4" poster="/changelog/elements/logos.webp" size="1280x800" alt="Searching the Elements brand logos for Clerk and Vercel and selecting each one" caption="Pick the logos you need, then copy one install command." />
+
+## Blocks organized by provider
+
+The gallery groups blocks by the service they work with, such as Clerk, Polar, UploadThing, Upstash and the Vercel AI SDK. Each block has a live preview and the command to add it.
+
+<Figure src="/changelog/elements/gallery.webp" alt="Elements gallery with provider cards for AI Elements, Animations, AI Badges, Claude Code, Clerk and Collaboration" size="1280x800" caption="Each card opens the blocks for one provider." />
+
+## Logos that follow your theme
+
+The brand logos page holds over 200 logos for tech companies and AI services, and they adapt to light and dark mode. Search, select the ones you need and copy a single command for all of them.
+
+## Try it
+
+Elements is listed in the shadcn registry directory as `@elements`, so the shadcn CLI finds it with no extra config.
+
+```sh
+npx shadcn@latest add @elements/clerk-sign-in
+```
+
+Agents can install the Elements skill with `npx skills add crafter-station/elements`.
