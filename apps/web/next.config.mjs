@@ -50,7 +50,7 @@ const nextConfig = {
   // Blog posts are read from disk at build time by pages and route handlers;
   // the tracer only follows imports, so the content itself has to be declared.
   outputFileTracingIncludes: {
-    "/**": ["./content/blog/**/*"],
+    "/**": ["./content/blog/**/*", "./content/changelog/**/*"],
     "/og": [
       "./app/fonts/CrafterSansPreview-Medium.ttf",
       "./app/fonts/CrafterSansTextPreview-Regular.ttf",
@@ -85,6 +85,17 @@ const nextConfig = {
       { source: "/:lang(en|es|pt|zh|ja)/blog/atom.xml", destination: "/:lang/blog/rss.xml" },
       // Same for the agent index, so /blog/sitemap.md works unprefixed.
       { source: "/blog/sitemap.md", destination: "/en/blog/sitemap.md" },
+      // The changelog mirrors the blog: `.md` twin, feed aliases, markdown index.
+      {
+        source: "/:lang(en|es|pt|zh|ja)/changelog/:slug((?!sitemap\\.md)[a-z0-9][a-z0-9-]*).md",
+        destination: "/:lang/changelog/md/:slug",
+      },
+      { source: "/changelog/rss.xml", destination: "/en/changelog/rss.xml" },
+      { source: "/changelog/feed.xml", destination: "/en/changelog/rss.xml" },
+      { source: "/changelog/atom.xml", destination: "/en/changelog/rss.xml" },
+      { source: "/:lang(en|es|pt|zh|ja)/changelog/feed.xml", destination: "/:lang/changelog/rss.xml" },
+      { source: "/:lang(en|es|pt|zh|ja)/changelog/atom.xml", destination: "/:lang/changelog/rss.xml" },
+      { source: "/changelog/sitemap.md", destination: "/en/changelog/sitemap.md" },
     ];
   },
   async redirects() {

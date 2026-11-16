@@ -147,6 +147,35 @@ describe("MCP endpoint", () => {
     expect(names).not.toContain("Railly Hugo")
   })
 
+  test("reports what shipped, newest first, filtered by area, day and language", async () => {
+    const call = async (args: Record<string, unknown>) =>
+      (await rpc({ jsonrpc: "2.0", id: 20, method: "tools/call", params: { name: "whats_new", arguments: args } })).body.result
+
+    const all = await call({})
+    expect(all.isError).toBe(false)
+    const titles = all.structuredContent.entries.map((entry: { title: string }) => entry.title)
+    expect(titles[0]).toBe("Pulse 2.0")
+    expect(all.structuredContent.entries[0]).toMatchObject({
+      date: "2026-11-15",
+      area: "station",
+      kind: "ship",
+      crafters: [{ username: "railly", name: "Railly Hugo" }],
+      url: "https://crafter.run/en/changelog/pulse-2",
+    })
+
+    const since = await call({ since: "2026-10-08", limit: 5 })
+    expect(since.structuredContent.entries.map((entry: { date: string }) => entry.date)).toEqual(["2026-11-15", "2026-10-08"])
+
+    const none = await call({ area: "games" })
+    expect(none.structuredContent.entries).toEqual([])
+
+    const es = await call({ locale: "es", limit: 1 })
+    expect(es.structuredContent.entries[0].url).toBe("https://crafter.run/es/changelog/pulse-2")
+
+    const bad = (await rpc({ jsonrpc: "2.0", id: 21, method: "tools/call", params: { name: "whats_new", arguments: { since: "yesterday" } } })).body
+    expect(bad.result?.isError ?? true).toBe(true)
+  })
+
   /* A tool that fails reports through `isError` so the model can read the
      reason and retry; only a protocol-level mistake becomes a JSON-RPC error. */
   test("separates a tool failure from a protocol error", async () => {

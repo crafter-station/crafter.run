@@ -423,6 +423,57 @@
       "title": "Crafter Journal",
       "description": "試したこと、学んだこと、分かち合いたいこと。ラテンアメリカのつくり手による技術とカルチャー。"
     },
+    "changelog": {
+      "eyebrow": "変更履歴 · Crafter Station",
+      "title": "変更履歴",
+      "description": "Crafter Station が公開したもの。それぞれの変更に関わった人と、公開されている情報源とともに。",
+      "subscribe": "購読する",
+      "rss": "RSS",
+      "markdownIndex": "Markdown インデックス",
+      "agents": "エージェント向け",
+      "filterLabel": "分野で絞り込む",
+      "all": "すべて",
+      "areas": {
+        "research": "Research",
+        "lab": "Lab",
+        "games": "Games",
+        "station": "Station"
+      },
+      "kinds": {
+        "ship": "リリース",
+        "update": "アップデート",
+        "event": "イベント",
+        "roundup": "まとめ"
+      },
+      "results": "{count, plural, other {#件の変更}}",
+      "empty": "まだ何もありません。",
+      "reset": "すべての分野を表示",
+      "readEntry": "記事を読む",
+      "crafters": "Crafters",
+      "ships": "Ships",
+      "repos": "リポジトリ",
+      "links": "リンク",
+      "sources": "情報源",
+      "newer": "新しい記事",
+      "older": "古い記事",
+      "allChanges": "すべての変更",
+      "availableIn": "{language}で読めます",
+      "languages": {
+        "en": "英語",
+        "es": "スペイン語"
+      },
+      "readAsMarkdown": "Markdown で読む",
+      "ctaEyebrow": "最新情報を受け取る",
+      "ctaTitle": "公開したらすぐに、あなたの手元へ。",
+      "ctaBody": "メールまたは RSS で購読できます。各記事には公開された情報源へのリンクがあります。",
+      "feedTitle": "Crafter Station 変更履歴",
+      "feedSubtitle": "Crafter Station が公開したもの。",
+      "mdTitle": "Crafter Station 変更履歴",
+      "mdIntro": "{count, plural, other {#件}}の記事を新しい順に掲載。各記事は専用の markdown ページにリンクしています。",
+      "published": "公開日",
+      "area": "分野",
+      "kind": "種類"
+    },
     "brand": {
       "eyebrow": "ブランドリソース",
       "title": "Crafter のアイデンティティ。",

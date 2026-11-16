@@ -423,6 +423,57 @@
       "title": "Crafter Journal",
       "description": "What we try, what we learn, and what is worth sharing. Engineering and culture from people building in LatAm."
     },
+    "changelog": {
+      "eyebrow": "Changelog · Crafter Station",
+      "title": "Changelog",
+      "description": "What Crafter Station ships, with the people and the public sources behind each change.",
+      "subscribe": "Subscribe",
+      "rss": "RSS",
+      "markdownIndex": "Markdown index",
+      "agents": "For agents",
+      "filterLabel": "Filter by area",
+      "all": "All",
+      "areas": {
+        "research": "Research",
+        "lab": "Lab",
+        "games": "Games",
+        "station": "Station"
+      },
+      "kinds": {
+        "ship": "Ship",
+        "update": "Update",
+        "event": "Event",
+        "roundup": "Roundup"
+      },
+      "results": "{count, plural, one {# change} other {# changes}}",
+      "empty": "Nothing here yet.",
+      "reset": "Show every area",
+      "readEntry": "Read the entry",
+      "crafters": "Crafters",
+      "ships": "Ships",
+      "repos": "Repositories",
+      "links": "Links",
+      "sources": "Sources",
+      "newer": "Newer",
+      "older": "Older",
+      "allChanges": "All changes",
+      "availableIn": "Available in {language}",
+      "languages": {
+        "en": "English",
+        "es": "Spanish"
+      },
+      "readAsMarkdown": "Read as Markdown",
+      "ctaEyebrow": "Follow along",
+      "ctaTitle": "Get what we ship, as we ship it.",
+      "ctaBody": "Subscribe by email or RSS. Every entry links to its public sources.",
+      "feedTitle": "Crafter Station changelog",
+      "feedSubtitle": "What Crafter Station ships.",
+      "mdTitle": "Crafter Station changelog",
+      "mdIntro": "{count, plural, one {# entry} other {# entries}}, newest first. Each links to its own markdown page.",
+      "published": "Published",
+      "area": "Area",
+      "kind": "Kind"
+    },
     "brand": {
       "eyebrow": "Brand resources",
       "title": "The Crafter identity.",

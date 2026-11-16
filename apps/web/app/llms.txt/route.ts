@@ -1,5 +1,7 @@
 import { getIndexPosts } from "@/lib/blog"
 import { blogPostPath, blogSitemapMdPath } from "@/lib/blog-paths"
+import { getIndexEntries } from "@/lib/changelog"
+import { changelogEntryPath, changelogSitemapMdPath } from "@/lib/changelog-paths"
 import { source } from "@/lib/source"
 import { baseUrl } from "@/lib/seo"
 
@@ -7,6 +9,7 @@ export const revalidate = false
 
 export function GET() {
   const posts = getIndexPosts("en")
+  const changes = getIndexEntries("en")
 
   const lines = [
     "# Crafter Station Docs",
@@ -29,6 +32,15 @@ export function GET() {
     ...posts.map(
       (post) =>
         `- [${post.title}](${baseUrl}${blogPostPath(post.locale, post.slug)}.md): ${post.summary}`,
+    ),
+    "",
+    "## Changelog",
+    "",
+    `What Crafter Station ships. Every entry is readable as markdown at its URL plus \`.md\`; the full index is at ${baseUrl}${changelogSitemapMdPath("en")}.`,
+    "",
+    ...changes.map(
+      (entry) =>
+        `- [${entry.title}](${baseUrl}${changelogEntryPath(entry.locale, entry.slug)}.md): ${entry.summary}`,
     ),
   ]
 

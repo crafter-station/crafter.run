@@ -423,6 +423,57 @@
       "title": "Crafter Journal",
       "description": "O que testamos, o que aprendemos e o que vale compartilhar. Engenharia e cultura de quem constrói na América Latina."
     },
+    "changelog": {
+      "eyebrow": "Changelog · Crafter Station",
+      "title": "Changelog",
+      "description": "O que a Crafter Station publica, com as pessoas e as fontes públicas por trás de cada mudança.",
+      "subscribe": "Assinar",
+      "rss": "RSS",
+      "markdownIndex": "Índice em Markdown",
+      "agents": "Para agentes",
+      "filterLabel": "Filtrar por área",
+      "all": "Tudo",
+      "areas": {
+        "research": "Research",
+        "lab": "Lab",
+        "games": "Games",
+        "station": "Station"
+      },
+      "kinds": {
+        "ship": "Ship",
+        "update": "Atualização",
+        "event": "Evento",
+        "roundup": "Resumo"
+      },
+      "results": "{count, plural, one {# mudança} other {# mudanças}}",
+      "empty": "Ainda não há nada aqui.",
+      "reset": "Mostrar todas as áreas",
+      "readEntry": "Ler a entrada",
+      "crafters": "Crafters",
+      "ships": "Ships",
+      "repos": "Repositórios",
+      "links": "Links",
+      "sources": "Fontes",
+      "newer": "Mais recente",
+      "older": "Anterior",
+      "allChanges": "Todas as mudanças",
+      "availableIn": "Disponível em {language}",
+      "languages": {
+        "en": "inglês",
+        "es": "espanhol"
+      },
+      "readAsMarkdown": "Ler em Markdown",
+      "ctaEyebrow": "Acompanhe",
+      "ctaTitle": "Receba o que publicamos, quando publicamos.",
+      "ctaBody": "Assine por e-mail ou RSS. Cada entrada aponta para suas fontes públicas.",
+      "feedTitle": "Changelog da Crafter Station",
+      "feedSubtitle": "O que a Crafter Station publica.",
+      "mdTitle": "Changelog da Crafter Station",
+      "mdIntro": "{count, plural, one {# entrada} other {# entradas}}, da mais recente para a mais antiga. Cada uma aponta para sua própria página em markdown.",
+      "published": "Publicado",
+      "area": "Área",
+      "kind": "Tipo"
+    },
     "brand": {
       "eyebrow": "Recursos da marca",
       "title": "A identidade da Crafter.",

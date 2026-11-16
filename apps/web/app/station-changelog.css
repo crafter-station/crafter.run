@@ -1,0 +1,66 @@
+/* Changelog: the journal's paper and ink, laid out as a dated timeline. */
+.changelog-filter { text-decoration: none; }
+.changelog-filter[aria-current="page"] { color: hsl(var(--background)); background: hsl(var(--foreground)); }
+.changelog-page .journal-results { padding-block: 8px 4px; }
+.changelog-month { display: grid; grid-template-columns: 180px minmax(0,1fr); gap: 0 32px; padding-top: 40px; }
+.changelog-month > h2 { position: sticky; top: 24px; align-self: start; font: 15px/1.4 var(--font-label); text-transform: uppercase; letter-spacing: .14em; color: hsl(var(--muted-foreground)); padding-top: 6px; }
+.changelog-entries { min-width: 0; }
+.changelog-entry { display: grid; grid-template-columns: 120px minmax(0,1fr); gap: 0 28px; padding-block: 0 56px; }
+.changelog-entry + .changelog-entry { padding-top: 40px; border-top: 1px solid hsl(var(--line)); }
+.changelog-entry:last-child { padding-bottom: 8px; }
+.changelog-entry-meta { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; font: 16px/1.5 var(--font-label); color: hsl(var(--muted-foreground)); padding-top: 4px; }
+.changelog-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.changelog-area, .changelog-kind { display: inline-flex; align-items: center; gap: 7px; min-height: 28px; padding-inline: 10px; border-radius: 999px; font-size: 14px; line-height: 1; border: 1px solid hsl(var(--line)); color: hsl(var(--foreground)); }
+.changelog-area::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--area, #d7b463); }
+.changelog-kind { color: hsl(var(--muted-foreground)); }
+[data-area="station"] { --area: #e0b43a; }
+[data-area="research"] { --area: #9a7fc0; }
+[data-area="lab"] { --area: #7aa256; }
+[data-area="games"] { --area: #5c8fbe; }
+.changelog-entry-main { min-width: 0; }
+.changelog-cover { display: block; overflow: hidden; border-radius: 6px; border: 1px solid hsl(var(--line)); background: var(--journal-paper); aspect-ratio: 16 / 10; }
+.changelog-cover img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 240ms; }
+.changelog-entry:hover .changelog-cover img { transform: scale(1.015); }
+.changelog-entry h3 { font-size: clamp(26px,2.6vw,34px); line-height: 1.12; letter-spacing: -.035em; text-wrap: balance; }
+.changelog-cover + h3 { margin-top: 22px; }
+.changelog-entry h3 a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
+.changelog-summary { margin-top: 12px; max-width: 62ch; font-size: 18px; line-height: var(--station-leading-copy); color: hsl(var(--muted-foreground)); text-wrap: pretty; }
+.changelog-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 28px; margin-top: 20px; }
+.changelog-crafters { display: flex; align-items: center; gap: 10px; font-size: 16px; }
+.changelog-ships { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; }
+.changelog-ships a { display: inline-flex; align-items: center; min-height: 32px; padding-inline: 10px; border-radius: 6px; font: 14px var(--font-label); background: hsl(var(--foreground) / .055); }
+.changelog-ships a:hover { background: hsl(var(--foreground) / .1); }
+.changelog-ships a::before { content: "ship / "; opacity: .55; white-space: pre; }
+/* Permalink */
+.changelog-facts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px 48px; max-width: 72ch; padding-block: 40px 8px; border-top: 1px solid hsl(var(--line)); margin-top: 48px; }
+.changelog-facts h2, .changelog-sources h2 { font: 14px/1.4 var(--font-label); text-transform: uppercase; letter-spacing: .14em; color: hsl(var(--muted-foreground)); margin-bottom: 12px; }
+.changelog-facts section > h2:not(:first-child) { margin-top: 22px; }
+.changelog-facts ul { display: flex; flex-direction: column; gap: 6px; list-style: none; font-size: 16px; }
+.changelog-facts ul a { text-decoration: underline; text-decoration-color: hsl(var(--muted-foreground) / .5); text-underline-offset: 4px; }
+.changelog-facts ul a:hover { text-decoration-color: currentColor; }
+.changelog-sources { max-width: 72ch; padding-block: 28px 0; }
+.changelog-sources ul { display: flex; flex-direction: column; gap: 4px; list-style: none; }
+.changelog-sources a { font: 13px/1.7 var(--font-label); color: hsl(var(--muted-foreground)); text-decoration: underline; text-decoration-color: hsl(var(--muted-foreground) / .35); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.changelog-sources a:hover { color: hsl(var(--foreground)); }
+.changelog-pager { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: stretch; gap: 16px; margin-top: 56px; }
+.changelog-pager > a:not(.changelog-pager-all) { display: flex; flex-direction: column; gap: 6px; padding: 20px 22px; border-radius: 6px; background: var(--journal-paper); }
+.changelog-pager > a span { font: 14px var(--font-label); text-transform: uppercase; letter-spacing: .14em; color: hsl(var(--muted-foreground)); }
+.changelog-pager > a strong { font-size: 18px; line-height: 1.25; letter-spacing: -.02em; font-weight: 600; text-wrap: balance; }
+.changelog-pager > a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
+.changelog-pager .changelog-pager-older { text-align: right; }
+.changelog-pager-all { align-self: center; font-size: 16px; padding-inline: 8px; min-height: 44px; display: inline-flex; align-items: center; }
+.changelog-pager-all:hover { text-decoration: underline; text-underline-offset: 5px; }
+@media (max-width: 960px) {
+  .changelog-month { grid-template-columns: minmax(0,1fr); gap: 20px 0; }
+  .changelog-month > h2 { position: static; }
+}
+@media (max-width: 760px) {
+  .changelog-entry { grid-template-columns: minmax(0,1fr); gap: 16px 0; padding-bottom: 40px; }
+  .changelog-entry + .changelog-entry { padding-top: 32px; }
+  .changelog-entry-meta { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+  .changelog-facts { grid-template-columns: minmax(0,1fr); }
+  .changelog-pager { grid-template-columns: minmax(0,1fr); }
+  .changelog-pager .changelog-pager-older { text-align: left; }
+  .changelog-pager-all { order: 3; }
+}
+@media (prefers-reduced-motion: reduce) { .changelog-cover img { transition: none; } .changelog-entry:hover .changelog-cover img { transform: none; } }
