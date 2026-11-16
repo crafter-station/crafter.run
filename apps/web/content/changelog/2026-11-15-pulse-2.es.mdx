@@ -19,18 +19,30 @@ evidence:
   - https://github.com/crafter-station/pulse/pull/7
 ---
 
-Pulse 2.0 ya está en [pulse.crafter.run](https://pulse.crafter.run). Es un panel interno de lo que Crafter Station publica en las organizaciones crafter-station, crafter-research, crafter-lab y crafter-games.
+Pulse 2.0 ya está en [pulse.crafter.run](https://pulse.crafter.run). Responde tres preguntas sobre Crafter Station: qué publicamos, quién lo hizo y qué está ganando tracción. Cubre las cuatro organizaciones: crafter-station, crafter-research, crafter-lab y crafter-games.
 
-## Qué cuenta como ship
+<Clip src="/changelog/pulse-2/drill.mp4" poster="/changelog/pulse-2/drill.webp" size="1280x800" alt="Pulse cambiando entre semana, trimestre y mes, y abriendo la lista de proyectos publicados" caption="Cada número abre la lista que lo explica." />
 
-Un ship es un repositorio con página web o con un paquete publicado. Pulse lista solo esos, así que el panel muestra trabajo que cualquiera puede abrir y usar.
+## Ships, no commits
 
-## Qué incluye
+Pulse cuenta ships. Un ship es un repositorio creado en el período que tiene homepage o un paquete publicado, así que el número principal es trabajo que alguien puede abrir y usar. Los commits siguen apareciendo por persona, pero no son el marcador.
 
-Pulse 2.0 incluye el equipo, los proyectos y el historial de estrellas de cada proyecto.
+Cambia entre semana, mes y trimestre, filtra por organización y haz clic en cualquier número para ver los repositorios detrás.
+
+## El equipo
+
+La página del equipo muestra a las diez personas del core de Crafter Station con sus ships, repositorios y commits del período. Las cuentas bot no cuentan en ningún total.
+
+<Figure src="/changelog/pulse-2/team.webp" alt="Página del equipo en Pulse con ships, repos y commits por miembro del core" size="1280x800" caption="Cada tarjeta abre los ships y repositorios de esa persona." />
+
+## Todos los proyectos en una tabla
+
+La página de proyectos reúne todos los repositorios de las cuatro organizaciones, con búsqueda, filtros por estado y por creador, y las estrellas que ganó cada uno en el período.
+
+<Figure src="/changelog/pulse-2/projects.webp" alt="Tabla de proyectos de Pulse con búsqueda, filtros y estrellas ganadas" size="1280x800" caption="Las estrellas ganadas salen de snapshots diarios." />
 
 ## Qué cambió
 
-- El ranking del equipo sale del roster del core y oculta a exmiembros y bots (#5).
-- Pulse sigue crafter-lab y crafter-games, y sincroniza los metadatos de los repositorios cada día (#6).
-- La nueva interfaz añade vistas de ships, equipo, proyectos, tracción y detalle por elemento (#7).
+- El leaderboard sale del roster del core, y las cuentas bot ya no inflan los totales ([#5](https://github.com/crafter-station/pulse/pull/5)).
+- Se suman crafter-lab y crafter-games, y la metadata de los repositorios se sincroniza cada día ([#6](https://github.com/crafter-station/pulse/pull/6)).
+- La interfaz nueva trae ships, equipo, proyectos, historial de estrellas y drill-down en cada número ([#7](https://github.com/crafter-station/pulse/pull/7)).

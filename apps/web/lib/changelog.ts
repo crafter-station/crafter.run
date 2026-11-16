@@ -119,7 +119,9 @@ export function parseEntry(
   if (parsed.data.date !== fileDate) {
     throw new Error(`"${filename}": frontmatter date ${parsed.data.date} does not match the filename date ${fileDate}.`)
   }
-  for (const asset of [parsed.data.image, parsed.data.video]) {
+  // Media referenced from the body (Figure, Clip, posters) must ship too.
+  const bodyAssets = [...content.matchAll(/(?:src|poster)="(\/changelog\/[^"]+)"/g)].map((match) => match[1])
+  for (const asset of [parsed.data.image, parsed.data.video, ...bodyAssets]) {
     if (asset && !assetExists(asset)) {
       throw new Error(`"${filename}" references ${asset}, which does not exist under public/.`)
     }

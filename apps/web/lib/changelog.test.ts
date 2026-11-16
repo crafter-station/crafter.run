@@ -67,6 +67,13 @@ describe("changelog entry validation", () => {
     expect(parseEntry(FILE, withCover, () => true).image).toBe("/changelog/example/cover.webp")
   })
 
+  test("rejects body media that does not exist", () => {
+    const withClip = `${valid()}\n<Clip src="/changelog/example/demo.mp4" poster="/changelog/example/demo.webp" size="1280x800" alt="Demo" />\n`
+    expect(() => parseEntry(FILE, withClip, () => false)).toThrow(/demo\.mp4/)
+    expect(() => parseEntry(FILE, withClip, (asset) => asset !== "/changelog/example/demo.webp")).toThrow(/demo\.webp/)
+    expect(() => parseEntry(FILE, withClip, () => true)).not.toThrow()
+  })
+
   test("refuses slugs that collide with a changelog route", () => {
     expect(() => parseEntry("2026-11-15-rss.en.mdx", valid())).toThrow(/reserved/)
   })
