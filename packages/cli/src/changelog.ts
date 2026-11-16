@@ -175,21 +175,21 @@ TODO: the exact command or link.
 
 - TODO ([#1](https://github.com/org/repo/pull/1)).
 `,
-  es: (slug) => `TODO: entrada. Di que es y enlazalo, en una o dos frases.
+  es: (slug) => `TODO: entrada. Di qué es y enlázalo, en una o dos frases.
 
-<Clip src="/changelog/${slug}/demo.mp4" poster="/changelog/${slug}/demo.webp" size="1280x800" alt="TODO que muestra el clip" caption="TODO una linea." />
+<Clip src="/changelog/${slug}/demo.mp4" poster="/changelog/${slug}/demo.webp" size="1280x800" alt="TODO qué muestra el clip" caption="TODO una línea." />
 
-## TODO primera seccion
+## TODO primera sección
 
-TODO: que hace y por que importa, en dos o tres frases.
+TODO: qué hace y por qué importa, en dos o tres frases.
 
-<Figure src="/changelog/${slug}/first.webp" alt="TODO que muestra la figura" size="1280x800" caption="TODO una linea." />
+<Figure src="/changelog/${slug}/first.webp" alt="TODO qué muestra la figura" size="1280x800" caption="TODO una línea." />
 
-## Pruebalo
+## Pruébalo
 
 TODO: el comando o enlace exacto.
 
-## Que cambio
+## Qué cambió
 
 - TODO ([#1](https://github.com/org/repo/pull/1)).
 `,
@@ -199,7 +199,7 @@ function frontmatterText(locale: "en" | "es", input: { date: string; area: strin
   const crafters = input.crafters.length ? `\n${input.crafters.map((id) => `  - ${id}`).join("\n")}` : " []"
   return `---
 title: TODO title
-summary: TODO one sentence ${locale === "en" ? "in English" : "en espanol"}.
+summary: TODO one sentence ${locale === "en" ? "in English" : "en español"}.
 date: ${input.date}
 area: ${input.area}
 kind: ${input.kind}
