@@ -1,0 +1,54 @@
+---
+title: "pobreza-departamentos analiza por qué algunos departamentos del Perú reducen la pobreza"
+summary: "Un informe de trabajo sobre la pobreza monetaria en 23 departamentos entre 2015 y 2024, con cifras del INEI y microdatos de la ENAHO."
+date: 2026-11-16
+area: research
+kind: ship
+crafters:
+  - liz
+repos:
+  - crafter-research/pobreza-departamentos
+links:
+  - label: "Abrir el informe"
+    url: "https://pobreza-departamentos.vercel.app"
+image: /changelog/pobreza-departamentos/cover.webp
+evidence:
+  - "https://pobreza-departamentos.vercel.app"
+  - "https://github.com/crafter-research/pobreza-departamentos"
+---
+
+pobreza-departamentos compara cómo cambió la pobreza monetaria en 23 departamentos del Perú entre 2015 y 2024, con cifras oficiales del INEI y microdatos de la ENAHO. Huancavelica pasó de 45,2 % a 33,4 %, el tercer mayor descenso del país. Los departamentos que más redujeron la pobreza son los que más aumentaron el ingreso por trabajo, mientras que el gasto público no muestra una relación clara. Léelo en [pobreza-departamentos.vercel.app](https://pobreza-departamentos.vercel.app).
+
+<Clip src="/changelog/pobreza-departamentos/series.mp4" poster="/changelog/pobreza-departamentos/series.webp" size="1280x800" alt="El gráfico de pobreza cambia entre Huancavelica, los departamentos que más la redujeron y los que se estancaron, y luego muestra cada año" caption="Elige un grupo de departamentos y pasa el cursor por el gráfico para ver cada año." />
+
+## Los más pobres bajaron más
+
+Los departamentos que partían con más pobreza tenían más margen para bajar, con una correlación de rangos de −0,60. El informe permite cambiar a la diferencia frente a esa tendencia, y aun así Huancavelica bajó más de lo que anticipaba su nivel inicial.
+
+<Figure src="/changelog/pobreza-departamentos/baseline.webp" alt="Gráfico de dispersión de la pobreza en 2015 frente a su cambio hasta 2024 en 23 departamentos del Perú, con Huancavelica resaltado" size="1280x800" caption="Pobreza en 2015 frente al cambio hasta 2024, por departamento." />
+
+## La diferencia está en el ingreso por trabajo
+
+El informe pone a prueba once factores de gasto, servicios y territorio, y ninguno sale de la banda de ruido una vez descontado el nivel inicial. La brecha aparece en el ingreso mensual por persona. En los seis departamentos que más redujeron la pobreza, el ingreso por trabajo independiente creció S/ 103, frente a S/ 43 en los seis que menos la redujeron. Las transferencias públicas crecieron S/ 10 en ambos grupos.
+
+<Figure src="/changelog/pobreza-departamentos/income.webp" alt="Gráfico de barras del crecimiento del ingreso mensual por persona según su fuente, entre los seis departamentos que más redujeron la pobreza y los seis que menos" size="1280x800" caption="Crecimiento del ingreso por fuente, seis departamentos contra seis." />
+
+## Lo que no afirma
+
+Son asociaciones entre 6 y 6 departamentos, no causas. Quedan fuera Lima Metropolitana, Lima provincias y el Callao, los ingresos son nominales y el gasto es de 2025. La pobreza recalculada con la ENAHO coincide con la cifra oficial del INEI al centésimo.
+
+## Pruébalo
+
+Abre [el informe](https://pobreza-departamentos.vercel.app) y salta entre sus siete secciones desde la barra superior. Cada gráfico enlaza a sus datos. Para reconstruirlo, clona el repositorio y sigue el README, que indica el orden de los scripts y dónde descargar los microdatos de la ENAHO.
+
+```bash
+git clone https://github.com/crafter-research/pobreza-departamentos
+```
+
+## Fuentes
+
+- INEI, Evolución de la pobreza monetaria 2015-2024, anexo estadístico
+- ENAHO 2015-2024, módulos 34 y 05, de los microdatos del INEI
+- Gasto público 2025 de quipu, más datos abiertos de OSIPTEL, INGEMMET y PCM
+
+Es un informe de trabajo sin revisión externa.

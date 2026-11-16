@@ -1,0 +1,42 @@
+---
+title: "Land vs People redraws every country by where its people live"
+summary: "Every country as 1,000 blocks, rearranged from land area to population and GDP."
+date: 2026-10-31
+area: research
+kind: ship
+crafters: []
+links:
+  - label: "Open Land vs People"
+    url: "https://land-vs-people.crafter.ing"
+image: /changelog/land-vs-people/cover.webp
+evidence:
+  - "https://land-vs-people.crafter.ing"
+  - "https://land-vs-people.crafter.ing/per"
+---
+
+Land vs People draws every country and continent as about 1,000 blocks, then moves the same blocks to show where people live and where the money is. A map by area makes empty places look important, and this one lets you watch the weight shift. It covers 213 places. Open it at [land-vs-people.crafter.ing](https://land-vs-people.crafter.ing).
+
+<Clip src="/changelog/land-vs-people/rearrange.mp4" poster="/changelog/land-vs-people/rearrange.webp" size="1280x800" alt="The map of Peru rearranging its blocks from land area to population and then to GDP" caption="Peru by land, then by people, then by GDP, with the same thousand blocks." />
+
+## Peru, three ways
+
+Each block on the Peru map is 0.1% of the country. By land, Lima Metropolitana holds 0.20%. By people it holds 32%, and by GDP 47%. Loreto goes the other way, from 29% of the land to 3.4% of the people and 1.6% of the GDP.
+
+<Figure src="/changelog/land-vs-people/gdp.webp" alt="Land vs People map of Peru by GDP, with Lima Metropolitana taking most of the blocks" size="1280x800" caption="Peru by GDP. Lima Metropolitana holds 47%." />
+
+## Every place has its numbers
+
+Below the map, each country page lists its regions with their share of land, people and GDP. It also explains how the map is built. Regions sit on an equal-area grid, each one gets a whole number of blocks in proportion to its share, and every block is matched to one block on the next map so neighbors stay together.
+
+<Figure src="/changelog/land-vs-people/table.webp" alt="Land vs People table of Peru's regions with their share of land, people and GDP, next to the method" size="1280x800" caption="Peru's 26 regions by share of land, people and GDP." />
+
+## Try it
+
+Open [land-vs-people.crafter.ing](https://land-vs-people.crafter.ing), press 1, 2 or 3 to switch the measure and space to pause. Press `/` to search for a place, or go straight to one by its code, such as [/per](https://land-vs-people.crafter.ing/per) for Peru.
+
+## Sources
+
+- grids from popgrid by Josep Ferrer (MIT)
+- boundaries from Natural Earth
+- population from national censuses where curated, and GHS-POP 2025 (JRC, European Commission) elsewhere
+- GDP from Kummu et al. 2025 gridded GDP PPP (CC BY 4.0)
