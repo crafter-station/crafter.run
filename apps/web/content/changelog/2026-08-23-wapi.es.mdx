@@ -16,8 +16,36 @@ evidence:
   - "https://github.com/crafter-station/wapi"
   - "https://github.com/crafter-station/wapi/releases"
   - "https://wapi.crafter.run"
+  - "https://github.com/crafter-station/wapi/releases/latest/download/wapi-demo.mp4"
 ---
 
-wapi corre en tu propia máquina y es compatible a nivel de protocolo con WasenderAPI, así que los clientes existentes pueden apuntar a él. Incluye una guía, una referencia de la API y un documento OpenAPI.
+wapi es una API REST de WhatsApp que corre en tu propio servidor. Vinculas un número, obtienes una API key y envías o recibes mensajes por HTTP, incluidos los grupos y chats personales a los que no llega la Cloud API de Meta. Es compatible a nivel de protocolo con WasenderAPI, así que los clientes existentes funcionan cambiando una sola URL base. Empieza en [wapi.crafter.run](https://wapi.crafter.run).
 
-Empieza en [wapi.crafter.run](https://wapi.crafter.run).
+<Clip src="/changelog/wapi/send.mp4" poster="/changelog/wapi/send.webp" size="1280x720" alt="La CLI de wapi enviando un texto, una imagen, un video y un PDF que llegan a un chat de WhatsApp con sus checks de entrega" caption="Del demo de wapi, grabado contra una sesión real con el número enmascarado." />
+
+## Envía de todo, recibe todo
+
+Un solo endpoint de envío cubre texto, imágenes, stickers, video y documentos. Los mensajes entrantes llegan a tu app como webhooks firmados, con reintentos y backoff. Grupos y contactos tienen sus propios endpoints.
+
+<Figure src="/changelog/wapi/home.webp" alt="Homepage de wapi con el titular WhatsApp over HTTP, on your own box, y un ejemplo de curl para send-message" size="1280x800" caption="Las sesiones viven en tu servidor y las credenciales se quedan en tu base de datos." />
+
+## Un sandbox sin teléfono
+
+Una sesión sandbox es un número falso en un WhatsApp falso que se vincula solo. Un contacto que no existe igual dispara un webhook real, así puedes construir contra wapi antes de conectarlo a un número de verdad.
+
+## El riesgo, dicho claro
+
+wapi maneja un cliente no oficial a través de Baileys, algo que va contra los términos de WhatsApp, así que los números usados así pueden ser restringidos o bloqueados. El README lo dice desde el inicio, y los proxies por sesión y un modo de envío pausado bajan el riesgo sin eliminarlo.
+
+## Pruébalo
+
+Descarga la CLI desde el [último release](https://github.com/crafter-station/wapi/releases) y luego:
+
+```sh
+wapi login
+wapi sandbox create --use
+wapi sessions connect
+wapi send --to +51999888777 --text "hello"
+```
+
+La guía, la referencia de la API y el documento OpenAPI están enlazados desde [wapi.crafter.run](https://wapi.crafter.run).

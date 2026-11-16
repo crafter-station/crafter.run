@@ -18,8 +18,37 @@ evidence:
   - "https://github.com/crafter-station/crafter.run/pull/172"
   - "https://github.com/crafter-station/crafter.run/pull/173"
   - "https://crafter.run/en/team/crew"
+  - "https://crafter.run/agents.md"
 ---
 
-El Crew es para personas que trabajan en un área de Crafter junto a alguien del Core. Eliges un área, trabajas con quien la lidera y a los tres meses ven si encaja.
+El Crew es una forma de construir con Crafter Station sin entrar al Core. Trabajas en un área, como hack0 o Crafter Research, junto a la persona del Core que la lidera, y a los tres meses ambos ven cómo va. La página en [crafter.run/team/crew](https://crafter.run/es/team/crew) lista al Crew actual por área.
 
-La página lista al Crew actual, y los agentes pueden leerla con la nueva herramienta MCP `list_crew`. Míralo en [crafter.run/team/crew](https://crafter.run/es/team/crew).
+<Figure src="/changelog/crew/page.webp" alt="La página del Crew en crafter.run con el titular Build with Crafter without being Core y el área de hack0 liderada por Ignacio Velásquez" size="1280x800" caption="Cada área muestra a su líder del Core y a las personas que trabajan con él o ella." />
+
+## Un área, tres meses
+
+Eliges un área y trabajas en ella con lo que mejor haces. La persona líder del Core trabaja contigo, y a los tres meses deciden juntos qué sigue. El Crew también es un camino hacia el Core.
+
+<Figure src="/changelog/crew/how.webp" alt="Cómo funciona el Crew en tres pasos, y la sección para sumarse con un link para enviar una carta de presentación" size="1280x800" caption="Elige un área, trabaja con el Core y revisen juntos a los tres meses." />
+
+## Legible para agentes
+
+La nueva herramienta `list_crew` del servidor MCP de crafter.run devuelve el Crew por área, con la persona líder de cada área y el rol, la organización y el link público de cada integrante. El servidor es público y no pide autenticación.
+
+<Clip src="/changelog/crew/mcp.mp4" poster="/changelog/crew/mcp.webp" size="1280x800" alt="Llamada a la herramienta list_crew en crafter.run/mcp con curl, imprimiendo el Crew por área" caption="Una llamada JSON-RPC devuelve el Crew." />
+
+## Pruébalo
+
+Para sumarte, envía una carta de presentación desde la sección de la [página del Crew](https://crafter.run/es/team/crew). Para consultarlo desde la terminal:
+
+```sh
+curl -s https://crafter.run/mcp \
+  -H 'Content-Type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"list_crew"}}'
+```
+
+## Qué cambió
+
+- Una banda del Crew y una invitación para sumarse en /team ([#171](https://github.com/crafter-station/crafter.run/pull/171)).
+- Una página propia en /team/crew ([#172](https://github.com/crafter-station/crafter.run/pull/172)).
+- La herramienta MCP `list_crew` ([#173](https://github.com/crafter-station/crafter.run/pull/173)).

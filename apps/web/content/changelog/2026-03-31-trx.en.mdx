@@ -19,6 +19,26 @@ evidence:
   - "https://trx.crafter.run"
 ---
 
-trx downloads, cleans and transcribes media from a URL or a local file. `trx init` installs whisper-cli, yt-dlp and ffmpeg, downloads a Whisper model and can install the agent skill for your coding tool.
+trx is a transcription CLI built for coding agents. Give it a URL or a local file and it downloads, cleans and transcribes the media, then returns text, subtitles and JSON an agent can read. It runs on macOS, Linux and Windows. Start at [trx.crafter.run](https://trx.crafter.run).
 
-It runs on macOS, Linux and Windows. Try `npx @crafter/trx@latest init` or open [trx.crafter.run](https://trx.crafter.run).
+<Clip src="/changelog/trx/terminal.mp4" poster="/changelog/trx/terminal.webp" size="1280x800" alt="Running trx help, listing the local Whisper models and printing the flags of the transcribe schema" caption="Every command describes itself, so an agent can learn the CLI without docs." />
+
+## One command from URL to text
+
+`trx "<url>"` downloads the media with yt-dlp, cleans the audio with ffmpeg and transcribes it. You get a .txt and an .srt next to a JSON result. Transcription runs on local Whisper, the OpenAI API or Vercel AI Gateway, and `trx models` lists what each backend offers.
+
+<Figure src="/changelog/trx/home.webp" alt="trx homepage with the install command and a terminal showing trx init and a YouTube transcription" size="1280x800" caption="trx init sets up whisper-cli, yt-dlp, ffmpeg and a Whisper model." />
+
+## Made for agents
+
+Output is a table in a terminal and JSON when piped. `--fields text` returns only the transcript to save tokens, `--dry-run` shows what would run, and `trx schema transcribe` prints the command's flags as JSON. The bundled agent skill teaches your coding tool to use it.
+
+## Try it
+
+```sh
+bun add -g @crafter/trx
+trx init
+trx "https://www.youtube.com/watch?v=..."
+```
+
+Or skip the install with `npx @crafter/trx@latest init`. Add the agent skill with `npx skills add crafter-station/trx -g`.

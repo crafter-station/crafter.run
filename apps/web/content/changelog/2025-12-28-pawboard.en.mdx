@@ -15,8 +15,27 @@ image: /changelog/pawboard/cover.webp
 evidence:
   - "https://github.com/crafter-station/pawboard"
   - "https://www.pawboard.dev"
+  - "https://www.pawboard.dev/terms"
 ---
 
-Pawboard is where ideas land on their feet. Your team adds idea cards to a shared board and sees each other's cursors live.
+Pawboard is an open source board for brainstorming with your team in real time. Start a session, share its ID, and everyone adds idea cards to the same canvas while they see each other's cursors live. Open it at [pawboard.dev](https://www.pawboard.dev).
 
-Open a board at [pawboard.dev](https://www.pawboard.dev).
+<Figure src="/changelog/pawboard/home.webp" alt="Pawboard home page with pixel cats on sticky notes and buttons to start or join a session" size="1280x800" caption="Start a new session, or paste a session ID to join one." />
+
+## One canvas for the whole team
+
+Participants add idea cards, move them around the canvas, vote and react with emojis. Every change syncs to everyone in the session as it happens, and other people's cursors show up as paws.
+
+## No account needed
+
+You can use Pawboard without signing up. Sign in when you want your sessions listed under My Sessions.
+
+## Try it
+
+Open [pawboard.dev](https://www.pawboard.dev) and click Start new session. To run it locally, the [README](https://github.com/crafter-station/pawboard) sets it up with Bun and a local Supabase.
+
+```sh
+bun install
+bun supabase:start
+bun dev
+```

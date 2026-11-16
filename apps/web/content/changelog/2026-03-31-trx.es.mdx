@@ -19,6 +19,26 @@ evidence:
   - "https://trx.crafter.run"
 ---
 
-trx descarga, limpia y transcribe medios desde una URL o un archivo local. `trx init` instala whisper-cli, yt-dlp y ffmpeg, descarga un modelo de Whisper y puede instalar la skill de agente para tu herramienta de código.
+trx es una CLI de transcripción hecha para agentes de código. Le das una URL o un archivo local, descarga, limpia y transcribe el medio, y devuelve texto, subtítulos y JSON que un agente puede leer. Corre en macOS, Linux y Windows. Empieza en [trx.crafter.run](https://trx.crafter.run).
 
-Corre en macOS, Linux y Windows. Prueba `npx @crafter/trx@latest init` o abre [trx.crafter.run](https://trx.crafter.run).
+<Clip src="/changelog/trx/terminal.mp4" poster="/changelog/trx/terminal.webp" size="1280x800" alt="trx mostrando su ayuda, listando los modelos locales de Whisper e imprimiendo los flags del schema de transcribe" caption="Cada comando se describe solo, así un agente aprende la CLI sin leer docs." />
+
+## Un comando de la URL al texto
+
+`trx "<url>"` descarga el medio con yt-dlp, limpia el audio con ffmpeg y lo transcribe. Obtienes un .txt y un .srt junto a un resultado en JSON. La transcripción corre con Whisper local, la API de OpenAI o Vercel AI Gateway, y `trx models` lista lo que ofrece cada backend.
+
+<Figure src="/changelog/trx/home.webp" alt="Homepage de trx con el comando de instalación y una terminal con trx init y una transcripción de YouTube" size="1280x800" caption="trx init instala whisper-cli, yt-dlp, ffmpeg y un modelo de Whisper." />
+
+## Hecha para agentes
+
+La salida es una tabla en la terminal y JSON cuando la encadenas con un pipe. `--fields text` devuelve solo la transcripción para ahorrar tokens, `--dry-run` muestra lo que se ejecutaría y `trx schema transcribe` imprime los flags del comando en JSON. La skill incluida le enseña a tu herramienta de código a usarla.
+
+## Pruébalo
+
+```sh
+bun add -g @crafter/trx
+trx init
+trx "https://www.youtube.com/watch?v=..."
+```
+
+O sáltate la instalación con `npx @crafter/trx@latest init`. Agrega la skill de agente con `npx skills add crafter-station/trx -g`.

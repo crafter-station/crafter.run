@@ -16,8 +16,36 @@ evidence:
   - "https://github.com/crafter-station/wapi"
   - "https://github.com/crafter-station/wapi/releases"
   - "https://wapi.crafter.run"
+  - "https://github.com/crafter-station/wapi/releases/latest/download/wapi-demo.mp4"
 ---
 
-wapi runs on your own box and is wire-compatible with WasenderAPI, so existing clients can point at it. It comes with a guide, an API reference and an OpenAPI document.
+wapi is a self-hosted REST API for WhatsApp. Link a number, get an API key, and send or receive messages over plain HTTP, including the group chats and personal threads that Meta's Cloud API does not reach. It is wire-compatible with WasenderAPI, so existing clients work by changing one base URL. Start at [wapi.crafter.run](https://wapi.crafter.run).
 
-Start at [wapi.crafter.run](https://wapi.crafter.run).
+<Clip src="/changelog/wapi/send.mp4" poster="/changelog/wapi/send.webp" size="1280x720" alt="The wapi CLI sending a text, an image, a video and a PDF that land in a WhatsApp thread with delivery ticks" caption="From the wapi demo, recorded against a real session with the number masked." />
+
+## Send anything, receive everything
+
+One send endpoint covers text, images, stickers, video and documents. Incoming messages reach your app as signed webhooks, with retries and backoff. Groups and contacts have their own endpoints.
+
+<Figure src="/changelog/wapi/home.webp" alt="wapi homepage with the headline WhatsApp over HTTP, on your own box, and a curl example for send-message" size="1280x800" caption="Sessions live on your server, and credentials stay in your database." />
+
+## A sandbox with no phone
+
+A sandbox session is a fake number on a fake WhatsApp that pairs itself. A contact who does not exist can still fire a real webhook, so you can build against wapi before you point it at a real number.
+
+## Know the tradeoff
+
+wapi drives an unofficial client through Baileys, which is against WhatsApp's terms, so numbers used this way can be restricted or banned. The README says so up front, and per-session proxies and a paced sending mode reduce the risk without removing it.
+
+## Try it
+
+Download the CLI from the [latest release](https://github.com/crafter-station/wapi/releases), then:
+
+```sh
+wapi login
+wapi sandbox create --use
+wapi sessions connect
+wapi send --to +51999888777 --text "hello"
+```
+
+The guide, the API reference and the OpenAPI document are linked from [wapi.crafter.run](https://wapi.crafter.run).
