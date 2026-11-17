@@ -84,7 +84,7 @@ export function ShipDraftEditor({ initialShip, locale, published = false }: { in
       }
       return
     }
-    if (!window.confirm("Publish this exact reviewed revision to the public directory?")) return
+    if (!window.confirm("Publish this exact reviewed revision? A first Ship is reviewed by Crafter Station before it goes public.")) return
     setPending("publish")
     setError(null)
     try {
@@ -95,6 +95,11 @@ export function ShipDraftEditor({ initialShip, locale, published = false }: { in
         headers: { "Idempotency-Key": crypto.randomUUID() },
         body: JSON.stringify({ confirm: true, expectedUpdatedAt: ship.updatedAt }),
       })
+      if (response.ship.status === "pending") {
+        setShip(response.ship)
+        setPending(null)
+        return
+      }
       router.push(`/${locale}/ships/${response.ship.slug}`)
       router.refresh()
     } catch (cause) {
@@ -126,19 +131,29 @@ export function ShipDraftEditor({ initialShip, locale, published = false }: { in
         </div>
         {error ? <p className="text-sm text-red-600">{error}</p> : null}
         {notice ? <p className="text-sm text-muted-foreground">{notice}</p> : null}
-        <button disabled={pending !== null} className="w-fit border border-line px-6 py-3 text-sm font-medium disabled:opacity-50">
+        <button disabled={pending !== null || ship.status === "pending"} className="w-fit border border-line px-6 py-3 text-sm font-medium disabled:opacity-50">
           {pending === "save" ? "Saving..." : published ? "Update Ship" : "Save draft"}
         </button>
       </form>
       <aside className="h-fit border border-line p-6 lg:sticky lg:top-28">
-        <p className="font-label text-xs uppercase tracking-[0.25em] text-accent">{published ? "Public Ship" : "Private draft"}</p>
+        <p className="font-label text-xs uppercase tracking-[0.25em] text-accent">{published ? "Public Ship" : ship.status === "pending" ? "In review" : "Private draft"}</p>
+        {ship.reviewNote ? (
+          <p className="mt-4 border border-line p-3 text-sm leading-6">
+            <span className="label">Sent back by Crafter Station</span>
+            <span className="mt-1 block text-muted-foreground">{ship.reviewNote}</span>
+          </p>
+        ) : null}
         {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mt-5 aspect-video w-full border border-line object-cover" /> : null}
         <h2 className="mt-5 text-2xl tracking-tight">{ship.name}</h2>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">{ship.tagline}</p>
         {ship.socialPostUrl ? <a href={ship.socialPostUrl} target="_blank" rel="noreferrer" className="mt-4 block text-sm font-medium text-accent underline underline-offset-4">View social post</a> : null}
-        {published ? <p className="mt-6 text-sm leading-6 text-muted-foreground">Saved changes appear on the public Ship immediately.</p> : <>
+        {published ? <p className="mt-6 text-sm leading-6 text-muted-foreground">Saved changes appear on the public Ship immediately.</p> : ship.status === "pending" ? (
+          <p className="mt-6 text-sm leading-6 text-muted-foreground">
+            Your first Ship is waiting for a Crafter Station admin. It goes public once approved, and your next Ships publish directly. We only check for spam and abuse.
+          </p>
+        ) : <>
           <hr className="my-6 border-line" />
-          <p className="text-sm leading-6 text-muted-foreground">Publishing makes this page public immediately. This action requires your confirmation.</p>
+          <p className="text-sm leading-6 text-muted-foreground">Publishing makes this page public, or sends your first Ship to a quick review for spam and abuse. This action requires your confirmation.</p>
           <button type="button" onClick={publish} disabled={pending !== null} className="mt-6 w-full bg-accent px-5 py-3 text-sm font-semibold text-accent-foreground disabled:opacity-50">
             {pending === "publish" ? "Publishing..." : pending === "save" ? "Saving..." : dirty ? "Save changes to review" : "Publish Ship"}
           </button>

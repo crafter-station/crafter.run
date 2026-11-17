@@ -26,15 +26,18 @@ export {
   type ProfileLocationLine,
 } from "./location"
 
-export const shipStatuses = ["draft", "published", "hidden"] as const
+export const shipStatuses = ["draft", "pending", "published", "hidden"] as const
 export const shipSources = ["web", "cli", "mcp", "import"] as const
 export const memberSources = ["web", "cli"] as const
+// new: the first published Ship waits for an admin; trusted: publishes directly; blocked: cannot publish.
+export const memberTrusts = ["new", "trusted", "blocked"] as const
 export const shipLinkTypes = ["repository", "website", "demo", "package", "social"] as const
 export const workArrangements = ["remote", "onsite", "hybrid"] as const
 
 export const shipStatusSchema = z.enum(shipStatuses)
 export const shipSourceSchema = z.enum(shipSources)
 export const memberSourceSchema = z.enum(memberSources)
+export const memberTrustSchema = z.enum(memberTrusts)
 export const shipLinkTypeSchema = z.enum(shipLinkTypes)
 export const httpUrlSchema = z
   .string()
@@ -207,6 +210,8 @@ export const shipDetailSchema = z.object({
   imageUrl: httpUrlSchema.nullable(),
   socialPostUrl: socialPostUrlSchema.nullable(),
   status: shipStatusSchema,
+  // Why an admin sent the Ship back to draft, shown to its owner.
+  reviewNote: z.string().nullable().default(null),
   source: shipSourceSchema,
   owner: memberSummarySchema,
   links: z.array(shipLinkSchema),

@@ -178,6 +178,13 @@ async function main(args: string[]): Promise<void> {
         body: JSON.stringify(body),
       }),
     )
+    if (response.ship.status === "pending") {
+      print({
+        ...response,
+        review: "Your first Ship waits for a Crafter Station admin. It goes public once approved, and your next Ships publish directly.",
+      })
+      return
+    }
     print({ ...response, publishedUrl: webPath(`/ships/${response.ship.slug}`) })
     return
   }

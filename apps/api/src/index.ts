@@ -31,6 +31,7 @@ import { secureHeaders } from "hono/secure-headers"
 import { authenticateUser } from "./auth"
 import { abandonIdempotency, completeIdempotency, reserveIdempotency } from "./idempotency"
 import { moderateShip } from "./moderation"
+import { isTrustedPublisher, notifyShipReview, publishStatus } from "./review"
 import { consumeMutationLimit } from "./rate-limit"
 import {
   createDraft,
@@ -147,6 +148,7 @@ app.post("/v1/uploads/images", async (c) => {
   const identity = await authenticatedMember(c.req.raw)
   if (identity.error === "unauthorized") return c.json(errorBody("unauthorized", "Authentication required."), 401)
   if (identity.error === "onboarding_required") return c.json(errorBody("onboarding_required", "Create your Crafter profile first."), 428)
+  if (identity.member.trust === "blocked") return c.json(errorBody("account_blocked", "This account cannot publish on Crafter Station."), 403)
   const form = await c.req.formData()
   const image = form.get("image")
   if (!(image instanceof File) || !acceptedImageTypes.has(image.type) || image.size > maxImageBytes) {
@@ -252,6 +254,7 @@ const createShipUpdateRoute = createRoute({
     201: { content: { "application/json": { schema: shipUpdateResponseSchema } }, description: "Published Ship update" },
     400: { content: errorContent, description: "Invalid request or missing idempotency key" },
     401: { content: errorContent, description: "Authentication required" },
+    403: { content: errorContent, description: "Account blocked" },
     404: { content: errorContent, description: "Owned published Ship not found" },
     409: { content: errorContent, description: "Duplicate or in-progress request" },
     422: { content: errorContent, description: "Moderation rejected" },
@@ -264,6 +267,7 @@ app.openapi(createShipUpdateRoute, async (c) => {
   const identity = await authenticatedMember(c.req.raw)
   if (identity.error === "unauthorized") return c.json(errorBody("unauthorized", "Authentication required."), 401)
   if (identity.error === "onboarding_required") return c.json(errorBody("onboarding_required", "Create your Crafter profile first."), 428)
+  if (identity.member.trust === "blocked") return c.json(errorBody("account_blocked", "This account cannot publish on Crafter Station."), 403)
   const key = idempotencyKey(c.req.raw)
   if (!key) return c.json(errorBody("idempotency_key_required", "Provide an Idempotency-Key header."), 400)
   const slug = c.req.valid("param").slug
@@ -308,6 +312,7 @@ const updatePublishedShipRoute = createRoute({
   responses: {
     200: { content: { "application/json": { schema: shipResponseSchema } }, description: "Published Ship updated" },
     401: { content: errorContent, description: "Authentication required" },
+    403: { content: errorContent, description: "Account blocked" },
     404: { content: errorContent, description: "Owned published Ship not found" },
     409: { content: errorContent, description: "Revision conflict" },
     422: { content: errorContent, description: "Moderation rejected" },
@@ -319,6 +324,7 @@ app.openapi(updatePublishedShipRoute, async (c) => {
   const identity = await authenticatedMember(c.req.raw)
   if (identity.error === "unauthorized") return c.json(errorBody("unauthorized", "Authentication required."), 401)
   if (identity.error === "onboarding_required") return c.json(errorBody("onboarding_required", "Create your Crafter profile first."), 428)
+  if (identity.member.trust === "blocked") return c.json(errorBody("account_blocked", "This account cannot publish on Crafter Station."), 403)
   if (!(await consumeMutationLimit(identity.member.id, "ships"))) {
     return c.json(errorBody("rate_limited", "Too many Ship mutations. Try again in one minute."), 429)
   }
@@ -484,6 +490,7 @@ const createDraftRoute = createRoute({
     201: { content: { "application/json": { schema: shipResponseSchema } }, description: "Draft created" },
     400: { content: errorContent, description: "Idempotency key required" },
     401: { content: errorContent, description: "Authentication required" },
+    403: { content: errorContent, description: "Account blocked" },
     409: { content: errorContent, description: "Duplicate or in-progress request" },
     422: { content: errorContent, description: "Moderation rejected" },
     428: { content: errorContent, description: "Onboarding required" },
@@ -495,6 +502,7 @@ app.openapi(createDraftRoute, async (c) => {
   const identity = await authenticatedMember(c.req.raw)
   if (identity.error === "unauthorized") return c.json(errorBody("unauthorized", "Authentication required."), 401)
   if (identity.error === "onboarding_required") return c.json(errorBody("onboarding_required", "Create your Crafter profile first."), 428)
+  if (identity.member.trust === "blocked") return c.json(errorBody("account_blocked", "This account cannot publish on Crafter Station."), 403)
   const key = idempotencyKey(c.req.raw)
   if (!key) return c.json(errorBody("idempotency_key_required", "Provide an Idempotency-Key header."), 400)
   const input = c.req.valid("json")
@@ -587,7 +595,9 @@ const updateDraftRoute = createRoute({
   responses: {
     200: { content: { "application/json": { schema: shipResponseSchema } }, description: "Draft updated" },
     401: { content: errorContent, description: "Authentication required" },
+    403: { content: errorContent, description: "Account blocked" },
     404: { content: errorContent, description: "Draft not found" },
+    409: { content: errorContent, description: "Ship is in review" },
     428: { content: errorContent, description: "Onboarding required" },
     429: { content: errorContent, description: "Rate limited" },
   },
@@ -596,12 +606,15 @@ app.openapi(updateDraftRoute, async (c) => {
   const identity = await authenticatedMember(c.req.raw)
   if (identity.error === "unauthorized") return c.json(errorBody("unauthorized", "Authentication required."), 401)
   if (identity.error === "onboarding_required") return c.json(errorBody("onboarding_required", "Create your Crafter profile first."), 428)
+  if (identity.member.trust === "blocked") return c.json(errorBody("account_blocked", "This account cannot publish on Crafter Station."), 403)
   if (!(await consumeMutationLimit(identity.member.id, "ships"))) {
     return c.json(errorBody("rate_limited", "Too many Ship mutations. Try again in one minute."), 429)
   }
   const ship = await updateDraft(identity.member.id, c.req.valid("param").id, c.req.valid("json"))
-  return ship
-    ? c.json({ ship }, 200)
+  if (ship) return c.json({ ship }, 200)
+  const current = await getOwnedShip(identity.member.id, c.req.valid("param").id)
+  return current?.status === "pending"
+    ? c.json(errorBody("in_review", "This Ship is waiting for review. It can be edited again if it is sent back."), 409)
     : c.json(errorBody("not_found", "Draft not found."), 404)
 })
 
@@ -617,6 +630,7 @@ const publishDraftRoute = createRoute({
     200: { content: { "application/json": { schema: shipResponseSchema } }, description: "Ship published" },
     400: { content: errorContent, description: "Confirmation or idempotency key required" },
     401: { content: errorContent, description: "Authentication required" },
+    403: { content: errorContent, description: "Account blocked" },
     404: { content: errorContent, description: "Draft not found" },
     409: { content: errorContent, description: "Matching request in progress" },
     422: { content: errorContent, description: "Moderation rejected" },
@@ -629,6 +643,7 @@ app.openapi(publishDraftRoute, async (c) => {
   const identity = await authenticatedMember(c.req.raw)
   if (identity.error === "unauthorized") return c.json(errorBody("unauthorized", "Authentication required."), 401)
   if (identity.error === "onboarding_required") return c.json(errorBody("onboarding_required", "Create your Crafter profile first."), 428)
+  if (identity.member.trust === "blocked") return c.json(errorBody("account_blocked", "This account cannot publish on Crafter Station."), 403)
   const publishInput = c.req.valid("json")
   const key = idempotencyKey(c.req.raw)
   if (!key) return c.json(errorBody("idempotency_key_required", "Provide an Idempotency-Key header."), 400)
@@ -653,7 +668,7 @@ app.openapi(publishDraftRoute, async (c) => {
       await abandonIdempotency(reservation.id)
       return c.json(errorBody("not_found", "Draft not found."), 404)
     }
-    if (draft.status === "published") {
+    if (draft.status === "published" || draft.status === "pending") {
       const body = shipResponseSchema.parse({ ship: draft })
       await completeIdempotency(reservation.id, 200, body)
       return c.json(body, 200)
@@ -663,14 +678,19 @@ app.openapi(publishDraftRoute, async (c) => {
       await abandonIdempotency(reservation.id)
       return c.json(errorBody("moderation_rejected", moderation.reason), 422)
     }
+    // A member's first Ship waits for an admin; trusted members (and admin, core or crew in Clerk) publish
+    // directly unless automated moderation could not run.
+    const trusted = await isTrustedPublisher(identity.member, identity.auth.clerkUserId)
+    const status = publishStatus(trusted, moderation)
     const imageUrl = await captureShipImage(draft)
-    const ship = await publishDraft(identity.member.id, shipId, publishInput.expectedUpdatedAt, imageUrl ?? undefined)
+    const ship = await publishDraft(identity.member.id, shipId, publishInput.expectedUpdatedAt, imageUrl ?? undefined, status)
     if (!ship) {
       await abandonIdempotency(reservation.id)
       return c.json(errorBody("revision_conflict", "The draft changed after review. Review it again before publishing."), 409)
     }
     const body = shipResponseSchema.parse({ ship })
     await completeIdempotency(reservation.id, 200, body)
+    if (ship.status === "pending") await notifyShipReview(ship, moderation.reason)
     return c.json(body, 200)
   } catch (error) {
     await abandonIdempotency(reservation.id)

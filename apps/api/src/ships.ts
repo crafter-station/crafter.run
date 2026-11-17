@@ -377,6 +377,7 @@ async function hydrateShips(
     imageUrl: ship.imageUrl,
     socialPostUrl: ship.socialPostUrl,
     status: ship.status,
+    reviewNote: ship.reviewNote ?? null,
     source: ship.source,
     publishedAt: ship.publishedAt ? new Date(ship.publishedAt).toISOString() : null,
     createdAt: new Date(ship.createdAt).toISOString(),
@@ -437,6 +438,7 @@ const shipSelection = {
   imageUrl: ships.imageUrl,
   socialPostUrl: ships.socialPostUrl,
   status: ships.status,
+  reviewNote: ships.reviewNote,
   source: ships.source,
   publishedAt: ships.publishedAt,
   createdAt: ships.createdAt,
@@ -680,17 +682,25 @@ export async function updatePublishedShip(
   return result?.status === "published" && result.updatedAt !== input.expectedUpdatedAt ? result : null
 }
 
+// "pending" leaves publishedAt empty until an admin approves the Ship.
 export async function publishDraft(
   memberId: string,
   shipId: string,
   expectedUpdatedAt: string,
   imageUrl?: string,
+  status: "published" | "pending" = "published",
 ): Promise<ShipDetail | null> {
   const db = getDatabase()
   const now = new Date().toISOString()
   const [updated] = await db
     .update(ships)
-    .set({ status: "published", publishedAt: now, updatedAt: now, ...(imageUrl ? { imageUrl } : {}) })
+    .set({
+      status,
+      publishedAt: status === "published" ? now : null,
+      reviewNote: null,
+      updatedAt: now,
+      ...(imageUrl ? { imageUrl } : {}),
+    })
     .where(
       and(
         eq(ships.id, shipId),
@@ -730,4 +740,9 @@ export async function createShipUpdate(
         publishedAt: new Date(update.publishedAt).toISOString(),
       }
     : null
+}
+
+export async function setMemberTrust(memberId: string, trust: "new" | "trusted" | "blocked") {
+  const db = getDatabase()
+  await db.update(members).set({ trust, updatedAt: new Date().toISOString() }).where(eq(members.id, memberId))
 }
