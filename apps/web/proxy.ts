@@ -30,7 +30,10 @@ function preferredLocale(request: NextRequest): Locale {
   return (ranked.find(({ lang }) => (locales as readonly string[]).includes(lang))?.lang as Locale) ?? defaultLocale
 }
 
-export const proxy = clerkMiddleware((_auth, request: NextRequest) => {
+/** Pages that need a session. Signed out, they answer with a real redirect instead of a streamed page. */
+const SIGNED_IN_PATH = /^\/[a-z]{2}\/(ships\/new|onboarding|settings\/profile)\/?$/
+
+export const proxy = clerkMiddleware(async (auth, request: NextRequest) => {
   const { pathname } = request.nextUrl
   const firstSegment = pathname.split("/").filter(Boolean)[0]
 
@@ -47,6 +50,13 @@ export const proxy = clerkMiddleware((_auth, request: NextRequest) => {
     // the visitor was already browsing in.
     const headers = new Headers(request.headers)
     headers.set(LOCALE_HEADER, firstSegment)
+
+    if (SIGNED_IN_PATH.test(pathname) && !(await auth()).userId) {
+      const url = request.nextUrl.clone()
+      url.pathname = `/${firstSegment}/sign-in`
+      url.search = `?redirect_url=${encodeURIComponent(pathname)}`
+      return NextResponse.redirect(url)
+    }
 
     // A blog post asked for as markdown is served its `.md` twin at the same
     // address, so the URL a client holds stays canonical.

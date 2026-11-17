@@ -71,7 +71,9 @@ export async function generateMetadata({
 
   const url = localizedUrl(`/changelog/${slug}`, lang)
   const image = cardImage(entry, lang)
-  const title = `${entry.title} | ${siteConfig.name}`
+  // Long titles drop the brand suffix so the entry itself is what a search result shows.
+  const branded = `${entry.title} | ${siteConfig.name}`
+  const title = branded.length > 60 ? entry.title : branded
   const names = entry.crafters.map((id) => crafterAuthors([id])[0]!.name)
 
   return {
@@ -88,7 +90,7 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title,
+      title: entry.title,
       description: entry.summary,
       url,
       siteName: siteConfig.name,

@@ -13,6 +13,7 @@ import {
   localizedUrl,
 } from "@/lib/seo"
 import { source } from "@/lib/source"
+import { listAllShips } from "@/lib/ships"
 import { activeTeamMembers } from "@/lib/team"
 import { CONTENT_UPDATED, DOCS_UPDATED, HACKATHONS_UPDATED } from "@/lib/freshness"
 
@@ -26,7 +27,10 @@ function lastModified(path: string): Date {
   return new Date(CONTENT_UPDATED)
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
+// Community Ships come from the API; refresh the list hourly like the homepage.
+export const revalidate = 3600
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPaths = [...indexablePaths]
   const memberPaths = activeTeamMembers.map((member) => `/team/${member.username}`)
   const docsPaths = source
@@ -87,5 +91,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   )
 
-  return [...localizedEntries, ...postEntries, ...changelogEntries, ...archiveEntries]
+  // Each published Ship page, in every UI language, dated by its latest activity. If the API
+  // is down the sitemap still ships without them.
+  const ships = (await listAllShips())?.ships ?? []
+  const shipEntries = ships.flatMap((ship) => {
+    const path = `/ships/${ship.slug}`
+    return locales.map((locale) => ({
+      url: localizedUrl(path, locale),
+      lastModified: new Date(ship.lastActivityAt ?? ship.publishedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+      alternates: { languages: languageAlternates(path) },
+    }))
+  })
+
+  return [...localizedEntries, ...postEntries, ...changelogEntries, ...archiveEntries, ...shipEntries]
 }

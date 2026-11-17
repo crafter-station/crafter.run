@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { listOwnedShipsResponseSchema, meResponseSchema } from "@crafter/contracts"
 import { auth } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
@@ -9,6 +10,13 @@ import { FormPageSkeleton } from "@/components/onboarding/form-page-skeleton"
 import { env } from "@/env"
 import { isLocale, type Locale } from "@/lib/i18n"
 import { newShipCopy } from "@/lib/new-ship-copy"
+
+// Signed-in tools: titled for the tab, kept out of search.
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params
+  if (!isLocale(lang)) return { robots: { index: false, follow: false } }
+  return { title: newShipCopy[lang].eyebrow, robots: { index: false, follow: false } }
+}
 
 export default async function NewShipPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
