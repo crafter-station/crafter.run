@@ -278,7 +278,18 @@
         "demo": "Demo",
         "package": "Pacote",
         "social": "Social"
-      }
+      },
+      "updated": "Atualizado {when}",
+      "updateCount": "{count, plural, one {# atualização} other {# atualizações}}",
+      "latestUpdate": "Última: {title}",
+      "rss": "RSS",
+      "feedTitle": "Atividade do Crafter Ships",
+      "feedSubtitle": "Novos ships e atualizações da comunidade Crafter, do mais recente ao mais antigo.",
+      "feedPublished": "Novo ship",
+      "feedUpdate": "Atualização",
+      "previous": "Mais recentes",
+      "next": "Mais antigos",
+      "pageOf": "Página {page} de {pages}"
     },
     "crafters": {
       "eyebrow": "A comunidade",

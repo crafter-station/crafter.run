@@ -8,7 +8,16 @@ import { Container } from "@/components/grid-container"
 import { ProfileLocationLine } from "@/components/profile-location-line"
 import { isLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
-import { getCrafterProfile, listCrafterShips } from "@/lib/ships"
+import { buildActivity, crafterAffiliation, relativeTime } from "@/lib/ship-activity"
+import { getCrafterProfile, listCrafterShips, listShipsWithUpdates } from "@/lib/ships"
+
+const activityCopy = {
+  en: { since: "Crafter since", updates: "Updates", activity: "Activity", published: "Published", update: "Update", core: "Core", crew: "Crew" },
+  es: { since: "Crafter desde", updates: "Actualizaciones", activity: "Actividad", published: "Publicó", update: "Actualización", core: "Core", crew: "Crew" },
+  pt: { since: "Crafter desde", updates: "Atualizações", activity: "Atividade", published: "Publicou", update: "Atualização", core: "Core", crew: "Crew" },
+  zh: { since: "加入时间", updates: "更新", activity: "动态", published: "发布", update: "更新", core: "核心", crew: "Crew" },
+  ja: { since: "参加", updates: "アップデート", activity: "アクティビティ", published: "公開", update: "アップデート", core: "コア", crew: "Crew" },
+} as const
 
 const copy = {
   en: { crafter: "Crafter", ships: "Ships", openTo: "Open to", available: "Looking for a new role", links: "Links", from: "From", based: "Based in" },
@@ -47,6 +56,13 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
   const [member, ships] = await Promise.all([getCrafterProfile(handle), listCrafterShips(handle)])
   if (!member) notFound()
   const t = copy[lang]
+  const a = activityCopy[lang]
+  const details = await listShipsWithUpdates(ships)
+  const timeline = buildActivity(ships, details)
+  const updateCount = ships.reduce((sum, ship) => sum + (ship.updateCount ?? 0), 0)
+  const affiliation = crafterAffiliation(member)
+  const now = Date.now()
+  const since = new Intl.DateTimeFormat(lang, { year: "numeric", month: "long", timeZone: "UTC" }).format(new Date(member.createdAt))
 
   return (
     <>
@@ -58,7 +74,10 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
               {member.avatarUrl ? <Image src={member.avatarUrl} alt="" fill sizes="160px" className="object-cover" /> : <span className="grid h-full place-items-center text-4xl text-muted-foreground">{member.displayName.charAt(0).toUpperCase()}</span>}
             </div>
             <div>
-              <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">{t.crafter}</p>
+              <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
+                {t.crafter}
+                {affiliation ? <span className="ml-3 border border-accent px-2 py-1 tracking-[0.18em]">{a[affiliation]}</span> : null}
+              </p>
               <h1 className="mt-3 text-5xl font-semibold tracking-tighter md:text-7xl">{member.displayName}</h1>
               <p className="mt-3 font-label text-sm text-muted-foreground">@{member.handle}</p>
               <ProfileLocationLine
@@ -70,6 +89,9 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
               />
             </div>
           </div>
+          <p className="mt-6 font-label text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            {a.since} {since} · {ships.length} {t.ships} · {updateCount} {a.updates}
+          </p>
           {member.currentRole ? <p className="mt-8 text-xl tracking-tight">{member.currentRole}</p> : null}
           {member.isJobSeeking ? <p className="mt-4 w-fit border border-accent px-3 py-2 font-label text-xs uppercase tracking-[0.18em] text-accent">{t.available}</p> : null}
           {member.bio ? <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">{member.bio}</p> : null}
@@ -90,6 +112,27 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
               </Link>
             ))}
           </div>
+          {timeline.length > 0 ? (
+            <>
+              <h2 className="mt-16 pb-5 text-3xl tracking-tight">{a.activity}</h2>
+              <ol className="border-t border-line">
+                {timeline.map((event) => (
+                  <li key={`${event.kind}-${event.id}`} className="border-b border-line py-5">
+                    <p className="font-label text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                      {event.kind === "published" ? a.published : a.update} ·{" "}
+                      <time dateTime={event.at}>{relativeTime(event.at, lang, now)}</time>
+                    </p>
+                    <p className="mt-2 text-lg tracking-tight">
+                      <Link href={`/${lang}/ships/${event.ship.slug}`} className="transition-colors hover:text-accent">
+                        {event.kind === "published" ? event.ship.name : `${event.ship.name} - ${event.title}`}
+                      </Link>
+                    </p>
+                    <p className="mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground">{event.description}</p>
+                  </li>
+                ))}
+              </ol>
+            </>
+          ) : null}
         </Container>
       </main>
 

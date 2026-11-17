@@ -11,7 +11,7 @@ import { siteConfig } from "@/lib/site"
 import { source } from "@/lib/source"
 import { crewByArea, crewOrgs } from "@/lib/crew"
 import { activeTeamMembers } from "@/lib/team"
-import { listCrafters, listPublishedShips } from "@/lib/ships"
+import { getPublishedShip, listCrafters, listShipsPage } from "@/lib/ships"
 
 export const MCP_SERVER_NAME = "crafter-station"
 export const MCP_SERVER_VERSION = "1.0.0"
@@ -263,19 +263,49 @@ const listShips = defineTool({
   name: "list_ships",
   title: "List community Ships",
   description:
-    "Projects published to the Crafter Station community directory by its members, newest first. Live data from the public Ships API.",
+    "Projects published to the Crafter Station community directory by its members, most recent activity first (publication or latest update). Each Ship carries lastActivityAt, its latest update and update count. Optionally one crafter's Ships. Live data from the public Ships API.",
   schema: z.object({
     limit: z.number().int().min(1).max(100).optional().describe("Maximum Ships to return. Defaults to 25."),
+    handle: z.string().trim().toLowerCase().min(3).max(80).optional().describe("Only Ships by this crafter handle."),
+    locale: z.enum(locales).optional().describe(`Language of the returned links. One of ${locales.join(", ")}. Defaults to ${defaultLocale}.`),
   }),
-  async run({ limit }) {
-    const ships = await listPublishedShips()
-    if (!ships) throw new Error("The Ships API is unavailable right now. Retry, or read the directory at " + `${baseUrl}/en/ships.`)
+  async run({ limit, handle, locale }) {
+    const language = resolveLocale(locale)
+    const page = await listShipsPage({ limit: limit ?? 25, handle })
+    if (!page) throw new Error("The Ships API is unavailable right now. Retry, or read the directory at " + `${baseUrl}/${language}/ships.`)
 
-    const trimmed = ships.slice(0, limit ?? 25)
+    const ships = page.ships.map((ship) => ({ ...ship, url: `${baseUrl}/${language}/ships/${ship.slug}` }))
 
     return {
-      text: trimmed.map((ship) => `- ${ship.name}: ${ship.tagline} ${baseUrl}/en/ships/${ship.slug}`).join("\n"),
-      data: { count: trimmed.length, total: ships.length, ships: trimmed },
+      text: ships
+        .map((ship) => `- ${ship.name}: ${ship.tagline}${ship.latestUpdate ? ` (latest update: ${ship.latestUpdate.title})` : ""} ${ship.url}`)
+        .join("\n"),
+      data: { count: ships.length, total: page.pagination?.total ?? ships.length, ships },
+    }
+  },
+})
+
+const getShip = defineTool({
+  name: "get_ship",
+  title: "Get a community Ship",
+  description: "One published Ship by slug, with its description, links and every update, newest first. Live data from the public Ships API.",
+  schema: z.object({
+    slug: z.string().trim().min(1).describe("The Ship slug, as in /ships/<slug>."),
+    locale: z.enum(locales).optional().describe(`Language of the returned link. One of ${locales.join(", ")}. Defaults to ${defaultLocale}.`),
+  }),
+  async run({ slug, locale }) {
+    const language = resolveLocale(locale)
+    const ship = await getPublishedShip(slug)
+    if (!ship) throw new Error(`No published Ship with slug "${slug}". List them with list_ships.`)
+
+    const url = `${baseUrl}/${language}/ships/${ship.slug}`
+    return {
+      text: [
+        `${ship.name}: ${ship.tagline} (by @${ship.owner.handle}) ${url}`,
+        ship.description,
+        ...ship.updates.map((update) => `- ${update.publishedAt.slice(0, 10)} ${update.title}: ${update.description}`),
+      ].join("\n\n"),
+      data: { ship: { ...ship, url } },
     }
   },
 })
@@ -353,6 +383,7 @@ export const tools = [
   listTeam,
   listCrew,
   listShips,
+  getShip,
   listCraftersTool,
   whatsNew,
   // Each entry carries its own input schema, so the registry is widened once
