@@ -14,7 +14,7 @@ import { unified } from "unified"
 const processor = unified().use(remarkParse).use(remarkGfm).use(remarkRehype)
 
 const ALLOWED = new Set([
-  "p", "br", "strong", "em", "del", "code", "pre", "ul", "ol", "li", "blockquote", "hr", "a", "img",
+  "p", "br", "strong", "em", "del", "code", "pre", "ul", "ol", "li", "blockquote", "hr", "a", "img", "video", "figure", "figcaption",
   "h1", "h2", "h3", "h4", "h5", "h6", "table", "thead", "tbody", "tr", "th", "td", "input",
 ])
 
@@ -44,6 +44,68 @@ export function safeImageSrc(src: string): boolean {
   }
 }
 
+const BLOB_HOST_SUFFIX = ".public.blob.vercel-storage.com"
+const VIDEO_PATH = /\.(mp4|webm)$/i
+const POSTER_TOKEN = /(?:^|\s)poster=(\S+)/i
+
+/** https URL on the Vercel Blob store the API uploads to. */
+export function isBlobUrl(src: string): boolean {
+  try {
+    const url = new URL(src.trim())
+    return url.protocol === "https:" && url.hostname.endsWith(BLOB_HOST_SUFFIX)
+  } catch {
+    return false
+  }
+}
+
+/** A video is an mp4 or webm file on the Blob store. */
+export function isBlobVideo(src: string): boolean {
+  if (!isBlobUrl(src)) return false
+  return VIDEO_PATH.test(new URL(src.trim()).pathname)
+}
+
+/** Splits a markdown image title into its caption and an optional same-host poster URL. */
+export function parseMediaTitle(title: string): { caption: string; poster: string | null } {
+  const match = POSTER_TOKEN.exec(title)
+  const poster = match && isBlobUrl(match[1]) ? match[1].trim() : null
+  const caption = title.replace(POSTER_TOKEN, " ").replace(/\s+/g, " ").trim()
+  return { caption, poster }
+}
+
+function mediaElement(properties: Props): Element | null {
+  const src = typeof properties.src === "string" ? properties.src.trim() : ""
+  const alt = typeof properties.alt === "string" ? properties.alt : ""
+  const title = typeof properties.title === "string" ? properties.title : ""
+  const { caption, poster } = parseMediaTitle(title)
+  if (isBlobVideo(src)) {
+    const video: Props = {
+      src,
+      autoPlay: true,
+      muted: true,
+      loop: true,
+      playsInline: true,
+      preload: "metadata",
+      ariaLabel: alt,
+    }
+    if (poster) video.poster = poster
+    return { type: "element", tagName: "video", properties: video, children: [] }
+  }
+  if (!safeImageSrc(src) || VIDEO_PATH.test(new URL(src).pathname)) return null
+  const img: Props = { src, alt, loading: "lazy", decoding: "async", referrerPolicy: "no-referrer" }
+  if (caption) img.title = caption
+  return { type: "element", tagName: "img", properties: img, children: [] }
+}
+
+function captionOf(properties: Props): string {
+  return typeof properties.title === "string" ? parseMediaTitle(properties.title).caption : ""
+}
+
+function figure(media: Element, caption: string): Element {
+  const children: ElementContent[] = [media]
+  if (caption) children.push({ type: "element", tagName: "figcaption", properties: {}, children: [{ type: "text", value: caption }] })
+  return { type: "element", tagName: "figure", properties: {}, children }
+}
+
 function cleanProps(tag: string, properties: Props): Props | null {
   const out: Props = {}
   if (tag === "a") {
@@ -56,15 +118,6 @@ function cleanProps(tag: string, properties: Props): Props | null {
       out.target = "_blank"
       out.rel = REL
     }
-  } else if (tag === "img") {
-    const src = typeof properties.src === "string" ? properties.src : ""
-    if (!safeImageSrc(src)) return null
-    out.src = src.trim()
-    out.alt = typeof properties.alt === "string" ? properties.alt : ""
-    if (typeof properties.title === "string") out.title = properties.title
-    out.loading = "lazy"
-    out.decoding = "async"
-    out.referrerPolicy = "no-referrer"
   } else if (tag === "input") {
     if (properties.type !== "checkbox") return null
     out.type = "checkbox"
@@ -88,6 +141,24 @@ function cleanProps(tag: string, properties: Props): Props | null {
 function clean(node: RootContent | ElementContent): ElementContent[] {
   if (node.type === "text") return [node]
   if (node.type !== "element") return []
+  if (node.tagName === "img") {
+    const props = node.properties ?? {}
+    const media = mediaElement(props)
+    if (media) return [media]
+    const alt = typeof props.alt === "string" ? props.alt : ""
+    const src = typeof props.src === "string" ? props.src : ""
+    // A video from another host is not played; its description stays as text.
+    return alt && VIDEO_PATH.test(src.split(/[?#]/)[0]) ? [{ type: "text", value: alt }] : []
+  }
+  if (node.tagName === "p") {
+    const parts = node.children.filter((child) => !(child.type === "text" && child.value.trim() === ""))
+    const only = parts.length === 1 ? parts[0] : null
+    if (only && only.type === "element" && only.tagName === "img") {
+      const media = clean(only)[0]
+      const caption = captionOf(only.properties ?? {})
+      if (media && media.type === "element" && caption) return [figure(media, caption)]
+    }
+  }
   const children = node.children.flatMap(clean)
   if (!ALLOWED.has(node.tagName)) return children
   const properties = cleanProps(node.tagName, node.properties ?? {})
@@ -106,7 +177,7 @@ export function shipMarkdownTree(source: string): Root {
 
 function plainText(node: RootContent | ElementContent): string {
   if (node.type === "text") return node.value
-  if (node.type !== "element" || node.tagName === "pre" || node.tagName === "img" || node.tagName === "input") return ""
+  if (node.type !== "element" || node.tagName === "pre" || node.tagName === "figure" || node.tagName === "img" || node.tagName === "video" || node.tagName === "input") return ""
   const text = node.children.map(plainText).join("")
   // Blocks and list items end a sentence for the reader, so they get a break between them.
   return ["p", "li", "h3", "h4", "blockquote", "tr"].includes(node.tagName) ? `${text}\n` : text

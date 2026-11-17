@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { renderToStaticMarkup } from "react-dom/server"
 
 import { ShipMarkdown } from "@/components/ships/ship-markdown"
-import { safeHref, safeImageSrc, shipMetaDescription } from "@/lib/ship-markdown"
+import { markdownToPlainText, safeHref, safeImageSrc, shipMetaDescription } from "@/lib/ship-markdown"
 import { shipSchema } from "@/lib/structured-data"
 
 const render = (source: string) => renderToStaticMarkup(<ShipMarkdown source={source} />)
@@ -93,5 +93,77 @@ describe("ship json-ld", () => {
     expect(parsed).toEqual(app)
     expect(parsed.author.url).toBe("https://crafter.run/en/crafters/h")
     expect(Object.values(parsed).includes(undefined)).toBe(false)
+  })
+})
+
+describe("ship media", () => {
+  const BLOB = "https://abc123.public.blob.vercel-storage.com"
+
+  test("blob mp4 and webm render as muted looping video with aria-label", () => {
+    const html = render(`![Pan over the map](${BLOB}/tiny-lima/pan.mp4)\n\n![Rotate](${BLOB}/tiny-lima/rot.webm)`)
+    expect(html).toContain("<video")
+    expect(html).toContain(`src="${BLOB}/tiny-lima/pan.mp4"`)
+    expect(html).toContain(`src="${BLOB}/tiny-lima/rot.webm"`)
+    expect(html).toContain('aria-label="Pan over the map"')
+    const lower = html.toLowerCase()
+    for (const attr of ["autoplay", "muted", "loop", "playsinline"]) expect(lower).toContain(`${attr}=""`)
+    expect(html).toContain('preload="metadata"')
+    expect(html).not.toContain("<img")
+  })
+
+  test("video from another host or over http is dropped, alt kept as text", () => {
+    const html = render("![Evil clip](https://example.com/a.mp4)\n\n![Plain http](http://x.public.blob.vercel-storage.com/a.mp4)\n\n![Lookalike](https://public.blob.vercel-storage.com.evil.test/a.mp4)")
+    expect(html).not.toContain("<video")
+    expect(html).not.toContain("<img")
+    expect(html).not.toContain("a.mp4")
+    expect(html).toContain("Evil clip")
+  })
+
+  test("a non-video file on the blob host stays an image", () => {
+    const html = render(`![shot](${BLOB}/a.webp)`)
+    expect(html).toContain("<img")
+    expect(html).not.toContain("<video")
+  })
+
+  test("javascript: and data: media are still stripped", () => {
+    const html = render("![a](javascript:alert(1)) ![b](data:video/mp4;base64,AAAA) ![c](data:image/svg+xml,x)")
+    expect(html).not.toContain("<video")
+    expect(html).not.toContain("<img")
+    expect(html.toLowerCase()).not.toContain("javascript:")
+    expect(html).not.toContain("data:")
+  })
+
+  test("title becomes a figcaption for images and videos", () => {
+    const img = render('![alt](https://example.com/a.png "A caption")')
+    expect(img).toContain("<figure>")
+    expect(img).toContain("<figcaption>A caption</figcaption>")
+    expect(img).not.toContain("<p>")
+    const video = render(`![alt](${BLOB}/v.mp4 "Moving map poster=${BLOB}/v.webp")`)
+    expect(video).toContain("<figure>")
+    expect(video).toContain("<figcaption>Moving map</figcaption>")
+    expect(video).not.toContain("Moving map poster")
+    expect(video).toContain(`poster="${BLOB}/v.webp"`)
+  })
+
+  test("plain images stay without a figure", () => {
+    const html = render("![alt](https://example.com/a.png)")
+    expect(html).not.toContain("<figure")
+    expect(html).not.toContain("figcaption")
+    expect(html).toContain("<p><img")
+  })
+
+  test("poster must be https on the same blob host", () => {
+    const other = render(`![a](${BLOB}/v.mp4 "Cap poster=https://example.com/p.webp")`)
+    expect(other).toContain("<video")
+    expect(other).not.toContain(" poster=")
+    expect(other).not.toContain("example.com")
+    const js = render(`![a](${BLOB}/v.mp4 "Cap poster=javascript:alert(1)")`)
+    expect(js).not.toContain("javascript:")
+    const http = render(`![a](${BLOB}/v.mp4 "poster=http://x.public.blob.vercel-storage.com/p.webp")`)
+    expect(http).not.toContain(" poster=")
+  })
+
+  test("captions do not leak into the meta description", () => {
+    expect(markdownToPlainText(`Text\n\n![a](${BLOB}/v.mp4 "Caption")`)).toBe("Text")
   })
 })
