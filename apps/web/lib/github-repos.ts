@@ -51,6 +51,8 @@ export function selectRepos(raw: RawRepo[], shipUrls: readonly string[]): RepoOp
   return markShipped(
     raw
       .filter((repo) => repo.full_name && repo.html_url && !repo.fork && !repo.archived && !repo.private && !repo.disabled)
+      // The <login>/<login> repo is a profile README, not a project.
+      .filter((repo) => { const [owner, name] = repo.full_name!.split("/"); return owner?.toLowerCase() !== name?.toLowerCase() })
     .map((repo) => ({
       fullName: repo.full_name!,
       name: repo.name ?? repo.full_name!.split("/")[1] ?? repo.full_name!,

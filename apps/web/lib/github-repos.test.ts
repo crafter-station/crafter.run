@@ -10,11 +10,12 @@ const raw = [
   { full_name: "me/dead", name: "dead", html_url: "https://github.com/me/dead", archived: true, pushed_at: "2026-11-03T00:00:00Z" },
   { full_name: "me/secret", name: "secret", html_url: "https://github.com/me/secret", private: true, pushed_at: "2026-11-04T00:00:00Z" },
   { full_name: "me/tagged-old", name: "tagged-old", html_url: "https://github.com/me/tagged-old", topics: ["crafter-ship"], pushed_at: "2025-06-01T00:00:00Z" },
+  { full_name: "me/Me", name: "Me", html_url: "https://github.com/me/Me", pushed_at: "2026-11-05T00:00:00Z" },
   { full_name: "me/tagged-shipped", name: "tagged-shipped", html_url: "https://github.com/me/tagged-shipped", topics: ["crafter-ship"], pushed_at: "2026-10-01T00:00:00Z" },
 ]
 
 describe("repo list", () => {
-  test("keeps public originals and sorts by last push", () => {
+  test("keeps public originals, drops the profile README repo, and sorts by last push", () => {
     expect(selectRepos(raw, []).map((repo) => repo.name)).toEqual(["fresh", "tagged-shipped", "tagged-old", "old"])
   })
   test("a repo with a Ship is flagged whatever the link looks like", () => {
