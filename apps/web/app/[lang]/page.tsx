@@ -7,6 +7,7 @@ import { StationOpenSource } from "@/components/station-open-source"
 import { StationPeople, StationJournal, StationContact, StationExplore } from "@/components/station-home"
 import { StationFaq } from "@/components/station-faq"
 import { StationShipped } from "@/components/changelog/home-shipped"
+import { StationCommunityShips } from "@/components/home-community-ships"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 
@@ -39,6 +40,7 @@ export default async function Page({
           ossHref={withLocale("/oss", lang)}
         />
         <StationShipped locale={lang} />
+        <StationCommunityShips locale={lang} />
         <StationOpenSource locale={lang} />
         <StationNetwork locale={lang} />
         <StationEvents locale={lang} />

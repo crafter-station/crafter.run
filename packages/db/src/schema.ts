@@ -1,4 +1,4 @@
-import { memberSources, shipLinkTypes, shipSources, shipStatuses } from "@crafter/contracts"
+import { memberSources, memberTrusts, shipLinkTypes, shipSources, shipStatuses } from "@crafter/contracts"
 import { sql } from "drizzle-orm"
 import {
   boolean,
@@ -19,6 +19,7 @@ import {
 export const shipStatus = pgEnum("ship_status", shipStatuses)
 export const shipSource = pgEnum("ship_source", shipSources)
 export const memberSource = pgEnum("member_source", memberSources)
+export const memberTrust = pgEnum("member_trust", memberTrusts)
 export const shipLinkType = pgEnum("ship_link_type", shipLinkTypes)
 
 export const members = pgTable(
@@ -65,6 +66,7 @@ export const members = pgTable(
     basedGeocodeProvider: text("based_geocode_provider"),
     basedGeocodeConfidence: doublePrecision("based_geocode_confidence"),
     source: memberSource("source").default("web").notNull(),
+    trust: memberTrust("trust").default("new").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
   },
@@ -138,6 +140,7 @@ export const ships = pgTable(
     imageUrl: text("image_url"),
     socialPostUrl: text("social_post_url"),
     status: shipStatus("status").default("draft").notNull(),
+    reviewNote: text("review_note"),
     source: shipSource("source").default("web").notNull(),
     publishedAt: timestamp("published_at", { withTimezone: true, mode: "string" }),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),

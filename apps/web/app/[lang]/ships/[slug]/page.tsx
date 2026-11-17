@@ -10,11 +10,11 @@ import { getPublishedShip } from "@/lib/ships"
 import { buildMetadata } from "@/lib/seo"
 
 const copy = {
-  en: { eyebrow: "Community Ship", by: "Shipped by" },
-  es: { eyebrow: "Ship de la comunidad", by: "Creado por" },
-  pt: { eyebrow: "Ship da comunidade", by: "Criado por" },
-  zh: { eyebrow: "社区作品", by: "创作者" },
-  ja: { eyebrow: "コミュニティ Ship", by: "制作者" },
+  en: { eyebrow: "Community Ship", by: "Shipped by", share: "Share on WhatsApp" },
+  es: { eyebrow: "Ship de la comunidad", by: "Creado por", share: "Compartir en WhatsApp" },
+  pt: { eyebrow: "Ship da comunidade", by: "Criado por", share: "Compartilhar no WhatsApp" },
+  zh: { eyebrow: "社区作品", by: "创作者", share: "分享到 WhatsApp" },
+  ja: { eyebrow: "コミュニティ Ship", by: "制作者", share: "WhatsApp で共有" },
 } as const
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }) {
@@ -33,6 +33,8 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
   const ship = await getPublishedShip(slug)
   if (!ship) notFound()
   const t = copy[lang]
+  // A prefilled message for the community WhatsApp group: the web is the source, the group is distribution.
+  const shareText = `${ship.name}: ${ship.tagline}\nhttps://crafter.run/${lang}/ships/${ship.slug}`
 
   return (
     <>
@@ -64,9 +66,18 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
               </Link>
               <p className="mt-1 font-label text-xs text-muted-foreground">@{ship.owner.handle}</p>
               <div className="mt-4"><ShipEditLink locale={lang} ownerHandle={ship.owner.handle} slug={ship.slug} /></div>
+              <a
+                href={`https://wa.me/?text=${encodeURIComponent(shareText)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 flex items-center justify-between border border-line px-4 py-3 text-sm hover:border-accent"
+              >
+                {t.share}
+                <span aria-hidden="true">↗</span>
+              </a>
               <div className="station-profile-links mt-8">
                 {ship.links.map((link) => (
-                  <Link key={`${link.type}-${link.url}`} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between border border-line px-4 py-3 text-sm capitalize hover:border-accent">
+                  <Link key={`${link.type}-${link.url}`} href={link.url} target="_blank" rel="ugc nofollow noopener noreferrer" className="flex items-center justify-between border border-line px-4 py-3 text-sm capitalize hover:border-accent">
                     {link.type}
                   </Link>
                 ))}
