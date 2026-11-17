@@ -1,6 +1,6 @@
 ---
 title: "Tus proyectos en crafter.run: publica un Ship desde un link o tu agente"
-summary: "Los Ships de la comunidad ahora se ven en la home, ordenados por actividad, y tus releases de GitHub se publican solas como updates."
+summary: "Publica tu proyecto en tres pasos, arma tu perfil con tus datos de GitHub y cuenta su historia con videos. Los Ships tienen vitrina propia y tus releases se publican solas como updates."
 date: 2026-11-16
 area: station
 kind: update
@@ -22,6 +22,15 @@ evidence:
   - "https://github.com/crafter-station/crafter.run/pull/198"
   - "https://github.com/crafter-station/crafter.run/pull/201"
   - "https://github.com/crafter-station/crafter.run/pull/202"
+  - "https://github.com/crafter-station/crafter.run/pull/207"
+  - "https://github.com/crafter-station/crafter.run/pull/209"
+  - "https://github.com/crafter-station/crafter.run/pull/213"
+  - "https://github.com/crafter-station/crafter.run/pull/214"
+  - "https://github.com/crafter-station/crafter.run/pull/217"
+  - "https://github.com/crafter-station/crafter.run/pull/218"
+  - "https://github.com/crafter-station/crafter.run/pull/220"
+  - "https://github.com/crafter-station/crafter.run/pull/221"
+  - "https://github.com/crafter-station/crafter.run/pull/222"
   - "https://www.npmjs.com/package/@crafter/cli"
 ---
 
@@ -31,7 +40,9 @@ Lo que construye la comunidad ahora tiene su lugar en crafter.run. Creas un Ship
 
 ## Publica desde un link o desde tu agente
 
-En [crafter.run/ships/new](https://crafter.run/es/ships/new) pegas el link de tu repo o tu sitio y el borrador se arma solo. Si prefieres la terminal, la página trae un prompt para copiarle a Claude Code, Codex o cualquier agente: arma el borrador con el CLI y espera tu OK antes de publicar.
+En [crafter.run/ships/new](https://crafter.run/es/ships/new) publicas en tres pasos. Pegas el link de tu repo o tu sitio y el nombre, la frase corta y la descripción se llenan solos. Revisas los campos y ves cómo quedará tu Ship antes de publicarlo. Si prefieres la terminal, la página trae un prompt para copiarle a Claude Code, Codex o cualquier agente: arma el borrador con el CLI y espera tu OK antes de publicar.
+
+<Figure src="/changelog/ships-for-everyone/new-ship.webp" alt="Paso 3 de 3 del nuevo Ship, con la vista previa de la card y el aviso de que se revisa solo el primer Ship" size="800x1060" caption="El último paso muestra la card tal como se verá en la lista." />
 
 El CLI trae sus propias skills, siempre de la versión que tienes instalada. Para que tu agente las encuentre, instala una sola: `npx skills add crafter-station/crafter.run --skill crafter`.
 
@@ -41,9 +52,23 @@ El CLI trae sus propias skills, siempre de la versión que tienes instalada. Par
 
 Agrega el topic `crafter-ship` a un repo público en GitHub y cada release nueva se publica como update de su Ship, sin que hagas nada. Funciona cuando tu cuenta de crafter.run tiene vinculado el GitHub dueño o contribuidor del repo. El dueño del Ship también puede traer sus releases al instante con "Sync releases".
 
-<Figure src="/changelog/ships-for-everyone/ships-page.webp" alt="La página de Ships con 27 ships, 14 crafters y la línea que invita a agregar el topic crafter-ship" size="1280x800" caption="La lista de Ships se ordena por actividad: un update sube el Ship." />
+## Una vitrina para la comunidad
+
+[crafter.run/ships](https://crafter.run/es/ships) abre con un Ship destacado, que el equipo elige a mano. Debajo están el pulso con lo último que se publicó, las caras de quienes ya lanzaron algo y todos los Ships, que puedes ordenar por actividad o por votos. Cada página toma un color suave de la portada de su Ship.
+
+<Figure src="/changelog/ships-for-everyone/showcase.webp" alt="La página de Ships con el título Hecho por Crafters, las cifras de Ships y crafters y el Ship destacado a la derecha" size="1280x800" caption="El Ship destacado abre la vitrina." />
+
+## Cada Ship cuenta su historia
+
+La página de cada Ship ahora es un post: la descripción admite títulos, listas, imágenes y videos. Tiny Lima, de Abel Tarazona, es el primero en usarlo, con un clip para cada cosa que se puede hacer en el mapa.
+
+<Clip src="/changelog/ships-for-everyone/story.mp4" poster="/changelog/ships-for-everyone/story.webp" size="1280x800" alt="La página de Tiny Lima baja desde el título hasta la historia, con videos del mapa que se reproducen solos" caption="Tiny Lima cuenta su mapa con videos en la propia página." />
 
 ## Tu perfil, tu espacio
+
+Crear tu perfil toma cuatro pasos, y solo el handle y el nombre son obligatorios. Si entras con GitHub, tu nombre, tu foto, tu bio y tus links ya vienen llenos. Para tu ciudad basta un buscador, con Perú, Argentina, México, Colombia, Chile y España primero. Tu agente también puede llenarlo con `crafter profile update`.
+
+<Figure src="/changelog/ships-for-everyone/onboarding.webp" alt="Paso 3 de 4 del perfil, Qué haces, con los campos de rol actual y bio corta" size="820x740" caption="Un paso a la vez, y casi todo se puede saltar." />
 
 Cada perfil muestra desde cuándo eres Crafter, cuántos Ships y updates llevas y una línea de tiempo con tu actividad. Core y Crew llevan su insignia.
 
@@ -63,6 +88,7 @@ Entra en [crafter.run/es/sign-in](https://crafter.run/es/sign-in) y publica tu p
 ```sh
 npm i -g @crafter/cli
 crafter skills get ship
+crafter profile get
 ```
 
 ## Qué cambió
@@ -73,3 +99,9 @@ crafter skills get ship
 - Una sola skill `crafter` para instalar y un prompt para tu agente en la página de nuevo Ship ([#198](https://github.com/crafter-station/crafter.run/pull/198)).
 - Las releases de GitHub se vuelven updates con el topic `crafter-ship` ([#201](https://github.com/crafter-station/crafter.run/pull/201)).
 - Entrar visible en cada página y una página de acceso nueva ([#202](https://github.com/crafter-station/crafter.run/pull/202)).
+- `crafter profile get` y `crafter profile update` para leer y editar tu perfil desde la terminal ([#207](https://github.com/crafter-station/crafter.run/pull/207)).
+- Perfil en cuatro pasos con datos de GitHub y buscador de ciudades ([#209](https://github.com/crafter-station/crafter.run/pull/209)).
+- Nuevo Ship en tres pasos, en los cinco idiomas ([#213](https://github.com/crafter-station/crafter.run/pull/213)).
+- Vitrina de Ships con destacado, pulso y muro de makers ([#214](https://github.com/crafter-station/crafter.run/pull/214)), y destacado elegido por el equipo ([#220](https://github.com/crafter-station/crafter.run/pull/220)).
+- Página de cada Ship rediseñada, con su color, una historia con videos y el autor al final ([#217](https://github.com/crafter-station/crafter.run/pull/217), [#221](https://github.com/crafter-station/crafter.run/pull/221), [#222](https://github.com/crafter-station/crafter.run/pull/222)).
+- Las imágenes grandes se achican antes de subir para que no fallen ([#218](https://github.com/crafter-station/crafter.run/pull/218)).
