@@ -89,12 +89,15 @@ export function buildMetadata({
   title,
   description,
   image,
+  video,
 }: {
   locale: Locale
   path: string
   title: string
   description: string
   image?: { url: string; alt: string }
+  /** An MP4 at 1200x630 whose first frame is `image`. Discord plays it inline; every other app shows the image. */
+  video?: string
 }): Metadata {
   const url = localizedUrl(path, locale)
   const fullTitle =
@@ -123,6 +126,7 @@ export function buildMetadata({
           alt: image?.alt ?? fullTitle,
         },
       ],
+      ...(video ? { videos: [{ url: absoluteUrl(video), secureUrl: absoluteUrl(video), type: "video/mp4", width: 1200, height: 630 }] } : {}),
       type: "website",
       locale: ogLocales[locale],
       alternateLocale: locales
@@ -136,6 +140,15 @@ export function buildMetadata({
       images: [ogImage],
     },
   }
+}
+
+/** Link preview film per page: a 10 s loop and its first frame as the poster.
+ * Regenerate with `apps/web/scripts/og-video/render.sh` when the Ship count moves. */
+const FILMS: Record<string, Partial<Record<Locale, { video: string; poster: string; alt: string }>>> = {
+  "pages.ships": {
+    es: { video: "/og/ships-es.mp4", poster: "/og/ships-es.jpg", alt: "Craft. Ship. Repeat. Proyectos de builders de LATAM publicados en crafter.run" },
+    en: { video: "/og/ships-en.mp4", poster: "/og/ships-en.jpg", alt: "Craft. Ship. Repeat. Projects by LATAM builders published on crafter.run" },
+  },
 }
 
 export async function pageMetadata({
@@ -160,10 +173,12 @@ export async function pageMetadata({
   }
 
   const t = await getTranslations({ locale: lang, namespace })
+  const film = FILMS[namespace]?.[lang]
   return buildMetadata({
     locale: lang,
     path,
     title: t("title"),
     description: t("description"),
+    ...(film ? { image: { url: absoluteUrl(film.poster), alt: film.alt }, video: film.video } : {}),
   })
 }
