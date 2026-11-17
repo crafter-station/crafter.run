@@ -18,6 +18,7 @@
 @import './station-bounties.css';
 @import './station-font.css';
 @import './station-hot-reload.css';
+@import './station-auth.css';
 
 @custom-variant dark (&:is(.dark *));
 

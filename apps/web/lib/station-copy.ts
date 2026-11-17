@@ -34,7 +34,7 @@ export const stationCopy = {
     guide: "El sistema Station.", guideIntro: "Un lenguaje visual para todo Crafter. Cambia el tema para explorar ambas paletas.",
     palette: "Color y contraste", typography: "Tipografía con carácter", components: "Componentes de cada día",
     primary: "Acción principal", secondary: "Acción secundaria", field: "Tu próximo proyecto",
-    disabled: "Deshabilitado", light: "Claro", dark: "Oscuro", system: "Sistema", profile: "Editar perfil", newShip: "Publicar un Ship", signIn: "Iniciar sesión",
+    disabled: "Deshabilitado", light: "Claro", dark: "Oscuro", system: "Sistema", profile: "Editar perfil", newShip: "Publicar un Ship", signIn: "Entrar",
   },
   pt: {
     skip: "Ir para o conteúdo", home: "Station", docs: "Documentação", more: "Explorar Crafter", moreMenu: "Mais", visualSystem: "Sistema visual",

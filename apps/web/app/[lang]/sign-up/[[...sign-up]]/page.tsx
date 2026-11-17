@@ -1,13 +1,26 @@
 import { SignUp } from "@clerk/nextjs"
+import type { Metadata } from "next"
+import { notFound } from "next/navigation"
 
-import { Container } from "@/components/grid-container"
+import { AuthPage } from "@/components/auth-page"
+import { authAppearance } from "@/lib/auth-appearance"
+import { authCopy } from "@/lib/auth-copy"
+import { isLocale } from "@/lib/i18n"
+import { buildMetadata } from "@/lib/seo"
 
-export default function SignUpPage() {
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params
+  if (!isLocale(lang)) return {}
+  const t = authCopy[lang]
+  return { ...buildMetadata({ locale: lang, path: "/sign-up", title: t.metaSignUp, description: t.metaDescription }), robots: { index: false, follow: false } }
+}
+
+export default async function SignUpPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params
+  if (!isLocale(lang)) notFound()
   return (
-    <main>
-    <Container innerClassName="grid min-h-[75vh] place-items-center px-6 py-16">
-      <SignUp />
-    </Container>
-    </main>
+    <AuthPage mode="sign-up" locale={lang}>
+      <SignUp appearance={authAppearance} />
+    </AuthPage>
   )
 }

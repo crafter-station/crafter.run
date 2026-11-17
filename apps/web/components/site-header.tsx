@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Drawer, DrawerBackdrop, DrawerClose, DrawerContent, DrawerDescription, DrawerTitle, DrawerTrigger } from "@ui-sdk/react/drawer"
 import { usePathname } from "next/navigation"
 import { Menu, X, ChevronDown } from "lucide-react"
+import { AuthActions } from "@/components/auth-actions"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { SiteWordmark } from "@/components/site-wordmark"
 import { ThemeSwitcher } from "@/components/theme-switcher"
@@ -79,6 +80,7 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
         <MoreNavigation locale={locale} onNavigate={() => setOpen(false)} />
       </nav>
       <div className="station-side-bottom">
+        <AuthActions locale={locale} />
         <div className="station-preferences">
           <LanguageSwitcher currentLocale={locale} label={t.language} compact />
           <ThemeSwitcher locale={locale} label={t.theme} compact />
@@ -100,6 +102,7 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
       <div className="station-mobile-top">
         <Link href={withLocale("/", locale)}><SiteWordmark /></Link>
         <div className="flex items-center gap-4">
+          <AuthActions locale={locale} variant="top" />
           <ThemeSwitcher locale={locale} label={t.theme} className="station-mobile-theme" />
           <DrawerTrigger className="station-menu-button" aria-label={t.openMenu}><Menu size={22} /></DrawerTrigger>
         </div>
