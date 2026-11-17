@@ -118,7 +118,7 @@ export function ShipDraftEditor({ initialShip, locale, published = false }: { in
           <Field label="Name" name="name" defaultValue={ship.name} required />
           <Field label="Slug" name="slug" defaultValue={ship.slug} required />
         </div>
-        <Field label="Tagline" name="tagline" defaultValue={ship.tagline} required />
+        <Field label="Tagline: one sentence saying what it does, not keywords" name="tagline" defaultValue={ship.tagline} required />
         <Field label="Picture (optional; replaces the current image)" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
         <Field label="Social post URL (LinkedIn, Instagram, X, YouTube, Substack, etc.)" name="socialPostUrl" type="url" defaultValue={ship.socialPostUrl ?? ""} />
         <label className="grid gap-2 text-sm">

@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Check, Copy, Terminal } from "lucide-react"
 
-const command = "npx skills add crafter-station/crafter.run --skill crafter-ship"
+const command = "npx skills add crafter-station/crafter.run --skill crafter"
 
 export function InstallSkillCommand({
   label,

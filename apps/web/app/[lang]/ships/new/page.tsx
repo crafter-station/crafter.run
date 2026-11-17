@@ -2,6 +2,7 @@ import { meResponseSchema } from "@crafter/contracts"
 import { auth } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 
+import { CopyAgentPrompt } from "@/components/copy-agent-prompt"
 import { Container } from "@/components/grid-container"
 import { NewShipForm } from "@/components/new-ship-form"
 import { env } from "@/env"
@@ -28,6 +29,7 @@ export default async function NewShipPage({ params }: { params: Promise<{ lang: 
           <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">New Ship</p>
           <h1 className="mt-5 text-5xl font-semibold tracking-tighter">Turn your work into a draft.</h1>
           <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">Add the essentials now. You will review the exact public page before anything is published.</p>
+          <CopyAgentPrompt />
           <NewShipForm locale={lang} />
         </Container>
       </main>

@@ -104,7 +104,7 @@ export function NewShipForm({ locale }: { locale: string }) {
         <Field label="Name" name="name" required maxLength={100} />
         <Field label="Slug" name="slug" required minLength={3} maxLength={80} placeholder="my-ship" />
       </div>
-      <Field label="Tagline" name="tagline" required minLength={4} maxLength={180} />
+      <Field label="Tagline: one sentence saying what it does, not keywords" name="tagline" required minLength={4} maxLength={180} placeholder="Find Cineplanet showtimes with good seats without checking every cinema" />
       <Field label="Picture (optional; we will capture your website or repository if omitted)" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif" />
       <Field label="Social post URL (LinkedIn, Instagram, X, YouTube, Substack, etc.)" name="socialPostUrl" type="url" placeholder="https://linkedin.com/posts/..." />
       <label className="grid gap-2 text-sm">
