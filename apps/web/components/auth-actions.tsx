@@ -20,7 +20,6 @@ export function AuthActions({ locale, variant = "side" }: { locale: Locale; vari
   const onAuthPage = /\/sign-(in|up)(\/|$)/.test(pathname)
   const query = onAuthPage ? "" : `?redirect_url=${encodeURIComponent(pathname)}`
   const signIn = `${withLocale("/sign-in", locale)}${query}`
-  const signUp = `${withLocale("/sign-up", locale)}${query}`
 
   if (variant === "top") {
     return (
@@ -43,10 +42,7 @@ export function AuthActions({ locale, variant = "side" }: { locale: Locale; vari
           <Link href={withLocale("/ships/new", locale)} className="station-auth-link">{t.newShip}</Link>
         </>
       ) : (
-        <>
-          <Link href={signIn} className="station-auth-link">{t.signIn}</Link>
-          <Link href={signUp} className="station-auth-link station-auth-join">{a.join}</Link>
-        </>
+        <Link href={signIn} className="station-auth-link">{t.signIn}</Link>
       )}
     </div>
   )

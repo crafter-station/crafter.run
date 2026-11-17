@@ -71,7 +71,6 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
 .station-auth { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; min-height: 80px; margin-bottom: 8px; }
 .station-auth-row { display: flex; align-items: center; gap: 10px; min-height: 40px; }
 .station-auth-link { display: inline-flex; align-items: center; min-height: 40px; font-size: 16px; font-weight: 500; color: inherit; border-radius: 3px; }
-.station-auth-join { opacity: .7; font-weight: 400; }
 .station-auth-link:where(:hover,:focus-visible) { text-decoration: underline; text-underline-offset: 4px; opacity: 1; }
 .station-auth-top { display: grid; place-items: center; width: 40px; height: 40px; }
 .station-auth-icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 3px; color: inherit; }
