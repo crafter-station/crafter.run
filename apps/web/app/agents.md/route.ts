@@ -68,7 +68,7 @@ Call \`tools/list\` for the full input schemas. \`resources/list\` exposes this 
 
 Reading is open. Writing is not, and you should never try to reach a write path directly.
 
-Two things a user can ask for that involve writing: creating a Crafter profile, and publishing a Ship to the community directory. Both go through the \`@crafter/cli\` package, which owns the OAuth 2.0 flow end to end.
+Two things a user can ask for that involve writing: creating a Crafter profile, and publishing a Ship to the community directory. Both go through the \`@crafter/cli\` package, which owns the OAuth 2.0 flow end to end. Install it with \`npm i -g @crafter/cli\`, run \`crafter skills list\` to see the bundled skills, and \`crafter skills get ship\` for the publishing workflow. Or install the discovery stub with \`npx skills add crafter-station/crafter.run --skill crafter-ship\`.
 
 - Authorization server metadata: \`https://clerk.crafter.run/.well-known/oauth-authorization-server\`
 - Protected resource metadata: \`${apiUrl}/.well-known/oauth-protected-resource\`

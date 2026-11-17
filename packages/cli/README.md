@@ -24,7 +24,24 @@ crafter update <ship-slug> --file <json-file> --confirm
 crafter changelog new <slug> [--area <research|lab|games|station>] [--kind <ship|update|event|roundup>]
 crafter changelog check <dir> [--json]
 crafter changelog submit <dir> [--confirm]
+crafter skills list
+crafter skills get <name> [--full | --ref <ref>]
 ```
+
+## Agent skills
+
+The CLI bundles agent skills that always match the installed version: `ship` (publish a Ship) and `changelog` (publish a crafter.run changelog entry).
+
+```bash
+crafter skills list              # name and description, add --json for machine output
+crafter skills get ship          # print a skill
+crafter skills get changelog --full            # plus its references
+crafter skills get changelog --ref media       # one reference
+crafter skills get --all
+crafter skills path [name]
+```
+
+To let your coding agent discover them, install the discovery stub with `npx skills add crafter-station/crafter.run --skill crafter-ship`; it only points at `crafter skills`.
 
 `crafter handle` checks whether a Crafter handle is still available. `crafter onboard --file` creates or updates your Crafter profile from a JSON file with at least `handle` and `displayName` (run it without arguments to use the browser form instead):
 
