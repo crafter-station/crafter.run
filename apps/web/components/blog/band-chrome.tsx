@@ -6,6 +6,7 @@ import { useEffect } from "react"
 const CHROME = [
   ".station-sidebar .station-brand",
   ".station-sidebar .station-nav > *",
+  ".station-sidebar .station-auth",
   ".station-sidebar .station-preferences > *",
   ".station-sidebar .station-side-event",
   ".station-social-rail > *",
