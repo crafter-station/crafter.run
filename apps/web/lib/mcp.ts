@@ -28,7 +28,7 @@ export const MCP_INSTRUCTIONS = `Read-only access to Crafter Station: open sourc
 
 Start with search_docs for anything about the CLIs (awake, mermaid, neon-cli, skillkit, trx), then get_doc for the full page in Markdown. Every tool takes an optional locale (${locales.join(", ")}) and defaults to ${defaultLocale}.
 
-This server never writes. To publish a Ship or create a profile on a user's behalf, use the authenticated @crafter/cli instead.`
+This server never writes. To publish a Ship or create a profile on a user's behalf, use the authenticated @crafter/cli instead (\`npm i -g @crafter/cli\`, then \`crafter skills list\` and \`crafter skills get ship\`).`
 
 const localeInput = z
   .enum(locales)

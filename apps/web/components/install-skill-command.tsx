@@ -52,6 +52,9 @@ export function InstallSkillCommand({
           {copied ? copiedLabel : ""}
         </span>
       </button>
+      <code className="mt-3 block overflow-x-auto whitespace-nowrap font-mono text-xs text-muted-foreground">
+        npm i -g @crafter/cli &amp;&amp; crafter skills list
+      </code>
     </div>
   )
 }
