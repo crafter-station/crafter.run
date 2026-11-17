@@ -71,6 +71,46 @@ export type NewShipCopy = {
   }
   nav: { next: string; back: string; publish: string; review: string; saveDraft: string; publishing: string; reviewing: string; savingDraft: string; fixFields: string; sessionExpired: string; saveFailed: string; draftSaved: string }
   done: { publishedTitle: string; publishedBody: string; view: string; pendingTitle: string; pendingBody: string; all: string; another: string; topicTitle: string; topicBody: string; autoAction: string; autoOn: string; autoOnBody: string }
+  batch: {
+    selectToggle: string
+    selectCancel: string
+    selectLede: string
+    selectAll: string
+    selected: string
+    review: string
+    reviewTitle: string
+    reviewLede: string
+    importing: string
+    ready: string
+    needs: string
+    needsHint: string
+    retry: string
+    remove: string
+    showPreview: string
+    hidePreview: string
+    publishReady: string
+    skipped: string
+    back: string
+    queued: string
+    publishing: string
+    published: string
+    inReview: string
+    failed: string
+    slugDuplicate: string
+    slugTaken: string
+    waiting: string
+    waitingNote: string
+    stop: string
+    doneTitle: string
+    countPublished: string
+    countReview: string
+    countNotPublished: string
+    publishRemaining: string
+    view: string
+    topicTip: string
+    addSeveral: string
+    empty: string
+  }
   agent: { title: string; body: string; copy: string; copied: string }
   errors: Record<ShipErrorKey | ImportErrorKey, string>
   loading: string
@@ -172,6 +212,46 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       autoAction: "Turn on automatic updates",
       autoOn: "Automatic updates are on",
       autoOnBody: "Each new release of this repository posts as an update on your Ship.",
+    },
+    batch: {
+      selectToggle: "Select several",
+      selectCancel: "Pick one instead",
+      selectLede: "Tick the projects you want to publish together. You fix what is missing on the next screen.",
+      selectAll: "Select all {n}",
+      selected: "{n} selected",
+      review: "Review",
+      reviewTitle: "Review your Ships",
+      reviewLede: "Fix what is missing, then publish the ready ones together.",
+      importing: "Reading the repository...",
+      ready: "Ready",
+      needs: "Needs details",
+      needsHint: "Fill in what is missing to publish this one.",
+      retry: "Retry",
+      remove: "Remove",
+      showPreview: "Show preview",
+      hidePreview: "Hide preview",
+      publishReady: "Publish {n} ready",
+      skipped: "Skipped: {n}",
+      back: "Back to repositories",
+      queued: "Queued",
+      publishing: "Publishing",
+      published: "Published",
+      inReview: "In review",
+      failed: "Failed",
+      slugDuplicate: "Another Ship in this batch uses this address.",
+      slugTaken: "You already have a Ship at this address. Pick another.",
+      waiting: "Continues in {n}s",
+      waitingNote: "Ships are limited per minute. Publishing resumes on its own.",
+      stop: "Stop",
+      doneTitle: "Batch finished",
+      countPublished: "{n} published",
+      countReview: "{n} in review",
+      countNotPublished: "{n} not published",
+      publishRemaining: "Publish remaining",
+      view: "View",
+      topicTip: "{n} of these repositories lack the crafter-ship topic. Add it on GitHub and each release becomes an update.",
+      addSeveral: "Add several",
+      empty: "No repositories left. Go back to pick more.",
     },
     agent: {
       title: "Let your agent do it",
@@ -291,6 +371,46 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       autoOn: "Updates automáticos activos",
       autoOnBody: "Cada nuevo release de este repositorio se publica como una actualización en tu Ship.",
     },
+    batch: {
+      selectToggle: "Seleccionar varios",
+      selectCancel: "Elegir solo uno",
+      selectLede: "Marca los proyectos que quieres publicar juntos. En la siguiente pantalla completas lo que falte.",
+      selectAll: "Seleccionar los {n}",
+      selected: "{n} seleccionados",
+      review: "Revisar",
+      reviewTitle: "Revisa tus Ships",
+      reviewLede: "Completa lo que falte y publica juntos los que están listos.",
+      importing: "Leyendo el repositorio...",
+      ready: "Listo",
+      needs: "Faltan datos",
+      needsHint: "Completa lo que falta para publicar este.",
+      retry: "Reintentar",
+      remove: "Quitar",
+      showPreview: "Ver vista previa",
+      hidePreview: "Ocultar vista previa",
+      publishReady: "Publicar {n} listos",
+      skipped: "Omitidos: {n}",
+      back: "Volver a los repositorios",
+      queued: "En cola",
+      publishing: "Publicando",
+      published: "Publicado",
+      inReview: "En revisión",
+      failed: "Falló",
+      slugDuplicate: "Otro Ship de este lote usa esta dirección.",
+      slugTaken: "Ya tienes un Ship en esta dirección. Elige otra.",
+      waiting: "Continúa en {n} s",
+      waitingNote: "Los Ships tienen un límite por minuto. La publicación sigue sola.",
+      stop: "Detener",
+      doneTitle: "Lote terminado",
+      countPublished: "{n} publicados",
+      countReview: "{n} en revisión",
+      countNotPublished: "{n} sin publicar",
+      publishRemaining: "Publicar los restantes",
+      view: "Ver",
+      topicTip: "{n} de estos repositorios no tienen el topic crafter-ship. Agrégalo en GitHub y cada release se vuelve una actualización.",
+      addSeveral: "Agregar varios",
+      empty: "No quedan repositorios. Vuelve para elegir más.",
+    },
     agent: {
       title: "Que lo haga tu agente",
       body: "Pega esto en Claude Code, Codex o cualquier agente de código, desde la carpeta de tu proyecto. Arma el borrador del Ship con la CLI de Crafter y espera tu confirmación antes de publicar.",
@@ -408,6 +528,46 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       autoAction: "Ativar atualizações automáticas",
       autoOn: "Atualizações automáticas ativas",
       autoOnBody: "Cada novo release deste repositório é publicado como uma atualização no seu Ship.",
+    },
+    batch: {
+      selectToggle: "Selecionar vários",
+      selectCancel: "Escolher só um",
+      selectLede: "Marque os projetos que você quer publicar juntos. Na próxima tela você completa o que faltar.",
+      selectAll: "Selecionar os {n}",
+      selected: "{n} selecionados",
+      review: "Revisar",
+      reviewTitle: "Revise seus Ships",
+      reviewLede: "Complete o que faltar e publique juntos os que estão prontos.",
+      importing: "Lendo o repositório...",
+      ready: "Pronto",
+      needs: "Faltam dados",
+      needsHint: "Complete o que falta para publicar este.",
+      retry: "Tentar de novo",
+      remove: "Remover",
+      showPreview: "Ver prévia",
+      hidePreview: "Ocultar prévia",
+      publishReady: "Publicar {n} prontos",
+      skipped: "Ignorados: {n}",
+      back: "Voltar aos repositórios",
+      queued: "Na fila",
+      publishing: "Publicando",
+      published: "Publicado",
+      inReview: "Em revisão",
+      failed: "Falhou",
+      slugDuplicate: "Outro Ship deste lote usa este endereço.",
+      slugTaken: "Você já tem um Ship neste endereço. Escolha outro.",
+      waiting: "Continua em {n} s",
+      waitingNote: "Os Ships têm um limite por minuto. A publicação continua sozinha.",
+      stop: "Parar",
+      doneTitle: "Lote concluído",
+      countPublished: "{n} publicados",
+      countReview: "{n} em revisão",
+      countNotPublished: "{n} não publicados",
+      publishRemaining: "Publicar os restantes",
+      view: "Ver",
+      topicTip: "{n} destes repositórios não têm o tópico crafter-ship. Adicione no GitHub e cada release vira uma atualização.",
+      addSeveral: "Adicionar vários",
+      empty: "Não restam repositórios. Volte para escolher mais.",
     },
     agent: {
       title: "Deixe seu agente fazer",
@@ -527,6 +687,46 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       autoOn: "自动更新已开启",
       autoOnBody: "这个仓库的每次新 release 都会作为更新发布在你的 Ship 上。",
     },
+    batch: {
+      selectToggle: "选择多个",
+      selectCancel: "改为只选一个",
+      selectLede: "勾选想一起发布的项目。下一步再补全缺少的内容。",
+      selectAll: "全选 {n} 个",
+      selected: "已选 {n} 个",
+      review: "检查",
+      reviewTitle: "检查你的 Ship",
+      reviewLede: "补全缺少的内容，然后一起发布已就绪的项目。",
+      importing: "正在读取仓库...",
+      ready: "已就绪",
+      needs: "需要补充",
+      needsHint: "补全缺少的内容后才能发布。",
+      retry: "重试",
+      remove: "移除",
+      showPreview: "查看预览",
+      hidePreview: "收起预览",
+      publishReady: "发布 {n} 个已就绪",
+      skipped: "跳过 {n} 个",
+      back: "返回仓库列表",
+      queued: "排队中",
+      publishing: "发布中",
+      published: "已发布",
+      inReview: "审核中",
+      failed: "失败",
+      slugDuplicate: "这批 Ship 中有另一个使用了该地址。",
+      slugTaken: "你已经有一个使用该地址的 Ship。请换一个。",
+      waiting: "{n} 秒后继续",
+      waitingNote: "Ship 每分钟有数量限制。发布会自动继续。",
+      stop: "停止",
+      doneTitle: "批量发布完成",
+      countPublished: "已发布 {n} 个",
+      countReview: "审核中 {n} 个",
+      countNotPublished: "未发布 {n} 个",
+      publishRemaining: "发布剩余项目",
+      view: "查看",
+      topicTip: "其中 {n} 个仓库没有 crafter-ship 主题。在 GitHub 上添加后，每次发布版本都会成为一条更新。",
+      addSeveral: "批量添加",
+      empty: "没有剩余的仓库。返回继续选择。",
+    },
     agent: {
       title: "让你的智能体来做",
       body: "在项目文件夹中，把这段粘贴到 Claude Code、Codex 或任何编程智能体。它会用 Crafter CLI 生成 Ship 草稿，并在发布前等你确认。",
@@ -644,6 +844,46 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       autoAction: "自動更新をオンにする",
       autoOn: "自動更新はオンです",
       autoOnBody: "このリポジトリの新しいリリースは、Ship の更新として投稿されます。",
+    },
+    batch: {
+      selectToggle: "複数を選ぶ",
+      selectCancel: "1つだけ選ぶ",
+      selectLede: "まとめて公開したいプロジェクトにチェックを入れます。足りない項目は次の画面で補います。",
+      selectAll: "{n} 件すべて選択",
+      selected: "{n} 件選択中",
+      review: "確認する",
+      reviewTitle: "Ship を確認",
+      reviewLede: "足りない項目を補い、準備できたものをまとめて公開します。",
+      importing: "リポジトリを読み込み中...",
+      ready: "準備完了",
+      needs: "入力が必要",
+      needsHint: "足りない項目を入力すると公開できます。",
+      retry: "再試行",
+      remove: "外す",
+      showPreview: "プレビューを表示",
+      hidePreview: "プレビューを閉じる",
+      publishReady: "準備完了の {n} 件を公開",
+      skipped: "{n} 件スキップ",
+      back: "リポジトリ一覧に戻る",
+      queued: "待機中",
+      publishing: "公開中",
+      published: "公開済み",
+      inReview: "審査中",
+      failed: "失敗",
+      slugDuplicate: "このバッチ内の別の Ship が同じアドレスを使っています。",
+      slugTaken: "このアドレスの Ship はすでにあります。別のものにしてください。",
+      waiting: "{n} 秒後に再開",
+      waitingNote: "Ship には1分あたりの上限があります。公開は自動で再開されます。",
+      stop: "停止",
+      doneTitle: "バッチが完了しました",
+      countPublished: "公開 {n} 件",
+      countReview: "審査中 {n} 件",
+      countNotPublished: "未公開 {n} 件",
+      publishRemaining: "残りを公開",
+      view: "見る",
+      topicTip: "{n} 件のリポジトリに crafter-ship トピックがありません。GitHub で追加すると、リリースごとに更新が投稿されます。",
+      addSeveral: "複数を追加",
+      empty: "リポジトリが残っていません。戻って選び直してください。",
     },
     agent: {
       title: "エージェントに任せる",

@@ -4,6 +4,18 @@ export const publicApiUrl =
   process.env.NEXT_PUBLIC_API_URL ??
   (process.env.NODE_ENV === "production" ? "https://api.crafter.run" : "http://localhost:3001")
 
+/** A failed Ships API call. `message` is the API's text; `status` and `code` let callers branch on it. */
+export class ShipsApiError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+    readonly code: string | null,
+  ) {
+    super(message)
+    this.name = "ShipsApiError"
+  }
+}
+
 export async function shipsApi<T>(
   path: string,
   token: string,
@@ -21,7 +33,7 @@ export async function shipsApi<T>(
   const body = await response.json().catch(() => null)
   if (!response.ok) {
     const error = body as ApiErrorResponse | null
-    throw new Error(error?.error.message ?? `Ships API returned ${response.status}.`)
+    throw new ShipsApiError(error?.error?.message ?? `Ships API returned ${response.status}.`, response.status, error?.error?.code ?? null)
   }
   return body as T
 }

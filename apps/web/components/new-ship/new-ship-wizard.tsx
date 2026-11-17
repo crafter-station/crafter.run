@@ -10,18 +10,20 @@ import { type FormEvent, useCallback, useEffect, useId, useRef, useState } from 
 import { shipAgentPrompt } from "@/components/copy-agent-prompt"
 import { AgentFill } from "@/components/onboarding/agent-fill"
 import { Field, TextAreaField, TextField } from "@/components/onboarding/fields"
-import { RepoPicker } from "@/components/new-ship/repo-picker"
+import { Problem, SlugField } from "@/components/new-ship/fields"
+import { BatchReview } from "@/components/new-ship/batch-review"
+import { RepoPicker, repoSelectionKey } from "@/components/new-ship/repo-picker"
 import { ShipPreview } from "@/components/new-ship/ship-preview"
 import { repoInputToUrl, repoKey, type RepoOption } from "@/lib/github-repos"
 import type { Locale } from "@/lib/i18n"
 import { newShipCopy } from "@/lib/new-ship-copy"
+import { importFromGithub } from "@/lib/new-ship-import"
 import {
   emptyShipFields,
   ImportError,
   importShipFromLink,
   isShipReady,
   parseRepoUrl,
-  shipToRequest,
   slugifyShip,
   validateShip,
   SHIP_LIMITS,
@@ -30,7 +32,8 @@ import {
 } from "@/lib/new-ship-draft"
 import { registerNewShipTools } from "@/lib/new-ship-webmcp"
 import { fill } from "@/lib/onboarding-copy"
-import { shipsApi, uploadShipImage } from "@/lib/ships-client"
+import { publishShip, saveShipDraft } from "@/lib/publish-ship"
+import { uploadShipImage } from "@/lib/ships-client"
 
 const STEP_ICONS = [Link2, FileText, Eye]
 const ACCEPTED_IMAGES = ["image/jpeg", "image/png", "image/webp", "image/gif"]
@@ -44,16 +47,6 @@ async function pageMeta(url: string) {
   return body.meta
 }
 
-/** Reads a GitHub repository on the server, which adds the token that lifts GitHub's rate limit. */
-async function importFromGithub(repo: string): Promise<ImportResult> {
-  const response = await fetch("/api/ship-import/github", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ repo }) }).catch(() => null)
-  if (!response) throw new ImportError("importFailed")
-  const body = (await response.json().catch(() => null)) as { result?: ImportResult; error?: string } | null
-  if (response.ok && body?.result) return body.result
-  const known = ["invalidUrl", "repoNotFound", "rateLimited", "importFailed"] as const
-  throw new ImportError(known.find((key) => key === body?.error) ?? "importFailed")
-}
-
 async function importLink(input: string): Promise<ImportResult> {
   const repo = repoInputToUrl(input)
   return repo ? importFromGithub(repo) : importShipFromLink(input, { pageMeta })
@@ -61,7 +54,7 @@ async function importLink(input: string): Promise<ImportResult> {
 
 type Outcome = { ok: true; result: ImportResult } | { ok: false; reason: string }
 
-export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { locale: Locale; handle: string; firstShip: boolean; repos?: RepoOption[] }) {
+export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBatch = false }: { locale: Locale; handle: string; firstShip: boolean; repos?: RepoOption[]; startInBatch?: boolean }) {
   const copy = newShipCopy[locale]
   const { getToken } = useAuth()
   const { openUserProfile } = useClerk()
@@ -85,8 +78,12 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { local
   const [error, setError] = useState<string | null>(null)
   const [attention, setAttention] = useState(false)
   const [done, setDone] = useState<ShipDetail | null>(null)
+  const canBatch = repos.filter((option) => !option.hasShip).length >= 2
+  const [batchMode, setBatchMode] = useState<"select" | "review" | null>(startInBatch && canBatch ? "select" : null)
+  const [selected, setSelected] = useState<ReadonlySet<string>>(new Set())
+  const [batchUrls, setBatchUrls] = useState<string[]>([])
   const submitRef = useRef<HTMLButtonElement>(null)
-  const draftRef = useRef<ShipDetail | null>(null)
+  const draftRef = useRef<Pick<ShipDetail, "id" | "updatedAt"> | null>(null)
   const uploadedRef = useRef<{ file: File; url: string } | null>(null)
   const provenanceRef = useRef<string[]>([])
 
@@ -155,6 +152,22 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { local
           setAttention(true)
         },
         firstShip: () => firstShip,
+        importReposBatch: (requested) => {
+          const accepted: string[] = []
+          const rejected: { repo: string; reason: string }[] = []
+          for (const input of requested) {
+            const option = repos.find((repo) => repo.fullName.toLowerCase() === input.trim().toLowerCase())
+            const url = option?.url ?? repoInputToUrl(input)
+            if (!url) rejected.push({ repo: input, reason: "Not a GitHub repository" })
+            else if (option?.hasShip) rejected.push({ repo: input, reason: "Already has a Ship" })
+            else if (!accepted.includes(url)) accepted.push(url)
+          }
+          if (accepted.length > 0) {
+            setBatchUrls((current) => [...current, ...accepted.filter((url) => !current.includes(url))])
+            setBatchMode("review")
+          }
+          return { accepted, rejected }
+        },
       }),
     [copy.steps, firstShip, repos, runImport, setFields],
   )
@@ -191,30 +204,25 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { local
     setPending(mode)
     setError(null)
     try {
-      const token = await getToken()
-      if (!token) throw new Error(copy.nav.sessionExpired)
       let uploaded: string | undefined
       if (imageFile) {
+        const token = await getToken()
+        if (!token) throw new Error(copy.nav.sessionExpired)
         if (uploadedRef.current?.file !== imageFile) uploadedRef.current = { file: imageFile, url: await uploadShipImage(imageFile, token) }
         uploaded = uploadedRef.current.url
       }
-      const body = JSON.stringify(shipToRequest(fields, ["web form", ...provenanceRef.current], uploaded))
-      const existing = draftRef.current
-      const { ship } = existing
-        ? await shipsApi<{ ship: ShipDetail }>(`/v1/ship-drafts/${existing.id}`, token, { method: "PATCH", body })
-        : await shipsApi<{ ship: ShipDetail }>("/v1/ship-drafts", token, { method: "POST", headers: { "Idempotency-Key": crypto.randomUUID() }, body })
-      draftRef.current = ship
+      const input = { getToken, sessionExpired: copy.nav.sessionExpired, fields, provenance: ["web form", ...provenanceRef.current], imageUrl: uploaded, existing: draftRef.current }
       if (mode === "draft") {
+        const ship = await saveShipDraft(input)
+        draftRef.current = ship
         router.push(`/${locale}/ships/drafts/${ship.id}`)
         return
       }
-      const published = await shipsApi<{ ship: ShipDetail }>(`/v1/ship-drafts/${ship.id}/publish`, token, {
-        method: "POST",
-        headers: { "Idempotency-Key": crypto.randomUUID() },
-        body: JSON.stringify({ confirm: true, expectedUpdatedAt: ship.updatedAt }),
+      const published = await publishShip(input, (draft) => {
+        draftRef.current = draft
       })
-      draftRef.current = published.ship
-      setDone(published.ship)
+      draftRef.current = published
+      setDone(published)
       router.refresh()
     } catch (cause) {
       const message = cause instanceof Error ? cause.message : copy.nav.saveFailed
@@ -255,6 +263,24 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { local
     setLoadingRepo(null)
   }
 
+  const selecting = batchMode === "select"
+
+  if (batchMode === "review") {
+    return (
+      <BatchReview
+        locale={locale}
+        handle={handle}
+        firstShip={firstShip}
+        urls={batchUrls}
+        repos={repos}
+        onBack={(unfinished) => {
+          setSelected(new Set(unfinished))
+          setBatchMode("select")
+        }}
+      />
+    )
+  }
+
   if (done) return <DoneCard ship={done} locale={locale} copy={copy} repoUrl={repoUrl} topicOn={topicOn} />
 
   return (
@@ -284,9 +310,39 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { local
             <>
               <h2>{copy.link.title}</h2>
               <p className="ob-lede">{copy.link.lede}</p>
-              {repos.length > 0 ? <RepoPicker repos={repos} copy={copy.link} busy={importing} loading={loadingRepo} onPick={(option) => void pickRepo(option)} /> : null}
-              {repos.length > 0 ? <p className="ns-or">{copy.link.orPaste}</p> : null}
-              <LinkInput
+              {repos.length > 0 ? (
+                <RepoPicker
+                  repos={repos}
+                  copy={copy.link}
+                  batch={copy.batch}
+                  busy={importing}
+                  loading={loadingRepo}
+                  onPick={(option) => void pickRepo(option)}
+                  onStartSelection={() => setBatchMode("select")}
+                  selection={
+                    batchMode === "select"
+                      ? {
+                          selected,
+                          onToggle: (option) =>
+                            setSelected((current) => {
+                              const next = new Set(current)
+                              const key = repoSelectionKey(option)
+                              if (!next.delete(key)) next.add(key)
+                              return next
+                            }),
+                          onSelectAll: (list) => setSelected((current) => new Set([...current, ...list.map(repoSelectionKey)])),
+                          onReview: () => {
+                            setBatchUrls(repos.filter((option) => selected.has(repoSelectionKey(option)) && !option.hasShip).map((option) => option.url))
+                            setBatchMode("review")
+                          },
+                          onExit: () => setBatchMode(null),
+                        }
+                      : undefined
+                  }
+                />
+              ) : null}
+              {repos.length > 0 && !selecting ? <p className="ns-or">{copy.link.orPaste}</p> : null}
+              {selecting ? null : <LinkInput
                 autoFocus={repos.length === 0}
                 label={copy.link.label}
                 placeholder={copy.link.placeholder}
@@ -294,9 +350,9 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { local
                 onChange={setLink}
                 invalid={Boolean(importError)}
                 disabled={importing}
-              />
-              {importError ? <p className="ob-error" role="alert">{importError}</p> : null}
-              {!githubLinked ? (
+              />}
+              {importError && !selecting ? <p className="ob-error" role="alert">{importError}</p> : null}
+              {!githubLinked && !selecting ? (
                 <p className="ob-note">
                   <Github aria-hidden="true" />
                   <span>
@@ -441,7 +497,7 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { local
 
         {error ? <p className="ob-error" role="alert">{error}</p> : null}
 
-        <div className="ob-actions">
+        {selecting && step === 0 ? null : <div className="ob-actions">
           {step > 0 ? (
             <button type="button" className="ob-btn ob-btn-ghost" onClick={() => setStep(step - 1)} disabled={Boolean(pending)}>
               <ChevronLeft aria-hidden="true" />
@@ -474,16 +530,12 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { local
                   ? <><Loader2 className="animate-spin" aria-hidden="true" />{firstShip ? copy.nav.reviewing : copy.nav.publishing}</>
                   : <>{firstShip ? copy.nav.review : copy.nav.publish}{firstShip ? <Send aria-hidden="true" /> : <Rocket aria-hidden="true" />}</>}
           </button>
-        </div>
+        </div>}
       </form>
 
       <AgentFill title={copy.agent.title} body={copy.agent.body} prompt={shipAgentPrompt} copyLabel={copy.agent.copy} copiedLabel={copy.agent.copied} />
     </div>
   )
-}
-
-function Problem({ text }: { text: string }) {
-  return <p className="ob-hint" data-tone="bad" role="alert"><X aria-hidden="true" />{text}</p>
 }
 
 function LinkInput({ label, placeholder, value, onChange, invalid, disabled, autoFocus }: { autoFocus: boolean; label: string; placeholder: string; value: string; onChange: (value: string) => void; invalid: boolean; disabled: boolean }) {
@@ -506,18 +558,6 @@ function LinkInput({ label, placeholder, value, onChange, invalid, disabled, aut
           placeholder={placeholder}
           onChange={(event) => onChange(event.target.value)}
         />
-      </div>
-    </Field>
-  )
-}
-
-function SlugField({ label, value, onChange, invalid, hint }: { label: string; value: string; onChange: (value: string) => void; invalid: boolean; hint: React.ReactNode }) {
-  const id = useId()
-  return (
-    <Field label={label} htmlFor={id} hint={hint}>
-      <div className="ob-affix" aria-invalid={invalid || undefined}>
-        <span>/ships/</span>
-        <input id={id} value={value} maxLength={SHIP_LIMITS.slug} autoCapitalize="none" autoCorrect="off" spellCheck={false} autoComplete="off" onChange={(event) => onChange(event.target.value)} />
       </div>
     </Field>
   )
@@ -593,6 +633,7 @@ function DoneCard({ ship, locale, copy, repoUrl, topicOn }: { ship: ShipDetail; 
           <Link className="ob-btn ob-btn-ghost" href={`/${locale}/ships`}>{copy.done.all}</Link>
           <span className="ob-spacer" />
           <a className="ob-btn ob-btn-ghost" href={`/${locale}/ships/new`}>{copy.done.another}</a>
+          <a className="ob-btn ob-btn-ghost" href={`/${locale}/ships/new?batch=1`}>{copy.batch.addSeveral}</a>
           {pending ? null : <Link className="ob-btn ob-btn-primary" href={`/${locale}/ships/${ship.slug}`}>{copy.done.view}<ArrowRight aria-hidden="true" /></Link>}
         </div>
       </div>

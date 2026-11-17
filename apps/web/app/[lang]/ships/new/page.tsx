@@ -19,8 +19,9 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   return { title: newShipCopy[lang].eyebrow, robots: { index: false, follow: false } }
 }
 
-export default async function NewShipPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function NewShipPage({ params, searchParams }: { params: Promise<{ lang: string }>; searchParams: Promise<{ batch?: string | string[] }> }) {
   const { lang } = await params
+  const { batch } = await searchParams
   if (!isLocale(lang)) redirect("/en")
   const identity = await auth()
   if (!identity.isAuthenticated) redirect(`/${lang}/sign-in?redirect_url=/${lang}/ships/new`)
@@ -36,14 +37,14 @@ export default async function NewShipPage({ params }: { params: Promise<{ lang: 
         <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{copy.lede}</p>
         {/* The profile and Ships lookups stream in behind the heading instead of blocking the whole page. */}
         <Suspense fallback={<FormPageSkeleton variant="ship" />}>
-          <Composer locale={lang} token={token} />
+          <Composer locale={lang} token={token} startInBatch={batch === "1"} />
         </Suspense>
       </Container>
     </main>
   )
 }
 
-async function Composer({ locale, token }: { locale: Locale; token: string }) {
+async function Composer({ locale, token, startInBatch }: { locale: Locale; token: string; startInBatch: boolean }) {
   const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "production" ? "https://api.crafter.run" : "http://localhost:3001")
   const headers = { Authorization: `Bearer ${token}` }
   const [meResponse, shipsResponse, repos] = await Promise.all([
@@ -57,7 +58,7 @@ async function Composer({ locale, token }: { locale: Locale; token: string }) {
   // Only the first Ship is reviewed. Once one is public the member is trusted, so the review notice is dropped.
   const firstShip = !(owned?.success && owned.data.ships.some((ship) => ship.status === "published"))
   const shipUrls = owned?.success ? owned.data.ships.flatMap((ship) => ship.links.map((link) => link.url)) : []
-  return <NewShipWizard locale={locale} handle={me.data.member.handle} firstShip={firstShip} repos={markShipped(repos, shipUrls)} />
+  return <NewShipWizard locale={locale} handle={me.data.member.handle} firstShip={firstShip} repos={markShipped(repos, shipUrls)} startInBatch={startInBatch} />
 }
 
 /** The member's public repositories when GitHub is linked. Members without it, or any failure, get an empty list. */
