@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.8.0
+
+### Minor Changes
+
+- [#207](https://github.com/crafter-station/crafter.run/pull/207) [`295fe6f`](https://github.com/crafter-station/crafter.run/commit/295fe6f8fbbb2f49b3dc68c439d29b6d7d6a5146) Thanks [@Railly](https://github.com/Railly)! - Add `crafter profile get` and `crafter profile update --file <path|-> [--confirm]` so coding agents can read and fill a member's profile from the terminal. Updates validate against the API contract, print a dry-run diff, and write only with `--confirm`. A bundled `profile` skill documents the flow. `crafter onboard` is unchanged.
+
 ## 0.7.2
 
 ### Patch Changes

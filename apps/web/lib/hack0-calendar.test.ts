@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { hack0DateParts, hack0EventSlug, parseHack0Calendar, partitionHack0Events } from "./hack0-calendar-data"
+import { hack0DateParts, hack0EventSlug, parseHack0Calendar, partitionHack0Events, teaserHack0Event } from "./hack0-calendar-data"
 
 const event = (fields = "") => `BEGIN:VEVENT
 UID:evt-test@events.lu.ma
@@ -54,5 +54,23 @@ describe("hack0EventSlug", () => {
   })
   test("has no slug when the URL is the calendar itself", () => {
     expect(hack0EventSlug("Microsoft Build 2026", "https://luma.com/hack0")).toBeNull()
+  })
+})
+
+describe("teaserHack0Event", () => {
+  const event = (id: string, url: string, startAt: string) => ({
+    id, title: id, startAt, endAt: startAt.replace("T00", "T02"), allDay: false, location: "", host: "", url, href: url,
+  })
+  const featured = { url: "https://luma.com/feat", title: "Featured", href: "https://hack0.dev/featured" }
+  const next = event("next", "https://luma.com/next", "2026-11-18T00:00:00.000Z")
+  const promoted = event("promoted", "https://luma.com/feat", "2026-11-20T00:00:00.000Z")
+
+  test("promotes the featured event over an earlier one, with its own title and page", () => {
+    expect(teaserHack0Event([next, promoted], featured)).toMatchObject({ id: "promoted", title: "Featured", href: "https://hack0.dev/featured" })
+  })
+
+  test("falls back to the next event once the featured one is no longer upcoming", () => {
+    expect(teaserHack0Event([next], featured)?.id).toBe("next")
+    expect(teaserHack0Event([], featured)).toBeUndefined()
   })
 })
