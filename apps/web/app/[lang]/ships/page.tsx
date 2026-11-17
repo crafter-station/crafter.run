@@ -1,3 +1,4 @@
+import { shipTone } from "@/lib/ship-tone-server"
 import { PackageOpen, Plus, Rss, Terminal } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -100,11 +101,13 @@ export default async function ShipsPage({
     { value: totals.updates, label: t("statUpdates", { count: totals.updates }) },
     { value: totals.votes, label: t("statVotes", { count: totals.votes }) },
   ].filter((stat, index) => index < 2 || stat.value > 0)
+  // The page borrows its tone from the featured Ship.
+  const tone = featured ? await shipTone(featured) : "lilac"
 
   return (
-    <main className="journal-page ships-page">
+    <main className="journal-page ships-page" data-tone={tone}>
       <BandChrome />
-      <header className="journal-band ships-band" data-chrome-band>
+      <header className="journal-band ships-band">
         <div className="ships-band-grid">
           <div className="ships-band-copy">
             <p className="journal-band-crumbs">{t("eyebrow")}</p>

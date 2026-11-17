@@ -342,3 +342,44 @@
 @media (prefers-reduced-motion: reduce) {
   .ship-prose a { transition: none; }
 }
+
+/* Tone: the page borrows a soft colour from the Ship's cover, snapped to the brand palette
+   (lib/ship-tone.ts). No solid band: a glow over the page paper, and an offset shadow on the cover. */
+.ships-page { --band: hsl(var(--background)); --band-ink: hsl(var(--foreground)); --band-soft: hsl(var(--muted-foreground)); --tint: #e9e7dd; --tint-deep: #34362e; }
+.ships-page[data-tone="yellow"] { --tint: #f0df9c; --tint-deep: #665b37; }
+.ships-page[data-tone="clay"] { --tint: #f7cdb9; --tint-deep: #6e4436; }
+.ships-page[data-tone="green"] { --tint: #c7d8b7; --tint-deep: #3c5040; }
+.ships-page[data-tone="sage"] { --tint: #cfe7d2; --tint-deep: #3a5446; }
+.ships-page[data-tone="blue"] { --tint: #c9dbea; --tint-deep: #3b4d5c; }
+.ships-page[data-tone="lilac"] { --tint: #d4c8e5; --tint-deep: #51465d; }
+
+.dark .ships-page[data-tone="paper"], .dark .ships-page:not([data-tone]) { --tint: #34362e; --tint-deep: #e9e7dd; }
+.dark .ships-page[data-tone="yellow"] { --tint: #665b37; --tint-deep: #f0df9c; }
+.dark .ships-page[data-tone="clay"] { --tint: #6e4436; --tint-deep: #f7cdb9; }
+.dark .ships-page[data-tone="green"] { --tint: #3c5040; --tint-deep: #c7d8b7; }
+.dark .ships-page[data-tone="sage"] { --tint: #3a5446; --tint-deep: #cfe7d2; }
+.dark .ships-page[data-tone="blue"] { --tint: #3b4d5c; --tint-deep: #c9dbea; }
+.dark .ships-page[data-tone="lilac"] { --tint: #51465d; --tint-deep: #d4c8e5; }
+
+.ships-page .journal-band { background: transparent; box-shadow: none; clip-path: none; isolation: isolate; }
+.ships-page .journal-band::before {
+  content: ""; position: absolute; z-index: -1; inset: -120px -100vmax 0; pointer-events: none;
+  background:
+    radial-gradient(1140px 680px at 72% 18%, color-mix(in srgb, var(--tint) 100%, transparent), transparent 72%),
+    radial-gradient(700px 400px at 18% 0%, color-mix(in srgb, var(--tint) 80%, transparent), transparent 70%);
+}
+.dark .ships-page .journal-band::before {
+  background:
+    radial-gradient(1140px 680px at 72% 18%, color-mix(in srgb, var(--tint) 100%, transparent), transparent 72%),
+    radial-gradient(700px 400px at 18% 0%, color-mix(in srgb, var(--tint) 60%, transparent), transparent 70%);
+}
+.ships-page .ship-hero-cover, .ships-page .ship-featured { box-shadow: 14px 14px 0 color-mix(in srgb, var(--tint-deep) 55%, transparent), 0 30px 60px -30px rgb(0 0 0 / .35); }
+.dark .ships-page .ship-hero-cover, .dark .ships-page .ship-featured { box-shadow: 14px 14px 0 color-mix(in srgb, var(--tint-deep) 30%, transparent), 0 30px 60px -30px rgb(0 0 0 / .5); }
+.ships-page .ships-button-band, .ships-page .ships-cta .ships-button-band, .ships-page .ships-ways-panel .ships-button { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+.ships-page .ships-cta { background: color-mix(in srgb, var(--tint) 70%, hsl(var(--background))); color: hsl(var(--foreground)); }
+.dark .ships-page .ships-cta { background: color-mix(in srgb, var(--tint) 55%, hsl(var(--background))); }
+.ships-page .ships-ways-list [role="tab"] { box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .22); }
+.ships-page .ships-ways-list [role="tab"][aria-selected="true"], .ships-page .ships-ways-list [role="tab"][data-checked] { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+.ships-page .ships-ways-code { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+.ships-page .ships-ways-panel .ships-button-quiet { color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .35); }
+@media (prefers-reduced-motion: reduce) { .ships-page .ship-featured { transform: none; } }

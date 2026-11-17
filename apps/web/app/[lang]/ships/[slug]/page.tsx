@@ -1,4 +1,5 @@
 import type { ShipDetail, ShipLink } from "@crafter/contracts"
+import { shipTone } from "@/lib/ship-tone-server"
 import { ArrowUpRight, Github, Globe, MessageCircle, Package, Play, Plus, Share2 } from "lucide-react"
 import type { ReactNode } from "react"
 import Link from "next/link"
@@ -94,12 +95,13 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
     publishedAt,
     modifiedAt,
   }, lang)
+  const tone = await shipTone(ship)
 
   return (
-    <main className="journal-page ships-page ship-detail">
+    <main className="journal-page ships-page ship-detail" data-tone={tone}>
       <JsonLd data={[schema, breadcrumbList(lang, [{ name: t.crumb, path: "/ships" }, { name: ship.name, path: `/ships/${ship.slug}` }])]} />
       <BandChrome />
-      <header className="journal-band ships-band ship-hero" data-chrome-band>
+      <header className="journal-band ships-band ship-hero">
         <div className="ships-band-grid ship-hero-grid">
           <div className="ships-band-copy">
             <nav aria-label="Breadcrumb" className="journal-band-crumbs">
