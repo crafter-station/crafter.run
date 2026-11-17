@@ -5,6 +5,9 @@
 .station-signin-lede { margin-top: 10px; font-size: 16px; line-height: 1.5; color: hsl(var(--muted-foreground)); }
 .station-signin-form { margin-top: 32px; min-height: 260px; }
 .station-signin-form :is(.cl-rootBox, .cl-cardBox, .cl-card, .cl-main, .cl-form, .cl-socialButtons) { width: 100%; max-width: 100%; }
+/* Clerk clips the card box and pulls the card 1px out, cutting the button border and the "Last used" badge. */
+.station-signin-form .cl-cardBox { overflow: visible; }
+.station-signin-form .cl-card { margin: 0; }
 .station-signin-switch { margin-top: 24px; font-size: 14px; color: hsl(var(--muted-foreground)); }
 .station-signin-switch a { color: hsl(var(--foreground)); text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 640px) {
