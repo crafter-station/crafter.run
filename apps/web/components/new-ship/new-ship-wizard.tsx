@@ -10,7 +10,9 @@ import { type FormEvent, useCallback, useEffect, useId, useRef, useState } from 
 import { shipAgentPrompt } from "@/components/copy-agent-prompt"
 import { AgentFill } from "@/components/onboarding/agent-fill"
 import { Field, TextAreaField, TextField } from "@/components/onboarding/fields"
+import { RepoPicker } from "@/components/new-ship/repo-picker"
 import { ShipPreview } from "@/components/new-ship/ship-preview"
+import { repoInputToUrl, repoKey, type RepoOption } from "@/lib/github-repos"
 import type { Locale } from "@/lib/i18n"
 import { newShipCopy } from "@/lib/new-ship-copy"
 import {
@@ -42,9 +44,24 @@ async function pageMeta(url: string) {
   return body.meta
 }
 
+/** Reads a GitHub repository on the server, which adds the token that lifts GitHub's rate limit. */
+async function importFromGithub(repo: string): Promise<ImportResult> {
+  const response = await fetch("/api/ship-import/github", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ repo }) }).catch(() => null)
+  if (!response) throw new ImportError("importFailed")
+  const body = (await response.json().catch(() => null)) as { result?: ImportResult; error?: string } | null
+  if (response.ok && body?.result) return body.result
+  const known = ["invalidUrl", "repoNotFound", "rateLimited", "importFailed"] as const
+  throw new ImportError(known.find((key) => key === body?.error) ?? "importFailed")
+}
+
+async function importLink(input: string): Promise<ImportResult> {
+  const repo = repoInputToUrl(input)
+  return repo ? importFromGithub(repo) : importShipFromLink(input, { pageMeta })
+}
+
 type Outcome = { ok: true; result: ImportResult } | { ok: false; reason: string }
 
-export function NewShipWizard({ locale, handle, firstShip }: { locale: Locale; handle: string; firstShip: boolean }) {
+export function NewShipWizard({ locale, handle, firstShip, repos = [] }: { locale: Locale; handle: string; firstShip: boolean; repos?: RepoOption[] }) {
   const copy = newShipCopy[locale]
   const { getToken } = useAuth()
   const { openUserProfile } = useClerk()
@@ -57,6 +74,7 @@ export function NewShipWizard({ locale, handle, firstShip }: { locale: Locale; h
   const [link, setLink] = useState("")
   const [importing, setImporting] = useState(false)
   const [imported, setImported] = useState<ImportResult | null>(null)
+  const [loadingRepo, setLoadingRepo] = useState<string | null>(null)
   const [importError, setImportError] = useState<string | null>(null)
   const [showIssues, setShowIssues] = useState(false)
   const [showSocial, setShowSocial] = useState(false)
@@ -97,7 +115,7 @@ export function NewShipWizard({ locale, handle, firstShip }: { locale: Locale; h
       setImporting(true)
       setImportError(null)
       try {
-        const result = await importShipFromLink(input, { pageMeta })
+        const result = await importLink(input)
         const merged = { ...live.current.fields, ...result.fields } as ShipFields
         setFields(merged)
         setImageFile(null)
@@ -126,9 +144,11 @@ export function NewShipWizard({ locale, handle, firstShip }: { locale: Locale; h
         getFields: () => live.current.fields,
         setFields,
         importFromLink: (url) => {
-          setLink(url)
-          return runImport(url)
+          const full = repos.find((repo) => repo.fullName.toLowerCase() === url.trim().toLowerCase())
+          setLink(full?.url ?? url)
+          return runImport(full?.url ?? url)
         },
+        listRepos: () => repos,
         requestSubmit: () => {
           live.current.step = FIELD_STEP_LAST
           setStep(FIELD_STEP_LAST)
@@ -136,7 +156,7 @@ export function NewShipWizard({ locale, handle, firstShip }: { locale: Locale; h
         },
         firstShip: () => firstShip,
       }),
-    [copy.steps, firstShip, runImport, setFields],
+    [copy.steps, firstShip, repos, runImport, setFields],
   )
 
   useEffect(() => {
@@ -223,9 +243,19 @@ export function NewShipWizard({ locale, handle, firstShip }: { locale: Locale; h
   }
 
   const repo = parseRepoUrl(fields.repository)
-  const showTopicTip = Boolean(repo) && imported?.hasTopic !== true
+  const repoUrl = repo ? `https://github.com/${repo.owner}/${repo.repo}` : null
+  const key = repoKey(fields.repository)
+  const topicOn = imported?.hasTopic === true || Boolean(key && repos.some((option) => option.topic && option.fullName.toLowerCase() === key))
+  const showTopicTip = Boolean(repoUrl) && !topicOn
 
-  if (done) return <DoneCard ship={done} locale={locale} copy={copy} showTopicTip={showTopicTip} />
+  async function pickRepo(option: RepoOption) {
+    setLink(option.url)
+    setLoadingRepo(option.fullName)
+    await runImport(option.url)
+    setLoadingRepo(null)
+  }
+
+  if (done) return <DoneCard ship={done} locale={locale} copy={copy} repoUrl={repoUrl} topicOn={topicOn} />
 
   return (
     <div className="ob">
@@ -254,7 +284,10 @@ export function NewShipWizard({ locale, handle, firstShip }: { locale: Locale; h
             <>
               <h2>{copy.link.title}</h2>
               <p className="ob-lede">{copy.link.lede}</p>
+              {repos.length > 0 ? <RepoPicker repos={repos} copy={copy.link} busy={importing} loading={loadingRepo} onPick={(option) => void pickRepo(option)} /> : null}
+              {repos.length > 0 ? <p className="ns-or">{copy.link.orPaste}</p> : null}
               <LinkInput
+                autoFocus={repos.length === 0}
                 label={copy.link.label}
                 placeholder={copy.link.placeholder}
                 value={link}
@@ -395,7 +428,13 @@ export function NewShipWizard({ locale, handle, firstShip }: { locale: Locale; h
                   {firstShip ? copy.preview.reviewBody : copy.preview.publishBody}
                 </span>
               </p>
-              {showTopicTip ? <p className="ob-hint ns-tip"><Github aria-hidden="true" />{copy.preview.topicTip}</p> : null}
+              {showTopicTip && repoUrl ? (
+                <div className="ob-hint ns-tip">
+                  <Github aria-hidden="true" />
+                  <span>{copy.preview.topicTip}</span>
+                  <a className="ns-inline" href={repoUrl} target="_blank" rel="noreferrer">{copy.done.autoAction}</a>
+                </div>
+              ) : null}
             </>
           ) : null}
         </div>
@@ -447,7 +486,7 @@ function Problem({ text }: { text: string }) {
   return <p className="ob-hint" data-tone="bad" role="alert"><X aria-hidden="true" />{text}</p>
 }
 
-function LinkInput({ label, placeholder, value, onChange, invalid, disabled }: { label: string; placeholder: string; value: string; onChange: (value: string) => void; invalid: boolean; disabled: boolean }) {
+function LinkInput({ label, placeholder, value, onChange, invalid, disabled, autoFocus }: { autoFocus: boolean; label: string; placeholder: string; value: string; onChange: (value: string) => void; invalid: boolean; disabled: boolean }) {
   const id = useId()
   return (
     <Field label={label} htmlFor={id}>
@@ -462,7 +501,7 @@ function LinkInput({ label, placeholder, value, onChange, invalid, disabled }: {
           autoCorrect="off"
           spellCheck={false}
           autoComplete="off"
-          autoFocus
+          autoFocus={autoFocus}
           disabled={disabled}
           placeholder={placeholder}
           onChange={(event) => onChange(event.target.value)}
@@ -525,7 +564,7 @@ function CoverField({
   )
 }
 
-function DoneCard({ ship, locale, copy, showTopicTip }: { ship: ShipDetail; locale: Locale; copy: import("@/lib/new-ship-copy").NewShipCopy; showTopicTip: boolean }) {
+function DoneCard({ ship, locale, copy, repoUrl, topicOn }: { ship: ShipDetail; locale: Locale; copy: import("@/lib/new-ship-copy").NewShipCopy; repoUrl: string | null; topicOn: boolean }) {
   const pending = ship.status === "pending"
   return (
     <div className="ob">
@@ -535,10 +574,19 @@ function DoneCard({ ship, locale, copy, showTopicTip }: { ship: ShipDetail; loca
           <h2>{pending ? copy.done.pendingTitle : copy.done.publishedTitle}</h2>
           <p className="ob-lede">{pending ? copy.done.pendingBody : copy.done.publishedBody}</p>
         </div>
-        {showTopicTip ? (
+        {repoUrl ? (
           <div className="ob-note ns-notice" data-tone="ready">
-            <Github aria-hidden="true" />
-            <span><strong>{copy.done.topicTitle}</strong>{copy.done.topicBody}</span>
+            {topicOn ? <Check aria-hidden="true" /> : <Github aria-hidden="true" />}
+            <span>
+              <strong>{topicOn ? copy.done.autoOn : copy.done.topicTitle}</strong>
+              {topicOn ? copy.done.autoOnBody : copy.done.topicBody}
+              {topicOn ? null : (
+                <a className="ob-btn ob-btn-primary ns-auto" href={repoUrl} target="_blank" rel="noreferrer">
+                  <Github aria-hidden="true" />
+                  {copy.done.autoAction}
+                </a>
+              )}
+            </span>
           </div>
         ) : null}
         <div className="ob-actions">
