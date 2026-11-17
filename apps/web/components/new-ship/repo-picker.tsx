@@ -7,7 +7,7 @@ import { filterRepos, readyRepos, type RepoOption } from "@/lib/github-repos"
 import type { NewShipCopy } from "@/lib/new-ship-copy"
 import { fill } from "@/lib/onboarding-copy"
 
-export const REPO_PAGE_SIZE = 12
+export const REPO_PAGE_SIZE = 6
 
 /** The member's own repositories. A click imports the repository; nothing is published from here. */
 export type RepoSelection = {
@@ -24,6 +24,7 @@ export const repoSelectionKey = (repo: RepoOption) => repo.fullName.toLowerCase(
 /** The member's own repositories. A click imports the repository; nothing is published from here.
  * In `selection` mode the rows are checkboxes and a bar at the bottom starts the batch review. */
 export function RepoPicker({
+  title,
   repos,
   copy,
   batch,
@@ -33,6 +34,8 @@ export function RepoPicker({
   selection,
   onStartSelection,
 }: {
+  /** Heading for the list: the member's own repositories or an organization's. */
+  title: string
   repos: RepoOption[]
   copy: NewShipCopy["link"]
   batch: NewShipCopy["batch"]
@@ -53,7 +56,7 @@ export function RepoPicker({
   const canSelect = repos.filter((repo) => !repo.hasShip).length >= 2
 
   return (
-    <section className="ns-repos" aria-label={copy.yourRepos}>
+    <section className="ns-repos" aria-label={title}>
       {ready.length > 0 ? (
         <div className="ns-ready">
           <p className="ns-ready-head">
@@ -70,7 +73,7 @@ export function RepoPicker({
       ) : null}
       <div className="ns-repos-head">
         <div className="ns-repos-title">
-          <h3>{copy.yourRepos}</h3>
+          <h3>{title}</h3>
           {selection ? (
             <button type="button" className="ns-inline" onClick={selection.onExit}>{batch.selectCancel}</button>
           ) : canSelect && onStartSelection ? (

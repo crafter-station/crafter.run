@@ -162,7 +162,7 @@
 }
 .ob-agent-body .ob-btn { justify-self: start; }
 /* The wrapper draws the focus ring for inputs it contains. */
-.ob .ob-affix input:focus-visible, .ob .ob-place-input input:focus-visible, .ob .ob-input:focus-visible, .ob .ob-textarea:focus-visible { outline: none; }
+.ob .ob-affix input:focus-visible, .ob .ob-affix textarea:focus-visible, .ob .ob-place-input input:focus-visible, .ob .ob-input:focus-visible, .ob .ob-textarea:focus-visible { outline: none; }
 .ob-affix > svg + input { padding-left: 10px; }
 @media (max-width: 720px) {
   .station-shell-pages:has(.ob) { --page-frame: 16px; }
@@ -191,6 +191,27 @@
 .ns-more { justify-self: start; }
 .ns-or { display: flex; align-items: center; gap: 12px; margin: 6px 0 -6px; font-size: 14px; color: var(--ob-muted); }
 .ns-or::after { content: ""; flex: 1; height: 1px; background: var(--ob-edge); }
+/* Links first: the field takes several links, one per line. GitHub import sits below and loads on demand. */
+.ns-linkbox { align-items: flex-start; height: auto; min-height: 52px; }
+.ns-linkbox > svg { margin-top: 15px; }
+.ns-linkbox textarea { flex: 1; min-width: 0; min-height: 50px; padding: 13px 16px 13px 10px; border: 0; background: transparent; color: var(--ob-ink); font: inherit; font-size: 16px; line-height: 1.5; resize: none; outline: none; white-space: pre; overflow-x: auto; }
+.ns-linkbox textarea::placeholder { color: var(--ob-muted); }
+.ns-multi-hint { margin-top: -6px; }
+.ns-gh { display: grid; gap: 14px; min-width: 0; margin-top: 8px; }
+.ns-owners { display: flex; flex-wrap: wrap; gap: 8px; }
+.ns-owner { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border: 1px solid var(--ob-edge); border-radius: 999px; background: var(--ob-field); color: var(--ob-ink); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; transition: border-color 160ms, background-color 160ms; }
+.ns-owner svg { width: 16px; height: 16px; color: var(--ob-muted); }
+.ns-owner:hover { border-color: var(--ob-accent); }
+.ns-owner:focus-visible { outline: 2px solid var(--ob-accent); outline-offset: 2px; }
+.ns-owner[aria-pressed="true"] { border-color: var(--ob-accent); background: color-mix(in srgb, var(--ob-accent) 16%, var(--ob-field)); }
+.ns-owner[aria-pressed="true"] svg { color: var(--ob-accent); }
+.ns-org-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ns-org-row .ob-affix { flex: 1 1 220px; }
+.ns-org-row > svg { width: 18px; height: 18px; color: var(--ob-muted); }
+.ns-org-hint { flex-basis: 100%; margin: 0; }
+.ns-gh-state { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ns-gh-state svg { width: 16px; height: 16px; }
+.ns-gh-state .ns-inline { display: inline-flex; align-items: center; gap: 4px; }
 .ns-tip { flex-wrap: wrap; }
 .ns-auto { display: inline-flex; justify-self: start; margin-top: 10px; max-width: 100%; }
 .ns-auto svg { color: inherit; }

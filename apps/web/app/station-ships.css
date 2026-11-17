@@ -387,7 +387,13 @@
 .dark .ships-page .ships-cta { background: color-mix(in srgb, var(--tint) 55%, hsl(var(--background))); }
 .ships-page .ships-ways-list [role="tab"] { box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .22); }
 .ships-page .ships-ways-list [role="tab"][aria-selected="true"], .ships-page .ships-ways-list [role="tab"][data-checked] { background: hsl(var(--foreground)); color: hsl(var(--background)); }
-.ships-page .ships-ways-code { background: hsl(var(--foreground)); color: hsl(var(--background)); }
+/* The panel is a solid surface in both themes: a translucent white wash turned it mid-grey on dark,
+   with soft ink text on top. The example link reads as a quiet well so it no longer mirrors the button. */
+.ships-page .ships-ways-panel { background: hsl(var(--background) / .82); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .1); }
+.ships-page .ships-ways-panel p { color: hsl(var(--foreground) / .8); }
+.ships-page .ships-ways-list [role="tab"] { color: hsl(var(--foreground) / .82); }
+.ships-page .ships-ways-list [role="tab"]:hover { color: hsl(var(--foreground)); }
+.ships-page .ships-ways-code { background: hsl(var(--foreground) / .07); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .16); }
 .ships-page .ships-ways-panel .ships-button-quiet { color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .35); }
 @media (prefers-reduced-motion: reduce) { .ships-page .ship-featured { transform: none; } }
 

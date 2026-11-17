@@ -23,7 +23,7 @@ import {
 } from "@/lib/new-ship-batch"
 import { newShipCopy, type NewShipCopy } from "@/lib/new-ship-copy"
 import { ImportError, SHIP_LIMITS, slugifyShip, type ShipFields } from "@/lib/new-ship-draft"
-import { importFromGithub } from "@/lib/new-ship-import"
+import { importAnyLink } from "@/lib/new-ship-import"
 import { fill } from "@/lib/onboarding-copy"
 import { publishShip } from "@/lib/publish-ship"
 import { ShipsApiError } from "@/lib/ships-client"
@@ -81,7 +81,7 @@ export function BatchReview({ locale, handle, firstShip, urls, repos, onBack }: 
       const repo = urlById.current.get(id)
       if (!repo) continue
       importing.current += 1
-      importFromGithub(repo)
+      importAnyLink(repo)
         .then((result) => alive.current && dispatch({ type: "imported", id, result }))
         .catch((cause) => alive.current && dispatch({ type: "importFailed", id, key: cause instanceof ImportError ? cause.key : "importFailed" }))
         .finally(() => {
@@ -197,7 +197,7 @@ export function BatchReview({ locale, handle, firstShip, urls, repos, onBack }: 
   const counts = batchCounts(rows)
   const unfinished = rows.filter((row) => row.phase !== "published" && row.phase !== "inReview")
   const finished = ran && !running
-  const missingTopic = rows.filter((row) => (row.phase === "published" || row.phase === "inReview") && row.hasTopic !== true && !repos.some((repo) => repo.topic && repoKey(repo.url) === row.id)).length
+  const missingTopic = rows.filter((row) => (row.phase === "published" || row.phase === "inReview") && repoKey(row.repo) !== null && row.hasTopic !== true && !repos.some((repo) => repo.topic && repoKey(repo.url) === row.id)).length
   const waitSeconds = waitUntil === null ? 0 : Math.max(1, Math.ceil((waitUntil - now) / 1000))
   const importingCount = rows.filter((row) => row.phase === "importing").length
 
@@ -343,7 +343,7 @@ function BatchRowItem({
   const problems = rowProblems(row, rows)
   const needs = needsDetails(row, rows)
   const editable = row.phase === "idle" || row.phase === "failed"
-  const label = row.repo.replace(/^https?:\/\/github\.com\//i, "")
+  const label = row.repo.replace(/^https?:\/\/(github\.com\/)?/i, "").replace(/\/$/, "")
   const cover = fields?.imageUrl.trim() || null
 
   // A field stays on screen once it was shown, so it does not vanish under the cursor when it becomes valid.

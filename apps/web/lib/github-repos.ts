@@ -106,18 +106,51 @@ export function githubFetch(token: string | undefined, base: typeof fetch = fetc
 
 const REPO_CACHE_SECONDS = 300
 
-/** The member's public repositories, cached per user for 5 minutes. Any failure returns an empty list. */
-export async function listGithubRepos(login: string, fetchImpl: typeof fetch = fetch): Promise<RepoOption[]> {
+/** A GitHub user or organization login. */
+export const GITHUB_LOGIN = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$/
+
+export type OwnerKind = "user" | "org"
+export type OwnerRepos = { status: "ok"; repos: RepoOption[] } | { status: "notFound" } | { status: "error" }
+
+function githubGet(path: string, fetchImpl: typeof fetch) {
+  return githubFetch(process.env.GITHUB_TOKEN, fetchImpl)(`https://api.github.com${path}`, {
+    headers: { Accept: "application/vnd.github+json" },
+    signal: AbortSignal.timeout(3500),
+    next: { revalidate: REPO_CACHE_SECONDS },
+  } as RequestInit)
+}
+
+async function readRepos(response: Response): Promise<OwnerRepos> {
+  if (response.status === 404) return { status: "notFound" }
+  if (!response.ok) return { status: "error" }
+  const raw = (await response.json()) as RawRepo[]
+  return Array.isArray(raw) ? { status: "ok", repos: selectRepos(raw, []) } : { status: "error" }
+}
+
+/** Public repositories of a user or an organization, newest push first, cached for 5 minutes.
+ * An organization that is not found is retried as a user, so a typed login works either way. */
+export async function listOwnerRepos(owner: string, kind: OwnerKind, fetchImpl: typeof fetch = fetch): Promise<OwnerRepos> {
+  if (!GITHUB_LOGIN.test(owner)) return { status: "notFound" }
+  const login = encodeURIComponent(owner)
   try {
-    const request = githubFetch(process.env.GITHUB_TOKEN, fetchImpl)
-    const response = await request(`https://api.github.com/users/${encodeURIComponent(login)}/repos?type=owner&sort=pushed&per_page=100`, {
-      headers: { Accept: "application/vnd.github+json" },
-      signal: AbortSignal.timeout(3500),
-      next: { revalidate: REPO_CACHE_SECONDS },
-    } as RequestInit)
+    if (kind === "org") {
+      const org = await readRepos(await githubGet(`/orgs/${login}/repos?type=public&sort=pushed&per_page=100`, fetchImpl))
+      if (org.status !== "notFound") return org
+    }
+    return await readRepos(await githubGet(`/users/${login}/repos?type=owner&sort=pushed&per_page=100`, fetchImpl))
+  } catch {
+    return { status: "error" }
+  }
+}
+
+/** The user's public organization memberships. GitHub never lists private ones, so an empty list is common. */
+export async function listGithubOrgs(login: string, fetchImpl: typeof fetch = fetch): Promise<string[]> {
+  if (!GITHUB_LOGIN.test(login)) return []
+  try {
+    const response = await githubGet(`/users/${encodeURIComponent(login)}/orgs?per_page=100`, fetchImpl)
     if (!response.ok) return []
-    const raw = (await response.json()) as RawRepo[]
-    return Array.isArray(raw) ? selectRepos(raw, []) : []
+    const raw = (await response.json()) as { login?: string }[]
+    return Array.isArray(raw) ? raw.map((org) => org.login).filter((name): name is string => Boolean(name)) : []
   } catch {
     return []
   }
