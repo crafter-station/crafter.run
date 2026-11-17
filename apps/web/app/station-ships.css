@@ -362,6 +362,8 @@
 .dark .ships-page[data-tone="lilac"] { --tint: #51465d; --tint-deep: #d4c8e5; }
 
 .ships-page .journal-band { background: transparent; box-shadow: none; clip-path: none; isolation: isolate; }
+/* The glow reaches past the column; clip it at the page so it never adds horizontal scroll. */
+.ships-page { overflow-x: clip; }
 .ships-page .journal-band::before {
   content: ""; position: absolute; z-index: -1; inset: -120px -100vmax 0; pointer-events: none;
   background:
