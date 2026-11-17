@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Bot, Check, Copy } from "lucide-react"
+import { Check, Copy } from "lucide-react"
 
 /** The prompt a member pastes into their coding agent to ship from the terminal instead of the form. */
 export const shipAgentPrompt = [
@@ -48,20 +48,5 @@ export function AgentPromptBlock({
         {copied ? copiedLabel : ""}
       </span>
     </>
-  )
-}
-
-export function CopyAgentPrompt() {
-  return (
-    <section className="mt-10 max-w-2xl border border-line p-5">
-      <p className="flex items-center gap-2 font-label text-xs uppercase tracking-[0.25em] text-accent">
-        <Bot className="size-4" aria-hidden="true" /> Or let your agent do it
-      </p>
-      <p className="mt-3 text-sm leading-6 text-muted-foreground">
-        Paste this into Claude Code, Codex or any coding agent, from your project folder. It drafts the Ship with the Crafter CLI and
-        waits for you before publishing.
-      </p>
-      <AgentPromptBlock prompt={shipAgentPrompt} />
-    </section>
   )
 }
