@@ -17,6 +17,7 @@ export function SiteShell({ children, footer, event, locale }: { children: React
   const agenda = pathname === `/${locale}/events`
   const journal = pathname === `/${locale}/blog` || pathname.startsWith(`/${locale}/blog/`)
     || pathname === `/${locale}/changelog` || pathname.startsWith(`/${locale}/changelog/`)
+    || pathname === `/${locale}/ships`
   const font = pathname === `/${locale}/font`
   const bounties = pathname === `/${locale}/bounties` || pathname.startsWith(`/${locale}/bounties/`)
   const pages = !docs && !home && !oss && !universe && !agenda && !journal && !bounties && !font

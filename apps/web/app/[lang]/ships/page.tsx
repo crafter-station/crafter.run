@@ -1,17 +1,29 @@
-import { StationPageHero } from "@/components/station-page-hero"
+import { PackageOpen, Plus, Rss, Terminal } from "lucide-react"
 import Link from "next/link"
-import { ArrowUpRight, PackageOpen, Rss, Terminal } from "lucide-react"
-import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
+import { getTranslations } from "next-intl/server"
 
-import { Container, SectionGap } from "@/components/grid-container"
-import { InstallSkillCommand } from "@/components/install-skill-command"
-import { ShipUpvote } from "@/components/ship-upvote"
+import { BandChrome } from "@/components/blog/band-chrome"
+import { MakersWall } from "@/components/ships/makers-wall"
+import { PublishWays } from "@/components/ships/publish-ways"
+import { ShipCard } from "@/components/ships/ship-card"
+import { FeaturedShip } from "@/components/ships/ship-featured"
+import { ShipsPulse } from "@/components/ships/ships-pulse"
 import { isLocale, locales } from "@/lib/i18n"
 import { baseUrl, pageMetadata } from "@/lib/seo"
-import { lastActivityAt, relativeTime } from "@/lib/ship-activity"
+import { buildActivity } from "@/lib/ship-activity"
 import { shipsFeedPath } from "@/lib/ship-feed"
-import { listShipsPage } from "@/lib/ships"
+import { listAllShips, listCrafters, listShipsWithUpdates } from "@/lib/ships"
+import {
+  buildMakers,
+  hasLiveLink,
+  isDefaultView,
+  parseShipsView,
+  pickFeatured,
+  shipsQuery,
+  shipTotals,
+  sortShips,
+} from "@/lib/ships-showcase"
 
 export const dynamic = "force-dynamic"
 
@@ -20,6 +32,7 @@ export function generateStaticParams() {
 }
 
 const pageSize = 24
+const pulseSize = 6
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
@@ -36,178 +49,195 @@ export default async function ShipsPage({
   searchParams,
 }: {
   params: Promise<{ lang: string }>
-  searchParams: Promise<{ page?: string }>
+  searchParams: Promise<{ sort?: string; live?: string; page?: string }>
 }) {
   const { lang } = await params
   if (!isLocale(lang)) notFound()
-  const requested = Number.parseInt((await searchParams).page ?? "1", 10)
-  const pageNumber = Number.isInteger(requested) && requested > 1 ? Math.min(requested, 10_000) : 1
+  const view = parseShipsView(await searchParams)
 
-  const [t, page] = await Promise.all([
+  const [t, result, profiles] = await Promise.all([
     getTranslations({ locale: lang, namespace: "pages.ships" }),
-    listShipsPage({ limit: pageSize, offset: (pageNumber - 1) * pageSize }),
+    listAllShips(),
+    listCrafters(),
   ])
-  const shipsResult = page?.ships ?? null
-  const ships = shipsResult ?? []
-  const total = page?.pagination?.total ?? ships.length
-  const crafterCount = page?.pagination?.crafterCount ?? new Set(ships.map((ship) => ship.owner.handle)).size
-  const pages = Math.max(1, Math.ceil(total / pageSize))
+  const ships = result?.ships ?? []
   const now = Date.now()
-  const pageHref = (n: number) => (n <= 1 ? `/${lang}/ships` : `/${lang}/ships?page=${n}`)
+  const totals = shipTotals(ships)
+  const crafterCount = result?.pagination?.crafterCount ?? new Set(ships.map((ship) => ship.owner.handle)).size
+  const makers = buildMakers(ships, profiles)
+  const affiliations = new Map(makers.map((maker) => [maker.handle, maker.affiliation]))
+  const featured = pickFeatured(ships)
+  const events = buildActivity(ships, await listShipsWithUpdates(ships)).slice(0, pulseSize)
+  const avatars = Object.fromEntries(ships.map((ship) => [ship.owner.handle, ship.owner.avatarUrl]))
+
+  const liveCount = ships.filter(hasLiveLink).length
+  const filtered = sortShips(ships, view.sort).filter((ship) => !view.live || hasLiveLink(ship))
+  const wall = isDefaultView(view) && featured ? filtered.filter((ship) => ship.id !== featured.id) : filtered
+  const pages = Math.max(1, Math.ceil(wall.length / pageSize))
+  const pageNumber = Math.min(view.page, pages)
+  const visible = wall.slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
+  const href = (next: Partial<typeof view>) => `/${lang}/ships${shipsQuery({ ...view, page: 1, ...next })}#ships-wall`
+
+  const labels: Record<string, string> = {
+    featuredLabel: t("featuredLabel"),
+    pulseTitle: t("pulseTitle"),
+    pulseLead: t("pulseLead"),
+    pulseBy: t.raw("pulseBy") as string,
+    pulsePublished: t("pulsePublished"),
+    pulseUpdate: t("pulseUpdate"),
+    core: t("core"),
+    crew: t("crew"),
+    repository: t("links.repository"),
+    website: t("links.website"),
+    demo: t("links.demo"),
+    package: t("links.package"),
+    social: t("links.social"),
+  }
+  // A zero would read as a flaw, so updates and votes only show once they exist.
+  const stats = [
+    { value: totals.ships, label: t("shipCount", { count: totals.ships }) },
+    { value: crafterCount, label: t("crafterCount", { count: crafterCount }) },
+    { value: totals.updates, label: t("statUpdates", { count: totals.updates }) },
+    { value: totals.votes, label: t("statVotes", { count: totals.votes }) },
+  ].filter((stat, index) => index < 2 || stat.value > 0)
 
   return (
-    <>
-
-      <main className="flex-1">
-        <StationPageHero eyebrow={t("eyebrow")} title={t("title")} description={t("description")} art="ships">
-          <InstallSkillCommand label={t("installLabel")} copyLabel={t("copyInstallCommand")} copiedLabel={t("copiedInstallCommand")} />
-        </StationPageHero>
-        <Container><div className="station-stat-strip station-stat-strip-two">
-          <Stat value={shipsResult === null ? "--" : total} label={t("shipCount", { count: total })} />
-          <Stat value={shipsResult === null ? "--" : crafterCount} label={t("crafterCount", { count: crafterCount })} />
-        </div></Container>
-
-        <Container innerClassName="border-b px-6 py-4 md:px-10">
-          <p className="text-sm text-muted-foreground">
-            {t("topicNote")}{" "}
-            <a href="https://github.com/topics/crafter-ship" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 transition-colors hover:text-accent">
-              {t("topicLink")}
-            </a>
-          </p>
-        </Container>
-
-        <SectionGap />
-
-        <Container innerClassName="border-b px-6 py-10 md:px-10">
-          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            {t("manifestEyebrow")}
-          </p>
-          <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
-            <h2 className="text-3xl tracking-tight md:text-4xl">{t("manifestTitle")}</h2>
-            <a href={shipsFeedPath(lang)} className="inline-flex items-center gap-1.5 font-label text-xs uppercase tracking-[0.18em] transition-colors hover:text-accent">
-              <Rss className="size-3.5" aria-hidden="true" />
-              {t("rss")}
-            </a>
-          </div>
-        </Container>
-
-        <Container>
-          {shipsResult === null ? (
-            <RepositoryMessage
-              icon={<Terminal className="mx-auto size-8 text-accent" strokeWidth={1.5} />}
-              title={t("unavailableTitle")}
-              description={t("unavailableDescription")}
-            />
-          ) : ships.length === 0 ? (
-            <div className="station-directory-empty grid place-items-center text-center">
-              <div className="max-w-lg">
-                <PackageOpen className="mx-auto size-8 text-accent" strokeWidth={1.5} />
-                <h2 className="mt-6 text-3xl tracking-tight">{t("emptyTitle")}</h2>
-                <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-muted-foreground">
-                  {t("emptyDescription")}
-                </p>
-                <div className="mx-auto mt-8 flex w-fit items-center gap-3 border border-line bg-secondary/30 px-4 py-3 text-left font-label text-xs">
-                  <Terminal className="size-4 text-accent" />
-                  <span className="text-muted-foreground">$</span>
-                  <code>crafter ship</code>
-                  <span className="border border-line px-2 py-0.5 text-xs uppercase tracking-wider text-muted-foreground">
-                    {t("comingSoon")}
-                  </span>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="station-card-grid">
-              {ships.map((ship, index) => (
-                <article
-                  key={ship.id}
-                  className="group min-h-72 border-b border-line p-8 transition-colors hover:bg-accent-surface/10 md:border-r xl:min-h-80"
-                >
-                  {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mb-6 aspect-video w-full border border-line object-cover" /> : null}
-                  <div className="flex items-start justify-between gap-6">
-                    <p className="font-label text-xs uppercase tracking-[0.28em] text-muted-foreground">
-                      {String((pageNumber - 1) * pageSize + index + 1).padStart(3, "0")}
-                    </p>
-                    <div className="flex items-center gap-3">
-                      <p className="font-label text-xs text-muted-foreground">@{ship.owner.handle}</p>
-                      <ShipUpvote shipId={ship.id} slug={ship.slug} initialVoteCount={ship.voteCount} locale={lang} />
-                    </div>
+    <main className="journal-page ships-page">
+      <BandChrome />
+      <header className="journal-band ships-band" data-chrome-band>
+        <div className="ships-band-grid">
+          <div className="ships-band-copy">
+            <p className="journal-band-crumbs">{t("eyebrow")}</p>
+            <h1>{t("title")}</h1>
+            <p className="journal-band-summary">{t("heroLede")}</p>
+            {result ? (
+              <dl className="ships-stats">
+                {stats.map((stat) => (
+                  <div key={stat.label}>
+                    <dt>{stat.label}</dt>
+                    <dd>{stat.value}</dd>
                   </div>
-                  <h3 className={ship.imageUrl ? "mt-8 text-3xl font-medium tracking-tight" : "mt-12 text-3xl font-medium tracking-tight"}>
-                    <Link href={`/${lang}/ships/${ship.slug}`} className="transition-colors hover:text-accent">
-                      {ship.name}
-                    </Link>
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{ship.tagline}</p>
-                  <p className="mt-5 text-xs text-muted-foreground">
-                    {t("by", { name: ship.owner.displayName })}
-                  </p>
-                  <p className="mt-2 text-xs text-muted-foreground">
-                    <time dateTime={lastActivityAt(ship)}>{t("updated", { when: relativeTime(lastActivityAt(ship), lang, now) })}</time>
-                    {ship.updateCount ? ` · ${t("updateCount", { count: ship.updateCount })}` : ""}
-                  </p>
-                  {ship.latestUpdate ? (
-                    <p className="mt-2 text-sm leading-6">{t("latestUpdate", { title: ship.latestUpdate.title })}</p>
-                  ) : null}
-                  {ship.links.length > 0 ? (
-                    <div className="mt-8 flex flex-wrap gap-x-5 gap-y-3">
-                      {ship.links.map((link) => (
-                        <Link
-                          key={`${link.type}-${link.url}`}
-                          href={link.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1.5 font-label text-xs uppercase tracking-[0.18em] transition-colors hover:text-accent"
-                        >
-                          {t(`links.${link.type}`)}
-                          <ArrowUpRight className="size-3" />
-                        </Link>
-                      ))}
-                    </div>
-                  ) : null}
-                </article>
-              ))}
+                ))}
+              </dl>
+            ) : null}
+            <div className="ships-band-actions">
+              <Link href={`/${lang}/ships/new`} className="ships-button ships-button-band">
+                <Plus aria-hidden="true" />
+                {t("publish")}
+              </Link>
+              <a href={shipsFeedPath(lang)} className="ships-band-link">
+                <Rss aria-hidden="true" />
+                {t("rss")}
+              </a>
             </div>
-          )}
-          {pages > 1 && shipsResult !== null ? (
-            <nav aria-label={t("pageOf", { page: pageNumber, pages })} className="flex items-center justify-between gap-4 border-b border-line px-6 py-6 font-label text-xs uppercase tracking-[0.18em] md:px-10">
-              {pageNumber > 1 ? <Link href={pageHref(pageNumber - 1)} rel="prev" className="transition-colors hover:text-accent">{`← ${t("previous")}`}</Link> : <span />}
-              <span className="text-muted-foreground">{t("pageOf", { page: pageNumber, pages })}</span>
-              {pageNumber < pages ? <Link href={pageHref(pageNumber + 1)} rel="next" className="transition-colors hover:text-accent">{`${t("next")} →`}</Link> : <span />}
-            </nav>
+          </div>
+          {featured ? (
+            <FeaturedShip
+              ship={featured}
+              locale={lang}
+              now={now}
+              labels={labels}
+              votesLabel={t("votesCount", { count: featured.voteCount })}
+              latestLabel={featured.latestUpdate ? t("latestUpdate", { title: featured.latestUpdate.title }) : null}
+            />
           ) : null}
-        </Container>
-      </main>
+        </div>
+      </header>
 
-    </>
-  )
-}
+      {result === null ? (
+        <section className="ships-empty">
+          <Terminal aria-hidden="true" />
+          <h2>{t("unavailableTitle")}</h2>
+          <p>{t("unavailableDescription")}</p>
+        </section>
+      ) : ships.length === 0 ? (
+        <section className="ships-empty">
+          <PackageOpen aria-hidden="true" />
+          <h2>{t("emptyTitle")}</h2>
+          <p>{t("emptyDescription")}</p>
+        </section>
+      ) : (
+        <>
+          <div className="ships-split">
+            <ShipsPulse events={events} avatars={avatars} locale={lang} now={now} labels={labels} />
+            <MakersWall
+              makers={makers}
+              locale={lang}
+              labels={{
+                title: t("makersTitle"),
+                lead: t("makersLead", { count: makers.length }),
+                wall: t("makersWall"),
+                core: t("core"),
+                crew: t("crew"),
+                you: t("makersYou"),
+                publish: t("publish"),
+                ships: Object.fromEntries(makers.map((maker) => [maker.handle, t("makerShips", { count: maker.ships })])),
+              }}
+            />
+          </div>
 
-function Stat({ value, label, bordered = false }: { value: number | string; label: string; bordered?: boolean }) {
-  return (
-    <div className={bordered ? "border-l border-line p-5" : "p-5"}>
-      <p className="font-label text-3xl font-medium tabular-nums">{value}</p>
-      <p className="mt-2 font-label text-xs uppercase tracking-[0.22em] text-muted-foreground">{label}</p>
-    </div>
-  )
-}
+          <section id="ships-wall" className="ships-wall" aria-labelledby="ships-wall-title">
+            <header className="ships-wall-head">
+              <div>
+                <p className="station-label">{t("gridEyebrow")}</p>
+                <h2 id="ships-wall-title">{t("gridTitle")}</h2>
+              </div>
+              <nav aria-label={t("sortLabel")} className="ships-filters">
+                <Link href={href({ sort: "recent" })} scroll={false} aria-current={view.sort === "recent" ? "true" : undefined}>{t("sortRecent")}</Link>
+                <Link href={href({ sort: "votes" })} scroll={false} aria-current={view.sort === "votes" ? "true" : undefined}>{t("sortVotes")}</Link>
+                <span className="ships-filters-rule" aria-hidden="true" />
+                <Link href={href({ live: !view.live })} scroll={false} aria-current={view.live ? "true" : undefined}>
+                  {t("filterLive")}
+                  <span>{liveCount}</span>
+                </Link>
+              </nav>
+            </header>
+            <p className="ships-count" aria-live="polite">{t("resultCount", { count: filtered.length })}</p>
+            {visible.length === 0 ? (
+              <div className="ships-empty ships-empty-inline">
+                <p>{t("noMatches")}</p>
+                <Link href={`/${lang}/ships#ships-wall`} className="ships-button ships-button-quiet">{t("clearFilters")}</Link>
+              </div>
+            ) : (
+              <ul className="ships-grid">
+                {visible.map((ship) => (
+                  <li key={ship.id}>
+                    <ShipCard ship={ship} locale={lang} now={now} labels={labels} affiliation={affiliations.get(ship.owner.handle) ?? null} />
+                  </li>
+                ))}
+              </ul>
+            )}
+            {pages > 1 ? (
+              <nav aria-label={t("pageOf", { page: pageNumber, pages })} className="ships-pager">
+                {pageNumber > 1 ? <Link href={`/${lang}/ships${shipsQuery({ ...view, page: pageNumber - 1 })}#ships-wall`} rel="prev">{`← ${t("previous")}`}</Link> : <span />}
+                <span>{t("pageOf", { page: pageNumber, pages })}</span>
+                {pageNumber < pages ? <Link href={`/${lang}/ships${shipsQuery({ ...view, page: pageNumber + 1 })}#ships-wall`} rel="next">{`${t("next")} →`}</Link> : <span />}
+              </nav>
+            ) : null}
+          </section>
+        </>
+      )}
 
-function RepositoryMessage({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode
-  title: string
-  description: string
-}) {
-  return (
-    <div className="station-directory-empty grid place-items-center text-center">
-      <div className="max-w-lg">
-        {icon}
-        <h2 className="mt-6 text-3xl tracking-tight">{title}</h2>
-        <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-muted-foreground">{description}</p>
-      </div>
-    </div>
+      <section className="ships-cta" aria-labelledby="ships-cta-title">
+        <div className="ships-cta-copy">
+          <p className="station-label">{t("ctaEyebrow")}</p>
+          <h2 id="ships-cta-title">{t("ctaTitle")}</h2>
+          <p>{t("ctaLead")}</p>
+          <Link href={`/${lang}/ships/new`} className="ships-button ships-button-band">
+            <Plus aria-hidden="true" />
+            {t("publish")}
+          </Link>
+        </div>
+        <PublishWays
+          locale={lang}
+          labels={{
+            label: t("ctaWays"),
+            link: { tab: t("wayLinkTab"), title: t("wayLinkTitle"), body: t("wayLinkBody"), action: t("wayLinkAction") },
+            agent: { tab: t("wayAgentTab"), title: t("wayAgentTitle"), body: t("wayAgentBody"), copy: t("copyPrompt"), copied: t("copiedPrompt") },
+            topic: { tab: t("wayTopicTab"), title: t("wayTopicTitle"), body: t("wayTopicBody"), action: t("wayTopicAction") },
+          }}
+        />
+      </section>
+    </main>
   )
 }

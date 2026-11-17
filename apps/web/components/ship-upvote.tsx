@@ -66,11 +66,12 @@ export function ShipVotesProvider({ children }: { children: ReactNode }) {
   return <VoteContext value={{ loaded, votedShipIds, voteCounts, setVote }}>{children}</VoteContext>
 }
 
-export function ShipUpvote({ shipId, slug, initialVoteCount, locale }: {
+export function ShipUpvote({ shipId, slug, initialVoteCount, locale, variant = "square" }: {
   shipId: string
   slug: string
   initialVoteCount: number
   locale: Locale
+  variant?: "square" | "pill"
 }) {
   const votes = useContext(VoteContext)
   const { getToken, isLoaded, isSignedIn } = useAuth()
@@ -80,7 +81,9 @@ export function ShipUpvote({ shipId, slug, initialVoteCount, locale }: {
   const active = votes?.votedShipIds.has(shipId) ?? false
   const voteCount = votes?.voteCounts.get(shipId) ?? initialVoteCount
   const t = copy[locale]
-  const className = `inline-flex items-center gap-2 border px-3 py-2 font-label text-xs tabular-nums transition-colors ${active ? "border-accent bg-accent text-accent-foreground" : "border-line hover:border-accent hover:text-accent"}`
+  const className = variant === "pill"
+    ? "ship-vote"
+    : `inline-flex items-center gap-2 border px-3 py-2 font-label text-xs tabular-nums transition-colors ${active ? "border-accent bg-accent text-accent-foreground" : "border-line hover:border-accent hover:text-accent"}`
   const label = active ? t.remove : t.add
 
   async function toggleVote() {
@@ -108,7 +111,7 @@ export function ShipUpvote({ shipId, slug, initialVoteCount, locale }: {
   }
 
   const button = (
-    <button type="button" className={className} aria-label={label} aria-pressed={active} disabled={!isLoaded || !votes?.loaded || pending} onClick={isSignedIn ? toggleVote : undefined} title={error ? t.error : label}>
+    <button type="button" className={className} aria-label={label} aria-pressed={active} data-active={active ? "" : undefined} disabled={!isLoaded || !votes?.loaded || pending} onClick={isSignedIn ? toggleVote : undefined} title={error ? t.error : label}>
       <ArrowUp className="size-3.5" strokeWidth={2} />
       <span>{voteCount}</span>
     </button>

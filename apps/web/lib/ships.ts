@@ -44,6 +44,21 @@ export async function listShipsPage(
   }
 }
 
+/** Every published Ship, read page by page so the showcase can sort and filter the whole set. */
+export async function listAllShips(): Promise<ShipsPage | null> {
+  const first = await listShipsPage({ limit: 100 })
+  if (!first) return null
+  const ships = [...first.ships]
+  let offset = first.pagination?.nextOffset ?? null
+  while (offset !== null) {
+    const next = await listShipsPage({ limit: 100, offset })
+    if (!next) break
+    ships.push(...next.ships)
+    offset = next.pagination?.nextOffset ?? null
+  }
+  return { ships, pagination: first.pagination }
+}
+
 export async function listPublishedShips(options: { handle?: string } = {}): Promise<ShipSummary[] | null> {
   return (await listShipsPage({ handle: options.handle }))?.ships ?? null
 }
