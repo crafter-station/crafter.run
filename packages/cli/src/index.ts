@@ -18,6 +18,7 @@ import {
 import { api, publicApi } from "./api"
 import { login, logout, openBrowser } from "./auth"
 import { runChangelog } from "./changelog"
+import { runProfile } from "./profile"
 import { runSkills } from "./skills"
 import { webPath } from "./config"
 import { inferShipMetadata } from "./metadata"
@@ -34,6 +35,8 @@ Usage:
   crafter onboard [--file <json-file> --confirm]
   crafter handle <handle>
   crafter whoami
+  crafter profile get [--json]
+  crafter profile update --file <path|-> [--confirm] [--json]
   crafter ships
   crafter ship [--file <json-file>]
   crafter publish <id> --revision <updated-at> --confirm
@@ -103,6 +106,25 @@ async function main(args: string[]): Promise<void> {
   }
   if (command === "skills") {
     process.exitCode = runSkills(rest)
+    return
+  }
+  if (command === "profile") {
+    process.exitCode = await runProfile(
+      rest,
+      {
+        getMe: () => api("/v1/me"),
+        putMe: (input) => api("/v1/me", { method: "PUT", body: JSON.stringify(input) }),
+        readFile: (path) => readFile(path, "utf8"),
+        readStdin: async () => {
+          const chunks: Buffer[] = []
+          for await (const chunk of process.stdin) chunks.push(Buffer.from(chunk))
+          return Buffer.concat(chunks).toString("utf8")
+        },
+        profileUrl: (handle) => webPath(`/crafters/${handle}`),
+        onboardingUrl: () => webPath("/onboarding"),
+      },
+      { out: (text) => console.log(text), err: (text) => console.error(text) },
+    )
     return
   }
   if (command === "changelog") {
