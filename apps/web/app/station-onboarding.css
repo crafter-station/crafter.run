@@ -152,6 +152,7 @@
   .ob-step button > span:last-child { display: none; }
   .ob-step[data-state="active"] button { justify-content: center; }
   .ob-actions .ob-btn-primary { flex: 1 0 100%; }
+  .ob-actions .ob-btn-ghost { white-space: normal; text-align: center; max-width: 100%; }
   .ob-agent > button { padding: 0 16px; }
   .ob-agent-body { padding: 0 16px 18px; }
 }
