@@ -1,0 +1,74 @@
+---
+title: "Tus proyectos en crafter.run: publica un Ship desde un link o tu agente"
+summary: "Los Ships de la comunidad ahora se ven en la home, ordenados por actividad, y tus releases de GitHub se publican solas como updates."
+date: 2026-11-16
+area: station
+kind: update
+crafters:
+  - railly
+repos:
+  - crafter-station/crafter.run
+links:
+  - label: "Ver los Ships"
+    url: "https://crafter.run/es/ships"
+  - label: "Publicar un Ship"
+    url: "https://crafter.run/es/ships/new"
+image: /changelog/ships-for-everyone/cover.webp
+evidence:
+  - "https://github.com/crafter-station/crafter.run/pull/193"
+  - "https://github.com/crafter-station/crafter.run/pull/194"
+  - "https://github.com/crafter-station/crafter.run/pull/195"
+  - "https://github.com/crafter-station/crafter.run/pull/198"
+  - "https://github.com/crafter-station/crafter.run/pull/201"
+  - "https://github.com/crafter-station/crafter.run/pull/202"
+  - "https://www.npmjs.com/package/@crafter/cli"
+---
+
+Lo que construye la comunidad ahora tiene su lugar en crafter.run. Creas un Ship una vez, pegando el link de tu repo o desde tu terminal, y cada update queda en tu perfil. Los Ships recientes aparecen en la home, en [crafter.run](https://crafter.run/es).
+
+<Clip src="/changelog/ships-for-everyone/ships.mp4" poster="/changelog/ships-for-everyone/ships.webp" size="1280x800" alt="La home de crafter.run baja hasta la sección De la comunidad y abre el Ship TOCus, con el botón Compartir en WhatsApp" caption="De la home al Ship, y de ahí al grupo de WhatsApp." />
+
+## Publica desde un link o desde tu agente
+
+En [crafter.run/ships/new](https://crafter.run/es/ships/new) pegas el link de tu repo o tu sitio y el borrador se arma solo. Si prefieres la terminal, la página trae un prompt para copiarle a Claude Code, Codex o cualquier agente: arma el borrador con el CLI y espera tu OK antes de publicar.
+
+El CLI trae sus propias skills, siempre de la versión que tienes instalada. Para que tu agente las encuentre, instala una sola: `npx skills add crafter-station/crafter.run --skill crafter`.
+
+<Clip src="/changelog/ships-for-everyone/terminal.mp4" poster="/changelog/ships-for-everyone/terminal.webp" size="1280x800" alt="Terminal con crafter --version 0.7.2, crafter skills list mostrando changelog y ship, y el inicio de crafter skills get ship" caption="crafter skills list muestra lo que sabe hacer tu versión del CLI." />
+
+## Tus releases se vuelven updates
+
+Agrega el topic `crafter-ship` a un repo público en GitHub y cada release nueva se publica como update de su Ship, sin que hagas nada. Funciona cuando tu cuenta de crafter.run tiene vinculado el GitHub dueño o contribuidor del repo. El dueño del Ship también puede traer sus releases al instante con "Sync releases".
+
+<Figure src="/changelog/ships-for-everyone/ships-page.webp" alt="La página de Ships con 27 ships, 14 crafters y la línea que invita a agregar el topic crafter-ship" size="1280x800" caption="La lista de Ships se ordena por actividad: un update sube el Ship." />
+
+## Tu perfil, tu espacio
+
+Cada perfil muestra desde cuándo eres Crafter, cuántos Ships y updates llevas y una línea de tiempo con tu actividad. Core y Crew llevan su insignia.
+
+<Gallery>
+  <Figure src="/changelog/ships-for-everyone/profile.webp" alt="Perfil de Ignacio Velásquez con la insignia Core, Crafter desde agosto de 2026 y su conteo de Ships" size="1280x800" caption="El perfil cuenta lo que vas publicando." />
+  <Figure src="/changelog/ships-for-everyone/signin.webp" alt="Página Entra a Crafter Station con el botón Continuar con GitHub y el campo de correo" size="1280x800" caption="Entrar ahora está a la vista en cada página." />
+</Gallery>
+
+## Revisamos solo el primero
+
+El primer Ship de cada persona lo revisa el equipo antes de publicarse, y solo miramos spam y abuso, no la calidad. Desde ahí publicas directo. Core y Crew publican directo desde el inicio.
+
+## Pruébalo
+
+Entra en [crafter.run/es/sign-in](https://crafter.run/es/sign-in) y publica tu primer Ship en [crafter.run/es/ships/new](https://crafter.run/es/ships/new). Desde la terminal:
+
+```sh
+npm i -g @crafter/cli
+crafter skills get ship
+```
+
+## Qué cambió
+
+- El primer Ship de cada miembro pasa por revisión, la home muestra los Ships de la comunidad y cada Ship se comparte en WhatsApp ([#193](https://github.com/crafter-station/crafter.run/pull/193)).
+- El CLI sirve sus propias skills con `crafter skills list` y `crafter skills get` ([#194](https://github.com/crafter-station/crafter.run/pull/194)).
+- Ships ordenados por actividad, feed Atom y línea de tiempo en el perfil ([#195](https://github.com/crafter-station/crafter.run/pull/195)).
+- Una sola skill `crafter` para instalar y un prompt para tu agente en la página de nuevo Ship ([#198](https://github.com/crafter-station/crafter.run/pull/198)).
+- Las releases de GitHub se vuelven updates con el topic `crafter-ship` ([#201](https://github.com/crafter-station/crafter.run/pull/201)).
+- Entrar visible en cada página y una página de acceso nueva ([#202](https://github.com/crafter-station/crafter.run/pull/202)).
