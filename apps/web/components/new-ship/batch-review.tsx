@@ -168,7 +168,7 @@ export function BatchReview({ locale, handle, firstShip, urls, repos, onBack }: 
             setWaitUntil(null)
             continue
           }
-          if (failure.kind === "slugTaken") dispatch({ type: "slugTaken", id, message: cause instanceof Error ? cause.message : copy.nav.saveFailed })
+          if (failure.kind === "slugTaken") dispatch({ type: "slugTaken", id })
           else dispatch({ type: "failed", id, message: cause instanceof Error ? cause.message : copy.nav.saveFailed })
           break
         }
@@ -293,6 +293,7 @@ export function BatchReview({ locale, handle, firstShip, urls, repos, onBack }: 
               {copy.batch.stop}
             </button>
           ) : null}
+          {finished && !running && unfinished.length === 0 ? null : (
           <button type="button" className="ob-btn ob-btn-primary" disabled={running || counts.ready === 0} onClick={() => void publishReady()}>
             {running ? (
               <><Loader2 className="animate-spin" aria-hidden="true" />{copy.batch.publishing}</>
@@ -300,6 +301,7 @@ export function BatchReview({ locale, handle, firstShip, urls, repos, onBack }: 
               <>{ran ? copy.batch.publishRemaining : fill(copy.batch.publishReady, { n: counts.ready })}<Rocket aria-hidden="true" /></>
             )}
           </button>
+          )}
         </div>
         {importingCount > 0 ? <p className="ob-hint" aria-live="polite">{copy.batch.importing}</p> : null}
       </div>

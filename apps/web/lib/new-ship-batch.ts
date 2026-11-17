@@ -39,7 +39,7 @@ export type BatchAction =
   | { type: "published"; id: string; status: "published" | "pending"; slug: string }
   | { type: "requeue"; id: string }
   | { type: "failed"; id: string; message: string }
-  | { type: "slugTaken"; id: string; message: string }
+  | { type: "slugTaken"; id: string }
   | { type: "stop" }
 
 export function newRow(id: string, repo: string): BatchRow {
@@ -116,7 +116,7 @@ export function batchReducer(rows: BatchRow[], action: BatchAction): BatchRow[] 
     case "failed":
       return map(action.id, (row) => (row.phase === "publishing" ? { ...row, phase: "failed", message: action.message } : row))
     case "slugTaken":
-      return map(action.id, (row) => (row.phase === "publishing" ? { ...row, phase: "idle", slugTaken: true, message: action.message } : row))
+      return map(action.id, (row) => (row.phase === "publishing" ? { ...row, phase: "idle", slugTaken: true, message: null } : row))
     case "stop":
       return rows.map((row) => (row.phase === "queued" ? { ...row, phase: "idle" } : row))
   }

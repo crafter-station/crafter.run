@@ -132,7 +132,7 @@ describe("publishing state machine", () => {
     expect(rows[0]).toMatchObject({ draft: { id: "d1", updatedAt: "t" }, draftSaved: false })
   })
   test("a slug conflict reopens the row and blocks it until the slug changes", () => {
-    let rows = run([{ type: "queueReady" }, { type: "start", id: "alpha" }, { type: "slugTaken", id: "alpha", message: "in use" }], loaded(["alpha"]))
+    let rows = run([{ type: "queueReady" }, { type: "start", id: "alpha" }, { type: "slugTaken", id: "alpha" }], loaded(["alpha"]))
     expect(rows[0]).toMatchObject({ phase: "idle", slugTaken: true })
     expect(isRowReady(rows[0]!, rows)).toBe(false)
     rows = run([{ type: "edit", id: "alpha", patch: { description: "Edited the description only here." } }], rows)
