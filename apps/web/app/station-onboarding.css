@@ -106,7 +106,7 @@
 /* Footer actions */
 .ob-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .ob-actions .ob-spacer { flex: 1; }
-.ob-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 1px solid transparent; border-radius: 10px; font: inherit; font-size: 16px; font-weight: 600; cursor: pointer; transition: transform 160ms, opacity 160ms, background-color 160ms; }
+.ob-btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 1px solid transparent; border-radius: 10px; font: inherit; font-size: 16px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: transform 160ms, opacity 160ms, background-color 160ms; }
 .ob-btn svg { width: 18px; height: 18px; }
 .ob-btn:disabled { opacity: .45; cursor: not-allowed; }
 .ob-btn-primary { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); }
@@ -151,7 +151,7 @@
   .ob-step button { justify-content: center; padding: 0; }
   .ob-step button > span:last-child { display: none; }
   .ob-step[data-state="active"] button { justify-content: center; }
-  .ob-actions .ob-btn-primary { flex: 1; }
+  .ob-actions .ob-btn-primary { flex: 1 0 100%; }
   .ob-agent > button { padding: 0 16px; }
   .ob-agent-body { padding: 0 16px 18px; }
 }
