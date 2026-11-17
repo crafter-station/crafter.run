@@ -9,7 +9,7 @@ import { agendaCity, cityLongitude, type AgendaCity } from "@/lib/agenda-cities"
 import { agendaCopy } from "@/lib/agenda-copy"
 import { accessEventDay, accessEvents } from "@/lib/access-events"
 import { fetchHack0Calendar } from "@/lib/hack0-calendar"
-import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, HACK0_LUMA_URL, hack0DateParts, partitionHack0Events } from "@/lib/hack0-calendar-data"
+import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, HACK0_LUMA_URL, HACK0_SITE_URL, hack0DateParts, partitionHack0Events } from "@/lib/hack0-calendar-data"
 import { isLocale, locales, withLocale } from "@/lib/i18n"
 import { participationCopy } from "@/lib/participation-copy"
 import { buildMetadata } from "@/lib/seo"
@@ -101,6 +101,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <div>
           <h2>{t.crafterLabel}</h2>
           <ul>{gatherings.map(item => <li key={item.href}><Link href={item.href}>{item.label}</Link></li>)}</ul>
+        </div>
+        <div>
+          <h2>{t.ecosystemLabel}</h2>
+          <ul><li><a href={`${HACK0_SITE_URL}/ecosistema/peru`}>{t.ecosystem}</a></li></ul>
         </div>
         <div>
           <h2>{t.submitLabel}</h2>

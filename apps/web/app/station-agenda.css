@@ -97,7 +97,7 @@
 .ev-empty :is(a, button) { display: inline-flex; min-height: 44px; align-items: center; margin-top: 10px; color: hsl(var(--foreground)); text-decoration: underline; text-underline-offset: 5px; }
 
 /* Footer */
-.ev-foot { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin-top: 80px; padding-top: 28px; border-top: 1px solid var(--ev-line); }
+.ev-foot { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; margin-top: 80px; padding-top: 28px; border-top: 1px solid var(--ev-line); }
 .ev-foot h2 { font: 500 12px var(--ev-mono); letter-spacing: .04em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
 .ev-foot ul { display: grid; gap: 2px; margin-top: 12px; list-style: none; padding: 0; }
 .ev-foot a { display: inline-flex; align-items: center; min-height: 36px; font-size: 16px; text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 5px; transition: text-decoration-color 160ms ease-out; }
