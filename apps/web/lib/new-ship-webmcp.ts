@@ -23,6 +23,8 @@ export type NewShipToolHost = {
   requestSubmit: () => void
   /** True when this member's next Ship goes to review instead of publishing. */
   firstShip: () => boolean
+  /** Switches to the batch review and reads each repository into it. Never publishes. */
+  importReposBatch: (repos: string[]) => { accepted: string[]; rejected: { repo: string; reason: string }[] }
 }
 
 const MESSAGES: Record<ShipErrorKey, string> = {
@@ -121,6 +123,25 @@ export function registerNewShipTools(host: NewShipToolHost): () => void {
         const outcome = await host.importFromLink(url)
         if (!outcome.ok) return json({ status: "failed", reason: outcome.reason, state: snapshot(host) })
         return json({ status: "filled", source: outcome.result.source, complete: outcome.result.complete, hasCrafterShipTopic: outcome.result.hasTopic, state: snapshot(host) })
+      },
+    },
+    {
+      name: "import_repos_batch",
+      title: "Review several repositories at once",
+      description: "Switches the page to the batch review and reads each GitHub repository (owner/name or URL, see list_my_repos) into it. Repositories that already have a Ship are rejected. Rows that lack a tagline or description show inline fields for the person to complete. This never saves or publishes: the person must review the rows and click Publish themselves.",
+      inputSchema: { type: "object", properties: { repos: { type: "array", items: { type: "string" }, description: "GitHub repositories as owner/name or URL." } }, required: ["repos"] },
+      annotations: { untrustedContentHint: true },
+      execute: (input) => {
+        const repos = Array.isArray(input?.repos) ? input.repos.filter((repo): repo is string => typeof repo === "string" && repo.trim() !== "") : []
+        if (repos.length === 0) return json({ error: "repos must be a non-empty array of strings" })
+        const { accepted, rejected } = host.importReposBatch(repos)
+        return json({
+          status: accepted.length > 0 ? "awaiting_user_click" : "nothing_accepted",
+          accepted,
+          rejected,
+          willBeReviewed: host.firstShip(),
+          message: accepted.length > 0 ? "The repositories are being read into the review list. Ask the person to complete any missing fields and click Publish. This tool does not publish." : "No repository could be added.",
+        })
       },
     },
     {
