@@ -153,6 +153,44 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
             <ShipMarkdown source={ship.description} />
           </article>
 
+          <div className="ship-made-by">
+            <section className="ship-maker" aria-label={t.maker}>
+              <p className="station-label">{t.maker}</p>
+              <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="ship-maker-head">
+                <MakerAvatar owner={ship.owner} />
+                <span className="ship-maker-who">
+                  <strong>{ship.owner.displayName}</strong>
+                  <small>@{ship.owner.handle}</small>
+                </span>
+                {chip}
+              </Link>
+              {profile?.bio ? <p className="ship-maker-bio">{profile.bio}</p> : null}
+              <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="ship-inline-link">
+                {t.profile}
+                <ArrowUpRight aria-hidden="true" />
+              </Link>
+              {others.length > 0 ? (
+                <div className="ship-maker-more">
+                  <h2>{t.moreFrom.replace("{name}", ship.owner.displayName)}</h2>
+                  <ul>
+                    {others.map((other) => (
+                      <li key={other.id}>
+                        <Link href={`/${lang}/ships/${other.slug}`}>
+                          <span className="ship-maker-thumb"><ShipCover name={other.name} imageUrl={other.imageUrl} /></span>
+                          <span>
+                            <strong>{other.name}</strong>
+                            <small>{other.tagline}</small>
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+            </section>
+            <ShipOwnerTools locale={lang} ownerHandle={ship.owner.handle} slug={ship.slug} copy={t} />
+          </div>
+
           <section className="ship-updates" aria-labelledby="ship-updates-title">
             <header>
               <div>
@@ -170,43 +208,6 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
           </section>
         </div>
 
-        <aside className="ship-aside">
-          <section className="ship-maker" aria-label={t.maker}>
-            <p className="station-label">{t.maker}</p>
-            <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="ship-maker-head">
-              <MakerAvatar owner={ship.owner} />
-              <span className="ship-maker-who">
-                <strong>{ship.owner.displayName}</strong>
-                <small>@{ship.owner.handle}</small>
-              </span>
-              {chip}
-            </Link>
-            {profile?.bio ? <p className="ship-maker-bio">{profile.bio}</p> : null}
-            <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="ship-inline-link">
-              {t.profile}
-              <ArrowUpRight aria-hidden="true" />
-            </Link>
-            {others.length > 0 ? (
-              <div className="ship-maker-more">
-                <h2>{t.moreFrom.replace("{name}", ship.owner.displayName)}</h2>
-                <ul>
-                  {others.map((other) => (
-                    <li key={other.id}>
-                      <Link href={`/${lang}/ships/${other.slug}`}>
-                        <span className="ship-maker-thumb"><ShipCover name={other.name} imageUrl={other.imageUrl} /></span>
-                        <span>
-                          <strong>{other.name}</strong>
-                          <small>{other.tagline}</small>
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-          </section>
-          <ShipOwnerTools locale={lang} ownerHandle={ship.owner.handle} slug={ship.slug} copy={t} />
-        </aside>
       </div>
 
       <section className="ships-cta ship-cta" aria-labelledby="ship-cta-title">
