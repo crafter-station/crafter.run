@@ -1,5 +1,15 @@
 # @crafter/cli
 
+## 0.7.0
+
+### Minor Changes
+
+- [#194](https://github.com/crafter-station/crafter.run/pull/194) [`0f1bcb2`](https://github.com/crafter-station/crafter.run/commit/0f1bcb2c0b00333dbc8f67ea28efa73f98f277f7) Thanks [@Railly](https://github.com/Railly)! - Add `crafter skills` to list and print the agent skills bundled with the installed CLI (`ship` and `changelog`), so agent instructions always match the CLI version.
+
+### Patch Changes
+
+- [#193](https://github.com/crafter-station/crafter.run/pull/193) [`add56bc`](https://github.com/crafter-station/crafter.run/commit/add56bc2c00359d09116f8acf1c7333ecc38937a) Thanks [@Railly](https://github.com/Railly)! - `crafter publish` explains when a first Ship goes to review instead of printing a public URL that does not exist yet.
+
 ## 0.6.0
 
 ### Minor Changes
