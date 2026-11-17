@@ -16,7 +16,7 @@ import { navSections } from "@/lib/site"
 import { stationCopy } from "@/lib/station-copy"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 
-const primaryPaths: readonly string[] = ["/", "/universe", "/oss", "/events", "/blog", "/changelog"]
+const primaryPaths: readonly string[] = ["/", "/universe", "/ships", "/oss", "/events", "/blog", "/changelog"]
 
 function MoreNavigation({ locale, onNavigate }: { locale: Locale; onNavigate: () => void }) {
   const pathname = usePathname()
@@ -60,7 +60,7 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
   const s = stationCopy[locale]
   const primary = [
     { href: "/", label: s.home }, { href: "/universe", label: t.universe },
-    { href: "/oss", label: t.oss }, { href: "/events", label: t.events },
+    { href: "/ships", label: t.ships }, { href: "/oss", label: t.oss }, { href: "/events", label: t.events },
     { href: "/blog", label: t.blog }, { href: "/changelog", label: t.changelog },
   ]
   const active = (href: string) => href === "/" ? pathname === withLocale("/", locale)
@@ -80,8 +80,8 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
         <MoreNavigation locale={locale} onNavigate={() => setOpen(false)} />
       </nav>
       <div className="station-side-bottom">
-        <AuthActions locale={locale} />
         <div className="station-preferences">
+          <AuthActions locale={locale} />
           <LanguageSwitcher currentLocale={locale} label={t.language} compact />
           <ThemeSwitcher locale={locale} label={t.theme} compact />
         </div>
