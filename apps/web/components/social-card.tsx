@@ -70,6 +70,12 @@ export function SocialCard({ data, assets }: { data: SocialCardData; assets: Ass
             overflow: "hidden", alignItems: "flex-end", justifyContent: "center", transform: `rotate(${i % 2 ? 4 : -4}deg)` }}>
             <img src={image} alt="" width={169} height={178} style={{ objectFit: "contain", objectPosition: "bottom" }} />
           </div>)}
+        </div> : data.kind === "ships" && (assets.poster || data.monogram) ? <div style={{ display: "flex", width: 450, height: 330, position: "relative", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ position: "absolute", width: 400, height: 250, left: 20, top: 50, borderRadius: 18, background: p.accent, opacity: .35, transform: "rotate(7deg)" }} />
+          {assets.poster ? <img src={assets.poster} alt="" width={430} height={270} style={{ objectFit: "cover", borderRadius: 14, transform: "rotate(-3deg)" }} />
+            : data.monogram ? <div style={{ display: "flex", width: 430, height: 270, borderRadius: 14, transform: "rotate(-3deg)", alignItems: "center", justifyContent: "center",
+              background: `linear-gradient(${data.monogram.angle}deg, ${data.monogram.from}, ${data.monogram.to})`, color: data.monogram.ink,
+              fontFamily: "Crafter Display", fontWeight: 500, fontSize: 130, letterSpacing: -8 }}>{data.monogram.letters}</div> : null}
         </div> : assets.poster ? <div style={{ display: "flex", width: 390, height: 350, position: "relative", alignItems: "center" }}>
           <div style={{ position: "absolute", width: eventPoster ? 310 : 355, height: eventPoster ? 310 : 250, left: 10, top: eventPoster ? 20 : 65,
             borderRadius: 15, background: p.accent, opacity: .35, transform: "rotate(8deg)" }} />

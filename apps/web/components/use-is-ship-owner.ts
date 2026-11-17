@@ -2,7 +2,6 @@
 
 import { meResponseSchema } from "@crafter/contracts"
 import { useAuth } from "@clerk/nextjs"
-import Link from "next/link"
 import { useEffect, useState } from "react"
 
 import { shipsApi } from "@/lib/ships-client"
@@ -26,9 +25,4 @@ export function useIsShipOwner(ownerHandle: string) {
   }, [getToken, isLoaded, ownerHandle, userId])
 
   return isOwner
-}
-
-export function ShipEditLink({ locale, ownerHandle, slug }: { locale: string; ownerHandle: string; slug: string }) {
-  const isOwner = useIsShipOwner(ownerHandle)
-  return isOwner ? <Link href={`/${locale}/ships/${slug}/edit`} className="text-sm font-medium text-accent underline underline-offset-4">Edit Ship</Link> : null
 }

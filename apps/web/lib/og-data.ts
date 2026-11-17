@@ -9,6 +9,7 @@ import { hotReloadPreview } from "@/lib/hot-reload-seo"
 import { defaultLocale, isLocale, type Locale } from "@/lib/i18n"
 import { socialKind, socialLabels, socialText, type SocialKind } from "@/lib/og"
 import { getCrafterProfile, getPublishedShip } from "@/lib/ships"
+import { fallbackCover } from "@/lib/ships-showcase"
 import { activeTeamMembers, featuredTeamMembers } from "@/lib/team"
 import { accessEventDay, findAccessEvent } from "@/lib/access-events"
 import { eventAccessCopy } from "@/lib/event-access-copy"
@@ -26,6 +27,8 @@ export type SocialCardData = {
   portrait?: string
   portraits?: string[]
   poster?: string
+  /** A Ship without an image: the generated cover, drawn the same as on the site. */
+  monogram?: { letters: string; from: string; to: string; ink: string; angle: number }
   unavailable?: boolean
   maxAge?: number
 }
@@ -132,6 +135,7 @@ export async function resolveSocialCard(params: URLSearchParams): Promise<Social
     return {
       ...data, title: socialText(ship.name, 130), description: socialText(ship.tagline, 190),
       detail: `${ship.owner.displayName} · @${ship.owner.handle}`, poster: ship.imageUrl ?? undefined,
+      monogram: ship.imageUrl ? undefined : (({ palette, letters, angle }) => ({ letters, from: palette.from, to: palette.to, ink: palette.ink, angle }))(fallbackCover(ship.name)),
     }
   }
   return data

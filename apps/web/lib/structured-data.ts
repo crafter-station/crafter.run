@@ -542,3 +542,37 @@ export function changelogEntrySchema({
     ...(entry.evidence.length > 0 ? { citation: [...entry.evidence] } : {}),
   }
 }
+
+export type ShipSchemaInput = {
+  name: string
+  description: string
+  slug: string
+  imageUrl: string
+  owner: { handle: string; displayName: string }
+  links: { type: string; url: string }[]
+  socialPostUrl: string | null
+  publishedAt: string
+  modifiedAt: string
+}
+
+/**
+ * A community Ship. It is a SoftwareApplication when it has a repository, site, demo or package,
+ * else a CreativeWork. Optional fields are left out rather than emitted empty.
+ */
+export function shipSchema(ship: ShipSchemaInput, locale: Locale) {
+  const software = ship.links.some((link) => ["repository", "website", "demo", "package"].includes(link.type))
+  const sameAs = [...new Set([...ship.links.map((link) => link.url), ...(ship.socialPostUrl ? [ship.socialPostUrl] : [])])]
+  return {
+    "@context": "https://schema.org",
+    "@type": software ? "SoftwareApplication" : "CreativeWork",
+    name: ship.name,
+    description: ship.description,
+    url: localizedUrl(`/ships/${ship.slug}`, locale),
+    image: ship.imageUrl,
+    author: { "@type": "Person", name: ship.owner.displayName, url: localizedUrl(`/crafters/${ship.owner.handle}`, locale) },
+    publisher: organizationRef,
+    datePublished: ship.publishedAt,
+    dateModified: ship.modifiedAt,
+    ...(sameAs.length > 0 ? { sameAs } : {}),
+  }
+}
