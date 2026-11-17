@@ -6,8 +6,8 @@ import { LINK_KEYS, MAX_ROLES, isDraftReady, slugifyHandle, validateDraft, type 
  * `document.modelContext`. Older builds exposed `navigator.modelContext`, so both are probed.
  * Nothing happens in a browser without it.
  */
-type ToolResult = { content: { type: "text"; text: string }[] }
-type ModelContextTool = {
+export type ToolResult = { content: { type: "text"; text: string }[] }
+export type ModelContextTool = {
   name: string
   title?: string
   description: string
@@ -28,14 +28,14 @@ export type OnboardingToolHost = {
   handleStatus: () => "unknown" | "checking" | "available" | "taken"
 }
 
-function modelContext(): ModelContextLike | null {
+export function modelContext(): ModelContextLike | null {
   if (typeof document === "undefined") return null
   const candidate = (document as unknown as { modelContext?: ModelContextLike }).modelContext
     ?? (navigator as unknown as { modelContext?: ModelContextLike }).modelContext
   return candidate && typeof candidate.registerTool === "function" ? candidate : null
 }
 
-const json = (value: unknown): ToolResult => ({ content: [{ type: "text", text: JSON.stringify(value) }] })
+export const json = (value: unknown): ToolResult => ({ content: [{ type: "text", text: JSON.stringify(value) }] })
 
 function snapshot(host: OnboardingToolHost) {
   const draft = host.getDraft()

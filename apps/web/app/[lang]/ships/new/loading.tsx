@@ -5,7 +5,7 @@ export default function Loading() {
   return (
     <main className="flex-1">
       <Container innerClassName="station-form-page">
-        <FormPageSkeleton withHeader />
+        <FormPageSkeleton withHeader variant="ship" />
       </Container>
     </main>
   )
