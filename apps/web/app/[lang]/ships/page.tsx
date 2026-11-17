@@ -67,6 +67,15 @@ export default async function ShipsPage({
           <Stat value={shipsResult === null ? "--" : crafterCount} label={t("crafterCount", { count: crafterCount })} />
         </div></Container>
 
+        <Container innerClassName="border-b px-6 py-4 md:px-10">
+          <p className="text-sm text-muted-foreground">
+            {t("topicNote")}{" "}
+            <a href="https://github.com/topics/crafter-ship" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 transition-colors hover:text-accent">
+              {t("topicLink")}
+            </a>
+          </p>
+        </Container>
+
         <SectionGap />
 
         <Container innerClassName="border-b px-6 py-10 md:px-10">

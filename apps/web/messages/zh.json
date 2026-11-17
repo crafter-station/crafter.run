@@ -266,6 +266,8 @@
       "manifestTitle": "社区已经发布的作品。",
       "shipCount": "{count} 个作品",
       "crafterCount": "{count} 位 Crafter",
+      "topicNote": "有公开仓库吗？在 GitHub 添加 crafter-ship topic，我们会为你起草 Ship。",
+      "topicLink": "查看 topic",
       "emptyTitle": "第一个作品还在路上。",
       "emptyDescription": "社区作品将在这里汇集。很快，每位 Crafter 都能通过网页或编程智能体直接发布。",
       "unavailableTitle": "作品清单暂时离线。",

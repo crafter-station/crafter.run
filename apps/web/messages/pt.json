@@ -266,6 +266,8 @@
       "manifestTitle": "O que a comunidade ja lancou.",
       "shipCount": "{count, plural, one {ship} other {ships}}",
       "crafterCount": "{count, plural, one {crafter} other {crafters}}",
+      "topicNote": "Tem um repo publico? Adicione o topic crafter-ship no GitHub e preparamos o rascunho do Ship.",
+      "topicLink": "Ver o topic",
       "emptyTitle": "O primeiro ship ainda esta a caminho.",
       "emptyDescription": "E aqui que o trabalho da comunidade vai chegar. Em breve, qualquer Crafter podera publicar pela web ou diretamente pelo seu agente de codigo.",
       "unavailableTitle": "O manifesto esta temporariamente offline.",

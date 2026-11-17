@@ -266,6 +266,8 @@
       "manifestTitle": "What the community has shipped.",
       "shipCount": "{count, plural, one {ship} other {ships}}",
       "crafterCount": "{count, plural, one {crafter} other {crafters}}",
+      "topicNote": "Have a public repo? Add the GitHub topic crafter-ship and we draft the Ship for you.",
+      "topicLink": "Browse the topic",
       "emptyTitle": "The first ship is still on the way.",
       "emptyDescription": "This is where community work will land. Soon, any Crafter will be able to publish from the web or directly from their coding agent.",
       "unavailableTitle": "The manifest is temporarily offline.",
