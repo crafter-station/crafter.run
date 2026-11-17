@@ -6,6 +6,10 @@
       "schedule": "0 7 * * *"
     },
     {
+      "path": "/api/cron/ships-topic",
+      "schedule": "30 7 * * *"
+    },
+    {
       "path": "/api/indexnow",
       "schedule": "0 6 * * *"
     }

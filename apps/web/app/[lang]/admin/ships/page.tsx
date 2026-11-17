@@ -4,6 +4,7 @@ import { notFound } from "next/navigation"
 import { getAdmin } from "@/lib/admin"
 import { isLocale } from "@/lib/i18n"
 import { loadReviewBoard, type ReviewShip, syncRosterTrust } from "@/lib/ship-review"
+import { getUnmatchedTopicRepos } from "@/lib/ship-topic-scan"
 
 import { approveAction, blockAction, hideAction, sendBackAction, trustAction, unhideAction } from "./actions"
 
@@ -19,7 +20,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   // The Core and Crew roster files stay the source of truth for who publishes without review.
   const synced = await syncRosterTrust()
-  const { pending, published, hidden } = await loadReviewBoard()
+  const [{ pending, published, hidden }, unmatched] = await Promise.all([loadReviewBoard(), getUnmatchedTopicRepos()])
 
   return (
     <main className="flex-1 py-12">
@@ -76,6 +77,29 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
                 <form action={hideAction.bind(null, ship.id)}>
                   <button className="border border-line px-4 py-2 text-sm">Hide</button>
                 </form>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-14">
+        <h2 className="text-2xl">Tagged repos without a crafter.run account{unmatched ? ` (${unmatched.length})` : ""}</h2>
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          Public repos with the <code>crafter-ship</code> topic that are not a Ship yet, or whose Ship owner has no matching linked GitHub account. Invite their owners. Refreshed every 15 minutes.
+        </p>
+        {unmatched === null ? <p className="mt-4 text-muted-foreground">The GitHub scan failed. Try again later.</p> : null}
+        {unmatched?.length === 0 ? <p className="mt-4 text-muted-foreground">Every tagged repo has a match.</p> : null}
+        <div className="mt-6 grid gap-3">
+          {unmatched?.map((repo) => (
+            <article key={repo.repo} className="flex flex-wrap items-center justify-between gap-3 border border-line p-4">
+              <div className="min-w-0">
+                <a href={repo.url} target="_blank" rel="noreferrer" className="text-lg underline underline-offset-4">
+                  {repo.repo}
+                </a>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  @{repo.owner} · {repo.stars} stars · {repo.reason.replaceAll("-", " ")}
+                </p>
               </div>
             </article>
           ))}

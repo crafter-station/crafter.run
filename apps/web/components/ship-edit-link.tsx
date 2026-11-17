@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 
 import { shipsApi } from "@/lib/ships-client"
 
-export function ShipEditLink({ locale, ownerHandle, slug }: { locale: string; ownerHandle: string; slug: string }) {
+export function useIsShipOwner(ownerHandle: string) {
   const { getToken, isLoaded, userId } = useAuth()
   const [isOwner, setIsOwner] = useState(false)
 
@@ -25,5 +25,10 @@ export function ShipEditLink({ locale, ownerHandle, slug }: { locale: string; ow
     return () => { cancelled = true }
   }, [getToken, isLoaded, ownerHandle, userId])
 
+  return isOwner
+}
+
+export function ShipEditLink({ locale, ownerHandle, slug }: { locale: string; ownerHandle: string; slug: string }) {
+  const isOwner = useIsShipOwner(ownerHandle)
   return isOwner ? <Link href={`/${locale}/ships/${slug}/edit`} className="text-sm font-medium text-accent underline underline-offset-4">Edit Ship</Link> : null
 }
