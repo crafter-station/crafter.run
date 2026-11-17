@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.7.2
+
+### Patch Changes
+
+- [#201](https://github.com/crafter-station/crafter.run/pull/201) [`2b2db0f`](https://github.com/crafter-station/crafter.run/commit/2b2db0f29d3231a84f462b7e797ca4dc4c2c8e12) Thanks [@Railly](https://github.com/Railly)! - The bundled ship skill explains that the `crafter-ship` GitHub topic turns each release of a public repo into a Ship update.
+
 ## 0.7.1
 
 ### Patch Changes
