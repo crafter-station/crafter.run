@@ -113,6 +113,19 @@ export function partitionHack0Events(events: Hack0Event[], now = Date.now()) {
   return { upcoming, past }
 }
 
+/** An event the station ticket promotes ahead of the calendar order while it is upcoming. */
+export const FEATURED_HACK0_EVENT = {
+  url: "https://luma.com/hack0-lfc2",
+  title: "Taste hacking",
+  href: "https://hack0.dev/taste-hacking",
+}
+
+/** The featured event when it is still upcoming, otherwise the next one in the calendar. */
+export function teaserHack0Event(upcoming: Hack0Event[], featured = FEATURED_HACK0_EVENT): Hack0Event | undefined {
+  const match = upcoming.find(event => event.url.replace(/\/+$/, "") === featured.url)
+  return match ? { ...match, title: featured.title, href: featured.href } : upcoming[0]
+}
+
 export function hack0DateParts(event: Hack0Event, locale: string, timeZone = HACK0_TIME_ZONE) {
   const zone = event.allDay ? "UTC" : timeZone
   const start = new Date(event.startAt)

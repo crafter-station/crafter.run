@@ -1,7 +1,7 @@
 import { ArrowUpRight } from "lucide-react"
 import type { Locale } from "@/lib/i18n"
 import { fetchHack0Calendar } from "@/lib/hack0-calendar"
-import { HACK0_CALENDAR_URL, HACK0_TIME_ZONE, partitionHack0Events } from "@/lib/hack0-calendar-data"
+import { HACK0_CALENDAR_URL, HACK0_TIME_ZONE, partitionHack0Events, teaserHack0Event } from "@/lib/hack0-calendar-data"
 import { stationCopy } from "@/lib/station-copy"
 
 export async function StationEventTeaser({ locale }: { locale: Locale }) {
@@ -9,7 +9,7 @@ export async function StationEventTeaser({ locale }: { locale: Locale }) {
   // The calendar may be unavailable in local previews. Keep an honest invitation
   // in that space instead of inventing an event or making navigation fail.
   const event = await fetchHack0Calendar()
-    .then(({ events }) => partitionHack0Events(events).upcoming[0])
+    .then(({ events }) => teaserHack0Event(partitionHack0Events(events).upcoming))
     .catch(() => undefined)
   const start = event ? new Date(event.startAt) : null
   const timeZone = event?.allDay ? "UTC" : HACK0_TIME_ZONE
