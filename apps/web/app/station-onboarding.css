@@ -192,10 +192,21 @@
 .ns-or { display: flex; align-items: center; gap: 12px; margin: 6px 0 -6px; font-size: 14px; color: var(--ob-muted); }
 .ns-or::after { content: ""; flex: 1; height: 1px; background: var(--ob-edge); }
 /* Links first: the field takes several links, one per line. GitHub import sits below and loads on demand. */
-.ns-linkbox { align-items: flex-start; height: auto; min-height: 52px; }
-.ns-linkbox > svg { margin-top: 15px; }
-.ns-linkbox textarea { flex: 1; min-width: 0; min-height: 50px; padding: 13px 16px 13px 10px; border: 0; background: transparent; color: var(--ob-ink); font: inherit; font-size: 16px; line-height: 1.5; resize: none; outline: none; white-space: pre; overflow-x: auto; }
-.ns-linkbox textarea::placeholder { color: var(--ob-muted); }
+.ns-chips { align-items: flex-start; height: auto; min-height: 52px; }
+.ns-chips > svg { margin-top: 17px; }
+.ns-chip-list { display: flex; flex: 1; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; margin: 0; padding: 8px 10px; list-style: none; }
+.ns-chip { display: inline-flex; align-items: center; gap: 6px; max-width: 100%; min-height: 34px; padding: 0 4px 0 10px; border: 1px solid var(--ob-edge); border-radius: 8px; background: hsl(var(--foreground) / .06); font-size: 15px; }
+.ns-chip > svg { flex: none; width: 14px; height: 14px; color: var(--ob-muted); }
+.ns-chip > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ns-chip button { display: grid; place-items: center; flex: none; width: 28px; height: 28px; border: 0; border-radius: 6px; background: transparent; color: var(--ob-muted); cursor: pointer; }
+.ns-chip button:hover { background: hsl(var(--foreground) / .1); color: var(--ob-ink); }
+.ns-chip button:focus-visible { outline: 2px solid var(--ob-accent); outline-offset: 0; }
+.ns-chip button svg { width: 14px; height: 14px; }
+.ns-chip[data-bad] { padding-left: 4px; border-color: hsl(var(--destructive) / .7); background: hsl(var(--destructive) / .1); color: hsl(var(--destructive)); }
+.ns-chip .ns-chip-edit { width: auto; height: 28px; padding: 0 6px; font: inherit; font-size: 15px; color: inherit; }
+.ns-chip[data-bad] button { color: inherit; }
+.ns-chip-draft { display: flex; flex: 1 1 180px; min-width: 120px; }
+.ns-chips .ns-chip-draft input { flex: 1; height: 34px; padding: 0 4px; }
 .ns-multi-hint { margin-top: -6px; }
 .ns-gh { display: grid; gap: 14px; min-width: 0; margin-top: 8px; }
 .ns-owners { display: flex; flex-wrap: wrap; gap: 8px; }

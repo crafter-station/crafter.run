@@ -161,7 +161,7 @@ export function nameFromHost(url: string): string {
   }
 }
 
-export type ImportErrorKey = "invalidUrl" | "repoNotFound" | "rateLimited" | "importFailed"
+export type ImportErrorKey = "invalidUrl" | "repoNotFound" | "rateLimited" | "importFailed" | "siteUnreachable"
 export class ImportError extends Error {
   constructor(readonly key: ImportErrorKey) {
     super(key)
@@ -224,7 +224,11 @@ export async function importShipFromLink(
     }
     return { source: "github", fields, hasTopic: Array.isArray(data.topics) ? data.topics.includes("crafter-ship") : null, complete: Boolean(about), provenance: `metadata URL: ${fields.repository}` }
   }
-  const meta = await io.pageMeta(url.toString()).catch(() => null)
+  // pageMeta throws ImportError("siteUnreachable") when the host does not answer: that link never becomes a Ship.
+  const meta = await io.pageMeta(url.toString()).catch((cause) => {
+    if (cause instanceof ImportError) throw cause
+    return null
+  })
   const name = meta?.siteName || (meta?.title ? cleanSiteTitle(meta.title) : "") || nameFromHost(link)
   const summary = meta?.description?.replace(/\s+/g, " ").trim() ?? ""
   const fields: Partial<ShipFields> = {

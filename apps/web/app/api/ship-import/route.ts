@@ -18,6 +18,7 @@ export async function POST(request: Request) {
     const meta = await fetchPageMeta(target.toString())
     return Response.json({ meta }, { headers: { "Cache-Control": "no-store" } })
   } catch {
-    return Response.json({ meta: null }, { headers: { "Cache-Control": "no-store" } })
+    // DNS failure, a private address, a refused connection or a timeout: the site is not there to read.
+    return Response.json({ meta: null, unreachable: true }, { headers: { "Cache-Control": "no-store" } })
   }
 }

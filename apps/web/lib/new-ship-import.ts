@@ -14,7 +14,8 @@ export async function importFromGithub(repo: string): Promise<ImportResult> {
 async function pageMeta(url: string) {
   const response = await fetch("/api/ship-import", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url }) })
   if (!response.ok) return null
-  const body = (await response.json()) as { meta: { title: string | null; description: string | null; image: string | null; siteName: string | null } | null }
+  const body = (await response.json()) as { meta: { title: string | null; description: string | null; image: string | null; siteName: string | null } | null; unreachable?: boolean }
+  if (body.unreachable) throw new ImportError("siteUnreachable")
   return body.meta
 }
 
@@ -24,18 +25,46 @@ export async function importAnyLink(input: string): Promise<ImportResult> {
   return repo ? importFromGithub(repo) : importShipFromLink(input, { pageMeta })
 }
 
-/** Splits pasted text into distinct links: one per line, or separated by spaces or commas. Repositories collapse to their URL. */
-export function splitLinks(text: string): string[] {
-  const links: string[] = []
-  const seen = new Set<string>()
+/** The canonical URL for a link a member typed, or null when it is not something we can import.
+ * Accepts a GitHub repository (URL or owner/name) or an http(s) website with a real domain.
+ * A bare GitHub profile or organization page is rejected: it is not a project. */
+export function parseLink(value: string): string | null {
+  const text = value.trim()
+  if (!text || /\s/.test(text)) return null
+  const repo = repoInputToUrl(text)
+  if (repo) return repo
+  let url: URL
+  try {
+    url = new URL(normalizeUrl(text))
+  } catch {
+    return null
+  }
+  if (url.protocol !== "http:" && url.protocol !== "https:") return null
+  if (url.username || url.password) return null
+  if (!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i.test(url.hostname)) return null
+  if (/^(www\.)?github\.com$/i.test(url.hostname)) return null
+  return url.href
+}
+
+/** Identity used to drop the same project pasted twice: owner/name for repositories, the URL without a trailing slash otherwise. */
+export const linkKey = (link: string) => repoKey(link) ?? link.toLowerCase().replace(/\/+$/, "")
+
+/** Splits pasted or typed text on spaces, commas and line breaks. Valid links are canonical and unique; the rest come back untouched. */
+export function tokenizeLinks(text: string, existing: readonly string[] = []): { valid: string[]; invalid: string[] } {
+  const seen = new Set(existing.map(linkKey))
+  const valid: string[] = []
+  const invalid: string[] = []
   for (const part of text.split(/[\s,]+/)) {
-    const value = part.trim()
-    if (!value) continue
-    const link = repoInputToUrl(value) ?? normalizeUrl(value)
-    const key = repoKey(link) ?? link.toLowerCase().replace(/\/+$/, "")
+    if (!part) continue
+    const link = parseLink(part)
+    if (!link) {
+      invalid.push(part)
+      continue
+    }
+    const key = linkKey(link)
     if (seen.has(key)) continue
     seen.add(key)
-    links.push(link)
+    valid.push(link)
   }
-  return links
+  return { valid, invalid }
 }

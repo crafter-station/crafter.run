@@ -43,6 +43,8 @@ export type NewShipCopy = {
     noOrgs: string
     loadingRepos: string
     multiHint: string
+    invalidLink: string
+    removeLink: string
     importMany: string
   }
   details: {
@@ -171,7 +173,9 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       noRepos: "No public repositories here.",
       noOrgs: "GitHub doesn't show your organizations publicly. Type the name.",
       loadingRepos: "Loading repositories...",
-      multiHint: "Several projects? Paste one link per line and review them together.",
+      multiHint: "Several projects? Press Enter after each link, or paste them all at once.",
+      invalidLink: "Not a link we can read: {value}. Use a GitHub repository or a website.",
+      removeLink: "Remove {link}",
       importMany: "Review {n}",
     },
     details: {
@@ -298,6 +302,7 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       repoNotFound: "We could not find that public GitHub repository.",
       rateLimited: "GitHub is limiting requests right now. Try again in a minute or fill it by hand.",
       importFailed: "We could not read that link. Fill it by hand.",
+      siteUnreachable: "We couldn't reach that website. Check that the link is spelled right.",
     },
     loading: "Loading the new Ship page",
   },
@@ -342,7 +347,9 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       noRepos: "No hay repositorios públicos aquí.",
       noOrgs: "GitHub no muestra tus organizaciones en público. Escribe el nombre.",
       loadingRepos: "Cargando repositorios...",
-      multiHint: "¿Varios proyectos? Pega un enlace por línea y revísalos juntos.",
+      multiHint: "¿Varios proyectos? Presiona Enter después de cada enlace o pégalos todos juntos.",
+      invalidLink: "No podemos leer esto como enlace: {value}. Usa un repositorio de GitHub o un sitio web.",
+      removeLink: "Quitar {link}",
       importMany: "Revisar {n}",
     },
     details: {
@@ -469,6 +476,7 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       repoNotFound: "No encontramos ese repositorio público de GitHub.",
       rateLimited: "GitHub está limitando las solicitudes ahora. Intenta de nuevo en un minuto o complétalo a mano.",
       importFailed: "No pudimos leer ese enlace. Complétalo a mano.",
+      siteUnreachable: "No encontramos ese sitio. Revisa que el enlace esté bien escrito.",
     },
     loading: "Cargando la página de nuevo Ship",
   },
@@ -513,7 +521,9 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       noRepos: "Nenhum repositório público aqui.",
       noOrgs: "O GitHub não mostra suas organizações publicamente. Digite o nome.",
       loadingRepos: "Carregando repositórios...",
-      multiHint: "Vários projetos? Cole um link por linha e revise todos juntos.",
+      multiHint: "Vários projetos? Pressione Enter depois de cada link ou cole todos de uma vez.",
+      invalidLink: "Não conseguimos ler isto como link: {value}. Use um repositório do GitHub ou um site.",
+      removeLink: "Remover {link}",
       importMany: "Revisar {n}",
     },
     details: {
@@ -640,6 +650,7 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       repoNotFound: "Não encontramos esse repositório público do GitHub.",
       rateLimited: "O GitHub está limitando as solicitações agora. Tente de novo em um minuto ou preencha à mão.",
       importFailed: "Não conseguimos ler esse link. Preencha à mão.",
+      siteUnreachable: "Não encontramos esse site. Confira se o link está escrito certo.",
     },
     loading: "Carregando a página de novo Ship",
   },
@@ -684,7 +695,9 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       noRepos: "这里没有公开仓库。",
       noOrgs: "GitHub 不公开显示你的组织。请输入名称。",
       loadingRepos: "正在加载仓库...",
-      multiHint: "多个项目？每行粘贴一个链接，一起审核。",
+      multiHint: "多个项目？每个链接后按 Enter，或一次性全部粘贴。",
+      invalidLink: "无法识别为链接：{value}。请使用 GitHub 仓库或网站。",
+      removeLink: "移除 {link}",
       importMany: "审核 {n} 个",
     },
     details: {
@@ -811,6 +824,7 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       repoNotFound: "找不到这个公开的 GitHub 仓库。",
       rateLimited: "GitHub 目前在限制请求。请一分钟后再试，或手动填写。",
       importFailed: "无法读取这个链接，请手动填写。",
+      siteUnreachable: "无法访问该网站。请检查链接是否拼写正确。",
     },
     loading: "正在加载新建 Ship 页面",
   },
@@ -855,7 +869,9 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       noRepos: "公開リポジトリはありません。",
       noOrgs: "GitHub は組織を公開していません。名前を入力してください。",
       loadingRepos: "リポジトリを読み込み中...",
-      multiHint: "複数のプロジェクト？1 行に 1 つずつリンクを貼り付けて、まとめて確認できます。",
+      multiHint: "複数のプロジェクト？リンクごとに Enter を押すか、まとめて貼り付けてください。",
+      invalidLink: "リンクとして読み取れません：{value}。GitHub リポジトリかウェブサイトを使ってください。",
+      removeLink: "{link} を削除",
       importMany: "{n} 件を確認",
     },
     details: {
@@ -982,6 +998,7 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       repoNotFound: "その公開 GitHub リポジトリが見つかりません。",
       rateLimited: "GitHub が現在リクエストを制限しています。1分後に再試行するか、手入力してください。",
       importFailed: "そのリンクを読み取れませんでした。手入力してください。",
+      siteUnreachable: "そのサイトに接続できませんでした。リンクの綴りを確認してください。",
     },
     loading: "新しい Ship ページを読み込み中",
   },
