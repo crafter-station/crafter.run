@@ -7,6 +7,12 @@ import { findEventBadge } from "@/lib/event-badge"
 import type { Locale } from "@/lib/i18n"
 import { stationCopy } from "@/lib/station-copy"
 
+/** `/ships/<slug>`: the Ship page shares the journal shell. The wizard and drafts keep the plain one. */
+function isShipDetailPath(pathname: string, locale: Locale) {
+  const match = new RegExp(`^/${locale}/ships/([^/]+)/?$`).exec(pathname)
+  return match !== null && match[1] !== "new" && match[1] !== "drafts"
+}
+
 export function SiteShell({ children, footer, event, locale }: { children: ReactNode; footer: ReactNode; event: ReactNode; locale: Locale }) {
   const pathname = usePathname() ?? ""
   // Docs keeps its own navigation rail and Font needs the full width. Both use the compact site header.
@@ -18,6 +24,7 @@ export function SiteShell({ children, footer, event, locale }: { children: React
   const journal = pathname === `/${locale}/blog` || pathname.startsWith(`/${locale}/blog/`)
     || pathname === `/${locale}/changelog` || pathname.startsWith(`/${locale}/changelog/`)
     || pathname === `/${locale}/ships`
+    || isShipDetailPath(pathname, locale)
   const font = pathname === `/${locale}/font`
   const bounties = pathname === `/${locale}/bounties` || pathname.startsWith(`/${locale}/bounties/`)
   const pages = !docs && !home && !oss && !universe && !agenda && !journal && !bounties && !font

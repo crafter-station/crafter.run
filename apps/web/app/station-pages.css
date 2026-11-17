@@ -224,7 +224,6 @@
   .station-data-hero { padding-top: 32px; }
   .station-form-page form { padding: 20px; }
   .station-team-alumni { grid-template-columns: 1fr; }
-  .station-ship-layout { grid-template-columns: 1fr; }
   .station-sponsor-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .station-brand-guide .station-guide-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .station-report-intro > .station-data-hero { padding-top: 22px; }
