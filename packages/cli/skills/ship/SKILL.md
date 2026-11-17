@@ -53,9 +53,9 @@ Check the `status` in the publish response, and `crafter ships` to see it later.
 4. Only after an explicit yes, run `crafter update <ship-slug> --file <json-file> --confirm`.
 5. Return the published Ship URL.
 
-## Topic Shortcut
+## Release Updates From GitHub
 
-A public GitHub repo can skip the CLI: add the `crafter-ship` topic (https://github.com/topics/crafter-ship) and Crafter Station drafts the Ship for the crafter.run member it belongs to. It is always a draft, so the owner still reviews and publishes it. The repo owner, or for an organization its top contributor, must have a crafter.run account with GitHub linked. Once the member is trusted, new GitHub releases of a published Ship become updates.
+A Ship is created once: paste a repository or website link in the web form, or run `crafter ship`. Afterwards, add the `crafter-ship` topic (https://github.com/topics/crafter-ship) to the public GitHub repo and each new GitHub Release becomes an update on the Ship. This works only for public GitHub repos that use Releases, for owners whose Ship is approved and whose GitHub account is linked to crafter.run and is the repo owner or a contributor. Releases from the last 2 days are imported daily, and the Ship owner can sync on demand with "Sync releases" on the Ship page.
 
 ## Optional Config
 

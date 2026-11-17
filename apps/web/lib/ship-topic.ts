@@ -1,27 +1,24 @@
-/** Pure matching and derivation for the `crafter-ship` GitHub topic. No I/O here. */
+/** Pure rules for syncing GitHub releases into Ship updates. No I/O here. */
 
 export const SHIP_TOPIC = "crafter-ship"
-export const MIN_CONTRIBUTION_SHARE = 0.1
-
-export type Trust = "new" | "trusted" | "blocked"
-export type TopicMember = { id: string; handle: string; trust: Trust }
+/** The daily cron only imports releases published within this many days of the run. */
+export const AUTO_SYNC_WINDOW_DAYS = 2
+/** A manual "Sync releases" imports at most this many updates. */
+export const MANUAL_SYNC_LIMIT = 10
 
 export type TopicRepo = {
   full_name: string
   name: string
   html_url: string
-  description: string | null
-  homepage: string | null
   stargazers_count: number
   fork: boolean
   archived: boolean
   size: number
+  topics?: string[]
   owner: { login: string; type: string }
 }
 
 export type Contributor = { login: string; type?: string; contributions: number }
-
-export type ShipConfig = { name?: string; crafter?: string }
 
 export type GithubRelease = {
   tag_name: string
@@ -33,16 +30,17 @@ export type GithubRelease = {
   published_at: string | null
 }
 
-export type DraftInput = {
-  slug: string
-  name: string
-  tagline: string
-  description: string
-  reviewNote: string | null
-  links: { type: "repository" | "website"; url: string }[]
-}
-
 export type UpdateInput = { title: string; description: string; socialPostUrl: string; publishedAt: string }
+
+export type SyncReason =
+  | "no-repository"
+  | "topic-missing"
+  | "repo-unusable"
+  | "github-not-linked"
+  | "not-repo-owner-or-contributor"
+  | "owner-not-trusted"
+  | "ship-not-published"
+  | "no-new-releases"
 
 const text = (value: unknown) => (typeof value === "string" && value.trim() ? value.trim() : undefined)
 
@@ -55,6 +53,12 @@ export function normalizeRepoUrl(url: string): string {
     .toLowerCase()
 }
 
+/** `owner/repo` from a GitHub repository URL, or null for anything else. */
+export function githubFullName(url: string): string | null {
+  const match = url.trim().match(/^https?:\/\/(?:www\.)?github\.com\/([^/?#\s]+)\/([^/?#\s]+?)(?:\.git)?\/?$/i)
+  return match ? `${match[1]}/${match[2]}` : null
+}
+
 export function repoSkipReason(repo: TopicRepo): "fork" | "archived" | "empty" | null {
   if (repo.fork) return "fork"
   if (repo.archived) return "archived"
@@ -62,165 +66,51 @@ export function repoSkipReason(repo: TopicRepo): "fork" | "archived" | "empty" |
   return null
 }
 
-export function parseShipConfig(raw: unknown): ShipConfig {
-  let value = raw
-  if (typeof raw === "string") {
-    try {
-      value = JSON.parse(raw)
-    } catch {
-      return {}
-    }
-  }
-  if (value === null || typeof value !== "object" || Array.isArray(value)) return {}
-  const object = value as Record<string, unknown>
-  return { name: text(object.name), crafter: text(object.crafter)?.replace(/^@/, "").toLowerCase() }
-}
+export const hasTopic = (repo: Pick<TopicRepo, "topics">) => Boolean(repo.topics?.includes(SHIP_TOPIC))
 
 export const isBot = (contributor: Contributor) => contributor.type === "Bot" || /\[bot\]$/i.test(contributor.login)
 
-export type OwnerResolution =
-  | { ok: true; member: TopicMember; via: "owner" | "top-contributor" | "override" }
-  | { ok: false; reason: string }
-
-export function resolveOwner(input: {
+/**
+ * The Ship owner's Clerk-linked GitHub login must be the repo owner (personal repo)
+ * or one of its non-bot contributors (organization repo).
+ */
+export function verifyOwnerGithub(input: {
   ownerLogin: string
   ownerType: string
   contributors: Contributor[]
-  memberByLogin: (login: string) => TopicMember | undefined
-  memberByHandle: (handle: string) => TopicMember | undefined
-  overrideHandle?: string
-}): OwnerResolution {
-  const humans = input.contributors.filter((contributor) => !isBot(contributor))
-  const finish = (member: TopicMember, via: "owner" | "top-contributor" | "override"): OwnerResolution =>
-    member.trust === "blocked" ? { ok: false, reason: "member-blocked" } : { ok: true, member, via }
-
-  if (input.overrideHandle) {
-    const member = input.memberByHandle(input.overrideHandle)
-    if (member) {
-      const ownerMember = input.ownerType === "User" ? input.memberByLogin(input.ownerLogin) : undefined
-      const involved =
-        ownerMember?.id === member.id || humans.some((contributor) => input.memberByLogin(contributor.login)?.id === member.id)
-      if (involved) return finish(member, "override")
-    }
-  }
-
+  linkedLogins: string[]
+}): { ok: true } | { ok: false; reason: "github-not-linked" | "not-repo-owner-or-contributor" } {
+  const linked = new Set(input.linkedLogins.map((login) => login.toLowerCase()))
+  if (!linked.size) return { ok: false, reason: "github-not-linked" }
   if (input.ownerType === "User") {
-    const member = input.memberByLogin(input.ownerLogin)
-    return member ? finish(member, "owner") : { ok: false, reason: "owner-has-no-account" }
+    return linked.has(input.ownerLogin.toLowerCase()) ? { ok: true } : { ok: false, reason: "not-repo-owner-or-contributor" }
   }
-
-  const total = humans.reduce((sum, contributor) => sum + contributor.contributions, 0)
-  let top: { member: TopicMember; contributions: number } | undefined
-  for (const contributor of humans) {
-    const member = input.memberByLogin(contributor.login)
-    if (member && (!top || contributor.contributions > top.contributions)) top = { member, contributions: contributor.contributions }
-  }
-  if (!top) return { ok: false, reason: "no-contributor-has-an-account" }
-  if (total === 0 || top.contributions / total < MIN_CONTRIBUTION_SHARE) return { ok: false, reason: "top-member-below-10-percent" }
-  return finish(top.member, "top-contributor")
+  const found = input.contributors.some((contributor) => !isBot(contributor) && linked.has(contributor.login.toLowerCase()))
+  return found ? { ok: true } : { ok: false, reason: "not-repo-owner-or-contributor" }
 }
 
-export function slugify(value: string): string {
-  const slug = value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 70)
-    .replace(/-+$/, "")
-  return slug.length >= 3 ? slug : `${slug || "ship"}-ship`.replace(/^-/, "")
-}
-
-export function uniqueSlug(base: string, taken: ReadonlySet<string>): string {
-  const slug = slugify(base)
-  if (!taken.has(slug)) return slug
-  for (let n = 2; ; n++) {
-    const candidate = `${slug}-${n}`
-    if (!taken.has(candidate)) return candidate
-  }
-}
-
-export function titleCase(name: string): string {
-  return name
-    .split(/[-_.\s]+/)
-    .filter(Boolean)
-    .map((word) => (/[A-Z]/.test(word) ? word : word[0].toUpperCase() + word.slice(1)))
-    .join(" ")
-}
-
-export function readmeFirstParagraph(readme: string | null | undefined): string | undefined {
-  if (!readme) return undefined
-  const paragraph = readme
-    .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/```[\s\S]*?```/g, "")
-    .replace(/!\[[^\]]*\]\([^)]*\)/g, "")
-    .replace(/<[^>]+>/g, "")
-    .split(/\n\s*\n/)
-    .map((part) =>
-      part
-        .split("\n")
-        .filter((line) => !/^\s*(#|>|\||[-*]\s|\[!)/.test(line))
-        .join(" ")
-        .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
-        .replace(/\s+/g, " ")
-        .trim(),
-    )
-    .find((part) => part.length >= 20)
-  return paragraph?.slice(0, 1500)
-}
-
-const TAGLINE_PLACEHOLDER = "A Ship from GitHub that its owner has yet to describe."
-const EDIT_HINT = "Drafted from the GitHub topic crafter-ship. Edit the tagline and description before you publish."
-
-export function validWebsite(url: string | null | undefined): string | undefined {
-  const value = url?.trim()
-  return value && /^https?:\/\//i.test(value) && value.length >= 8 && value.length <= 2048 ? value : undefined
-}
-
-export function deriveDraft(input: {
-  repo: TopicRepo
-  readme?: string | null
-  config?: ShipConfig
-  takenSlugs: ReadonlySet<string>
-  websiteTaken?: boolean
-}): DraftInput {
-  const { repo } = input
-  const name = (input.config?.name ?? titleCase(repo.name)).slice(0, 100).trim() || repo.name
-  const description = repo.description?.replace(/\s+/g, " ").trim() ?? ""
-  const usableTagline = description.length >= 4 && description.length <= 180
-  const tagline = usableTagline ? description : TAGLINE_PLACEHOLDER
-  const parts = [description, readmeFirstParagraph(input.readme)].filter((part): part is string => Boolean(part))
-  let body = [...new Set(parts)].join("\n\n")
-  if (body.length < 20) body = `${name} is an open source project on GitHub (${repo.full_name}).`
-  if (!usableTagline) body = `${body}\n\n${EDIT_HINT}`
-  const website = input.websiteTaken ? undefined : validWebsite(repo.homepage)
-  const repoUrl = repo.html_url
-  return {
-    slug: uniqueSlug(repo.name, input.takenSlugs),
-    name,
-    tagline,
-    description: body.slice(0, 5000),
-    reviewNote: usableTagline ? null : EDIT_HINT,
-    links: [
-      { type: "repository", url: repoUrl },
-      ...(website && normalizeRepoUrl(website) !== normalizeRepoUrl(repoUrl) ? [{ type: "website" as const, url: website }] : []),
-    ],
-  }
-}
-
-/** Releases newer than the Ship's publication that are not yet updates, oldest first. */
+/**
+ * Releases to import, oldest first. Always after the Ship's publication and never already an
+ * update. `windowDays` further limits how old a release may be; `limit` keeps the newest N.
+ */
 export function planReleaseUpdates(input: {
   releases: GithubRelease[]
   shipPublishedAt: string
   existingUrls: ReadonlySet<string>
+  now?: number
+  windowDays?: number
+  limit?: number
 }): UpdateInput[] {
-  const since = Date.parse(input.shipPublishedAt)
+  const notBefore = Math.max(
+    Date.parse(input.shipPublishedAt),
+    input.windowDays === undefined ? Number.NEGATIVE_INFINITY : (input.now ?? Date.now()) - input.windowDays * 86_400_000,
+  )
   const seen = new Set(input.existingUrls)
   const updates: UpdateInput[] = []
-  const ordered = [...input.releases].sort((a, b) => Date.parse(a.published_at ?? "") - Date.parse(b.published_at ?? ""))
-  for (const release of ordered) {
+  const newestFirst = [...input.releases].sort((a, b) => Date.parse(b.published_at ?? "") - Date.parse(a.published_at ?? ""))
+  for (const release of newestFirst) {
     if (release.draft || release.prerelease || !release.published_at || !release.html_url) continue
-    const at = Date.parse(release.published_at)
-    if (!(at > since) || seen.has(release.html_url)) continue
+    if (!(Date.parse(release.published_at) > notBefore) || seen.has(release.html_url)) continue
     const title = (text(release.name) ?? text(release.tag_name))?.slice(0, 100).trim()
     if (!title) continue
     const body = text(release.body)
@@ -231,6 +121,18 @@ export function planReleaseUpdates(input: {
       publishedAt: release.published_at,
     })
     seen.add(release.html_url)
+    if (input.limit !== undefined && updates.length >= input.limit) break
   }
-  return updates
+  return updates.reverse()
+}
+
+export const syncReasonMessage: Record<SyncReason, string> = {
+  "no-repository": "This Ship has no GitHub repository link.",
+  "topic-missing": "Add the crafter-ship topic to the repo.",
+  "repo-unusable": "The repo is a fork, archived or empty.",
+  "github-not-linked": "Your GitHub account is not linked.",
+  "not-repo-owner-or-contributor": "Your linked GitHub account is neither the repo owner nor a contributor.",
+  "owner-not-trusted": "Releases sync once your first Ship has been approved.",
+  "ship-not-published": "Only published Ships sync releases.",
+  "no-new-releases": "No new releases.",
 }

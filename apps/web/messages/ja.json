@@ -266,7 +266,7 @@
       "manifestTitle": "コミュニティがシップしたもの。",
       "shipCount": "{count} 件の作品",
       "crafterCount": "{count} 人の Crafter",
-      "topicNote": "公開リポジトリがありますか？GitHub に crafter-ship トピックを付けると、Ship の下書きを作ります。",
+      "topicNote": "公開リポジトリに crafter-ship トピックを付けると、リリースごとに Ship のアップデートになります。",
       "topicLink": "トピックを見る",
       "emptyTitle": "最初の作品はまだ準備中です。",
       "emptyDescription": "コミュニティの作品がここに集まります。まもなく、すべての Crafter がウェブやコーディングエージェントから直接公開できるようになります。",

@@ -2,4 +2,4 @@
 "@crafter/cli": patch
 ---
 
-The bundled ship skill explains the `crafter-ship` GitHub topic, which drafts a Ship from a public repo.
+The bundled ship skill explains that the `crafter-ship` GitHub topic turns each release of a public repo into a Ship update.

@@ -86,7 +86,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       <section className="mt-14">
         <h2 className="text-2xl">Tagged repos without a crafter.run account{unmatched ? ` (${unmatched.length})` : ""}</h2>
         <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-          Public repos with the <code>crafter-ship</code> topic that no member qualifies for. Invite their owners. Refreshed every 15 minutes.
+          Public repos with the <code>crafter-ship</code> topic that are not a Ship yet, or whose Ship owner has no matching linked GitHub account. Invite their owners. Refreshed every 15 minutes.
         </p>
         {unmatched === null ? <p className="mt-4 text-muted-foreground">The GitHub scan failed. Try again later.</p> : null}
         {unmatched?.length === 0 ? <p className="mt-4 text-muted-foreground">Every tagged repo has a match.</p> : null}

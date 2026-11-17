@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: error instanceof Error ? error.message : "Topic scan failed" }, { status: 502 })
   }
 
-  if (!dryRun && (report.draftsCreated || report.updatesCreated)) {
+  if (!dryRun && report.updatesCreated) {
     for (const locale of locales) {
       revalidatePath(`/${locale}/admin/ships`)
       revalidatePath(`/${locale}/ships`)

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
 import { ShipUpdates } from "@/components/ship-updates"
+import { ShipSyncReleases } from "@/components/ship-sync-releases"
 import { ShipEditLink } from "@/components/ship-edit-link"
 import { ShipUpvote } from "@/components/ship-upvote"
 import { isLocale } from "@/lib/i18n"
@@ -66,6 +67,7 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
               </Link>
               <p className="mt-1 font-label text-xs text-muted-foreground">@{ship.owner.handle}</p>
               <div className="mt-4"><ShipEditLink locale={lang} ownerHandle={ship.owner.handle} slug={ship.slug} /></div>
+              <ShipSyncReleases ownerHandle={ship.owner.handle} slug={ship.slug} />
               <a
                 href={`https://wa.me/?text=${encodeURIComponent(shareText)}`}
                 target="_blank"

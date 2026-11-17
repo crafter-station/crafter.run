@@ -6,34 +6,36 @@ import { unstable_cache } from "next/cache"
 import { env } from "@/env"
 import { getDb } from "@/lib/db"
 import {
+  AUTO_SYNC_WINDOW_DAYS,
   type Contributor,
-  deriveDraft,
+  githubFullName,
   type GithubRelease,
+  hasTopic,
+  MANUAL_SYNC_LIMIT,
   normalizeRepoUrl,
-  parseShipConfig,
   planReleaseUpdates,
   repoSkipReason,
-  resolveOwner,
   SHIP_TOPIC,
-  type TopicMember,
+  type SyncReason,
   type TopicRepo,
-  validWebsite,
+  verifyOwnerGithub,
 } from "@/lib/ship-topic"
+
+type Fetcher = typeof fetch
+type Database = NonNullable<ReturnType<typeof getDb>>
+
+export type SyncResult = { added: { title: string }[]; reason?: SyncReason }
 
 export type ScanReport = {
   dryRun: boolean
   scanned: number
-  draftsCreated: number
   updatesCreated: number
-  drafts: { repo: string; slug: string; owner: string }[]
   updates: { repo: string; ship: string; title: string }[]
   skipped: { repo: string; reason: string }[]
   unmatched: UnmatchedRepo[]
 }
 
 export type UnmatchedRepo = { repo: string; url: string; owner: string; stars: number; reason: string }
-
-type Fetcher = typeof fetch
 
 function headers(accept = "application/vnd.github+json") {
   return {
@@ -44,11 +46,11 @@ function headers(accept = "application/vnd.github+json") {
   }
 }
 
-async function github<T>(path: string, fetcher: Fetcher, accept?: string): Promise<T | null> {
-  const response = await fetcher(`https://api.github.com${path}`, { headers: headers(accept), cache: "no-store" })
+async function github<T>(path: string, fetcher: Fetcher): Promise<T | null> {
+  const response = await fetcher(`https://api.github.com${path}`, { headers: headers(), cache: "no-store" })
   if (response.status === 404 || (response.status === 403 && path.includes("/contributors"))) return null
   if (!response.ok) throw new Error(`GitHub ${path} answered ${response.status}`)
-  return (accept?.includes("raw") ? await response.text() : await response.json()) as T
+  return (await response.json()) as T
 }
 
 /** Public, non-fork repos carrying the topic. Search returns at most 1000 results. */
@@ -66,170 +68,140 @@ export async function searchTopicRepos(fetcher: Fetcher = fetch): Promise<TopicR
   return repos
 }
 
-/** GitHub login (lowercase) -> Clerk user id, from linked GitHub external accounts. */
-async function githubLoginMap(): Promise<Map<string, string>> {
+/** GitHub logins linked to a Clerk user through external accounts. */
+async function linkedGithubLogins(clerkUserId: string): Promise<string[]> {
   const { clerkClient } = await import("@clerk/nextjs/server")
-  const client = await clerkClient()
-  const map = new Map<string, string>()
-  const limit = 500
-  for (let offset = 0; ; offset += limit) {
-    const { data } = await client.users.getUserList({ limit, offset })
-    for (const user of data) {
-      for (const account of user.externalAccounts) {
-        if (account.provider.endsWith("github") && account.username) map.set(account.username.toLowerCase(), user.id)
-      }
-    }
-    if (data.length < limit) break
-  }
-  return map
+  const user = await (await clerkClient()).users.getUser(clerkUserId)
+  return user.externalAccounts
+    .filter((account) => account.provider.endsWith("github") && account.username)
+    .map((account) => account.username as string)
 }
 
-export type ScanOptions = { dryRun: boolean; fetcher?: Fetcher }
+type ShipRow = {
+  id: string
+  status: "draft" | "pending" | "published" | "hidden"
+  publishedAt: string | null
+  ownerClerkUserId: string
+  ownerTrust: "new" | "trusted" | "blocked"
+}
 
-export async function scanTopic({ dryRun, fetcher = fetch }: ScanOptions): Promise<ScanReport> {
+/** Verifies the owner and imports releases for one Ship. `repo` must carry its topics. */
+export async function syncShipReleases(input: {
+  db: Database
+  ship: ShipRow
+  repo: TopicRepo
+  mode: "auto" | "manual"
+  dryRun?: boolean
+  fetcher?: Fetcher
+  now?: number
+}): Promise<SyncResult> {
+  const { db, ship, repo, mode, fetcher = fetch } = input
+  const none = (reason: SyncReason): SyncResult => ({ added: [], reason })
+  if (ship.status !== "published" || !ship.publishedAt) return none("ship-not-published")
+  if (!hasTopic(repo)) return none("topic-missing")
+  if (repoSkipReason(repo)) return none("repo-unusable")
+  if (ship.ownerTrust !== "trusted") return none("owner-not-trusted")
+
+  const linkedLogins = await linkedGithubLogins(ship.ownerClerkUserId)
+  const contributors =
+    repo.owner.type === "User" || !linkedLogins.length
+      ? []
+      : ((await github<Contributor[]>(`/repos/${repo.full_name}/contributors?per_page=100`, fetcher)) ?? [])
+  const verified = verifyOwnerGithub({ ownerLogin: repo.owner.login, ownerType: repo.owner.type, contributors, linkedLogins })
+  if (!verified.ok) return none(verified.reason)
+
+  const releases = (await github<GithubRelease[]>(`/repos/${repo.full_name}/releases?per_page=30`, fetcher)) ?? []
+  const known = await db.select({ url: shipUpdates.socialPostUrl }).from(shipUpdates).where(eq(shipUpdates.shipId, ship.id))
+  const plan = planReleaseUpdates({
+    releases,
+    shipPublishedAt: ship.publishedAt,
+    existingUrls: new Set(known.map((row) => row.url).filter((url): url is string => Boolean(url))),
+    now: input.now,
+    ...(mode === "auto" ? { windowDays: AUTO_SYNC_WINDOW_DAYS } : { limit: MANUAL_SYNC_LIMIT }),
+  })
+  if (!plan.length) return none("no-new-releases")
+  if (!input.dryRun) await db.insert(shipUpdates).values(plan.map((update) => ({ shipId: ship.id, ...update })))
+  return { added: plan.map((update) => ({ title: update.title })) }
+}
+
+/** Manual sync for a Ship's owner; ownership is checked here against the Clerk user id. */
+export async function syncShipForOwner(slug: string, clerkUserId: string): Promise<SyncResult | { error: "not-found" | "forbidden" }> {
   const db = getDb()
   if (!db) throw new Error("DATABASE_URL is not configured.")
-  const report: ScanReport = { dryRun, scanned: 0, draftsCreated: 0, updatesCreated: 0, drafts: [], updates: [], skipped: [], unmatched: [] }
+  const [ship] = await db
+    .select({
+      id: ships.id,
+      status: ships.status,
+      publishedAt: ships.publishedAt,
+      ownerClerkUserId: members.clerkUserId,
+      ownerTrust: members.trust,
+    })
+    .from(ships)
+    .innerJoin(members, eq(members.id, ships.ownerMemberId))
+    .where(eq(ships.slug, slug))
+    .limit(1)
+  if (!ship) return { error: "not-found" }
+  if (ship.ownerClerkUserId !== clerkUserId) return { error: "forbidden" }
+
+  const links = await db
+    .select({ url: shipLinks.url })
+    .from(shipLinks)
+    .where(and(eq(shipLinks.shipId, ship.id), eq(shipLinks.type, "repository")))
+  const fullName = links.map((link) => githubFullName(link.url)).find(Boolean)
+  if (!fullName) return { added: [], reason: "no-repository" }
+  const repo = await github<TopicRepo>(`/repos/${fullName}`, fetch)
+  if (!repo) return { added: [], reason: "no-repository" }
+  return syncShipReleases({ db, ship, repo, mode: "manual" })
+}
+
+export async function scanTopic({ dryRun, fetcher = fetch }: { dryRun: boolean; fetcher?: Fetcher }): Promise<ScanReport> {
+  const db = getDb()
+  if (!db) throw new Error("DATABASE_URL is not configured.")
+  const report: ScanReport = { dryRun, scanned: 0, updatesCreated: 0, updates: [], skipped: [], unmatched: [] }
 
   const repos = await searchTopicRepos(fetcher)
   report.scanned = repos.length
-  const candidates: TopicRepo[] = []
-  for (const repo of repos) {
-    const reason = repoSkipReason(repo)
-    if (reason) report.skipped.push({ repo: repo.full_name, reason })
-    else candidates.push(repo)
-  }
-  if (!candidates.length) return report
+  if (!repos.length) return report
 
-  const urls = candidates.map((repo) => normalizeRepoUrl(repo.html_url))
-  const repoLinks = await db
+  const rows = await db
     .select({
       url: sql<string>`lower(${shipLinks.url})`,
-      shipId: ships.id,
+      id: ships.id,
       status: ships.status,
       publishedAt: ships.publishedAt,
+      ownerClerkUserId: members.clerkUserId,
       ownerTrust: members.trust,
     })
     .from(shipLinks)
     .innerJoin(ships, eq(ships.id, shipLinks.shipId))
     .innerJoin(members, eq(members.id, ships.ownerMemberId))
-    .where(and(eq(shipLinks.type, "repository"), inArray(sql`lower(${shipLinks.url})`, urls)))
-  const shipByUrl = new Map(repoLinks.map((row) => [normalizeRepoUrl(row.url), row]))
+    .where(and(eq(shipLinks.type, "repository"), inArray(sql`lower(${shipLinks.url})`, repos.map((repo) => normalizeRepoUrl(repo.html_url)))))
+  const shipByUrl = new Map(rows.map((row) => [normalizeRepoUrl(row.url), row]))
 
-  const takenSlugs = new Set((await db.select({ slug: ships.slug }).from(ships)).map((row) => row.slug))
-  let identity: { logins: Map<string, string>; byClerk: Map<string, TopicMember>; byHandle: Map<string, TopicMember> } | undefined
-  const loadIdentity = async () => {
-    if (identity) return identity
-    const [logins, rows] = await Promise.all([
-      githubLoginMap(),
-      db.select({ id: members.id, handle: members.handle, trust: members.trust, clerkUserId: members.clerkUserId }).from(members),
-    ])
-    identity = {
-      logins,
-      byClerk: new Map(rows.map((row) => [row.clerkUserId, { id: row.id, handle: row.handle, trust: row.trust }])),
-      byHandle: new Map(rows.map((row) => [row.handle.toLowerCase(), { id: row.id, handle: row.handle, trust: row.trust }])),
+  for (const repo of repos) {
+    const unmatched = (reason: string) =>
+      report.unmatched.push({ repo: repo.full_name, url: repo.html_url, owner: repo.owner.login, stars: repo.stargazers_count, reason })
+    const skip = repoSkipReason(repo)
+    if (skip) {
+      report.skipped.push({ repo: repo.full_name, reason: skip })
+      continue
     }
-    return identity
-  }
-
-  for (const repo of candidates) {
-    const existing = shipByUrl.get(normalizeRepoUrl(repo.html_url))
+    const ship = shipByUrl.get(normalizeRepoUrl(repo.html_url))
+    if (!ship) {
+      report.skipped.push({ repo: repo.full_name, reason: "no-ship-yet" })
+      unmatched("no-ship-yet")
+      continue
+    }
     try {
-      if (existing) {
-        if (existing.status !== "published" || !existing.publishedAt) {
-          report.skipped.push({ repo: repo.full_name, reason: `ship-exists-${existing.status}` })
-          continue
-        }
-        if (existing.ownerTrust !== "trusted") {
-          report.skipped.push({ repo: repo.full_name, reason: "owner-not-trusted" })
-          continue
-        }
-        const releases = (await github<GithubRelease[]>(`/repos/${repo.full_name}/releases?per_page=30`, fetcher)) ?? []
-        const known = await db
-          .select({ url: shipUpdates.socialPostUrl })
-          .from(shipUpdates)
-          .where(eq(shipUpdates.shipId, existing.shipId))
-        const plan = planReleaseUpdates({
-          releases,
-          shipPublishedAt: existing.publishedAt,
-          existingUrls: new Set(known.map((row) => row.url).filter((url): url is string => Boolean(url))),
-        })
-        if (!plan.length) {
-          report.skipped.push({ repo: repo.full_name, reason: "no-new-releases" })
-          continue
-        }
-        for (const update of plan) {
-          if (!dryRun) await db.insert(shipUpdates).values({ shipId: existing.shipId, ...update })
-          report.updatesCreated++
-          report.updates.push({ repo: repo.full_name, ship: existing.shipId, title: update.title })
-        }
-        continue
+      const result = await syncShipReleases({ db, ship, repo, mode: "auto", dryRun, fetcher })
+      for (const update of result.added) {
+        report.updatesCreated++
+        report.updates.push({ repo: repo.full_name, ship: ship.id, title: update.title })
       }
-
-      const [rawConfig, contributors] = await Promise.all([
-        github<string>(`/repos/${repo.full_name}/contents/crafter.ship.json`, fetcher, "application/vnd.github.raw"),
-        github<Contributor[]>(`/repos/${repo.full_name}/contributors?per_page=100`, fetcher),
-      ])
-      const config = parseShipConfig(rawConfig ?? undefined)
-      const ids = await loadIdentity()
-      const memberByLogin = (login: string) => {
-        const clerkId = ids.logins.get(login.toLowerCase())
-        return clerkId ? ids.byClerk.get(clerkId) : undefined
+      if (result.reason) {
+        report.skipped.push({ repo: repo.full_name, reason: result.reason })
+        if (result.reason === "github-not-linked" || result.reason === "not-repo-owner-or-contributor") unmatched(result.reason)
       }
-      const owner = resolveOwner({
-        ownerLogin: repo.owner.login,
-        ownerType: repo.owner.type,
-        contributors: contributors ?? [],
-        memberByLogin,
-        memberByHandle: (handle) => ids.byHandle.get(handle),
-        overrideHandle: config.crafter,
-      })
-      if (!owner.ok) {
-        report.skipped.push({ repo: repo.full_name, reason: owner.reason })
-        if (owner.reason !== "member-blocked") {
-          report.unmatched.push({ repo: repo.full_name, url: repo.html_url, owner: repo.owner.login, stars: repo.stargazers_count, reason: owner.reason })
-        }
-        continue
-      }
-
-      const homepage = validWebsite(repo.homepage)
-      const websiteTaken = homepage
-        ? (await db
-            .select({ id: shipLinks.id })
-            .from(shipLinks)
-            .where(and(inArray(shipLinks.type, ["repository", "website"]), eq(sql`lower(${shipLinks.url})`, homepage.toLowerCase())))
-            .limit(1)).length > 0
-        : false
-      const readme = await github<string>(`/repos/${repo.full_name}/readme`, fetcher, "application/vnd.github.raw")
-      const draft = deriveDraft({ repo, readme, config, takenSlugs, websiteTaken })
-      takenSlugs.add(draft.slug)
-
-      if (!dryRun) {
-        const [created] = await db
-          .insert(ships)
-          .values({
-            ownerMemberId: owner.member.id,
-            slug: draft.slug,
-            name: draft.name,
-            tagline: draft.tagline,
-            description: draft.description,
-            reviewNote: draft.reviewNote,
-            status: "draft",
-            source: "import",
-          })
-          .returning({ id: ships.id })
-        const linked = await db
-          .insert(shipLinks)
-          .values(draft.links.map((link) => ({ shipId: created.id, ...link })))
-          .onConflictDoNothing()
-          .returning({ type: shipLinks.type })
-        if (!linked.some((link) => link.type === "repository")) {
-          await db.delete(ships).where(eq(ships.id, created.id))
-          throw new Error("repository link already belongs to another ship")
-        }
-      }
-      report.draftsCreated++
-      report.drafts.push({ repo: repo.full_name, slug: draft.slug, owner: owner.member.handle })
     } catch (error) {
       report.skipped.push({ repo: repo.full_name, reason: `error: ${error instanceof Error ? error.message : String(error)}` })
     }
@@ -237,7 +209,7 @@ export async function scanTopic({ dryRun, fetcher = fetch }: ScanOptions): Promi
   return report
 }
 
-/** Live, read-only list for the admin page; cached for 15 minutes. Failures read as an empty list. */
+/** Live, read-only list for the admin page; cached for 15 minutes. A failed scan reads as null. */
 export const getUnmatchedTopicRepos = unstable_cache(
   async (): Promise<UnmatchedRepo[] | null> => {
     try {
@@ -247,6 +219,6 @@ export const getUnmatchedTopicRepos = unstable_cache(
       return null
     }
   },
-  ["ships-topic-unmatched-v1"],
+  ["ships-topic-unmatched-v2"],
   { revalidate: 900 },
 )

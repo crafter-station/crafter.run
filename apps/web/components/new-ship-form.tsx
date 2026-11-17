@@ -1,7 +1,7 @@
 "use client"
 
 import type { ShipDetail } from "@crafter/contracts"
-import { useAuth } from "@clerk/nextjs"
+import { useAuth, useClerk, useUser } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { type FormEvent, useRef, useState } from "react"
 
@@ -9,6 +9,10 @@ import { shipsApi, uploadShipImage } from "@/lib/ships-client"
 
 export function NewShipForm({ locale }: { locale: string }) {
   const { getToken } = useAuth()
+  const { openUserProfile } = useClerk()
+  const { user } = useUser()
+  const githubLinked = user?.externalAccounts.some((account) => account.provider.endsWith("github")) ?? true
+  const [githubRepo, setGithubRepo] = useState(false)
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
   const [error, setError] = useState<string | null>(null)
@@ -27,6 +31,7 @@ export function NewShipForm({ locale }: { locale: string }) {
       if (!['http:', 'https:'].includes(url.protocol)) throw new Error("Use an HTTP or HTTPS URL.")
       const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement | null
       const parts = url.pathname.split("/").filter(Boolean)
+      setGithubRepo(false)
       if (url.hostname.toLowerCase() === "github.com" && parts.length >= 2) {
         const response = await fetch(`https://api.github.com/repos/${encodeURIComponent(parts[0]!)}/${encodeURIComponent(parts[1]!.replace(/\.git$/i, ""))}`)
         if (!response.ok) throw new Error("That public GitHub repository could not be loaded.")
@@ -37,6 +42,7 @@ export function NewShipForm({ locale }: { locale: string }) {
         if (repository.description && field("description")) field("description")!.value = repository.description
         if (field("repository")) field("repository")!.value = repository.html_url ?? source
         if (repository.homepage && field("website")) field("website")!.value = repository.homepage
+        setGithubRepo(true)
       } else {
         const name = url.hostname.replace(/^www\./, "").split(".")[0] ?? ""
         if (field("name")) field("name")!.value = name.charAt(0).toUpperCase() + name.slice(1)
@@ -100,6 +106,17 @@ export function NewShipForm({ locale }: { locale: string }) {
           {prefilling ? "Loading..." : "Prefill safely"}
         </button>
       </div>
+      {githubRepo ? (
+        <p className="text-sm text-muted-foreground">Add the GitHub topic crafter-ship to this repo and each release posts an update.</p>
+      ) : null}
+      {!githubLinked ? (
+        <p className="border border-line p-4 text-sm leading-6 text-muted-foreground">
+          Auto-updates from GitHub releases need a linked GitHub account.{" "}
+          <button type="button" onClick={() => openUserProfile()} className="font-medium text-accent underline underline-offset-4">
+            Link GitHub in your account
+          </button>
+        </p>
+      ) : null}
       <div className="grid gap-6 md:grid-cols-2">
         <Field label="Name" name="name" required maxLength={100} />
         <Field label="Slug" name="slug" required minLength={3} maxLength={80} placeholder="my-ship" />
