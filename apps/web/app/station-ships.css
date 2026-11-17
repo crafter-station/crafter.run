@@ -390,3 +390,21 @@
 .ships-page .ships-ways-code { background: hsl(var(--foreground)); color: hsl(var(--background)); }
 .ships-page .ships-ways-panel .ships-button-quiet { color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .35); }
 @media (prefers-reduced-motion: reduce) { .ships-page .ship-featured { transform: none; } }
+
+/* Single column: the story reads at a comfortable width, its media runs wider, and the maker
+   sits after the story instead of in a sticky side card. */
+.ship-body { display: block; max-width: 1000px; }
+.ship-prose { max-width: none; }
+.ship-prose > :not(figure, .ship-prose-table) { max-width: 68ch; }
+.ship-prose figure { margin-block: 2em; }
+.ship-made-by { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--ships-line); }
+.ship-made-by .ship-maker { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; text-align: left; gap: 12px 28px; padding: 0; border-radius: 0; background: none; box-shadow: none; }
+.ship-made-by .ship-maker > .station-label { flex-basis: 100%; }
+.ship-made-by .ship-maker-head { flex: none; }
+.ship-made-by .ship-maker-bio { flex: 1 1 260px; max-width: 52ch; }
+.ship-made-by .ship-maker > .ship-inline-link { margin: 0; }
+.ship-made-by .ship-maker-more { flex-basis: 100%; margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--ships-line); }
+.ship-made-by .ship-maker-more ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 4px 24px; }
+.ship-made-by .ship-owner { margin-top: 24px; }
+.ship-made-by + .ship-updates { margin-top: 56px; }
+@media (max-width: 760px) { .ship-made-by { margin-top: 48px; } }
