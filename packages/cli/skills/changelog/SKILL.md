@@ -3,7 +3,7 @@ name: changelog
 description: Publish a changelog entry on crafter.run for something Crafter Station shipped. Use when a core crafter says "write a changelog", "post this to the changelog", "announce this on crafter.run", or asks for a changelog with screenshots, a demo clip and a cover. Writes the entry in English and Spanish, captures the media, checks it and opens a pull request through the crafter CLI. Never merges.
 ---
 
-# crafter-changelog
+# Crafter changelog
 
 A changelog entry is a small launch post that lives at crafter.run/changelog. Write it like the Vercel changelog: say what it is, show it working, say how to try it, list what changed. The machine layer scaffolds, captures, checks and opens the PR. The human layer approves the copy and the media, and a maintainer merges.
 

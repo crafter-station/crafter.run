@@ -41,7 +41,7 @@ crafter skills get --all
 crafter skills path [name]
 ```
 
-To let your coding agent discover them, install the discovery stub with `npx skills add crafter-station/crafter.run --skill crafter-ship`; it only points at `crafter skills`.
+To let your coding agent discover them, install the discovery stub with `npx skills add crafter-station/crafter.run --skill crafter`; it only points at `crafter skills`.
 
 `crafter handle` checks whether a Crafter handle is still available. `crafter onboard --file` creates or updates your Crafter profile from a JSON file with at least `handle` and `displayName` (run it without arguments to use the browser form instead):
 
