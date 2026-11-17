@@ -1,6 +1,6 @@
 #!/bin/zsh
-# Renders the home link-preview film: public/og/home-{es,en}.mp4 (1200x630, 10 s, 30 fps) and
-# its first frame as public/og/home-{es,en}.jpg. Needs agent-browser, ffmpeg, magick and python3.
+# Renders the /ships link-preview film: public/og/ships-{es,en}.mp4 (1200x630, 10 s, 30 fps) and
+# its first frame as public/og/ships-{es,en}.jpg. Needs agent-browser, ffmpeg, magick and python3.
 # Run from anywhere: apps/web/scripts/og-video/render.sh
 set -euo pipefail
 web=${0:A:h:h:h}
@@ -35,8 +35,8 @@ for lang in es en; do
     ab screenshot $frames/$(printf %04d $i).png
   done
   ab close
-  ffmpeg -y -loglevel error -framerate 30 -i $frames/%04d.png -c:v libx264 -profile:v high -preset slow -crf 22 -pix_fmt yuv420p -movflags +faststart -an $web/public/og/home-$lang.mp4
-  magick $frames/0000.png -strip -quality 92 $web/public/og/home-$lang.jpg
-  echo "$lang: $(du -h $web/public/og/home-$lang.mp4 | cut -f1)"
+  ffmpeg -y -loglevel error -framerate 30 -i $frames/%04d.png -c:v libx264 -profile:v high -preset slow -crf 22 -pix_fmt yuv420p -movflags +faststart -an $web/public/og/ships-$lang.mp4
+  magick $frames/0000.png -strip -quality 92 $web/public/og/ships-$lang.jpg
+  echo "$lang: $(du -h $web/public/og/ships-$lang.mp4 | cut -f1)"
 done
 rm -rf $work

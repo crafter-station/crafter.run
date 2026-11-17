@@ -142,11 +142,13 @@ export function buildMetadata({
   }
 }
 
-/** Home link preview: a 10 s loop of community Ships and its first frame as the poster.
- * Regenerate both with `apps/web/scripts/og-video/render.sh` when the Ship count moves. */
-const HOME_FILMS: Partial<Record<Locale, { video: string; poster: string; alt: string }>> = {
-  es: { video: "/og/home-es.mp4", poster: "/og/home-es.jpg", alt: "Craft. Ship. Repeat. Proyectos de builders de LATAM publicados en crafter.run" },
-  en: { video: "/og/home-en.mp4", poster: "/og/home-en.jpg", alt: "Craft. Ship. Repeat. Projects by LATAM builders published on crafter.run" },
+/** Link preview film per page: a 10 s loop and its first frame as the poster.
+ * Regenerate with `apps/web/scripts/og-video/render.sh` when the Ship count moves. */
+const FILMS: Record<string, Partial<Record<Locale, { video: string; poster: string; alt: string }>>> = {
+  "pages.ships": {
+    es: { video: "/og/ships-es.mp4", poster: "/og/ships-es.jpg", alt: "Craft. Ship. Repeat. Proyectos de builders de LATAM publicados en crafter.run" },
+    en: { video: "/og/ships-en.mp4", poster: "/og/ships-en.jpg", alt: "Craft. Ship. Repeat. Projects by LATAM builders published on crafter.run" },
+  },
 }
 
 export async function pageMetadata({
@@ -162,21 +164,21 @@ export async function pageMetadata({
   if (!isLocale(lang)) return {}
 
   if (namespace === "home") {
-    const film = HOME_FILMS[lang]
     return buildMetadata({
       locale: lang,
       path,
       title: siteConfig.name,
       description: siteConfig.description[lang],
-      ...(film ? { image: { url: absoluteUrl(film.poster), alt: film.alt }, video: film.video } : {}),
     })
   }
 
   const t = await getTranslations({ locale: lang, namespace })
+  const film = FILMS[namespace]?.[lang]
   return buildMetadata({
     locale: lang,
     path,
     title: t("title"),
     description: t("description"),
+    ...(film ? { image: { url: absoluteUrl(film.poster), alt: film.alt }, video: film.video } : {}),
   })
 }
