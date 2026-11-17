@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test"
 
-import { filterRepos, githubFetch, markShipped, orderRepos, readyRepos, repoInputToUrl, repoKey, selectRepos } from "./github-repos"
+import { filterRepos, githubFetch, listOwnerRepos, markShipped, orderRepos, readyRepos, repoInputToUrl, repoKey, selectRepos } from "./github-repos"
 import { importShipFromLink } from "./new-ship-draft"
 
 const raw = [
@@ -74,5 +74,39 @@ describe("server import", () => {
     const response = await githubFetch("bad", rejecting)("https://api.github.com/x")
     expect(response.status).toBe(200)
     expect(calls).toEqual(["Bearer bad", null])
+  })
+})
+
+describe("owner repositories", () => {
+  const calls: string[] = []
+  const github = (async (input: RequestInfo | URL) => {
+    const url = String(input)
+    calls.push(url.replace("https://api.github.com", ""))
+    if (url.includes("/orgs/someone/")) return new Response("{}", { status: 404 })
+    if (url.includes("/users/ghost/")) return new Response("{}", { status: 404 })
+    if (url.includes("/orgs/down/")) return new Response("{}", { status: 500 })
+    return new Response(JSON.stringify(raw))
+  }) as typeof fetch
+
+  test("an organization reads the org endpoint, newest push first", async () => {
+    calls.length = 0
+    const result = await listOwnerRepos("crafter-station", "org", github)
+    expect(calls).toEqual(["/orgs/crafter-station/repos?type=public&sort=pushed&per_page=100"])
+    expect(result.status === "ok" && result.repos[0]?.name).toBe("fresh")
+  })
+
+  test("a typed login that is not an organization falls back to the user endpoint", async () => {
+    calls.length = 0
+    const result = await listOwnerRepos("someone", "org", github)
+    expect(calls).toEqual(["/orgs/someone/repos?type=public&sort=pushed&per_page=100", "/users/someone/repos?type=owner&sort=pushed&per_page=100"])
+    expect(result.status).toBe("ok")
+  })
+
+  test("an unknown login is notFound, a GitHub failure is error, and an invalid login never calls GitHub", async () => {
+    calls.length = 0
+    expect((await listOwnerRepos("ghost", "user", github)).status).toBe("notFound")
+    expect((await listOwnerRepos("down", "org", github)).status).toBe("error")
+    expect((await listOwnerRepos("../etc", "user", github)).status).toBe("notFound")
+    expect(calls.some((call) => call.includes("etc"))).toBe(false)
   })
 })

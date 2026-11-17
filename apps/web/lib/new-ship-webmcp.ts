@@ -18,7 +18,7 @@ export type NewShipToolHost = {
   /** Reads a link into the form. Resolves with what it filled, or the reason it could not. */
   importFromLink: (url: string) => Promise<{ ok: true; result: ImportResult } | { ok: false; reason: string }>
   /** The member's public GitHub repositories, already flagged for Ships and the crafter-ship topic. */
-  listRepos: () => RepoOption[]
+  listRepos: () => Promise<RepoOption[]>
   /** Moves to the last step and focuses the publish button. The member still has to click it. */
   requestSubmit: () => void
   /** True when this member's next Ship goes to review instead of publishing. */
@@ -109,7 +109,7 @@ export function registerNewShipTools(host: NewShipToolHost): () => void {
       description: "Returns the member's public, non-fork repositories by last push, with `hasShip` (already linked to one of their Ships) and `topic` (tagged crafter-ship). Repositories with `topic` and no Ship are ready to publish. Read-only. Pass a fullName to import_from_link.",
       inputSchema: { type: "object", properties: {} },
       annotations: { readOnlyHint: true, untrustedContentHint: true },
-      execute: () => json({ repos: host.listRepos().map(({ fullName, description, language, stars, pushedAt, topic, hasShip }) => ({ fullName, description, language, stars, pushedAt, topic, hasShip })) }),
+      execute: async () => json({ repos: (await host.listRepos()).map(({ fullName, description, language, stars, pushedAt, topic, hasShip }) => ({ fullName, description, language, stars, pushedAt, topic, hasShip })) }),
     },
     {
       name: "import_from_link",

@@ -12,16 +12,16 @@ import { AgentFill } from "@/components/onboarding/agent-fill"
 import { Field, TextAreaField, TextField } from "@/components/onboarding/fields"
 import { Problem, SlugField } from "@/components/new-ship/fields"
 import { BatchReview } from "@/components/new-ship/batch-review"
-import { RepoPicker, repoSelectionKey } from "@/components/new-ship/repo-picker"
+import { GithubImport, type Owner, useOwnerRepos } from "@/components/new-ship/github-import"
+import { repoSelectionKey } from "@/components/new-ship/repo-picker"
 import { ShipPreview } from "@/components/new-ship/ship-preview"
 import { repoInputToUrl, repoKey, type RepoOption } from "@/lib/github-repos"
 import type { Locale } from "@/lib/i18n"
 import { newShipCopy } from "@/lib/new-ship-copy"
-import { importFromGithub } from "@/lib/new-ship-import"
+import { importAnyLink, splitLinks } from "@/lib/new-ship-import"
 import {
   emptyShipFields,
   ImportError,
-  importShipFromLink,
   isShipReady,
   parseRepoUrl,
   slugifyShip,
@@ -40,21 +40,11 @@ const ACCEPTED_IMAGES = ["image/jpeg", "image/png", "image/webp", "image/gif"]
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024
 const FIELD_STEP_LAST = 2
 
-async function pageMeta(url: string) {
-  const response = await fetch("/api/ship-import", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url }) })
-  if (!response.ok) return null
-  const body = (await response.json()) as { meta: { title: string | null; description: string | null; image: string | null; siteName: string | null } | null }
-  return body.meta
-}
-
-async function importLink(input: string): Promise<ImportResult> {
-  const repo = repoInputToUrl(input)
-  return repo ? importFromGithub(repo) : importShipFromLink(input, { pageMeta })
-}
-
 type Outcome = { ok: true; result: ImportResult } | { ok: false; reason: string }
 
-export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBatch = false }: { locale: Locale; handle: string; firstShip: boolean; repos?: RepoOption[]; startInBatch?: boolean }) {
+const batchRowId = (url: string) => repoKey(url) ?? url.toLowerCase()
+
+export function NewShipWizard({ locale, handle, firstShip, githubLogin = null, shipUrls = [], startInBatch = false }: { locale: Locale; handle: string; firstShip: boolean; githubLogin?: string | null; shipUrls?: string[]; startInBatch?: boolean }) {
   const copy = newShipCopy[locale]
   const { getToken } = useAuth()
   const { openUserProfile } = useClerk()
@@ -78,8 +68,10 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
   const [error, setError] = useState<string | null>(null)
   const [attention, setAttention] = useState(false)
   const [done, setDone] = useState<ShipDetail | null>(null)
-  const canBatch = repos.filter((option) => !option.hasShip).length >= 2
-  const [batchMode, setBatchMode] = useState<"select" | "review" | null>(startInBatch && canBatch ? "select" : null)
+  const [owner, setOwner] = useState<Owner | null>(startInBatch && githubLogin ? { login: githubLogin, kind: "user" } : null)
+  const { loads, load, known: repos } = useOwnerRepos(shipUrls)
+  const [batchMode, setBatchMode] = useState<"select" | "review" | null>(startInBatch && githubLogin ? "select" : null)
+  const batchFromLinks = useRef(false)
   const [selected, setSelected] = useState<ReadonlySet<string>>(new Set())
   const [batchUrls, setBatchUrls] = useState<string[]>([])
   const submitRef = useRef<HTMLButtonElement>(null)
@@ -112,7 +104,7 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
       setImporting(true)
       setImportError(null)
       try {
-        const result = await importLink(input)
+        const result = await importAnyLink(input)
         const merged = { ...live.current.fields, ...result.fields } as ShipFields
         setFields(merged)
         setImageFile(null)
@@ -145,7 +137,7 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
           setLink(full?.url ?? url)
           return runImport(full?.url ?? url)
         },
-        listRepos: () => repos,
+        listRepos: async () => (githubLogin && repos.length === 0 ? load({ login: githubLogin, kind: "user" }) : repos),
         requestSubmit: () => {
           live.current.step = FIELD_STEP_LAST
           setStep(FIELD_STEP_LAST)
@@ -163,13 +155,14 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
             else if (!accepted.includes(url)) accepted.push(url)
           }
           if (accepted.length > 0) {
+            batchFromLinks.current = false
             setBatchUrls((current) => [...current, ...accepted.filter((url) => !current.includes(url))])
             setBatchMode("review")
           }
           return { accepted, rejected }
         },
       }),
-    [copy.steps, firstShip, repos, runImport, setFields],
+    [copy.steps, firstShip, githubLogin, load, repos, runImport, setFields],
   )
 
   useEffect(() => {
@@ -238,7 +231,12 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
     if (pending || importing) return
     setError(null)
     if (step === 0) {
-      if (link.trim()) void runImport(link)
+      const links = splitLinks(link)
+      if (links.length > 1) {
+        batchFromLinks.current = true
+        setBatchUrls(links)
+        setBatchMode("review")
+      } else if (link.trim()) void runImport(link)
       else setStep(1)
     } else if (step === 1) {
       if (!ready) {
@@ -264,6 +262,45 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
   }
 
   const selecting = batchMode === "select"
+  const linkCount = splitLinks(link).length
+
+  const selection = selecting
+    ? {
+        selected,
+        onToggle: (option: RepoOption) =>
+          setSelected((current) => {
+            const next = new Set(current)
+            const key = repoSelectionKey(option)
+            if (!next.delete(key)) next.add(key)
+            return next
+          }),
+        onSelectAll: (list: RepoOption[]) => setSelected((current) => new Set([...current, ...list.map(repoSelectionKey)])),
+        onReview: () => {
+          batchFromLinks.current = false
+          setBatchUrls([...selected].map((key) => repos.find((option) => repoSelectionKey(option) === key)?.url ?? `https://github.com/${key}`))
+          setBatchMode("review")
+        },
+        onExit: () => setBatchMode(null),
+      }
+    : undefined
+
+  const githubImport = (standalone: boolean) => (
+    <GithubImport
+      githubLogin={githubLogin}
+      owner={owner}
+      onOwner={setOwner}
+      loads={loads}
+      load={load}
+      copy={copy.link}
+      batch={copy.batch}
+      busy={importing}
+      loading={loadingRepo}
+      onPick={(option) => void pickRepo(option)}
+      onStartSelection={() => setBatchMode("select")}
+      selection={selection}
+      standalone={standalone}
+    />
+  )
 
   if (batchMode === "review") {
     return (
@@ -274,7 +311,14 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
         urls={batchUrls}
         repos={repos}
         onBack={(unfinished) => {
-          setSelected(new Set(unfinished))
+          const left = new Set(unfinished)
+          if (batchFromLinks.current) {
+            setLink(batchUrls.filter((url) => left.has(batchRowId(url))).join("\n"))
+            setBatchUrls([])
+            setBatchMode(null)
+            return
+          }
+          setSelected(new Set(unfinished.filter((id) => !id.includes(":"))))
           setBatchMode("select")
         }}
       />
@@ -310,47 +354,21 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
             <>
               <h2>{copy.link.title}</h2>
               <p className="ob-lede">{copy.link.lede}</p>
-              {repos.length > 0 ? (
-                <RepoPicker
-                  repos={repos}
-                  copy={copy.link}
-                  batch={copy.batch}
-                  busy={importing}
-                  loading={loadingRepo}
-                  onPick={(option) => void pickRepo(option)}
-                  onStartSelection={() => setBatchMode("select")}
-                  selection={
-                    batchMode === "select"
-                      ? {
-                          selected,
-                          onToggle: (option) =>
-                            setSelected((current) => {
-                              const next = new Set(current)
-                              const key = repoSelectionKey(option)
-                              if (!next.delete(key)) next.add(key)
-                              return next
-                            }),
-                          onSelectAll: (list) => setSelected((current) => new Set([...current, ...list.map(repoSelectionKey)])),
-                          onReview: () => {
-                            setBatchUrls(repos.filter((option) => selected.has(repoSelectionKey(option)) && !option.hasShip).map((option) => option.url))
-                            setBatchMode("review")
-                          },
-                          onExit: () => setBatchMode(null),
-                        }
-                      : undefined
-                  }
-                />
-              ) : null}
-              {repos.length > 0 && !selecting ? <p className="ns-or">{copy.link.orPaste}</p> : null}
-              {selecting ? null : <LinkInput
-                autoFocus={repos.length === 0}
-                label={copy.link.label}
-                placeholder={copy.link.placeholder}
-                value={link}
-                onChange={setLink}
-                invalid={Boolean(importError)}
-                disabled={importing}
-              />}
+              {selecting ? null : (
+                <>
+                  <LinkInput
+                    autoFocus
+                    label={copy.link.label}
+                    placeholder={copy.link.placeholder}
+                    value={link}
+                    onChange={setLink}
+                    onSubmit={() => advance()}
+                    invalid={Boolean(importError)}
+                    disabled={importing}
+                  />
+                  <p className="ob-hint ns-multi-hint">{copy.link.multiHint}</p>
+                </>
+              )}
               {importError && !selecting ? <p className="ob-error" role="alert">{importError}</p> : null}
               {!githubLinked && !selecting ? (
                 <p className="ob-note">
@@ -523,7 +541,7 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
             disabled={Boolean(pending) || importing || (step === 0 && !link.trim())}
           >
             {step === 0
-              ? importing ? <><Loader2 className="animate-spin" aria-hidden="true" />{copy.link.importing}</> : <>{copy.link.import}<Sparkles aria-hidden="true" /></>
+              ? importing ? <><Loader2 className="animate-spin" aria-hidden="true" />{copy.link.importing}</> : linkCount > 1 ? <>{fill(copy.link.importMany, { n: linkCount })}<ArrowRight aria-hidden="true" /></> : <>{copy.link.import}<Sparkles aria-hidden="true" /></>
               : step === 1
                 ? <>{copy.nav.next}<ArrowRight aria-hidden="true" /></>
                 : pending === "publish"
@@ -531,6 +549,8 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
                   : <>{firstShip ? copy.nav.review : copy.nav.publish}{firstShip ? <Send aria-hidden="true" /> : <Rocket aria-hidden="true" />}</>}
           </button>
         </div>}
+        {/* One position in the tree for both modes, so the chosen owner and opened organizations survive switching to selection. */}
+        {step === 0 ? githubImport(selecting) : null}
       </form>
 
       <AgentFill title={copy.agent.title} body={copy.agent.body} prompt={shipAgentPrompt} copyLabel={copy.agent.copy} copiedLabel={copy.agent.copied} />
@@ -538,16 +558,18 @@ export function NewShipWizard({ locale, handle, firstShip, repos = [], startInBa
   )
 }
 
-function LinkInput({ label, placeholder, value, onChange, invalid, disabled, autoFocus }: { autoFocus: boolean; label: string; placeholder: string; value: string; onChange: (value: string) => void; invalid: boolean; disabled: boolean }) {
+/** One link, or several, one per line. Enter submits; Shift+Enter or a paste adds lines. */
+function LinkInput({ label, placeholder, value, onChange, onSubmit, invalid, disabled, autoFocus }: { autoFocus: boolean; label: string; placeholder: string; value: string; onChange: (value: string) => void; onSubmit: () => void; invalid: boolean; disabled: boolean }) {
   const id = useId()
+  const rows = Math.min(Math.max(value.split("\n").length, 1), 8)
   return (
     <Field label={label} htmlFor={id}>
-      <div className="ob-affix ns-link" aria-invalid={invalid || undefined}>
+      <div className="ob-affix ns-link ns-linkbox" aria-invalid={invalid || undefined}>
         <Link2 aria-hidden="true" />
-        <input
+        <textarea
           id={id}
           value={value}
-          type="text"
+          rows={rows}
           inputMode="url"
           autoCapitalize="none"
           autoCorrect="off"
@@ -557,6 +579,11 @@ function LinkInput({ label, placeholder, value, onChange, invalid, disabled, aut
           disabled={disabled}
           placeholder={placeholder}
           onChange={(event) => onChange(event.target.value)}
+          onKeyDown={(event) => {
+            if (event.key !== "Enter" || event.shiftKey || event.nativeEvent.isComposing) return
+            event.preventDefault()
+            onSubmit()
+          }}
         />
       </div>
     </Field>

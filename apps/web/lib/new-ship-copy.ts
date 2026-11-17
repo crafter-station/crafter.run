@@ -30,7 +30,20 @@ export type NewShipCopy = {
     readyMany: string
     readyLede: string
     hasShip: string
-    orPaste: string
+    orGithub: string
+    owners: string
+    orgChip: string
+    orgPlaceholder: string
+    orgGo: string
+    orgRepos: string
+    ownerNotFound: string
+    reposFailed: string
+    retry: string
+    noRepos: string
+    noOrgs: string
+    loadingRepos: string
+    multiHint: string
+    importMany: string
   }
   details: {
     title: string
@@ -146,7 +159,20 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       readyMany: "{n} repositories ready to publish",
       readyLede: "Tagged crafter-ship and not on a Ship yet.",
       hasShip: "Has a Ship",
-      orPaste: "Or paste any link",
+      orGithub: "Or import from GitHub",
+      owners: "GitHub account",
+      orgChip: "An organization",
+      orgPlaceholder: "organization-name",
+      orgGo: "Show repositories",
+      orgRepos: "{owner} repositories",
+      ownerNotFound: "We couldn't find that account on GitHub.",
+      reposFailed: "We couldn't load the repositories. Try again or paste the link.",
+      retry: "Try again",
+      noRepos: "No public repositories here.",
+      noOrgs: "GitHub doesn't show your organizations publicly. Type the name.",
+      loadingRepos: "Loading repositories...",
+      multiHint: "Several projects? Paste one link per line and review them together.",
+      importMany: "Review {n}",
     },
     details: {
       title: "Check the details",
@@ -304,7 +330,20 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       readyMany: "{n} repositorios listos para publicar",
       readyLede: "Tienen el tema crafter-ship y aún no están en un Ship.",
       hasShip: "Ya tiene un Ship",
-      orPaste: "O pega cualquier enlace",
+      orGithub: "O importa desde GitHub",
+      owners: "Cuenta de GitHub",
+      orgChip: "Una organización",
+      orgPlaceholder: "nombre-de-la-org",
+      orgGo: "Ver repositorios",
+      orgRepos: "Repositorios de {owner}",
+      ownerNotFound: "No encontramos esa cuenta en GitHub.",
+      reposFailed: "No pudimos cargar los repositorios. Reintenta o pega el enlace.",
+      retry: "Reintentar",
+      noRepos: "No hay repositorios públicos aquí.",
+      noOrgs: "GitHub no muestra tus organizaciones en público. Escribe el nombre.",
+      loadingRepos: "Cargando repositorios...",
+      multiHint: "¿Varios proyectos? Pega un enlace por línea y revísalos juntos.",
+      importMany: "Revisar {n}",
     },
     details: {
       title: "Revisa los detalles",
@@ -462,7 +501,20 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       readyMany: "{n} repositórios prontos para publicar",
       readyLede: "Têm o tópico crafter-ship e ainda não estão em um Ship.",
       hasShip: "Já tem um Ship",
-      orPaste: "Ou cole qualquer link",
+      orGithub: "Ou importe do GitHub",
+      owners: "Conta do GitHub",
+      orgChip: "Uma organização",
+      orgPlaceholder: "nome-da-org",
+      orgGo: "Ver repositórios",
+      orgRepos: "Repositórios de {owner}",
+      ownerNotFound: "Não encontramos essa conta no GitHub.",
+      reposFailed: "Não conseguimos carregar os repositórios. Tente de novo ou cole o link.",
+      retry: "Tentar de novo",
+      noRepos: "Nenhum repositório público aqui.",
+      noOrgs: "O GitHub não mostra suas organizações publicamente. Digite o nome.",
+      loadingRepos: "Carregando repositórios...",
+      multiHint: "Vários projetos? Cole um link por linha e revise todos juntos.",
+      importMany: "Revisar {n}",
     },
     details: {
       title: "Confira os detalhes",
@@ -620,7 +672,20 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       readyMany: "{n} 个仓库可以发布",
       readyLede: "已有 crafter-ship 话题，还没有对应的 Ship。",
       hasShip: "已有 Ship",
-      orPaste: "或粘贴任意链接",
+      orGithub: "或从 GitHub 导入",
+      owners: "GitHub 账户",
+      orgChip: "组织",
+      orgPlaceholder: "组织名",
+      orgGo: "查看仓库",
+      orgRepos: "{owner} 的仓库",
+      ownerNotFound: "在 GitHub 上找不到该账户。",
+      reposFailed: "无法加载仓库。请重试或粘贴链接。",
+      retry: "重试",
+      noRepos: "这里没有公开仓库。",
+      noOrgs: "GitHub 不公开显示你的组织。请输入名称。",
+      loadingRepos: "正在加载仓库...",
+      multiHint: "多个项目？每行粘贴一个链接，一起审核。",
+      importMany: "审核 {n} 个",
     },
     details: {
       title: "检查详情",
@@ -778,7 +843,20 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       readyMany: "公開できるリポジトリが{n}件あります",
       readyLede: "crafter-ship トピック付きで、まだ Ship がありません。",
       hasShip: "Ship あり",
-      orPaste: "または任意のリンクを貼り付け",
+      orGithub: "または GitHub からインポート",
+      owners: "GitHub アカウント",
+      orgChip: "組織",
+      orgPlaceholder: "組織名",
+      orgGo: "リポジトリを表示",
+      orgRepos: "{owner} のリポジトリ",
+      ownerNotFound: "GitHub でそのアカウントが見つかりませんでした。",
+      reposFailed: "リポジトリを読み込めませんでした。再試行するか、リンクを貼り付けてください。",
+      retry: "再試行",
+      noRepos: "公開リポジトリはありません。",
+      noOrgs: "GitHub は組織を公開していません。名前を入力してください。",
+      loadingRepos: "リポジトリを読み込み中...",
+      multiHint: "複数のプロジェクト？1 行に 1 つずつリンクを貼り付けて、まとめて確認できます。",
+      importMany: "{n} 件を確認",
     },
     details: {
       title: "詳細を確認",

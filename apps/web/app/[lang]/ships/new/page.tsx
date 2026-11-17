@@ -8,7 +8,6 @@ import { Container } from "@/components/grid-container"
 import { NewShipWizard } from "@/components/new-ship/new-ship-wizard"
 import { FormPageSkeleton } from "@/components/onboarding/form-page-skeleton"
 import { env } from "@/env"
-import { listGithubRepos, markShipped } from "@/lib/github-repos"
 import { isLocale, type Locale } from "@/lib/i18n"
 import { newShipCopy } from "@/lib/new-ship-copy"
 
@@ -47,10 +46,10 @@ export default async function NewShipPage({ params, searchParams }: { params: Pr
 async function Composer({ locale, token, startInBatch }: { locale: Locale; token: string; startInBatch: boolean }) {
   const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "production" ? "https://api.crafter.run" : "http://localhost:3001")
   const headers = { Authorization: `Bearer ${token}` }
-  const [meResponse, shipsResponse, repos] = await Promise.all([
+  const [meResponse, shipsResponse, githubLogin] = await Promise.all([
     fetch(new URL("/v1/me", apiUrl), { headers, cache: "no-store" }),
     fetch(new URL("/v1/me/ships", apiUrl), { headers, cache: "no-store" }).catch(() => null),
-    githubRepos(),
+    linkedGithubLogin(),
   ])
   const me = meResponse.ok ? meResponseSchema.safeParse(await meResponse.json()) : null
   if (!me?.success || !me.data.member) redirect(`/${locale}/onboarding`)
@@ -58,16 +57,15 @@ async function Composer({ locale, token, startInBatch }: { locale: Locale; token
   // Only the first Ship is reviewed. Once one is public the member is trusted, so the review notice is dropped.
   const firstShip = !(owned?.success && owned.data.ships.some((ship) => ship.status === "published"))
   const shipUrls = owned?.success ? owned.data.ships.flatMap((ship) => ship.links.map((link) => link.url)) : []
-  return <NewShipWizard locale={locale} handle={me.data.member.handle} firstShip={firstShip} repos={markShipped(repos, shipUrls)} startInBatch={startInBatch} />
+  return <NewShipWizard locale={locale} handle={me.data.member.handle} firstShip={firstShip} githubLogin={githubLogin} shipUrls={shipUrls} startInBatch={startInBatch} />
 }
 
-/** The member's public repositories when GitHub is linked. Members without it, or any failure, get an empty list. */
-async function githubRepos() {
+/** The login of the member's linked GitHub account. Repositories load in the browser only when the member opens them. */
+async function linkedGithubLogin() {
   try {
     const user = await currentUser()
-    const login = user?.externalAccounts.find((account) => account.provider.endsWith("github") && account.username)?.username
-    return login ? await listGithubRepos(login) : []
+    return user?.externalAccounts.find((account) => account.provider.endsWith("github") && account.username)?.username ?? null
   } catch {
-    return []
+    return null
   }
 }
