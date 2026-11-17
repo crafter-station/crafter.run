@@ -1,5 +1,11 @@
 # @crafter/cli
 
+## 0.7.1
+
+### Patch Changes
+
+- [#198](https://github.com/crafter-station/crafter.run/pull/198) [`393cbb3`](https://github.com/crafter-station/crafter.run/commit/393cbb3012a528465b66543e837188bcba88fab9) Thanks [@Railly](https://github.com/Railly)! - One discovery stub, `crafter`, replaces `crafter-ship` and `crafter-changelog`; install it with `npx skills add crafter-station/crafter.run --skill crafter`.
+
 ## 0.7.0
 
 ### Minor Changes
