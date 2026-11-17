@@ -37,6 +37,9 @@ export const proxy = clerkMiddleware(async (auth, request: NextRequest) => {
   const { pathname } = request.nextUrl
   const firstSegment = pathname.split("/").filter(Boolean)[0]
 
+  // API routes that call auth() pass through here only to get the Clerk context.
+  if (pathname.startsWith("/api/")) return NextResponse.next()
+
   // These retired pages intentionally have no replacement, including at the
   // old unlocalized URLs. Let the global 404 handle them without a locale hop.
   if (["/opencode", "/claude-code", "/n8n", "/research"].includes(pathname)) {
@@ -94,5 +97,7 @@ export const config = {
     // of the `.*\\..*` exclusion and must never be redirected into a locale.
     "/((?!api|og|mcp|_next|_vercel|favicon.ico|icon.svg|apple-touch-icon.png|.*\\..*).*)",
     "/__clerk/(.*)",
+    // Route handlers that read the session with auth().
+    "/api/ship-import/:path*",
   ],
 }
