@@ -44,9 +44,14 @@ export function sortShips(ships: ShipSummary[], sort: ShipSort): ShipSummary[] {
 export const hasLiveLink = (ship: Pick<ShipSummary, "links">) =>
   ship.links.some((link) => link.type === "website" || link.type === "demo")
 
-/** The most upvoted Ship; ties go to the most recent activity. */
+/** The Ship an admin featured most recently; without one, the most upvoted Ship, ties to the most recent activity. */
 export function pickFeatured(ships: ShipSummary[]): ShipSummary | null {
-  return sortShips(ships, "votes")[0] ?? null
+  let picked: ShipSummary | null = null
+  for (const ship of ships) {
+    if (!ship.featuredAt) continue
+    if (!picked || Date.parse(ship.featuredAt) > Date.parse(picked.featuredAt ?? "")) picked = ship
+  }
+  return picked ?? sortShips(ships, "votes")[0] ?? null
 }
 
 export type Maker = {

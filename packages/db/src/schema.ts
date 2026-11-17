@@ -143,10 +143,13 @@ export const ships = pgTable(
     reviewNote: text("review_note"),
     source: shipSource("source").default("web").notNull(),
     publishedAt: timestamp("published_at", { withTimezone: true, mode: "string" }),
+    // Set by an admin to feature the Ship on /ships; the most recent value wins.
+    featuredAt: timestamp("featured_at", { withTimezone: true, mode: "string" }),
     createdAt: timestamp("created_at", { withTimezone: true, mode: "string" }).defaultNow().notNull(),
     updatedAt: timestamp("updated_at", { withTimezone: true, mode: "string", precision: 3 }).defaultNow().notNull(),
   },
   (table) => [
+    index("ships_featured_at_idx").on(table.featuredAt.desc()).where(sql`${table.featuredAt} is not null`),
     index("ships_owner_created_idx").on(table.ownerMemberId, table.createdAt.desc()),
     index("ships_status_published_idx").on(table.status, table.publishedAt.desc()),
     check("ships_slug_check", sql`${table.slug} ~ '^[a-z0-9][a-z0-9-]{1,78}[a-z0-9]$'`),

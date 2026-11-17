@@ -7,6 +7,7 @@ import {
   memberProfileSchema,
   searchProfileCities,
   shipDraftInputSchema,
+  shipSummarySchema,
   updateShipDraftRequestSchema,
   updatePublishedShipRequestSchema,
   upsertMemberRequestSchema,
@@ -177,6 +178,28 @@ describe("Crafter API", () => {
       consoleError.mockRestore()
       if (previous) process.env.DATABASE_URL = previous
     }
+  })
+})
+
+describe("Ship featuring", () => {
+  const summary = {
+    id: "5f1c2f0e-5d3a-4c5e-9a53-0d6a2b1b7c11",
+    slug: "example-ship",
+    name: "Example",
+    tagline: "An example Ship",
+    imageUrl: null,
+    socialPostUrl: null,
+    owner: { handle: "test-crafter", displayName: "Test Crafter", avatarUrl: null },
+    links: [],
+    publishedAt: "2026-01-01T00:00:00.000Z",
+  }
+
+  test("featuredAt is optional and nullable so an older API still parses", () => {
+    expect(shipSummarySchema.parse(summary).featuredAt).toBeUndefined()
+    expect(shipSummarySchema.parse({ ...summary, featuredAt: null }).featuredAt).toBeNull()
+    expect(shipSummarySchema.parse({ ...summary, featuredAt: "2026-02-01T00:00:00.000Z" }).featuredAt).toBe(
+      "2026-02-01T00:00:00.000Z",
+    )
   })
 })
 

@@ -333,6 +333,7 @@ export async function listPublishedShipsPage(
         imageUrl: ships.imageUrl,
         socialPostUrl: ships.socialPostUrl,
         publishedAt: ships.publishedAt,
+        featuredAt: ships.featuredAt,
         ownerHandle: members.handle,
         ownerDisplayName: members.displayName,
         ownerAvatarUrl: members.avatarUrl,
@@ -378,6 +379,7 @@ export async function listPublishedShipsPage(
       imageUrl: ship.imageUrl,
       socialPostUrl: ship.socialPostUrl,
       publishedAt: new Date(ship.publishedAt).toISOString(),
+      featuredAt: ship.featuredAt ? new Date(ship.featuredAt).toISOString() : null,
       owner: {
         handle: ship.ownerHandle,
         displayName: ship.ownerDisplayName,
@@ -425,6 +427,7 @@ async function hydrateShips(
     reviewNote: ship.reviewNote ?? null,
     source: ship.source,
     publishedAt: ship.publishedAt ? new Date(ship.publishedAt).toISOString() : null,
+    featuredAt: ship.featuredAt ? new Date(ship.featuredAt).toISOString() : null,
     createdAt: new Date(ship.createdAt).toISOString(),
     updatedAt: new Date(ship.updatedAt).toISOString(),
     owner: {
@@ -486,6 +489,7 @@ const shipSelection = {
   reviewNote: ships.reviewNote,
   source: ships.source,
   publishedAt: ships.publishedAt,
+  featuredAt: ships.featuredAt,
   createdAt: ships.createdAt,
   updatedAt: ships.updatedAt,
   ownerHandle: members.handle,

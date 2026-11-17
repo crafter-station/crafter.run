@@ -44,6 +44,13 @@ describe("sorting and featuring", () => {
     expect(pickFeatured([a, b, c])?.id).toBe("c")
     expect(pickFeatured([])).toBeNull()
   })
+  test("an admin-featured Ship wins, the most recently featured first", () => {
+    const older = { ...a, featuredAt: "2026-04-01T00:00:00.000Z" }
+    const newer = { ...b, featuredAt: "2026-05-01T00:00:00.000Z" }
+    expect(pickFeatured([older, c])?.id).toBe("a")
+    expect(pickFeatured([older, newer, c])?.id).toBe("b")
+    expect(pickFeatured([{ ...a, featuredAt: null }, c])?.id).toBe("c")
+  })
   test("live means a website or demo link", () => {
     expect(hasLiveLink(a)).toBe(false)
     expect(hasLiveLink(b)).toBe(true)
