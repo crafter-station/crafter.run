@@ -12,6 +12,8 @@ import { isLocale, withLocale } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 
 export const dynamicParams = false
+// Community Ships come from the API: regenerate every five minutes, even if the build could not reach it.
+export const revalidate = 300
 
 export function generateStaticParams() {
   return [{ lang: "en" }, { lang: "es" }, { lang: "pt" }, { lang: "zh" }, { lang: "ja" }]
