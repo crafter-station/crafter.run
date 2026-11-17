@@ -28,6 +28,7 @@ import { cors } from "hono/cors"
 import { requestId } from "hono/request-id"
 import { secureHeaders } from "hono/secure-headers"
 
+import { defaultShipsPageSize, maxShipsPageSize, nextOffset } from "./activity"
 import { authenticateUser } from "./auth"
 import { abandonIdempotency, completeIdempotency, reserveIdempotency } from "./idempotency"
 import { moderateShip } from "./moderation"
@@ -45,6 +46,7 @@ import {
   listOwnedShips,
   listMembers,
   listPublishedShips,
+  listPublishedShipsPage,
   listShipVoteIds,
   publishDraft,
   setShipVote,
@@ -190,14 +192,37 @@ app.openapi(healthRoute, (c) => c.json({ status: "ok" as const }, 200))
 const listShipsRoute = createRoute({
   method: "get",
   path: "/v1/ships",
+  request: {
+    query: z.object({
+      limit: z.coerce.number().int().min(1).max(maxShipsPageSize).default(defaultShipsPageSize),
+      offset: z.coerce.number().int().min(0).default(0),
+      handle: handleSchema.optional(),
+    }),
+  },
   responses: {
-    200: { content: { "application/json": { schema: listShipsResponseSchema } }, description: "Published Ships" },
+    200: {
+      content: { "application/json": { schema: listShipsResponseSchema } },
+      description: "Published Ships, most recent activity first",
+    },
     503: { content: errorContent, description: "Database unavailable" },
   },
 })
 app.openapi(listShipsRoute, async (c) => {
-  const ships = await listPublishedShips()
-  return c.json(listShipsResponseSchema.parse({ ships }), 200)
+  const { limit, offset, handle } = c.req.valid("query")
+  const page = await listPublishedShipsPage({ limit, offset, ownerHandle: handle })
+  return c.json(
+    listShipsResponseSchema.parse({
+      ships: page.ships,
+      pagination: {
+        limit: page.limit,
+        offset: page.offset,
+        total: page.total,
+        crafterCount: page.crafterCount,
+        nextOffset: nextOffset(page.offset, page.limit, page.total),
+      },
+    }),
+    200,
+  )
 })
 
 const getShipRoute = createRoute({

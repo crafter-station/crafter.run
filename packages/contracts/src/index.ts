@@ -191,6 +191,10 @@ export const shipSummarySchema = z.object({
   links: z.array(shipLinkSchema),
   voteCount: z.number().int().nonnegative().default(0),
   publishedAt: z.string().datetime(),
+  /** Latest of publishedAt and the newest update's publishedAt. Absent from older API deployments. */
+  lastActivityAt: z.string().datetime().optional(),
+  latestUpdate: z.object({ title: z.string(), publishedAt: z.string().datetime() }).nullable().optional(),
+  updateCount: z.number().int().nonnegative().optional(),
 })
 
 export const editableShipLinkSchema = z.object({
@@ -281,8 +285,17 @@ export const publishShipRequestSchema = z.object({
   expectedUpdatedAt: z.string().datetime(),
 })
 
+export const shipListPaginationSchema = z.object({
+  limit: z.number().int().positive(),
+  offset: z.number().int().nonnegative(),
+  total: z.number().int().nonnegative(),
+  crafterCount: z.number().int().nonnegative(),
+  nextOffset: z.number().int().positive().nullable(),
+})
+
 export const listShipsResponseSchema = z.object({
   ships: z.array(shipSummarySchema),
+  pagination: shipListPaginationSchema.optional(),
 })
 
 export const listMembersResponseSchema = z.object({ members: z.array(memberProfileSchema) })
@@ -322,6 +335,7 @@ export type UpdateShipDraftRequest = z.infer<typeof updateShipDraftRequestSchema
 export type UpdatePublishedShipRequest = z.infer<typeof updatePublishedShipRequestSchema>
 export type CreateShipUpdateRequest = z.infer<typeof createShipUpdateRequestSchema>
 export type ShipVote = z.infer<typeof shipVoteSchema>
+export type ShipListPagination = z.infer<typeof shipListPaginationSchema>
 export type ListShipsResponse = z.infer<typeof listShipsResponseSchema>
 export type ListMembersResponse = z.infer<typeof listMembersResponseSchema>
 export type HandleAvailabilityResponse = z.infer<typeof handleAvailabilityResponseSchema>

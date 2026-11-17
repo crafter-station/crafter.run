@@ -22,6 +22,8 @@ import { createDatabase } from "@crafter/db"
 import { members, shipLinks, shipProvenance, ships, shipUpdates, shipVotes } from "@crafter/db/schema"
 import { and, asc, desc, eq, inArray, sql } from "drizzle-orm"
 
+import { pageWindow, summarizeActivity } from "./activity"
+
 export class RepositoryUnavailableError extends Error {}
 
 function getDatabase() {
@@ -303,51 +305,94 @@ async function voteCountsForShips(db: ReturnType<typeof getDatabase>, shipIds: s
   return new Map(rows.map((row) => [row.shipId, row.count]))
 }
 
-export async function listPublishedShips(ownerHandle?: string): Promise<ShipSummary[]> {
+export type ShipsPage = {
+  ships: ShipSummary[]
+  total: number
+  crafterCount: number
+  limit: number
+  offset: number
+}
+
+export async function listPublishedShipsPage(
+  options: { ownerHandle?: string; limit?: number; offset?: number } = {},
+): Promise<ShipsPage> {
   const db = getDatabase()
-  const rows = await db
-    .select({
-      id: ships.id,
-      slug: ships.slug,
-      name: ships.name,
-      tagline: ships.tagline,
-      imageUrl: ships.imageUrl,
-      socialPostUrl: ships.socialPostUrl,
-      publishedAt: ships.publishedAt,
-      ownerHandle: members.handle,
-      ownerDisplayName: members.displayName,
-      ownerAvatarUrl: members.avatarUrl,
-    })
-    .from(ships)
-    .innerJoin(members, eq(ships.ownerMemberId, members.id))
-    .where(ownerHandle ? and(eq(ships.status, "published"), eq(members.handle, ownerHandle)) : eq(ships.status, "published"))
-    .orderBy(desc(ships.publishedAt))
-    .limit(100)
+  const { limit, offset } = pageWindow(options)
+  const where = options.ownerHandle
+    ? and(eq(ships.status, "published"), eq(members.handle, options.ownerHandle))
+    : eq(ships.status, "published")
+  // greatest() ignores NULLs, so a ship without updates sorts by its publication time.
+  const lastActivity = sql`greatest(${ships.publishedAt}, (select max(${shipUpdates.publishedAt}) from ${shipUpdates} where ${shipUpdates.shipId} = ${ships.id}))`
+  const [rows, [totals]] = await Promise.all([
+    db
+      .select({
+        id: ships.id,
+        slug: ships.slug,
+        name: ships.name,
+        tagline: ships.tagline,
+        imageUrl: ships.imageUrl,
+        socialPostUrl: ships.socialPostUrl,
+        publishedAt: ships.publishedAt,
+        ownerHandle: members.handle,
+        ownerDisplayName: members.displayName,
+        ownerAvatarUrl: members.avatarUrl,
+      })
+      .from(ships)
+      .innerJoin(members, eq(ships.ownerMemberId, members.id))
+      .where(where)
+      .orderBy(desc(lastActivity), desc(ships.id))
+      .limit(limit)
+      .offset(offset),
+    db
+      .select({
+        total: sql<number>`count(*)::int`,
+        crafterCount: sql<number>`count(distinct ${ships.ownerMemberId})::int`,
+      })
+      .from(ships)
+      .innerJoin(members, eq(ships.ownerMemberId, members.id))
+      .where(where),
+  ])
   const shipIds = rows.map((ship) => ship.id)
-  const [links, voteCounts] = await Promise.all([
+  const [links, voteCounts, updateRows] = await Promise.all([
     linksForShips(db, shipIds),
     voteCountsForShips(db, shipIds),
+    shipIds.length === 0
+      ? Promise.resolve([])
+      : db
+          .select({ shipId: shipUpdates.shipId, title: shipUpdates.title, publishedAt: shipUpdates.publishedAt })
+          .from(shipUpdates)
+          .where(inArray(shipUpdates.shipId, shipIds)),
   ])
-  return rows.flatMap((ship) =>
-    ship.publishedAt
-      ? [{
-          id: ship.id,
-          slug: ship.slug,
-          name: ship.name,
-          tagline: ship.tagline,
-          imageUrl: ship.imageUrl,
-          socialPostUrl: ship.socialPostUrl,
-          publishedAt: new Date(ship.publishedAt).toISOString(),
-          owner: {
-            handle: ship.ownerHandle,
-            displayName: ship.ownerDisplayName,
-            avatarUrl: ship.ownerAvatarUrl,
-          },
-          links: links.get(ship.id) ?? [],
-          voteCount: voteCounts.get(ship.id) ?? 0,
-        }]
-      : [],
+  const activity = summarizeActivity(
+    rows.flatMap((ship) => (ship.publishedAt ? [{ id: ship.id, publishedAt: ship.publishedAt }] : [])),
+    updateRows,
   )
+  const summaries = rows.flatMap((ship) => {
+    const summary = activity.get(ship.id)
+    if (!ship.publishedAt || !summary) return []
+    return [{
+      id: ship.id,
+      slug: ship.slug,
+      name: ship.name,
+      tagline: ship.tagline,
+      imageUrl: ship.imageUrl,
+      socialPostUrl: ship.socialPostUrl,
+      publishedAt: new Date(ship.publishedAt).toISOString(),
+      owner: {
+        handle: ship.ownerHandle,
+        displayName: ship.ownerDisplayName,
+        avatarUrl: ship.ownerAvatarUrl,
+      },
+      links: links.get(ship.id) ?? [],
+      voteCount: voteCounts.get(ship.id) ?? 0,
+      ...summary,
+    }]
+  })
+  return { ships: summaries, total: totals?.total ?? 0, crafterCount: totals?.crafterCount ?? 0, limit, offset }
+}
+
+export async function listPublishedShips(ownerHandle?: string): Promise<ShipSummary[]> {
+  return (await listPublishedShipsPage({ ownerHandle })).ships
 }
 
 type ShipRow = typeof ships.$inferSelect & {
