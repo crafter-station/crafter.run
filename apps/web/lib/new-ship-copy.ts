@@ -20,6 +20,17 @@ export type NewShipCopy = {
     partial: string
     githubUnlinked: string
     githubUnlinkedAction: string
+    yourRepos: string
+    yourReposLede: string
+    filter: string
+    filterPlaceholder: string
+    showMore: string
+    noMatch: string
+    readyOne: string
+    readyMany: string
+    readyLede: string
+    hasShip: string
+    orPaste: string
   }
   details: {
     title: string
@@ -59,7 +70,7 @@ export type NewShipCopy = {
     topicTip: string
   }
   nav: { next: string; back: string; publish: string; review: string; saveDraft: string; publishing: string; reviewing: string; savingDraft: string; fixFields: string; sessionExpired: string; saveFailed: string; draftSaved: string }
-  done: { publishedTitle: string; publishedBody: string; view: string; pendingTitle: string; pendingBody: string; all: string; another: string; topicTitle: string; topicBody: string }
+  done: { publishedTitle: string; publishedBody: string; view: string; pendingTitle: string; pendingBody: string; all: string; another: string; topicTitle: string; topicBody: string; autoAction: string; autoOn: string; autoOnBody: string }
   agent: { title: string; body: string; copy: string; copied: string }
   errors: Record<ShipErrorKey | ImportErrorKey, string>
   loading: string
@@ -85,6 +96,17 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       partial: "We could only read part of that page. Complete the rest.",
       githubUnlinked: "Updates from GitHub releases need a linked GitHub account.",
       githubUnlinkedAction: "Link GitHub",
+      yourRepos: "Your repositories",
+      yourReposLede: "Pick one and we fill in the rest. Most recently updated first.",
+      filter: "Filter your repositories",
+      filterPlaceholder: "Filter by name or language",
+      showMore: "Show more",
+      noMatch: "No repository matches that filter.",
+      readyOne: "1 repository ready to publish",
+      readyMany: "{n} repositories ready to publish",
+      readyLede: "Tagged crafter-ship and not on a Ship yet.",
+      hasShip: "Has a Ship",
+      orPaste: "Or paste any link",
     },
     details: {
       title: "Check the details",
@@ -146,7 +168,10 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       all: "See all Ships",
       another: "Add another",
       topicTitle: "Turn releases into updates",
-      topicBody: "Add the GitHub topic crafter-ship to your repository. Each release then posts an update on your Ship.",
+      topicBody: "Add the crafter-ship topic from the gear next to About on your repository. Each new release will post as an update.",
+      autoAction: "Turn on automatic updates",
+      autoOn: "Automatic updates are on",
+      autoOnBody: "Each new release of this repository posts as an update on your Ship.",
     },
     agent: {
       title: "Let your agent do it",
@@ -189,6 +214,17 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       partial: "Solo pudimos leer parte de esa página. Completa el resto.",
       githubUnlinked: "Las actualizaciones desde los releases de GitHub necesitan una cuenta de GitHub vinculada.",
       githubUnlinkedAction: "Vincular GitHub",
+      yourRepos: "Tus repositorios",
+      yourReposLede: "Elige uno y completamos el resto. Los actualizados más recientemente van primero.",
+      filter: "Filtra tus repositorios",
+      filterPlaceholder: "Filtra por nombre o lenguaje",
+      showMore: "Ver más",
+      noMatch: "Ningún repositorio coincide con ese filtro.",
+      readyOne: "1 repositorio listo para publicar",
+      readyMany: "{n} repositorios listos para publicar",
+      readyLede: "Tienen el tema crafter-ship y aún no están en un Ship.",
+      hasShip: "Ya tiene un Ship",
+      orPaste: "O pega cualquier enlace",
     },
     details: {
       title: "Revisa los detalles",
@@ -250,7 +286,10 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       all: "Ver todos los Ships",
       another: "Agregar otro",
       topicTitle: "Convierte tus releases en actualizaciones",
-      topicBody: "Agrega el tema crafter-ship de GitHub a tu repositorio. Cada release publicará una actualización en tu Ship.",
+      topicBody: "Agrega el tema crafter-ship desde el engranaje junto a About en tu repositorio. Cada nuevo release se publicará como una actualización.",
+      autoAction: "Activar updates automáticos",
+      autoOn: "Updates automáticos activos",
+      autoOnBody: "Cada nuevo release de este repositorio se publica como una actualización en tu Ship.",
     },
     agent: {
       title: "Que lo haga tu agente",
@@ -293,6 +332,17 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       partial: "Só conseguimos ler parte dessa página. Complete o resto.",
       githubUnlinked: "As atualizações a partir dos releases do GitHub precisam de uma conta do GitHub vinculada.",
       githubUnlinkedAction: "Vincular GitHub",
+      yourRepos: "Seus repositórios",
+      yourReposLede: "Escolha um e preenchemos o resto. Os atualizados mais recentemente vêm primeiro.",
+      filter: "Filtre seus repositórios",
+      filterPlaceholder: "Filtre por nome ou linguagem",
+      showMore: "Ver mais",
+      noMatch: "Nenhum repositório corresponde a esse filtro.",
+      readyOne: "1 repositório pronto para publicar",
+      readyMany: "{n} repositórios prontos para publicar",
+      readyLede: "Têm o tópico crafter-ship e ainda não estão em um Ship.",
+      hasShip: "Já tem um Ship",
+      orPaste: "Ou cole qualquer link",
     },
     details: {
       title: "Confira os detalhes",
@@ -354,7 +404,10 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       all: "Ver todos os Ships",
       another: "Adicionar outro",
       topicTitle: "Transforme releases em atualizações",
-      topicBody: "Adicione o tópico crafter-ship do GitHub ao seu repositório. Cada release passa a publicar uma atualização no seu Ship.",
+      topicBody: "Adicione o tópico crafter-ship pela engrenagem ao lado de About no seu repositório. Cada novo release será publicado como uma atualização.",
+      autoAction: "Ativar atualizações automáticas",
+      autoOn: "Atualizações automáticas ativas",
+      autoOnBody: "Cada novo release deste repositório é publicado como uma atualização no seu Ship.",
     },
     agent: {
       title: "Deixe seu agente fazer",
@@ -397,6 +450,17 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       partial: "只读取到该页面的一部分，请补全其余内容。",
       githubUnlinked: "通过 GitHub release 自动更新需要关联 GitHub 账号。",
       githubUnlinkedAction: "关联 GitHub",
+      yourRepos: "你的仓库",
+      yourReposLede: "选一个，其余的我们来填。最近更新的排在前面。",
+      filter: "筛选你的仓库",
+      filterPlaceholder: "按名称或语言筛选",
+      showMore: "显示更多",
+      noMatch: "没有仓库符合这个筛选。",
+      readyOne: "1 个仓库可以发布",
+      readyMany: "{n} 个仓库可以发布",
+      readyLede: "已有 crafter-ship 话题，还没有对应的 Ship。",
+      hasShip: "已有 Ship",
+      orPaste: "或粘贴任意链接",
     },
     details: {
       title: "检查详情",
@@ -458,7 +522,10 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       all: "查看全部 Ship",
       another: "再添加一个",
       topicTitle: "把 release 变成更新",
-      topicBody: "给你的仓库添加 GitHub 话题 crafter-ship，之后每次 release 都会在你的 Ship 上发布一条更新。",
+      topicBody: "在仓库页面 About 旁边的齿轮里添加 crafter-ship 话题。之后每次新的 release 都会作为一条更新发布。",
+      autoAction: "开启自动更新",
+      autoOn: "自动更新已开启",
+      autoOnBody: "这个仓库的每次新 release 都会作为更新发布在你的 Ship 上。",
     },
     agent: {
       title: "让你的智能体来做",
@@ -501,6 +568,17 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       partial: "ページの一部しか読み取れませんでした。残りを入力してください。",
       githubUnlinked: "GitHub リリースからの自動更新には、GitHub アカウントの連携が必要です。",
       githubUnlinkedAction: "GitHub を連携",
+      yourRepos: "あなたのリポジトリ",
+      yourReposLede: "1つ選べば残りは自動で入力します。最近更新した順です。",
+      filter: "リポジトリを絞り込む",
+      filterPlaceholder: "名前または言語で絞り込み",
+      showMore: "もっと見る",
+      noMatch: "その条件に合うリポジトリはありません。",
+      readyOne: "公開できるリポジトリが1件あります",
+      readyMany: "公開できるリポジトリが{n}件あります",
+      readyLede: "crafter-ship トピック付きで、まだ Ship がありません。",
+      hasShip: "Ship あり",
+      orPaste: "または任意のリンクを貼り付け",
     },
     details: {
       title: "詳細を確認",
@@ -562,7 +640,10 @@ export const newShipCopy: Record<Locale, NewShipCopy> = {
       all: "すべての Ship を見る",
       another: "もう一つ追加",
       topicTitle: "リリースを更新に変える",
-      topicBody: "リポジトリに GitHub トピック crafter-ship を付けてください。リリースのたびに Ship に更新が投稿されます。",
+      topicBody: "リポジトリの About の横にある歯車から crafter-ship トピックを追加してください。新しいリリースのたびに更新として投稿されます。",
+      autoAction: "自動更新をオンにする",
+      autoOn: "自動更新はオンです",
+      autoOnBody: "このリポジトリの新しいリリースは、Ship の更新として投稿されます。",
     },
     agent: {
       title: "エージェントに任せる",

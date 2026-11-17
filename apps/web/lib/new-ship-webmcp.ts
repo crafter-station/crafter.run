@@ -1,3 +1,4 @@
+import type { RepoOption } from "@/lib/github-repos"
 import { json, modelContext, type ModelContextTool } from "@/lib/onboarding-webmcp"
 import {
   SHIP_FIELD_KEYS,
@@ -16,6 +17,8 @@ export type NewShipToolHost = {
   setFields: (fields: ShipFields) => void
   /** Reads a link into the form. Resolves with what it filled, or the reason it could not. */
   importFromLink: (url: string) => Promise<{ ok: true; result: ImportResult } | { ok: false; reason: string }>
+  /** The member's public GitHub repositories, already flagged for Ships and the crafter-ship topic. */
+  listRepos: () => RepoOption[]
   /** Moves to the last step and focuses the publish button. The member still has to click it. */
   requestSubmit: () => void
   /** True when this member's next Ship goes to review instead of publishing. */
@@ -99,10 +102,18 @@ export function registerNewShipTools(host: NewShipToolHost): () => void {
       execute: () => json(snapshot(host)),
     },
     {
+      name: "list_my_repos",
+      title: "List my GitHub repositories",
+      description: "Returns the member's public, non-fork repositories by last push, with `hasShip` (already linked to one of their Ships) and `topic` (tagged crafter-ship). Repositories with `topic` and no Ship are ready to publish. Read-only. Pass a fullName to import_from_link.",
+      inputSchema: { type: "object", properties: {} },
+      annotations: { readOnlyHint: true, untrustedContentHint: true },
+      execute: () => json({ repos: host.listRepos().map(({ fullName, description, language, stars, pushedAt, topic, hasShip }) => ({ fullName, description, language, stars, pushedAt, topic, hasShip })) }),
+    },
+    {
       name: "import_from_link",
       title: "Fill the form from a link",
-      description: "Reads a public GitHub repository or website and fills name, tagline, description, cover and links. Only fields the link provides are changed. Never saves or publishes.",
-      inputSchema: { type: "object", properties: { url: { type: "string", description: "A GitHub repository or website URL." } }, required: ["url"] },
+      description: "Reads a public GitHub repository (a URL or owner/name, see list_my_repos) or website and fills name, tagline, description, cover and links. Only fields the link provides are changed. Never saves or publishes.",
+      inputSchema: { type: "object", properties: { url: { type: "string", description: "A GitHub repository (URL or owner/name) or website URL." } }, required: ["url"] },
       annotations: { untrustedContentHint: true },
       execute: async (input) => {
         const url = typeof input?.url === "string" ? input.url : ""
