@@ -30,7 +30,7 @@ describe("crafter skills", () => {
     const { code, out } = run(["list", "--json"])
     expect(code).toBe(0)
     const parsed = JSON.parse(out) as { name: string; description: string }[]
-    expect(parsed.map((skill) => skill.name)).toEqual(["changelog", "ship"])
+    expect(parsed.map((skill) => skill.name)).toEqual(["changelog", "profile", "ship"])
     expect(parsed.every((skill) => skill.description.length > 20)).toBe(true)
   })
 
@@ -74,7 +74,7 @@ describe("crafter skills", () => {
     expect(code).toBe(1)
     expect(out).toBe("")
     expect(err).toContain("Unknown skill: missing")
-    expect(err).toContain("Available skills: changelog, ship")
+    expect(err).toContain("Available skills: changelog, profile, ship")
     expect(run(["path", "missing"]).code).toBe(1)
   })
 

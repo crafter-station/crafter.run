@@ -39,11 +39,19 @@ export const shipSourceSchema = z.enum(shipSources)
 export const memberSourceSchema = z.enum(memberSources)
 export const memberTrustSchema = z.enum(memberTrusts)
 export const shipLinkTypeSchema = z.enum(shipLinkTypes)
+function isHttpUrl(value: string): boolean {
+  try {
+    return ["http:", "https:"].includes(new URL(value).protocol)
+  } catch {
+    return false
+  }
+}
+
 export const httpUrlSchema = z
   .string()
   .max(2000)
   .url()
-  .refine((value) => ["http:", "https:"].includes(new URL(value).protocol), "URL must use HTTP or HTTPS")
+  .refine(isHttpUrl, "URL must use HTTP or HTTPS")
   .transform((value) => {
     const url = new URL(value)
     url.hash = ""
@@ -59,7 +67,7 @@ export const privateDocumentUrlSchema = z
   .string()
   .max(2000)
   .url()
-  .refine((value) => ["http:", "https:"].includes(new URL(value).protocol), "URL must use HTTP or HTTPS")
+  .refine(isHttpUrl, "URL must use HTTP or HTTPS")
   .transform((value) => {
     const url = new URL(value)
     url.hash = ""
@@ -71,7 +79,7 @@ export const socialPostUrlSchema = z
   .string()
   .max(2000)
   .url()
-  .refine((value) => ["http:", "https:"].includes(new URL(value).protocol), "URL must use HTTP or HTTPS")
+  .refine(isHttpUrl, "URL must use HTTP or HTTPS")
 
 const socialUrlSchema = (hosts: string[]) =>
   httpUrlSchema.refine((value) => hosts.includes(new URL(value).hostname), `URL must use ${hosts.join(" or ")}`)

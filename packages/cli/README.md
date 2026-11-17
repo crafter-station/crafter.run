@@ -17,6 +17,8 @@ crafter login
 crafter whoami
 crafter handle <handle>
 crafter onboard --file <json-file> --confirm
+crafter profile get [--json]
+crafter profile update --file <path|-> [--confirm] [--json]
 crafter ship
 crafter publish <draft-id> --revision <updated-at> --confirm
 crafter edit <ship-slug> --file <json-file> --revision <updated-at> --confirm
@@ -30,7 +32,7 @@ crafter skills get <name> [--full | --ref <ref>]
 
 ## Agent skills
 
-The CLI bundles agent skills that always match the installed version: `ship` (publish a Ship) and `changelog` (publish a crafter.run changelog entry).
+The CLI bundles agent skills that always match the installed version: `ship` (publish a Ship), `profile` (read and update your profile) and `changelog` (publish a crafter.run changelog entry).
 
 ```bash
 crafter skills list              # name and description, add --json for machine output
@@ -56,6 +58,8 @@ To let your coding agent discover them, install the discovery stub with `npx ski
 }
 ```
 
+
+`crafter profile get` prints your profile (`--json` for agents). `crafter profile update --file <path|->` validates a partial JSON file against the same contract as the API and prints a dry-run diff; add `--confirm` to apply. Without a profile it creates one (needs `handle` and `displayName`), so it covers `crafter onboard --file`, which keeps working. Exit codes: 0 success, 1 runtime or API error, 2 usage or validation error; with `--json`, errors are JSON on stderr listing each field and reason.
 
 Run `crafter login` yourself in a local interactive terminal and keep it open until the browser confirms login. The CLI rejects non-interactive agent command runners because ending that process also ends the localhost OAuth callback server.
 

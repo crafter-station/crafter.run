@@ -1,6 +1,6 @@
 ---
 name: crafter
-description: Use the Crafter Station CLI (`crafter`) for anything on crafter.run. Use when the user says "ship this to Crafter", "publish this on Crafter", "post a Ship update", wants to submit the current app, package, experiment or repository to the Crafter community directory, or, for the core team, "write a changelog", "post this to the changelog" or "announce this on crafter.run".
+description: Use the Crafter Station CLI (`crafter`) for anything on crafter.run. Use when the user says "ship this to Crafter", "publish this on Crafter", "post a Ship update", wants to submit the current app, package, experiment or repository to the Crafter community directory, wants to read or fill their crafter.run profile, or, for the core team, "write a changelog", "post this to the changelog" or "announce this on crafter.run".
 allowed-tools: Bash(crafter:*)
 ---
 
@@ -17,6 +17,7 @@ This file is a discovery stub, not the workflow. Before running any other `craft
 ```bash
 crafter skills list                # every skill the installed version ships
 crafter skills get ship            # publish a Ship or a Ship update
+crafter skills get profile         # read or update the member profile
 crafter skills get changelog       # publish a crafter.run changelog entry (core team only)
 ```
 
