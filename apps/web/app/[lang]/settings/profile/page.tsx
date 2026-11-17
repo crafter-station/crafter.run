@@ -3,9 +3,10 @@ import { auth } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 
 import { Container } from "@/components/grid-container"
-import { MemberOnboardingForm } from "@/components/member-onboarding-form"
+import { MemberProfileForm } from "@/components/member-profile-form"
 import { env } from "@/env"
 import { isLocale } from "@/lib/i18n"
+import { onboardingCopy } from "@/lib/onboarding-copy"
 
 export default async function ProfileSettingsPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
@@ -22,19 +23,15 @@ export default async function ProfileSettingsPage({ params }: { params: Promise<
   if (!parsed?.success) throw new Error("Could not load your Crafter profile.")
   if (!parsed.data.member) redirect(`/${lang}/onboarding`)
 
-  const member = parsed.data.member
+  const copy = onboardingCopy[lang]
   return (
-    <>
-
-      <main className="flex-1">
-        <Container innerClassName="station-form-page">
-          <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">Profile settings</p>
-          <h1 className="mt-5 text-5xl font-semibold tracking-tighter">Update how you show up.</h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">Keep your work, social links, and availability current for the Crafter community.</p>
-          <MemberOnboardingForm locale={lang} displayName={member.displayName} avatarUrl={member.avatarUrl} member={member} mode="settings" />
-        </Container>
-      </main>
-
-    </>
+    <main className="flex-1">
+      <Container innerClassName="station-form-page">
+        <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">{copy.settingsEyebrow}</p>
+        <h1 className="mt-5 text-5xl font-semibold tracking-tighter">{copy.settingsTitle}</h1>
+        <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{copy.settingsLede}</p>
+        <MemberProfileForm locale={lang} member={parsed.data.member} />
+      </Container>
+    </main>
   )
 }
