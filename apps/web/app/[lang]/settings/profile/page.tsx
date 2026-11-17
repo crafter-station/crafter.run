@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { meResponseSchema } from "@crafter/contracts"
 import { auth } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
@@ -7,6 +8,13 @@ import { MemberProfileForm } from "@/components/member-profile-form"
 import { env } from "@/env"
 import { isLocale } from "@/lib/i18n"
 import { onboardingCopy } from "@/lib/onboarding-copy"
+
+// Signed-in tools: titled for the tab, kept out of search.
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params
+  if (!isLocale(lang)) return { robots: { index: false, follow: false } }
+  return { title: onboardingCopy[lang].settingsEyebrow, robots: { index: false, follow: false } }
+}
 
 export default async function ProfileSettingsPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params

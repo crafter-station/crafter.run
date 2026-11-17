@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 import { Suspense } from "react"
@@ -8,6 +9,13 @@ import { OnboardingWizard } from "@/components/onboarding/onboarding-wizard"
 import { buildOnboardingPrefill } from "@/lib/github-profile"
 import { isLocale, type Locale } from "@/lib/i18n"
 import { onboardingCopy } from "@/lib/onboarding-copy"
+
+// Signed-in tools: titled for the tab, kept out of search.
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params
+  if (!isLocale(lang)) return { robots: { index: false, follow: false } }
+  return { title: onboardingCopy[lang].eyebrow, robots: { index: false, follow: false } }
+}
 
 export default async function OnboardingPage({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params
