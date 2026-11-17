@@ -278,7 +278,18 @@
         "demo": "演示",
         "package": "软件包",
         "social": "社交链接"
-      }
+      },
+      "updated": "{when}更新",
+      "updateCount": "{count, plural, other {# 次更新}}",
+      "latestUpdate": "最新：{title}",
+      "rss": "RSS",
+      "feedTitle": "Crafter 作品动态",
+      "feedSubtitle": "Crafter 社区的新作品与更新，最新在前。",
+      "feedPublished": "新作品",
+      "feedUpdate": "更新",
+      "previous": "较新",
+      "next": "较早",
+      "pageOf": "第 {page} / {pages} 页"
     },
     "crafters": {
       "eyebrow": "社区",

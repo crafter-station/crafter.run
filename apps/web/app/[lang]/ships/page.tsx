@@ -1,6 +1,6 @@
 import { StationPageHero } from "@/components/station-page-hero"
 import Link from "next/link"
-import { ArrowUpRight, PackageOpen, Terminal } from "lucide-react"
+import { ArrowUpRight, PackageOpen, Rss, Terminal } from "lucide-react"
 import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 
@@ -8,8 +8,10 @@ import { Container, SectionGap } from "@/components/grid-container"
 import { InstallSkillCommand } from "@/components/install-skill-command"
 import { ShipUpvote } from "@/components/ship-upvote"
 import { isLocale, locales } from "@/lib/i18n"
-import { pageMetadata } from "@/lib/seo"
-import { listPublishedShips } from "@/lib/ships"
+import { baseUrl, pageMetadata } from "@/lib/seo"
+import { lastActivityAt, relativeTime } from "@/lib/ship-activity"
+import { shipsFeedPath } from "@/lib/ship-feed"
+import { listShipsPage } from "@/lib/ships"
 
 export const dynamic = "force-dynamic"
 
@@ -17,20 +19,41 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }
 
-export function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
-  return pageMetadata({ params, path: "/ships", namespace: "pages.ships" })
+const pageSize = 24
+
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params
+  const base = await pageMetadata({ params, path: "/ships", namespace: "pages.ships" })
+  if (!isLocale(lang)) return base
+  return {
+    ...base,
+    alternates: { ...base.alternates, types: { "application/atom+xml": `${baseUrl}${shipsFeedPath(lang)}` } },
+  }
 }
 
-export default async function ShipsPage({ params }: { params: Promise<{ lang: string }> }) {
+export default async function ShipsPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ lang: string }>
+  searchParams: Promise<{ page?: string }>
+}) {
   const { lang } = await params
   if (!isLocale(lang)) notFound()
+  const requested = Number.parseInt((await searchParams).page ?? "1", 10)
+  const pageNumber = Number.isInteger(requested) && requested > 1 ? Math.min(requested, 10_000) : 1
 
-  const [t, shipsResult] = await Promise.all([
+  const [t, page] = await Promise.all([
     getTranslations({ locale: lang, namespace: "pages.ships" }),
-    listPublishedShips(),
+    listShipsPage({ limit: pageSize, offset: (pageNumber - 1) * pageSize }),
   ])
+  const shipsResult = page?.ships ?? null
   const ships = shipsResult ?? []
-  const crafterCount = new Set(ships.map((ship) => ship.owner.handle)).size
+  const total = page?.pagination?.total ?? ships.length
+  const crafterCount = page?.pagination?.crafterCount ?? new Set(ships.map((ship) => ship.owner.handle)).size
+  const pages = Math.max(1, Math.ceil(total / pageSize))
+  const now = Date.now()
+  const pageHref = (n: number) => (n <= 1 ? `/${lang}/ships` : `/${lang}/ships?page=${n}`)
 
   return (
     <>
@@ -40,7 +63,7 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
           <InstallSkillCommand label={t("installLabel")} copyLabel={t("copyInstallCommand")} copiedLabel={t("copiedInstallCommand")} />
         </StationPageHero>
         <Container><div className="station-stat-strip station-stat-strip-two">
-          <Stat value={shipsResult === null ? "--" : ships.length} label={t("shipCount", { count: ships.length })} />
+          <Stat value={shipsResult === null ? "--" : total} label={t("shipCount", { count: total })} />
           <Stat value={shipsResult === null ? "--" : crafterCount} label={t("crafterCount", { count: crafterCount })} />
         </div></Container>
 
@@ -50,7 +73,13 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
           <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
             {t("manifestEyebrow")}
           </p>
-          <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t("manifestTitle")}</h2>
+          <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
+            <h2 className="text-3xl tracking-tight md:text-4xl">{t("manifestTitle")}</h2>
+            <a href={shipsFeedPath(lang)} className="inline-flex items-center gap-1.5 font-label text-xs uppercase tracking-[0.18em] transition-colors hover:text-accent">
+              <Rss className="size-3.5" aria-hidden="true" />
+              {t("rss")}
+            </a>
+          </div>
         </Container>
 
         <Container>
@@ -88,7 +117,7 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
                   {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mb-6 aspect-video w-full border border-line object-cover" /> : null}
                   <div className="flex items-start justify-between gap-6">
                     <p className="font-label text-xs uppercase tracking-[0.28em] text-muted-foreground">
-                      {String(index + 1).padStart(3, "0")}
+                      {String((pageNumber - 1) * pageSize + index + 1).padStart(3, "0")}
                     </p>
                     <div className="flex items-center gap-3">
                       <p className="font-label text-xs text-muted-foreground">@{ship.owner.handle}</p>
@@ -104,6 +133,13 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
                   <p className="mt-5 text-xs text-muted-foreground">
                     {t("by", { name: ship.owner.displayName })}
                   </p>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    <time dateTime={lastActivityAt(ship)}>{t("updated", { when: relativeTime(lastActivityAt(ship), lang, now) })}</time>
+                    {ship.updateCount ? ` · ${t("updateCount", { count: ship.updateCount })}` : ""}
+                  </p>
+                  {ship.latestUpdate ? (
+                    <p className="mt-2 text-sm leading-6">{t("latestUpdate", { title: ship.latestUpdate.title })}</p>
+                  ) : null}
                   {ship.links.length > 0 ? (
                     <div className="mt-8 flex flex-wrap gap-x-5 gap-y-3">
                       {ship.links.map((link) => (
@@ -124,6 +160,13 @@ export default async function ShipsPage({ params }: { params: Promise<{ lang: st
               ))}
             </div>
           )}
+          {pages > 1 && shipsResult !== null ? (
+            <nav aria-label={t("pageOf", { page: pageNumber, pages })} className="flex items-center justify-between gap-4 border-b border-line px-6 py-6 font-label text-xs uppercase tracking-[0.18em] md:px-10">
+              {pageNumber > 1 ? <Link href={pageHref(pageNumber - 1)} rel="prev" className="transition-colors hover:text-accent">{`← ${t("previous")}`}</Link> : <span />}
+              <span className="text-muted-foreground">{t("pageOf", { page: pageNumber, pages })}</span>
+              {pageNumber < pages ? <Link href={pageHref(pageNumber + 1)} rel="next" className="transition-colors hover:text-accent">{`${t("next")} →`}</Link> : <span />}
+            </nav>
+          ) : null}
         </Container>
       </main>
 

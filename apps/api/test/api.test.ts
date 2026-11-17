@@ -158,6 +158,13 @@ describe("Crafter API", () => {
     }
   })
 
+  test("rejects out-of-range ship paging before touching the database", async () => {
+    for (const query of ["limit=0", "limit=101", "offset=-1", "limit=abc", "handle=A"]) {
+      const response = await app.request(`/v1/ships?${query}`)
+      expect(response.status).toBe(400)
+    }
+  })
+
   test("reports an unavailable member directory as 503", async () => {
     const previous = process.env.DATABASE_URL
     delete process.env.DATABASE_URL

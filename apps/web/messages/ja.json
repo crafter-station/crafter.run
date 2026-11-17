@@ -278,7 +278,18 @@
         "demo": "デモ",
         "package": "パッケージ",
         "social": "ソーシャル"
-      }
+      },
+      "updated": "{when}に更新",
+      "updateCount": "{count, plural, other {# 件のアップデート}}",
+      "latestUpdate": "最新：{title}",
+      "rss": "RSS",
+      "feedTitle": "Crafter 作品アクティビティ",
+      "feedSubtitle": "Crafter コミュニティの新しい作品とアップデート。新しい順。",
+      "feedPublished": "新しい作品",
+      "feedUpdate": "アップデート",
+      "previous": "新しい",
+      "next": "古い",
+      "pageOf": "{page} / {pages} ページ"
     },
     "crafters": {
       "eyebrow": "コミュニティ",

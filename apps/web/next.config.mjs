@@ -96,6 +96,12 @@ const nextConfig = {
       { source: "/:lang(en|es|pt|zh|ja)/changelog/feed.xml", destination: "/:lang/changelog/rss.xml" },
       { source: "/:lang(en|es|pt|zh|ja)/changelog/atom.xml", destination: "/:lang/changelog/rss.xml" },
       { source: "/changelog/sitemap.md", destination: "/en/changelog/sitemap.md" },
+      // Community activity feed aliases.
+      { source: "/ships/rss.xml", destination: "/en/ships/rss.xml" },
+      { source: "/ships/feed.xml", destination: "/en/ships/rss.xml" },
+      { source: "/ships/atom.xml", destination: "/en/ships/rss.xml" },
+      { source: "/:lang(en|es|pt|zh|ja)/ships/feed.xml", destination: "/:lang/ships/rss.xml" },
+      { source: "/:lang(en|es|pt|zh|ja)/ships/atom.xml", destination: "/:lang/ships/rss.xml" },
     ];
   },
   async redirects() {
