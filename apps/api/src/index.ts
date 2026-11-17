@@ -127,7 +127,8 @@ const errorContent = {
 }
 const bearerSecurity = [{ bearerAuth: [] }]
 const acceptedImageTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"])
-const maxImageBytes = 8 * 1024 * 1024
+// Vercel caps request bodies at 4.5 MB; the web app resizes images before uploading.
+const maxImageBytes = 4 * 1024 * 1024
 
 async function authenticatedMember(request: Request) {
   const auth = await authenticateUser(request)
@@ -154,7 +155,7 @@ app.post("/v1/uploads/images", async (c) => {
   const form = await c.req.formData()
   const image = form.get("image")
   if (!(image instanceof File) || !acceptedImageTypes.has(image.type) || image.size > maxImageBytes) {
-    return c.json(errorBody("validation_error", "Upload a JPG, PNG, WebP, or GIF image up to 8 MB."), 400)
+    return c.json(errorBody("validation_error", "Upload a JPG, PNG, WebP, or GIF image up to 4 MB."), 400)
   }
   const extension = image.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg"
   const blob = await put(`ships/${identity.member.id}/${crypto.randomUUID()}.${extension}`, image, {
