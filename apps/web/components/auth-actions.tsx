@@ -1,7 +1,7 @@
 "use client"
 
 import { UserButton, useAuth } from "@clerk/nextjs"
-import { UserRound } from "lucide-react"
+import { Rocket, UserRound, UserRoundPen } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { authCopy } from "@/lib/auth-copy"
@@ -31,16 +31,17 @@ export function AuthActions({ locale, variant = "side" }: { locale: Locale; vari
     )
   }
 
+  // Signed in, the avatar sits in the preferences row and its menu holds the account links,
+  // so the sidebar does not grow by two rows.
   return (
     <div className="station-auth" role="group" aria-label={a.account} aria-busy={!isLoaded}>
       {!isLoaded ? null : isSignedIn ? (
-        <>
-          <div className="station-auth-row">
-            <UserButton appearance={avatar} />
-            <Link href={withLocale("/settings/profile", locale)} className="station-auth-link">{t.profile}</Link>
-          </div>
-          <Link href={withLocale("/ships/new", locale)} className="station-auth-link">{t.newShip}</Link>
-        </>
+        <UserButton appearance={avatar}>
+          <UserButton.MenuItems>
+            <UserButton.Link label={t.profile} labelIcon={<UserRoundPen size={16} />} href={withLocale("/settings/profile", locale)} />
+            <UserButton.Link label={t.newShip} labelIcon={<Rocket size={16} />} href={withLocale("/ships/new", locale)} />
+          </UserButton.MenuItems>
+        </UserButton>
       ) : (
         <Link href={signIn} className="station-auth-link">{t.signIn}</Link>
       )}
