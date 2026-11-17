@@ -2,9 +2,11 @@ import { toJsxRuntime } from "hast-util-to-jsx-runtime"
 import type { ComponentPropsWithoutRef } from "react"
 import { Fragment, jsx, jsxs } from "react/jsx-runtime"
 
+import { ShipVideo } from "@/components/ships/ship-video"
 import { shipMarkdownTree } from "@/lib/ship-markdown"
 
 const components = {
+  video: ShipVideo,
   // Wide tables scroll inside their own box instead of widening the page.
   table: (props: ComponentPropsWithoutRef<"table">) => (
     <div className="ship-prose-table">

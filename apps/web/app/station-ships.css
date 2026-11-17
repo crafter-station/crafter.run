@@ -246,6 +246,11 @@
 .ship-prose blockquote { padding-left: 1.2em; border-left: 3px solid var(--band); font-size: 1.08em; color: hsl(var(--muted-foreground)); }
 .ship-prose hr { border: 0; border-top: 1px solid var(--ships-line); margin-block: 2em; }
 .ship-prose img { display: block; max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 0 1px var(--ships-line); }
+.ship-prose figure { margin: 1.6em 0; }
+.ship-prose figure + * { margin-top: 1.6em; }
+.ship-prose video { display: block; width: 100%; max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 0 1px var(--ships-line); background: hsl(var(--foreground) / .04); }
+.ship-prose figure :is(img, video) { width: 100%; }
+.ship-prose figcaption { margin-top: .6em; font-size: 14px; line-height: 1.5; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
 .ship-prose pre { border-radius: 10px; font-size: 15px; }
 .ship-prose pre code { display: block; padding: 0 1rem; font-family: var(--font-mono), monospace; font-size: .875rem; line-height: 1.6; white-space: pre; }
 .ship-prose-table { overflow-x: auto; border-radius: 10px; box-shadow: 0 0 0 1px var(--ships-line); }
