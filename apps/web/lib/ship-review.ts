@@ -1,6 +1,6 @@
 import "server-only"
 import { members, shipLinks, ships } from "@crafter/db/schema"
-import { and, asc, desc, eq, inArray, ne, sql } from "drizzle-orm"
+import { and, asc, desc, eq, inArray, isNotNull, ne, sql } from "drizzle-orm"
 
 import { crewMembers } from "@/lib/crew"
 import { getDb } from "@/lib/db"
@@ -16,6 +16,7 @@ export type ReviewShip = {
   status: "draft" | "pending" | "published" | "hidden"
   updatedAt: string
   publishedAt: string | null
+  featuredAt: string | null
   owner: { id: string; handle: string; displayName: string; trust: "new" | "trusted" | "blocked"; createdAt: string }
   links: { type: string; url: string }[]
 }
@@ -35,7 +36,11 @@ function database() {
   return db
 }
 
-async function load(status: ReviewShip["status"], order: "oldest" | "newest", limit: number): Promise<ReviewShip[]> {
+async function load(
+  status: ReviewShip["status"],
+  order: "oldest" | "newest" | "featured",
+  limit: number,
+): Promise<ReviewShip[]> {
   const db = database()
   const rows = await db
     .select({
@@ -48,6 +53,7 @@ async function load(status: ReviewShip["status"], order: "oldest" | "newest", li
       status: ships.status,
       updatedAt: ships.updatedAt,
       publishedAt: ships.publishedAt,
+      featuredAt: ships.featuredAt,
       ownerId: members.id,
       ownerHandle: members.handle,
       ownerDisplayName: members.displayName,
@@ -56,8 +62,14 @@ async function load(status: ReviewShip["status"], order: "oldest" | "newest", li
     })
     .from(ships)
     .innerJoin(members, eq(members.id, ships.ownerMemberId))
-    .where(eq(ships.status, status))
-    .orderBy(order === "oldest" ? asc(ships.updatedAt) : desc(sql`coalesce(${ships.publishedAt}, ${ships.updatedAt})`))
+    .where(order === "featured" ? and(eq(ships.status, status), isNotNull(ships.featuredAt)) : eq(ships.status, status))
+    .orderBy(
+      order === "oldest"
+        ? asc(ships.updatedAt)
+        : order === "featured"
+          ? desc(ships.featuredAt)
+          : desc(sql`coalesce(${ships.publishedAt}, ${ships.updatedAt})`),
+    )
     .limit(limit)
   const ids = rows.map((row) => row.id)
   const links = ids.length
@@ -73,18 +85,20 @@ async function load(status: ReviewShip["status"], order: "oldest" | "newest", li
     status: row.status,
     updatedAt: row.updatedAt,
     publishedAt: row.publishedAt,
+    featuredAt: row.featuredAt,
     owner: { id: row.ownerId, handle: row.ownerHandle, displayName: row.ownerDisplayName, trust: row.ownerTrust, createdAt: row.ownerCreatedAt },
     links: links.filter((link) => link.shipId === row.id).map(({ type, url }) => ({ type, url })),
   }))
 }
 
 export async function loadReviewBoard() {
-  const [pending, published, hidden] = await Promise.all([
+  const [pending, published, hidden, [featured]] = await Promise.all([
     load("pending", "oldest", 100),
     load("published", "newest", 30),
     load("hidden", "newest", 30),
+    load("published", "featured", 1),
   ])
-  return { pending, published, hidden }
+  return { pending, published, hidden, featured: featured ?? null }
 }
 
 export async function countPendingShips(): Promise<number> {
@@ -140,11 +154,22 @@ export async function sendShipBack(shipId: string, note: string) {
   return Boolean(ship)
 }
 
+/** Features a published Ship (the latest one featured wins on /ships) or clears it. */
+export async function setShipFeatured(shipId: string, featured: boolean) {
+  const db = database()
+  const [ship] = await db
+    .update(ships)
+    .set({ featuredAt: featured ? new Date().toISOString() : null })
+    .where(and(eq(ships.id, shipId), eq(ships.status, "published")))
+    .returning({ id: ships.id })
+  return Boolean(ship)
+}
+
 export async function setShipHidden(shipId: string, hidden: boolean) {
   const db = database()
   const [ship] = await db
     .update(ships)
-    .set({ status: hidden ? "hidden" : "published", updatedAt: new Date().toISOString() })
+    .set({ status: hidden ? "hidden" : "published", updatedAt: new Date().toISOString(), ...(hidden ? { featuredAt: null } : {}) })
     .where(and(eq(ships.id, shipId), eq(ships.status, hidden ? "published" : "hidden")))
     .returning({ id: ships.id })
   return Boolean(ship)
@@ -157,7 +182,7 @@ export async function blockMember(memberId: string) {
   await db.update(members).set({ trust: "blocked", updatedAt: now }).where(eq(members.id, memberId))
   await db
     .update(ships)
-    .set({ status: "hidden", updatedAt: now })
+    .set({ status: "hidden", featuredAt: null, updatedAt: now })
     .where(and(eq(ships.ownerMemberId, memberId), eq(ships.status, "published")))
   await db
     .update(ships)

@@ -1,0 +1,2 @@
+ALTER TABLE "ships" ADD COLUMN "featured_at" timestamp with time zone;--> statement-breakpoint
+CREATE INDEX "ships_featured_at_idx" ON "ships" USING btree ("featured_at" DESC NULLS LAST) WHERE "ships"."featured_at" is not null;

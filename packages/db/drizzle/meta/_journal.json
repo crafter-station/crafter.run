@@ -225,6 +225,13 @@
       "when": 1794874796177,
       "tag": "0031_ships_review",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1794890094379,
+      "tag": "0032_ships_featured",
+      "breakpoints": true
     }
   ]
 }
