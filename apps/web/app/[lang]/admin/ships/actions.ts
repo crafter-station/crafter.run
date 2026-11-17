@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache"
 
 import { getAdmin } from "@/lib/admin"
 import { locales } from "@/lib/i18n"
-import { approveShip, blockMember, sendShipBack, setMemberTrusted, setShipHidden } from "@/lib/ship-review"
+import { approveShip, blockMember, sendShipBack, setMemberTrusted, setShipFeatured, setShipHidden } from "@/lib/ship-review"
 
 async function run(action: () => Promise<unknown>) {
   if (!(await getAdmin())) return
@@ -12,6 +12,7 @@ async function run(action: () => Promise<unknown>) {
   for (const locale of locales) {
     revalidatePath(`/${locale}/admin/ships`)
     revalidatePath(`/${locale}/ships`)
+    revalidatePath(`/${locale}/ships/[slug]`, "page")
     revalidatePath(`/${locale}`)
   }
 }
@@ -30,6 +31,14 @@ export async function hideAction(shipId: string) {
 
 export async function unhideAction(shipId: string) {
   await run(() => setShipHidden(shipId, false))
+}
+
+export async function featureAction(shipId: string) {
+  await run(() => setShipFeatured(shipId, true))
+}
+
+export async function unfeatureAction(shipId: string) {
+  await run(() => setShipFeatured(shipId, false))
 }
 
 export async function blockAction(memberId: string) {

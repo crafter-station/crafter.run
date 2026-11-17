@@ -202,6 +202,8 @@ export const shipSummarySchema = z.object({
   links: z.array(shipLinkSchema),
   voteCount: z.number().int().nonnegative().default(0),
   publishedAt: z.string().datetime(),
+  /** When an admin featured the Ship; the most recent wins. Absent from older API deployments. */
+  featuredAt: z.string().datetime().nullable().optional(),
   /** Latest of publishedAt and the newest update's publishedAt. Absent from older API deployments. */
   lastActivityAt: z.string().datetime().optional(),
   latestUpdate: z.object({ title: z.string(), publishedAt: z.string().datetime() }).nullable().optional(),
@@ -231,6 +233,8 @@ export const shipDetailSchema = z.object({
   provenance: z.array(z.string()),
   voteCount: z.number().int().nonnegative().default(0),
   publishedAt: z.string().datetime().nullable(),
+  /** When an admin featured the Ship; the most recent wins. Absent from older API deployments. */
+  featuredAt: z.string().datetime().nullable().optional(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
 })

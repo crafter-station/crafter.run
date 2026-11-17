@@ -6,7 +6,7 @@ import { isLocale } from "@/lib/i18n"
 import { loadReviewBoard, type ReviewShip, syncRosterTrust } from "@/lib/ship-review"
 import { getUnmatchedTopicRepos } from "@/lib/ship-topic-scan"
 
-import { approveAction, blockAction, hideAction, sendBackAction, trustAction, unhideAction } from "./actions"
+import { approveAction, blockAction, featureAction, hideAction, sendBackAction, trustAction, unfeatureAction, unhideAction } from "./actions"
 
 export const metadata = { title: "Ships review", robots: { index: false } }
 export const dynamic = "force-dynamic"
@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   // The Core and Crew roster files stay the source of truth for who publishes without review.
   const synced = await syncRosterTrust()
-  const [{ pending, published, hidden }, unmatched] = await Promise.all([loadReviewBoard(), getUnmatchedTopicRepos()])
+  const [{ pending, published, hidden, featured }, unmatched] = await Promise.all([loadReviewBoard(), getUnmatchedTopicRepos()])
 
   return (
     <main className="flex-1 py-12">
@@ -64,11 +64,36 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
       <section className="mt-14">
         <h2 className="text-2xl">Recently published</h2>
-        <div className="mt-6 grid gap-3">
+        <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
+          Featuring a Ship puts it on /ships; the last one featured wins. With none featured, the most upvoted Ship is shown.
+        </p>
+        <div className="mt-6 border border-line p-4">
+          <p className="station-label text-muted-foreground">Featured now</p>
+          {featured ? (
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+              <ShipHeader ship={featured} lang={lang} compact />
+              <form action={unfeatureAction.bind(null, featured.id)}>
+                <button className="border border-line px-4 py-2 text-sm">Unfeature</button>
+              </form>
+            </div>
+          ) : (
+            <p className="mt-2 text-sm text-muted-foreground">None picked. /ships shows the most upvoted Ship.</p>
+          )}
+        </div>
+        <div className="mt-3 grid gap-3">
           {published.map((ship) => (
             <article key={ship.id} className="flex flex-wrap items-center justify-between gap-3 border border-line p-4">
               <ShipHeader ship={ship} lang={lang} compact />
               <div className="flex gap-2">
+                {ship.id === featured?.id ? (
+                  <form action={unfeatureAction.bind(null, ship.id)}>
+                    <button className="border border-line px-4 py-2 text-sm">Unfeature</button>
+                  </form>
+                ) : (
+                  <form action={featureAction.bind(null, ship.id)}>
+                    <button className="bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground">Feature</button>
+                  </form>
+                )}
                 {ship.owner.trust === "new" ? (
                   <form action={trustAction.bind(null, ship.owner.id)}>
                     <button className="border border-line px-4 py-2 text-sm">Trust @{ship.owner.handle}</button>
