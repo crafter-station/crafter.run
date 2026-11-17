@@ -19,6 +19,7 @@
 @import './station-font.css';
 @import './station-hot-reload.css';
 @import './station-auth.css';
+@import './station-onboarding.css';
 
 @custom-variant dark (&:is(.dark *));
 
