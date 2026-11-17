@@ -2,7 +2,7 @@
 
 import type { ShipDetail } from "@crafter/contracts"
 import { useAuth, useClerk, useUser } from "@clerk/nextjs"
-import { ArrowRight, Check, ChevronLeft, ChevronRight, Eye, FileText, Github, Link2, Loader2, Rocket, Send, Sparkles, Upload, X } from "lucide-react"
+import { ArrowRight, Check, ChevronLeft, ChevronRight, Eye, FileText, Github, Globe, Link2, Loader2, Rocket, Send, Sparkles, Upload, X } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { type FormEvent, useCallback, useEffect, useId, useRef, useState } from "react"
@@ -18,7 +18,7 @@ import { ShipPreview } from "@/components/new-ship/ship-preview"
 import { repoInputToUrl, repoKey, type RepoOption } from "@/lib/github-repos"
 import type { Locale } from "@/lib/i18n"
 import { newShipCopy } from "@/lib/new-ship-copy"
-import { importAnyLink, splitLinks } from "@/lib/new-ship-import"
+import { importAnyLink, linkKey, tokenizeLinks } from "@/lib/new-ship-import"
 import {
   emptyShipFields,
   ImportError,
@@ -54,7 +54,11 @@ export function NewShipWizard({ locale, handle, firstShip, githubLogin = null, s
 
   const [step, setStep] = useState(0)
   const [fields, setFieldsState] = useState<ShipFields>(emptyShipFields)
+  const [links, setLinks] = useState<string[]>([])
+  /** Text still being typed in the link field; it becomes a chip once it is a valid link. */
   const [link, setLink] = useState("")
+  /** Typed text that is not a link. It blocks submitting until it is removed or fixed. */
+  const [badLinks, setBadLinks] = useState<string[]>([])
   const [importing, setImporting] = useState(false)
   const [imported, setImported] = useState<ImportResult | null>(null)
   const [loadingRepo, setLoadingRepo] = useState<string | null>(null)
@@ -134,7 +138,6 @@ export function NewShipWizard({ locale, handle, firstShip, githubLogin = null, s
         setFields,
         importFromLink: (url) => {
           const full = repos.find((repo) => repo.fullName.toLowerCase() === url.trim().toLowerCase())
-          setLink(full?.url ?? url)
           return runImport(full?.url ?? url)
         },
         listRepos: async () => (githubLogin && repos.length === 0 ? load({ login: githubLogin, kind: "user" }) : repos),
@@ -231,12 +234,13 @@ export function NewShipWizard({ locale, handle, firstShip, githubLogin = null, s
     if (pending || importing) return
     setError(null)
     if (step === 0) {
-      const links = splitLinks(link)
-      if (links.length > 1) {
+      const all = addLinks(link)
+      if (!all) return
+      if (all.length > 1) {
         batchFromLinks.current = true
-        setBatchUrls(links)
+        setBatchUrls(all)
         setBatchMode("review")
-      } else if (link.trim()) void runImport(link)
+      } else if (all.length === 1) void runImport(all[0]!)
       else setStep(1)
     } else if (step === 1) {
       if (!ready) {
@@ -255,14 +259,27 @@ export function NewShipWizard({ locale, handle, firstShip, githubLogin = null, s
   const showTopicTip = Boolean(repoUrl) && !topicOn
 
   async function pickRepo(option: RepoOption) {
-    setLink(option.url)
     setLoadingRepo(option.fullName)
     await runImport(option.url)
     setLoadingRepo(null)
   }
 
   const selecting = batchMode === "select"
-  const linkCount = splitLinks(link).length
+  const linkCount = links.length + tokenizeLinks(link, links).valid.length
+
+  /** Turns the typed text into chips. Returns every link when it all parsed, or null after flagging what did not. */
+  function addLinks(text: string): string[] | null {
+    const { valid, invalid } = tokenizeLinks(text, links)
+    const all = [...links, ...valid]
+    const bad = [...badLinks, ...invalid.filter((value) => !badLinks.includes(value))]
+    setLinks(all)
+    setBadLinks(bad)
+    setLink("")
+    setImportError(null)
+    return bad.length > 0 ? null : all
+  }
+
+  const linkError = badLinks.length > 0 ? fill(copy.link.invalidLink, { value: badLinks.join(", ") }) : null
 
   const selection = selecting
     ? {
@@ -313,7 +330,9 @@ export function NewShipWizard({ locale, handle, firstShip, githubLogin = null, s
         onBack={(unfinished) => {
           const left = new Set(unfinished)
           if (batchFromLinks.current) {
-            setLink(batchUrls.filter((url) => left.has(batchRowId(url))).join("\n"))
+            setLinks(batchUrls.filter((url) => left.has(batchRowId(url))))
+            setBadLinks([])
+            setLink("")
             setBatchUrls([])
             setBatchMode(null)
             return
@@ -356,16 +375,27 @@ export function NewShipWizard({ locale, handle, firstShip, githubLogin = null, s
               <p className="ob-lede">{copy.link.lede}</p>
               {selecting ? null : (
                 <>
-                  <LinkInput
+                  <LinkChips
                     autoFocus
                     label={copy.link.label}
-                    placeholder={copy.link.placeholder}
-                    value={link}
-                    onChange={setLink}
+                    placeholder={links.length > 0 ? "" : copy.link.placeholder}
+                    removeLabel={copy.link.removeLink}
+                    links={links}
+                    bad={badLinks}
+                    draft={link}
+                    onDraft={setLink}
+                    onAdd={(text) => void addLinks(text)}
+                    onRemove={(target) => setLinks(links.filter((item) => linkKey(item) !== linkKey(target)))}
+                    onRemoveBad={(target) => setBadLinks(badLinks.filter((item) => item !== target))}
+                    onEditBad={(target) => {
+                      setBadLinks(badLinks.filter((item) => item !== target))
+                      setLink(target)
+                    }}
                     onSubmit={() => advance()}
-                    invalid={Boolean(importError)}
+                    invalid={Boolean(importError || linkError)}
                     disabled={importing}
                   />
+                  {linkError ? <p className="ob-error" role="alert">{linkError}</p> : null}
                   <p className="ob-hint ns-multi-hint">{copy.link.multiHint}</p>
                 </>
               )}
@@ -538,7 +568,7 @@ export function NewShipWizard({ locale, handle, firstShip, githubLogin = null, s
             type="submit"
             className="ob-btn ob-btn-primary"
             data-attention={attention && step === FIELD_STEP_LAST ? "true" : undefined}
-            disabled={Boolean(pending) || importing || (step === 0 && !link.trim())}
+            disabled={Boolean(pending) || importing || (step === 0 && links.length === 0 && !link.trim())}
           >
             {step === 0
               ? importing ? <><Loader2 className="animate-spin" aria-hidden="true" />{copy.link.importing}</> : linkCount > 1 ? <>{fill(copy.link.importMany, { n: linkCount })}<ArrowRight aria-hidden="true" /></> : <>{copy.link.import}<Sparkles aria-hidden="true" /></>
@@ -558,33 +588,97 @@ export function NewShipWizard({ locale, handle, firstShip, githubLogin = null, s
   )
 }
 
-/** One link, or several, one per line. Enter submits; Shift+Enter or a paste adds lines. */
-function LinkInput({ label, placeholder, value, onChange, onSubmit, invalid, disabled, autoFocus }: { autoFocus: boolean; label: string; placeholder: string; value: string; onChange: (value: string) => void; onSubmit: () => void; invalid: boolean; disabled: boolean }) {
+const linkLabel = (link: string) => link.replace(/^https?:\/\/(www\.)?(github\.com\/)?/i, "").replace(/\/$/, "")
+
+/** Links as chips. Enter, a comma, a space or a paste turns the typed text into chips. Each piece is
+ * validated: links become chips, anything else becomes a red chip that blocks submitting until it is
+ * removed or clicked back into the field to fix. The field is always empty after adding, so a leftover
+ * never merges with the next link. Enter on an empty field submits; Backspace on it removes the last chip. */
+function LinkChips({ label, placeholder, removeLabel, links, bad, draft, onDraft, onAdd, onRemove, onRemoveBad, onEditBad, onSubmit, invalid, disabled, autoFocus }: {
+  autoFocus: boolean
+  label: string
+  placeholder: string
+  removeLabel: string
+  links: string[]
+  bad: string[]
+  draft: string
+  onDraft: (value: string) => void
+  onAdd: (text: string) => void
+  onRemove: (link: string) => void
+  onRemoveBad: (value: string) => void
+  onEditBad: (value: string) => void
+  onSubmit: () => void
+  invalid: boolean
+  disabled: boolean
+}) {
   const id = useId()
-  const rows = Math.min(Math.max(value.split("\n").length, 1), 8)
   return (
     <Field label={label} htmlFor={id}>
-      <div className="ob-affix ns-link ns-linkbox" aria-invalid={invalid || undefined}>
+      <div className="ob-affix ns-link ns-chips" aria-invalid={invalid || undefined}>
         <Link2 aria-hidden="true" />
-        <textarea
-          id={id}
-          value={value}
-          rows={rows}
-          inputMode="url"
-          autoCapitalize="none"
-          autoCorrect="off"
-          spellCheck={false}
-          autoComplete="off"
-          autoFocus={autoFocus}
-          disabled={disabled}
-          placeholder={placeholder}
-          onChange={(event) => onChange(event.target.value)}
-          onKeyDown={(event) => {
-            if (event.key !== "Enter" || event.shiftKey || event.nativeEvent.isComposing) return
-            event.preventDefault()
-            onSubmit()
-          }}
-        />
+        <ul className="ns-chip-list">
+          {links.map((link) => {
+            const Icon = repoKey(link) ? Github : Globe
+            return (
+              <li key={link} className="ns-chip">
+                <Icon aria-hidden="true" />
+                <span>{linkLabel(link)}</span>
+                <button type="button" aria-label={fill(removeLabel, { link: linkLabel(link) })} disabled={disabled} onClick={() => onRemove(link)}>
+                  <X aria-hidden="true" />
+                </button>
+              </li>
+            )
+          })}
+          {bad.map((value) => (
+            <li key={`bad:${value}`} className="ns-chip" data-bad="true">
+              <button type="button" className="ns-chip-edit" disabled={disabled} onClick={() => onEditBad(value)}>{value}</button>
+              <button type="button" aria-label={fill(removeLabel, { link: value })} disabled={disabled} onClick={() => onRemoveBad(value)}>
+                <X aria-hidden="true" />
+              </button>
+            </li>
+          ))}
+          <li className="ns-chip-draft">
+            <input
+              id={id}
+              value={draft}
+              type="text"
+              inputMode="url"
+              enterKeyHint="go"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
+              autoComplete="off"
+              autoFocus={autoFocus}
+              disabled={disabled}
+              placeholder={placeholder}
+              onChange={(event) => {
+                const value = event.target.value
+                if (/[\s,]$/.test(value) && value.trim()) onAdd(value)
+                else onDraft(value)
+              }}
+              onPaste={(event) => {
+                const text = event.clipboardData.getData("text")
+                if (!/[\s,]/.test(text.trim())) return
+                event.preventDefault()
+                onAdd(`${draft} ${text}`)
+              }}
+              onBlur={() => {
+                if (draft.trim()) onAdd(draft)
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Backspace" && !draft && (bad.length > 0 || links.length > 0)) {
+                  if (bad.length > 0) onRemoveBad(bad[bad.length - 1]!)
+                  else onRemove(links[links.length - 1]!)
+                  return
+                }
+                if (event.key !== "Enter" || event.nativeEvent.isComposing) return
+                event.preventDefault()
+                if (draft.trim()) onAdd(draft)
+                else onSubmit()
+              }}
+            />
+          </li>
+        </ul>
       </div>
     </Field>
   )
