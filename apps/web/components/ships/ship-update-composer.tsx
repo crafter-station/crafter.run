@@ -69,7 +69,7 @@ export function ShipUpdateComposer({ ownerHandle, slug, copy }: {
           <input name="socialPostUrl" type="url" placeholder="https://x.com/.../status/..." className="input" />
         </label>
         {error ? <p role="alert" className="ship-composer-error">{error}</p> : null}
-        <button disabled={pending} className="ships-button">{pending ? copy.publishing : copy.publish}</button>
+        <button disabled={pending} className="hero-cta">{pending ? copy.publishing : copy.publish}</button>
       </form>
     </details>
   )

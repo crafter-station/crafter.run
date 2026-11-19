@@ -5,14 +5,15 @@
 /* Directory: joined hairline tiles, three to a row. */
 .jobs-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 0; list-style: none; border: 1px solid var(--home-line); background: var(--home-line); }
 .jobs-tile { display: flex; flex-direction: column; gap: 20px; min-width: 0; padding: 24px; background: hsl(var(--background)); }
-.jobs-person { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 16px; transition: background-color 160ms; }
+.jobs-person { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 16px; margin: -8px; padding: 8px; transition: background-color 160ms; }
+.jobs-person:where(:hover, :focus-visible) { background: var(--home-hover); }
 .jobs-avatar { position: relative; display: grid; place-items: center; width: 56px; height: 56px; overflow: hidden; border: 1px solid var(--home-line); background: hsl(var(--secondary)); font-size: 20px; color: hsl(var(--muted-foreground)); }
 .jobs-name { display: grid; gap: 4px; min-width: 0; }
 .jobs-name strong { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 22px; line-height: 1.1; letter-spacing: -.03em; overflow-wrap: anywhere; }
 .jobs-name .home-label-sm { overflow-wrap: anywhere; }
 .jobs-person:where(:hover, :focus-visible) .home-backers-arrow { color: hsl(var(--foreground)); transform: translate(2px, -2px); }
 .jobs-roles { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
-.jobs-roles li { padding: 5px 10px; box-shadow: inset 0 0 0 1px var(--home-line); font: 500 12px/1.3 var(--font-label); letter-spacing: .04em; max-width: 100%; overflow-wrap: anywhere; }
+.jobs-roles li { padding: 5px 10px; box-shadow: inset 0 0 0 1px var(--home-line); font: 500 11px/1.3 var(--font-label); letter-spacing: .08em; text-transform: uppercase; max-width: 100%; overflow-wrap: anywhere; }
 .jobs-roles .jobs-roles-more { color: hsl(var(--muted-foreground)); box-shadow: none; padding-inline: 0; }
 .jobs-ships { display: grid; gap: 10px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--home-line); }
 .jobs-ships ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
@@ -50,8 +51,7 @@
 .jobs-pitch-item .home-label-sm { color: var(--gold); }
 .jobs-pitch-item h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 24px; line-height: 1.1; letter-spacing: -.03em; }
 .jobs-pitch-item p { font-size: 16px; line-height: 1.55; color: hsl(var(--muted-foreground)); max-width: 44ch; }
-.jobs-pitch-link { margin-top: auto; font: 500 13px/1.3 var(--font-label); letter-spacing: .08em; text-transform: uppercase; transition: color 160ms; }
-.jobs-pitch-link:where(:hover, :focus-visible) { color: var(--gold); }
+.jobs-pitch-item .home-secondary-link { margin-top: auto; }
 
 .jobs-fill { display: none; background: hsl(var(--background)); }
 @media (min-width: 1101px) { .jobs-fill.fill-3 { display: block; } }

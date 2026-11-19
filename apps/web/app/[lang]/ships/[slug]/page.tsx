@@ -1,12 +1,11 @@
 import type { ShipDetail, ShipLink } from "@crafter/contracts"
-import { shipTone } from "@/lib/ship-tone-server"
-import { ArrowUpRight, Github, Globe, MessageCircle, Package, Play, Plus, Share2 } from "lucide-react"
+import { ArrowUpRight, Github, Globe, Package, Play, Share2 } from "lucide-react"
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 
-import { BandChrome } from "@/components/blog/band-chrome"
+import { HomeHead } from "@/components/home-head"
 import { ShipUpvote } from "@/components/ship-upvote"
 import { ShipCover } from "@/components/ships/ship-cover"
 import { ShipMarkdown } from "@/components/ships/ship-markdown"
@@ -105,130 +104,119 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
     publishedAt,
     modifiedAt,
   }, lang)
-  const tone = await shipTone(ship)
 
   return (
-    <main className="journal-page ships-page ship-detail" data-tone={tone}>
+    <main className="station-home ships-page ship-detail flex-1">
       <JsonLd data={[schema, breadcrumbList(lang, [{ name: t.crumb, path: "/ships" }, { name: ship.name, path: `/ships/${ship.slug}` }])]} />
-      <BandChrome />
-      <header className="journal-band ships-band ship-hero">
-        <div className="ships-band-grid ship-hero-grid">
-          <div className="ships-band-copy">
-            <nav aria-label="Breadcrumb" className="journal-band-crumbs">
-              <Link href={`/${lang}/ships`}>{t.crumb}</Link>
-            </nav>
-            <h1>{ship.name}</h1>
-            <p className="journal-band-summary">{ship.tagline}</p>
-            <p className="ship-hero-maker">
-              <Link href={`/${lang}/crafters/${ship.owner.handle}`}>
-                <MakerAvatar owner={ship.owner} />
-                <span>{ship.owner.displayName}</span>
-              </Link>
-              {chip}
-              <time dateTime={publishedAt} title={publishedLabel}>{relativeTime(publishedAt, lang, now)}</time>
-            </p>
-            <div className="ship-actions">
+      <section className="inner-hero ship-hero" aria-labelledby="ship-title">
+        <nav aria-label="Breadcrumb" className="home-label">
+          <Link href={`/${lang}/ships`}>{t.crumb}</Link>
+        </nav>
+        <div className="inner-hero-grid">
+          <h1 id="ship-title">{ship.name}</h1>
+          <div className="inner-hero-side">
+            <p>{ship.tagline}</p>
+            <div className="inner-hero-actions">
               {primary ? (
-                <a href={primary.url} target="_blank" rel="ugc nofollow noopener noreferrer" className="ships-button ships-button-band">
-                  {primary.icon}
+                <a href={primary.url} target="_blank" rel="ugc nofollow noopener noreferrer" className="hero-cta">
                   {primary.label}
-                  <ArrowUpRight className="ship-actions-out" aria-hidden="true" />
+                  <ArrowUpRight aria-hidden="true" />
                 </a>
               ) : null}
               {rest.map((link) => (
-                <a key={link.key} href={link.url} target="_blank" rel="ugc nofollow noopener noreferrer" className="ships-button ships-button-quiet">
-                  {link.icon}
+                <a key={link.key} href={link.url} target="_blank" rel="ugc nofollow noopener noreferrer" className="hero-cta-ghost">
                   {link.label}
                 </a>
               ))}
             </div>
-            <div className="ship-actions ship-actions-social">
-              <ShipUpvote shipId={ship.id} slug={ship.slug} initialVoteCount={ship.voteCount} locale={lang} variant="pill" />
-              <a href={`https://wa.me/?text=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener noreferrer" className="ships-band-link">
-                <MessageCircle aria-hidden="true" />
-                {t.share}
-              </a>
+          </div>
+          <div className="inner-hero-extra">
+            <div className="ship-hero-meta">
+              <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="ship-hero-maker">
+                <MakerAvatar owner={ship.owner} />
+                <span>{ship.owner.displayName}</span>
+              </Link>
+              {chip}
+              <time className="home-label-sm" dateTime={publishedAt} title={publishedLabel}>{relativeTime(publishedAt, lang, now)}</time>
+              <span className="ship-hero-meta-end">
+                <ShipUpvote shipId={ship.id} slug={ship.slug} initialVoteCount={ship.voteCount} locale={lang} variant="pill" />
+                <a href={`https://wa.me/?text=${encodeURIComponent(shareText)}`} target="_blank" rel="noopener noreferrer" className="home-secondary-link">{t.share}</a>
+              </span>
+            </div>
+            <div className="ship-hero-cover home-frame">
+              <ShipCover name={ship.name} imageUrl={ship.imageUrl} eager />
             </div>
           </div>
-          <div className="ship-hero-cover">
-            <ShipCover name={ship.name} imageUrl={ship.imageUrl} eager />
-          </div>
         </div>
-      </header>
+      </section>
 
-      <div className="ship-body">
-        <div className="ship-main">
-          <article aria-labelledby="ship-about-title">
-            <h2 id="ship-about-title" className="ship-section-label">{t.about}</h2>
-            <ShipMarkdown source={ship.description} />
-          </article>
+      <section className="ship-body">
+        <article aria-labelledby="ship-about-title">
+          <h2 id="ship-about-title" className="home-label ship-section-label">{t.about}</h2>
+          <ShipMarkdown source={ship.description} />
+        </article>
 
-          <div className="ship-made-by">
-            <section className="ship-maker" aria-label={t.maker}>
-              <p className="station-label">{t.maker}</p>
-              <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="ship-maker-head">
-                <MakerAvatar owner={ship.owner} />
-                <span className="ship-maker-who">
-                  <strong>{ship.owner.displayName}</strong>
-                  <small>@{ship.owner.handle}</small>
-                </span>
-                {chip}
-              </Link>
-              {profile?.bio ? <p className="ship-maker-bio">{profile.bio}</p> : null}
-              <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="ship-inline-link">
-                {t.profile}
-                <ArrowUpRight aria-hidden="true" />
-              </Link>
-              {others.length > 0 ? (
-                <div className="ship-maker-more">
-                  <h2>{t.moreFrom.replace("{name}", ship.owner.displayName)}</h2>
-                  <ul>
-                    {others.map((other) => (
-                      <li key={other.id}>
-                        <Link href={`/${lang}/ships/${other.slug}`}>
-                          <span className="ship-maker-thumb"><ShipCover name={other.name} imageUrl={other.imageUrl} /></span>
-                          <span>
-                            <strong>{other.name}</strong>
-                            <small>{other.tagline}</small>
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
-            </section>
-            <ShipOwnerTools locale={lang} ownerHandle={ship.owner.handle} slug={ship.slug} copy={t} />
-          </div>
-
-          <section className="ship-updates" aria-labelledby="ship-updates-title">
-            <header>
-              <div>
-                <h2 id="ship-updates-title">{t.updates}</h2>
-                <p>{t.updatesLead}</p>
+        <div className="ship-made-by">
+          <section className="ship-maker" aria-label={t.maker}>
+            <p className="home-label">{t.maker}</p>
+            <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="ship-maker-head">
+              <MakerAvatar owner={ship.owner} />
+              <span className="ship-maker-who">
+                <strong>{ship.owner.displayName}</strong>
+                <small>@{ship.owner.handle}</small>
+              </span>
+              {chip}
+            </Link>
+            {profile?.bio ? <p className="ship-maker-bio">{profile.bio}</p> : null}
+            <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="home-secondary-link">
+              {t.profile}
+            </Link>
+            {others.length > 0 ? (
+              <div className="ship-maker-more">
+                <h2 className="home-label">{t.moreFrom.replace("{name}", ship.owner.displayName)}</h2>
+                <ul>
+                  {others.map((other) => (
+                    <li key={other.id}>
+                      <Link href={`/${lang}/ships/${other.slug}`}>
+                        <span className="ship-maker-thumb"><ShipCover name={other.name} imageUrl={other.imageUrl} /></span>
+                        <span>
+                          <strong>{other.name}</strong>
+                          <small>{other.tagline}</small>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              {ship.updates.length > 0 ? <span className="ship-updates-count">{ship.updates.length}</span> : null}
-            </header>
-            <ShipUpdateComposer ownerHandle={ship.owner.handle} slug={ship.slug} copy={t.composer} />
-            {ship.updates.length === 0 ? (
-              <p className="ship-updates-empty">{t.noUpdates}</p>
-            ) : (
-              <ShipTimeline updates={ship.updates} locale={lang} now={now} socialLabel={t.updateSocial} />
-            )}
+            ) : null}
           </section>
+          <ShipOwnerTools locale={lang} ownerHandle={ship.owner.handle} slug={ship.slug} copy={t} />
         </div>
+      </section>
 
-      </div>
+      <section className="ship-updates" aria-labelledby="ship-updates-title">
+        <HomeHead id="ship-updates-title" index={1} label={ship.name} title={t.updates} lede={t.updatesLead}>
+          {ship.updates.length > 0 ? <span className="home-label">{site("updateCount", { count: ship.updates.length })}</span> : null}
+        </HomeHead>
+        <ShipUpdateComposer ownerHandle={ship.owner.handle} slug={ship.slug} copy={t.composer} />
+        {ship.updates.length === 0 ? (
+          <p className="ship-updates-empty">{t.noUpdates}</p>
+        ) : (
+          <ShipTimeline updates={ship.updates} locale={lang} now={now} socialLabel={t.updateSocial} />
+        )}
+      </section>
 
-      <section className="ships-cta ship-cta" aria-labelledby="ship-cta-title">
-        <div className="ships-cta-copy">
-          <p className="station-label">{site("ctaEyebrow")}</p>
-          <h2 id="ship-cta-title">{site("ctaTitle")}</h2>
-          <p>{site("ctaLead")}</p>
-          <Link href={`/${lang}/ships/new`} className="ships-button ships-button-band">
-            <Plus aria-hidden="true" />
-            {site("publish")}
-          </Link>
+      <section className="ship-cta" aria-labelledby="ship-cta-title">
+        <div className="ship-cta-box home-frame">
+          <div>
+            <p className="home-label">{site("ctaEyebrow")}</p>
+            <h2 id="ship-cta-title">{t.ctaTitle}</h2>
+            <p>{site("ctaLead")}</p>
+          </div>
+          <div className="ship-cta-actions">
+            <Link href={`/${lang}/ships/new`} className="hero-cta">{site("publish")}</Link>
+            <Link href={`/${lang}/ships`} className="home-secondary-link">{t.ctaAll}</Link>
+          </div>
         </div>
       </section>
     </main>

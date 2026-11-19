@@ -1,5 +1,5 @@
 import type { ShipSummary } from "@crafter/contracts"
-import { ArrowUpRight, Star } from "lucide-react"
+import { ArrowUpRight } from "lucide-react"
 import Link from "next/link"
 
 import { ShipCover } from "@/components/ships/ship-cover"
@@ -17,16 +17,15 @@ export function FeaturedShip({ ship, locale, now, labels, votesLabel, latestLabe
   latestLabel: string | null
 }) {
   return (
-    <article className="ship-featured">
-      <p className="ship-featured-badge">
-        <Star aria-hidden="true" />
-        {labels.featuredLabel}
-        {ship.voteCount > 0 ? <span>{votesLabel}</span> : null}
-      </p>
+    <article className="ship-featured home-frame">
       <div className="ship-featured-cover">
         <ShipCover name={ship.name} imageUrl={ship.imageUrl} eager />
       </div>
       <div className="ship-featured-body">
+        <p className="home-label-sm">
+          {labels.featuredLabel}
+          {ship.voteCount > 0 ? ` · ${votesLabel}` : ""}
+        </p>
         <h2>
           <Link href={`/${locale}/ships/${ship.slug}`}>
             {ship.name}

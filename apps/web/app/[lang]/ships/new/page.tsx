@@ -31,8 +31,8 @@ export default async function NewShipPage({ params, searchParams }: { params: Pr
   return (
     <main className="flex-1">
       <Container innerClassName="station-form-page">
-        <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">{copy.eyebrow}</p>
-        <h1 className="mt-5 text-5xl font-semibold tracking-tighter">{copy.title}</h1>
+        <p className="home-label">{copy.eyebrow}</p>
+        <h1>{copy.title}</h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{copy.lede}</p>
         {/* The profile and Ships lookups stream in behind the heading instead of blocking the whole page. */}
         <Suspense fallback={<FormPageSkeleton variant="ship" />}>

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 
-import { Container } from "@/components/grid-container"
+import { HomeHead } from "@/components/home-head"
 import { ProfileLocationLine } from "@/components/profile-location-line"
 import { isLocale } from "@/lib/i18n"
 import { JsonLd } from "@/components/json-ld"
@@ -92,7 +92,8 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
   if (!member) notFound()
   const t = copy[lang]
   const a = activityCopy[lang]
-  const shipsLabel = (await getTranslations({ locale: lang, namespace: "pages.ships" }))("makerShips", { count: ships.length })
+  const shipsT = await getTranslations({ locale: lang, namespace: "pages.ships" })
+  const shipsLabel = shipsT("makerShips", { count: ships.length })
   const details = await listShipsWithUpdates(ships, { revalidate })
   const timeline = buildActivity(ships, details)
   const updateCount = ships.reduce((sum, ship) => sum + (ship.updateCount ?? 0), 0)
@@ -105,75 +106,83 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
   return (
     <>
       <JsonLd data={schema} />
-      <main className="flex-1">
-        <Container innerClassName="station-page-intro px-6 py-16 md:px-10 md:py-24">
-          <div className="flex flex-col gap-8 sm:flex-row sm:items-center">
-            <div className="station-crafter-avatar relative shrink-0 overflow-hidden bg-secondary">
-              {member.avatarUrl ? <Image src={member.avatarUrl} alt="" fill sizes="160px" className="object-cover" /> : <span className="grid h-full place-items-center text-4xl text-muted-foreground">{member.displayName.charAt(0).toUpperCase()}</span>}
-            </div>
-            <div>
-              <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
-                {t.crafter}
-                {affiliation ? <span className="ml-3 border border-accent px-2 py-1 tracking-[0.18em]">{a[affiliation]}</span> : null}
-              </p>
-              <h1 className="mt-3 text-5xl font-semibold tracking-tighter md:text-7xl">{member.displayName}</h1>
-              <p className="mt-3 font-label text-sm text-muted-foreground">@{member.handle}</p>
+      <main className="station-home crafter-profile flex-1">
+        <section className="inner-hero crafter-hero" aria-labelledby="crafter-name">
+          <p className="home-label">
+            {t.crafter}
+            {affiliation ? <span className="ship-chip crafter-hero-chip" data-kind={affiliation}>{a[affiliation]}</span> : null}
+          </p>
+          <div className="crafter-hero-row">
+            <span className="jobs-avatar crafter-avatar">
+              {member.avatarUrl ? <Image src={member.avatarUrl} alt="" fill sizes="144px" className="object-cover" /> : <span aria-hidden="true">{member.displayName.charAt(0).toUpperCase()}</span>}
+            </span>
+            <div className="crafter-hero-id">
+              <h1 id="crafter-name">{member.displayName}</h1>
+              <p className="home-label">@{member.handle}</p>
               <ProfileLocationLine
                 origin={member.originLocation}
                 based={member.basedLocation}
                 fromLabel={t.from}
                 basedLabel={t.based}
-                className="mt-4"
               />
             </div>
           </div>
-          <p className="mt-6 font-label text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            {a.since} {since} · {shipsLabel} · {updateCount} {a.updates}
+          <p className="home-label">
+            {a.since} {since} · {shipsLabel} · {shipsT("updateCount", { count: updateCount })}
           </p>
-          {member.currentRole ? <p className="mt-8 text-xl tracking-tight">{member.currentRole}</p> : null}
-          {member.isJobSeeking ? <p className="mt-4 w-fit border border-accent px-3 py-2 font-label text-xs uppercase tracking-[0.18em] text-accent">{t.available}</p> : null}
-          {member.bio ? <p className="mt-6 max-w-2xl text-lg leading-8 text-muted-foreground">{member.bio}</p> : null}
+          <div className="crafter-hero-copy">
+            {member.currentRole ? <p className="crafter-role">{member.currentRole}</p> : null}
+            {member.isJobSeeking ? <p><span className="ship-chip" data-kind="open">{t.available}</span></p> : null}
+            {member.bio ? <p className="crafter-bio">{member.bio}</p> : null}
+          </div>
           {member.rolesOpenTo.length > 0 ? (
-            <div className="mt-10">
-              <p className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{t.openTo}</p>
-              <div className="mt-3 flex flex-wrap gap-2">{member.rolesOpenTo.map((role) => <span key={role} className="border border-line px-3 py-2 text-sm">{role}</span>)}</div>
+            <div className="crafter-block">
+              <p className="home-label-sm">{t.openTo}</p>
+              <ul className="jobs-roles">{member.rolesOpenTo.map((role) => <li key={role}>{role}</li>)}</ul>
             </div>
           ) : null}
           <ProfileLinks member={member} label={t.links} />
-          <h2 className="mt-16 pb-5 text-3xl tracking-tight">{t.ships}</h2>
-          <div className="station-card-grid">
-            {ships.map((ship) => (
-              <Link key={ship.id} href={`/${lang}/ships/${ship.slug}`} className="min-h-56 border-b border-r border-line p-7 transition-colors hover:bg-accent-surface/10">
-                {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="mb-5 aspect-video w-full border border-line object-cover" /> : null}
-                <h3 className="text-2xl font-medium tracking-tight">{ship.name}</h3>
-                <p className="mt-3 text-sm leading-6 text-muted-foreground">{ship.tagline}</p>
-              </Link>
-            ))}
-          </div>
-          {timeline.length > 0 ? (
-            <>
-              <h2 className="mt-16 pb-5 text-3xl tracking-tight">{a.activity}</h2>
-              <ol className="border-t border-line">
-                {timeline.map((event) => (
-                  <li key={`${event.kind}-${event.id}`} className="border-b border-line py-5">
-                    <p className="font-label text-xs uppercase tracking-[0.18em] text-muted-foreground">
+        </section>
+
+        {ships.length > 0 ? (
+        <section aria-labelledby="crafter-ships-title">
+          <HomeHead id="crafter-ships-title" index={1} label={`@${member.handle}`} title={t.ships}>
+            <span className="home-label">{shipsLabel}</span>
+          </HomeHead>
+          <ul className="ships-grid home-frame">
+              {ships.map((ship) => (
+                <li key={ship.id}>
+                  <Link href={`/${lang}/ships/${ship.slug}`} className="crafter-ship">
+                    {ship.imageUrl ? <img src={ship.imageUrl} alt="" className="crafter-ship-cover" /> : null}
+                    <h3>{ship.name}</h3>
+                    <p>{ship.tagline}</p>
+                  </Link>
+                </li>
+              ))}
+          </ul>
+        </section>
+        ) : null}
+
+        {timeline.length > 0 ? (
+          <section aria-labelledby="crafter-activity-title">
+            <HomeHead id="crafter-activity-title" index={ships.length > 0 ? 2 : 1} label={`@${member.handle}`} title={a.activity} />
+            <ol className="crafter-activity home-frame">
+              {timeline.map((event) => (
+                <li key={`${event.kind}-${event.id}`}>
+                  <Link href={`/${lang}/ships/${event.ship.slug}`}>
+                    <span className="home-label-sm">
                       {event.kind === "published" ? a.published : a.update} ·{" "}
                       <time dateTime={event.at}>{relativeTime(event.at, lang, now)}</time>
-                    </p>
-                    <p className="mt-2 text-lg tracking-tight">
-                      <Link href={`/${lang}/ships/${event.ship.slug}`} className="transition-colors hover:text-accent">
-                        {event.kind === "published" ? event.ship.name : `${event.ship.name} - ${event.title}`}
-                      </Link>
-                    </p>
-                    <p className="mt-1 line-clamp-2 text-sm leading-6 text-muted-foreground">{event.description}</p>
-                  </li>
-                ))}
-              </ol>
-            </>
-          ) : null}
-        </Container>
+                    </span>
+                    <strong>{event.kind === "published" ? event.ship.name : `${event.ship.name} - ${event.title}`}</strong>
+                    <span className="crafter-activity-text">{event.description}</span>
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ) : null}
       </main>
-
     </>
   )
 }
@@ -191,10 +200,10 @@ function ProfileLinks({ member, label }: { member: MemberProfile; label: string 
   if (links.length === 0) return null
 
   return (
-    <div className="mt-10">
-      <p className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">{label}</p>
-      <div className="station-profile-links mt-3">
-        {links.map(([name, url]) => <a key={name} href={url} target="_blank" rel="noopener noreferrer" className="border-b border-foreground pb-1 text-sm hover:border-accent hover:text-accent">{name}</a>)}
+    <div className="crafter-block">
+      <p className="home-label-sm">{label}</p>
+      <div className="crafter-links">
+        {links.map(([name, url]) => <a key={name} href={url} target="_blank" rel="noopener noreferrer" className="home-secondary-link">{name}</a>)}
       </div>
     </div>
   )
