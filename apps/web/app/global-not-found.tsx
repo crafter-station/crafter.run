@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next"
 import { headers } from "next/headers"
+import { ClerkProvider } from "@clerk/nextjs"
+import { enUS, esES, jaJP, ptBR, zhCN } from "@clerk/localizations"
 import { stationFonts } from "@/lib/fonts"
 import { getTranslations } from "next-intl/server"
 
@@ -28,9 +30,9 @@ import "./globals.css"
  * which bypasses rendering and owns its own document, which is why the fonts
  * and stylesheet are imported again here.
  *
- * That also means no Clerk provider. Nothing in the site shell needs one, so the
- * page still gets the same navigation, event invitation and footer as a 404
- * raised inside a localized route through `app/[lang]/not-found.tsx`.
+ * The site header renders the account controls, which need Clerk, so the page
+ * mounts its own provider and gets the same navigation, event invitation and
+ * footer as a 404 raised inside a localized route.
  */
 
 /**
@@ -68,6 +70,8 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+const authLocalizations = { en: enUS, es: esES, pt: ptBR, zh: zhCN, ja: jaJP }
+
 export default async function GlobalNotFound() {
   const locale = await resolveLocale()
 
@@ -76,6 +80,7 @@ export default async function GlobalNotFound() {
       <body
         className={`flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
+        <ClerkProvider localization={authLocalizations[locale]}>
         <ThemeProvider>
           <SiteShell locale={locale} footer={<SiteFooter locale={locale} />}
             event={<StationEventTeaser locale={locale} />}>
@@ -84,6 +89,7 @@ export default async function GlobalNotFound() {
             </main>
           </SiteShell>
         </ThemeProvider>
+        </ClerkProvider>
       </body>
     </html>
   )

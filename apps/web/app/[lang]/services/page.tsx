@@ -34,13 +34,13 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   return (
     <main className="station-home svc flex-1">
-      <section className="svc-hero" aria-labelledby="svc-title">
+      <section className="inner-hero" aria-labelledby="svc-title">
         <p className="home-label">{t.label}</p>
-        <div className="svc-hero-grid">
+        <div className="inner-hero-grid">
           <h1 id="svc-title">{t.claim}</h1>
-          <div className="svc-hero-side">
+          <div className="inner-hero-side">
             <p>{t.lede}</p>
-            <div className="svc-actions">
+            <div className="inner-hero-actions">
               <a href={BOOKING_URL} target="_blank" rel="noopener noreferrer" className="hero-cta">{t.book}</a>
               <a href={`mailto:${CONTACT_EMAIL}`} className="hero-cta-ghost">{t.email}</a>
             </div>

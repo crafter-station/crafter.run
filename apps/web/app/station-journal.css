@@ -1,11 +1,9 @@
 /* Crafter Journal: ink, tinted paper and original technical illustrations. */
 .station-shell-journal {
   --journal-frame: var(--station-gutter);
-  --journal-paper: #eeeaf3;
-  --journal-accent: #76618f;
-  background: radial-gradient(ellipse 85% 650px at 52% 10%, #b8a7d329, transparent), radial-gradient(ellipse 65% 720px at 18% 65%, #dbc49e13, transparent);
+  --journal-paper: transparent;
+  --journal-accent: var(--gold);
 }
-.dark .station-shell-journal { --journal-paper: #29272e; --journal-accent: #c3abd7; background: radial-gradient(ellipse 85% 650px at 52% 10%, #ae8bd017, transparent); }
 .station-shell-journal :is(.station-sidebar,.station-social-rail) { mix-blend-mode: normal; color: hsl(var(--foreground) / .8); }
 .journal-page { padding-inline: var(--journal-frame); padding-bottom: 30px; }
 .station-shell-journal :is(.journal-page,.journal-article) :is(a,button,input):focus-visible { outline-color: var(--journal-accent); }
@@ -183,3 +181,6 @@
   .journal-promo-art { width: 112px; height: 112px; }
   .journal-promo h2 { font-size: 22px; }
 }
+
+/* Hairline tiles instead of tinted paper. */
+.journal-invitation, .journal-related-card, .changelog-pager > a:not(.changelog-pager-all) { border-radius: 0; box-shadow: inset 0 0 0 1px var(--home-line); }

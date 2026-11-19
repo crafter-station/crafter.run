@@ -72,7 +72,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             <h1><span className="sr-only">{t.name}. </span>{t.title[0]} {withWordmark(t.title[1])}</h1>
             <p className="home-head-lede">{t.description}</p>
           </div>
-          <div className="home-head-action"><a className="ev-secondary" href={HACK0_CALENDAR_URL} target="_blank" rel="noopener">{t.follow} ↗</a></div>
+          <div className="home-head-action"><a className="hero-cta-ghost" href={HACK0_CALENDAR_URL} target="_blank" rel="noopener">{t.follow} ↗</a></div>
         </div>
         {next && nextDate ? <article className="ev-feature home-frame" aria-label={t.next}>
           <a className="ev-cover" href={next.href} target="_blank" rel="noopener" tabIndex={-1} aria-hidden="true">
@@ -98,7 +98,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
               <div><dt className="home-label-sm">{t.cityLabel}</dt><dd>{nextCity ? `${nextCity.name} · ${nextCity.code}` : t.locationPending}</dd></div>
               <div><dt className="home-label-sm">{t.organizerLabel}</dt><dd>{next.host || "hack0"}</dd></div>
             </dl>
-            <a className="ev-primary" href={next.href} target="_blank" rel="noopener">{t.details} ↗</a>
+            <a className="hero-cta" href={next.href} target="_blank" rel="noopener">{t.details} ↗</a>
           </div>
         </article> : <p className="ev-empty-feature home-frame">{t.noUpcoming}</p>}
       </header>
@@ -109,12 +109,12 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       <section className="ev-foot home-frame" aria-label={t.subscribeLabel}>
         <div className="ev-foot-cell">
           <p className="home-label">{t.subscribeLabel}</p>
-          <ul className="ev-foot-subs">{subscriptionLinks.map(link => <li key={link.label}><a className="ev-secondary" href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>)}</ul>
+          <ul className="ev-foot-subs">{subscriptionLinks.map(link => <li key={link.label}><a className="hero-cta-ghost" href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>)}</ul>
           <p className="ev-foot-more">{gatherings.map(item => <Link key={item.href} href={item.href}>{item.label}</Link>)}<a href={`${HACK0_SITE_URL}/ecosistema/peru`}>{t.ecosystem}</a></p>
         </div>
         <div className="ev-foot-cell">
           <p className="home-label">{t.submitLabel}</p>
-          <a className="ev-primary" href={HACK0_LUMA_URL} target="_blank" rel="noopener noreferrer">{t.propose} ↗</a>
+          <a className="hero-cta" href={HACK0_LUMA_URL} target="_blank" rel="noopener noreferrer">{t.propose} ↗</a>
           <p className="ev-foot-more"><Link href={withLocale("/services", lang)}>{t.collaborate}</Link></p>
         </div>
       </section>

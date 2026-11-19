@@ -47,13 +47,13 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   return (
     <main className="station-home jobs flex-1">
-      <section className="jobs-hero" aria-labelledby="jobs-title">
+      <section className="inner-hero" aria-labelledby="jobs-title">
         <p className="home-label">{t.label}</p>
-        <div className="jobs-hero-grid">
+        <div className="inner-hero-grid">
           <h1 id="jobs-title">{t.claim}</h1>
-          <div className="jobs-hero-side">
+          <div className="inner-hero-side">
             <p>{t.lede}</p>
-            <div className="jobs-actions">
+            <div className="inner-hero-actions">
               <a href="#post-a-role" className="hero-cta">{t.post}</a>
               <LocalizedLink href="/services#open-source" locale={lang} className="hero-cta-ghost">{t.bounty}</LocalizedLink>
             </div>

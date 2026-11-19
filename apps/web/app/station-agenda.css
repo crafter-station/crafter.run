@@ -13,14 +13,6 @@
 .hack0-wordmark { display: inline-flex; align-items: center; font-family: var(--ev-mono); font-weight: 800; letter-spacing: -.04em; line-height: 1; }
 .hack0-wordmark > svg { flex-shrink: 0; margin-left: .04em; }
 
-/* Buttons: the homepage trio. Primary soft yellow (full yellow on light), secondary hairline, tertiary text link. */
-.ev-primary, .ev-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 0; border-radius: 0; font: 500 16px/1.2 var(--font-sans); white-space: nowrap; transition: background-color 160ms ease-out, box-shadow 160ms ease-out; }
-.ev-primary { background: #f8e9a4; color: #20221d; }
-.ev-primary:where(:hover, :focus-visible) { background: #f4d56d; }
-:root:not(.dark) .ev-primary { background: #f4d56d; }
-:root:not(.dark) .ev-primary:where(:hover, :focus-visible) { background: #ecc94b; }
-.ev-secondary { background: hsl(var(--background)); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .28); }
-.ev-secondary:where(:hover, :focus-visible) { background: color-mix(in srgb, hsl(var(--foreground)) 12%, hsl(var(--background))); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .85); }
 
 /* Hero: the halftone hack0 mark is the ground; the next event is the face. */
 .ev-hero { position: relative; isolation: isolate; overflow: hidden; margin-inline: calc(-1 * var(--agenda-frame)); padding: 32px var(--agenda-frame) 72px; }
@@ -132,7 +124,7 @@
 
 }
 @media (prefers-reduced-motion: reduce) {
-  .ev-primary, .ev-secondary, .ev-row-title, .ev-row-arrow, .ev-scopes button { transition: none; }
+  .ev-row-title, .ev-row-arrow, .ev-scopes button { transition: none; }
   .ev-row:hover .ev-row-arrow { transform: none; }
 }
 
@@ -155,7 +147,7 @@
 .ev-foot-cell { display: grid; align-content: start; gap: 16px; padding: 28px; }
 .ev-foot-cell + .ev-foot-cell { border-left: 1px solid var(--ev-line); }
 .ev-foot-subs { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
-.ev-foot-cell .ev-primary { width: fit-content; }
+.ev-foot-cell .hero-cta { width: fit-content; }
 .ev-foot-more { display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 15px; }
 .ev-foot-more a { color: hsl(var(--muted-foreground)); text-decoration: underline; text-decoration-color: hsl(var(--foreground) / .25); text-underline-offset: 4px; transition: color 140ms; }
 .ev-foot-more a:hover { color: hsl(var(--foreground)); }

@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { getTranslations } from "next-intl/server"
 
 import { Container } from "@/components/grid-container"
 import { ProfileLocationLine } from "@/components/profile-location-line"
@@ -91,6 +92,7 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
   if (!member) notFound()
   const t = copy[lang]
   const a = activityCopy[lang]
+  const shipsLabel = (await getTranslations({ locale: lang, namespace: "pages.ships" }))("makerShips", { count: ships.length })
   const details = await listShipsWithUpdates(ships, { revalidate })
   const timeline = buildActivity(ships, details)
   const updateCount = ships.reduce((sum, ship) => sum + (ship.updateCount ?? 0), 0)
@@ -126,7 +128,7 @@ export default async function CrafterPage({ params }: { params: Promise<{ lang: 
             </div>
           </div>
           <p className="mt-6 font-label text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            {a.since} {since} · {ships.length} {t.ships} · {updateCount} {a.updates}
+            {a.since} {since} · {shipsLabel} · {updateCount} {a.updates}
           </p>
           {member.currentRole ? <p className="mt-8 text-xl tracking-tight">{member.currentRole}</p> : null}
           {member.isJobSeeking ? <p className="mt-4 w-fit border border-accent px-3 py-2 font-label text-xs uppercase tracking-[0.18em] text-accent">{t.available}</p> : null}

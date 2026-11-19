@@ -64,7 +64,6 @@ export const bounties: Bounty[] = [
       ] },
       { name: "Ronal Arela", project: "Fact-checker", links: [
         { label: "Post", url: "https://www.linkedin.com/feed/update/urn:li:activity:7512719697662943232/" },
-        { label: "Demo", url: "https://vaesfc-demo.yellowpebble-5c6955f6.eastus.azurecontainerapps.io" },
       ] },
     ],
     invited: [

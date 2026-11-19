@@ -29,7 +29,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   if (!isLocale(lang)) notFound()
   const t = hotReloadCopy[lang]
   const id = hotReloadIdentity[lang]
-  const next = hotReloadEditions.find((edition) => ["upcoming", "live", "unannounced"].includes(hotReloadStatus(edition))) ?? hotReloadEditions.at(-1)
+  const next = hotReloadEditions.find((edition) => ["upcoming", "live", "unannounced"].includes(hotReloadStatus(edition)))
   const number = (edition: { number: number }) => String(edition.number).padStart(2, "0")
 
   return (
@@ -52,7 +52,6 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <div>
           <h2 className="hot-reload-display">{id.headline}</h2>
           <p>{id.about}</p>
-          <p className="hot-reload-caps">{id.formerly}</p>
         </div>
         <HotReloadBrindis label={id.mark} />
       </section>
