@@ -149,7 +149,8 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
 .station-drawer .station-side-event { padding-top: 28px; }
 .station-drawer .station-event-stamp { width: 144px; margin-inline: auto; }
 .station-drawer .station-socials { justify-content: center; margin-top: 30px; }
-.station-section-gap { height: 24px; }
+.station-section-gap { height: 72px; }
+@media (max-width: 767px) { .station-section-gap { height: 56px; } }
 .station-rails { border-inline: 0; }
 .station-section { padding: 64px var(--station-gutter); }
 .station-page-intro { padding: 60px var(--station-gutter) 64px; background: var(--station-halo); }
