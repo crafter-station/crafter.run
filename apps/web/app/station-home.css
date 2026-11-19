@@ -402,10 +402,10 @@
 
 /* Hero cursor: the brand knot as a native cursor, hotspot at its center. Links get the filled, larger knot. Fine pointers only. */
 @media (pointer: fine) {
-  .hero-name { cursor: url("/cursor/knot-light.svg") 14 14, auto; }
-  .hero-name :is(a, button) { cursor: url("/cursor/knot-light-active.svg") 18 18, pointer; }
-  .dark .hero-name { cursor: url("/cursor/knot.svg") 14 14, auto; }
-  .dark .hero-name :is(a, button) { cursor: url("/cursor/knot-active.svg") 18 18, pointer; }
+  .hero-name { cursor: url("/cursor/knot-light.svg") 2 2, auto; }
+  .hero-name :is(a, button) { cursor: url("/cursor/knot-light-active.svg") 2 2, pointer; }
+  .dark .hero-name { cursor: url("/cursor/knot.svg") 2 2, auto; }
+  .dark .hero-name :is(a, button) { cursor: url("/cursor/knot-active.svg") 2 2, pointer; }
 }
 
 /* Dark mode keeps the pastel identities as ink on a tinted ground, never as a bright slab. */
