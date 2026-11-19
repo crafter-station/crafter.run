@@ -228,7 +228,7 @@ export function BrandHero({
     <section className="brand-hero">
       <div className="brand-hero-head">
         <div>
-          <p className="station-label station-inner-eyebrow">{eyebrow}</p>
+          <p className="home-label">{eyebrow}</p>
           <h1>{title}</h1>
         </div>
         <div className="brand-hero-side">

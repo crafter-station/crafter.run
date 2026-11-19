@@ -345,7 +345,7 @@
       "eyebrow": "The community",
       "title": "Meet the Crafters.",
       "description": "The builders, designers, researchers, and curious minds registered with the Crafter community.",
-      "memberCount": "{count, plural, one {registered member} other {registered members}}",
+      "memberCount": "{count, plural, one {# registered member} other {# registered members}}",
       "emptyTitle": "No Crafters have registered yet.",
       "emptyDescription": "Registered community members will appear here once they complete their profile.",
       "unavailableTitle": "The directory is temporarily offline.",
@@ -548,7 +548,7 @@
       "description": "Build, learn, bring your community together. Find a way to collaborate with Crafter."
     },
     "workshopQuestions": {
-      "eyebrow": "/workshops/questions",
+      "eyebrow": "Workshop questions",
       "title": "Your next question.",
       "description": "A realtime workshop queue where attendees submit validated questions, add their name, and vote the most useful topics to the top."
     },

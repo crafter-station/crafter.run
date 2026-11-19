@@ -9,6 +9,8 @@ import type { Locale } from "@/lib/i18n"
 /** DevDay-site hero: date and venue on one line, the title in event colors, lede and pill actions. */
 export function DevdayHero({ event, locale, entry = false, admin = false }: { event: AccessEvent; locale: Locale; entry?: boolean; admin?: boolean }) {
   const t = eventAccessCopy[locale]
+  // Access and the Luma request only make sense until the event is over.
+  const open = Date.now() < new Date(event.endsAt).getTime()
   const weekday = new Intl.DateTimeFormat(locale, { timeZone: event.timeZone, weekday: "long" }).format(new Date(event.startsAt))
   return (
     <section className="dd-hero">
@@ -29,8 +31,8 @@ export function DevdayHero({ event, locale, entry = false, admin = false }: { ev
       </div>
       {entry ? null : (
         <div className="dd-actions">
-          <Link className="dd-pill" href={`/${locale}/events/${event.slug}/access`}>{t.access}</Link>
-          <a className="dd-pill dd-pill-ghost" href={event.lumaUrl} target="_blank" rel="noopener noreferrer">{t.request} ↗</a>
+          {open ? <Link className="dd-pill" href={`/${locale}/events/${event.slug}/access`}>{t.access}</Link> : null}
+          {open ? <a className="dd-pill dd-pill-ghost" href={event.lumaUrl} target="_blank" rel="noopener noreferrer">{t.request} ↗</a> : null}
           {/* Admins see the badge before it opens to everyone. */}
           {findEventBadge(event.slug)?.entry || admin ? <Link className="dd-pill dd-pill-ghost" href={`/${locale}/events/${event.slug}/badge`}>{hotReloadBadgeCopy[locale].badge}</Link> : null}
         </div>

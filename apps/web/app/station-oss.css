@@ -1,19 +1,13 @@
 /* Open Source: a shared workbench, drawn in sage, graphite and printed paper. */
-.station-shell-oss {
+.oss-page {
   --oss-accent: #476747;
   --oss-action: #334c37;
   --oss-action-ink: #f2f4e9;
   --oss-surface: #ecefe5;
   --oss-line: hsl(var(--foreground) / .17);
-  --oss-frame: var(--station-gutter);
-  position: relative;
-  isolation: isolate;
-  background: radial-gradient(ellipse 46% 550px at 52% 210px,#c2ed7661,transparent 90%), radial-gradient(ellipse 32% 460px at 80% 490px,#9adcd542,transparent 90%), radial-gradient(ellipse 34% 570px at 66% 850px,#b9a0e440,transparent 90%);
+  --oss-frame: 0px;
 }
-.dark .station-shell-oss { --oss-accent: #b5d39b; --oss-action: #c6dda9; --oss-action-ink: #203329; --oss-surface: #222b23; background: radial-gradient(ellipse 50% 650px at 52% 200px,#97c9532d,transparent 90%),radial-gradient(ellipse 34% 520px at 82% 570px,#7db5b51c,transparent 90%),radial-gradient(ellipse 40% 550px at 60% 900px,#a086c223,transparent 90%); }
-.station-shell-oss::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: url("/station/paper-grain.svg") repeat; opacity: .035; }
-.station-shell-oss :is(.station-sidebar, .station-social-rail) { color: hsl(var(--foreground) / .8); mix-blend-mode: normal; }
-.station-shell-oss .station-nav > a[aria-current="page"] { color: var(--oss-accent); }
+.dark .oss-page { --oss-accent: #b5d39b; --oss-action: #c6dda9; --oss-action-ink: #203329; --oss-surface: #222b23; }
 .oss-page > section { padding-inline: var(--oss-frame); }
 .oss-page h2 { font-size: 29px; letter-spacing: -.03em; line-height: 1.18; text-wrap: pretty; }
 .oss-page .station-label { font-size: 14px; letter-spacing: .04em; color: hsl(var(--muted-foreground)); }
@@ -26,12 +20,6 @@
 .oss-soft-link { padding: 10px 16px; border-radius: 6px; background: hsl(var(--foreground) / .055); transition: background-color 180ms; }
 .oss-soft-link:hover { background: hsl(var(--foreground) / .1); text-decoration: none; }
 
-@media (min-width: 1024px) {
-  .station-shell-oss { --oss-frame: max(200px, 16vw, calc((100vw - 1120px) / 2)); }
-  .station-shell-oss .station-content { margin-inline: 0; }
-  .station-shell-oss .station-footer { padding-inline: var(--oss-frame); }
-  .station-shell-oss .station-footer-inner { padding-inline: 0; }
-}
 
 .oss-hero { padding-block: 54px 24px; }
 .oss-hero-topline { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
@@ -153,7 +141,6 @@ html:is([lang="zh"],[lang="ja"]) .oss-display-title { font-size: clamp(38px,4vw,
   .oss-idea-note { padding: 24px; }
 }
 @media (max-width: 760px) {
-  .station-shell-oss { --oss-frame: 24px; }
   .oss-page h2 { font-size: 26px; }
   .oss-hero { padding-top: 28px; }
   .oss-hero-topline { gap: 16px; }

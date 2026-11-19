@@ -1,0 +1,53 @@
+/* Site-wide system, shared by the homepage and every inner page. Imported first so page CSS can still override. */
+.station-shell { --gold: hsl(var(--accent)); --home-line: hsl(var(--foreground) / .12); --home-hover: hsl(var(--foreground) / .035); }
+
+/* One button system site-wide. Primary: soft yellow, the People plate color. Secondary: hairline on an opaque ground so it reads over the hero field. Tertiary stays a text link. Square corners everywhere. */
+.station-shell :is(.hero-cta, .hero-cta-ghost, .home-hire-primary, .home-hire-secondary, .home-action-link, .station-button) { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 0; border-radius: 0; font: 500 16px/1.2 var(--font-sans); white-space: nowrap; transform: none; transition: background-color 160ms ease-out, box-shadow 160ms ease-out; }
+.station-shell :is(.hero-cta, .home-hire-primary, .station-button) { background: #f8e9a4; color: #20221d; box-shadow: none; opacity: 1; }
+.station-shell :is(.hero-cta, .home-hire-primary, .station-button):where(:hover, :focus-visible) { background: #f4d56d; transform: none; opacity: 1; }
+.station-shell :is(.hero-cta-ghost, .home-hire-secondary, .home-action-link) { background: hsl(var(--background)); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .28); }
+/* Secondary hover: same text, an opaque lifted ground and a full-contrast hairline, so it reads over the hero field. */
+.station-shell :is(.hero-cta-ghost, .home-hire-secondary, .home-action-link):where(:hover, :focus-visible) { background: color-mix(in srgb, hsl(var(--foreground)) 12%, hsl(var(--background))); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .85); }
+/* On the light ground the soft yellow washes out; light mode uses the full brand yellow for the primary fill. */
+:root:not(.dark) .station-shell :is(.hero-cta, .home-hire-primary, .station-button) { background: #f4d56d; }
+:root:not(.dark) .station-shell :is(.hero-cta, .home-hire-primary, .station-button):where(:hover, :focus-visible) { background: #ecc94b; }
+
+/* Labels: one size, one tracking, uppercase. */
+.station-label { font: 500 13px/1.4 var(--font-label); letter-spacing: .08em; text-transform: uppercase; }
+:where(.station-shell) .station-label { color: hsl(var(--muted-foreground)); }
+:where(.station-shell) :is(.home-label, .home-label-sm) { color: hsl(var(--muted-foreground)); }
+
+/* Legacy button names map onto the same system. */
+.station-shell .station-button-yellow { background: #f8e9a4; border-color: transparent; }
+.station-shell .station-button:disabled { opacity: .6; cursor: default; }
+
+/* A text link inside an anchor underlines when the anchor is hovered. */
+a:where(:hover, :focus-visible) .home-secondary-link { text-decoration-color: currentColor; }
+
+/* Inner hero: one claim on the left, the lede and actions on the right. Rendered by StationPageHero and by the services and jobs pages. */
+.inner-hero { display: grid; gap: 28px; }
+.station-home > section.inner-hero:not(.hero-name):not(.home-marquee) { padding-top: 72px; padding-bottom: 40px; }
+.station-container-inner.inner-hero { padding-block: 72px 40px; }
+.inner-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+.inner-hero h1 { max-width: 20ch; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(48px, 6.4vw, 96px); line-height: .96; letter-spacing: -.045em; text-wrap: balance; -webkit-text-stroke: .012em currentColor; paint-order: stroke fill; }
+.inner-hero-side { display: grid; grid-template-columns: minmax(0, 620px) auto; justify-content: space-between; align-items: end; gap: 24px 48px; }
+.inner-hero-side > :not(p) { justify-self: end; }
+.inner-hero-side p { font-size: 19px; line-height: 1.55; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
+.inner-hero-side .station-page-art { max-width: 260px; }
+.inner-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.inner-hero-extra > :first-child { margin-top: 0; }
+@media (max-width: 800px) {
+  .station-home > section.inner-hero:not(.hero-name):not(.home-marquee) { padding-top: 40px; padding-bottom: 24px; }
+  .station-container-inner.inner-hero { padding-block: 40px 24px; }
+  .inner-hero-side { grid-template-columns: minmax(0, 1fr); }
+  .inner-hero-side > :not(p) { justify-self: start; }
+  .inner-hero h1 { font-size: clamp(44px, 12.4vw, 64px); }
+  .inner-hero-side p { font-size: 17px; }
+  .inner-hero-actions { flex-direction: column; width: 100%; }
+}
+
+/* Registration marks on joined tile grids that are not marked up with .home-frame. */
+.station-card-grid, .station-stat-strip { position: relative; }
+.station-card-grid::before, .station-card-grid::after { content: ""; position: absolute; z-index: 2; width: 12px; height: 12px; border: 0 solid var(--gold); pointer-events: none; }
+.station-card-grid::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
+.station-card-grid::after { right: -1px; bottom: -1px; border-width: 0 1.5px 1.5px 0; }

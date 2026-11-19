@@ -1,15 +1,9 @@
 /* An illustrated field guide to the four existing Crafter areas. */
-.station-shell-universe {
-  --universe-frame: var(--station-gutter);
+.universe-page {
+  --universe-frame: 0px;
   --universe-accent: #725d3d;
-  position: relative;
-  isolation: isolate;
-  background: radial-gradient(ellipse 75% 660px at 65% 220px, #d2bc8523, transparent 90%), radial-gradient(ellipse 80% 900px at 40% 65%, #bbc7b513, transparent);
 }
-.dark .station-shell-universe { --universe-accent: #d2b77d; background: radial-gradient(ellipse 80% 700px at 65% 220px, #d2bc8510, transparent 90%); }
-.station-shell-universe::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url("/station/paper-grain.svg") repeat; opacity: .035; pointer-events: none; }
-.station-shell-universe :is(.station-sidebar,.station-social-rail) { color: hsl(var(--foreground) / .8); mix-blend-mode: normal; }
-.station-shell-universe .station-nav > a[aria-current="page"] { color: var(--universe-accent); }
+.dark .universe-page { --universe-accent: #d2b77d; }
 .universe-page { padding-inline: var(--universe-frame); }
 .universe-page .station-label { font-size: 14px; color: hsl(var(--muted-foreground)); letter-spacing: .04em; }
 .universe-page :is(a,button):focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
@@ -78,12 +72,6 @@
 .universe-starting-action { margin-top: auto; font-size: 16px; font-weight: 500; line-height: 1.6; }
 .universe-starting-card:hover .universe-starting-action { text-decoration: underline; text-underline-offset: 5px; }
 
-@media (min-width: 1024px) {
-  .station-shell-universe { --universe-frame: max(200px,16vw,calc((100vw - 1120px) / 2)); }
-  .station-shell-universe .station-content { margin-inline: 0; }
-  .station-shell-universe .station-footer { padding-inline: var(--universe-frame); }
-  .station-shell-universe .station-footer-inner { padding-inline: 0; }
-}
 @media (min-width: 1024px) and (max-width: 1199px) {
   .universe-hero-layout { gap: 16px; }
   .universe-intro h1 { font-size: 52px; }
