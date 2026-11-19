@@ -3,7 +3,7 @@
   position: relative;
   isolation: isolate;
 }
-.station-shell-home, .station-shell-pages {
+.station-shell-home, .station-shell-pages, .station-shell-journal {
   position: relative;
   isolation: isolate;
   --home-wash:
@@ -11,16 +11,16 @@
     radial-gradient(ellipse 95% 16% at 80% 54%, #7390630b, transparent 80%),
     radial-gradient(ellipse 85% 13% at 50% 94%, #c9ad551a, transparent 85%);
 }
-.dark :is(.station-shell-home, .station-shell-pages) {
+.dark :is(.station-shell-home, .station-shell-pages, .station-shell-journal) {
   --home-wash:
     radial-gradient(ellipse 85% 15% at 50% 2%, #c9ad5510, transparent 75%),
     radial-gradient(ellipse 95% 16% at 80% 54%, #73906309, transparent 80%),
     radial-gradient(ellipse 85% 13% at 50% 94%, #c9ad5510, transparent 85%);
 }
 /* Fade the color layer independently so its top edge cannot become a band. */
-.station-shell-home::after, .station-shell-pages::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: var(--home-wash); mask-image: linear-gradient(to bottom, transparent, #000 160px); }
-.station-shell-home::before, .station-shell-pages::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: url("/station/paper-grain.svg") repeat; opacity: .045; }
-.dark :is(.station-shell-home, .station-shell-pages)::before { opacity: .035; }
+.station-shell-home::after, .station-shell-pages::after, .station-shell-journal::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: var(--home-wash); mask-image: linear-gradient(to bottom, transparent, #000 160px); }
+.station-shell-home::before, .station-shell-pages::before, .station-shell-journal::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: url("/station/paper-grain.svg") repeat; opacity: .045; }
+.dark :is(.station-shell-home, .station-shell-pages, .station-shell-journal)::before { opacity: .035; }
 .station-shell-home :is(.station-sidebar, .station-social-rail) { mix-blend-mode: normal; color: hsl(var(--foreground) / .8); }
 .station-shell-home .station-nav > a[aria-current="page"] { color: hsl(var(--foreground)); }
 .station-home > :is(section, nav) { min-width: 0; padding-inline: var(--station-gutter); }

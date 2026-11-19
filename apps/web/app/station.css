@@ -114,13 +114,13 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
     radial-gradient(circle at 100% calc(100% - var(--ticket-stub)),transparent 5px,var(--ticket-edge) 5.2px,var(--ticket-edge) 6px,transparent 6.2px);
   background-color: color-mix(in srgb,currentColor 4%,transparent);
   background-origin: border-box;
-  text-align: left; transform: rotate(-4deg); transform-origin: 50% 70%;
+  text-align: left; transform: none;
   transition: transform 200ms, background-color 200ms;
   mask-image: radial-gradient(circle at 0 calc(100% - var(--ticket-stub)),transparent 5px,#000 5.1px),radial-gradient(circle at 100% calc(100% - var(--ticket-stub)),transparent 5px,#000 5.1px);
   mask-composite: intersect;
 }
 .station-event-stamp[data-pending] { --ticket-stub: 58px; }
-.station-event-stamp:where(:hover,:focus-visible) { transform: rotate(0); background-color: color-mix(in srgb,currentColor 7%,transparent); }
+.station-event-stamp:where(:hover,:focus-visible) { background-color: color-mix(in srgb,currentColor 7%,transparent); }
 .station-event-kicker { display: flex; align-items: center; justify-content: space-between; padding-bottom: 7px; font: 500 16px/1 var(--font-label); letter-spacing: -.04em; }
 .station-event-spark { width: 17px; height: 17px; flex-shrink: 0; transform: rotate(12deg); }
 .station-event-soon { display: flex; align-items: center; min-height: 111px; padding-block: 12px; font: 500 27px/1.1 var(--font-display); letter-spacing: -.035em; white-space: pre-line; }
@@ -136,7 +136,7 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
 .station-event-stamp:where(:hover,:focus-visible) .station-event-link svg { transform: translate(1px,-1px); }
 .station-socials { display: flex; align-items: center; gap: 12px; }
 .station-socials a { display: grid; place-items: center; width: 44px; height: 44px; color: inherit; transition: opacity 160ms, transform 160ms; }
-.station-socials a:hover { opacity: .65; transform: translateY(-2px); }
+.station-socials a:hover { opacity: .65; }
 .station-socials svg, .station-social-mark { display: block; width: 21px; height: 21px; }
 .station-socials a[aria-label="Instagram"] .station-social-mark { width: 27px; height: 27px; }
 .station-socials a[aria-label="YouTube"] .station-social-mark { width: 25px; height: 25px; }
@@ -373,7 +373,7 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
 .station-preferences .station-control { width: auto; margin-left: 0; padding-inline: 0; }
 .station-preferences .station-control-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 /* A lighter event ticket. */
-.station-event-stamp { width: min(100%, 112px); padding: 8px 8px 0; --ticket-stub: 32px; transform: rotate(-2deg); }
+.station-event-stamp { width: min(100%, 112px); padding: 8px 8px 0; --ticket-stub: 32px; transform: none; }
 .station-event-stamp[data-pending] { --ticket-stub: 50px; }
 .station-event-kicker { font-size: 13px; padding-bottom: 5px; }
 .station-event-day { font-size: 46px; }
