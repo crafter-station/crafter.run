@@ -67,26 +67,24 @@ export async function listAllShips(options: FetchCaching = {}): Promise<ShipsPag
   return { ships, pagination: first.pagination }
 }
 
-export async function listPublishedShips(options: { handle?: string } = {}): Promise<ShipSummary[] | null> {
-  return (await listShipsPage({ handle: options.handle }))?.ships ?? null
+export async function listPublishedShips(options: { handle?: string } & FetchCaching = {}): Promise<ShipSummary[] | null> {
+  return (await listShipsPage({ handle: options.handle, revalidate: options.revalidate }))?.ships ?? null
 }
 
 /** Full details (with updates) for the ships that have any; ships without updates are fetched as-is from the summaries. */
-export async function listShipsWithUpdates(ships: ShipSummary[]): Promise<ShipDetail[]> {
+export async function listShipsWithUpdates(ships: ShipSummary[], options: FetchCaching = {}): Promise<ShipDetail[]> {
   const details = await Promise.all(
-    ships.filter((ship) => (ship.updateCount ?? 0) > 0).map((ship) => getPublishedShip(ship.slug)),
+    ships.filter((ship) => (ship.updateCount ?? 0) > 0).map((ship) => getPublishedShip(ship.slug, options)),
   )
   return details.filter((ship): ship is ShipDetail => ship !== null)
 }
 
-export async function listCrafters(): Promise<MemberProfile[] | null> {
+export async function listCrafters(options: FetchCaching = {}): Promise<MemberProfile[] | null> {
   try {
     const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "development" ? "http://localhost:3001" : null)
     if (!apiUrl) throw new Error("API_URL is required outside development.")
 
-    const response = await fetch(new URL("/v1/members", apiUrl), {
-      cache: "no-store",
-    })
+    const response = await fetch(new URL("/v1/members", apiUrl), cacheOption(options.revalidate))
     if (!response.ok) return null
 
     const parsed = listMembersResponseSchema.safeParse(await response.json())
@@ -97,12 +95,12 @@ export async function listCrafters(): Promise<MemberProfile[] | null> {
   }
 }
 
-export async function getPublishedShip(slug: string, options: { signal?: AbortSignal } = {}): Promise<ShipDetail | null> {
+export async function getPublishedShip(slug: string, options: { signal?: AbortSignal } & FetchCaching = {}): Promise<ShipDetail | null> {
   const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "development" ? "http://localhost:3001" : null)
   if (!apiUrl) return null
   try {
     const response = await fetch(new URL(`/v1/ships/${encodeURIComponent(slug)}`, apiUrl), {
-      cache: "no-store",
+      ...cacheOption(options.revalidate),
       signal: options.signal,
     })
     if (!response.ok) return null
@@ -113,12 +111,12 @@ export async function getPublishedShip(slug: string, options: { signal?: AbortSi
   }
 }
 
-export async function getCrafterProfile(handle: string, options: { signal?: AbortSignal } = {}): Promise<MemberProfile | null> {
+export async function getCrafterProfile(handle: string, options: { signal?: AbortSignal } & FetchCaching = {}): Promise<MemberProfile | null> {
   const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "development" ? "http://localhost:3001" : null)
   if (!apiUrl) return null
   try {
     const response = await fetch(new URL(`/v1/members/${encodeURIComponent(handle)}`, apiUrl), {
-      cache: "no-store",
+      ...cacheOption(options.revalidate),
       signal: options.signal,
     })
     if (!response.ok) return null
@@ -129,13 +127,11 @@ export async function getCrafterProfile(handle: string, options: { signal?: Abor
   }
 }
 
-export async function listCrafterShips(handle: string): Promise<ShipSummary[]> {
+export async function listCrafterShips(handle: string, options: FetchCaching = {}): Promise<ShipSummary[]> {
   const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "development" ? "http://localhost:3001" : null)
   if (!apiUrl) return []
   try {
-    const response = await fetch(new URL(`/v1/members/${encodeURIComponent(handle)}/ships`, apiUrl), {
-      cache: "no-store",
-    })
+    const response = await fetch(new URL(`/v1/members/${encodeURIComponent(handle)}/ships`, apiUrl), cacheOption(options.revalidate))
     if (!response.ok) return []
     const parsed = listShipsResponseSchema.safeParse(await response.json())
     return parsed.success ? parsed.data.ships : []

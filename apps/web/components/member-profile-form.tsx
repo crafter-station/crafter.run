@@ -5,6 +5,7 @@ import type { PrivateMemberProfile } from "@crafter/contracts"
 import { Briefcase, Equal, Link2, Lock, MapPin, Sparkles, User } from "lucide-react"
 import { type FormEvent, type ReactNode, useState } from "react"
 
+import { revalidateCrafterPagesAction } from "@/app/[lang]/ships/[slug]/actions"
 import { AgentFill } from "@/components/onboarding/agent-fill"
 import { Field, RolesField, SwitchCard, TextAreaField, TextField } from "@/components/onboarding/fields"
 import { HandleField } from "@/components/onboarding/handle-field"
@@ -73,6 +74,7 @@ export function MemberProfileForm({ locale, member }: { locale: Locale; member: 
           resumeUrl: resumeUrl.trim() || null,
         }),
       })
+      await revalidateCrafterPagesAction([member.handle, draft.handle])
       setSaved(true)
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : copy.nav.saveFailed)

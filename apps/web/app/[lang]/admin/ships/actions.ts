@@ -13,6 +13,7 @@ async function run(action: () => Promise<unknown>) {
     revalidatePath(`/${locale}/admin/ships`)
     revalidatePath(`/${locale}/ships`)
     revalidatePath(`/${locale}/ships/[slug]`, "page")
+    revalidatePath(`/${locale}/crafters/[handle]`, "page")
     revalidatePath(`/${locale}`)
   }
 }
