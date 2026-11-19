@@ -402,3 +402,8 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
 .station-theme-segments button + button { box-shadow: inset 1px 0 0 hsl(var(--foreground) / .14); }
 .station-theme-segments button:hover { opacity: 1; background: hsl(var(--foreground) / .06); }
 .station-theme-segments button[data-checked] { opacity: 1; background: hsl(var(--foreground) / .12); }
+/* The preferences column is exactly three theme squares wide; sign-in and language match it. */
+.station-sidebar .station-preferences, .station-drawer .station-preferences { width: max-content; max-width: none; grid-template-columns: max-content; }
+.station-theme-segments { grid-template-columns: repeat(3, 36px); }
+.station-theme-segments button { width: 36px; height: 36px; min-height: 0; }
+.station-sidebar .station-preferences .station-control, .station-drawer .station-preferences .station-control { min-height: 36px; }
