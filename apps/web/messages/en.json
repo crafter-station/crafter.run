@@ -248,6 +248,10 @@
       "noEvents": "[*] No events found. Check back soon.",
       "noFilteredEvents": "No events match this filter."
     },
+    "jobs": {
+      "title": "Jobs",
+      "description": "Hire LATAM builders who already ship. Post a role, or browse builders open to work and their Ships."
+    },
     "services": {
       "title": "Services",
       "description": "Hackathons, launches, workshops and open source for companies that want to reach LATAM builders. Book a free 30-min call."

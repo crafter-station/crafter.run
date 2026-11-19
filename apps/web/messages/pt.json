@@ -248,6 +248,10 @@
       "noEvents": "[*] Nenhum evento encontrado. Volte em breve.",
       "noFilteredEvents": "Nenhum evento corresponde a este filtro."
     },
+    "jobs": {
+      "title": "Vagas",
+      "description": "Contrate builders da LATAM que já entregam. Publique uma vaga ou veja os builders abertos a trabalhar e seus Ships."
+    },
     "services": {
       "title": "Serviços",
       "description": "Hackathons, lançamentos, workshops e código aberto para empresas que querem alcançar os builders da LATAM. Agende uma conversa grátis de 30 min."
