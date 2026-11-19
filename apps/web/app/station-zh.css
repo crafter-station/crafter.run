@@ -1,0 +1,90 @@
+/* ======================================================================
+   Simplified Chinese (zh) taste. Every rule is scoped to html[lang="zh"].
+   CJK needs a larger measure of air than Latin: system CJK faces first
+   (PingFang SC / HarmonyOS Sans / MiSans / Microsoft YaHei, Noto Sans SC as
+   the fallback), line-height 1.7-1.8, no negative tracking, labels that are
+   not uppercase-tracked, section titles of about four characters with a
+   one-line subtitle, and a single vermilion seal as the local accent.
+   ====================================================================== */
+html[lang="zh"]:root {
+  --zh-cjk: "PingFang SC", "HarmonyOS Sans SC", "MiSans", "Hiragino Sans GB", "Microsoft YaHei", var(--font-noto-sc), system-ui, sans-serif;
+  --zh-sans: var(--font-crafter-text), var(--zh-cjk);
+  --zh-display: var(--font-crafter), var(--zh-cjk);
+  --zh-seal: #cf3a2a;
+  --zh-seal-ink: #fbefe4;
+  --zh-seal-face: "Songti SC", "STZhongsong", "Source Han Serif SC", "Noto Serif SC", "SimSun", serif;
+  --font-sans: var(--zh-sans);
+  --font-display: var(--zh-display);
+  --font-heading: var(--zh-display);
+  text-autospace: normal;
+  text-spacing-trim: normal;
+  line-break: strict;
+  font-synthesis: none;
+}
+html[lang="zh"] body { line-height: 1.75; }
+html[lang="zh"] .station-home p,
+html[lang="zh"] .station-footer-signature p { line-height: 1.75; letter-spacing: .02em; text-wrap: pretty; }
+
+/* Rhythm: a touch denser than the Latin pages, CJK carries more per line. */
+html[lang="zh"] .station-home > section:not(.hero-name):not(.home-marquee) { padding-block: 64px; }
+html[lang="zh"] .home-head { margin-bottom: 32px; }
+html[lang="zh"] .home-head-copy { gap: 14px; max-width: 780px; }
+
+/* Section header: numeral, hairline, label; a short title; a one-line subtitle. */
+html[lang="zh"] .home-label { display: flex; align-items: center; gap: 12px; font: 500 14px/1.4 var(--zh-sans); letter-spacing: .2em; text-transform: none; }
+html[lang="zh"] .home-label-n { font-family: var(--font-crafter), sans-serif; font-weight: 500; letter-spacing: .04em; font-variant-numeric: tabular-nums; color: hsl(var(--foreground)); }
+html[lang="zh"] .home-label-sep { display: block; width: 28px; height: 1px; background: currentColor; opacity: .55; font-size: 0; }
+html[lang="zh"] .home-label-sm { font: 500 13px/1.5 var(--zh-sans); letter-spacing: .06em; }
+html[lang="zh"] .station-home h2 { font-family: var(--zh-display); font-weight: 600; font-size: clamp(30px, 3.4vw, 44px); line-height: 1.25; letter-spacing: .01em; text-wrap: balance; }
+html[lang="zh"] .station-home h3 { font-weight: 600; letter-spacing: 0; }
+html[lang="zh"] .home-head-lede { max-width: 44em; font-size: 17px; line-height: 1.8; letter-spacing: .02em; text-wrap: balance; }
+
+/* Hero: heavier CJK weight, no stroke faking, comfortable leading. */
+html[lang="zh"] .hero-name h1 { max-width: 12em; font-family: var(--zh-display); font-weight: 600; font-size: clamp(46px, 6.6vw, 100px); line-height: 1.14; letter-spacing: 0; -webkit-text-stroke: 0; }
+html[lang="zh"] .hero-claim > p { max-width: 22em; font-size: 20px; line-height: 1.7; letter-spacing: .06em; }
+html[lang="zh"] .hero-eyebrow { align-items: center; font: 500 14px/1.4 var(--zh-sans); letter-spacing: .12em; text-transform: none; }
+html[lang="zh"] .hero-eyebrow-name { text-transform: uppercase; letter-spacing: .08em; }
+html[lang="zh"] .hero-cell-label { font: 500 13px/1.4 var(--zh-sans); letter-spacing: .12em; text-transform: none; }
+html[lang="zh"] .hero-cell strong { letter-spacing: 0; }
+html[lang="zh"] .hero-cell-meta { font-size: 14px; line-height: 1.7; letter-spacing: .02em; }
+
+/* Buttons and links: CJK labels breathe a little. */
+html[lang="zh"] :is(.hero-cta, .hero-cta-ghost, .home-action-link, .home-secondary-link, .home-hire-primary, .home-hire-secondary) { letter-spacing: .06em; }
+html[lang="zh"] .home-tabs button { font: 500 14px var(--zh-sans); letter-spacing: .08em; text-transform: none; }
+html[lang="zh"] .station-sidebar .station-nav-name { text-transform: none; letter-spacing: .04em; }
+
+/* Reading blocks. */
+html[lang="zh"] .home-faq-item summary { line-height: 1.6; }
+html[lang="zh"] .home-faq-answer { line-height: 1.85; }
+html[lang="zh"] .home-oss-total .home-label { letter-spacing: .12em; }
+
+/* The seal: a vermilion 匠 stamp, once on the masthead and once as the page signature. */
+html[lang="zh"] .hero-eyebrow::after,
+html[lang="zh"] .station-footer-signature p::after {
+  content: "匠";
+  content: "匠" / "";
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  background: var(--zh-seal);
+  color: var(--zh-seal-ink);
+  font: 900 24px/1 var(--zh-seal-face);
+  letter-spacing: 0;
+  text-transform: none;
+  transform: rotate(-4deg);
+  box-shadow: inset 0 0 0 2px var(--zh-seal), inset 0 0 0 3px rgb(251 239 228 / .65);
+  user-select: none;
+}
+html[lang="zh"] .station-footer-signature p::after { display: inline-grid; vertical-align: middle; width: 24px; height: 24px; margin-left: 12px; font-size: 15px; box-shadow: inset 0 0 0 1.5px var(--zh-seal), inset 0 0 0 2.5px rgb(251 239 228 / .65); }
+
+@media (max-width: 800px) {
+  html[lang="zh"] .station-home > section:not(.hero-name):not(.home-marquee) { padding-block: 48px; }
+}
+@media (max-width: 760px) {
+  html[lang="zh"] .station-home h2 { font-size: 28px; }
+  html[lang="zh"] .home-head-lede { font-size: 16px; }
+  html[lang="zh"] .hero-name h1 { font-size: clamp(40px, 11vw, 56px); }
+  html[lang="zh"] .hero-eyebrow::after { width: 30px; height: 30px; font-size: 18px; }
+}
