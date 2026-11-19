@@ -77,7 +77,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         {next && nextDate ? <article className="ev-feature home-frame" aria-label={t.next}>
           <a className="ev-cover" href={next.href} target="_blank" rel="noopener" tabIndex={-1} aria-hidden="true">
             {nextImage
-              ? <img src={nextImage} alt="" width={1200} height={630} fetchPriority="high" decoding="async" />
+              ? <>
+                  <img className="ev-cover-blur" src={nextImage} alt="" width={1200} height={630} decoding="async" />
+                  <img className="ev-cover-img" src={nextImage} alt="" width={1200} height={630} fetchPriority="high" decoding="async" />
+                </>
               : <div className="ev-cover-type">
                 <Hack0Mark size={28} />
                 <strong>{nextDate.day}</strong>
@@ -102,28 +105,19 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
       <AgendaCalendar events={calendar.events} initialNow={now} available={calendar.status === "available"} locale={lang} t={t} />
 
-      <footer className="ev-foot">
-        <div>
-          <h2>{t.subscribeLabel}</h2>
-          <ul>{subscriptionLinks.map(link => <li key={link.label}><a href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>)}</ul>
+      {/* Calendar subscriptions and hosting, as one framed panel; site-wide links live in the global footer. */}
+      <section className="ev-foot home-frame" aria-label={t.subscribeLabel}>
+        <div className="ev-foot-cell">
+          <p className="home-label">{t.subscribeLabel}</p>
+          <ul className="ev-foot-subs">{subscriptionLinks.map(link => <li key={link.label}><a className="ev-secondary" href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a></li>)}</ul>
+          <p className="ev-foot-more">{gatherings.map(item => <Link key={item.href} href={item.href}>{item.label}</Link>)}<a href={`${HACK0_SITE_URL}/ecosistema/peru`}>{t.ecosystem}</a></p>
         </div>
-        <div>
-          <h2>{t.crafterLabel}</h2>
-          <ul>{gatherings.map(item => <li key={item.href}><Link href={item.href}>{item.label}</Link></li>)}</ul>
+        <div className="ev-foot-cell">
+          <p className="home-label">{t.submitLabel}</p>
+          <a className="ev-primary" href={HACK0_LUMA_URL} target="_blank" rel="noopener noreferrer">{t.propose} ↗</a>
+          <p className="ev-foot-more"><Link href={withLocale("/services", lang)}>{t.collaborate}</Link></p>
         </div>
-        <div>
-          <h2>{t.ecosystemLabel}</h2>
-          <ul><li><a href={`${HACK0_SITE_URL}/ecosistema/peru`}>{t.ecosystem}</a></li></ul>
-        </div>
-        <div>
-          <h2>{t.submitLabel}</h2>
-          <ul>
-            <li><a href={HACK0_LUMA_URL} target="_blank" rel="noopener noreferrer">{t.propose}</a></li>
-            <li><Link href={withLocale("/services", lang)}>{t.collaborate}</Link></li>
-            <li><Link href={withLocale("/services#proof", lang)}>{participation.history}</Link></li>
-          </ul>
-        </div>
-      </footer>
+      </section>
     </main>
   </>
 }
