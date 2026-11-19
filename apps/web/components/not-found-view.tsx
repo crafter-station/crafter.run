@@ -23,19 +23,19 @@ export async function NotFoundView({ locale }: { locale: Locale }) {
   return (
     <StationPageHero eyebrow={t("eyebrow")} title={t("title")} description={t("description")} art="lost">
       <div className="station-not-found-actions">
-        <Link href={withLocale("/", locale)} className="station-masthead-cta station-masthead-cta-primary">
+        <Link href={withLocale("/", locale)} className="hero-cta">
           {t("homeCta")}
         </Link>
-        <Link href={withLocale("/oss", locale)} className="station-masthead-cta">
+        <Link href={withLocale("/oss", locale)} className="hero-cta-ghost">
           {t("ossCta")}
         </Link>
       </div>
       <nav className="station-not-found-links" aria-label={t("suggestionsLabel")}>
-        <p className="station-label">{t("suggestionsLabel")}</p>
+        <p className="home-label">{t("suggestionsLabel")}</p>
         <ul>
           {SUGGESTIONS.map((suggestion) => (
             <li key={suggestion.key}>
-              <Link href={withLocale(suggestion.href, locale)} className="station-quiet-link">
+              <Link href={withLocale(suggestion.href, locale)} className="home-secondary-link">
                 {t(`links.${suggestion.key}`)}
               </Link>
             </li>

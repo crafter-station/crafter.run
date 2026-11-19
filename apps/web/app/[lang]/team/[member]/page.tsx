@@ -3,7 +3,6 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import type { ReactNode } from "react"
-import { ArrowLink } from "@/components/arrow-link"
 import { BuildingCalendar } from "@/components/building-calendar"
 import { CalEmbed } from "@/components/cal-embed"
 import { CurrentlyListening } from "@/components/currently-listening"
@@ -174,9 +173,6 @@ export default async function Page({
   const building = await getBuildingActivity(teamMember.github)
   const impact = teamMember.username === "railly" ? raillyImpact[lang] : null
 
-  const heading =
-    "font-label text-xs uppercase tracking-[0.3em] text-muted-foreground"
-
   const projectLinks = teamMember.projects?.length
     ? teamMember.projects.map((project) =>
         typeof project === "string"
@@ -262,35 +258,33 @@ export default async function Page({
       />
 
       <main className="flex-1">
-        <Container innerClassName="station-page-intro px-6 py-12 md:px-10 md:py-16">
-          <Link href={withLocale("/team", lang)} className="group mb-10 inline-block">
-            <ArrowLink>{t("back")}</ArrowLink>
-          </Link>
+        <Container innerClassName="station-page-intro py-12 md:py-16">
+          <Link href={withLocale("/team", lang)} className="home-secondary-link mb-10">{t("back")}</Link>
           <div className="station-profile-layout">
             {/* Sticky identity sidebar */}
-            <aside className="station-profile-identity space-y-8 lg:sticky lg:top-8 lg:self-start">
+            <aside className="station-profile-identity home-frame space-y-8 lg:sticky lg:top-8 lg:self-start">
               <div className="station-profile-portrait relative overflow-hidden bg-secondary">
                 <Image src={teamMember.image} alt={teamMember.name} fill className="object-cover" />
               </div>
               <div>
-                <h1 className="text-3xl font-semibold tracking-[-0.04em]">{teamMember.name}</h1>
+                <h1>{teamMember.name}</h1>
                 <p className="mt-1 text-muted-foreground">{teamMember.role}</p>
-                <div className="mt-4 space-y-1.5 font-label text-xs text-muted-foreground">
-                  {teamMember.location ? <p>📍 {teamMember.location}</p> : null}
-                  {teamMember.timezone ? <p>🕒 <LocalTime timezone={teamMember.timezone} /></p> : null}
-                  {teamMember.joinedYear ? <p>◇ {t("joined")} {teamMember.joinedYear}</p> : null}
+                <div className="mt-4 space-y-1.5">
+                  {teamMember.location ? <p className="home-label-sm">{teamMember.location}</p> : null}
+                  {teamMember.timezone ? <p className="home-label-sm"><LocalTime timezone={teamMember.timezone} /></p> : null}
+                  {teamMember.joinedYear ? <p className="home-label-sm">{t("joined")} {teamMember.joinedYear}</p> : null}
                 </div>
               </div>
               {links.length || teamMember.wechat ? (
                 <div className="station-profile-links">
                   {links.map((link) => (
-                    <Link key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between py-2.5 font-label text-xs text-muted-foreground transition-colors hover:text-foreground">
+                    <Link key={link.label} href={link.href} target="_blank" rel="noopener noreferrer" className="station-profile-link home-label-sm">
                       {link.label}
                       <span aria-hidden>↗</span>
                     </Link>
                   ))}
                   {teamMember.wechat ? (
-                    <p className="flex items-center justify-between gap-4 py-2.5 font-label text-xs text-muted-foreground">
+                    <p className="station-profile-link home-label-sm">
                       <span>WeChat</span>
                       <span className="select-all">{teamMember.wechat}</span>
                     </p>
@@ -312,28 +306,19 @@ export default async function Page({
                 </p>
               </section>
               {impact ? (
-                <section className="station-data-panel mt-10">
-                  <p className="px-4 py-4 font-label text-xs uppercase tracking-[0.3em] text-muted-foreground md:px-6">
-                    {impact.eyebrow}
-                  </p>
-                  <div className="station-stat-strip station-stat-strip-two">
-                    {impact.metrics.map(([value, label], index) => (
-                      <div
-                        key={label}
-                        className={`${index % 2 ? "border-l" : ""} ${index > 1 ? "border-t md:border-t-0" : ""} ${index > 0 ? "md:border-l" : ""} border-line px-4 py-5 md:px-5`}
-                      >
-                        <p className="text-xl font-semibold tracking-tight">{value}</p>
-                        <p className="mt-1 font-label text-xs text-muted-foreground">{label}</p>
-                      </div>
+                <section className="station-impact home-frame mt-10">
+                  <p className="home-label station-impact-eyebrow">{impact.eyebrow}</p>
+                  <ul className="svc-stats station-impact-stats">
+                    {impact.metrics.map(([value, label]) => (
+                      <li key={label}>
+                        <span className="home-label-sm">{label}</span>
+                        <strong>{value}</strong>
+                      </li>
                     ))}
-                  </div>
-                  <div className="flex flex-wrap gap-x-6 gap-y-3 border-t border-line px-4 py-4 md:px-6">
-                    <Link href={withLocale("/impact/petdex", lang)} className="group">
-                      <ArrowLink>{impact.report}</ArrowLink>
-                    </Link>
-                    <Link href="https://github.com/crafter-station/petdex" target="_blank" rel="noopener noreferrer" className="group">
-                      <ArrowLink>{impact.github}</ArrowLink>
-                    </Link>
+                  </ul>
+                  <div className="station-impact-links">
+                    <Link href={withLocale("/impact/petdex", lang)} className="home-secondary-link">{impact.report}</Link>
+                    <Link href="https://github.com/crafter-station/petdex" target="_blank" rel="noopener noreferrer" className="home-secondary-link">{impact.github}</Link>
                   </div>
                 </section>
               ) : null}
@@ -350,11 +335,13 @@ export default async function Page({
         {teamMember.cal && meetingSlug ? (
           <>
             <SectionGap />
-            <Container innerClassName="px-6 py-10 md:px-10">
-              <h2 className={heading}>{t("calendar")}</h2>
-              <p className="mt-3 max-w-xl text-sm text-muted-foreground">{t("calendarSub")}</p>
+            <Container innerClassName="py-10">
+              <p className="home-label">{t("calendar")}</p>
+              <p className="mt-3 max-w-xl text-muted-foreground">{t("calendarSub")}</p>
             </Container>
-            <CalEmbed calLink={meetingSlug} namespace={teamMember.username} />
+            <Container>
+              <CalEmbed calLink={meetingSlug} namespace={teamMember.username} />
+            </Container>
           </>
         ) : null}
       </main>

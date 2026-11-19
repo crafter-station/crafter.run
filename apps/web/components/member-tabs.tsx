@@ -14,7 +14,7 @@ export function MemberTabs({ tabs }: { tabs: MemberTab[] }) {
 
   return (
     <div className="station-member-tabs">
-      <div role="tablist" className="flex flex-wrap gap-2">
+      <div role="tablist" className="home-tabs">
         {tabs.map((tab, index) => {
           const isActive = tab.id === activeTab.id
           return (
@@ -37,11 +37,6 @@ export function MemberTabs({ tabs }: { tabs: MemberTab[] }) {
                 setActive(tabs[next].id)
                 buttons.current[next]?.focus()
               }}
-              className={`border px-3 py-1.5 font-label text-base transition-colors ${
-                isActive
-                  ? "border-foreground bg-foreground text-background"
-                  : "border-line text-muted-foreground hover:border-foreground/40 hover:text-foreground"
-              }`}
             >
               {tab.label}
             </button>

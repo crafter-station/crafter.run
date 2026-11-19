@@ -1,7 +1,7 @@
 /* Sign-in and sign-up: one narrow column, centered in the viewport. */
 .station-shell .station-signin-page { display: flex; justify-content: center; align-items: center; min-height: calc(100svh - 96px); padding-block: 48px; }
 .station-signin { width: 100%; max-width: 380px; }
-.station-signin h1 { font-family: var(--font-heading); font-size: 32px; line-height: 1.1; letter-spacing: -.02em; text-wrap: balance; }
+.station-signin h1 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 32px; line-height: 1.05; letter-spacing: -.04em; text-wrap: balance; }
 .station-signin-lede { margin-top: 10px; font-size: 16px; line-height: 1.5; color: hsl(var(--muted-foreground)); }
 .station-signin-form { margin-top: 32px; min-height: 260px; }
 .station-signin-form :is(.cl-rootBox, .cl-cardBox, .cl-card, .cl-main, .cl-form, .cl-socialButtons) { width: 100%; max-width: 100%; }
@@ -14,3 +14,6 @@
   .station-shell .station-signin-page { align-items: flex-start; padding-block: 32px; min-height: 0; }
   .station-signin h1 { font-size: 28px; }
 }
+/* Clerk sets its own radius and tracking after the appearance classes; square them here. */
+.station-signin-form :is(.cl-socialButtonsBlockButton, .cl-formFieldInput, .cl-formButtonPrimary, .cl-otpCodeFieldInput, .cl-alternativeMethodsBlockButton) { border-radius: 0; }
+.station-signin-form .cl-dividerText { letter-spacing: .08em; }
