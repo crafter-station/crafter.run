@@ -8,6 +8,7 @@ import { changelogUpdated, entryLanguageAlternates, entryLocales, getEntry, getS
 import { locales } from "@/lib/i18n"
 import {
   baseUrl,
+  communityLocales,
   indexablePaths,
   languageAlternates,
   localizedUrl,
@@ -91,17 +92,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   )
 
-  // Each published Ship page, in every UI language, dated by its latest activity. If the API
+  // Each published Ship page, in the languages that index community content, dated by its latest activity. If the API
   // is down the sitemap still ships without them.
   const ships = (await listAllShips({ revalidate }))?.ships ?? []
   const shipEntries = ships.flatMap((ship) => {
     const path = `/ships/${ship.slug}`
-    return locales.map((locale) => ({
+    return communityLocales.map((locale) => ({
       url: localizedUrl(path, locale),
       lastModified: new Date(ship.lastActivityAt ?? ship.publishedAt),
       changeFrequency: "weekly" as const,
       priority: 0.6,
-      alternates: { languages: languageAlternates(path) },
+      alternates: { languages: languageAlternates(path, communityLocales) },
     }))
   })
 
@@ -113,12 +114,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
   const crafterEntries = [...crafterActivity].flatMap(([handle, activity]) => {
     const path = `/crafters/${handle}`
-    return locales.map((locale) => ({
+    return communityLocales.map((locale) => ({
       url: localizedUrl(path, locale),
       lastModified: new Date(activity),
       changeFrequency: "weekly" as const,
       priority: 0.5,
-      alternates: { languages: languageAlternates(path) },
+      alternates: { languages: languageAlternates(path, communityLocales) },
     }))
   })
 

@@ -227,7 +227,7 @@
 ## Journal Posts
 
 - Ship every post in all five locales (`es`, `en`, `pt`, `zh`, `ja`) with identical `date`, `order`, `image` and `band`. Spanish and English come first; outside Spanish, say when an event or talk is held in Spanish.
-- Earlier posts live in `apps/web/content/blog-archive/`. The loader reads only `content/blog/`, so archived posts are not served. Restore one by moving its files back.
+- Retired posts are deleted and redirected to the blog index in `next.config.mjs` (`retiredPosts`).
 - Copy: plain words, active voice, sentence case, no em dashes. Numbers come from a source you can link (GitHub API, Luma, the site's own data), checked on the day of writing. Do not call Crafter Station a non-profit, and do not publish revenue splits or other internal decisions.
 - Post page layout (`app/[lang]/blog/[slug]/page.tsx`, styles in `app/station-journal.css`):
   - The header is a full-bleed `.journal-band` in the brand gold (`--band`, default `#f4d56d`, with `--band-ink` `#20221d`) holding the breadcrumb, title, summary, byline, date and reading time. There is no metadata rail; the body runs at 72ch and 19px.

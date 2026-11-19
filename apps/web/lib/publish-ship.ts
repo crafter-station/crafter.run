@@ -1,6 +1,7 @@
 import type { ShipDetail } from "@crafter/contracts"
 
 import { shipToRequest, type ShipFields } from "@/lib/new-ship-draft"
+import { revalidateShipPagesAction } from "@/app/[lang]/ships/[slug]/actions"
 import { shipsApi } from "@/lib/ships-client"
 
 type TokenSource = () => Promise<string | null>
@@ -47,6 +48,7 @@ export async function publishShipDraft(input: Pick<PublishShipInput, "getToken" 
     headers: { "Idempotency-Key": crypto.randomUUID() },
     body: JSON.stringify({ confirm: true, expectedUpdatedAt: ship.updatedAt }),
   })
+  await revalidateShipPagesAction(published.ship.slug, published.ship.owner.handle)
   return published.ship
 }
 

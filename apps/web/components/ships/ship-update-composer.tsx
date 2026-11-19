@@ -7,6 +7,7 @@ import { useAuth } from "@clerk/nextjs"
 import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 
+import { revalidateShipPagesAction } from "@/app/[lang]/ships/[slug]/actions"
 import { useIsShipOwner } from "@/components/use-is-ship-owner"
 import type { ShipDetailCopy } from "@/lib/ship-detail-copy"
 import { shipsApi, uploadShipImage } from "@/lib/ships-client"
@@ -41,6 +42,7 @@ export function ShipUpdateComposer({ ownerHandle, slug, copy }: {
         body: JSON.stringify({ title: data.get("title"), description: data.get("description"), imageUrl, socialPostUrl: data.get("socialPostUrl") || null }),
       })
       form.reset()
+      await revalidateShipPagesAction(slug, ownerHandle)
       router.refresh()
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : copy.failed)

@@ -8,7 +8,10 @@ import { hotReloadCopy, hotReloadIdentity, hotReloadText } from "@/lib/hot-reloa
 import { getEventMenu } from "@/lib/event-menu"
 import { editionBadge } from "@/lib/hot-reload-badge"
 import { hotReloadBadgeCopy } from "@/lib/hot-reload-badge-copy"
-import { hotReloadMetadata } from "@/lib/hot-reload-seo"
+import { JsonLd } from "@/components/json-ld"
+import { hotReloadMetadata, hotReloadPreview } from "@/lib/hot-reload-seo"
+import { absoluteUrl, localizedUrl } from "@/lib/seo"
+import { eventSchema } from "@/lib/structured-data"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { HACK0_CALENDAR_URL } from "@/lib/hack0-calendar-data"
 
@@ -36,9 +39,22 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const id = hotReloadIdentity[lang]
   const status = hotReloadStatus(edition)
   const date = hotReloadDate(edition, lang)
+  const preview = hotReloadPreview(lang, edition)
+  const schema = eventSchema({
+    name: preview.title,
+    url: localizedUrl(preview.path, lang),
+    description: edition.description?.[lang] ?? preview.description,
+    startsAt: edition.startsAt,
+    endsAt: edition.endsAt,
+    image: preview.poster ? absoluteUrl(preview.poster) : undefined,
+    venue: edition.venue,
+    locality: edition.city,
+    registerUrl: edition.lumaUrl,
+  })
 
   return (
     <HotReloadTheme locale={lang} fit>
+      <JsonLd data={schema} />
       <section className="hot-reload-edition">
         <div className="hot-reload-edition-copy">
           <nav aria-label={t.agenda} className="hot-reload-caps hot-reload-crumbs">

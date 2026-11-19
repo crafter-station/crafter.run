@@ -191,9 +191,19 @@ export function markdownToPlainText(source: string): string {
 const META_MIN = 140
 const META_MAX = 160
 
-/** Tagline plus the opening of the description, cut to 140-160 characters at a sentence or word end. */
+const META_TAGLINE_MIN = 70
+
+/**
+ * The tagline alone when it is long enough to stand as a description (the description body may be in
+ * another language), else the tagline plus the opening of the body, cut to 160 characters at a sentence or word end.
+ */
 export function shipMetaDescription(tagline: string, markdown: string): string {
   const lead = tagline.trim().replace(/[.!?。]*$/, "")
+  if (lead.length >= META_TAGLINE_MIN) {
+    if (lead.length <= META_MAX) return lead
+    const word = lead.slice(0, META_MAX - 1).lastIndexOf(" ")
+    return `${lead.slice(0, word >= META_TAGLINE_MIN ? word : META_MAX - 1).trimEnd()}…`
+  }
   const body = markdownToPlainText(markdown)
   const full = body ? `${lead}. ${body}` : lead
   if (full.length <= META_MAX) return full
