@@ -1,5 +1,4 @@
 import localFont from "next/font/local"
-import "./noto-fonts.css"
 
 const crafterText = localFont({
   src: [

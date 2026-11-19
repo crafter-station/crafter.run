@@ -93,7 +93,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Each published Ship page, in every UI language, dated by its latest activity. If the API
   // is down the sitemap still ships without them.
-  const ships = (await listAllShips())?.ships ?? []
+  const ships = (await listAllShips({ revalidate }))?.ships ?? []
   const shipEntries = ships.flatMap((ship) => {
     const path = `/ships/${ship.slug}`
     return locales.map((locale) => ({
@@ -105,5 +105,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }))
   })
 
-  return [...localizedEntries, ...postEntries, ...changelogEntries, ...archiveEntries, ...shipEntries]
+  // Crafter profiles with at least one published Ship. Profiles without one are thin pages.
+  const crafterActivity = new Map<string, number>()
+  for (const ship of ships) {
+    const activity = new Date(ship.lastActivityAt ?? ship.publishedAt).getTime()
+    crafterActivity.set(ship.owner.handle, Math.max(crafterActivity.get(ship.owner.handle) ?? 0, activity))
+  }
+  const crafterEntries = [...crafterActivity].flatMap(([handle, activity]) => {
+    const path = `/crafters/${handle}`
+    return locales.map((locale) => ({
+      url: localizedUrl(path, locale),
+      lastModified: new Date(activity),
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+      alternates: { languages: languageAlternates(path) },
+    }))
+  })
+
+  return [
+    ...localizedEntries,
+    ...postEntries,
+    ...changelogEntries,
+    ...archiveEntries,
+    ...shipEntries,
+    ...crafterEntries,
+  ]
 }

@@ -153,7 +153,7 @@ export function StationExplore({ locale }: { locale: Locale }) {
   return (
     <nav className="home-explore" aria-label={t.explore}>
       <p className="station-label">{t.explore}</p>
-      {[[t.community,"/community"],[t.ships,"/ships"],[t.docs,"/docs"],[t.workWithUs,"/contact#collaborate"]].map(([label,path]) =>
+      {[[t.community,"/crafters"],[t.ships,"/ships"],[t.docs,"/docs"],[t.workWithUs,"/contact#collaborate"]].map(([label,path]) =>
         <Link key={path} href={withLocale(path,locale)}><span>{label}</span></Link>
       )}
     </nav>
