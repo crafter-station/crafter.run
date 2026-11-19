@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server"
 import { LocalizedLink } from "@/components/localized-link"
 import { SiteWordmark } from "@/components/site-wordmark"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import type { Locale } from "@/lib/i18n"
 import { navCopy } from "@/lib/navigation-copy"
 import { navSections, siteConfig } from "@/lib/site"
@@ -62,6 +63,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
         <div className="station-footer-signature">
           <LocalizedLink href="/" locale={locale}><SiteWordmark /></LocalizedLink>
           <p>{t("copyright", { year: new Date().getFullYear(), tagline: siteConfig.tagline[locale] })}</p>
+          <LanguageSwitcher currentLocale={locale} label={nav.language} compact className="station-footer-language" />
         </div>
       </div>
     </footer>

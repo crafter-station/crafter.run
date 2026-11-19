@@ -99,3 +99,24 @@ export function ThemeSegmented({ label = "Theme", locale = "en" }: { label?: str
     </div>
   )
 }
+
+const cycle = { light: "dark", dark: "system", system: "light" } as const
+
+/** One square that cycles light → dark → system on each click; the icon shows the current mode. */
+export function ThemeToggle({ label = "Theme", locale = "en" }: { label?: string; locale?: Locale }) {
+  const t = stationCopy[locale]
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+  const current = (mounted ? theme : "system") as keyof typeof cycle
+  const mode = current in cycle ? current : "system"
+  const next = cycle[mode]
+  const Icon = modes.find((item) => item.value === mode)?.icon ?? Monitor
+
+  return (
+    <button type="button" className="station-theme-toggle" onClick={() => setTheme(next)}
+      aria-label={`${label}: ${t[mode]}. ${t[next]}`} title={`${label}: ${t[mode]}`}>
+      <Icon size={16} strokeWidth={1.7} aria-hidden="true" />
+    </button>
+  )
+}

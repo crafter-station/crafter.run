@@ -6,9 +6,8 @@ import { Drawer, DrawerBackdrop, DrawerClose, DrawerContent, DrawerDescription, 
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { AuthActions } from "@/components/auth-actions"
-import { LanguageSwitcher } from "@/components/language-switcher"
 import { SiteWordmark } from "@/components/site-wordmark"
-import { ThemeSegmented, ThemeSwitcher } from "@/components/theme-switcher"
+import { ThemeSwitcher, ThemeToggle } from "@/components/theme-switcher"
 import { StationSocials } from "@/components/station-socials"
 import { type Locale, withLocale } from "@/lib/i18n"
 import { navCopy } from "@/lib/navigation-copy"
@@ -23,7 +22,7 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
   const primary = [
     { href: "/universe", label: t.universe },
     { href: "/ships", label: t.ships }, { href: "/oss", label: t.oss }, { href: "/events", label: t.events },
-    { href: "/blog", label: t.blog }, { href: "/changelog", label: t.changelog },
+    { href: "/blog", label: t.blog }, { href: "/changelog", label: t.changelog }, { href: "/services", label: t.brandPartnerships },
   ]
   const active = (href: string) => href === "/" ? pathname === withLocale("/", locale)
     : pathname === withLocale(href, locale) || pathname?.startsWith(`${withLocale(href, locale)}/`)
@@ -41,10 +40,9 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
         ))}
       </nav>
       <div className="station-side-bottom">
-        <div className="station-preferences">
+        <div className="station-preferences station-preferences-row">
           <AuthActions locale={locale} />
-          <LanguageSwitcher currentLocale={locale} label={t.language} compact />
-          <ThemeSegmented locale={locale} label={t.theme} />
+          <ThemeToggle locale={locale} label={t.theme} />
         </div>
       </div>
       <div className="station-side-event" onClickCapture={() => setOpen(false)}>{event}</div>
