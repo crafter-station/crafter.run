@@ -3,6 +3,8 @@
   position: relative;
   isolation: isolate;
 }
+/* The homepage keeps its original small-caps metrics; the site-wide label is 13px/.08em. */
+.station-home :where(.station-label) { font: 14px/1.7 var(--font-label); letter-spacing: .035em; }
 .station-shell-home, .station-shell-pages, .station-shell-journal {
   position: relative;
   isolation: isolate;

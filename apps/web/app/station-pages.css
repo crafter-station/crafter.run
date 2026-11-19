@@ -48,6 +48,7 @@
 .station-shell-pages .station-not-found-links a:where(:hover,:focus-visible) { color: var(--page-accent); background: hsl(var(--foreground) / .09); }
 .station-card-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1px; border: 1px solid var(--home-line); background: var(--home-line); }
 .station-card-grid > * { border: 0; border-radius: 0; min-width: 0; min-height: 0; padding: 28px; background: hsl(var(--background)); box-shadow: none; }
+.station-card-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
 .station-card-grid > a { display: flex; flex-direction: column; align-items: flex-start; transition: background-color 180ms; }
 .station-card-grid > a:hover { background: color-mix(in srgb, hsl(var(--foreground)) 3.5%, hsl(var(--background))); }
 .station-card-grid > a h3 { font-size: 25px; }
