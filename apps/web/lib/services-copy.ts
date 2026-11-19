@@ -39,7 +39,7 @@ export const servicesCopy: Record<Locale, ServicesCopy> = {
   en: {
     label: "Services",
     claim: "Put your product in front of LATAM builders.",
-    lede: "Companies hire Crafter Station for hackathons, launches, workshops and open source, run by a non-profit community of 1,000+ builders in Lima. Clerk, Cursor, ElevenLabs and v0 have backed what we run.",
+    lede: "Companies hire Crafter Station for hackathons, launches, workshops and open source, run by a community of 1,000+ builders in Lima. Clerk, Cursor, ElevenLabs and v0 have backed what we run.",
     book: "Book a free 30-min call",
     email: "Email us",
     categories: [
@@ -74,7 +74,7 @@ export const servicesCopy: Record<Locale, ServicesCopy> = {
   es: {
     label: "Servicios",
     claim: "Pon tu producto frente a los builders de LATAM.",
-    lede: "Las empresas contratan a Crafter Station para hackathons, lanzamientos, workshops y código abierto, de la mano de una comunidad sin fines de lucro de más de 1.000 builders en Lima. Clerk, Cursor, ElevenLabs y v0 han respaldado lo que hacemos.",
+    lede: "Las empresas contratan a Crafter Station para hackathons, lanzamientos, workshops y código abierto, de la mano de una comunidad de más de 1.000 builders en Lima. Clerk, Cursor, ElevenLabs y v0 han respaldado lo que hacemos.",
     book: "Agenda una llamada gratis de 30 min",
     email: "Escríbenos",
     categories: [
@@ -109,7 +109,7 @@ export const servicesCopy: Record<Locale, ServicesCopy> = {
   pt: {
     label: "Serviços",
     claim: "Coloque seu produto na frente dos builders da LATAM.",
-    lede: "Empresas contratam a Crafter Station para hackathons, lançamentos, workshops e código aberto, com uma comunidade sem fins lucrativos de mais de 1.000 builders em Lima. Clerk, Cursor, ElevenLabs e v0 já apoiaram o que fazemos.",
+    lede: "Empresas contratam a Crafter Station para hackathons, lançamentos, workshops e código aberto, com uma comunidade de mais de 1.000 builders em Lima. Clerk, Cursor, ElevenLabs e v0 já apoiaram o que fazemos.",
     book: "Agende uma conversa grátis de 30 min",
     email: "Escreva para nós",
     categories: [
@@ -144,7 +144,7 @@ export const servicesCopy: Record<Locale, ServicesCopy> = {
   zh: {
     label: "服务",
     claim: "让你的产品被拉美开发者看见。",
-    lede: "企业与 Crafter Station 合作举办黑客松、产品发布、工作坊和开源项目。我们是一个位于利马、拥有 1,000+ 位开发者的非营利社区。Clerk、Cursor、ElevenLabs 和 v0 都曾支持我们的活动。",
+    lede: "企业与 Crafter Station 合作举办黑客松、产品发布、工作坊和开源项目。我们是一个位于利马、拥有 1,000+ 位开发者的社区。Clerk、Cursor、ElevenLabs 和 v0 都曾支持我们的活动。",
     book: "预约免费 30 分钟通话",
     email: "发邮件给我们",
     categories: [
@@ -179,7 +179,7 @@ export const servicesCopy: Record<Locale, ServicesCopy> = {
   ja: {
     label: "サービス",
     claim: "ラテンアメリカのビルダーに、あなたのプロダクトを届ける。",
-    lede: "企業は、ハッカソン、ローンチ、ワークショップ、オープンソースで Crafter Station に依頼しています。リマを拠点とする 1,000 人以上のビルダーの非営利コミュニティです。Clerk、Cursor、ElevenLabs、v0 が私たちの活動を支援してくれました。",
+    lede: "企業は、ハッカソン、ローンチ、ワークショップ、オープンソースで Crafter Station に依頼しています。リマを拠点とする 1,000 人以上のビルダーのコミュニティです。Clerk、Cursor、ElevenLabs、v0 が私たちの活動を支援してくれました。",
     book: "無料の30分相談を予約",
     email: "メールで連絡",
     categories: [
