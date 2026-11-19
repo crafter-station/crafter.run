@@ -23,3 +23,25 @@
 
 /* A text link inside an anchor underlines when the anchor is hovered. */
 a:where(:hover, :focus-visible) .home-secondary-link { text-decoration-color: currentColor; }
+
+/* Inner hero: one claim on the left, the lede and actions on the right. Rendered by StationPageHero and by the services and jobs pages. */
+.inner-hero { display: grid; gap: 28px; }
+.station-home > section.inner-hero:not(.hero-name):not(.home-marquee) { padding-top: 72px; padding-bottom: 40px; }
+.station-container-inner.inner-hero { padding-block: 72px 40px; }
+.inner-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+.inner-hero h1 { max-width: 20ch; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(48px, 6.4vw, 96px); line-height: .96; letter-spacing: -.045em; text-wrap: balance; -webkit-text-stroke: .012em currentColor; paint-order: stroke fill; }
+.inner-hero-side { display: grid; grid-template-columns: minmax(0, 620px) auto; justify-content: space-between; align-items: end; gap: 24px 48px; }
+.inner-hero-side > :not(p) { justify-self: end; }
+.inner-hero-side p { font-size: 19px; line-height: 1.55; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
+.inner-hero-side .station-page-art { max-width: 260px; }
+.inner-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.inner-hero-extra > :first-child { margin-top: 0; }
+@media (max-width: 800px) {
+  .station-home > section.inner-hero:not(.hero-name):not(.home-marquee) { padding-top: 40px; padding-bottom: 24px; }
+  .station-container-inner.inner-hero { padding-block: 40px 24px; }
+  .inner-hero-side { grid-template-columns: minmax(0, 1fr); }
+  .inner-hero-side > :not(p) { justify-self: start; }
+  .inner-hero h1 { font-size: clamp(44px, 12.4vw, 64px); }
+  .inner-hero-side p { font-size: 17px; }
+  .inner-hero-actions { flex-direction: column; width: 100%; }
+}

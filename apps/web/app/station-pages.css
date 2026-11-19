@@ -38,18 +38,11 @@
 .station-shell-pages .station-container { max-width: none; }
 .station-shell-pages .station-container-inner { border-width: 0; padding-inline: 0; }
 .station-shell-pages .station-section-gap { height: 36px; }
-.station-shell-pages .station-container-inner:not(.station-inner-hero) > :is(h2,div > h2) { font-size: clamp(28px,3vw,38px); }
+.station-shell-pages .station-container-inner:not(.inner-hero) > :is(h2,div > h2) { font-size: clamp(28px,3vw,38px); }
 .station-shell-pages .station-label,
 .station-shell-pages .font-label.uppercase { letter-spacing: .045em; }
 .station-shell-pages .text-accent { color: var(--page-accent); }
 .station-shell-pages .station-container-inner > .font-label.uppercase { color: var(--page-accent); }
-.station-shell-pages .station-page-intro { padding-block: 54px 20px; }
-.station-inner-hero h1 { margin-top: 23px; max-width: 1000px; text-wrap: pretty; }
-.station-inner-eyebrow { color: var(--page-accent); }
-.station-inner-hero-layout { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); align-items: center; gap: 32px; margin-top: 22px; }
-.station-inner-hero-copy > p { max-width: 620px; font-size: 18px; line-height: 1.6; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
-.station-inner-hero-extra { margin-top: 22px; }
-.station-inner-hero-extra > :first-child { margin-top: 0; }
 .station-page-art { color: var(--page-accent); width: 100%; max-width: 400px; justify-self: end; }
 .station-page-scene { display: block; width: 100%; height: auto; }
 .station-page-art-brand { color: hsl(var(--foreground)); }
@@ -204,14 +197,10 @@
   .station-report-summary { grid-template-columns: 1fr; }
 }
 @media (max-width: 767px) {
-  .station-inner-hero-layout { grid-template-columns: 1fr; gap: 12px; }
   .station-not-found-actions > a { flex: 1 1 200px; }
   .station-page-art { max-width: 290px; justify-self: center; }
-  .station-shell-pages .station-page-intro { padding-block: 34px 12px; }
-  .station-inner-hero h1 { font-size: clamp(36px,8vw,52px); margin-top: 18px; }
-  .station-inner-hero-layout { margin-top: 20px; }
   .station-shell-pages .station-section-gap { height: 20px; }
-  .station-shell-pages .station-container-inner:not(.station-inner-hero) { padding-block: 26px; }
+  .station-shell-pages .station-container-inner:not(.inner-hero) { padding-block: 26px; }
   .station-shell-pages .station-container-inner:empty { padding: 0; }
   .station-team-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px 16px; }
   .station-person-name { font-size: 21px; }

@@ -1,13 +1,5 @@
 /* Jobs page. Scoped under .station-home; rules here only add to the homepage system. */
 
-.jobs-hero { display: grid; gap: 28px; }
-.station-home > section.jobs-hero { padding-top: 72px; padding-bottom: 40px; }
-.jobs-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
-.jobs-hero h1 { max-width: 20ch; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(48px, 6.4vw, 96px); line-height: .96; letter-spacing: -.045em; text-wrap: balance; -webkit-text-stroke: .012em currentColor; paint-order: stroke fill; }
-.jobs-hero-side { display: grid; grid-template-columns: minmax(0, 620px) auto; justify-content: space-between; align-items: end; gap: 24px 48px; }
-.jobs-hero-side > :not(p) { justify-self: end; }
-.jobs-hero-side p { font-size: 19px; line-height: 1.55; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
-.jobs-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .jobs #open-to-work, .jobs #post-a-role, .jobs #for-builders { scroll-margin-top: 48px; }
 
 /* Directory: joined hairline tiles, three to a row. */
@@ -69,12 +61,6 @@
 }
 
 @media (max-width: 800px) {
-  .station-home > section.jobs-hero { padding-top: 40px; padding-bottom: 24px; }
-  .jobs-hero-side { grid-template-columns: minmax(0, 1fr); }
-  .jobs-hero-side > :not(p) { justify-self: start; }
-  .jobs-hero h1 { font-size: clamp(44px, 12.4vw, 64px); }
-  .jobs-hero-side p { font-size: 17px; }
-  .jobs-actions { flex-direction: column; width: 100%; }
   .jobs-grid { grid-template-columns: minmax(0, 1fr); }
   .jobs-tile { padding: 20px; }
   .jobs-post-grid { grid-template-columns: minmax(0, 1fr); }

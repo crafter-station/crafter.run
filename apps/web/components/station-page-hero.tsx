@@ -2,29 +2,33 @@ import type { ReactNode } from "react"
 import { Container } from "@/components/grid-container"
 import { StationPageArt, type PageArtwork } from "@/components/station-page-art"
 
+/** The inner-page hero: label, one claim, the lede, and optional actions (hero-cta / hero-cta-ghost). */
 export function StationPageHero({
   eyebrow,
   title,
   description,
   art,
+  actions,
   children,
 }: {
   eyebrow: ReactNode
   title: ReactNode
   description: ReactNode
-  art: PageArtwork
+  art?: PageArtwork
+  actions?: ReactNode
   children?: ReactNode
 }) {
   return (
-    <Container innerClassName="station-page-intro station-inner-hero">
-      <p className="station-label station-inner-eyebrow">{eyebrow}</p>
-      <h1>{title}</h1>
-      <div className="station-inner-hero-layout">
-        <div className="station-inner-hero-copy">
+    <Container innerClassName="inner-hero">
+      <p className="home-label">{eyebrow}</p>
+      <div className="inner-hero-grid">
+        <h1>{title}</h1>
+        <div className="inner-hero-side">
           <p>{description}</p>
-          {children ? <div className="station-inner-hero-extra">{children}</div> : null}
+          {actions ? <div className="inner-hero-actions">{actions}</div> : null}
+          {art ? <StationPageArt kind={art} /> : null}
         </div>
-        <StationPageArt kind={art} />
+        {children ? <div className="inner-hero-extra">{children}</div> : null}
       </div>
     </Container>
   )

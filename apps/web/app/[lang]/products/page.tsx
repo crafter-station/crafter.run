@@ -25,12 +25,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   return <>
     <JsonLd data={breadcrumbList(lang, [{ name: "Crafter Station", path: "/" }, { name: t.name, path: "/products" }])} />
     <main className="flex-1">
-      <Container innerClassName="station-page-intro station-inner-hero">
-        <p className="station-label station-inner-eyebrow">{t.eyebrow}</p>
-        <h1>{t.title}</h1>
-        <div className="station-inner-hero-layout">
-          <div className="station-inner-hero-copy"><p>{t.description}</p></div>
-          <ProductsHeroArt />
+      <Container innerClassName="inner-hero">
+        <p className="home-label">{t.eyebrow}</p>
+        <div className="inner-hero-grid">
+          <h1>{t.title}</h1>
+          <div className="inner-hero-side">
+            <p>{t.description}</p>
+            <ProductsHeroArt />
+          </div>
         </div>
       </Container>
       <Container innerClassName="products-list">
