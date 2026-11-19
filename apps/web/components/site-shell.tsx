@@ -17,7 +17,7 @@ export function SiteShell({ children, footer, event, locale }: { children: React
   const pathname = usePathname() ?? ""
   // Docs keeps its own navigation rail and Font needs the full width. Both use the compact site header.
   const docs = pathname === `/${locale}/docs` || pathname.startsWith(`/${locale}/docs/`)
-  const home = pathname === `/${locale}` || pathname === `/${locale}/services`
+  const home = pathname === `/${locale}` || pathname === `/${locale}/services` || pathname === `/${locale}/jobs`
   const oss = pathname === `/${locale}/oss`
   const universe = pathname === `/${locale}/universe`
   const agenda = pathname === `/${locale}/events`

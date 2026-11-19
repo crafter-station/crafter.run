@@ -25,6 +25,7 @@ export const indexablePaths = [
   "/",
   "/crafters",
   "/services",
+  "/jobs",
   "/events",
   "/events/hot-reload",
   ...accessEvents.map(event => `/events/${event.slug}`),

@@ -51,6 +51,7 @@ export const navSections = [
     key: "workWithUs",
     items: [
       { key: "brandPartnerships", href: "/services" },
+      { key: "jobs", href: "/jobs" },
       { key: "contact", href: "/contact" },
     ],
   },
