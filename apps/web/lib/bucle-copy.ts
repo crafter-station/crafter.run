@@ -17,7 +17,7 @@ type BucleCopy = {
 
 export const bucleCopy: Record<Locale, BucleCopy> = {
   es: {
-    hero: "Eventos, código abierto, trabajos y proyectos shipeados: donde builders y empresas de Latinoamérica trabajan juntos.",
+    hero: "Una comunidad para convertir la curiosidad en proyectos.",
     ossTitle: "Código abierto.", ossSubtitle: "Posibilidades abiertas.",
     ossBody: "Herramientas que nacen de la curiosidad y crecen cuando las compartimos.",
     ossExplore: "Explorar todo el código abierto",
@@ -26,7 +26,7 @@ export const bucleCopy: Record<Locale, BucleCopy> = {
     encounter: "Encuentros", make: "Construir juntos",
   },
   en: {
-    hero: "Events, open source, jobs and shipped projects: where Latin American builders and companies work together.",
+    hero: "A community turning curiosity into projects.",
     ossTitle: "Open source.", ossSubtitle: "Open possibilities.",
     ossBody: "Tools born from curiosity, made better by sharing.",
     ossExplore: "Explore all open source",
@@ -35,7 +35,7 @@ export const bucleCopy: Record<Locale, BucleCopy> = {
     encounter: "Get together", make: "Build together",
   },
   pt: {
-    hero: "Eventos, código aberto, vagas e projetos lançados: onde builders e empresas da América Latina trabalham juntos.",
+    hero: "Uma comunidade para transformar a curiosidade em projetos.",
     ossTitle: "Código aberto.", ossSubtitle: "Possibilidades abertas.",
     ossBody: "Ferramentas que nascem da curiosidade e crescem quando compartilhamos.",
     ossExplore: "Explorar todo o código aberto",
@@ -44,7 +44,7 @@ export const bucleCopy: Record<Locale, BucleCopy> = {
     encounter: "Encontros", make: "Criar juntos",
   },
   zh: {
-    hero: "活动、开源、工作机会与已发布的项目：拉美开发者与企业在这里携手共建。",
+    hero: "将好奇心变成项目的社区。",
     ossTitle: "开放源代码。", ossSubtitle: "开放无限可能。",
     ossBody: "工具源于好奇，在分享中不断成长。",
     ossExplore: "探索所有开源项目",
@@ -53,7 +53,7 @@ export const bucleCopy: Record<Locale, BucleCopy> = {
     encounter: "线下相聚", make: "一起创造",
   },
   ja: {
-    hero: "イベント、オープンソース、仕事、リリースしたプロジェクト。ラテンアメリカのビルダーと企業がともに働く場所。",
+    hero: "好奇心をプロジェクトに変えるコミュニティ。",
     ossTitle: "オープンソース。", ossSubtitle: "ひらかれた可能性。",
     ossBody: "好奇心から生まれ、共有することで育つツール。",
     ossExplore: "すべてのオープンソースを見る",
