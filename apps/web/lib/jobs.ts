@@ -6,7 +6,7 @@ import { z } from "zod"
  */
 
 export const JOBS_INBOX = "railly@crafterstation.com"
-export const JOBS_FROM = "Crafter Jobs <jobs@crafter.run>"
+export const JOBS_FROM = "Crafter Jobs <jobs@inloop.crafter.run>"
 const RESEND_EMAILS = "https://api.resend.com/emails"
 
 const line = (max: number) => z.string().trim().min(2).max(max).regex(/^[^\r\n]*$/)
