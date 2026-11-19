@@ -12,7 +12,6 @@ import { fetchHack0Calendar } from "@/lib/hack0-calendar"
 import { partitionHack0Events } from "@/lib/hack0-calendar-data"
 import { BRAND_MARK_PATH } from "@/lib/brand"
 import { HeroField } from "@/components/hero-field"
-import { HeroCursor } from "@/components/hero-cursor"
 import { partnerEvents, partners } from "@/lib/partners"
 
 export async function HeroContent({
@@ -36,7 +35,6 @@ export async function HeroContent({
   return (
       <section className="station-masthead hero-name" aria-labelledby="station-title">
         <HeroField />
-        <HeroCursor />
         <svg className="hero-knot" viewBox="-8 -8 273 273" aria-hidden="true"><path d={BRAND_MARK_PATH} pathLength={1} /></svg>
         <p className="hero-eyebrow"><span className="hero-eyebrow-name">{siteConfig.name}</span><span>{t.place}</span><span>{t.builders}</span></p>
         <h1 id="station-title">{t.claim}</h1>

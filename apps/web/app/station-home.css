@@ -400,15 +400,13 @@
   .home-hire-actions { grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 20px 24px; }
 }
 
-/* Hero cursor: a yellow pointer whose tip is the click point, with the knot riding beside it. */
-.hero-name[data-cursor="brand"], .hero-name[data-cursor="brand"] a, .hero-name[data-cursor="brand"] button { cursor: none; }
-.hero-cursor { position: absolute; z-index: 5; top: 0; left: 0; width: 28px; height: 28px; pointer-events: none; opacity: 0; transition: opacity 160ms ease-out; }
-.hero-cursor[data-visible] { opacity: 1; }
-.hero-cursor-arrow { position: absolute; top: -2px; left: -3px; width: 28px; height: 28px; overflow: visible; fill: #f4d56d; stroke: #20221d; stroke-width: 1.5; stroke-linejoin: round; filter: drop-shadow(0 2px 4px rgb(0 0 0 / .35)); transform-origin: 3px 2px; transition: transform 160ms cubic-bezier(.2,.7,.2,1); }
-.hero-cursor-knot { position: absolute; top: 22px; left: 20px; width: 16px; height: 16px; overflow: visible; fill: none; stroke: hsl(var(--accent)); stroke-width: 26; transform: rotate(var(--spin, 0deg)); transition: width 160ms, height 160ms, fill 160ms; }
-.hero-cursor[data-active] .hero-cursor-arrow { transform: scale(1.18) rotate(-8deg); }
-.hero-cursor[data-active] .hero-cursor-knot { width: 22px; height: 22px; fill: hsl(var(--accent) / .3); }
-.hero-cursor[data-pressed] .hero-cursor-arrow { transform: scale(.88); }
+/* Hero cursor: the brand knot as a native cursor, hotspot at its center. Links get the filled, larger knot. Fine pointers only. */
+@media (pointer: fine) {
+  .hero-name { cursor: url("/cursor/knot-light.svg") 14 14, auto; }
+  .hero-name :is(a, button) { cursor: url("/cursor/knot-light-active.svg") 18 18, pointer; }
+  .dark .hero-name { cursor: url("/cursor/knot.svg") 14 14, auto; }
+  .dark .hero-name :is(a, button) { cursor: url("/cursor/knot-active.svg") 18 18, pointer; }
+}
 
 /* Dark mode keeps the pastel identities as ink on a tinted ground, never as a bright slab. */
 .dark .home-journal-feature { background: color-mix(in srgb, #e5dfee 7%, hsl(var(--background))); color: #e5dfee; box-shadow: inset 0 0 0 1px color-mix(in srgb, #e5dfee 22%, transparent); }
@@ -418,7 +416,8 @@
 .station-home :is(.hero-cta, .home-hire-primary, .station-button) { background: #f8e9a4; color: #20221d; box-shadow: none; opacity: 1; }
 .station-home :is(.hero-cta, .home-hire-primary, .station-button):where(:hover, :focus-visible) { background: #f4d56d; transform: none; opacity: 1; }
 .station-home :is(.hero-cta-ghost, .home-hire-secondary, .home-action-link) { background: hsl(var(--background)); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .28); }
-.station-home :is(.hero-cta-ghost, .home-hire-secondary, .home-action-link):where(:hover, :focus-visible) { background: hsl(var(--foreground)); color: hsl(var(--background)); box-shadow: inset 0 0 0 1px hsl(var(--foreground)); }
+/* Secondary hover: same text, an opaque lifted ground and a full-contrast hairline, so it reads over the hero field. */
+.station-home :is(.hero-cta-ghost, .home-hire-secondary, .home-action-link):where(:hover, :focus-visible) { background: color-mix(in srgb, hsl(var(--foreground)) 12%, hsl(var(--background))); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .85); }
 /* On the light ground the soft yellow washes out; light mode uses the full brand yellow for the primary fill. */
 :root:not(.dark) .station-home :is(.hero-cta, .home-hire-primary, .station-button) { background: #f4d56d; }
 :root:not(.dark) .station-home :is(.hero-cta, .home-hire-primary, .station-button):where(:hover, :focus-visible) { background: #ecc94b; }
