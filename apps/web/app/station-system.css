@@ -52,9 +52,11 @@ a:where(:hover, :focus-visible) .home-secondary-link { text-decoration-color: cu
 .station-card-grid::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
 .station-card-grid::after { right: -1px; bottom: -1px; border-width: 0 1.5px 1.5px 0; }
 
-/* Tabs also cover filter links and pressed buttons. */
-.home-tabs :is(button, a) { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 20px; font: 500 13px var(--font-label); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: hsl(var(--muted-foreground)); transition: background-color 180ms ease-out, color 180ms ease-out; }
-.home-tabs :is(button, a) + :is(button, a) { box-shadow: inset 1px 0 0 hsl(var(--foreground) / .18); }
-.home-tabs :is(button, a):hover { color: hsl(var(--foreground)); background: var(--home-hover); }
-.home-tabs :is(button[aria-selected="true"], button[aria-pressed="true"], a[aria-current="page"]) { color: hsl(var(--foreground)); background: hsl(var(--foreground) / .1); }
-.home-tabs :is(button, a) > span { opacity: .6; }
+/* Tabs cover tab buttons, filter links and pressed/checked toggles (segmented controls), and keep their look over utility classes. */
+.station-shell .home-tabs { display: inline-flex; gap: 0; }
+.station-shell .home-tabs :is(button, a) { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 0; background: transparent; font: 500 13px var(--font-label); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: hsl(var(--muted-foreground)); transition: background-color 180ms ease-out, color 180ms ease-out; }
+.station-shell .home-tabs :is(button, a) + :is(button, a) { box-shadow: inset 1px 0 0 hsl(var(--foreground) / .18); }
+.station-shell .home-tabs :is(button, a):where(:hover, :focus-visible) { color: hsl(var(--foreground)); background: var(--home-hover); }
+.station-shell .home-tabs :is(button[aria-selected="true"], button[aria-pressed="true"], button[aria-checked="true"], a[aria-current="page"], a[aria-current="true"]) { color: hsl(var(--foreground)); background: hsl(var(--foreground) / .1); }
+.station-shell .home-tabs :is(button, a) > span { opacity: .6; }
+.home-tabs > [data-slot="segmented-control-indicator"] { display: none; }

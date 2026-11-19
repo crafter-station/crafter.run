@@ -7,9 +7,16 @@ import { landingCopy } from "@/lib/landing-copy"
 import { partners } from "@/lib/partners"
 import { BountyArtwork } from "@/components/bounty-artwork"
 import { bountyCopy } from "@/lib/bounty-copy"
+import { agendaCopy } from "@/lib/agenda-copy"
+import { agendaCity } from "@/lib/agenda-cities"
+import { fetchHack0Calendar } from "@/lib/hack0-calendar"
+import { HACK0_CALENDAR_URL, hack0DateParts, partitionHack0Events } from "@/lib/hack0-calendar-data"
 
-export function StationEvents({ locale, index }: { locale: Locale; index: number }) {
+export async function StationEvents({ locale, index }: { locale: Locale; index: number }) {
   const t = homeCopy[locale]
+  const a = agendaCopy[locale]
+  const calendar = await fetchHack0Calendar()
+  const upcoming = partitionHack0Events(calendar.events).upcoming.slice(0, 4)
   return (
     <section className="home-events" aria-labelledby="home-events-title">
       <HomeHead id="home-events-title" index={index} label={landingCopy[locale].sections.events} title={bucleCopy[locale].encounter} lede={t.eventsBody}>
@@ -31,6 +38,37 @@ export function StationEvents({ locale, index }: { locale: Locale; index: number
           <p className="home-poster-line">{bountyCopy[locale].boardTitle}</p>
           <div className="home-poster-bottom station-label">BUILD / SHARE / WIN</div>
         </Link>
+      </div>
+      <div className="home-hack0">
+        <div className="home-hack0-head">
+          <p className="home-label">{t.hack0Upcoming}</p>
+          <Link href={withLocale("/events", locale)} className="home-secondary-link">{t.hack0Calendar}</Link>
+        </div>
+        {upcoming.length ? (
+          <ol className="home-hack0-list home-frame">
+            {upcoming.map(event => {
+              const date = hack0DateParts(event, locale)
+              const city = agendaCity(event.location)
+              const meta = [date.time ?? a.allDay, city?.name, event.host].filter(Boolean).join(" · ")
+              return (
+                <li key={event.id}>
+                  <a href={event.href} target="_blank" rel="noopener" className="home-hack0-row">
+                    <time className="home-hack0-date" dateTime={event.startAt}><strong>{date.day}</strong><span>{date.month}</span></time>
+                    <span className="home-hack0-main">
+                      <span className="home-hack0-title">{event.title}</span>
+                      <span className="home-hack0-meta">{meta}</span>
+                    </span>
+                    <span className="home-hack0-arrow" aria-hidden="true">↗</span>
+                  </a>
+                </li>
+              )
+            })}
+          </ol>
+        ) : (
+          <p className="home-hack0-empty home-frame">
+            {a.noUpcoming} <a className="home-secondary-link" href={HACK0_CALENDAR_URL} target="_blank" rel="noopener">{a.follow} ↗</a>
+          </p>
+        )}
       </div>
       <div className="home-panel-links">
         <Link href={withLocale("/services#proof",locale)} className="home-secondary-link">{landingCopy[locale].backersLine(partners.length)}</Link>

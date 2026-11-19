@@ -6,6 +6,7 @@ import { HotReloadByline } from "@/components/hot-reload-hero"
 import { HotReloadGame, HotReloadGameTrigger } from "@/components/hot-reload-game"
 import { HotReloadEdges } from "@/components/hot-reload-edges"
 import { HotReloadReload, HotReloadTrigger } from "@/components/hot-reload-reload"
+import { SiteWordmark } from "@/components/site-wordmark"
 import { HotReloadThemeToggle } from "@/components/hot-reload-theme-toggle"
 import { hotReloadIdentity } from "@/lib/hot-reload-copy"
 import { lineFade } from "@/lib/hot-reload-fade"
@@ -23,7 +24,7 @@ export function HotReloadTheme({ locale, fit, children }: { locale: Locale; fit?
       <HotReloadEdges />
       <div className="hot-reload-column">
         <header style={ruleFade} className="hot-reload-bleed hot-reload-bleed-b hot-reload-top">
-          <Link href={withLocale("/", locale)}>{t.presents}</Link>
+          <Link href={withLocale("/", locale)} className="hot-reload-wordmark" aria-label={t.presents}><SiteWordmark /></Link>
           <span className="hot-reload-wide">{t.motto}</span>
           <HotReloadThemeToggle label={t.theme} names={{ system: t.system, light: t.light, dark: t.dark }} />
         </header>
@@ -34,7 +35,7 @@ export function HotReloadTheme({ locale, fit, children }: { locale: Locale; fit?
             <HotReloadTrigger press={t.press} toast={t.toast} />
             <HotReloadGameTrigger press={t.play} touch={t.playTouch} />
           </span>
-          <Link href={withLocale("/", locale)}>crafter.run</Link>
+          <Link href={withLocale("/", locale)} className="home-label">crafter.run</Link>
         </footer>
       </div>
       <HotReloadReload copy={t} />

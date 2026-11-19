@@ -8,10 +8,12 @@ type HomeCopy = {
   journalNote: string; contactLabel: string; contactTitle: string
   contactBody: string; contactNote: string
   community: string; ships: string; docs: string; workWithUs: string
+  hack0Upcoming: string; hack0Calendar: string
 }
 
 export const homeCopy: Record<Locale, HomeCopy> = {
   es: {
+    hack0Upcoming: "Próximamente en hack0", hack0Calendar: "Ver el calendario",
     events: "Pantallas abajo.\nIdeas arriba.",
     eventsBody: "A veces, el siguiente paso de un proyecto es conocer a alguien.",
     calendar: "Ver próximos encuentros", sponsor: "Patrocina un evento",
@@ -29,6 +31,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     community: "Comunidad", ships: "Lo que estamos lanzando", docs: "Documentación", workWithUs: "Colaborar",
   },
   en: {
+    hack0Upcoming: "Upcoming on hack0", hack0Calendar: "See the calendar",
     events: "Screens down.\nIdeas up.",
     eventsBody: "Sometimes, the next step for a project is meeting someone.",
     calendar: "See upcoming gatherings", sponsor: "Sponsor an event",
@@ -46,6 +49,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     community: "Community", ships: "What we’re shipping", docs: "Documentation", workWithUs: "Collaborate",
   },
   pt: {
+    hack0Upcoming: "Em breve no hack0", hack0Calendar: "Ver o calendário",
     events: "Telas de lado.\nIdeias em alta.",
     eventsBody: "Às vezes, o próximo passo de um projeto é conhecer alguém.",
     calendar: "Ver próximos encontros", sponsor: "Patrocine um evento",
@@ -63,6 +67,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     community: "Comunidade", ships: "O que estamos lançando", docs: "Documentação", workWithUs: "Colaborar",
   },
   zh: {
+    hack0Upcoming: "hack0 即将举行", hack0Calendar: "查看日历",
     events: "放下屏幕。\n点亮想法。",
     eventsBody: "有时，项目的下一步，是遇见一个人。",
     calendar: "查看即将举行的活动", sponsor: "赞助活动",
@@ -80,6 +85,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
     community: "社区", ships: "正在发布的作品", docs: "文档", workWithUs: "一起合作",
   },
   ja: {
+    hack0Upcoming: "hack0 の開催予定", hack0Calendar: "カレンダーを見る",
     events: "画面を閉じて。\nアイデアを広げて。",
     eventsBody: "プロジェクトの次の一歩は、誰かとの出会いかもしれません。",
     calendar: "今後のイベントを見る", sponsor: "イベントに協賛する",

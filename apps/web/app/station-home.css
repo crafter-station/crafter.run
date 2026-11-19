@@ -564,3 +564,26 @@
   .home-hire-panel .home-portrait { padding: 20px 16px 14px; }
   .home-faq-answer { padding: 0 20px 20px; }
 }
+
+/* Upcoming on hack0: joined hairline rows under the posters. */
+.home-hack0 { margin-top: 56px; }
+.home-hack0-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 16px; }
+.home-hack0-list { display: grid; gap: 1px; margin: 0; padding: 0; list-style: none; background: var(--home-line); border: 1px solid var(--home-line); }
+.home-hack0-list > li { background: hsl(var(--background)); }
+.home-hack0-row { display: grid; grid-template-columns: 72px minmax(0, 1fr) 20px; align-items: center; gap: 24px; padding: 20px 24px; transition: background-color 160ms ease-out; }
+.home-hack0-row:where(:hover, :focus-visible) { background: var(--home-hover); }
+.home-hack0-date { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-hack0), ui-monospace, monospace; line-height: 1; color: #ff3d00; }
+.home-hack0-date strong { font-size: 28px; font-weight: 800; letter-spacing: -.05em; }
+.home-hack0-date span { font-size: 11px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+.home-hack0-main { display: grid; gap: 6px; min-width: 0; }
+.home-hack0-title { font-size: 18px; font-weight: 500; line-height: 1.3; letter-spacing: -.015em; overflow-wrap: anywhere; }
+.home-hack0-meta { overflow: hidden; font: 500 13px/1.4 var(--font-hack0), ui-monospace, monospace; color: hsl(var(--muted-foreground)); white-space: nowrap; text-overflow: ellipsis; }
+.home-hack0-arrow { font-family: var(--font-hack0), ui-monospace, monospace; color: hsl(var(--muted-foreground)); }
+.home-hack0-row:where(:hover, :focus-visible) .home-hack0-arrow { color: hsl(var(--foreground)); }
+.home-hack0-empty { padding: 28px 24px; border: 1px solid var(--home-line); color: hsl(var(--muted-foreground)); }
+.home-hack0-empty .home-secondary-link { color: hsl(var(--foreground)); margin-left: 6px; }
+@media (max-width: 760px) {
+  .home-hack0 { margin-top: 40px; }
+  .home-hack0-row { grid-template-columns: 56px minmax(0, 1fr) 16px; gap: 16px; padding: 16px; }
+  .home-hack0-meta { white-space: normal; }
+}

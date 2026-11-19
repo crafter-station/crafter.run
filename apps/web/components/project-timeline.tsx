@@ -91,6 +91,7 @@ export type ProjectTimelineCopy = {
     teamCommits: string
     stars: string
     contributors: string
+    scope: string
   }
   allContributors: string
   coreTeam: string
@@ -319,7 +320,7 @@ function ProjectDetailSheet({
               style={{ "--timeline-color": color } as TimelineStyle}
               aria-hidden
             />
-            <p className="font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
+            <p className="home-label-sm">
               {project.fullName}
             </p>
             <Badge variant="outline" className="gap-1 font-label font-normal">
@@ -346,7 +347,7 @@ function ProjectDetailSheet({
           <section className="border-b border-line bg-secondary/30 px-6 py-5 sm:px-8">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
+                <p className="home-label-sm">
                   {copy.weekOf}
                 </p>
                 <p className="mt-1 text-sm font-medium">
@@ -421,7 +422,7 @@ function ProjectDetailSheet({
 
           <section>
             <div className="mb-4 flex items-center justify-between gap-4">
-              <h3 className="font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
+              <h3 className="home-label-sm">
                 {copy.activity}
               </h3>
               <span className="font-label text-xs text-muted-foreground">
@@ -446,7 +447,7 @@ function ProjectDetailSheet({
           </section>
 
           <section>
-            <h3 className="font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
+            <h3 className="home-label-sm">
               {copy.contributorBreakdown}
             </h3>
             <div className="mt-4 divide-y divide-line border-y border-line">
@@ -847,7 +848,7 @@ export function ProjectTimeline({
       <section className="border-b border-line px-4 py-5 sm:px-6 md:px-10">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <p className="font-label text-xs uppercase tracking-[0.28em] text-muted-foreground">
+            <p className="home-label-sm">
               {copy.coreTeam}
             </p>
             <p className="mt-1 text-xs text-muted-foreground">
@@ -863,7 +864,7 @@ export function ProjectTimeline({
         </div>
 
         <div
-          className="timeline-scroll -mx-4 mt-4 flex items-center gap-2 overflow-x-auto px-4 pb-1 sm:-mx-6 sm:px-6 md:-mx-10 md:px-10"
+          className="timeline-scroll home-tabs timeline-people mt-4 max-w-full overflow-x-auto"
           role="group"
           aria-label={copy.coreTeam}
         >
@@ -872,10 +873,7 @@ export function ProjectTimeline({
             aria-pressed={selectedLogin === null}
             onClick={() => selectContributor(null)}
             className={cn(
-              "flex h-10 shrink-0 items-center gap-2 rounded-full border px-3 text-xs transition-[transform,background-color,border-color,color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97]",
-              selectedLogin === null
-                ? "border-foreground bg-foreground text-background"
-                : "border-line bg-background text-muted-foreground hover:text-foreground",
+              "flex shrink-0 items-center gap-2 text-xs",
             )}
           >
             <Users aria-hidden className="size-3.5" />
@@ -892,19 +890,13 @@ export function ProjectTimeline({
                 aria-pressed={selected}
                 onClick={() => selectContributor(selected ? null : member.login)}
                 className={cn(
-                  "flex h-10 shrink-0 items-center gap-2 rounded-full border py-1 pl-1 pr-3 text-left transition-[transform,background-color,border-color,color] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.97]",
-                  selected
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-line bg-background text-muted-foreground hover:border-foreground/40 hover:text-foreground",
+                  "flex shrink-0 items-center gap-2 text-left text-xs",
                 )}
               >
                 <ContributorAvatar coreMember={member} className="size-8" />
                 <span className="max-w-24 truncate text-xs">{member.name.split(" ")[0]}</span>
                 <span
-                  className={cn(
-                    "font-label text-xs",
-                    selected ? "text-background/60" : "text-muted-foreground",
-                  )}
+                  className="font-label text-xs text-muted-foreground"
                   title={countLabel(contributions, copy.commit, copy.commits)}
                 >
                   {compactNumber(contributions, locale)}
@@ -915,22 +907,15 @@ export function ProjectTimeline({
         </div>
       </section>
 
-      <section className="grid grid-cols-3 border-b border-line">
-        {summaryStats.map(({ label, value, Icon }, index) => (
-          <div
-            key={label}
-            className={cn(
-              "min-w-0 p-3 sm:p-5",
-              index > 0 && "border-l border-line",
-            )}
-          >
+      <p className="timeline-scope home-label-sm">{copy.stats.scope}</p>
+      <section className="timeline-summary station-stat-strip">
+        {summaryStats.map(({ label, value, Icon }) => (
+          <div key={label}>
             <div className="flex items-center justify-between gap-3">
-              <p className="font-label text-2xl tracking-[-0.04em] sm:text-3xl">
-                {compactNumber(value, locale)}
-              </p>
+              <p>{compactNumber(value, locale)}</p>
               <Icon aria-hidden className="size-4 text-muted-foreground" />
             </div>
-            <p className="mt-2 text-xs text-muted-foreground">{label}</p>
+            <p className="home-label-sm mt-2">{label}</p>
           </div>
         ))}
       </section>
@@ -963,7 +948,7 @@ export function ProjectTimeline({
                 variant="outline"
                 size="sm"
                 aria-label={copy.filterLabel}
-                className="w-max justify-start"
+                className="home-tabs w-max"
               >
                 <ToggleGroupItem value="active">{copy.filters.active}</ToggleGroupItem>
                 <ToggleGroupItem value="all">{copy.filters.all}</ToggleGroupItem>
@@ -978,7 +963,7 @@ export function ProjectTimeline({
                 variant="outline"
                 size="sm"
                 aria-label={copy.orgLabel}
-                className="w-max justify-start"
+                className="home-tabs w-max"
               >
                 <ToggleGroupItem value="all">{copy.orgs.all}</ToggleGroupItem>
                 <ToggleGroupItem value="crafter-station">
@@ -1046,7 +1031,7 @@ export function ProjectTimeline({
             className="z-20 flex h-12 will-change-transform items-center justify-between gap-3 border-b border-r border-line bg-background px-4 sm:px-5"
             role="columnheader"
           >
-            <span className="font-label text-xs uppercase tracking-[0.22em] text-muted-foreground">
+            <span className="home-label-sm">
               {copy.projectColumn}
             </span>
             <button
@@ -1073,7 +1058,7 @@ export function ProjectTimeline({
                   className="flex items-center border-l border-line px-2 first:border-l-0"
                   style={{ gridColumn: `${group.start + 1} / span ${group.span}` }}
                 >
-                  <span className="font-label text-xs uppercase tracking-[0.16em] text-muted-foreground">
+                  <span className="home-label-sm">
                     {group.label}
                   </span>
                 </div>
@@ -1150,7 +1135,7 @@ export function ProjectTimeline({
                           ))}
                         </span>
                       ) : (
-                        <span className="font-label text-xs uppercase tracking-wider text-muted-foreground/50">
+                        <span className="home-label-sm">
                           {copy.noCommits}
                         </span>
                       )}
@@ -1303,7 +1288,7 @@ export function ProjectTimeline({
 
       <section className="flex flex-col gap-4 px-4 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-6 md:px-10">
         <div className="flex items-center gap-3 text-xs text-muted-foreground">
-          <span className="font-label uppercase tracking-[0.2em]">{copy.legend}</span>
+          <span className="home-label-sm">{copy.legend}</span>
           <span>{copy.less}</span>
           {[0.18, 0.38, 0.62, 0.9].map((opacity) => (
             <span
