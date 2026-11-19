@@ -3,17 +3,18 @@ import Link from "next/link"
 import { type Locale, withLocale } from "@/lib/i18n"
 import { landingCopy } from "@/lib/landing-copy"
 import { getOssRepos } from "@/lib/oss"
+import { HomeHead } from "@/components/home-head"
 
 // Monochrome masks of each project's own icon, tinted with the accent in CSS.
 const logos = new Set(["petdex", "agentfiles", "tinte", "elements", "text0", "one-hunter-vscode"])
 
-function RepoLogo({ name, size }: { name: string; size: "sm" | "lg" }) {
+function RepoLogo({ name, size }: { name: string; size: "sm" }) {
   if (!logos.has(name)) return null
   return <span className={`home-oss-logo home-oss-logo-${size}`} style={{ "--logo": `url(/oss/logos/${name}.png)` } as React.CSSProperties} aria-hidden="true" />
 }
 
 /** Open source proof: total stars, a live bar chart of the top repositories and three featured cards. */
-export async function HomeOpenSource({ locale }: { locale: Locale }) {
+export async function HomeOpenSource({ locale, index }: { locale: Locale; index: number }) {
   const t = landingCopy[locale]
   const repos = [...(await getOssRepos())].sort((a, b) => b.stars - a.stars)
   if (repos.length === 0) return null
@@ -24,18 +25,16 @@ export async function HomeOpenSource({ locale }: { locale: Locale }) {
 
   return (
     <section className="home-oss" aria-labelledby="home-oss-title">
-      <div className="home-oss-panel">
-        <div className="home-oss-intro">
-          <p className="station-label">{t.ossLabel}</p>
-          <h2 id="home-oss-title">{t.ossTitle}</h2>
-          <p>{t.ossBody}</p>
-          <Link href={withLocale("/oss", locale)} className="home-action-link">{t.ossCta}</Link>
+      <HomeHead id="home-oss-title" index={index} label={t.sections.openSource} title={t.ossTitle} lede={t.ossBody}>
+        <Link href={withLocale("/oss", locale)} className="home-action-link">{t.ossCta}</Link>
+      </HomeHead>
+      <div className="home-oss-panel home-frame">
+        <div className="home-oss-total">
+          <strong>{number.format(stars)}</strong>
+          <span className="home-label">{t.ossStars}</span>
+          <span className="home-label-sm">{repos.length} {t.ossRepos}</span>
         </div>
         <figure className="home-oss-chart">
-          <div className="home-oss-total">
-            <strong>{number.format(stars)}</strong>
-            <span>{t.ossStars}<br />{repos.length} {t.ossRepos}</span>
-          </div>
           <ol>
             {chart.map((repo) => (
               <li key={repo.repo}>
@@ -47,21 +46,9 @@ export async function HomeOpenSource({ locale }: { locale: Locale }) {
               </li>
             ))}
           </ol>
-          <figcaption className="station-label">{t.ossChart}</figcaption>
+          <figcaption className="home-label-sm">{t.ossChart}</figcaption>
         </figure>
       </div>
-      <ul className="home-oss-cards">
-        {repos.slice(0, 3).map((repo) => (
-          <li key={repo.repo}>
-            <a href={repo.url} target="_blank" rel="noopener noreferrer">
-              <RepoLogo name={repo.name} size="lg" />
-              <span className="home-oss-card-head station-label"><span>{repo.name}</span><span>★ {number.format(repo.stars)}</span></span>
-              <p>{repo.description}</p>
-              <span className="home-oss-card-meta station-label">{repo.language ?? repo.repo}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
     </section>
   )
 }

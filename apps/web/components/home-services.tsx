@@ -1,5 +1,6 @@
 import { type Locale } from "@/lib/i18n"
 import { landingCopy } from "@/lib/landing-copy"
+import { HomeHead } from "@/components/home-head"
 
 // One glyph per service, drawn on the same 48px grid as the brand mark.
 const glyphs = [
@@ -10,21 +11,22 @@ const glyphs = [
 ]
 
 /** What companies hire Crafter Station for, with the event or project that proves each one. */
-export function HomeServices({ locale }: { locale: Locale }) {
+export function HomeServices({ locale, index }: { locale: Locale; index: number }) {
   const t = landingCopy[locale]
   return (
     <section className="home-services" aria-labelledby="home-services-title">
-      <p className="station-label">{t.servicesLabel}</p>
-      <h2 id="home-services-title">{t.servicesTitle}</h2>
-      <ol className="home-services-grid">
+      <HomeHead id="home-services-title" index={index} label={t.sections.services} title={t.servicesTitle} lede={t.servicesLabel}>
+        <a href="#contact" className="home-action-link">{t.servicesCta}</a>
+      </HomeHead>
+      <ol className="home-services-grid home-frame">
         {t.services.map((service, i) => (
           <li key={service.title}>
             <a href="#contact" className="home-service">
-              <span className="home-service-index station-label">0{i + 1}</span>
+              <span className="home-label-sm">0{i + 1}</span>
               <svg className="home-service-glyph" viewBox="0 0 48 48" aria-hidden="true">{glyphs[i]}</svg>
               <h3>{service.title}</h3>
               <p>{service.body}</p>
-              <span className="home-service-proof station-label">{service.proof}</span>
+              <span className="home-service-proof home-label-sm">{service.proof}</span>
             </a>
           </li>
         ))}

@@ -2,7 +2,18 @@ import type { Locale } from "@/lib/i18n"
 
 type Service = { title: string; body: string; proof: string }
 
+type SectionLabels = { shipped: string; services: string; openSource: string; universe: string; events: string; journal: string; faq: string; contact: string }
+
 type LandingCopy = {
+  sections: SectionLabels
+  shippedTitle: string
+  shippedLede: string
+  tabCommunity: string
+  tabStation: string
+  backersLine: (count: number) => string
+  shipsLabel: string
+  shipsMeta: (crafters: number) => string
+  meetTeam: string
   servicesLabel: string
   servicesTitle: string
   services: [Service, Service, Service, Service]
@@ -16,7 +27,7 @@ type LandingCopy = {
   ossCta: string
   contactLabel: string
   contactTitle: string
-  contactBody: (names: string) => string
+  contactBody: () => string
   bookCall: string
   coffee: string
   coffeeSubject: string
@@ -24,6 +35,13 @@ type LandingCopy = {
 
 export const landingCopy: Record<Locale, LandingCopy> = {
   en: {
+    sections: { shipped: "Shipped", services: "Services", openSource: "Open source", universe: "Universe", events: "Events", journal: "Journal", faq: "FAQ", contact: "Contact" },
+    shippedTitle: "Recently shipped",
+    shippedLede: "What the community and the Station put out this month.",
+    tabCommunity: "Community", tabStation: "Station",
+    backersLine: (count) => `${count} backers across our hackathons. See every hackathon`,
+    shipsLabel: "Ships", shipsMeta: (crafters) => `published by ${crafters} crafters`,
+    meetTeam: "Meet the team",
     servicesLabel: "Companies work with Crafter Station for",
     servicesTitle: "Work with us",
     services: [
@@ -42,12 +60,19 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     ossCta: "See all open source",
     contactLabel: "Let's build together",
     contactTitle: "Bring us your next idea",
-    contactBody: (names) => `Sponsors, venues and teams have built with Crafter Station. Talk to ${names} about what we can make together.`,
+    contactBody: () => "Sponsors, venues and teams already build with us. Bring an idea, a question, or something half finished.",
     bookCall: "Book a call",
     coffee: "Grab a coffee in BA or Lima",
     coffeeSubject: "Coffee with Crafter Station",
   },
   es: {
+    sections: { shipped: "Shipped", services: "Servicios", openSource: "Código abierto", universe: "Universo", events: "Eventos", journal: "Journal", faq: "Preguntas", contact: "Contacto" },
+    shippedTitle: "Lo último que shipeamos",
+    shippedLede: "Lo que la comunidad y la Station publicaron este mes.",
+    tabCommunity: "Comunidad", tabStation: "Station",
+    backersLine: (count) => `${count} aliados en nuestros hackathons. Ver todos los hackathons`,
+    shipsLabel: "Ships", shipsMeta: (crafters) => `publicados por ${crafters} crafters`,
+    meetTeam: "Conoce al equipo",
     servicesLabel: "Las empresas trabajan con Crafter Station para",
     servicesTitle: "Trabaja con nosotros",
     services: [
@@ -66,12 +91,19 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     ossCta: "Ver todo el código abierto",
     contactLabel: "Construyamos juntos",
     contactTitle: "Tráenos tu próxima idea",
-    contactBody: (names) => `Sponsors, venues y equipos ya construyeron con Crafter Station. Habla con ${names} sobre lo que podemos hacer juntos.`,
+    contactBody: () => "Sponsors, venues y equipos ya construyen con nosotros. Trae una idea, una pregunta o algo a medio terminar.",
     bookCall: "Agenda una llamada",
     coffee: "Tomemos un café en BA o Lima",
     coffeeSubject: "Café con Crafter Station",
   },
   pt: {
+    sections: { shipped: "Shipped", services: "Serviços", openSource: "Código aberto", universe: "Universo", events: "Eventos", journal: "Journal", faq: "Perguntas", contact: "Contato" },
+    shippedTitle: "O que lançamos por último",
+    shippedLede: "O que a comunidade e a Station publicaram este mês.",
+    tabCommunity: "Comunidade", tabStation: "Station",
+    backersLine: (count) => `${count} apoiadores nos nossos hackathons. Ver todos os hackathons`,
+    shipsLabel: "Ships", shipsMeta: (crafters) => `publicados por ${crafters} crafters`,
+    meetTeam: "Conheça a equipe",
     servicesLabel: "Empresas trabalham com a Crafter Station para",
     servicesTitle: "Trabalhe com a gente",
     services: [
@@ -90,12 +122,19 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     ossCta: "Ver todo o código aberto",
     contactLabel: "Vamos construir juntos",
     contactTitle: "Traga sua próxima ideia",
-    contactBody: (names) => `Patrocinadores, espaços e equipes já construíram com a Crafter Station. Fale com ${names} sobre o que podemos fazer juntos.`,
+    contactBody: () => "Patrocinadores, espaços e equipes já constroem com a gente. Traga uma ideia, uma pergunta ou algo pela metade.",
     bookCall: "Agende uma conversa",
     coffee: "Um café em BA ou Lima",
     coffeeSubject: "Café com a Crafter Station",
   },
   zh: {
+    sections: { shipped: "发布", services: "服务", openSource: "开源", universe: "宇宙", events: "活动", journal: "日志", faq: "常见问题", contact: "联系" },
+    shippedTitle: "最近发布",
+    shippedLede: "社区与 Station 本月发布的作品。",
+    tabCommunity: "社区", tabStation: "Station",
+    backersLine: (count) => `${count} 家支持方参与了我们的黑客松。查看全部黑客松`,
+    shipsLabel: "Ships", shipsMeta: (crafters) => `由 ${crafters} 位开发者发布`,
+    meetTeam: "认识团队",
     servicesLabel: "企业与 Crafter Station 合作的方式",
     servicesTitle: "与我们合作",
     services: [
@@ -114,12 +153,19 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     ossCta: "查看全部开源项目",
     contactLabel: "一起构建",
     contactTitle: "带来你的下一个想法",
-    contactBody: (names) => `赞助方、场地和团队都曾与 Crafter Station 一起构建。和 ${names} 聊聊我们能一起做什么。`,
+    contactBody: () => "赞助方、场地和团队已经在和我们一起构建。带来一个想法、一个问题，或一件还没完成的作品。",
     bookCall: "预约通话",
     coffee: "在布宜诺斯艾利斯或利马喝杯咖啡",
     coffeeSubject: "与 Crafter Station 喝咖啡",
   },
   ja: {
+    sections: { shipped: "シップ", services: "サービス", openSource: "オープンソース", universe: "ユニバース", events: "イベント", journal: "ジャーナル", faq: "よくある質問", contact: "お問い合わせ" },
+    shippedTitle: "最近のリリース",
+    shippedLede: "コミュニティと Station が今月公開したもの。",
+    tabCommunity: "コミュニティ", tabStation: "Station",
+    backersLine: (count) => `${count} 社がハッカソンを支援。すべてのハッカソンを見る`,
+    shipsLabel: "Ships", shipsMeta: (crafters) => `${crafters} 人のクラフターが公開`,
+    meetTeam: "チームを見る",
     servicesLabel: "企業が Crafter Station と取り組んでいること",
     servicesTitle: "一緒に取り組む",
     services: [
@@ -138,7 +184,7 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     ossCta: "すべてのオープンソースを見る",
     contactLabel: "一緒につくろう",
     contactTitle: "次のアイデアを聞かせてください",
-    contactBody: (names) => `スポンサー、会場、チームが Crafter Station と一緒につくってきました。何ができるか ${names} に相談してください。`,
+    contactBody: () => "スポンサー、会場、チームがすでに一緒につくっています。アイデア、質問、つくりかけのものを持ってきてください。",
     bookCall: "通話を予約する",
     coffee: "ブエノスアイレスかリマでコーヒーを",
     coffeeSubject: "Crafter Station とコーヒー",

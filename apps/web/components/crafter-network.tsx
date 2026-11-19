@@ -4,6 +4,8 @@ import { getTranslations } from "next-intl/server"
 import { CrafterStationLogo } from "@/components/crafter-station-logo"
 import { getNetwork, type NetworkArea } from "@/lib/network"
 import { type Locale, withLocale } from "@/lib/i18n"
+import { HomeHead } from "@/components/home-head"
+import { landingCopy } from "@/lib/landing-copy"
 
 // Original editorial diagrams. The navigation keeps the original Crafter mark.
 export function NetworkArtwork({ area }: { area: NetworkArea }) {
@@ -60,13 +62,12 @@ export function NetworkCards({ locale, headingLevel = 3 }: { locale: Locale; hea
   </div>
 }
 
-export async function StationNetwork({ locale }: { locale: Locale }) {
+export async function StationNetwork({ locale, index }: { locale: Locale; index: number }) {
   const t = await getTranslations({ locale, namespace: "pages.network" })
   return <section className="home-network" id="family" aria-labelledby="home-network-title">
-    <div className="home-network-heading">
-      <div><h2 id="home-network-title">{t("eyebrow")}</h2><p>{t("description")}</p></div>
+    <HomeHead id="home-network-title" index={index} label={landingCopy[locale].sections.universe} title={t("eyebrow")} lede={t("description")}>
       <Link className="home-action-link" href={withLocale("/universe", locale)}>{t("exploreCta")}</Link>
-    </div>
+    </HomeHead>
     <NetworkCards locale={locale} />
   </section>
 }

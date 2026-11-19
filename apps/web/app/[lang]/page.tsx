@@ -3,10 +3,9 @@ import { getTranslations } from "next-intl/server"
 import { StationNetwork } from "@/components/crafter-network"
 import { StationEvents } from "@/components/station-sections"
 import { HeroContent } from "@/components/hero"
-import { StationPeople, StationJournal } from "@/components/station-home"
+import { StationJournal } from "@/components/station-home"
 import { StationFaq } from "@/components/station-faq"
-import { StationShipped } from "@/components/changelog/home-shipped"
-import { StationCommunityShips } from "@/components/home-community-ships"
+import { HomeShippedSection } from "@/components/home-shipped-section"
 import { HomeBackersMarquee } from "@/components/home-backers-marquee"
 import { HomeServices } from "@/components/home-services"
 import { HomeOpenSource } from "@/components/home-open-source"
@@ -45,16 +44,14 @@ export default async function Page({
           ossHref={withLocale("/oss", lang)}
         />
         <HomeBackersMarquee locale={lang} />
-        <StationCommunityShips locale={lang} />
-        <StationShipped locale={lang} />
-        <HomeServices locale={lang} />
-        <HomeOpenSource locale={lang} />
-        <StationNetwork locale={lang} />
-        <StationEvents locale={lang} />
-        <StationPeople locale={lang} />
-        <StationJournal locale={lang} />
-        <StationFaq locale={lang} />
-        <HomeContact locale={lang} />
+        <HomeShippedSection locale={lang} index={1} />
+        <HomeServices locale={lang} index={2} />
+        <HomeOpenSource locale={lang} index={3} />
+        <StationNetwork locale={lang} index={4} />
+        <StationEvents locale={lang} index={5} />
+        <StationJournal locale={lang} index={6} />
+        <StationFaq locale={lang} index={7} />
+        <HomeContact locale={lang} index={8} />
       </main>
   )
 }

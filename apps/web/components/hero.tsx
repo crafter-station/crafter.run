@@ -6,7 +6,8 @@ import { bucleCopy } from "@/lib/bucle-copy"
 import { navCopy } from "@/lib/navigation-copy"
 import { agendaCopy } from "@/lib/agenda-copy"
 import { agendaCity } from "@/lib/agenda-cities"
-import { getOssRepos } from "@/lib/oss"
+import { listAllShips } from "@/lib/ships"
+import { landingCopy } from "@/lib/landing-copy"
 import { fetchHack0Calendar } from "@/lib/hack0-calendar"
 import { partitionHack0Events } from "@/lib/hack0-calendar-data"
 import { BRAND_MARK_PATH } from "@/lib/brand"
@@ -23,8 +24,10 @@ export async function HeroContent({
   const b = bucleCopy[locale]
   const nav = navCopy[locale]
   const agenda = agendaCopy[locale]
-  const [repos, calendar] = await Promise.all([getOssRepos(), fetchHack0Calendar()])
-  const top = repos.slice(0, 3)
+  const [shipsPage, calendar] = await Promise.all([listAllShips({ revalidate: 300 }), fetchHack0Calendar()])
+  const ships = shipsPage?.ships ?? []
+  const crafters = new Set(ships.map(ship => ship.owner.handle)).size
+  const l = landingCopy[locale]
   const cities = new Set(calendar.events.map(event => agendaCity(event.location)?.key).filter(Boolean))
   const next = partitionHack0Events(calendar.events).upcoming[0]
   const raised = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 0 })
@@ -45,9 +48,10 @@ export async function HeroContent({
           </div>
         </div>
         <div className="hero-proof">
-          <Link href={withLocale("/oss", locale)} className="hero-cell">
-            <span className="hero-cell-label">{nav.oss}</span>
-            <ul>{top.map(repo => <li key={repo.repo}><span>{repo.name}</span><span>{repo.stars.toLocaleString("en-US")} ★</span></li>)}</ul>
+          <Link href={withLocale("/ships", locale)} className="hero-cell">
+            <span className="hero-cell-label">{nav.ships}</span>
+            <strong>{`${ships.length} ${l.shipsLabel}`}</strong>
+            <span className="hero-cell-meta">{l.shipsMeta(crafters)}</span>
           </Link>
           <Link href={eventsHref} className="hero-cell">
             <span className="hero-cell-label">{nav.events}</span>

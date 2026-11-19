@@ -473,3 +473,104 @@
 .home-network .network-station { --nc-bg: #f7f5ea; --nc-ink: #20221d; --nc-accent: hsl(var(--accent)); --nc-muted: #6b6347; --nc-line: hsl(var(--accent) / .22); background-image: radial-gradient(hsl(var(--accent) / .22) 1.2px, transparent 1.4px); background-size: 9px 9px; background-position: 0 0; }
 .dark .home-network .network-station { --nc-bg: #191b17; --nc-ink: #f3f0e2; --nc-muted: #b8ad86; --nc-line: hsl(var(--accent) / .22); background-image: radial-gradient(hsl(var(--accent) / .18) 1.2px, transparent 1.4px); }
 .home-network .network-station h3 { font-family: var(--font-crafter), sans-serif; }
+
+/* ======================================================================
+   Homepage system. Every section below the hero follows these rules:
+   one header (NN / LABEL, title, lede, one action), 72px rhythm, two label
+   sizes, one hairline, gold registration marks on each frame, no tilt.
+   ====================================================================== */
+.station-home { --home-line: hsl(var(--foreground) / .12); --home-hover: hsl(var(--foreground) / .035); }
+.station-home > section:not(.hero-name):not(.home-marquee) { padding-block: 72px; }
+
+.home-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 40px; margin-bottom: 40px; }
+.home-head-copy { display: grid; gap: 12px; max-width: 680px; }
+.home-head-copy h2 { margin: 0; }
+.home-head-lede { max-width: 540px; font-size: 16px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
+.home-head-action { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.home-label { font: 500 13px/1.3 var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+.home-label-sm { font: 500 11px/1.4 var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+.home-panel-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 24px; }
+
+/* Registration marks: the print-shop corner ticks that frame every block. */
+.home-frame { position: relative; }
+.home-frame::before, .home-frame::after { content: ""; position: absolute; z-index: 2; width: 12px; height: 12px; border: 0 solid var(--gold); pointer-events: none; }
+.home-frame::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
+.home-frame::after { right: -1px; bottom: -1px; border-width: 0 1.5px 1.5px 0; }
+
+/* Tabs live in the header's action slot. */
+.home-tabs { display: inline-grid; grid-auto-flow: column; box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .28); }
+.home-tabs button { min-height: 48px; padding: 0 20px; font: 500 13px var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); transition: background-color 180ms ease-out, color 180ms ease-out; }
+.home-tabs button + button { box-shadow: inset 1px 0 0 hsl(var(--foreground) / .18); }
+.home-tabs button:hover { color: hsl(var(--foreground)); background: var(--home-hover); }
+.home-tabs button[aria-selected="true"] { color: hsl(var(--foreground)); background: hsl(var(--foreground) / .1); }
+
+/* Tiles: one hover, hairline only. */
+.home-shipped-bento .home-shipped-grid, .home-services-grid, .home-oss-panel { border-color: var(--home-line); }
+.home-service-proof { border-top: 1px solid var(--home-line); color: hsl(var(--muted-foreground)); }
+.home-service-index { display: none; }
+.home-service:hover .home-service-glyph { transform: rotate(-3deg); }
+
+/* Open source: one framed block, total on the left, live chart on the right. No glow. */
+.home-oss-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr); border: 1px solid var(--home-line); }
+.home-oss-total { display: grid; align-content: start; gap: 12px; padding: 32px; border-right: 1px solid var(--home-line); }
+.home-oss-total strong { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(56px, 7vw, 96px); line-height: .9; letter-spacing: -.05em; color: var(--gold); text-shadow: none; }
+.home-oss-total .home-label { color: var(--gold); }
+.home-oss-chart { padding: 32px; gap: 18px; }
+.home-oss-chart figcaption { text-align: left; }
+
+/* Universe: the four sub-brands share one joined row and one skeleton; costumes are ground, accent and art only. */
+.station-home .home-network .network-grid { gap: 1px; background: var(--home-line); border: 1px solid var(--home-line); }
+.home-network .network-card, .home-network .network-card.network-research { padding: 28px 36px; box-shadow: none; transform: none; }
+.home-network .network-card:where(:hover, :focus-visible) { transform: none; }
+.home-network .network-card:where(:hover, :focus-visible) .network-artwork { transform: rotate(-3deg); }
+.home-network .network-card .station-label, .home-network .network-card .network-card-domain { font: 500 13px/1.3 var(--font-label); letter-spacing: .08em; text-transform: uppercase; }
+.home-network .network-card .network-card-domain { text-transform: none; letter-spacing: .02em; }
+.home-network .network-card h3, .home-network .network-research h3, .home-network .network-games h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 24px; letter-spacing: -.03em; color: var(--nc-ink); }
+.home-network .network-games .station-label::before { content: none; }
+
+/* Events: two posters as exhibition prints inside one frame, upright, equal height. */
+.home-posters { gap: 1px; padding: 0; background: var(--home-line); border: 1px solid var(--home-line); align-items: stretch; }
+.home-posters .home-poster { transform: none; box-shadow: none; padding: 28px; }
+.home-posters .home-poster:where(:hover, :focus-visible) { transform: none; }
+.home-poster .station-label { font: 500 13px/1.3 var(--font-label); letter-spacing: .08em; }
+.home-poster-brew .station-label { font-family: var(--font-hack0), ui-monospace, monospace; font-size: 12px; letter-spacing: .14em; }
+.home-poster-brew:where(:hover, :focus-visible) .home-poster-brew-mark, .home-poster-bounty:where(:hover, :focus-visible) .bounty-artwork { transform: rotate(-3deg); }
+:root:not(.dark) .home-poster-bounty { background: #f3eed6; color: #4a4320; }
+
+/* Journal: a plain tile in a frame, no tinted plate. */
+.home-journal-spread { border: 1px solid var(--home-line); gap: 0; }
+.home-journal-spread:not(:has(.home-journal-posts)) { grid-template-columns: minmax(0, 1fr); }
+.home-journal-feature, .dark .home-journal-feature { background: transparent; color: inherit; box-shadow: none; transition: background-color 180ms ease-out; }
+.home-journal-feature:hover { background: var(--home-hover); }
+.home-journal-feature > a { padding: 32px; }
+.home-journal-feature p { color: hsl(var(--muted-foreground)); }
+.home-journal-meta { font-size: 11px; }
+
+/* FAQ: stacked under the shared header, hairline rows, square. */
+.home-faq { display: block; }
+.home-faq-list { display: grid; gap: 0; border: 1px solid var(--home-line); }
+.home-faq-item { border-radius: 0; background: transparent; }
+.home-faq-item + .home-faq-item { border-top: 1px solid var(--home-line); }
+.home-faq-item summary { padding: 20px 24px; border-radius: 0; }
+.home-faq-item:hover, .home-faq-item[open] { background: var(--home-hover); }
+.home-faq-answer { padding: 0 24px 24px 64px; }
+
+/* Contact: the team in joined cells, upright, then the actions bar. */
+.home-hire-panel { display: block; border: 1px solid var(--home-line); }
+.home-hire-panel .home-portraits { gap: 1px; padding: 0; background: var(--home-line); }
+.home-hire-panel .home-portrait { margin: 0; padding: 28px 28px 20px; background: hsl(var(--background)); transform: none; }
+.home-hire-panel .home-portrait-plate { transform: none; }
+.home-hire-panel .home-portrait:where(:hover, :focus-visible) { transform: none; }
+.home-hire-panel .home-portrait:where(:hover, :focus-visible) img { transform: translateY(-4px); }
+.home-hire-panel .home-portrait-caption .station-label { font: 500 11px var(--font-label); letter-spacing: .08em; }
+.home-hire-actions { border-top: 1px solid var(--home-line); }
+
+@media (max-width: 800px) {
+  .station-home > section:not(.hero-name):not(.home-marquee) { padding-block: 56px; }
+  .home-oss-panel { grid-template-columns: minmax(0, 1fr); }
+  .home-oss-total { border-right: 0; border-bottom: 1px solid var(--home-line); padding: 24px; }
+  .home-oss-chart { padding: 24px; }
+  .home-posters { grid-template-columns: minmax(0, 1fr); }
+  .home-hire-panel .home-portrait { padding: 20px 16px 14px; }
+  .home-faq-answer { padding: 0 20px 20px; }
+}
