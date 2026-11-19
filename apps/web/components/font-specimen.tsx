@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState, type CSSProperties } from "react"
+import { HomeHead } from "@/components/home-head"
 import { CrafterStationLogo } from "@/components/crafter-station-logo"
 import { FontBucle } from "@/components/font-bucle"
 import { FontField } from "@/components/font-field"
@@ -70,7 +71,7 @@ export function FontSpecimen({ locale }: { locale: Locale }) {
         <p className="station-label">Crafter Sans / {t.eyebrow}</p>
         <a className="font-version-badge" href="#font-bucle"><span aria-hidden="true" />{b.badge} · Text {fontVersions.text} · Display {fontVersions.display}</a>
       </div>
-      <div className="font-family-switch" role="group" aria-label={t.family}>
+      <div className="home-tabs font-family-switch" role="group" aria-label={t.family}>
         <button aria-pressed={cutId === "display"} onClick={() => chooseCut("display")}>Display</button>
         <button aria-pressed={cutId !== "display"} onClick={() => chooseCut(lastTextWeight)}>Text</button>
       </div>
@@ -88,7 +89,7 @@ export function FontSpecimen({ locale }: { locale: Locale }) {
     </header>
 
     <section className="font-section" id="font-sizes" aria-labelledby="font-sizes-title">
-      <div className="font-section-heading"><div><p className="station-label">01 / {b.sizesLabel}</p><h2 id="font-sizes-title">{b.sizesTitle}</h2></div><p>{b.sizesBody}</p></div>
+      <HomeHead id="font-sizes-title" index={1} label={b.sizesLabel} title={b.sizesTitle} lede={b.sizesBody} />
       <div className="font-sizes">
         {(["display", "500"] as const).map(id => <article key={id} className={`font-size-row font-size-${id}`}>
           <p className="font-size-meta"><span>{id === "display" ? b.displayCut : b.textCut}</span><span>{id === "display" ? fontVersions.display : fontVersions.text}</span></p>
@@ -101,7 +102,7 @@ export function FontSpecimen({ locale }: { locale: Locale }) {
     </section>
 
     <section className="font-section font-tester" id="font-try" aria-labelledby="font-try-title">
-      <div className="font-section-heading"><div><p className="station-label">02 / {t.try}</p><h2 id="font-try-title">{t.testerTitle}</h2></div><p>{t.testerDescription}</p></div>
+      <HomeHead id="font-try-title" index={2} label={t.try} title={t.testerTitle} lede={t.testerDescription} />
       <div className="font-controls">
         <label>{t.variant}<select value={cutId} onChange={e => chooseCut(e.target.value as CutId)}>{cuts.map(c => <option key={c.id} value={c.id}>{c.id === "display" ? "Bucle Display" : `Text · ${c.name}`} {c.weight}</option>)}</select></label>
         <label>{t.size}<span><input type="range" min="14" max="144" value={size} onChange={e => setSize(Number(e.target.value))} /><output>{size} px</output></span></label>
@@ -112,11 +113,11 @@ export function FontSpecimen({ locale }: { locale: Locale }) {
       <label htmlFor="font-sample" className="sr-only">{t.sample}</label>
       <textarea id="font-sample" value={sample} onChange={e => setSample(e.target.value)} spellCheck={false}
         style={{ ...fontStyle(cutId), fontSize: size, letterSpacing: tracking, fontKerning: kern ? "normal" : "none" }} />
-      <div className="font-presets">{phrases.map((phrase, i) => <button key={phrase} aria-pressed={sample === phrase} onClick={() => setSample(phrase)}>{t.presets[i]}</button>)}</div>
+      <div className="home-tabs font-presets">{phrases.map((phrase, i) => <button key={phrase} aria-pressed={sample === phrase} onClick={() => setSample(phrase)}>{t.presets[i]}</button>)}</div>
     </section>
 
     <section className="font-section" id="font-weights" aria-labelledby="font-weights-title">
-      <div className="font-section-heading"><div><p className="station-label">03 / {t.family}</p><h2 id="font-weights-title">{t.familyTitle}</h2></div><p>{t.familyDescription}</p></div>
+      <HomeHead id="font-weights-title" index={3} label={t.family} title={t.familyTitle} lede={t.familyDescription} />
       <div className="font-weight-grid">{cuts.slice(1).map(c => <article key={c.id} className={`font-weight-card font-weight-${c.id}`}>
         <div className="font-card-label"><h3>{c.name}</h3><span>{c.weight}</span></div>
         <p className="font-weight-mark" style={fontStyle(c.id)} aria-hidden="true">Aa<span>&</span></p>
@@ -126,12 +127,12 @@ export function FontSpecimen({ locale }: { locale: Locale }) {
     </section>
 
     <section className="font-section font-bucle" id="font-bucle" aria-labelledby="font-bucle-title">
-      <div className="font-section-heading"><div><p className="station-label">04 / {b.bucleLabel}</p><h2 id="font-bucle-title">{b.bucleTitle}</h2></div><p>{b.bucleBody}</p></div>
+      <HomeHead id="font-bucle-title" index={4} label={b.bucleLabel} title={b.bucleTitle} lede={b.bucleBody} />
       <FontBucle copy={b} />
     </section>
 
     <section className="font-section" id="font-glyphs" aria-labelledby="font-glyphs-title">
-      <div className="font-section-heading"><div><p className="station-label">05 / {t.glyphs}</p><h2 id="font-glyphs-title">{t.glyphTitle}</h2></div><p>{t.glyphDescription}</p></div>
+      <HomeHead id="font-glyphs-title" index={5} label={t.glyphs} title={t.glyphTitle} lede={t.glyphDescription} />
       <div className="font-inspector" ref={inspector}>
         <div className="font-inspector-top"><span>{selected.name} / {selected.weight}</span><button aria-pressed={outline} onClick={() => setOutline(!outline)}>{t.outline}</button></div>
         <div className="font-glyph-drawing" aria-live="polite">
@@ -151,7 +152,7 @@ export function FontSpecimen({ locale }: { locale: Locale }) {
     </section>
 
     <section className="font-section" id="font-context" aria-labelledby="font-context-title">
-      <div className="font-section-heading"><div><p className="station-label">06 / {t.uses}</p><h2 id="font-context-title">{t.usesTitle}</h2></div><p>{t.usesDescription}</p></div>
+      <HomeHead id="font-context-title" index={6} label={t.uses} title={t.usesTitle} lede={t.usesDescription} />
       <article className="font-context-station"><div><p className="station-label">Crafter Station</p><h3>Craft.<br />Ship.<br />Repeat.</h3></div><div><CrafterStationLogo decorative /><p>{t.station}</p></div></article>
       <div className="font-context-pair">
         <article className="font-context-oss"><p className="station-label">Crafter Open Source</p><h3>{t.open}</h3><p>{t.openSub}</p><div><span>Elements</span><span>Petdex</span><span>TRX</span></div><span className="font-context-braces" aria-hidden="true">{"{ }"}</span></article>

@@ -217,7 +217,7 @@ export function eventMoney(amount: number, locale: Locale, currency = "PEN") {
 
 type Identity = {
   presents: string; motto: string; headline: string; about: string
-  soon: string; when: string; where: string; treat: string; until: string; spots: string; with: string
+  soon: string; nextSoon: string; when: string; where: string; treat: string; until: string; spots: string; with: string
   theme: string; system: string; light: string; dark: string
   play: string; playTouch: string; game: string; close: string
   press: string; reloaded: string; count: string; quips: string[]; tooMany: string; mark: string; toast: string
@@ -231,7 +231,7 @@ export const hotReloadIdentity: Record<Locale, Identity> = {
     about: "Hot Reload is Crafter Station's meetup for people who build. One Saturday a month we sit down with coffee, show what we're shipping and leave as a new version of ourselves. Without losing state.",
     press: "Press R to reload", reloaded: "reloaded in {ms}ms", count: "reload #{count}",
     quips: ["State preserved. Your scroll is right where you left it.", "Double espresso applied without a restart.", "0 errors, 1 cup.", "Live changes, like Saturdays.", "Coffee module swapped while hot."],
-    soon: "Soon", when: "When", treat: "On us", until: "Orders close", where: "Where", spots: "Spots", with: "With",
+    soon: "Soon", nextSoon: "Next edition soon", when: "When", treat: "On us", until: "Orders close", where: "Where", spots: "Spots", with: "With",
     tooMany: "That's {count} coffees. Have some water too.", mark: "Two hands toasting with espresso cups", toast: "Tap to reload",
     play: "Press G to play", playTouch: "Tap to play", game: "Espresso perfecto", close: "Close",
   },
@@ -241,7 +241,7 @@ export const hotReloadIdentity: Record<Locale, Identity> = {
     about: "Hot Reload es la juntada de Crafter Station para gente que construye. Un sábado al mes nos sentamos con café, mostramos lo que estamos shipeando y salimos con otra versión de nosotros mismos. Sin perder el estado.",
     press: "Presiona R para recargar", reloaded: "recargado en {ms}ms", count: "recarga nº {count}",
     quips: ["Estado preservado. Tu scroll sigue donde estaba.", "Espresso doble aplicado sin reiniciar.", "0 errores, 1 taza.", "Cambios en vivo, como los sábados.", "Módulo café reemplazado en caliente."],
-    soon: "Pronto", when: "Cuándo", treat: "Invitamos", until: "Cierre", where: "Dónde", spots: "Cupos", with: "Con",
+    soon: "Pronto", nextSoon: "Próxima edición pronto", when: "Cuándo", treat: "Invitamos", until: "Cierre", where: "Dónde", spots: "Cupos", with: "Con",
     tooMany: "Van {count} cafés. Toma agua también.", mark: "Dos manos brindando con tazas de espresso", toast: "Toca para recargar",
     play: "Presiona G para jugar", playTouch: "Toca para jugar", game: "Espresso perfecto", close: "Cerrar",
   },
@@ -251,7 +251,7 @@ export const hotReloadIdentity: Record<Locale, Identity> = {
     about: "Hot Reload é o encontro da Crafter Station para quem constrói. Um sábado por mês sentamos com café, mostramos o que estamos lançando e saímos como uma nova versão de nós mesmos. Sem perder o estado.",
     press: "Aperte R para recarregar", reloaded: "recarregado em {ms}ms", count: "recarga nº {count}",
     quips: ["Estado preservado. Seu scroll continua onde estava.", "Espresso duplo aplicado sem reiniciar.", "0 erros, 1 xícara.", "Mudanças ao vivo, como aos sábados.", "Módulo café trocado a quente."],
-    soon: "Em breve", when: "Quando", treat: "Por nossa conta", until: "Encerra", where: "Onde", spots: "Vagas", with: "Com",
+    soon: "Em breve", nextSoon: "Próxima edição em breve", when: "Quando", treat: "Por nossa conta", until: "Encerra", where: "Onde", spots: "Vagas", with: "Com",
     tooMany: "Já são {count} cafés. Beba água também.", mark: "Duas mãos brindando com xícaras de espresso", toast: "Toque para recarregar",
     play: "Aperte G para jogar", playTouch: "Toque para jogar", game: "Espresso perfecto", close: "Fechar",
   },
@@ -261,7 +261,7 @@ export const hotReloadIdentity: Record<Locale, Identity> = {
     about: "Hot Reload 是 Crafter Station 为动手做东西的人办的聚会。每月一个周六，我们端着咖啡坐下来，展示正在上线的作品，然后带着新版本的自己离开。状态不丢失。",
     press: "按 R 重新加载", reloaded: "{ms}ms 内完成重载", count: "第 {count} 次重载",
     quips: ["状态已保留，滚动位置不变。", "双份浓缩已应用，无需重启。", "0 个错误，1 杯咖啡。", "实时更新，就像每个周六。", "咖啡模块已热替换。"],
-    soon: "即将公布", when: "时间", treat: "我们请客", until: "截止", where: "地点", spots: "名额", with: "合作",
+    soon: "即将公布", nextSoon: "下一期即将公布", when: "时间", treat: "我们请客", until: "截止", where: "地点", spots: "名额", with: "合作",
     tooMany: "已经 {count} 杯咖啡了，也喝点水吧。", mark: "两只手端着浓缩咖啡杯干杯", toast: "点按重新加载",
     play: "按 G 开始游戏", playTouch: "点按开始游戏", game: "Espresso perfecto", close: "关闭",
   },
@@ -271,7 +271,7 @@ export const hotReloadIdentity: Record<Locale, Identity> = {
     about: "Hot Reload は、つくる人のための Crafter Station のミートアップ。月に一度の土曜日、コーヒーを片手に、いま出荷しているものを見せ合い、新しいバージョンの自分になって帰る。状態はそのままで。",
     press: "R でリロード", reloaded: "{ms}ms でリロード完了", count: "リロード #{count}",
     quips: ["状態は保持。スクロール位置もそのまま。", "ダブルエスプレッソを再起動なしで適用。", "エラー 0、カップ 1。", "ライブで変わる、土曜日みたいに。", "コーヒーモジュールをホットスワップ。"],
-    soon: "近日公開", when: "日時", treat: "ご招待", until: "締切", where: "場所", spots: "定員", with: "共催",
+    soon: "近日公開", nextSoon: "次回は近日公開", when: "日時", treat: "ご招待", until: "締切", where: "場所", spots: "定員", with: "共催",
     tooMany: "もう {count} 杯目。水も飲もう。", mark: "エスプレッソカップで乾杯する二つの手", toast: "タップでリロード",
     play: "G でゲーム", playTouch: "タップでゲーム", game: "Espresso perfecto", close: "閉じる",
   },

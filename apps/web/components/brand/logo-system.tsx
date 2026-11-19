@@ -1,6 +1,7 @@
 import { ArrowDown, Download } from "lucide-react"
 
 import { brandCopy } from "@/components/brand/copy"
+import { HomeHead } from "@/components/home-head"
 import { BRAND_MARK_PATH } from "@/lib/brand"
 import type { Locale } from "@/lib/i18n"
 
@@ -35,16 +36,10 @@ export function LogoSystem({ locale }: { locale: Locale }) {
   const t = brandCopy[locale]
 
   return (
-    <section className="station-section brand-system" id="logo">
-      <div className="station-section-heading">
-        <div>
-          <p className="station-eyebrow">{t.eyebrow}</p>
-          <h2>{t.title}</h2>
-        </div>
-      </div>
-      <p className="max-w-2xl leading-7 text-muted-foreground">{t.intro}</p>
+    <section className="station-section brand-system" id="logo" aria-labelledby="logo-title">
+      <HomeHead id="logo-title" index={1} label={t.eyebrow} title={t.title} lede={t.intro} />
 
-      <h3 className="brand-step">01 / {t.tiers}</h3>
+      <h3 className="home-label brand-step">01 / {t.tiers}</h3>
       <div className="brand-tiers">
         <figure className="brand-card">
           <div className="brand-stage">
@@ -80,7 +75,7 @@ export function LogoSystem({ locale }: { locale: Locale }) {
         </figure>
       </div>
 
-      <h3 className="brand-step">02 / {t.scale}</h3>
+      <h3 className="home-label brand-step">02 / {t.scale}</h3>
       <div className="brand-card brand-scale">
         <figure className="brand-scale-hero">
           <div><Mark size={200} /></div>
@@ -118,7 +113,7 @@ export function LogoSystem({ locale }: { locale: Locale }) {
       </div>
       <p className="brand-note">{t.scaleNote}</p>
 
-      <h3 className="brand-step">03 / {t.tests}</h3>
+      <h3 className="home-label brand-step">03 / {t.tests}</h3>
       <div className="brand-tests">
         <figure className="brand-card" data-test="one-ink">
           <div className="brand-stage">
@@ -155,7 +150,7 @@ export function LogoSystem({ locale }: { locale: Locale }) {
       </div>
       <p className="brand-note">{t.testsNote}</p>
 
-      <h3 className="brand-step">04 / {t.motion}</h3>
+      <h3 className="home-label brand-step">04 / {t.motion}</h3>
       <div className="brand-card brand-motion">
         <div className="brand-stage">
           <span className="brand-lockup" data-layout="stacked" style={{ "--u": "3.2px" } as React.CSSProperties}>
@@ -172,9 +167,7 @@ export function LogoSystem({ locale }: { locale: Locale }) {
         <p className="brand-note">{t.motionNote}</p>
       </div>
 
-      <h3 className="brand-step" id="assets">
-        05 / {t.downloads}
-      </h3>
+      <h3 className="home-label brand-step" id="assets">05 / {t.downloads}</h3>
       <p className="max-w-2xl leading-7 text-muted-foreground">{t.downloadsNote}</p>
       <div className="brand-downloads">
         {assets.map((asset) => (
@@ -192,7 +185,7 @@ export function LogoSystem({ locale }: { locale: Locale }) {
                         data-asset={asset.file}
                       />
                     </div>
-                    <p className="station-label">{variant === "light" ? t.onLight : t.onDark}</p>
+                    <p className="home-label-sm">{variant === "light" ? t.onLight : t.onDark}</p>
                     <div className="brand-formats">
                       {formats.map((format) => (
                         <a key={format} href={`${base}.${format}`} download>
@@ -234,24 +227,24 @@ export function BrandHero({
         <div className="brand-hero-side">
           <p className="brand-hero-description">{description}</p>
           <div className="brand-hero-actions">
-            <a className="brand-hero-cta" data-theme-file="light" href="/brand/crafter-station-logo-stacked-light.svg" download>
+            <a className="hero-cta brand-hero-cta" data-theme-file="light" href="/brand/crafter-station-logo-stacked-light.svg" download>
               {t.download}
               <span>SVG</span>
               <Download aria-hidden="true" />
             </a>
-            <a className="brand-hero-cta" data-theme-file="dark" href="/brand/crafter-station-logo-stacked-dark.svg" download>
+            <a className="hero-cta brand-hero-cta" data-theme-file="dark" href="/brand/crafter-station-logo-stacked-dark.svg" download>
               {t.download}
               <span>SVG</span>
               <Download aria-hidden="true" />
             </a>
-            <a className="brand-hero-link" href="#assets">
+            <a className="home-secondary-link brand-hero-link" href="#assets">
               {t.allFormats}
               <ArrowDown aria-hidden="true" />
             </a>
           </div>
         </div>
       </div>
-      <div className="brand-hero-stage">
+      <div className="brand-hero-stage home-frame">
         <Lockup unit={6} />
         <p className="brand-hero-spec">{t.primarySpec}</p>
       </div>

@@ -29,11 +29,11 @@ export function ChangelogCard({ entry, t, locale }: { entry: ChangelogView; t: C
           <span aria-hidden="true">/</span>
           <span>{t.kinds[entry.kind]}</span>
         </p>
-        <h3>
+        <h2>
           <Link href={entry.href} hrefLang={entry.locale}>
             {entry.title}
           </Link>
-        </h3>
+        </h2>
         <p className="changelog-summary">{entry.summary}</p>
         {note && <span className="journal-language">{note}</span>}
         <div className="changelog-foot">

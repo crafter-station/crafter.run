@@ -163,7 +163,7 @@
       "window": "等长对比窗口",
       "windowValue": "{days} 天",
       "signalEyebrow": "核心信号",
-      "signalTitle": "软件工厂每天关闭的工作更多了。",
+      "signalTitle": "团队每天完成的工作更多了。",
       "signalDescription": "发布后的活动与完全等长的发布前窗口比较。不使用累积历史，也不使用虚荣指标。",
       "before": "发布前",
       "after": "发布后",
@@ -402,7 +402,8 @@
         "allCommits": "全部提交",
         "teamCommits": "Crafter 团队提交",
         "stars": "GitHub star 数",
-        "contributors": "贡献者"
+        "contributors": "贡献者",
+        "scope": "以下所选项目与时间段的合计。"
       },
       "allContributors": "选择一位团队成员，只看其提交与项目。",
       "coreTeam": "Crafter 团队",
@@ -480,12 +481,12 @@
       "crewMore": "了解 Crew"
     },
     "blog": {
-      "eyebrow": "实践笔记 · Crafter Station",
+      "eyebrow": "实践笔记",
       "title": "Crafter Journal",
       "description": "记录尝试、收获与值得分享的发现。来自拉美创造者的工程实践与社区故事。"
     },
     "changelog": {
-      "eyebrow": "更新日志 · Crafter Station",
+      "eyebrow": "Crafter Station",
       "title": "更新日志",
       "description": "Crafter Station 发布了什么，以及每次变更背后的人和公开来源。",
       "subscribe": "订阅",

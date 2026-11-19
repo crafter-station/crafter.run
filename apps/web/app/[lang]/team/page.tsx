@@ -2,6 +2,8 @@ import { StationPageHero } from "@/components/station-page-hero"
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Container, SectionGap } from "@/components/grid-container";
+import { HomeHead } from "@/components/home-head";
+import { PortraitDefs } from "@/components/station-home";
 import { CrewSection } from "@/components/crew-section";
 import { JoinCallout } from "@/components/join-callout";
 import { TeamGrid } from "@/components/team-grid";
@@ -39,32 +41,37 @@ export default async function Page({
         </p>
       </StationPageHero>
       <Container>
-        <p className="station-label text-accent station-team-core-label">Core</p>
-        <TeamGrid id="team-calendars" members={team} locale={lang} filters={{
+        <PortraitDefs />
+        <TeamGrid id="team-calendars" members={team} locale={lang} head={{ id: "team-core-title", index: 1, label: "Core", title: t("section"), lede: t("sectionDescription") }} filters={{
           all: t("filterAll"),
           areas: { engineering: t("areaEngineering"), design: t("areaDesign"), growth: t("areaGrowth"), community: t("areaCommunity") },
         }} />
       </Container>
       <SectionGap />
       <Container>
-        <CrewSection locale={lang} />
+        <CrewSection locale={lang} index={2} />
       </Container>
       <SectionGap />
       <JoinCallout locale={lang} />
       {alumniTeam.length > 0 && (
-        <Container innerClassName="py-12">
-          <p className="station-label">{t("alumniEyebrow")}</p>
-          <p className="mt-3 text-muted-foreground">{t("alumniTitle")}</p>
-          <ul className="station-team-alumni mt-6">
-            {alumniTeam.map((member) => (
-              <li key={member.username}>
-                <a href={primaryLink(member)} target="_blank" rel="noopener noreferrer">
-                  {member.name}<span className="station-label text-muted-foreground">{member.role}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
+        <>
+        <SectionGap />
+        <Container>
+          <section aria-labelledby="team-alumni-title">
+            <HomeHead id="team-alumni-title" index={3} label={t("alumniEyebrow")} title={t("alumniTitle")} />
+            <ul className="home-frame station-team-alumni">
+              {alumniTeam.map((member) => (
+                <li key={member.username}>
+                  <a href={primaryLink(member)} target="_blank" rel="noopener noreferrer">
+                    <span className="station-team-alumni-name">{member.name}</span>
+                    <span className="home-label-sm">{member.role}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
         </Container>
+        </>
       )}
     </main>
   );

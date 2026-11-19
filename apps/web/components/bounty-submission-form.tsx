@@ -49,7 +49,7 @@ export function BountySubmissionForm({ slug, existing }: { slug: string; existin
       </label>
       {state.status === "error" ? <p className="text-sm text-red-600">{state.message}</p> : null}
       {saved ? <p className="text-sm text-green-700">Listo, recibimos tu post. Anunciamos ganadores el lunes 5.</p> : null}
-      <button disabled={pending} className="w-fit bg-foreground px-6 py-3 text-sm font-medium text-background disabled:opacity-50">
+      <button disabled={pending} className="hero-cta w-fit disabled:opacity-50">
         {pending ? "Enviando..." : existing || saved ? "Actualizar envío" : "Mandar mi post"}
       </button>
     </form>
@@ -65,7 +65,7 @@ function PostUrlField({ defaultValue }: { defaultValue?: string }) {
 
   return (
     <label className="grid min-w-0 gap-2 text-sm">
-      <span className="font-label text-[14px] uppercase tracking-[0.1em] text-muted-foreground">Link de tu post</span>
+      <span className="home-label">Link de tu post</span>
       <div className="flex min-w-0 items-stretch gap-2">
         <span
           aria-label={platform?.name ?? "Plataforma"}
@@ -109,7 +109,7 @@ function Field(props: React.InputHTMLAttributes<HTMLInputElement> & { label: str
   const { label, hint, className, ...input } = props
   return (
     <label className="grid min-w-0 gap-2 text-sm">
-      <span className="font-label text-[14px] uppercase tracking-[0.1em] text-muted-foreground">{label}</span>
+      <span className="home-label">{label}</span>
       <input {...input} className={cn("w-full min-w-0 border border-line bg-background px-4 py-3 outline-none focus:border-accent", className)} />
       {hint ? <span className="text-xs text-muted-foreground">{hint}</span> : null}
     </label>

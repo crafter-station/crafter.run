@@ -163,7 +163,7 @@
       "window": "同期間の比較ウィンドウ",
       "windowValue": "{days} 日",
       "signalEyebrow": "シグナル",
-      "signalTitle": "Factory は一日あたり、より多くの仕事を閉じています。",
+      "signalTitle": "チームは毎日、より多くの作業を完了しています。",
       "signalDescription": "ローンチ後の活動を、同じ長さのローンチ前期間と比較します。累積履歴や虚栄指標は使いません。",
       "before": "ローンチ前",
       "after": "ローンチ後",
@@ -402,7 +402,8 @@
         "allCommits": "すべてのコミット",
         "teamCommits": "Crafter チームのコミット",
         "stars": "GitHub スター",
-        "contributors": "コントリビューター"
+        "contributors": "コントリビューター",
+        "scope": "下で選択したプロジェクトと期間の合計です。"
       },
       "allContributors": "チームメンバーを選ぶと、その人のコミットとプロジェクトだけを表示します。",
       "coreTeam": "Crafter チーム",
@@ -480,12 +481,12 @@
       "crewMore": "Crew について"
     },
     "blog": {
-      "eyebrow": "フィールドノート · Crafter Station",
+      "eyebrow": "フィールドノート",
       "title": "Crafter Journal",
       "description": "試したこと、学んだこと、分かち合いたいこと。ラテンアメリカのつくり手による技術とカルチャー。"
     },
     "changelog": {
-      "eyebrow": "変更履歴 · Crafter Station",
+      "eyebrow": "Crafter Station",
       "title": "変更履歴",
       "description": "Crafter Station が公開したもの。それぞれの変更に関わった人と、公開されている情報源とともに。",
       "subscribe": "購読する",

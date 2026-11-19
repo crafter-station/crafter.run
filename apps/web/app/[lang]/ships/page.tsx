@@ -1,10 +1,8 @@
-import { shipTone } from "@/lib/ship-tone-server"
-import { PackageOpen, Plus, Rss, Terminal } from "lucide-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 
-import { BandChrome } from "@/components/blog/band-chrome"
+import { HomeHead } from "@/components/home-head"
 import { MakersWall } from "@/components/ships/makers-wall"
 import { PublishWays } from "@/components/ships/publish-ways"
 import { ShipCard } from "@/components/ships/ship-card"
@@ -101,74 +99,74 @@ export default async function ShipsPage({
     { value: totals.updates, label: t("statUpdates", { count: totals.updates }) },
     { value: totals.votes, label: t("statVotes", { count: totals.votes }) },
   ].filter((stat, index) => index < 2 || stat.value > 0)
-  // The page borrows its tone from the featured Ship.
-  const tone = featured ? await shipTone(featured) : "lilac"
+  const common = await getTranslations({ locale: lang, namespace: "common" })
 
   return (
-    <main className="journal-page ships-page" data-tone={tone}>
-      <BandChrome />
-      <header className="journal-band ships-band">
-        <div className="ships-band-grid">
-          <div className="ships-band-copy">
-            <p className="journal-band-crumbs">{t("eyebrow")}</p>
-            <h1>{t("title")}</h1>
-            <p className="journal-band-summary">{t("heroLede")}</p>
+    <main className="station-home ships-page flex-1">
+      <section className="inner-hero" aria-labelledby="ships-title">
+        <p className="home-label">{t("eyebrow")}</p>
+        <div className="inner-hero-grid">
+          <h1 id="ships-title">{t("title")}</h1>
+          <div className="inner-hero-side">
+            <p>{t("heroLede")}</p>
+            <div className="inner-hero-actions">
+              <Link href={`/${lang}/ships/new`} className="hero-cta">{t("publish")}</Link>
+              <a href="https://crafters.chat" target="_blank" rel="noopener noreferrer" className="hero-cta-ghost">{common("communityCta")}</a>
+              <a href={shipsFeedPath(lang)} className="home-secondary-link">{t("rss")}</a>
+            </div>
+          </div>
+          <div className="inner-hero-extra">
             {result ? (
               <dl className="ships-stats">
                 {stats.map((stat) => (
                   <div key={stat.label}>
-                    <dt>{stat.label}</dt>
+                    <dt className="home-label-sm">{stat.label}</dt>
                     <dd>{stat.value}</dd>
                   </div>
                 ))}
               </dl>
             ) : null}
-            <div className="ships-band-actions">
-              <Link href={`/${lang}/ships/new`} className="ships-button ships-button-band">
-                <Plus aria-hidden="true" />
-                {t("publish")}
-              </Link>
-              <a href={shipsFeedPath(lang)} className="ships-band-link">
-                <Rss aria-hidden="true" />
-                {t("rss")}
-              </a>
-            </div>
+            {featured ? (
+              <FeaturedShip
+                ship={featured}
+                locale={lang}
+                now={now}
+                labels={labels}
+                votesLabel={t("votesCount", { count: featured.voteCount })}
+                latestLabel={featured.latestUpdate ? t("latestUpdate", { title: featured.latestUpdate.title }) : null}
+              />
+            ) : null}
           </div>
-          {featured ? (
-            <FeaturedShip
-              ship={featured}
-              locale={lang}
-              now={now}
-              labels={labels}
-              votesLabel={t("votesCount", { count: featured.voteCount })}
-              latestLabel={featured.latestUpdate ? t("latestUpdate", { title: featured.latestUpdate.title }) : null}
-            />
-          ) : null}
         </div>
-      </header>
+      </section>
 
       {result === null ? (
-        <section className="ships-empty">
-          <Terminal aria-hidden="true" />
-          <h2>{t("unavailableTitle")}</h2>
-          <p>{t("unavailableDescription")}</p>
+        <section aria-labelledby="ships-empty-title">
+          <div className="jobs-empty home-frame">
+            <h3 id="ships-empty-title">{t("unavailableTitle")}</h3>
+            <p>{t("unavailableDescription")}</p>
+          </div>
         </section>
       ) : ships.length === 0 ? (
-        <section className="ships-empty">
-          <PackageOpen aria-hidden="true" />
-          <h2>{t("emptyTitle")}</h2>
-          <p>{t("emptyDescription")}</p>
+        <section aria-labelledby="ships-empty-title">
+          <div className="jobs-empty home-frame">
+            <h3 id="ships-empty-title">{t("emptyTitle")}</h3>
+            <p>{t("emptyDescription")}</p>
+          </div>
         </section>
       ) : (
         <>
-          <div className="ships-split">
+          <section aria-labelledby="ships-pulse-title">
+            <HomeHead id="ships-pulse-title" index={1} label={t("eyebrow")} title={t("pulseTitle")} lede={t("pulseLead")} />
             <ShipsPulse events={events} avatars={avatars} locale={lang} now={now} labels={labels} />
+          </section>
+
+          <section aria-labelledby="ships-makers-title">
+            <HomeHead id="ships-makers-title" index={2} label={t("eyebrow")} title={t("makersTitle")} lede={t("makersLead", { count: makers.length })} />
             <MakersWall
               makers={makers}
               locale={lang}
               labels={{
-                title: t("makersTitle"),
-                lead: t("makersLead", { count: makers.length }),
                 wall: t("makersWall"),
                 core: t("core"),
                 crew: t("crew"),
@@ -177,32 +175,30 @@ export default async function ShipsPage({
                 ships: Object.fromEntries(makers.map((maker) => [maker.handle, t("makerShips", { count: maker.ships })])),
               }}
             />
-          </div>
+          </section>
 
           <section id="ships-wall" className="ships-wall" aria-labelledby="ships-wall-title">
-            <header className="ships-wall-head">
-              <div>
-                <p className="station-label">{t("gridEyebrow")}</p>
-                <h2 id="ships-wall-title">{t("gridTitle")}</h2>
+            <HomeHead id="ships-wall-title" index={3} label={t("gridEyebrow")} title={t("gridTitle")} lede={t("resultCount", { count: filtered.length })}>
+              <div className="ships-filters" role="group" aria-label={t("sortLabel")}>
+                <nav className="home-tabs" aria-label={t("sortLabel")}>
+                  <Link href={href({ sort: "recent" })} scroll={false} aria-current={view.sort === "recent" ? "true" : undefined}>{t("sortRecent")}</Link>
+                  <Link href={href({ sort: "votes" })} scroll={false} aria-current={view.sort === "votes" ? "true" : undefined}>{t("sortVotes")}</Link>
+                </nav>
+                <nav className="home-tabs" aria-label={t("filterLabel")}>
+                  <Link href={href({ live: !view.live })} scroll={false} aria-current={view.live ? "true" : undefined}>
+                    {t("filterLive")}
+                    <span>{liveCount}</span>
+                  </Link>
+                </nav>
               </div>
-              <nav aria-label={t("sortLabel")} className="ships-filters">
-                <Link href={href({ sort: "recent" })} scroll={false} aria-current={view.sort === "recent" ? "true" : undefined}>{t("sortRecent")}</Link>
-                <Link href={href({ sort: "votes" })} scroll={false} aria-current={view.sort === "votes" ? "true" : undefined}>{t("sortVotes")}</Link>
-                <span className="ships-filters-rule" aria-hidden="true" />
-                <Link href={href({ live: !view.live })} scroll={false} aria-current={view.live ? "true" : undefined}>
-                  {t("filterLive")}
-                  <span>{liveCount}</span>
-                </Link>
-              </nav>
-            </header>
-            <p className="ships-count" aria-live="polite">{t("resultCount", { count: filtered.length })}</p>
+            </HomeHead>
             {visible.length === 0 ? (
-              <div className="ships-empty ships-empty-inline">
-                <p>{t("noMatches")}</p>
-                <Link href={`/${lang}/ships#ships-wall`} className="ships-button ships-button-quiet">{t("clearFilters")}</Link>
+              <div className="jobs-empty home-frame">
+                <h3>{t("noMatches")}</h3>
+                <Link href={`/${lang}/ships#ships-wall`} className="hero-cta-ghost">{t("clearFilters")}</Link>
               </div>
             ) : (
-              <ul className="ships-grid">
+              <ul className="ships-grid home-frame">
                 {visible.map((ship) => (
                   <li key={ship.id}>
                     <ShipCard ship={ship} locale={lang} now={now} labels={labels} affiliation={affiliations.get(ship.owner.handle) ?? null} />
@@ -212,9 +208,9 @@ export default async function ShipsPage({
             )}
             {pages > 1 ? (
               <nav aria-label={t("pageOf", { page: pageNumber, pages })} className="ships-pager">
-                {pageNumber > 1 ? <Link href={`/${lang}/ships${shipsQuery({ ...view, page: pageNumber - 1 })}#ships-wall`} rel="prev">{`← ${t("previous")}`}</Link> : <span />}
-                <span>{t("pageOf", { page: pageNumber, pages })}</span>
-                {pageNumber < pages ? <Link href={`/${lang}/ships${shipsQuery({ ...view, page: pageNumber + 1 })}#ships-wall`} rel="next">{`${t("next")} →`}</Link> : <span />}
+                {pageNumber > 1 ? <Link href={`/${lang}/ships${shipsQuery({ ...view, page: pageNumber - 1 })}#ships-wall`} rel="prev" className="home-secondary-link">{`← ${t("previous")}`}</Link> : <span />}
+                <span className="home-label">{t("pageOf", { page: pageNumber, pages })}</span>
+                {pageNumber < pages ? <Link href={`/${lang}/ships${shipsQuery({ ...view, page: pageNumber + 1 })}#ships-wall`} rel="next" className="home-secondary-link">{`${t("next")} →`}</Link> : <span />}
               </nav>
             ) : null}
           </section>
@@ -222,15 +218,9 @@ export default async function ShipsPage({
       )}
 
       <section className="ships-cta" aria-labelledby="ships-cta-title">
-        <div className="ships-cta-copy">
-          <p className="station-label">{t("ctaEyebrow")}</p>
-          <h2 id="ships-cta-title">{t("ctaTitle")}</h2>
-          <p>{t("ctaLead")}</p>
-          <Link href={`/${lang}/ships/new`} className="ships-button ships-button-band">
-            <Plus aria-hidden="true" />
-            {t("publish")}
-          </Link>
-        </div>
+        <HomeHead id="ships-cta-title" index={4} label={t("ctaEyebrow")} title={t("ctaTitle")} lede={t("ctaLead")}>
+          <Link href={`/${lang}/ships/new`} className="hero-cta">{t("publish")}</Link>
+        </HomeHead>
         <PublishWays
           locale={lang}
           labels={{

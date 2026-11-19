@@ -32,14 +32,13 @@ export function ChangelogFilter({
   ]
   return (
     <nav aria-label={t.filterLabel} className="journal-nav">
-      <div className="journal-nav-topics">
+      <div className="journal-nav-topics home-tabs">
         {options.map((option) => (
           <Link
             key={option.key}
             href={option.href}
             scroll={false}
             aria-current={(active ?? "all") === option.key ? "page" : undefined}
-            className="journal-filter changelog-filter"
           >
             {option.label}
             <span>{counts[option.key]}</span>

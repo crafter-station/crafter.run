@@ -1,8 +1,6 @@
 /* Secondary pages share the quieter Station canvas, with a color for each subject.
    Data tables, dialogs, form fields and third-party embeds keep their own boundaries. */
 .station-shell-pages {
-  --crew-hack0: #f7cdb9;
-  --crew-research: #cfe7d2;
   --page-accent: var(--gold);
   --page-wash: transparent;
   --page-surface: transparent;
@@ -15,8 +13,6 @@
   isolation: isolate;
 }
 .dark .station-shell-pages {
-  --crew-hack0: #6e4436;
-  --crew-research: #3a5446;
   --page-accent: var(--gold);
   --page-wash: transparent;
   --page-surface: transparent;
@@ -32,7 +28,6 @@
 .station-shell-pages .station-container-inner:not(.inner-hero) > :is(h2,div > h2) { font-size: clamp(28px,3vw,38px); }
 .station-shell-pages .font-label.uppercase { letter-spacing: .08em; }
 .station-shell-pages .text-accent { color: var(--page-accent); }
-.station-shell-pages .station-container-inner > .font-label.uppercase { color: var(--page-accent); }
 .station-page-art { color: var(--page-accent); width: 100%; max-width: 400px; justify-self: end; }
 .station-page-scene { display: block; width: 100%; height: auto; }
 .station-page-art-brand { color: hsl(var(--foreground)); }
@@ -69,35 +64,10 @@
 .station-directory-empty h2 { font-size: 30px; }
 
 /* People, with room for a portrait and an actual name. */
-.station-team-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
-.station-team-filters button { border: 0; border-radius: 0; min-height: 44px; padding: 10px 14px; font-size: 16px; background: hsl(var(--foreground) / .055); color: hsl(var(--muted-foreground)); transition: background-color 160ms; }
-.station-team-filters button[aria-pressed="true"] { color: hsl(var(--background)); background: hsl(var(--foreground)); }
-.station-team-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 32px 22px; }
-.station-person { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
-.station-person-portrait { position: relative; width: 100%; aspect-ratio: 1.12; overflow: hidden; border-radius: 44% 44% 12px 12px; background: var(--page-art-green); }
-.station-person:nth-child(3n+2) .station-person-portrait { border-radius: 0 44% 14px 14px; background: var(--page-art-lilac); }
-.station-person:nth-child(3n+3) .station-person-portrait { border-radius: 44% 14px 14px 14px; background: var(--page-art-yellow); }
-.station-person-portrait img { object-fit: cover; object-position: center 30%; transition: transform 220ms; }
-.station-person:hover img { transform: scale(1.025); }
-.station-person-name { margin-top: 17px; font-family: var(--font-display); font-size: 24px; line-height: 1.2; }
-.station-person:hover .station-person-name { text-decoration: underline; text-underline-offset: 4px; }
-.station-person-role { margin-top: 6px; font-size: 14px; line-height: 1.5; text-transform: uppercase; color: var(--page-accent); }
-.station-person-location { margin-top: 4px; font-size: 16px; color: hsl(var(--muted-foreground)); }
-.station-team-count { display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; color: var(--page-accent); }
 .station-team-note { margin-top: 44px; }
-.station-team-alumni { display: grid; gap: 12px; grid-template-columns: repeat(2,minmax(0,1fr)); }
-.station-team-alumni a { display: flex; flex-direction: column; gap: 5px; padding: 18px; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
-.station-team-alumni a span { margin-left: 0; }
 .station-profile-layout { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.3fr); gap: 40px; }
 .station-profile-identity { padding: 24px; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
-.station-profile-portrait { width: 100%; max-width: 260px; height: auto; aspect-ratio: 1; border: 0; border-radius: 44% 44% 12px 12px; }
-.station-shell-pages .station-profile-identity h1 { font-size: clamp(30px,3vw,44px); }
-.station-profile-links { display: flex; flex-wrap: wrap; gap: 8px; border: 0; }
-.station-profile-links > * { border: 0; padding: 8px 12px; background: hsl(var(--foreground) / .055); border-radius: 0; gap: 8px; }
-.station-profile-links > * > [aria-hidden] { display: none; }
 .station-profile-bio { font-size: 18px; line-height: 1.65; }
-.station-member-tabs [role="tab"] { border: 0; border-radius: 0; min-height: 44px; font-size: 16px; text-transform: none; letter-spacing: 0; }
-.station-member-tabs [role="tab"][aria-selected="false"] { background: hsl(var(--foreground) / .055); }
 .station-member-tabs [role="tabpanel"] { padding: 24px; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
 
 /* Booking choices, publishing tools and question boards. */
@@ -169,7 +139,10 @@
 /* Documentation keeps Fumadocs' navigation, search and code surfaces. */
 .station-docs-page > h1 { font-size: clamp(32px,3.4vw,46px); font-weight: 500; line-height: 1.15; text-wrap: pretty; }
 .station-docs-page > p { font-size: 18px; line-height: 1.65; }
-.station-docs-tools > :is(a,button) { border: 0; border-radius: 0; min-height: 44px; padding: 10px 14px; background: hsl(var(--foreground) / .055); box-shadow: none; font-size: 16px; }
+.station-docs-tools > :is(a,button) { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 0; border-radius: 0; background: hsl(var(--background)); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .28); font: 500 16px/1.2 var(--font-sans); transition: background-color 160ms ease-out, box-shadow 160ms ease-out; }
+.station-docs-tools > :is(a,button):hover { background: color-mix(in srgb, hsl(var(--foreground)) 12%, hsl(var(--background))); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .85); }
+.station-shell-docs { --color-fd-primary: hsl(var(--accent)); }
+.station-shell-docs :is(#nd-sidebar, .station-docs-page) :is(.rounded-md,.rounded-lg,.rounded-xl) { border-radius: 0; }
 /* Cards only: heading anchors also carry data-card and must stay plain links. */
 .station-docs-page [data-card]:not(:is(h1,h2,h3,h4,h5,h6) > a) { border: 0; border-radius: 0; padding: 24px; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
 .station-docs-page [data-card]:not(:is(h1,h2,h3,h4,h5,h6) > a):hover { background: var(--home-hover); }
@@ -193,8 +166,6 @@
   .station-page-art { max-width: 290px; justify-self: center; }
   .station-shell-pages .station-container-inner:not(.inner-hero) { padding-block: 26px; }
   .station-shell-pages .station-container-inner:empty { padding: 0; }
-  .station-team-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px 16px; }
-  .station-person-name { font-size: 21px; }
   .station-card-grid { grid-template-columns: 1fr; }
   .station-card-grid > * { padding: 24px; }
   .station-shell-pages .station-callout { padding: 24px; }
@@ -203,75 +174,36 @@
   .station-shell-pages .station-stat-strip-four { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .station-data-hero { padding-top: 32px; }
   .station-form-page form { padding: 20px; }
-  .station-team-alumni { grid-template-columns: 1fr; }
   .station-sponsor-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .station-brand-guide .station-guide-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .station-report-intro > .station-data-hero { padding-top: 22px; }
   .station-shell-pages .station-metric-signal { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
 }
 @media (max-width: 399px) {
-  .station-team-grid { grid-template-columns: 1fr; }
-  .station-person-portrait { aspect-ratio: 1.2; }
   .station-metrics-grid { grid-template-columns: 1fr; }
   .station-stat-strip > * { padding: 12px; }
   .station-stat-strip > * > p:first-child { font-size: 28px; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .station-person-portrait img, .station-team-filters button, .station-card-grid > a, .station-contact-tracks button { transition: none; }
-  .station-person:hover img { transform: none; }
-}
-.station-team-core-label { margin-bottom: 18px; }
-.station-crew h2 { font-size: clamp(28px,3.2vw,40px); line-height: 1.1; }
-.station-crew-areas { display: grid; gap: 22px; margin-top: 32px; }
-.station-crew-area { padding: 24px; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
-.station-crew-area-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; padding-bottom: 16px; border-bottom: 1px solid hsl(var(--foreground) / .1); }
-.station-crew-area-head h3 { font-family: var(--font-display); font-size: 26px; line-height: 1.2; }
-.station-crew-area ul { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 28px 20px; margin-top: 22px; }
-.station-crew-person { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
-.station-crew-portrait { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 1.12; overflow: hidden; border-radius: 44% 44% 12px 12px; background: hsl(var(--foreground) / .06); }
-.station-crew-area li:nth-child(3n+2) .station-crew-portrait { border-radius: 0 44% 14px 14px; }
-.station-crew-area li:nth-child(3n+3) .station-crew-portrait { border-radius: 44% 14px 14px 14px; }
-.station-crew-person[data-area="hack0"] .station-crew-portrait { background: var(--crew-hack0); }
-.station-crew-person[data-area="research"] .station-crew-portrait { background: var(--crew-research); }
-.station-crew-portrait img { object-fit: cover; object-position: center 30%; transition: transform 220ms; }
-.station-crew-person:hover .station-crew-portrait img { transform: scale(1.025); }
-.station-crew-mono { font-family: var(--font-display); font-size: clamp(36px,4vw,56px); color: #111111; }
-.station-crew-name { margin-top: 14px; font-family: var(--font-display); font-size: 21px; line-height: 1.2; }
-.station-crew-person:hover .station-crew-name { text-decoration: underline; text-underline-offset: 4px; }
-.station-crew-role { margin-top: 4px; font-size: 15px; line-height: 1.4; color: hsl(var(--muted-foreground)); }
-.station-crew-org { margin-top: 10px; padding: 3px 9px; border-radius: 999px; font-size: 12px; letter-spacing: .03em; text-transform: uppercase; color: hsl(var(--muted-foreground)); background: hsl(var(--foreground) / .06); }
-@media (max-width: 1023px) {
-  .station-crew-area ul { grid-template-columns: repeat(3,minmax(0,1fr)); }
-}
-@media (max-width: 767px) {
-  .station-crew-area { padding: 18px; }
-  .station-crew-area ul { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px 14px; }
-  .station-crew-name { font-size: 18px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .station-crew-portrait img { transition: none; }
-  .station-crew-person:hover .station-crew-portrait img { transform: none; }
-}
 .station-crew-steps { grid-template-columns: repeat(3,minmax(0,1fr)); list-style: none; padding: 0; }
-.station-crew-steps h3 { font-family: var(--font-display); font-size: 22px; line-height: 1.2; }
+.station-crew-steps h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 22px; line-height: 1.2; letter-spacing: -.02em; }
 @media (max-width: 767px) {
   .station-crew-steps { grid-template-columns: 1fr; }
 }
 
 /* Newsletter signup */
 .newsletter-layout { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,.9fr); gap: 24px; }
-.newsletter-heading { font-family: var(--font-display); font-size: 28px; line-height: 1.15; letter-spacing: -.03em; }
-.newsletter-gets { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
-.newsletter-gets li, .newsletter-perks { padding: 20px; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
-.newsletter-gets h3, .newsletter-perks h3 { font-family: var(--font-display); font-size: 22px; line-height: 1.2; }
-.newsletter-gets p, .newsletter-perks p { margin-top: 8px; font-size: 16px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
-.newsletter-perks { margin-top: 12px; box-shadow: inset 0 0 0 1px var(--page-accent); background: transparent; }
+.newsletter-heading { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(28px, 3vw, 38px); line-height: 1.1; letter-spacing: -.035em; }
+.newsletter-gets { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 1px; border: 1px solid var(--home-line); background: var(--home-line); }
+.newsletter-gets li { padding: 24px; background: hsl(var(--background)); }
+.newsletter-gets h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 23px; line-height: 1.15; letter-spacing: -.02em; }
+.newsletter-gets p { margin-top: 8px; font-size: 16px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
+
 .newsletter-card { align-self: start; padding: 28px; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
 .newsletter-form { margin-top: 20px; display: grid; gap: 10px; }
 .newsletter-form label { font-size: 15px; color: hsl(var(--muted-foreground)); }
 .newsletter-row { display: flex; gap: 10px; flex-wrap: wrap; }
-.newsletter-row input { flex: 1 1 220px; min-width: 0; min-height: 46px; padding: 10px 14px; font-size: 16px; border-radius: 0; border: 1px solid hsl(var(--line)); background: hsl(var(--background) / .6); }
-.newsletter-row input:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 2px; }
+.newsletter-row input { flex: 1 1 220px; min-width: 0; min-height: 48px; padding: 10px 14px; font-size: 16px; border-radius: 0; border: 1px solid var(--home-line); background: transparent; }
+.newsletter-row input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .newsletter-row input[aria-invalid="true"] { border-color: hsl(var(--destructive, 0 70% 50%)); }
 .newsletter-row button:disabled { opacity: .6; cursor: default; transform: none; }
 .newsletter-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
@@ -283,3 +215,76 @@
   .newsletter-card { order: -1; }
   .newsletter-card { padding: 20px; }
 }
+
+/* Joined tile lists: hairlines come from each cell, so a short last row leaves no filled gaps. */
+.station-tiles { position: relative; display: grid; grid-template-columns: repeat(var(--tiles, 4), minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-left: 1px solid var(--home-line); border-top: 1px solid var(--home-line); }
+.station-tiles > * { min-width: 0; background: hsl(var(--background)); box-shadow: inset -1px -1px 0 var(--home-line); transition: background-color 180ms ease-out; }
+.station-tiles > a:hover, .station-tiles > li:hover { background: color-mix(in srgb, hsl(var(--foreground)) 3.5%, hsl(var(--background))); }
+
+/* Team: upright portraits on the homepage plates. */
+.team-portraits { --tiles: 5; }
+.station-shell .team-portraits > .home-portrait { display: block; margin: 0; padding: 24px 24px 20px; transform: none; }
+.station-shell .team-portraits > .home-portrait:where(:hover, :focus-visible) { transform: none; background: color-mix(in srgb, hsl(var(--foreground)) 3.5%, hsl(var(--background))); }
+.station-shell .team-portraits .home-portrait .home-portrait-plate { transform: none; }
+.station-shell .team-portraits .home-portrait:where(:hover, :focus-visible) img { transform: none; }
+.team-portrait-caption { display: grid; gap: 4px; padding-top: 14px; }
+.team-portrait-name { font-size: 17px; line-height: 1.25; }
+.team-portrait-location { font-size: 14px; line-height: 1.4; color: hsl(var(--muted-foreground)); }
+.station-team-count { display: flex; flex-wrap: wrap; gap: 6px 20px; font: 500 13px/1.4 var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+.station-team-alumni { position: relative; margin: 0; padding: 0; list-style: none; border: 1px solid var(--home-line); }
+.station-team-alumni li + li { border-top: 1px solid var(--home-line); }
+.station-team-alumni a { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; padding: 20px 24px; transition: background-color 180ms ease-out; }
+.station-team-alumni a:hover { background: var(--home-hover); }
+.station-team-alumni-name { font-size: 18px; }
+
+/* Crew: area blocks with joined tiles; avatars sit on a hairline tint, never a pastel slab. */
+.station-crew-areas { display: grid; gap: 32px; }
+.station-crew-area { position: relative; border: 1px solid var(--home-line); }
+.station-crew-area-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; padding: 20px 24px; }
+.station-crew-area-head h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 26px; line-height: 1.2; letter-spacing: -.02em; }
+.station-crew-list { --tiles: 5; border-left: 0; border-top: 1px solid var(--home-line); }
+.station-crew-list > li { display: flex; }
+.station-crew-person { display: flex; flex-direction: column; align-items: flex-start; width: 100%; min-width: 0; padding: 24px; }
+.station-crew-portrait { position: relative; display: grid; place-items: center; width: 100%; aspect-ratio: 1; overflow: hidden; background: hsl(var(--foreground) / .07); }
+.station-crew-portrait img { object-fit: cover; object-position: center 30%; }
+.station-crew-mono { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(36px,4vw,56px); color: var(--gold); }
+.station-crew-name { margin-top: 14px; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 19px; line-height: 1.2; letter-spacing: -.02em; }
+.station-crew-person:hover .station-crew-name { text-decoration: underline; text-underline-offset: 4px; }
+.station-crew-role { margin-top: 4px; font-size: 15px; line-height: 1.4; color: hsl(var(--muted-foreground)); }
+.station-crew-org { margin-top: 10px; }
+
+/* Member page: framed identity, hairline link rows, services-style stats. */
+.station-profile-identity { position: relative; }
+.station-profile-portrait { width: 100%; max-width: 260px; aspect-ratio: 1; background: hsl(var(--foreground) / .07); }
+.station-shell-pages .station-profile-identity h1 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(30px,3vw,40px); line-height: 1; letter-spacing: -.04em; }
+.station-profile-links { display: grid; margin-inline: -24px; border-top: 1px solid var(--home-line); }
+.station-profile-link { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 44px; padding: 0 24px; border-bottom: 1px solid var(--home-line); transition: background-color 180ms ease-out, color 180ms ease-out; }
+a.station-profile-link:hover { background: var(--home-hover); color: hsl(var(--foreground)); }
+.station-impact { position: relative; border: 1px solid var(--home-line); }
+.station-impact-eyebrow { padding: 20px 24px 16px; }
+.station-impact .svc-stats { margin: 0; border-width: 1px 0 0; }
+.station-impact-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.station-impact-links { display: flex; flex-wrap: wrap; gap: 4px 24px; padding: 12px 24px; border-top: 1px solid var(--home-line); }
+.station-impact .svc-stats::before, .station-impact .svc-stats::after { display: none; }
+.station-member-tabs [role="tabpanel"] { margin-top: 24px; }
+
+/* Contact: three paths in three joined columns. */
+.station-card-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.station-card-grid.station-card-grid-3 > :last-child:nth-child(odd) { grid-column: auto; }
+.station-card-grid-3 > a > .home-secondary-link { margin-top: auto; }
+
+@media (max-width: 1099px) {
+  .team-portraits, .station-crew-list { --tiles: 3; }
+}
+@media (max-width: 899px) {
+  .team-portraits { --tiles: 2; }
+  .station-card-grid-3 { grid-template-columns: 1fr; }
+}
+@media (max-width: 767px) {
+  .station-crew-list { --tiles: 2; }
+  .station-shell .team-portraits > .home-portrait { padding: 16px 16px 14px; }
+  .station-crew-area-head { padding: 16px; }
+  .station-crew-person { padding: 16px; }
+  .station-impact-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.station-card-grid.station-crew-steps > :last-child:nth-child(odd) { grid-column: auto; }

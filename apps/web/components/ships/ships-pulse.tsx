@@ -15,12 +15,7 @@ export function ShipsPulse({ events, avatars, locale, now, labels }: {
   labels: ShipLabels
 }) {
   return (
-    <section className="ships-pulse" aria-labelledby="ships-pulse-title">
-      <header>
-        <h2 id="ships-pulse-title"><span className="ships-live" aria-hidden="true" />{labels.pulseTitle}</h2>
-        <p>{labels.pulseLead}</p>
-      </header>
-      <ol>
+    <ol className="ships-pulse home-frame">
         {events.map((event) => (
           <li key={event.id}>
             <Link href={`/${locale}/ships/${event.ship.slug}`}>
@@ -30,13 +25,12 @@ export function ShipsPulse({ events, avatars, locale, now, labels }: {
                 <span>{labels.pulseBy.replace("{name}", event.ship.ownerName)}</span>
               </span>
               <span className="ships-pulse-when">
-                <span className="ship-chip" data-kind={event.kind}>{event.kind === "update" ? labels.pulseUpdate : labels.pulsePublished}</span>
+                <span className="ship-chip">{event.kind === "update" ? labels.pulseUpdate : labels.pulsePublished}</span>
                 <time dateTime={event.at}>{relativeTime(event.at, locale, now)}</time>
               </span>
             </Link>
           </li>
         ))}
-      </ol>
-    </section>
+    </ol>
   )
 }

@@ -51,3 +51,21 @@ a:where(:hover, :focus-visible) .home-secondary-link { text-decoration-color: cu
 .station-card-grid::before, .station-card-grid::after { content: ""; position: absolute; z-index: 2; width: 12px; height: 12px; border: 0 solid var(--gold); pointer-events: none; }
 .station-card-grid::before { top: -1px; left: -1px; border-width: 1.5px 0 0 1.5px; }
 .station-card-grid::after { right: -1px; bottom: -1px; border-width: 0 1.5px 1.5px 0; }
+
+/* Tabs cover tab buttons, filter links and pressed/checked toggles (segmented controls), and keep their look over utility classes. */
+.station-shell .home-tabs { display: inline-flex; gap: 0; }
+.station-shell .home-tabs :is(button, a) { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 18px; border: 0; border-radius: 0; background: transparent; font: 500 13px var(--font-label); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; color: hsl(var(--muted-foreground)); transition: background-color 180ms ease-out, color 180ms ease-out; }
+.station-shell .home-tabs :is(button, a) + :is(button, a) { box-shadow: inset 1px 0 0 hsl(var(--foreground) / .18); }
+.station-shell .home-tabs :is(button, a):where(:hover, :focus-visible) { color: hsl(var(--foreground)); background: var(--home-hover); }
+.station-shell .home-tabs :is(button[aria-selected="true"], button[aria-pressed="true"], button[aria-checked="true"], a[aria-current="page"], a[aria-current="true"]) { color: hsl(var(--foreground)); background: hsl(var(--foreground) / .1); }
+.station-shell .home-tabs :is(button, a) > span { opacity: .6; }
+.home-tabs > [data-slot="segmented-control-indicator"] { display: none; }
+.home-tabs { max-width: 100%; }
+@media (max-width: 800px) {
+  .home-tabs { overflow-x: auto; scrollbar-width: none; }
+  .home-tabs > * { white-space: nowrap; }
+}
+
+/* Section titles outside .station-home (inner pages) match the homepage scale. */
+.home-head-copy h2 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(32px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+.home-head-action { min-width: 0; max-width: 100%; }

@@ -4,7 +4,7 @@ import { useEffect, useEffectEvent, useMemo, useRef, useState, useTransition } f
 import { ChevronDown, ChevronUp, Loader2, MessageSquareText, Radio, Send, Sparkles } from "lucide-react"
 import { PortalProvider, useChannel } from "@portalsdk/react"
 
-import { Button, buttonVariants } from "@/components/ui/button"
+import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
@@ -260,13 +260,13 @@ function WorkshopQuestionsBoardContent({
     <div className="station-board mx-auto max-w-4xl">
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <div className="mb-4 flex justify-center">
-          <DialogTrigger className={buttonVariants({ className: "h-12 w-full rounded-none px-6 sm:w-auto" })}>
+          <DialogTrigger className="hero-cta w-full sm:w-auto">
             <Send />
             {submitLabel}
           </DialogTrigger>
         </div>
         <DialogContent className="max-h-[calc(100dvh-2rem)] max-w-[calc(100vw-2rem)] overflow-y-auto rounded-none border-line bg-background p-4 sm:max-w-xl sm:p-6">
-          <div className="mb-1 inline-flex w-fit items-center gap-2 border border-line bg-background px-3 py-1 font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
+          <div className="home-label mb-1 inline-flex w-fit items-center gap-2">
             <Sparkles className="h-3 w-3" />
             Moderated
           </div>
@@ -299,7 +299,7 @@ function WorkshopQuestionsBoardContent({
               required
               className="mt-2 rounded-none border-line bg-background/80 focus-visible:ring-foreground/40"
             />
-            <div className="mt-2 flex items-center justify-between font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="home-label-sm mt-2 flex items-center justify-between">
               <span>Required</span>
               <span>{question.length}/280</span>
             </div>
@@ -315,7 +315,7 @@ function WorkshopQuestionsBoardContent({
               maxLength={1200}
               className="mt-2 min-h-32 resize-none rounded-none border-line bg-background/80 text-base focus-visible:ring-foreground/40"
             />
-            <div className="mt-2 flex justify-end font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
+            <div className="home-label-sm mt-2 flex justify-end">
               <span>{context.length}/1200</span>
             </div>
 
@@ -335,14 +335,14 @@ function WorkshopQuestionsBoardContent({
         </DialogContent>
       </Dialog>
 
-      <section className="overflow-hidden border border-line bg-card/70">
+      <section className="home-frame border border-line bg-card/70">
         <div className="flex flex-col justify-between gap-4 border-b border-line p-4 md:flex-row md:items-center md:p-6">
           <div>
-            <div className="inline-flex items-center gap-2 font-label text-xs uppercase tracking-[0.24em] text-muted-foreground">
+            <div className="home-label inline-flex items-center gap-2">
               <Radio className={cn("h-3.5 w-3.5", realtimeStatus === "ready" ? "text-emerald-300" : "text-muted-foreground")} />
               Realtime Q&A queue
             </div>
-            <h2 className="mt-2 text-xl font-semibold tracking-tight sm:text-2xl">{heading}</h2>
+            <h2 className="mt-2 font-[family-name:var(--font-crafter)] text-xl font-medium tracking-tight sm:text-2xl">{heading}</h2>
           </div>
           <div className="w-fit border border-line px-3 py-2 text-sm text-muted-foreground md:w-auto">
             {board.length} questions · {votes.length} votes
@@ -385,7 +385,7 @@ function WorkshopQuestionsBoardContent({
 
                   <div className="min-w-0">
                     <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground sm:mb-3 sm:text-xs">
-                      <span className="font-label uppercase tracking-[0.18em]">#{String(index + 1).padStart(2, "0")}</span>
+                      <span className="home-label-sm">#{String(index + 1).padStart(2, "0")}</span>
                       {item.alias ? (
                         <>
                           <span className="min-w-0 wrap-break-word">by {item.alias}</span>
@@ -399,7 +399,7 @@ function WorkshopQuestionsBoardContent({
                     </p>
                     {item.context ? (
                       <div className="mt-4 border border-line bg-background/60 p-3 text-sm leading-6 text-muted-foreground sm:text-base">
-                        <div className="mb-1 font-label text-xs uppercase tracking-[0.2em]">Context</div>
+                        <div className="home-label-sm mb-1">Context</div>
                         <p className="wrap-break-word">{item.context}</p>
                       </div>
                     ) : null}

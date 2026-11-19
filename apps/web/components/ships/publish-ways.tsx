@@ -17,18 +17,18 @@ export type WaysLabels = {
 export function PublishWays({ locale, labels }: { locale: string; labels: WaysLabels }) {
   return (
     <Tabs defaultValue="link" className="ships-ways">
-      <TabsList aria-label={labels.label} className="ships-ways-list">
+      <TabsList aria-label={labels.label} className="ships-ways-list home-tabs">
         <TabsTab value="link"><Link2 aria-hidden="true" />{labels.link.tab}</TabsTab>
         <TabsTab value="agent"><Bot aria-hidden="true" />{labels.agent.tab}</TabsTab>
         <TabsTab value="topic"><Tag aria-hidden="true" />{labels.topic.tab}</TabsTab>
       </TabsList>
-      <TabsPanel value="link" className="ships-ways-panel">
+      <TabsPanel value="link" className="ships-ways-panel home-frame">
         <h3>{labels.link.title}</h3>
         <p>{labels.link.body}</p>
         <code className="ships-ways-code">https://github.com/you/your-project</code>
-        <Link href={`/${locale}/ships/new`} className="ships-button">{labels.link.action}<ArrowRight aria-hidden="true" /></Link>
+        <Link href={`/${locale}/ships/new`} className="hero-cta">{labels.link.action}<ArrowRight aria-hidden="true" /></Link>
       </TabsPanel>
-      <TabsPanel value="agent" className="ships-ways-panel">
+      <TabsPanel value="agent" className="ships-ways-panel home-frame">
         <h3>{labels.agent.title}</h3>
         <p>{labels.agent.body}</p>
         <AgentPromptBlock
@@ -36,14 +36,14 @@ export function PublishWays({ locale, labels }: { locale: string; labels: WaysLa
           copyLabel={labels.agent.copy}
           copiedLabel={labels.agent.copied}
           preClassName="ships-ways-code ships-ways-prompt"
-          buttonClassName="ships-button ships-button-quiet"
+          buttonClassName="hero-cta-ghost"
         />
       </TabsPanel>
-      <TabsPanel value="topic" className="ships-ways-panel">
+      <TabsPanel value="topic" className="ships-ways-panel home-frame">
         <h3>{labels.topic.title}</h3>
         <p>{labels.topic.body}</p>
         <code className="ships-ways-code">topic: crafter-ship</code>
-        <a href="https://github.com/topics/crafter-ship" target="_blank" rel="noopener noreferrer" className="ships-button">{labels.topic.action}<ArrowRight aria-hidden="true" /></a>
+        <a href="https://github.com/topics/crafter-ship" target="_blank" rel="noopener noreferrer" className="hero-cta">{labels.topic.action}<ArrowRight aria-hidden="true" /></a>
       </TabsPanel>
     </Tabs>
   )

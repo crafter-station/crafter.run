@@ -1,5 +1,4 @@
 import type { ShipUpdate } from "@crafter/contracts"
-import { ArrowUpRight } from "lucide-react"
 
 import { ShipMarkdown } from "@/components/ships/ship-markdown"
 import type { Locale } from "@/lib/i18n"
@@ -26,9 +25,8 @@ export function ShipTimeline({ updates, locale, now, socialLabel }: {
           {update.imageUrl ? <img src={update.imageUrl} alt="" loading="lazy" decoding="async" className="ship-timeline-image" /> : null}
           <ShipMarkdown source={update.description} className="ship-prose-compact" />
           {update.socialPostUrl ? (
-            <a href={update.socialPostUrl} target="_blank" rel="ugc nofollow noopener noreferrer" className="ship-inline-link">
+            <a href={update.socialPostUrl} target="_blank" rel="ugc nofollow noopener noreferrer" className="home-secondary-link">
               {socialLabel}
-              <ArrowUpRight aria-hidden="true" />
             </a>
           ) : null}
         </li>

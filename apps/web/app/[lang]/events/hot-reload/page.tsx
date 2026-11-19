@@ -30,6 +30,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const t = hotReloadCopy[lang]
   const id = hotReloadIdentity[lang]
   const next = hotReloadEditions.find((edition) => ["upcoming", "live", "unannounced"].includes(hotReloadStatus(edition)))
+  const latest = hotReloadEditions.at(-1)
   const number = (edition: { number: number }) => String(edition.number).padStart(2, "0")
 
   return (
@@ -43,6 +44,13 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             <p className="hot-reload-caps">{[next.city, hotReloadTime(next, lang)].filter(Boolean).join(" · ")}</p>
             <Link href={withLocale(`/events/hot-reload/${next.number}`, lang)} className="hot-reload-display hot-reload-cta">
               {hotReloadText(t.edition, { number: number(next) })} ↻
+            </Link>
+          </div>
+        ) : latest ? (
+          <div style={ruleFade} className="hot-reload-bleed hot-reload-bleed-y hot-reload-next">
+            <p className="hot-reload-display">{id.nextSoon}</p>
+            <Link href={withLocale(`/events/hot-reload/${latest.number}`, lang)} className="hot-reload-display hot-reload-cta">
+              {hotReloadText(t.edition, { number: number(latest) })} ↻
             </Link>
           </div>
         ) : null}

@@ -35,8 +35,8 @@ export default async function ProfileSettingsPage({ params }: { params: Promise<
   return (
     <main className="flex-1">
       <Container innerClassName="station-form-page">
-        <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">{copy.settingsEyebrow}</p>
-        <h1 className="mt-5 text-5xl font-semibold tracking-tighter">{copy.settingsTitle}</h1>
+        <p className="home-label">{copy.settingsEyebrow}</p>
+        <h1>{copy.settingsTitle}</h1>
         <p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">{copy.settingsLede}</p>
         <MemberProfileForm locale={lang} member={parsed.data.member} />
       </Container>

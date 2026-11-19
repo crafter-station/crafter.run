@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs/server"
 import { bountySubmissions } from "@crafter/db/schema"
 import { and, eq } from "drizzle-orm"
-import { ArrowLeft, ArrowUpRight, CalendarDays, MapPin, Ticket, Trophy } from "lucide-react"
+import { ArrowLeft, ArrowUpRight, CalendarDays, MapPin, Ticket } from "lucide-react"
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
@@ -9,6 +9,7 @@ import { notFound, redirect } from "next/navigation"
 
 import { BountySubmissionForm } from "@/components/bounty-submission-form"
 import { BountyPoster } from "@/components/bounty-artwork"
+import { HomeHead } from "@/components/home-head"
 import { JsonLd } from "@/components/json-ld"
 import { bountyContent, bountyCopy, bountyDate } from "@/lib/bounty-copy"
 import { breadcrumbList } from "@/lib/structured-data"
@@ -67,9 +68,9 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
       { name: content.title, path: `/bounties/${bounty.slug}` },
     ])} />
     <main className="bounties-page bounty-detail">
-      <Link className="bounty-back" href={withLocale("/bounties", lang)}><ArrowLeft size={17} aria-hidden="true" />{t.all}</Link>
+      <Link className="bounty-back home-secondary-link" href={withLocale("/bounties", lang)}><ArrowLeft size={17} aria-hidden="true" />{t.all}</Link>
       <header className="bounty-detail-hero">
-        <div className="bounty-meta"><p className="station-label">Bounty #{bounty.slug.padStart(2, "0")}</p><span className="bounty-status" data-open={open}>{open ? t.open : t.closed}</span></div>
+        <div className="bounty-meta"><p className="home-label">Bounty #{bounty.slug.padStart(2, "0")}</p><span className="bounty-status" data-open={open}>{open ? t.open : t.closed}</span></div>
         <h1>{content.title}</h1>
         <p className="bounties-lead">{content.summary}</p>
       </header>
@@ -77,21 +78,21 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
         {bounty.image && <BountyPoster src={bounty.image} priority />}
         <aside aria-label={t.reward}>
           <div className="bounty-reward-ticket">
-            <p className="station-label">{t.reward}</p>
+            <p className="home-label">{t.reward}</p>
             <div className="bounty-ticket-prize"><strong>{bounty.rewardCount}</strong><p>{t.tickets}</p></div>
             <div className="bounty-ticket-event"><CalendarDays size={19} aria-hidden="true" /><time dateTime={bounty.eventStartsAt}>{bountyDate(bounty.eventStartsAt, lang)} · Lima</time></div>
             <div className="bounty-ticket-event"><MapPin size={19} aria-hidden="true" /><span>{t.location}</span></div>
             <a href={bounty.eventUrl} target="_blank" rel="noopener noreferrer">{t.eventLink}</a>
-            <div className="bounty-ticket-deadline"><span>{t.deadline}</span><time dateTime={bounty.closesAt}>{bountyDate(bounty.closesAt, lang)} · Lima</time></div>
+            <div className="bounty-ticket-deadline"><span className="home-label-sm">{t.deadline}</span><time dateTime={bounty.closesAt}>{bountyDate(bounty.closesAt, lang)} · Lima</time></div>
           </div>
         </aside>
       </div>
       {!open && <section className="bounty-closed"><h2>{t.closedTitle}</h2><p>{t.closedBody}</p></section>}
 
       {bounty.winners?.length ? <section className="bounty-winners bounty-editorial-section" aria-labelledby="bounty-winners-title">
-        <div><p className="station-label">Bounty #{bounty.slug.padStart(2, "0")}</p><h2 id="bounty-winners-title">{t.winnersTitle}</h2><p>{t.winnersIntro}</p></div>
-        <ol>{bounty.winners.map((winner, index) => <li key={winner.name}>
-          <span className="bounty-winner-place" aria-hidden="true"><Trophy size={18} strokeWidth={1.75} />{index + 1}</span>
+        <HomeHead id="bounty-winners-title" index={1} label={`Bounty #${bounty.slug.padStart(2, "0")}`} title={t.winnersTitle} lede={t.winnersIntro} />
+        <ol className="bounty-winner-list">{bounty.winners.map((winner, index) => <li key={winner.name}>
+          <span className="bounty-winner-place home-label" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
           <div>
             <h3>{winner.project}<span> · {winner.name}</span></h3>
             {content.winnerDetails?.[index] ? <p>{content.winnerDetails[index]}</p> : null}
@@ -105,17 +106,17 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
       </section> : null}
 
       <section className="bounty-brief bounty-editorial-section" aria-labelledby="bounty-challenge">
-        <div><p className="station-label">{t.challenge}</p><h2 id="bounty-challenge">{t.challengeIntro}</h2></div>
+        <HomeHead id="bounty-challenge" index={2} label={t.challenge} title={t.challengeIntro} />
         <ol>{content.steps.map((step, index) => <li key={step}><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span><p>{step}</p></li>)}</ol>
       </section>
 
       <section className="bounty-rewards bounty-editorial-section" aria-labelledby="bounty-rewards-title">
-        <div><p className="station-label">{t.reward}</p><h2 id="bounty-rewards-title">{t.rewards}</h2></div>
+        <HomeHead id="bounty-rewards-title" index={3} label={t.reward} title={t.rewards} />
         <div><ul>{content.rewards.map(reward => <li key={reward}><Ticket size={22} strokeWidth={1.5} aria-hidden="true" /><span>{reward}</span></li>)}</ul><p>{t.attendance}</p></div>
       </section>
 
       <section className="bounty-speakers" aria-labelledby="bounty-speakers-title">
-        <div className="bounty-speakers-heading"><div><p className="station-label">{t.event}</p><h2 id="bounty-speakers-title">{t.speakers}</h2></div><p>{t.speakersIntro}</p></div>
+        <HomeHead id="bounty-speakers-title" index={4} label={t.event} title={t.speakers} lede={t.speakersIntro} />
         <ul>{bounty.speakers.map(speaker => <li key={speaker.name}>
           <a href={speaker.url} target="_blank" rel="noopener noreferrer">
             <div className="bounty-speaker-photo"><Image src={speaker.image} alt="" width={400} height={400} sizes="(max-width: 600px) 50vw, 320px" /></div>
@@ -126,10 +127,10 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
         <p className="bounty-speakers-note">{content.speakersNote}</p>
       </section>
       {open && <section className="bounty-entry" aria-labelledby="bounty-entry-title">
-        <div><p className="station-label">{t.entry}</p><h2 id="bounty-entry-title">{content.title}</h2><p>{t.closingNote}</p></div>
-        <div>{userId ? <BountySubmissionForm slug={bounty.slug} existing={existing ?? null} /> : <><p>{t.signInBody}</p><Link className="bounty-button" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link></>}</div>
+        <div><p className="home-label">{t.entry}</p><h2 id="bounty-entry-title">{content.title}</h2><p>{t.closingNote}</p></div>
+        <div>{userId ? <BountySubmissionForm slug={bounty.slug} existing={existing ?? null} /> : <><p>{t.signInBody}</p><Link className="hero-cta" href={`/${lang}/sign-in?redirect_url=${encodeURIComponent(path)}`}>{t.signIn}</Link></>}</div>
       </section>}
-      <section className="bounty-community bounty-help"><div><h2>{t.questions}</h2><p>{t.questionsBody}</p></div><div className="bounty-actions"><a href={bountyQuestionsForumUrl} target="_blank" rel="noopener noreferrer">{t.forum}</a><a href={discordInviteUrl} target="_blank" rel="noopener noreferrer">{t.join}</a></div></section>
+      <section className="bounty-community bounty-help"><div><h2>{t.questions}</h2><p>{t.questionsBody}</p></div><div className="bounty-actions"><a className="home-action-link" href={bountyQuestionsForumUrl} target="_blank" rel="noopener noreferrer">{t.forum}</a><a className="home-action-link" href={discordInviteUrl} target="_blank" rel="noopener noreferrer">{t.join}</a></div></section>
     </main>
   </>
 }

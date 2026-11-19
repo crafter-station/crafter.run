@@ -11,6 +11,7 @@ import { BlogCta } from "@/components/blog/cta"
 import { byline, dateLabel, entryAuthors, readingMinutes, toEntryViews } from "@/components/blog/format"
 import { EventPromo } from "@/components/blog/event-promo"
 import { BlogBody } from "@/components/blog/mdx"
+import { HomeHead } from "@/components/home-head"
 import { Container, SectionGap } from "@/components/grid-container"
 import { JsonLd } from "@/components/json-ld"
 import { getIndexPosts, getPost, getSlugs, postLanguageAlternates, postLocales } from "@/lib/blog"
@@ -150,15 +151,17 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             </span>
           </div>
           {post.image && (
-            <Image
-              src={post.image}
-              alt=""
-              width={1536}
-              height={1024}
-              priority
-              sizes="(min-width: 1024px) 1040px, 100vw"
-              className="journal-band-art"
-            />
+            <div className="journal-band-art-frame home-frame">
+              <Image
+                src={post.image}
+                alt=""
+                width={1536}
+                height={1024}
+                priority
+                sizes="(min-width: 1024px) 1040px, 100vw"
+                className="journal-band-art"
+              />
+            </div>
           )}
         </header>
 
@@ -172,13 +175,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           <>
             <SectionGap />
             <Container innerClassName="journal-related-heading">
-              <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                {t.more.eyebrow}
-              </p>
-              <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">{t.more.title}</h2>
+              <HomeHead id="journal-more" index={1} label={t.more.eyebrow} title={t.more.title} />
             </Container>
             <Container>
-              <div className="journal-related-grid">
+              <div className="journal-related-grid home-frame">
                 {more.map((entry) => (
                   <Link
                     key={`${entry.locale}-${entry.slug}`}
@@ -186,14 +186,14 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
                     hrefLang={entry.locale}
                     className="journal-related-card"
                   >
-                    <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
+                    <p className="home-label-sm">
                       {entry.kindLabel}
                       {entry.languageNote ? ` · ${entry.languageNote}` : ""}
                     </p>
-                    <h3 className="mt-5 text-balance text-lg tracking-tight">{entry.title}</h3>
+                    <h3 className="mt-5 text-balance">{entry.title}</h3>
                     <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted-foreground">{entry.summary}</p>
                     <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-3 pt-6">
-                      <time dateTime={entry.date} className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                      <time dateTime={entry.date} className="home-label-sm">
                         {entry.dateLong}
                       </time>
                       <span className="text-sm">{t.readPost}</span>

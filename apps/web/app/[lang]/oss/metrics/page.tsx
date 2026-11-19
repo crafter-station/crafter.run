@@ -116,11 +116,9 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   return (
     <>
-
-      <main className="flex-1">
+      <main className="station-home oss-metrics flex-1">
         <OssMetricsDashboard metrics={metrics} radar={radar} locale={lang} copy={copy} />
       </main>
-
     </>
   )
 }

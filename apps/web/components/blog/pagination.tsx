@@ -19,19 +19,16 @@ import type { BlogCopy } from "@/components/blog/copy"
 import { blogPagePath } from "@/lib/blog-paths"
 import type { Locale } from "@/lib/i18n"
 
-const CONTROL =
-  "inline-flex min-h-11 cursor-pointer items-center gap-3 rounded-md bg-foreground/5 px-4 font-label text-xs " +
-  "uppercase tracking-[0.1em] transition-colors hover:bg-foreground/10 " +
-  "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+const CONTROL = "home-action-link"
 
 const NUMBER =
-  "flex size-11 items-center justify-center rounded-md font-label text-xs tabular-nums " +
-  "transition-colors hover:bg-foreground/5 " +
+  "flex size-11 items-center justify-center font-label text-xs tabular-nums " +
+  "transition-colors hover:bg-[var(--home-hover)] " +
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
 
 const CURRENT =
-  "flex size-11 items-center justify-center rounded-md bg-foreground font-label text-xs " +
-  "tabular-nums text-background"
+  "flex size-11 items-center justify-center bg-foreground/10 font-label text-xs " +
+  "tabular-nums shadow-[inset_0_0_0_1px_var(--home-line)]"
 
 export function BlogPager({
   locale,
@@ -84,7 +81,7 @@ export function BlogPager({
         <span />
       )}
 
-      <span className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground sm:hidden">
+      <span className="home-label-sm sm:hidden">
         {t.pageOf(page, pageCount)}
       </span>
 

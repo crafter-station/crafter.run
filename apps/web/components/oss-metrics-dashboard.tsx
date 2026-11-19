@@ -1,13 +1,11 @@
 import Link from "next/link"
-import { ArrowLink } from "@/components/arrow-link"
-import { Container, SectionGap } from "@/components/grid-container"
+import type { CSSProperties, ReactNode } from "react"
+import { HomeHead } from "@/components/home-head"
 import { LocalizedLink } from "@/components/localized-link"
-import { PixelArrow } from "@/components/pixel-arrow"
+import { StatTiles } from "@/components/stat-tiles"
 import type { Locale } from "@/lib/i18n"
 import type { OssMetricPeriod, OssMetrics } from "@/lib/oss-metrics"
 import type { OssRadar } from "@/lib/oss-radar"
-import { projectColor } from "@/lib/project-color"
-import { cn } from "@/lib/utils"
 
 export type OssMetricsCopy = {
   eyebrow: string
@@ -92,6 +90,8 @@ export type OssMetricsCopy = {
   contributeCta: string
 }
 
+const cols = (count: number) => ({ "--cols": count }) as CSSProperties
+
 function rate(value: number, days: number) {
   return value / Math.max(days, 1 / 24)
 }
@@ -121,166 +121,80 @@ function formatDelta(value: number | null, locale: string) {
   }).format(value / 100)
 }
 
-function MetricCell({
-  label,
-  description,
-  value,
-  change,
-  locale,
-  color,
-  className,
-}: {
-  label: string
-  description: string
-  value: string
-  change: number | null
-  locale: string
-  color: string
-  className?: string
+function MetricCell({ label, description, value, change, locale }: {
+  label: string; description: string; value: string; change: number | null; locale: string
 }) {
   return (
-    <div className={cn("relative flex min-h-56 flex-col overflow-hidden p-7 md:p-8", className)}>
-      <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: color }} />
-      <div className="flex items-start justify-between gap-4">
-        <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
-          {label}
-        </p>
-        <span
-          className="border px-2 py-1 font-label text-xs tabular-nums"
-          style={{ borderColor: color, color }}
-        >
-          {formatDelta(change, locale)}
-        </span>
+    <div className="metric-tile">
+      <div className="metric-tile-top">
+        <p className="home-label-sm">{label}</p>
+        <span className="home-label-sm is-gold">{formatDelta(change, locale)}</span>
       </div>
-      <p
-        className="mt-auto font-label text-5xl tracking-[-0.06em] md:text-6xl"
-        style={{ color }}
-      >
-        {value}
-      </p>
-      <p className="mt-4 max-w-xs text-xs leading-relaxed text-muted-foreground">{description}</p>
+      <p className="figure">{value}</p>
+      <p className="tile-copy">{description}</p>
     </div>
   )
 }
 
-function FlowRow({
-  label,
-  pre,
-  post,
-  days,
-  locale,
-  color,
-}: {
-  label: string
-  pre: number
-  post: number
-  days: number
-  locale: string
-  color: string
+function FlowRow({ label, pre, post, days, locale }: {
+  label: string; pre: number; post: number; days: number; locale: string
 }) {
   const beforeRate = rate(pre, days)
   const afterRate = rate(post, days)
   const max = Math.max(beforeRate, afterRate, 1)
 
   return (
-    <div className="grid gap-4 border-t border-line py-5 md:grid-cols-[0.7fr_1fr_1fr] md:items-center md:gap-8">
-      <p className="text-sm text-foreground">{label}</p>
-      {[
-        ["pre", beforeRate],
-        ["post", afterRate],
-      ].map(([key, value]) => (
-        <div key={key} className="flex items-center gap-4">
-          <span className="h-1.5 flex-1 bg-foreground/8">
-            <span
-              className={cn("block h-full", key === "pre" && "bg-foreground/35")}
-              style={{
-                width: `${Math.max(3, (Number(value) / max) * 100)}%`,
-                backgroundColor: key === "post" ? color : undefined,
-              }}
-            />
-          </span>
-          <span
-            className="w-12 text-right font-label text-sm tabular-nums"
-            style={{ color: key === "post" ? color : undefined }}
-          >
-            {formatNumber(Number(value), locale)}
-          </span>
+    <div className="flow-row">
+      <p>{label}</p>
+      {([["before", beforeRate], ["after", afterRate]] as const).map(([key, value]) => (
+        <div key={key} className="flow-bar">
+          <span className="flow-track"><span className={`is-${key}`} style={{ width: `${Math.max(3, (value / max) * 100)}%` }} /></span>
+          <span className={`flow-num is-${key}`}>{formatNumber(value, locale)}</span>
         </div>
       ))}
     </div>
   )
 }
 
-function ChangePanel({
-  label,
-  description,
-  pre,
-  post,
-  days,
-  locale,
-  color,
-  className,
-}: {
-  label: string
-  description: string
-  pre: number
-  post: number
-  days: number
-  locale: string
-  color: string
-  className?: string
+function ChangePanel({ label, description, pre, post, days, locale }: {
+  label: string; description: string; pre: number; post: number; days: number; locale: string
 }) {
   const preRate = rate(pre, days)
   const postRate = rate(post, days)
 
   return (
-    <div className={cn("relative overflow-hidden p-7 md:p-8", className)}>
-      <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: color }} />
-      <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
-        {label}
-      </p>
-      <div className="mt-8 flex items-end justify-between gap-6">
+    <div className="metric-tile">
+      <p className="home-label-sm">{label}</p>
+      <div className="metric-compare">
         <div>
-          <p className="font-label text-4xl tracking-[-0.05em]" style={{ color }}>
-            {formatNumber(postRate, locale)}
-          </p>
-          <p className="mt-2 font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            {formatNumber(preRate, locale)} → {formatNumber(postRate, locale)}
-          </p>
+          <p className="figure">{formatNumber(postRate, locale)}</p>
+          <p className="metric-sub mt-2">{formatNumber(preRate, locale)} → {formatNumber(postRate, locale)}</p>
         </div>
-        <p className="font-label text-2xl" style={{ color }}>
-          {formatDelta(delta(preRate, postRate), locale)}
-        </p>
+        <p className="home-label-sm is-gold">{formatDelta(delta(preRate, postRate), locale)}</p>
       </div>
-      <p className="mt-6 max-w-sm text-xs leading-relaxed text-muted-foreground">{description}</p>
+      <p className="tile-copy">{description}</p>
     </div>
   )
 }
 
-function RadarCell({
-  label,
-  description,
-  value,
-  color,
-  className,
-}: {
-  label: string
-  description: string
-  value: string
-  color: string
-  className?: string
+function RadarCell({ label, description, value }: { label: string; description: string; value: string }) {
+  return (
+    <div className="metric-tile">
+      <p className="home-label-sm">{label}</p>
+      <p className="figure">{value}</p>
+      <p className="tile-copy">{description}</p>
+    </div>
+  )
+}
+
+function Section({ id, index, label, title, lede, action, children }: {
+  id: string; index: number; label: string; title: string; lede?: string; action?: ReactNode; children: ReactNode
 }) {
   return (
-    <div className={cn("relative flex min-h-48 flex-col overflow-hidden p-7 md:p-8", className)}>
-      <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: color }} />
-      <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
-        {label}
-      </p>
-      <p className="mt-auto font-label text-5xl tracking-[-0.06em]" style={{ color }}>
-        {value}
-      </p>
-      <p className="mt-4 max-w-xs text-xs leading-relaxed text-muted-foreground">{description}</p>
-    </div>
+    <section aria-labelledby={id}>
+      <HomeHead id={id} index={index} label={label} title={title} lede={lede}>{action}</HomeHead>
+      {children}
+    </section>
   )
 }
 
@@ -318,18 +232,6 @@ export function OssMetricsDashboard({
     : metrics.source === "github"
       ? copy.live
       : copy.snapshot
-  const throughputColor = projectColor("crafter-station/oss-throughput")
-  const mergeColor = projectColor("crafter-station/oss-merges")
-  const externalColor = projectColor("crafter-station/external-contributions")
-  const breadthColor = projectColor("crafter-station/portfolio-breadth")
-  const issueOpenedColor = projectColor("crafter-station/issues-opened")
-  const issueClosedColor = projectColor("crafter-station/issues-closed")
-  const prOpenedColor = projectColor("crafter-station/prs-opened")
-  const prClosedColor = projectColor("crafter-station/prs-closed")
-  const radarCoverageColor = projectColor("crafter-station/radar-coverage")
-  const radarReconcileColor = projectColor("crafter-station/radar-reconcile")
-  const radarReviewColor = projectColor("crafter-station/radar-review")
-  const radarDiscoverColor = projectColor("crafter-station/radar-discover")
   const radarUpdated = new Intl.DateTimeFormat(locale, {
     dateStyle: "medium",
     timeStyle: "short",
@@ -338,376 +240,143 @@ export function OssMetricsDashboard({
 
   return (
     <>
-      <Container innerClassName="station-page-intro station-report-intro">
-        <p className="station-label text-accent">{copy.eyebrow}</p>
-        <h1 className="mt-5">{copy.title}</h1>
-        <div className="station-report-summary">
-          <div>
-            <p className="text-lg leading-relaxed text-muted-foreground">{copy.description}</p>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <LocalizedLink href="/oss" locale={locale} className="group"><ArrowLink>{copy.catalogCta}</ArrowLink></LocalizedLink>
-              <Link href="https://github.com/crafter-station" target="_blank" rel="noopener noreferrer" className="group"><ArrowLink>{copy.githubCta}</ArrowLink></Link>
+      <section className="inner-hero" aria-labelledby="metrics-title">
+        <p className="home-label">{copy.eyebrow}</p>
+        <div className="inner-hero-grid">
+          <h1 id="metrics-title">{copy.title}</h1>
+          <div className="inner-hero-side">
+            <p>{copy.description}</p>
+            <div className="inner-hero-actions">
+              <LocalizedLink href="/oss" locale={locale} className="home-action-link">{copy.catalogCta}</LocalizedLink>
+              <Link href="https://github.com/crafter-station" target="_blank" rel="noopener noreferrer" className="home-action-link">{copy.githubCta}</Link>
             </div>
           </div>
-          <dl className="station-stat-strip">
-            {[
-              [formatInteger(metrics.repoCount, locale), copy.repos],
-              [formatInteger(metrics.openIssues, locale), copy.openIssues],
-              [formatInteger(metrics.openPrs, locale), copy.openPrs],
-            ].map(([value, label]) => (
-              <div key={label}><dt className="mt-2 text-muted-foreground">{label}</dt><dd className="station-report-number">{value}</dd></div>
-            ))}
-          </dl>
         </div>
-      </Container>
-      <Container innerClassName="station-metric-signal">
-        <div>
-          <p className="station-label text-muted-foreground">{copy.signalEyebrow} · {sourceLabel}</p>
-          <p className="station-signal-value" style={{ color: throughputColor }}>{formatDelta(delta(throughputPre, throughputPost), locale)}</p>
-          <h2>{copy.signalTitle}</h2>
-        </div>
-        <div>
-          <p className="text-muted-foreground leading-relaxed">{copy.signalDescription}</p>
-          <dl className="station-compare-grid">
-            {[[copy.before, throughputPre], [copy.after, throughputPost]].map(([label, value], index) => (
-              <div key={String(label)}>
-                <dt className="mt-2 text-muted-foreground">{label} · {copy.daily}</dt>
-                <dd className="station-report-number" style={{ color: index > 0 ? throughputColor : undefined }}>{formatNumber(Number(value), locale)}</dd>
-              </div>
-            ))}
-          </dl>
-          <div className="station-signal-meta text-muted-foreground">
-            <p>{copy.windowValue} · {copy.window}</p>
-            <p>{copy.updated} · {updated}</p>
+        <StatTiles items={[
+          [formatInteger(metrics.repoCount, locale), copy.repos],
+          [formatInteger(metrics.openIssues, locale), copy.openIssues],
+          [formatInteger(metrics.openPrs, locale), copy.openPrs],
+        ]} />
+      </section>
+
+      <Section id="metrics-signal" index={1} label={`${copy.signalEyebrow} · ${sourceLabel}`} title={copy.signalTitle} lede={copy.signalDescription}
+        action={<span className="home-label">{copy.updated} · {updated}</span>}>
+        <div className="signal-tiles tile-grid home-frame" style={cols(4)}>
+          <div className="metric-tile">
+            <p className="home-label-sm">{copy.daily}</p>
+            <p className="figure">{formatDelta(delta(throughputPre, throughputPost), locale)}</p>
+          </div>
+          {[[copy.before, throughputPre], [copy.after, throughputPost]].map(([label, value]) => (
+            <div key={String(label)} className="metric-tile">
+              <p className="home-label-sm">{label} · {copy.daily}</p>
+              <p className="figure">{formatNumber(Number(value), locale)}</p>
+            </div>
+          ))}
+          <div className="metric-tile">
+            <p className="home-label-sm">{copy.window}</p>
+            <p className="figure">{copy.windowValue}</p>
           </div>
         </div>
-      </Container>
+      </Section>
 
-      <SectionGap />
-
-      <Container innerClassName="border-b px-6 py-10 md:px-10">
-        <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
-          {copy.metricsEyebrow}
-        </p>
-        <h2 className="mt-3 text-balance text-3xl tracking-tight md:text-4xl">
-          {copy.metricsTitle}
-        </h2>
-      </Container>
-      <Container>
-        <div className="station-metrics-grid grid">
-          <MetricCell
-            label={copy.metrics.throughput}
-            description={copy.metrics.throughputDescription}
-            value={formatNumber(throughputPost, locale)}
-            change={delta(throughputPre, throughputPost)}
-            locale={locale}
-            color={throughputColor}
-          />
-          <MetricCell
-            label={copy.metrics.merges}
-            description={copy.metrics.mergesDescription}
-            value={formatNumber(mergesPost, locale)}
-            change={delta(mergesPre, mergesPost)}
-            locale={locale}
-            color={mergeColor}
-            className="border-t border-line md:border-l md:border-t-0"
-          />
-          <MetricCell
-            label={copy.metrics.externalClosed}
-            description={copy.metrics.externalClosedDescription}
-            value={formatNumber(externalPost, locale)}
-            change={delta(externalPre, externalPost)}
-            locale={locale}
-            color={externalColor}
-            className="border-t border-line xl:border-l xl:border-t-0"
-          />
-          <MetricCell
-            label={copy.metrics.activeRepos}
-            description={copy.metrics.activeReposDescription}
-            value={`${metrics.post.activeRepos}/${metrics.repoCount}`}
-            change={delta(activePre, activePost)}
-            locale={locale}
-            color={breadthColor}
-            className="border-t border-line md:border-l xl:border-t-0"
-          />
+      <Section id="metrics-rhythm" index={2} label={copy.metricsEyebrow} title={copy.metricsTitle}>
+        <div className="tile-grid home-frame" style={cols(4)}>
+          <MetricCell label={copy.metrics.throughput} description={copy.metrics.throughputDescription}
+            value={formatNumber(throughputPost, locale)} change={delta(throughputPre, throughputPost)} locale={locale} />
+          <MetricCell label={copy.metrics.merges} description={copy.metrics.mergesDescription}
+            value={formatNumber(mergesPost, locale)} change={delta(mergesPre, mergesPost)} locale={locale} />
+          <MetricCell label={copy.metrics.externalClosed} description={copy.metrics.externalClosedDescription}
+            value={formatNumber(externalPost, locale)} change={delta(externalPre, externalPost)} locale={locale} />
+          <MetricCell label={copy.metrics.activeRepos} description={copy.metrics.activeReposDescription}
+            value={`${metrics.post.activeRepos}/${metrics.repoCount}`} change={delta(activePre, activePost)} locale={locale} />
         </div>
-      </Container>
+      </Section>
 
-      <SectionGap />
-
-      <Container innerClassName="border-b px-6 py-10 md:px-10">
-        <div className="flex flex-wrap items-start justify-between gap-6">
-          <div>
-            <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
-              {copy.radar.eyebrow}
-            </p>
-            <h2 className="mt-3 text-balance text-3xl tracking-tight md:text-4xl">
-              {copy.radar.title}
-            </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              {copy.radar.description}
-            </p>
-          </div>
-          <p className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            {copy.radar.updated} · {radarUpdated}
-          </p>
-        </div>
-      </Container>
-      <Container>
-        <div className="station-metrics-grid grid">
-          <RadarCell
-            label={copy.radar.coverage}
-            description={copy.radar.coverageDescription}
-            value={`${radar.summary.successful}/${radar.summary.repoCount}`}
-            color={radarCoverageColor}
-          />
-          <RadarCell
-            label={copy.radar.reconcile}
-            description={copy.radar.reconcileDescription}
-            value={formatInteger(radar.summary.reconcileCandidates, locale)}
-            color={radarReconcileColor}
-            className="border-t border-line md:border-l md:border-t-0"
-          />
-          <RadarCell
-            label={copy.radar.review}
-            description={copy.radar.reviewDescription}
-            value={formatInteger(radar.summary.reviewCandidates, locale)}
-            color={radarReviewColor}
-            className="border-t border-line xl:border-l xl:border-t-0"
-          />
-          <RadarCell
-            label={copy.radar.discover}
-            description={copy.radar.discoverDescription}
-            value={formatInteger(radar.summary.discoverRepos, locale)}
-            color={radarDiscoverColor}
-            className="border-t border-line md:border-l xl:border-t-0"
-          />
-        </div>
-        <div className="border-t border-line">
-          <div className="p-6 md:p-8">
-            <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
-              {copy.radar.delta}
-            </p>
-            <p className="mt-3 font-label text-sm tabular-nums">
+      <Section id="metrics-radar" index={3} label={copy.radar.eyebrow} title={copy.radar.title} lede={copy.radar.description}
+        action={<span className="home-label">{copy.radar.updated} · {radarUpdated}</span>}>
+        <div className="tile-grid home-frame" style={cols(4)}>
+          <RadarCell label={copy.radar.coverage} description={copy.radar.coverageDescription} value={`${radar.summary.successful}/${radar.summary.repoCount}`} />
+          <RadarCell label={copy.radar.reconcile} description={copy.radar.reconcileDescription} value={formatInteger(radar.summary.reconcileCandidates, locale)} />
+          <RadarCell label={copy.radar.review} description={copy.radar.reviewDescription} value={formatInteger(radar.summary.reviewCandidates, locale)} />
+          <RadarCell label={copy.radar.discover} description={copy.radar.discoverDescription} value={formatInteger(radar.summary.discoverRepos, locale)} />
+          <div className="tile-wide">
+            <p className="home-label-sm">{copy.radar.delta}</p>
+            <p className="metric-sub mt-3">
               +{formatInteger(radar.summary.added, locale)} {copy.radar.added} · {formatInteger(radar.summary.changed, locale)} {copy.radar.changed} · {formatInteger(radar.summary.resolved, locale)} {copy.radar.resolved}
             </p>
           </div>
         </div>
-      </Container>
+      </Section>
 
-      <SectionGap />
-
-      <Container innerClassName="station-metrics-section grid gap-8 lg:grid-cols-[0.78fr_1.22fr]">
-        <div className="border-b border-line p-8 md:p-10 lg:border-b-0 lg:border-r">
-          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            {copy.flowEyebrow}
-          </p>
-          <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{copy.flowTitle}</h2>
-          <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
-            {copy.flowDescription}
-          </p>
-          <div className="mt-10 flex gap-6 font-label text-xs uppercase tracking-[0.2em] text-muted-foreground lg:hidden">
-            <span>{copy.before}</span>
-            <span className="text-accent">{copy.after}</span>
-          </div>
-        </div>
-        <div className="px-8 py-5 md:px-10">
-          <div className="hidden grid-cols-[0.7fr_1fr_1fr] gap-8 pb-4 font-label text-xs uppercase tracking-[0.2em] text-muted-foreground md:grid">
+      <Section id="metrics-flow" index={4} label={copy.flowEyebrow} title={copy.flowTitle} lede={copy.flowDescription}>
+        <div className="flow-table home-frame">
+          <div className="flow-head home-label-sm">
             <span />
             <span>{copy.before}</span>
-            <span className="text-accent">{copy.after}</span>
+            <span className="is-after">{copy.after}</span>
           </div>
-          <FlowRow
-            label={copy.issuesOpened}
-            pre={metrics.pre.issuesOpened}
-            post={metrics.post.issuesOpened}
-            days={metrics.windowDays}
-            locale={locale}
-            color={issueOpenedColor}
-          />
-          <FlowRow
-            label={copy.issuesClosed}
-            pre={metrics.pre.issuesClosed}
-            post={metrics.post.issuesClosed}
-            days={metrics.windowDays}
-            locale={locale}
-            color={issueClosedColor}
-          />
-          <FlowRow
-            label={copy.prsOpened}
-            pre={metrics.pre.prsOpened}
-            post={metrics.post.prsOpened}
-            days={metrics.windowDays}
-            locale={locale}
-            color={prOpenedColor}
-          />
-          <FlowRow
-            label={copy.prsClosed}
-            pre={metrics.pre.prsClosed}
-            post={metrics.post.prsClosed}
-            days={metrics.windowDays}
-            locale={locale}
-            color={prClosedColor}
-          />
-        </div>
-      </Container>
-
-      <SectionGap />
-
-      <Container innerClassName="border-b px-6 py-10 md:px-10">
-        <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
-          {copy.acquisitionEyebrow}
-        </p>
-        <h2 className="mt-3 max-w-3xl text-3xl tracking-tight md:text-4xl">
-          {copy.acquisitionTitle}
-        </h2>
-        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-          {copy.acquisitionDescription}
-        </p>
-      </Container>
-      <Container>
-        <div className="station-metrics-grid grid">
-          <ChangePanel
-            label={copy.externalOpened}
-            description={copy.externalOpenedDescription}
-            pre={metrics.pre.externalPrsOpened}
-            post={metrics.post.externalPrsOpened}
-            days={metrics.windowDays}
-            locale={locale}
-            color={externalColor}
-          />
-          <ChangePanel
-            label={copy.externalResolved}
-            description={copy.externalResolvedDescription}
-            pre={metrics.pre.externalPrsClosed}
-            post={metrics.post.externalPrsClosed}
-            days={metrics.windowDays}
-            locale={locale}
-            color={mergeColor}
-            className="border-t border-line md:border-l md:border-t-0"
-          />
-          <ChangePanel
-            label={copy.backlog}
-            description={copy.backlogDescription}
-            pre={metrics.pre.netBacklog}
-            post={metrics.post.netBacklog}
-            days={metrics.windowDays}
-            locale={locale}
-            color={throughputColor}
-            className="border-t border-line md:border-l md:border-t-0"
-          />
-        </div>
-      </Container>
-
-      <SectionGap />
-
-      <Container innerClassName="station-metrics-section grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="border-b border-line p-8 md:p-10 lg:border-b-0 lg:border-r">
-          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            {copy.distributionEyebrow}
-          </p>
-          <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{copy.distributionTitle}</h2>
-          <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
-            {copy.distributionDescription}
-          </p>
-          <div className="mt-10 border-t border-line pt-6">
-            <p className="font-label text-xs uppercase tracking-[0.25em] text-muted-foreground">
-              {copy.concentration}
-            </p>
-            <p className="font-label text-5xl tracking-[-0.06em] text-accent">
-              {formatNumber(topShare(metrics.post), locale, 0)}%
-            </p>
-            <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-              {copy.concentrationDescription}
-            </p>
+          <div className="flow-legend home-label-sm" aria-hidden="true">
+            <span>{copy.before}</span>
+            <span className="is-after">{copy.after}</span>
           </div>
+          <FlowRow label={copy.issuesOpened} pre={metrics.pre.issuesOpened} post={metrics.post.issuesOpened} days={metrics.windowDays} locale={locale} />
+          <FlowRow label={copy.issuesClosed} pre={metrics.pre.issuesClosed} post={metrics.post.issuesClosed} days={metrics.windowDays} locale={locale} />
+          <FlowRow label={copy.prsOpened} pre={metrics.pre.prsOpened} post={metrics.post.prsOpened} days={metrics.windowDays} locale={locale} />
+          <FlowRow label={copy.prsClosed} pre={metrics.pre.prsClosed} post={metrics.post.prsClosed} days={metrics.windowDays} locale={locale} />
         </div>
-        <div className="p-8 md:p-10">
-          <div className="flex items-center justify-between border-b border-line pb-4 font-label text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            <span>{copy.distributionEyebrow}</span>
-            <span>{copy.closures}</span>
+      </Section>
+
+      <Section id="metrics-acquisition" index={5} label={copy.acquisitionEyebrow} title={copy.acquisitionTitle} lede={copy.acquisitionDescription}>
+        <div className="tile-grid home-frame" style={cols(3)}>
+          <ChangePanel label={copy.externalOpened} description={copy.externalOpenedDescription}
+            pre={metrics.pre.externalPrsOpened} post={metrics.post.externalPrsOpened} days={metrics.windowDays} locale={locale} />
+          <ChangePanel label={copy.externalResolved} description={copy.externalResolvedDescription}
+            pre={metrics.pre.externalPrsClosed} post={metrics.post.externalPrsClosed} days={metrics.windowDays} locale={locale} />
+          <ChangePanel label={copy.backlog} description={copy.backlogDescription}
+            pre={metrics.pre.netBacklog} post={metrics.post.netBacklog} days={metrics.windowDays} locale={locale} />
+        </div>
+      </Section>
+
+      <Section id="metrics-distribution" index={6} label={copy.distributionEyebrow} title={copy.distributionTitle} lede={copy.distributionDescription}>
+        <div className="dist-grid tile-grid home-frame">
+          <div className="metric-tile">
+            <p className="home-label-sm">{copy.concentration}</p>
+            <p className="figure">{formatNumber(topShare(metrics.post), locale, 0)}%</p>
+            <p className="tile-copy">{copy.concentrationDescription}</p>
           </div>
           <div>
-            {metrics.post.closuresByRepo.slice(0, 8).map((repo) => (
-              <div
-                key={repo.repo}
-                className="grid grid-cols-[minmax(0,1fr)_minmax(5rem,0.7fr)_2rem] items-center gap-4 border-b border-line py-4"
-              >
-                <span className="truncate font-label text-xs">{repo.repo}</span>
-                <span className="h-1 bg-foreground/8">
-                  <span
-                    className="block h-full"
-                    style={{
-                      width: `${Math.max(4, (repo.count / maxClosures) * 100)}%`,
-                      backgroundColor: projectColor(repo.repo),
-                    }}
-                  />
-                </span>
-                <span className="text-right font-label text-xs tabular-nums text-muted-foreground">
-                  {repo.count}
-                </span>
-              </div>
-            ))}
+            <div className="flex items-center justify-between pb-3 home-label-sm">
+              <span>{copy.distributionEyebrow}</span>
+              <span>{copy.closures}</span>
+            </div>
+            <div className="dist-rows">
+              {metrics.post.closuresByRepo.slice(0, 8).map((repo) => (
+                <div key={repo.repo}>
+                  <span className="dist-name">{repo.repo}</span>
+                  <span className="dist-bar"><span style={{ width: `${Math.max(4, (repo.count / maxClosures) * 100)}%` }} /></span>
+                  <span className="dist-count">{repo.count}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </Container>
+      </Section>
 
-      <SectionGap />
-
-      <Container innerClassName="station-metrics-section grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
-        <div className="border-b border-line p-8 md:p-10 lg:border-b-0 lg:border-r">
-          <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
-            {copy.methodologyEyebrow}
-          </p>
-          <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{copy.methodologyTitle}</h2>
-          <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
-            {copy.methodologyDescription}
-          </p>
-        </div>
-        <ol className="station-card-grid">
+      <Section id="metrics-method" index={7} label={copy.methodologyEyebrow} title={copy.methodologyTitle} lede={copy.methodologyDescription}>
+        <ol className="tile-grid tile-grid-2 home-frame" style={cols(2)}>
           {copy.methodologyItems.map((item, index) => (
-            <li
-              key={item}
-              className={cn(
-                "min-h-40 p-7 md:p-8",
-                index % 2 === 1 && "md:border-l md:border-line",
-                index > 1 && "border-t border-line",
-              )}
-            >
-              <span className="font-label text-xs tracking-[0.25em] text-accent">
-                0{index + 1}
-              </span>
-              <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{item}</p>
+            <li key={item} className="method-item">
+              <span className="home-label-sm">0{index + 1}</span>
+              <p>{item}</p>
             </li>
           ))}
         </ol>
-      </Container>
+      </Section>
 
-      <SectionGap />
-
-      <Container>
-        <section className="station-callout grid lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="border-b border-line p-8 md:p-10 lg:border-b-0 lg:border-r">
-            <p className="font-label text-xs uppercase tracking-[0.3em] text-accent">
-              {copy.contributeEyebrow}
-            </p>
-            <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{copy.contributeTitle}</h2>
-            <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-              {copy.contributeDescription}
-            </p>
-          </div>
-          <div className="flex items-center p-8 md:p-10">
-            <LocalizedLink
-              href="/oss"
-              locale={locale}
-              className="group inline-flex items-center gap-3 border border-background bg-foreground px-6 py-3 font-medium text-background transition-colors hover:bg-foreground/90 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
-            >
-              {copy.contributeCta}
-              <PixelArrow />
-            </LocalizedLink>
-          </div>
-        </section>
-      </Container>
+      <Section id="metrics-contribute" index={8} label={copy.contributeEyebrow} title={copy.contributeTitle} lede={copy.contributeDescription}
+        action={<LocalizedLink href="/oss" locale={locale} className="hero-cta">{copy.contributeCta}</LocalizedLink>}>
+        {null}
+      </Section>
     </>
   )
 }

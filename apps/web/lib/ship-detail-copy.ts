@@ -20,6 +20,8 @@ export type ShipDetailCopy = {
   ownerTools: string
   ownerNote: string
   edit: string
+  ctaTitle: string
+  ctaAll: string
   sync: string
   syncing: string
   composer: {
@@ -56,6 +58,8 @@ export const shipDetailCopy: Record<Locale, ShipDetailCopy> = {
     ownerTools: "Owner tools",
     ownerNote: "Only you see this.",
     edit: "Edit Ship",
+    ctaTitle: "Ship yours next.",
+    ctaAll: "See every Ship",
     sync: "Sync releases",
     syncing: "Syncing...",
     composer: {
@@ -90,6 +94,8 @@ export const shipDetailCopy: Record<Locale, ShipDetailCopy> = {
     ownerTools: "Herramientas del creador",
     ownerNote: "Solo tú ves esto.",
     edit: "Editar Ship",
+    ctaTitle: "Publica el tuyo.",
+    ctaAll: "Ver todos los Ships",
     sync: "Sincronizar versiones",
     syncing: "Sincronizando...",
     composer: {
@@ -124,6 +130,8 @@ export const shipDetailCopy: Record<Locale, ShipDetailCopy> = {
     ownerTools: "Ferramentas do criador",
     ownerNote: "Só você vê isto.",
     edit: "Editar Ship",
+    ctaTitle: "Publique o seu.",
+    ctaAll: "Ver todos os Ships",
     sync: "Sincronizar versões",
     syncing: "Sincronizando...",
     composer: {
@@ -158,6 +166,8 @@ export const shipDetailCopy: Record<Locale, ShipDetailCopy> = {
     ownerTools: "创作者工具",
     ownerNote: "只有你能看到。",
     edit: "编辑 Ship",
+    ctaTitle: "下一个就是你的作品。",
+    ctaAll: "查看全部作品",
     sync: "同步发布版本",
     syncing: "同步中...",
     composer: {
@@ -192,6 +202,8 @@ export const shipDetailCopy: Record<Locale, ShipDetailCopy> = {
     ownerTools: "制作者ツール",
     ownerNote: "あなただけに表示されます。",
     edit: "Ship を編集",
+    ctaTitle: "次はあなたの Ship を。",
+    ctaAll: "すべての Ship を見る",
     sync: "リリースを同期",
     syncing: "同期中...",
     composer: {

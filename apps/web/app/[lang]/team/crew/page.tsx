@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import { CrewSection } from "@/components/crew-section"
 import { Container, SectionGap } from "@/components/grid-container"
+import { HomeHead } from "@/components/home-head"
 import { JoinCallout } from "@/components/join-callout"
 import { StationPageHero } from "@/components/station-page-hero"
 import { crewMembers } from "@/lib/crew"
@@ -35,17 +36,18 @@ export default async function CrewPage({ params }: { params: Promise<{ lang: str
       </Container>
       <SectionGap />
       <Container>
-        <p className="station-label text-accent">{t("howEyebrow")}</p>
-        <h2 className="mt-3">{t("howTitle")}</h2>
-        <ol className="station-card-grid station-crew-steps mt-8">
-          {steps.map((step) => (
-            <li key={step}>
-              <p className="station-label text-accent">0{step}</p>
-              <h3 className="mt-3">{t(`step${step}Title`)}</h3>
-              <p className="mt-2 leading-relaxed text-muted-foreground">{t(`step${step}Body`)}</p>
-            </li>
-          ))}
-        </ol>
+        <section aria-labelledby="crew-how-title">
+          <HomeHead id="crew-how-title" index={1} label={t("howEyebrow")} title={t("howTitle")} />
+          <ol className="station-card-grid station-crew-steps">
+            {steps.map((step) => (
+              <li key={step}>
+                <p className="home-label-sm">0{step}</p>
+                <h3 className="mt-3">{t(`step${step}Title`)}</h3>
+                <p className="mt-2 leading-relaxed text-muted-foreground">{t(`step${step}Body`)}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
       </Container>
       <SectionGap />
       <JoinCallout locale={lang} />

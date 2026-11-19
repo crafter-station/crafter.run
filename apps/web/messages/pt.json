@@ -163,7 +163,7 @@
       "window": "janela de comparação equivalente",
       "windowValue": "{days, plural, one {# dia} other {# dias}}",
       "signalEyebrow": "O sinal",
-      "signalTitle": "A factory está fechando mais trabalho por dia.",
+      "signalTitle": "A equipe está fechando mais trabalho a cada dia.",
       "signalDescription": "A atividade pós-launch é comparada com uma janela pré-launch do mesmo tamanho. Sem histórico acumulado nem denominadores de vaidade.",
       "before": "Antes do launch",
       "after": "Depois do launch",
@@ -402,7 +402,8 @@
         "allCommits": "Todos os commits",
         "teamCommits": "Commits da equipe Crafter",
         "stars": "Estrelas no GitHub",
-        "contributors": "Colaboradores"
+        "contributors": "Colaboradores",
+        "scope": "Totais dos projetos e do período selecionados abaixo."
       },
       "allContributors": "Escolha alguem da equipe para ver apenas seus commits e projetos.",
       "coreTeam": "Equipe Crafter",
@@ -480,12 +481,12 @@
       "crewMore": "O que é o Crew"
     },
     "blog": {
-      "eyebrow": "Notas de campo · Crafter Station",
+      "eyebrow": "Notas de campo",
       "title": "Crafter Journal",
       "description": "O que testamos, o que aprendemos e o que vale compartilhar. Engenharia e cultura de quem constrói na América Latina."
     },
     "changelog": {
-      "eyebrow": "Changelog · Crafter Station",
+      "eyebrow": "Crafter Station",
       "title": "Changelog",
       "description": "O que a Crafter Station publica, com as pessoas e as fontes públicas por trás de cada mudança.",
       "subscribe": "Assinar",
