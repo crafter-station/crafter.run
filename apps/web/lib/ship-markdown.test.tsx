@@ -87,7 +87,7 @@ describe("ship json-ld", () => {
     const base = { name: "X", description: "d", slug: "x", imageUrl: "https://a.test/i.png", owner: { handle: "h", displayName: "H" }, socialPostUrl: null, publishedAt: "2026-01-01T00:00:00.000Z", modifiedAt: "2026-02-01T00:00:00.000Z" }
     const app = shipSchema({ ...base, links: [{ type: "repository", url: "https://github.com/a/b" }] }, "en")
     const work = shipSchema({ ...base, links: [{ type: "social", url: "https://x.com/a" }] }, "en")
-    expect(app["@type"]).toBe("SoftwareApplication")
+    expect(app["@type"]).toBe("SoftwareSourceCode")
     expect(work["@type"]).toBe("CreativeWork")
     const parsed = JSON.parse(JSON.stringify(app))
     expect(parsed).toEqual(app)

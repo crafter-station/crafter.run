@@ -5,6 +5,7 @@ import { useAuth } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 import { type FormEvent, useRef, useState } from "react"
 
+import { revalidateShipPagesAction } from "@/app/[lang]/ships/[slug]/actions"
 import { shipsApi, uploadShipImage } from "@/lib/ships-client"
 
 export function ShipDraftEditor({ initialShip, locale, published = false }: { initialShip: ShipDetail; locale: string; published?: boolean }) {
@@ -53,6 +54,7 @@ export function ShipDraftEditor({ initialShip, locale, published = false }: { in
       const token = await getToken()
       if (!token) throw new Error("Your session expired.")
       const response = await saveShip(new FormData(event.currentTarget), token)
+      if (published) await revalidateShipPagesAction(initialShip.slug, response.ship.owner.handle)
       setShip(response.ship)
       setDirty(false)
       setNotice(published ? "Published Ship updated." : "Draft saved. Review the updated preview before publishing.")
@@ -100,6 +102,7 @@ export function ShipDraftEditor({ initialShip, locale, published = false }: { in
         setPending(null)
         return
       }
+      await revalidateShipPagesAction(response.ship.slug, response.ship.owner.handle)
       router.push(`/${locale}/ships/${response.ship.slug}`)
       router.refresh()
     } catch (cause) {

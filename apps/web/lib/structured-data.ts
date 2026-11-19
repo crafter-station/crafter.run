@@ -556,15 +556,16 @@ export type ShipSchemaInput = {
 }
 
 /**
- * A community Ship. It is a SoftwareApplication when it has a repository, site, demo or package,
- * else a CreativeWork. Optional fields are left out rather than emitted empty.
+ * A community Ship. SoftwareSourceCode when it has a repository link (Google asks for offers or
+ * ratings on SoftwareApplication, which a Ship has neither of), else a CreativeWork. Optional fields
+ * are left out rather than emitted empty.
  */
 export function shipSchema(ship: ShipSchemaInput, locale: Locale) {
-  const software = ship.links.some((link) => ["repository", "website", "demo", "package"].includes(link.type))
+  const repository = ship.links.find((link) => link.type === "repository")?.url
   const sameAs = [...new Set([...ship.links.map((link) => link.url), ...(ship.socialPostUrl ? [ship.socialPostUrl] : [])])]
   return {
     "@context": "https://schema.org",
-    "@type": software ? "SoftwareApplication" : "CreativeWork",
+    "@type": repository ? "SoftwareSourceCode" : "CreativeWork",
     name: ship.name,
     description: ship.description,
     url: localizedUrl(`/ships/${ship.slug}`, locale),
@@ -573,6 +574,98 @@ export function shipSchema(ship: ShipSchemaInput, locale: Locale) {
     publisher: organizationRef,
     datePublished: ship.publishedAt,
     dateModified: ship.modifiedAt,
+    ...(repository ? { codeRepository: repository } : {}),
     ...(sameAs.length > 0 ? { sameAs } : {}),
+  }
+}
+
+export type CrafterSchemaInput = {
+  handle: string
+  displayName: string
+  bio: string | null
+  currentRole: string | null
+  avatarUrl: string | null
+  createdAt: string
+  links: (string | null | undefined)[]
+}
+
+/** A community Crafter profile as a ProfilePage whose main entity is the Person. */
+export function crafterSchema(member: CrafterSchemaInput, locale: Locale) {
+  const profileUrl = localizedUrl(`/crafters/${member.handle}`, locale)
+  const sameAs = [...new Set(member.links.filter((link): link is string => Boolean(link)))]
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    url: profileUrl,
+    dateCreated: member.createdAt,
+    mainEntity: {
+      "@type": "Person",
+      "@id": `${profileUrl}#person`,
+      name: member.displayName,
+      alternateName: member.handle,
+      url: profileUrl,
+      ...(member.currentRole ? { jobTitle: member.currentRole } : {}),
+      ...(member.bio ? { description: member.bio } : {}),
+      ...(member.avatarUrl ? { image: member.avatarUrl } : {}),
+      ...(sameAs.length > 0 ? { sameAs } : {}),
+      memberOf: organizationRef,
+    },
+  }
+}
+
+export type EventSchemaInput = {
+  name: string
+  url: string
+  description?: string
+  startsAt?: string
+  endsAt?: string
+  image?: string
+  venue?: string
+  /** Address parts exactly as the catalog states them. */
+  streetAddress?: string
+  locality?: string
+  /** Where the event is registered; the free offer points here. */
+  registerUrl?: string
+}
+
+/** An in-person, free event run by the organization. Fields the catalog does not have are omitted. */
+export function eventSchema(event: EventSchemaInput) {
+  const { venue, streetAddress, locality } = event
+  const address = streetAddress || locality
+  return {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.name,
+    url: event.url,
+    ...(event.description ? { description: event.description } : {}),
+    ...(event.startsAt ? { startDate: event.startsAt } : {}),
+    ...(event.endsAt ? { endDate: event.endsAt } : {}),
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    ...(venue || address
+      ? {
+          location: {
+            "@type": "Place",
+            ...(venue ? { name: venue } : {}),
+            ...(address
+              ? {
+                  address: {
+                    "@type": "PostalAddress",
+                    ...(streetAddress ? { streetAddress } : {}),
+                    ...(locality ? { addressLocality: locality } : {}),
+                  },
+                }
+              : {}),
+          },
+        }
+      : {}),
+    ...(event.image ? { image: [event.image] } : {}),
+    organizer: organizationRef,
+    offers: {
+      "@type": "Offer",
+      price: "0",
+      priceCurrency: "PEN",
+      url: event.registerUrl ?? event.url,
+    },
   }
 }
