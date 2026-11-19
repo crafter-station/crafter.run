@@ -50,7 +50,7 @@
 /* Sidebar items: quiet at rest; hover lays a square block behind the label; the current page carries the brand knot instead of a dot. */
 .station-sidebar .station-nav > a { margin-inline: -10px; padding-inline: 10px; opacity: .7; transition: opacity 140ms ease-out, background-color 140ms ease-out; }
 .station-sidebar .station-nav > a:where(:hover, :focus-visible) { opacity: 1; background: hsl(var(--foreground) / .08); }
-.station-sidebar .station-nav > a[aria-current="page"] { opacity: 1; background: hsl(var(--foreground) / .1); }
+.station-sidebar .station-nav > a[aria-current="page"] { opacity: 1; }
 .station-sidebar .station-nav > a[aria-current="page"]::before { width: 11px; height: 11px; left: -16px; border-radius: 0; background: currentColor; -webkit-mask: url("/icon.svg") center / contain no-repeat; mask: url("/icon.svg") center / contain no-repeat; }
 .station-label { font: 14px/1.7 var(--font-label); letter-spacing: .035em; text-transform: uppercase; }
 .station-side-bottom { margin-top: 12px; flex-shrink: 0; }
@@ -407,3 +407,7 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
 .station-theme-segments { grid-template-columns: repeat(3, 36px); }
 .station-theme-segments button { width: 36px; height: 36px; min-height: 0; }
 .station-sidebar .station-preferences .station-control, .station-drawer .station-preferences .station-control { min-height: 36px; }
+
+/* The nav column is as wide as its longest label, so the hover block never runs past the text. */
+.station-sidebar .station-nav { width: max-content; max-width: 100%; }
+.station-sidebar .station-auth-link, .station-drawer .station-auth-link, .station-sidebar .station-auth-link:hover, .station-drawer .station-auth-link:hover { text-decoration: none; border-radius: 0; }
