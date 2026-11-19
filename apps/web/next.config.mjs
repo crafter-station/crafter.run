@@ -114,7 +114,20 @@ const nextConfig = {
       ["/hackathon", "/events"],
       ["/events-sponsors", "/events/sponsors"],
     ];
+    // Retired journal posts now resolve to the blog index.
+    const retiredPosts = [
+      "a-website-agents-can-read",
+      "build-the-magic-borrow-the-rest",
+      "hello-world",
+      "pick-tools-your-coding-agent-already-knows",
+      "two-ways-to-build-on-whatsapp",
+      "what-the-free-tier-costs-when-it-stops-being-free",
+    ];
     return [
+      ...retiredPosts.flatMap((slug) => [
+        { source: `/blog/${slug}`, destination: "/en/blog", permanent: true },
+        { source: `/:lang(en|es|pt|zh|ja)/blog/${slug}`, destination: "/:lang/blog", permanent: true },
+      ]),
       ...consolidatedPages.flatMap(([source, destination]) => [
         { source, destination: `/en${destination}`, permanent: true },
         {
