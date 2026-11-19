@@ -9,15 +9,15 @@ export function ChangelogHero({ locale, eyebrow, title, description, t }: {
   locale: Locale; eyebrow: string; title: string; description: string; t: ChangelogLabels
 }) {
   return <header className="journal-masthead">
-    <div className="journal-topline"><p className="station-label">{eyebrow}</p></div>
+    <div className="journal-topline"><p className="home-label">{eyebrow}</p></div>
     <div className="journal-title-row">
-      <h1>{title}<span>.</span></h1>
+      <h1>{title}</h1>
     </div>
     <div className="journal-deck"><p>{description}</p><nav aria-label={t.rss}>
-      <Link href={withLocale("/newsletter", locale)}>{t.subscribe}</Link>
-      <a href={changelogFeedPath(locale)}><Rss size={14} aria-hidden="true" />&nbsp;{t.rss}</a>
-      <a href={changelogSitemapMdPath(locale)}>{t.markdownIndex}</a>
-      <a href="/agents.md">{t.agents}</a>
+      <Link className="home-secondary-link" href={withLocale("/newsletter", locale)}>{t.subscribe}</Link>
+      <a className="home-secondary-link" href={changelogFeedPath(locale)}><Rss size={14} aria-hidden="true" />&nbsp;{t.rss}</a>
+      <a className="home-secondary-link" href={changelogSitemapMdPath(locale)}>{t.markdownIndex}</a>
+      <a className="home-secondary-link" href="/agents.md">{t.agents}</a>
     </nav></div>
   </header>
 }

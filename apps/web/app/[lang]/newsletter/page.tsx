@@ -30,20 +30,20 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <div className="newsletter-layout">
           <section aria-labelledby="newsletter-gets">
             <h2 id="newsletter-gets" className="newsletter-heading">{t("getsTitle")}</h2>
-            <ol className="newsletter-gets">
+            <ol className="newsletter-gets home-frame">
               {gets.map(item => (
                 <li key={item.title}>
                   <h3>{item.title}</h3>
                   <p>{item.body}</p>
                 </li>
               ))}
+              <li>
+                <h3>{t("perksTitle")}</h3>
+                <p>{t("perksBody")}</p>
+              </li>
             </ol>
-            <div className="newsletter-perks">
-              <h3>{t("perksTitle")}</h3>
-              <p>{t("perksBody")}</p>
-            </div>
           </section>
-          <section className="newsletter-card" aria-labelledby="newsletter-join">
+          <section className="newsletter-card home-frame" aria-labelledby="newsletter-join">
             <h2 id="newsletter-join" className="newsletter-heading">{t("formTitle")}</h2>
             <NewsletterForm
               locale={lang}

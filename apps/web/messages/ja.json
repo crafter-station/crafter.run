@@ -480,12 +480,12 @@
       "crewMore": "Crew について"
     },
     "blog": {
-      "eyebrow": "フィールドノート · Crafter Station",
+      "eyebrow": "フィールドノート",
       "title": "Crafter Journal",
       "description": "試したこと、学んだこと、分かち合いたいこと。ラテンアメリカのつくり手による技術とカルチャー。"
     },
     "changelog": {
-      "eyebrow": "変更履歴 · Crafter Station",
+      "eyebrow": "Crafter Station",
       "title": "変更履歴",
       "description": "Crafter Station が公開したもの。それぞれの変更に関わった人と、公開されている情報源とともに。",
       "subscribe": "購読する",

@@ -480,12 +480,12 @@
       "crewMore": "What the Crew is"
     },
     "blog": {
-      "eyebrow": "Field notes · Crafter Station",
+      "eyebrow": "Field notes",
       "title": "Crafter Journal",
       "description": "What we try, what we learn, and what is worth sharing. Engineering and culture from people building in LatAm."
     },
     "changelog": {
-      "eyebrow": "Changelog · Crafter Station",
+      "eyebrow": "Crafter Station",
       "title": "Changelog",
       "description": "What Crafter Station ships, with the people and the public sources behind each change.",
       "subscribe": "Subscribe",

@@ -169,7 +169,10 @@
 /* Documentation keeps Fumadocs' navigation, search and code surfaces. */
 .station-docs-page > h1 { font-size: clamp(32px,3.4vw,46px); font-weight: 500; line-height: 1.15; text-wrap: pretty; }
 .station-docs-page > p { font-size: 18px; line-height: 1.65; }
-.station-docs-tools > :is(a,button) { border: 0; border-radius: 0; min-height: 44px; padding: 10px 14px; background: hsl(var(--foreground) / .055); box-shadow: none; font-size: 16px; }
+.station-docs-tools > :is(a,button) { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 0; border-radius: 0; background: hsl(var(--background)); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .28); font: 500 16px/1.2 var(--font-sans); transition: background-color 160ms ease-out, box-shadow 160ms ease-out; }
+.station-docs-tools > :is(a,button):hover { background: color-mix(in srgb, hsl(var(--foreground)) 12%, hsl(var(--background))); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .85); }
+.station-shell-docs { --color-fd-primary: hsl(var(--accent)); }
+.station-shell-docs :is(#nd-sidebar, .station-docs-page) :is(.rounded-md,.rounded-lg,.rounded-xl) { border-radius: 0; }
 /* Cards only: heading anchors also carry data-card and must stay plain links. */
 .station-docs-page [data-card]:not(:is(h1,h2,h3,h4,h5,h6) > a) { border: 0; border-radius: 0; padding: 24px; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
 .station-docs-page [data-card]:not(:is(h1,h2,h3,h4,h5,h6) > a):hover { background: var(--home-hover); }
@@ -260,18 +263,18 @@
 
 /* Newsletter signup */
 .newsletter-layout { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,.9fr); gap: 24px; }
-.newsletter-heading { font-family: var(--font-display); font-size: 28px; line-height: 1.15; letter-spacing: -.03em; }
-.newsletter-gets { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
-.newsletter-gets li, .newsletter-perks { padding: 20px; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
-.newsletter-gets h3, .newsletter-perks h3 { font-family: var(--font-display); font-size: 22px; line-height: 1.2; }
-.newsletter-gets p, .newsletter-perks p { margin-top: 8px; font-size: 16px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
-.newsletter-perks { margin-top: 12px; box-shadow: inset 0 0 0 1px var(--page-accent); background: transparent; }
+.newsletter-heading { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(28px, 3vw, 38px); line-height: 1.1; letter-spacing: -.035em; }
+.newsletter-gets { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 1px; border: 1px solid var(--home-line); background: var(--home-line); }
+.newsletter-gets li { padding: 24px; background: hsl(var(--background)); }
+.newsletter-gets h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 23px; line-height: 1.15; letter-spacing: -.02em; }
+.newsletter-gets p { margin-top: 8px; font-size: 16px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
+
 .newsletter-card { align-self: start; padding: 28px; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
 .newsletter-form { margin-top: 20px; display: grid; gap: 10px; }
 .newsletter-form label { font-size: 15px; color: hsl(var(--muted-foreground)); }
 .newsletter-row { display: flex; gap: 10px; flex-wrap: wrap; }
-.newsletter-row input { flex: 1 1 220px; min-width: 0; min-height: 46px; padding: 10px 14px; font-size: 16px; border-radius: 0; border: 1px solid hsl(var(--line)); background: hsl(var(--background) / .6); }
-.newsletter-row input:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 2px; }
+.newsletter-row input { flex: 1 1 220px; min-width: 0; min-height: 48px; padding: 10px 14px; font-size: 16px; border-radius: 0; border: 1px solid var(--home-line); background: transparent; }
+.newsletter-row input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .newsletter-row input[aria-invalid="true"] { border-color: hsl(var(--destructive, 0 70% 50%)); }
 .newsletter-row button:disabled { opacity: .6; cursor: default; transform: none; }
 .newsletter-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }

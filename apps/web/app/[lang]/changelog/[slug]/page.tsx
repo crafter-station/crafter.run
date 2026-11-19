@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import type { CSSProperties } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -42,13 +41,6 @@ export function generateStaticParams() {
 }
 
 /** Band colour by area, so an entry reads as belonging to its organization. */
-const AREA_BAND: Record<string, string> = {
-  station: "#f4d56d",
-  research: "#cdbde0",
-  lab: "#c3d9a8",
-  games: "#adc8e2",
-}
-
 function cardImage(
   entry: { slug: string; title: string; summary: string; image?: string; locale: ChangelogLocale },
   locale: Parameters<typeof ogImageUrl>[1],
@@ -139,7 +131,6 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
         <header
           className="journal-band"
           data-chrome-band
-          style={{ "--band": AREA_BAND[entry.area] } as CSSProperties}
         >
           <nav aria-label="Breadcrumb" className="journal-band-crumbs">
             <Link href={changelogPath(lang)}>{page("title")}</Link>
@@ -159,6 +150,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             )}
             <time dateTime={entry.date}>{dateLabel(entry.date, lang)}</time>
           </div>
+          {(entry.video || entry.image) && (
+            <div className="journal-band-art-frame home-frame">
           {entry.video ? (
             <video
               className="journal-band-art"
@@ -179,6 +172,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
               className="journal-band-art"
             />
           ) : null}
+            </div>
+          )}
         </header>
 
         <article className="journal-article-body">

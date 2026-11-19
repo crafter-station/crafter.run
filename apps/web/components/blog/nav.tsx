@@ -50,17 +50,16 @@ export function BlogNav({
       aria-label={t.filterLabel}
       className="journal-nav"
     >
-      <div role="group" aria-label={t.filterLabel} className="journal-nav-topics">
+      <div role="group" aria-label={t.filterLabel} className="journal-nav-topics home-tabs">
         {options.map((option) => (
           <button
             key={option.key}
             type="button"
             aria-pressed={option.key === active}
             onClick={() => onChange(option.key)}
-            className="journal-filter"
           >
             {option.label}
-            <span className="opacity-60 tabular-nums">{option.count}</span>
+            <span className="tabular-nums">{option.count}</span>
           </button>
         ))}
       </div>
@@ -85,7 +84,7 @@ export function BlogNav({
               type="button"
               onClick={() => onQueryChange("")}
               aria-label={t.clear}
-              className="inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-md text-muted-foreground hover:text-foreground"
+              className="inline-flex size-11 shrink-0 cursor-pointer items-center justify-center text-muted-foreground hover:text-foreground"
             >
               <XIcon aria-hidden className="size-3.5" strokeWidth={1.8} />
             </button>
