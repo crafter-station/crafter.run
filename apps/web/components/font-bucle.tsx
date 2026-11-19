@@ -72,7 +72,7 @@ function Wipe({ entry, copy }: { entry: Entry; copy: BucleCopy }) {
       {!overlay && <input type="range" min="0" max="100" value={split} onChange={e => setSplit(Number(e.target.value))} aria-label={`${copy.compare} ${entry.previous} / ${entry.version}`} />}
     </div>
     <div className="font-bucle-tools">
-      <div className="font-bucle-mode" role="group" aria-label={copy.compare}>
+      <div className="home-tabs font-bucle-mode" role="group" aria-label={copy.compare}>
         <button aria-pressed={overlay} onClick={() => setOverlay(true)}>{copy.overlay}</button>
         <button aria-pressed={!overlay} onClick={() => setOverlay(false)}>{copy.wipe}</button>
       </div>

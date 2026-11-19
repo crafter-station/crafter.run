@@ -19,7 +19,7 @@ export function GearList({
           (variant === "auto" && items.some((item) => item.detail))
         return (
           <div key={group.category}>
-            <p className="font-label text-xs uppercase tracking-[0.2em] text-muted-foreground/60">
+            <p className="home-label-sm">
               {group.category}
             </p>
             {hasDetail ? (

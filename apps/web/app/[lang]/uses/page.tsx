@@ -3,7 +3,6 @@ import { notFound } from "next/navigation"
 import { connection } from "next/server"
 import { getTranslations } from "next-intl/server"
 
-import { ArrowLink } from "@/components/arrow-link"
 import { Container, SectionGap } from "@/components/grid-container"
 import { StationPageHero } from "@/components/station-page-hero"
 import type { AssetKind } from "@/lib/core-inventory-input"
@@ -46,7 +45,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           if (!items.length) return null
           return (
             <section key={kind} className="su-section" aria-labelledby={`uses-${kind}`}>
-              <h2 id={`uses-${kind}`} className="station-label">
+              <h2 id={`uses-${kind}`} className="home-label">
                 {t(`sections.${kind}`)}
               </h2>
               <ul className="su-list">
@@ -62,10 +61,10 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       {perks.length ? (
         <>
           <SectionGap />
-          <Container innerClassName="station-callout su-perks">
+          <Container innerClassName="station-callout su-perks home-frame">
             <div className="grid gap-8 md:grid-cols-[1fr_1.2fr] md:items-start">
               <div>
-                <p className="station-label text-accent">{t("perksEyebrow")}</p>
+                <p className="home-label">{t("perksEyebrow")}</p>
                 <h2 className="mt-3">{t("perksTitle")}</h2>
               </div>
               <div>
@@ -77,9 +76,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
                   ))}
                 </ul>
                 <div className="mt-6">
-                  <Link href={withLocale("/contact", lang)}>
-                    <ArrowLink>{t("perksCta")}</ArrowLink>
-                  </Link>
+                  <Link href={withLocale("/contact", lang)} className="hero-cta">{t("perksCta")}</Link>
                 </div>
               </div>
             </div>
@@ -95,7 +92,7 @@ function UseItem({ asset, perkLabel }: { asset: PublicAsset; perkLabel: string }
   const content = (
     <>
       <span className="su-name">{asset.name}</span>
-      {asset.perk ? <span className="su-perk-chip">{perkLabel}</span> : null}
+      {asset.perk ? <span className="su-perk-chip home-label-sm">{perkLabel}</span> : null}
     </>
   )
   return (

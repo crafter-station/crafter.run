@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 
 import { Container, SectionGap } from "@/components/grid-container"
+import { HomeHead } from "@/components/home-head"
 import { isLocale, locales } from "@/lib/i18n"
 import { pageMetadata } from "@/lib/seo"
 
@@ -38,11 +39,10 @@ export default async function Page({
         <DesignSystemGuide locale={lang} />
         <SectionGap />
 
-        <Container innerClassName="grid gap-8 px-6 py-14 md:grid-cols-[1fr_2fr] md:px-10 md:py-20">
-          <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            {t("usageTitle")}
-          </p>
-          <p className="max-w-2xl text-lg leading-8 text-foreground/80">{t("usageDescription")}</p>
+        <Container>
+          <section aria-labelledby="brand-usage-title">
+            <HomeHead id="brand-usage-title" index={3} label={t("eyebrow")} title={t("usageTitle")} lede={t("usageDescription")} />
+          </section>
         </Container>
       </main>
 

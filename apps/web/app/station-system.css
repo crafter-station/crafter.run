@@ -60,3 +60,12 @@ a:where(:hover, :focus-visible) .home-secondary-link { text-decoration-color: cu
 .station-shell .home-tabs :is(button[aria-selected="true"], button[aria-pressed="true"], button[aria-checked="true"], a[aria-current="page"], a[aria-current="true"]) { color: hsl(var(--foreground)); background: hsl(var(--foreground) / .1); }
 .station-shell .home-tabs :is(button, a) > span { opacity: .6; }
 .home-tabs > [data-slot="segmented-control-indicator"] { display: none; }
+.home-tabs { max-width: 100%; }
+@media (max-width: 800px) {
+  .home-tabs { overflow-x: auto; scrollbar-width: none; }
+  .home-tabs > * { white-space: nowrap; }
+}
+
+/* Section titles outside .station-home (inner pages) match the homepage scale. */
+.home-head-copy h2 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(32px, 3.6vw, 48px); line-height: 1.05; letter-spacing: -.035em; text-wrap: balance; }
+.home-head-action { min-width: 0; max-width: 100%; }

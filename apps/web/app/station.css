@@ -135,7 +135,7 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
 .station-event-link svg { flex-shrink: 0; transition: transform 200ms; }
 .station-event-stamp:where(:hover,:focus-visible) .station-event-link svg { transform: translate(1px,-1px); }
 .station-socials { display: flex; align-items: center; gap: 12px; }
-.station-socials a { display: grid; place-items: center; width: 44px; height: 44px; color: inherit; transition: opacity 160ms, transform 160ms; }
+.station-socials a { display: grid; place-items: center; width: 44px; height: 44px; color: inherit; transition: opacity 160ms; }
 .station-socials a:hover { opacity: .65; }
 .station-socials svg, .station-social-mark { display: block; width: 21px; height: 21px; }
 .station-socials a[aria-label="Instagram"] .station-social-mark { width: 27px; height: 27px; }
