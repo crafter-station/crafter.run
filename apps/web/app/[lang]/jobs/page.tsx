@@ -141,7 +141,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
               <span className="home-label-sm">{t.soon}</span>
               <h3>{t.bountyTitle}</h3>
               <p>{t.bountyBody}</p>
-              <LocalizedLink href="/services#open-source" locale={lang} className="jobs-pitch-link">{t.bountyCta} <span aria-hidden="true">↗</span></LocalizedLink>
+              <LocalizedLink href="/services#open-source" locale={lang} className="home-secondary-link">{t.bountyCta} <span aria-hidden="true">↗</span></LocalizedLink>
             </div>
           </aside>
         </div>

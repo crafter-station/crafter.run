@@ -1,228 +1,149 @@
-/* Ships: a showcase. One violet band with the featured Ship, then pulse, makers, the wall and the call to publish. */
-.ships-page { --band: #c9b8f0; --band-ink: #1c1433; --band-soft: rgb(28 20 51 / .74); --ships-card: #fff; --ships-line: hsl(var(--foreground) / .1); }
-.dark .ships-page { --ships-card: #232027; --ships-line: hsl(var(--foreground) / .12); }
+/* Ships, crafters and the ship page. Built on the site system (station-system.css): inner hero, HomeHead, joined hairline tiles, home-tabs. */
+.ships-page, .crafter-profile { --ships-line: var(--home-line); }
 
-/* Band */
-.ships-band { padding-bottom: 72px; }
-@media (min-width: 1024px) { .ships-band { padding-top: 88px; } .ships-band .journal-band-crumbs { margin-top: -32px; } }
-.ships-band-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: center; gap: 56px; }
-.ships-band-copy { min-width: 0; }
-.ships-page .journal-band h1 { max-width: 12ch; font-size: clamp(44px, 5.2vw, 80px); }
-.ships-stats { display: flex; flex-wrap: wrap; gap: 20px 36px; margin-top: 36px; }
-.ships-stats > div { display: flex; flex-direction: column-reverse; gap: 2px; }
-.ships-stats dd { font: 500 clamp(30px, 3vw, 44px)/1 var(--font-display); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
-.ships-stats dt { font: 13px/1.3 var(--font-label); text-transform: uppercase; letter-spacing: .14em; color: var(--band-soft); }
-.ships-band-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 40px; }
-.ships-band-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font: 14px var(--font-label); text-transform: uppercase; letter-spacing: .14em; color: var(--band-soft); }
-.ships-band-link svg { width: 14px; height: 14px; }
-.ships-band-link:hover { color: var(--band-ink); text-decoration: underline; text-underline-offset: 4px; }
-
-/* Buttons */
-.ships-button { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 8px; font-size: 16px; font-weight: 600; background: hsl(var(--foreground)); color: hsl(var(--background)); transition: opacity 160ms, transform 160ms; }
-.ships-button svg { width: 16px; height: 16px; }
-.ships-button:hover { opacity: .88; }
-.ships-button-band { background: var(--band-ink); color: var(--band); }
-.ships-page .ships-cta .ships-button-band { background: var(--band-ink); color: var(--band); }
-.ships-button-quiet { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px var(--ships-line); }
+/* Hero stats */
+.ships-stats { display: flex; flex-wrap: wrap; gap: 20px 56px; margin: 0 0 40px; }
+.ships-stats > div { display: flex; flex-direction: column-reverse; gap: 6px; }
+.ships-stats dd { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(32px, 3.4vw, 48px); line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: var(--gold); }
 
 /* Covers */
-.ship-cover { display: block; position: relative; overflow: hidden; width: 100%; aspect-ratio: 16 / 10; background: var(--journal-paper); }
-.ship-cover img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 600ms cubic-bezier(.2, .7, .2, 1); }
+.ship-cover { display: block; position: relative; overflow: hidden; width: 100%; aspect-ratio: 16 / 10; background: hsl(var(--secondary)); }
+.ship-cover img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 .ship-cover-generated { display: grid; place-items: center; background: linear-gradient(var(--cover-angle), var(--cover-from), var(--cover-to)); color: var(--cover-ink); }
 .ship-cover-generated::before { content: ""; position: absolute; inset: 0; background-image: radial-gradient(currentColor 1px, transparent 1.4px); background-size: 18px 18px; opacity: .14; }
-.ship-cover-generated > span { position: relative; font: 500 clamp(56px, 8vw, 104px)/1 var(--font-display); letter-spacing: -.06em; opacity: .9; }
+.ship-cover-generated > span { position: relative; font: 500 clamp(56px, 8vw, 104px)/1 var(--font-crafter), sans-serif; letter-spacing: -.06em; opacity: .9; }
 
-/* Featured */
-.ship-featured { position: relative; min-width: 0; display: flex; flex-direction: column; border-radius: 16px; background: var(--ships-card); color: hsl(var(--foreground)); box-shadow: 0 1px 0 hsl(0 0% 100% / .4) inset, 0 40px 80px -36px rgb(28 20 51 / .65); transform: rotate(1.2deg); transition: transform 300ms cubic-bezier(.2, .7, .2, 1); }
-.ship-featured:hover, .ship-featured:focus-within { transform: rotate(0deg) translateY(-4px); }
-.ship-featured-badge { position: absolute; z-index: 2; top: 14px; left: 14px; display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 12px; border-radius: 999px; background: #f4d56d; color: #20221d; font: 600 13px var(--font-label); text-transform: uppercase; letter-spacing: .1em; box-shadow: 0 6px 18px -6px rgb(0 0 0 / .4); }
-.ship-featured-badge svg { width: 14px; height: 14px; fill: currentColor; }
-.ship-featured-badge span { padding-left: 8px; border-left: 1px solid rgb(32 34 29 / .3); letter-spacing: .04em; }
-.ship-featured-cover { overflow: hidden; border-radius: 16px 16px 0 0; }
-.ship-featured-cover .ship-cover { aspect-ratio: 16 / 10; }
-.ship-featured:hover .ship-cover img { transform: scale(1.025); }
-.ship-featured-body { display: flex; flex-direction: column; gap: 10px; padding: 24px 28px 28px; }
-.ship-featured h2 { font-size: clamp(28px, 2.8vw, 40px); line-height: 1.05; letter-spacing: -.04em; }
-.ship-featured h2 a { display: inline-flex; align-items: flex-start; gap: 6px; }
-.ship-featured h2 a::after { content: ""; position: absolute; inset: 0; border-radius: 16px; }
-.ship-featured h2 svg { width: .55em; height: .55em; margin-top: .15em; opacity: .5; }
+/* Featured: cover and copy side by side in one hairline frame. */
+.ship-featured { position: relative; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); min-width: 0; border: 1px solid var(--home-line); transition: background-color 160ms; }
+.ship-featured:where(:hover, :focus-within) { background: var(--home-hover); }
+.ship-featured-cover { min-width: 0; border-right: 1px solid var(--home-line); }
+.ship-featured-body { display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 32px; }
+.ships-page .ship-featured h2 { font-size: clamp(28px, 3vw, 40px); }
+.ship-featured h2 a { display: inline-flex; align-items: flex-start; gap: 8px; }
+.ship-featured h2 a::after { content: ""; position: absolute; inset: 0; }
+.ship-featured h2 svg { width: .5em; height: .5em; margin-top: .2em; opacity: .5; }
 .ship-featured-tagline { font-size: 17px; line-height: 1.5; color: hsl(var(--muted-foreground)); text-wrap: pretty; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.ship-featured-maker { display: flex; align-items: center; gap: 10px; margin-top: 6px; font-size: 15px; font-weight: 600; }
-.ship-featured-maker time { margin-left: auto; font: 400 14px var(--font-label); color: hsl(var(--muted-foreground)); }
+.ship-featured-maker { display: flex; align-items: center; gap: 10px; margin-top: 8px; font-size: 15px; font-weight: 500; }
+.ship-featured-maker time { margin-left: auto; font: 500 11px var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
 .ship-featured-update { font-size: 15px; color: hsl(var(--muted-foreground)); }
 
+/* Avatars stay round. */
 .ship-avatar { width: 28px; height: 28px; font-size: 12px; font-weight: 600; flex-shrink: 0; }
 .ship-featured-maker .ship-avatar { width: 34px; height: 34px; }
-.ship-chip { display: inline-flex; align-items: center; min-height: 20px; padding: 0 8px; border-radius: 999px; font: 600 11px var(--font-label); text-transform: uppercase; letter-spacing: .1em; box-shadow: inset 0 0 0 1px var(--ships-line); color: hsl(var(--muted-foreground)); white-space: nowrap; }
-.ship-chip[data-kind="core"] { background: #f4d56d; color: #20221d; box-shadow: none; }
-.ship-chip[data-kind="crew"] { background: #c9b8f0; color: #1c1433; box-shadow: none; }
-.ship-chip[data-kind="published"] { background: hsl(var(--foreground)); color: hsl(var(--background)); box-shadow: none; }
 
-/* Pulse and makers */
-.ships-split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 56px; padding-block: 72px 24px; }
-.ships-pulse > header, .ships-makers > header { margin-bottom: 20px; }
-.ships-pulse h2, .ships-makers h2, .ships-wall h2 { font-size: clamp(26px, 2.6vw, 36px); letter-spacing: -.04em; }
-.ships-pulse h2 { display: flex; align-items: center; gap: 12px; }
-.ships-pulse > header p, .ships-makers > header p { margin-top: 6px; font-size: 16px; color: hsl(var(--muted-foreground)); }
-.ships-live { position: relative; width: 10px; height: 10px; border-radius: 50%; background: #3fbf72; flex-shrink: 0; }
-.ships-live::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: inherit; animation: ships-ping 2s cubic-bezier(0, 0, .2, 1) infinite; }
-@keyframes ships-ping { 75%, 100% { transform: scale(2.6); opacity: 0; } }
-.ships-pulse ol { list-style: none; border-top: 1px solid var(--ships-line); }
-.ships-pulse li { border-bottom: 1px solid var(--ships-line); }
-.ships-pulse li a { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px; min-height: 68px; padding-block: 10px; transition: background-color 160ms; }
-.ships-pulse li a:hover { background: hsl(var(--foreground) / .04); }
+/* One chip: hairline, label-sm. Core and open-to-work carry a gold ring. */
+.ship-chip { display: inline-flex; align-items: center; padding: 5px 10px; box-shadow: inset 0 0 0 1px var(--home-line); font: 500 11px/1.3 var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--foreground)); white-space: nowrap; }
+.ship-chip[data-kind="core"], .ship-chip[data-kind="open"] { box-shadow: inset 0 0 0 1px var(--gold); }
+
+/* Pulse: joined rows, two to a row. */
+.ships-pulse { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0; padding: 0; list-style: none; border: 1px solid var(--home-line); background: var(--home-line); }
+.ships-pulse li { background: hsl(var(--background)); min-width: 0; }
+.ships-pulse li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.ships-pulse li a { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 16px; min-height: 84px; padding: 16px 24px; transition: background-color 160ms; }
+.ships-pulse li a:where(:hover, :focus-visible) { background: var(--home-hover); }
 .ships-pulse .ship-avatar { width: 40px; height: 40px; font-size: 15px; }
 .ships-pulse-text { display: flex; flex-direction: column; min-width: 0; }
-.ships-pulse-text strong { font-size: 17px; font-weight: 600; letter-spacing: -.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ships-pulse-text strong { font-size: 17px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ships-pulse-text span { font-size: 14px; color: hsl(var(--muted-foreground)); }
-.ships-pulse-when { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-.ships-pulse-when time { font: 13px var(--font-label); color: hsl(var(--muted-foreground)); white-space: nowrap; }
+.ships-pulse-when { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.ships-pulse-when time { font: 500 11px var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); white-space: nowrap; }
 
-.ships-makers ul { display: flex; flex-wrap: wrap; gap: 14px 10px; list-style: none; padding-top: 4px; }
-.ships-maker { position: relative; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 3px var(--ships-line); transition: transform 180ms cubic-bezier(.2, .7, .2, 1); }
+/* Makers: faces. Core gets a gold ring, Crew a hairline one. */
+.ships-makers ul { display: flex; flex-wrap: wrap; gap: 14px 10px; margin: 0; padding: 4px 0 0; list-style: none; }
+.ships-maker { position: relative; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 3px var(--home-line); transition: box-shadow 160ms; }
 .ships-maker .ship-avatar { width: 100%; height: 100%; font-size: 20px; }
-.ships-maker:hover, .ships-maker:focus-visible { transform: translateY(-4px) scale(1.06); }
-.ships-maker[data-kind="core"] { box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px #e0b43a; }
-.ships-maker[data-kind="crew"] { box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px #9a7fc0; }
-.ships-maker-count { position: absolute; right: -6px; bottom: -4px; min-width: 22px; height: 22px; padding-inline: 5px; display: grid; place-items: center; border-radius: 999px; background: hsl(var(--foreground)); color: hsl(var(--background)); font: 600 12px var(--font-label); box-shadow: 0 0 0 2px hsl(var(--background)); }
-.ships-maker-you { border: 1.5px dashed hsl(var(--muted-foreground) / .6); box-shadow: none; color: hsl(var(--muted-foreground)); }
-.ships-maker-you:hover { color: hsl(var(--foreground)); border-color: hsl(var(--foreground)); }
+.ships-maker:where(:hover, :focus-visible) { box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 3px hsl(var(--foreground)); }
+.ships-maker[data-kind="core"] { box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px var(--gold); }
+.ships-maker[data-kind="crew"] { box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 4px hsl(var(--foreground) / .28); }
+.ships-maker-count { position: absolute; right: -6px; bottom: -4px; min-width: 22px; height: 22px; padding-inline: 5px; display: grid; place-items: center; background: hsl(var(--foreground)); color: hsl(var(--background)); font: 600 12px var(--font-label); box-shadow: 0 0 0 2px hsl(var(--background)); }
+.ships-maker-you { border: 1px solid var(--home-line); box-shadow: none; color: hsl(var(--muted-foreground)); }
+.ships-maker-you:where(:hover, :focus-visible) { color: hsl(var(--foreground)); box-shadow: none; border-color: hsl(var(--foreground)); }
 .ships-maker-you svg { width: 22px; height: 22px; }
-.ships-makers-key { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 24px; font: 13px var(--font-label); text-transform: uppercase; letter-spacing: .12em; color: hsl(var(--muted-foreground)); }
+.ships-makers-key { display: flex; flex-wrap: wrap; gap: 6px 20px; margin-top: 24px; }
 .ships-makers-key span { display: inline-flex; align-items: center; gap: 8px; }
-.ships-makers-key span::before { content: ""; width: 10px; height: 10px; border-radius: 50%; border: 1.5px dashed hsl(var(--muted-foreground) / .7); }
-.ships-makers-key span[data-kind="core"]::before { border: 0; background: #e0b43a; }
-.ships-makers-key span[data-kind="crew"]::before { border: 0; background: #9a7fc0; }
+.ships-makers-key span::before { content: ""; width: 10px; height: 10px; border-radius: 50%; border: 1px solid var(--home-line); }
+.ships-makers-key span[data-kind="core"]::before { border: 0; background: var(--gold); }
+.ships-makers-key span[data-kind="crew"]::before { border: 0; background: hsl(var(--foreground) / .28); }
 
-/* The wall */
-.ships-wall { padding-block: 56px 24px; scroll-margin-top: 24px; }
-.ships-wall-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
-.ships-wall-head .station-label { color: hsl(var(--muted-foreground)); }
-.ships-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-.ships-filters a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-inline: 14px; border-radius: 999px; font-size: 16px; color: hsl(var(--muted-foreground)); box-shadow: inset 0 0 0 1px var(--ships-line); transition: background-color 160ms, color 160ms; }
-.ships-filters a:hover { color: hsl(var(--foreground)); background: hsl(var(--foreground) / .05); }
-.ships-filters a[aria-current="true"] { background: hsl(var(--foreground)); color: hsl(var(--background)); box-shadow: none; }
-.ships-filters a span { font: 14px var(--font-label); opacity: .65; }
-.ships-filters-rule { width: 1px; height: 22px; margin-inline: 6px; background: var(--ships-line); }
-.ships-count { margin-block: 16px 28px; font: 15px var(--font-label); color: hsl(var(--muted-foreground)); }
-.ships-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 24px; list-style: none; }
-.ships-grid > li { min-width: 0; }
-.ship-card { position: relative; display: flex; flex-direction: column; height: 100%; border-radius: 14px; background: var(--ships-card); box-shadow: 0 0 0 1px var(--ships-line); transition: transform 240ms cubic-bezier(.2, .7, .2, 1), box-shadow 240ms; }
-.ship-card:hover, .ship-card:focus-within { transform: translateY(-4px); box-shadow: 0 0 0 1px hsl(var(--foreground) / .22), 0 24px 48px -28px hsl(0 0% 0% / .5); }
-.ship-card-cover { position: relative; overflow: hidden; border-radius: 14px 14px 0 0; }
-.ship-card:hover .ship-cover img { transform: scale(1.04); }
-.ship-card-vote { position: absolute; z-index: 3; top: 10px; right: 10px; }
-.ship-card-body { display: flex; flex-direction: column; flex: 1; gap: 8px; padding: 18px 20px 16px; }
+/* The wall: joined tiles, one hover. */
+.ships-wall { scroll-margin-top: 24px; }
+.ships-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.ships-filters a span { margin-left: 8px; opacity: .65; }
+.ships-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--home-line); border-left: 1px solid var(--home-line); }
+.ships-grid > li { min-width: 0; border-right: 1px solid var(--home-line); border-bottom: 1px solid var(--home-line); }
+.ship-card { position: relative; display: flex; flex-direction: column; height: 100%; transition: background-color 160ms; }
+.ship-card:where(:hover, :focus-within) { background: var(--home-hover); }
+.ship-card-cover { position: relative; overflow: hidden; border-bottom: 1px solid var(--home-line); }
+.ship-card-vote { position: absolute; z-index: 3; top: 12px; right: 12px; }
+.ship-card-body { display: flex; flex-direction: column; flex: 1; gap: 8px; padding: 20px 24px 18px; }
 .ship-card-maker { display: flex; align-items: center; gap: 8px; min-width: 0; font-size: 14px; color: hsl(var(--muted-foreground)); }
 .ship-card-maker > span:not(.ship-chip) { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ship-card h3 { font-size: 24px; line-height: 1.1; letter-spacing: -.035em; overflow-wrap: anywhere; }
-.ship-card h3 a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: 14px; }
+.ship-card h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 24px; line-height: 1.1; letter-spacing: -.03em; overflow-wrap: anywhere; }
+.ship-card h3 a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
 .ship-card-tagline { font-size: 16px; line-height: 1.5; color: hsl(var(--muted-foreground)); text-wrap: pretty; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .ship-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding-top: 12px; }
-.ship-card-foot time { font: 13px var(--font-label); color: hsl(var(--muted-foreground)); }
-.ship-links { position: relative; z-index: 2; display: flex; gap: 2px; list-style: none; }
-.ship-links a { position: relative; display: grid; place-items: center; width: 44px; height: 44px; margin-block: -8px; border-radius: 8px; color: hsl(var(--muted-foreground)); transition: color 160ms, background-color 160ms; }
+.ship-card-foot time { font: 500 11px var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+.ship-links { position: relative; z-index: 2; display: flex; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.ship-links a { position: relative; display: grid; place-items: center; width: 44px; height: 44px; margin-block: -8px; color: hsl(var(--muted-foreground)); transition: color 160ms; }
 .ship-links a:last-child { margin-right: -10px; }
-.ship-links a:hover { color: hsl(var(--foreground)); background: hsl(var(--foreground) / .06); }
+.ship-links a:where(:hover, :focus-visible) { color: hsl(var(--foreground)); }
 .ship-links svg { width: 18px; height: 18px; }
 .ship-links .ship-links-out { position: absolute; top: 8px; right: 6px; width: 10px; height: 10px; opacity: 0; transition: opacity 160ms; }
 .ship-links a:hover .ship-links-out { opacity: .7; }
-.ship-vote { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border-radius: 999px; background: hsl(var(--background) / .92); color: hsl(var(--foreground)); font: 600 14px var(--font-label); font-variant-numeric: tabular-nums; box-shadow: 0 6px 18px -8px rgb(0 0 0 / .5); backdrop-filter: blur(8px); transition: background-color 160ms, color 160ms, transform 160ms; }
+/* Vote: the secondary hairline control, opaque so it reads over a cover. */
+.ship-vote { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; background: hsl(var(--background)); color: hsl(var(--foreground)); font: 500 13px var(--font-label); font-variant-numeric: tabular-nums; box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .28); transition: background-color 160ms, box-shadow 160ms; }
 .ship-vote svg { width: 14px; height: 14px; }
-.ship-vote:hover:not(:disabled) { transform: translateY(-1px); }
-.ship-vote[data-active] { background: #f4d56d; color: #20221d; }
-.ships-pager { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 40px; font: 15px var(--font-label); text-transform: uppercase; letter-spacing: .1em; }
-.ships-pager a { display: inline-flex; align-items: center; min-height: 44px; }
-.ships-pager a:hover { text-decoration: underline; text-underline-offset: 4px; }
-.ships-pager span { color: hsl(var(--muted-foreground)); }
+.ship-vote:hover:not(:disabled) { box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .85); }
+.ship-vote[data-active] { background: #f4d56d; color: #20221d; box-shadow: none; }
+.ships-pager { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 40px; }
 
-/* Empty */
-.ships-empty { display: grid; justify-items: center; gap: 12px; padding-block: 96px; text-align: center; }
-.ships-empty svg { width: 32px; height: 32px; color: hsl(var(--muted-foreground)); }
-.ships-empty h2 { font-size: 32px; letter-spacing: -.04em; }
-.ships-empty p { max-width: 46ch; color: hsl(var(--muted-foreground)); }
-.ships-empty-inline { padding-block: 56px; }
-
-/* Call to publish */
-.ships-cta { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 48px; align-items: start; margin-block: 72px 24px; padding: 56px; border-radius: 20px; background: var(--band); color: var(--band-ink); }
-.ships-cta .station-label { color: var(--band-soft); }
-.ships-cta h2 { margin-top: 10px; font-size: clamp(34px, 4vw, 56px); line-height: 1.02; letter-spacing: -.05em; text-wrap: balance; }
-.ships-cta-copy > p:not(.station-label) { margin-block: 20px 28px; max-width: 42ch; font-size: 18px; line-height: 1.55; color: var(--band-soft); }
-.ships-ways { min-width: 0; }
-.ships-ways-list { display: flex; flex-wrap: wrap; gap: 6px; }
-.ships-ways-list [role="tab"] { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-inline: 13px; border-radius: 999px; font-size: 15px; font-weight: 600; color: var(--band-soft); box-shadow: inset 0 0 0 1px rgb(28 20 51 / .28); transition: background-color 160ms, color 160ms; }
-.ships-ways-list [role="tab"] svg { width: 16px; height: 16px; }
-.ships-ways-list [role="tab"]:hover { color: var(--band-ink); }
-.ships-ways-list [role="tab"][aria-selected="true"], .ships-ways-list [role="tab"][data-checked] { background: var(--band-ink); color: var(--band); box-shadow: none; }
-.ships-ways-panel { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 20px; padding: 28px; border-radius: 14px; background: rgb(255 255 255 / .45); }
-.ships-ways-panel h3 { font-size: 24px; letter-spacing: -.03em; }
-.ships-ways-panel p { font-size: 16px; line-height: 1.55; color: var(--band-soft); }
-.ships-ways-panel .ships-button { background: var(--band-ink); color: var(--band); }
-.ships-ways-panel .ships-button-quiet { background: transparent; color: var(--band-ink); box-shadow: inset 0 0 0 1px rgb(28 20 51 / .4); }
-.ships-ways-code { display: block; max-width: 100%; overflow-x: auto; padding: 12px 14px; border-radius: 8px; background: var(--band-ink); color: var(--band); font: 14px/1.5 var(--font-label); white-space: nowrap; }
+/* Publish ways: home-tabs plus a hairline panel, no fill. */
+.ships-ways-list button { display: inline-flex; align-items: center; gap: 8px; }
+.ships-ways-list button svg { width: 16px; height: 16px; }
+.ships-ways-panel { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 24px; padding: 32px; border: 1px solid var(--home-line); }
+.ships-ways-panel h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 24px; letter-spacing: -.03em; }
+.ships-ways-panel p { max-width: 62ch; font-size: 16px; line-height: 1.55; color: hsl(var(--muted-foreground)); }
+.ships-ways-code { display: block; max-width: 100%; overflow-x: auto; padding: 12px 14px; background: hsl(var(--foreground) / .05); box-shadow: inset 0 0 0 1px var(--home-line); font: 14px/1.5 var(--font-label); white-space: nowrap; }
 .ships-ways-prompt { white-space: pre-wrap; margin: 0; }
 .ships-ways-panel [hidden] { display: none; }
 
 @media (max-width: 1100px) {
-  .ships-band-grid, .ships-split, .ships-cta { grid-template-columns: minmax(0, 1fr); gap: 48px; }
-  .ship-featured { transform: none; max-width: 640px; }
   .ships-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ship-featured { grid-template-columns: minmax(0, 1fr); }
+  .ship-featured-cover { border-right: 0; border-bottom: 1px solid var(--home-line); }
 }
-@media (max-width: 760px) {
-  .ships-band { padding-bottom: 44px; }
-  .ships-page.journal-page { --journal-frame: 16px; }
-  .ships-stats { gap: 20px 28px; }
-  .ships-split { padding-block: 48px 8px; }
-  .ships-grid { grid-template-columns: minmax(0, 1fr); }
-  .ships-cta { padding: 28px 20px; margin-top: 48px; }
-  .ships-ways-panel { padding: 20px; }
-  .ships-filters-rule { display: none; }
-  .ships-ways-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .ships-ways-list [role="tab"] { flex-direction: column; justify-content: center; gap: 4px; padding: 8px 6px; border-radius: 14px; font-size: 14px; text-align: center; line-height: 1.2; }
-  .ships-pulse li a { grid-template-columns: auto minmax(0, 1fr); }
+@media (max-width: 800px) {
+  .ships-pulse { grid-template-columns: minmax(0, 1fr); }
+  .ships-pulse li a { padding: 16px 20px; grid-template-columns: auto minmax(0, 1fr); }
   .ships-pulse-when { grid-column: 2; flex-direction: row; align-items: center; gap: 10px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .ships-live::after { animation: none; }
-  .ship-featured, .ship-card, .ships-maker, .ship-cover img { transition: none; }
-  .ship-featured:hover, .ship-featured:focus-within, .ship-card:hover, .ship-card:focus-within, .ships-maker:hover, .ships-maker:focus-visible { transform: none; }
-  .ship-card:hover .ship-cover img, .ship-featured:hover .ship-cover img { transform: none; }
+  .ships-grid { grid-template-columns: minmax(0, 1fr); }
+  .ship-card-body { padding: 20px; }
+  .ship-featured-body { padding: 24px 20px; }
+  .ships-filters, .ships-filters .home-tabs { width: 100%; }
+  .ships-filters .home-tabs { grid-auto-columns: 1fr; }
+  .ships-filters .home-tabs a { justify-content: center; padding: 0 10px; text-align: center; }
+  .ships-ways-panel { padding: 20px; }
+  .ships-ways-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); width: 100%; }
+  .ships-ways-list button { flex-direction: column; justify-content: center; gap: 4px; padding: 8px 6px; font-size: 12px; text-align: center; line-height: 1.2; }
 }
 
-/* Ship page: the band carries identity and actions, the body is prose, updates and the maker. */
-.ship-hero-grid { align-items: start; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
-.ship-detail .journal-band h1 { max-width: 14ch; font-size: clamp(44px, 5vw, 76px); overflow-wrap: anywhere; }
-.ship-detail .journal-band-summary { max-width: 34em; }
-.ship-hero-cover { min-width: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 40px 80px -36px rgb(28 20 51 / .65); background: var(--ships-card); }
-.ship-hero-cover .ship-cover { aspect-ratio: 16 / 10; }
-.ship-hero-maker { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 28px; font-size: 16px; font-weight: 600; }
-.ship-hero-maker a { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; }
-.ship-hero-maker a:hover span { text-decoration: underline; text-underline-offset: 4px; }
+/* Ship page */
+.ship-detail .inner-hero h1 { max-width: 16ch; font-size: clamp(44px, 5.4vw, 80px); overflow-wrap: anywhere; }
+.ship-hero-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-bottom: 32px; }
+.ship-hero-maker { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 16px; font-weight: 500; }
+.ship-hero-maker:hover span { text-decoration: underline; text-underline-offset: 4px; }
 .ship-hero-maker .ship-avatar { width: 36px; height: 36px; }
-.ship-hero-maker time { font: 400 14px var(--font-label); color: var(--band-soft); }
-.ship-hero-maker time::before { content: "·"; margin-right: 14px; }
-.ship-detail .ship-chip { box-shadow: inset 0 0 0 1px rgb(28 20 51 / .3); color: var(--band-ink); }
-.ship-detail .ship-chip[data-kind="core"] { background: #f4d56d; color: #20221d; box-shadow: none; }
-.ship-detail .ship-chip[data-kind="crew"] { background: var(--band-ink); color: var(--band); box-shadow: none; }
-.ship-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 32px; }
-.ship-actions-social { margin-top: 14px; gap: 8px 22px; }
-.ship-actions .ships-button { max-width: 100%; }
-.ship-actions .ships-button-quiet { color: var(--band-ink); box-shadow: inset 0 0 0 1px rgb(28 20 51 / .4); }
-.ship-actions .ships-button-quiet:hover { background: rgb(28 20 51 / .08); opacity: 1; }
-.ship-actions-out { opacity: .6; }
-.ship-actions-social .ship-vote { min-height: 44px; padding: 0 18px; font-size: 16px; background: var(--band-ink); color: var(--band); box-shadow: none; }
-.ship-actions-social .ship-vote[data-active] { background: #f4d56d; color: #20221d; }
-.ship-actions-social .ship-vote svg { width: 16px; height: 16px; }
-.ship-actions-social .ships-band-link { text-transform: none; letter-spacing: 0; font-size: 15px; }
-.ship-actions-social .ships-band-link svg { width: 16px; height: 16px; }
+.ship-hero-meta-end { display: inline-flex; align-items: center; gap: 12px 24px; margin-left: auto; }
+.ship-hero-meta-end .ship-vote { min-height: 44px; padding: 0 18px; font-size: 14px; }
+.ship-hero-cover { position: relative; min-width: 0; max-width: 880px; border: 1px solid var(--home-line); }
+.ship-hero-cover .ship-cover { aspect-ratio: 16 / 10; }
 
-.ship-body { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 72px; align-items: start; padding-block: 64px 24px; }
-.ship-main { min-width: 0; }
-.ship-aside { position: sticky; top: 32px; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
-.ship-section-label { margin-bottom: 20px; font: 14px/1.3 var(--font-label); text-transform: uppercase; letter-spacing: .2em; color: hsl(var(--muted-foreground)); }
+.ship-body, .ship-updates { max-width: 1000px; }
+.ship-section-label { margin-bottom: 24px; }
+.station-home h2.ship-section-label, .station-home .ship-maker-more h2 { font-size: 13px; font-weight: 500; line-height: 1.3; letter-spacing: .08em; text-transform: uppercase; font-family: var(--font-label); text-wrap: wrap; }
 
 /* Prose for member markdown. Code blocks and inline code come from .blog-body. */
-.ship-prose { max-width: 68ch; font-size: 19px; line-height: 1.75; overflow-wrap: anywhere; }
+.ship-prose { max-width: none; font-size: 19px; line-height: 1.75; overflow-wrap: anywhere; }
 .ship-prose > * + * { margin-top: 1.1em; }
 .ship-prose > :first-child { margin-top: 0; }
 .ship-prose p { text-wrap: pretty; }
@@ -236,24 +157,25 @@
 .ship-prose :is(ul, ol) { list-style: none; padding: 0; counter-reset: ship-item; }
 .ship-prose li { position: relative; padding-left: 1.7em; }
 .ship-prose li + li { margin-top: .55em; }
-.ship-prose ul > li::before { content: ""; position: absolute; left: .35em; top: .72em; width: .42em; height: .42em; border-radius: 50%; background: var(--band); box-shadow: 0 0 0 1.5px var(--band-ink); }
+.ship-prose ul > li::before { content: ""; position: absolute; left: .35em; top: .72em; width: .42em; height: .42em; background: var(--gold); }
 .ship-prose ol > li { counter-increment: ship-item; }
-.ship-prose ol > li::before { content: counter(ship-item); position: absolute; left: 0; top: .2em; display: grid; place-items: center; width: 1.45em; height: 1.45em; border-radius: 50%; background: hsl(var(--foreground) / .08); font: 600 .72em var(--font-label); }
+.ship-prose ol > li::before { content: counter(ship-item); position: absolute; left: 0; top: .2em; display: grid; place-items: center; width: 1.45em; height: 1.45em; border-radius: 0; background: hsl(var(--foreground) / .08); font: 600 .72em var(--font-label); }
 .ship-prose li :is(ul, ol) { margin-top: .55em; }
 .ship-prose li.task-list-item { padding-left: 1.9em; }
 .ship-prose li.task-list-item::before { display: none; }
 .ship-prose li.task-list-item > input { position: absolute; left: 0; top: .55em; width: 1.05em; height: 1.05em; accent-color: hsl(var(--foreground)); }
-.ship-prose blockquote { padding-left: 1.2em; border-left: 3px solid var(--band); font-size: 1.08em; color: hsl(var(--muted-foreground)); }
+.ship-prose blockquote { padding-left: 1.2em; border-left: 2px solid var(--gold); font-size: 1.08em; color: hsl(var(--muted-foreground)); }
 .ship-prose hr { border: 0; border-top: 1px solid var(--ships-line); margin-block: 2em; }
-.ship-prose img { display: block; max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 0 1px var(--ships-line); }
-.ship-prose figure { margin: 1.6em 0; }
+.ship-prose img { display: block; max-width: 100%; height: auto; box-shadow: 0 0 0 1px var(--ships-line); }
+.ship-prose > :not(figure, .ship-prose-table) { max-width: 68ch; }
+.ship-prose figure { margin: 2em 0; }
 .ship-prose figure + * { margin-top: 1.6em; }
-.ship-prose video { display: block; width: 100%; max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 0 0 1px var(--ships-line); background: hsl(var(--foreground) / .04); }
+.ship-prose video { display: block; width: 100%; max-width: 100%; height: auto; box-shadow: 0 0 0 1px var(--ships-line); background: hsl(var(--foreground) / .04); }
 .ship-prose figure :is(img, video) { width: 100%; }
 .ship-prose figcaption { margin-top: .6em; font-size: 14px; line-height: 1.5; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
-.ship-prose pre { border-radius: 10px; font-size: 15px; }
+.ship-prose pre { font-size: 15px; }
 .ship-prose pre code { display: block; padding: 0 1rem; font-family: var(--font-mono), monospace; font-size: .875rem; line-height: 1.6; white-space: pre; }
-.ship-prose-table { overflow-x: auto; border-radius: 10px; box-shadow: 0 0 0 1px var(--ships-line); }
+.ship-prose-table { overflow-x: auto; box-shadow: 0 0 0 1px var(--ships-line); }
 .ship-prose table { width: 100%; border-collapse: collapse; font-size: 16px; text-align: left; }
 .ship-prose th, .ship-prose td { padding: 10px 14px; border-bottom: 1px solid var(--ships-line); }
 .ship-prose th { font: 600 13px var(--font-label); text-transform: uppercase; letter-spacing: .1em; color: hsl(var(--muted-foreground)); white-space: nowrap; }
@@ -263,154 +185,115 @@
 .ship-prose-compact h4 { font-size: 18px; }
 
 /* Updates */
-.ship-updates { margin-top: 80px; padding-top: 48px; border-top: 1px solid var(--ships-line); }
-.ship-updates > header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 32px; }
-.ship-updates h2 { font-size: clamp(28px, 3vw, 38px); letter-spacing: -.04em; }
-.ship-updates > header p { margin-top: 6px; font-size: 16px; color: hsl(var(--muted-foreground)); }
-.ship-updates-count { display: grid; place-items: center; min-width: 32px; height: 32px; padding-inline: 10px; border-radius: 999px; background: hsl(var(--foreground)); color: hsl(var(--background)); font: 600 14px var(--font-label); }
-.ship-updates-empty { padding: 28px; border-radius: 14px; border: 1.5px dashed var(--ships-line); font-size: 16px; color: hsl(var(--muted-foreground)); }
-.ship-timeline { position: relative; list-style: none; padding-left: 28px; }
-.ship-timeline::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1.5px; background: var(--ships-line); }
+.ship-updates-empty { padding: 28px; box-shadow: inset 0 0 0 1px var(--home-line); font-size: 16px; color: hsl(var(--muted-foreground)); }
+.ship-timeline { position: relative; margin: 0; list-style: none; padding-left: 28px; }
+.ship-timeline::before { content: ""; position: absolute; left: 5px; top: 8px; bottom: 8px; width: 1px; background: var(--home-line); }
 .ship-timeline > li { position: relative; padding-bottom: 44px; min-width: 0; }
 .ship-timeline > li:last-child { padding-bottom: 0; }
-.ship-timeline > li::before { content: ""; position: absolute; left: -28px; top: 7px; width: 12px; height: 12px; border-radius: 50%; background: var(--band); box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 3.5px var(--band-ink); }
-.dark .ship-timeline > li::before { box-shadow: 0 0 0 2px hsl(var(--background)), 0 0 0 3.5px var(--band); }
-.ship-timeline time { font: 14px var(--font-label); text-transform: uppercase; letter-spacing: .12em; color: hsl(var(--muted-foreground)); }
-.ship-timeline h3 { margin-block: 6px 12px; font-size: 24px; line-height: 1.2; letter-spacing: -.03em; overflow-wrap: anywhere; }
+.ship-timeline > li::before { content: ""; position: absolute; left: -28px; top: 7px; width: 11px; height: 11px; background: var(--gold); box-shadow: 0 0 0 3px hsl(var(--background)); }
+.ship-timeline time { font: 500 11px var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
+.ship-timeline h3 { margin-block: 6px 12px; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 24px; line-height: 1.2; letter-spacing: -.03em; overflow-wrap: anywhere; }
 .ship-timeline h3[data-version] { font-family: var(--font-mono), monospace; font-size: 22px; letter-spacing: -.01em; }
-.ship-timeline-image { display: block; width: 100%; max-width: 560px; aspect-ratio: 16 / 9; margin-bottom: 14px; object-fit: cover; border-radius: 10px; box-shadow: 0 0 0 1px var(--ships-line); }
-.ship-timeline .ship-inline-link { margin-top: 14px; }
-.ship-inline-link { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-size: 16px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: hsl(var(--muted-foreground) / .6); }
-.ship-inline-link:hover { text-decoration-color: hsl(var(--foreground)); }
-.ship-inline-link svg { width: 14px; height: 14px; }
+.ship-timeline-image { display: block; width: 100%; max-width: 560px; aspect-ratio: 16 / 9; margin-bottom: 14px; object-fit: cover; box-shadow: 0 0 0 1px var(--home-line); }
+.ship-timeline .home-secondary-link { margin-top: 14px; }
 
 /* Composer (owner) */
-.ship-composer { margin-bottom: 36px; border-radius: 14px; background: var(--ships-card); box-shadow: 0 0 0 1px var(--ships-line); }
-.ship-composer > summary { display: flex; align-items: center; gap: 10px; min-height: 52px; padding-inline: 18px; font-size: 16px; font-weight: 600; cursor: pointer; list-style: none; }
+.ship-composer { margin-bottom: 36px; box-shadow: inset 0 0 0 1px var(--home-line); }
+.ship-composer > summary { display: flex; align-items: center; gap: 10px; min-height: 52px; padding-inline: 18px; font-size: 16px; font-weight: 500; cursor: pointer; list-style: none; }
 .ship-composer > summary::-webkit-details-marker { display: none; }
 .ship-composer > summary svg { width: 16px; height: 16px; }
-.ship-composer[open] > summary { border-bottom: 1px solid var(--ships-line); }
+.ship-composer[open] > summary { border-bottom: 1px solid var(--home-line); }
 .ship-composer form { display: grid; gap: 14px; padding: 18px; }
 .ship-composer label { display: grid; gap: 6px; font-size: 14px; }
-.ship-composer form .ships-button { justify-self: start; border: 0; cursor: pointer; }
-.ship-composer form .ships-button:disabled { opacity: .5; }
+.ship-composer form .hero-cta { justify-self: start; cursor: pointer; }
+.ship-composer form .hero-cta:disabled { opacity: .6; }
 .ship-composer-error { font-size: 15px; color: #d4483b; }
 
-/* Aside: maker card and owner tools */
-.ship-maker, .ship-owner { padding: 24px; border-radius: 16px; background: var(--ships-card); box-shadow: 0 0 0 1px var(--ships-line); }
+/* Maker and owner tools */
 .ship-maker { display: flex; flex-direction: column; gap: 14px; }
-.ship-maker .station-label { color: hsl(var(--muted-foreground)); }
 .ship-maker-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .ship-maker-head .ship-avatar { width: 52px; height: 52px; font-size: 20px; }
 .ship-maker-who { display: flex; flex-direction: column; min-width: 0; flex: 1; }
-.ship-maker-head strong { font-size: 18px; letter-spacing: -.01em; overflow-wrap: anywhere; }
+.ship-maker-head strong { font-size: 18px; font-weight: 500; overflow-wrap: anywhere; }
 .ship-maker-head:hover strong { text-decoration: underline; text-underline-offset: 4px; }
 .ship-maker-head small { font: 14px var(--font-label); color: hsl(var(--muted-foreground)); }
 .ship-maker-bio { font-size: 16px; line-height: 1.55; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
-.ship-maker .ship-inline-link { align-self: flex-start; margin-block: -8px; }
-.ship-maker-more { margin-top: 6px; padding-top: 18px; border-top: 1px solid var(--ships-line); }
-.ship-maker-more h2 { margin-bottom: 8px; font: 13px/1.3 var(--font-label); text-transform: uppercase; letter-spacing: .14em; color: hsl(var(--muted-foreground)); }
-.ship-maker-more ul { list-style: none; }
-.ship-maker-more a { display: flex; align-items: center; gap: 12px; min-height: 64px; padding-block: 8px; }
+.ship-maker .home-secondary-link { align-self: flex-start; }
+.ship-maker-more { margin-top: 6px; padding-top: 18px; border-top: 1px solid var(--home-line); }
+.ship-maker-more h2 { margin-bottom: 8px; }
+.ship-maker-more ul { margin: 0; padding: 0; list-style: none; }
+.ship-maker-more a { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 8px; margin-inline: -8px; transition: background-color 160ms; }
+.ship-maker-more a:where(:hover, :focus-visible) { background: var(--home-hover); }
 .ship-maker-more a > span:last-child { display: flex; flex-direction: column; min-width: 0; }
-.ship-maker-more strong { font-size: 16px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ship-maker-more a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
+.ship-maker-more strong { font-size: 16px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .ship-maker-more small { font-size: 14px; color: hsl(var(--muted-foreground)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.ship-maker-thumb { flex: none; width: 72px; overflow: hidden; border-radius: 8px; }
+.ship-maker-thumb { flex: none; width: 72px; overflow: hidden; box-shadow: 0 0 0 1px var(--home-line); }
 .ship-maker-thumb .ship-cover-generated > span { font-size: 28px; }
-.ship-owner { padding: 16px 18px; background: transparent; border: 1.5px dashed var(--ships-line); box-shadow: none; }
-.ship-owner h2 { font: 13px/1.3 var(--font-label); text-transform: uppercase; letter-spacing: .14em; color: hsl(var(--muted-foreground)); }
+.ship-owner { margin-top: 24px; padding: 16px 18px; box-shadow: inset 0 0 0 1px var(--home-line); }
+.ship-owner h2 { font: 500 13px/1.3 var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
 .ship-owner > p:not(.ship-owner-status) { margin-top: 2px; font-size: 14px; color: hsl(var(--muted-foreground)); }
 .ship-owner > div { display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 8px; }
-.ship-owner :is(a, button) { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 15px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: hsl(var(--muted-foreground) / .6); }
-.ship-owner :is(a, button):hover { text-decoration-color: hsl(var(--foreground)); }
+.ship-owner :is(a, button) { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 15px; text-decoration: underline; text-underline-offset: 5px; text-decoration-color: hsl(var(--foreground) / .3); transition: text-decoration-color 180ms; }
+.ship-owner :is(a, button):where(:hover, :focus-visible) { text-decoration-color: currentColor; }
 .ship-owner button:disabled { opacity: .5; }
 .ship-owner svg { width: 15px; height: 15px; }
 .ship-owner-status { font-size: 14px; color: hsl(var(--muted-foreground)); }
-.ship-cta { margin-top: 56px; grid-template-columns: minmax(0, 1fr); }
-
-@media (max-width: 1100px) {
-  .ship-body { grid-template-columns: minmax(0, 1fr); gap: 56px; }
-  .ship-aside { position: static; }
-  .ship-hero-grid { grid-template-columns: minmax(0, 1fr); }
-  .ship-hero-cover { max-width: 640px; }
-}
-@media (max-width: 760px) {
-  .ship-body { padding-block: 44px 8px; }
+.ship-made-by { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--home-line); }
+.station-home .ship-made-by { max-width: 68ch; }
+.ship-cta-box { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px 48px; padding: 40px; border: 1px solid var(--home-line); }
+.ship-cta-box > div:first-child { display: grid; gap: 12px; max-width: 560px; }
+.ship-cta-box p:not(.home-label) { color: hsl(var(--muted-foreground)); line-height: 1.6; }
+.ship-cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+@media (max-width: 800px) {
+  .ship-hero-meta-end { margin-left: 0; width: 100%; }
   .ship-prose { font-size: 18px; }
   .ship-prose h3 { font-size: 24px; }
-  .ship-updates { margin-top: 56px; padding-top: 36px; }
-  .ship-actions .ships-button { flex: 1 1 auto; justify-content: center; padding-inline: 16px; }
-  .ship-maker, .ship-cta { padding: 20px; }
-  .ship-cta { padding: 28px 20px; }
+  .ship-cta-box { padding: 24px 20px; }
+  .ship-cta-actions { width: 100%; flex-direction: column; align-items: stretch; }
+  .ship-cta-actions .hero-cta { width: 100%; }
 }
-@media (prefers-reduced-motion: reduce) {
-  .ship-prose a { transition: none; }
+@media (prefers-reduced-motion: reduce) { .ship-prose a { transition: none; } }
+
+/* Crafters */
+.crafters-tile { gap: 14px; }
+.jobs-name h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 22px; line-height: 1.1; letter-spacing: -.03em; overflow-wrap: anywhere; }
+.crafters-bio { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; font-size: 14px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
+
+/* Crafter profile */
+.crafter-hero-chip { margin-left: 12px; }
+.crafter-hero-row { display: flex; align-items: center; gap: 32px; }
+.jobs-avatar.crafter-avatar { flex: none; width: 144px; height: 144px; font-size: 48px; }
+.crafter-hero-id { display: grid; gap: 10px; min-width: 0; }
+.crafter-hero h1 { max-width: none; font-size: clamp(40px, 5vw, 72px); overflow-wrap: anywhere; }
+.crafter-hero-copy { display: grid; gap: 16px; justify-items: start; }
+.crafter-role { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 24px; letter-spacing: -.03em; }
+.crafter-bio { max-width: 62ch; font-size: 18px; line-height: 1.65; color: hsl(var(--muted-foreground)); }
+.crafter-block { display: grid; gap: 12px; }
+.crafter-links { display: flex; flex-wrap: wrap; gap: 4px 24px; }
+.crafter-ship { display: flex; flex-direction: column; gap: 10px; height: 100%; padding: 24px; transition: background-color 160ms; }
+.crafter-ship:where(:hover, :focus-visible) { background: var(--home-hover); }
+.crafter-ship-cover { width: 100%; aspect-ratio: 16 / 9; margin-bottom: 8px; object-fit: cover; box-shadow: 0 0 0 1px var(--home-line); }
+.crafter-ship h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: 24px; line-height: 1.1; letter-spacing: -.03em; }
+.crafter-ship p { font-size: 15px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
+.crafter-activity { display: grid; gap: 1px; margin: 0; padding: 0; list-style: none; border: 1px solid var(--home-line); background: var(--home-line); }
+.crafter-activity li { background: hsl(var(--background)); }
+.crafter-activity a { display: grid; gap: 6px; padding: 20px 24px; transition: background-color 160ms; }
+.crafter-activity a:where(:hover, :focus-visible) { background: var(--home-hover); }
+.crafter-activity strong { font-size: 18px; font-weight: 500; }
+.crafter-activity-text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 15px; line-height: 1.6; color: hsl(var(--muted-foreground)); }
+@media (max-width: 800px) {
+  .crafter-hero-row { flex-direction: column; align-items: flex-start; gap: 20px; }
+  .jobs-avatar.crafter-avatar { width: 96px; height: 96px; font-size: 36px; }
+  .crafter-activity a { padding: 16px 20px; }
+  .crafter-ship { padding: 20px; }
 }
 
-/* Tone: the page borrows a soft colour from the Ship's cover, snapped to the brand palette
-   (lib/ship-tone.ts). No solid band: a glow over the page paper, and an offset shadow on the cover. */
-.ships-page { --band: hsl(var(--background)); --band-ink: hsl(var(--foreground)); --band-soft: hsl(var(--muted-foreground)); --tint: #e9e7dd; --tint-deep: #34362e; }
-.ships-page[data-tone="yellow"] { --tint: #f0df9c; --tint-deep: #665b37; }
-.ships-page[data-tone="clay"] { --tint: #f7cdb9; --tint-deep: #6e4436; }
-.ships-page[data-tone="green"] { --tint: #c7d8b7; --tint-deep: #3c5040; }
-.ships-page[data-tone="sage"] { --tint: #cfe7d2; --tint-deep: #3a5446; }
-.ships-page[data-tone="blue"] { --tint: #c9dbea; --tint-deep: #3b4d5c; }
-.ships-page[data-tone="lilac"] { --tint: #d4c8e5; --tint-deep: #51465d; }
+/* Form pages (/ships/new, /settings/profile): inner-hero title and a framed hairline box. */
+.station-form-page > h1 { margin-top: 16px; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(40px, 6vw, 64px); line-height: .98; letter-spacing: -.045em; text-wrap: balance; -webkit-text-stroke: .012em currentColor; paint-order: stroke fill; }
+.station-form-page .ob-card { position: relative; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
+.station-form-page .ob-card::before, .station-form-page .ob-card::after { content: ""; position: absolute; z-index: 2; width: 12px; height: 12px; border: 0 solid var(--gold); pointer-events: none; }
+.station-form-page .ob-card::before { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.station-form-page .ob-card::after { right: 0; bottom: 0; border-width: 0 1.5px 1.5px 0; }
 
-.dark .ships-page[data-tone="paper"], .dark .ships-page:not([data-tone]) { --tint: #34362e; --tint-deep: #e9e7dd; }
-.dark .ships-page[data-tone="yellow"] { --tint: #665b37; --tint-deep: #f0df9c; }
-.dark .ships-page[data-tone="clay"] { --tint: #6e4436; --tint-deep: #f7cdb9; }
-.dark .ships-page[data-tone="green"] { --tint: #3c5040; --tint-deep: #c7d8b7; }
-.dark .ships-page[data-tone="sage"] { --tint: #3a5446; --tint-deep: #cfe7d2; }
-.dark .ships-page[data-tone="blue"] { --tint: #3b4d5c; --tint-deep: #c9dbea; }
-.dark .ships-page[data-tone="lilac"] { --tint: #51465d; --tint-deep: #d4c8e5; }
-
-.ships-page .journal-band { background: transparent; box-shadow: none; clip-path: none; isolation: isolate; }
-/* The glow reaches past the column; clip it at the page so it never adds horizontal scroll. */
-.ships-page { overflow-x: clip; }
-.ships-page .journal-band::before {
-  content: ""; position: absolute; z-index: -1; inset: -120px -100vmax 0; pointer-events: none;
-  background:
-    radial-gradient(1140px 680px at 72% 18%, color-mix(in srgb, var(--tint) 100%, transparent), transparent 72%),
-    radial-gradient(700px 400px at 18% 0%, color-mix(in srgb, var(--tint) 80%, transparent), transparent 70%);
-}
-.dark .ships-page .journal-band::before {
-  background:
-    radial-gradient(1140px 680px at 72% 18%, color-mix(in srgb, var(--tint) 100%, transparent), transparent 72%),
-    radial-gradient(700px 400px at 18% 0%, color-mix(in srgb, var(--tint) 60%, transparent), transparent 70%);
-}
-.ships-page .ship-hero-cover, .ships-page .ship-featured { box-shadow: 14px 14px 0 color-mix(in srgb, var(--tint-deep) 55%, transparent), 0 30px 60px -30px rgb(0 0 0 / .35); }
-.dark .ships-page .ship-hero-cover, .dark .ships-page .ship-featured { box-shadow: 14px 14px 0 color-mix(in srgb, var(--tint-deep) 30%, transparent), 0 30px 60px -30px rgb(0 0 0 / .5); }
-.ships-page .ships-button-band, .ships-page .ships-cta .ships-button-band, .ships-page .ships-ways-panel .ships-button { background: hsl(var(--foreground)); color: hsl(var(--background)); }
-.ships-page .ships-cta { background: color-mix(in srgb, var(--tint) 70%, hsl(var(--background))); color: hsl(var(--foreground)); }
-.dark .ships-page .ships-cta { background: color-mix(in srgb, var(--tint) 55%, hsl(var(--background))); }
-.ships-page .ships-ways-list [role="tab"] { box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .22); }
-.ships-page .ships-ways-list [role="tab"][aria-selected="true"], .ships-page .ships-ways-list [role="tab"][data-checked] { background: hsl(var(--foreground)); color: hsl(var(--background)); }
-/* The panel is a solid surface in both themes: a translucent white wash turned it mid-grey on dark,
-   with soft ink text on top. The example link reads as a quiet well so it no longer mirrors the button. */
-.ships-page .ships-ways-panel { background: hsl(var(--background) / .82); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .1); }
-.ships-page .ships-ways-panel p { color: hsl(var(--foreground) / .8); }
-.ships-page .ships-ways-list [role="tab"] { color: hsl(var(--foreground) / .82); }
-.ships-page .ships-ways-list [role="tab"]:hover { color: hsl(var(--foreground)); }
-.ships-page .ships-ways-code { background: hsl(var(--foreground) / .07); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .16); }
-.ships-page .ships-ways-panel .ships-button-quiet { color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .35); }
-@media (prefers-reduced-motion: reduce) { .ships-page .ship-featured { transform: none; } }
-
-/* Single column: the story reads at a comfortable width, its media runs wider, and the maker
-   sits after the story instead of in a sticky side card. */
-.ship-body { display: block; max-width: 1000px; }
-.ship-prose { max-width: none; }
-.ship-prose > :not(figure, .ship-prose-table) { max-width: 68ch; }
-.ship-prose figure { margin-block: 2em; }
-.ship-made-by { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--ships-line); }
-.ship-made-by .ship-maker { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; text-align: left; gap: 12px 28px; padding: 0; border-radius: 0; background: none; box-shadow: none; }
-.ship-made-by .ship-maker > .station-label { flex-basis: 100%; }
-.ship-made-by .ship-maker-head { flex: none; }
-.ship-made-by .ship-maker-bio { flex: 1 1 260px; max-width: 52ch; }
-.ship-made-by .ship-maker > .ship-inline-link { margin: 0; }
-.ship-made-by .ship-maker-more { flex-basis: 100%; margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--ships-line); }
-.ship-made-by .ship-maker-more ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 4px 24px; }
-.ship-made-by .ship-owner { margin-top: 24px; }
-.ship-made-by + .ship-updates { margin-top: 56px; }
-@media (max-width: 760px) { .ship-made-by { margin-top: 48px; } }
+/* These pages sit on the homepage frame; drop the generic inner-page padding the pages shell adds around #site-content. */
+.station-shell-pages #site-content:has(.ships-page, .crafters, .crafter-profile) { padding: 0; }

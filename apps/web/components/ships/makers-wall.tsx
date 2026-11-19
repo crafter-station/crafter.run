@@ -7,16 +7,12 @@ import { MakerAvatar } from "@/components/ships/ship-meta"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import type { Maker } from "@/lib/ships-showcase"
 
-export type MakersLabels = { title: string; lead: string; wall: string; core: string; crew: string; you: string; publish: string; ships: Record<string, string> }
+export type MakersLabels = { wall: string; core: string; crew: string; you: string; publish: string; ships: Record<string, string> }
 
 /** Everyone who has shipped, as faces. Core and Crew carry a ring; the last seat invites the reader. */
 export function MakersWall({ makers, locale, labels }: { makers: Maker[]; locale: string; labels: MakersLabels }) {
   return (
-    <section className="ships-makers" aria-labelledby="ships-makers-title">
-      <header>
-        <h2 id="ships-makers-title">{labels.title}</h2>
-        <p>{labels.lead}</p>
-      </header>
+    <div className="ships-makers">
       <ul aria-label={labels.wall}>
         {makers.map((maker) => (
           <li key={maker.handle}>
@@ -41,11 +37,11 @@ export function MakersWall({ makers, locale, labels }: { makers: Maker[]; locale
           </Link>
         </li>
       </ul>
-      <p className="ships-makers-key">
+      <p className="ships-makers-key home-label-sm">
         <span data-kind="core">{labels.core}</span>
         <span data-kind="crew">{labels.crew}</span>
         <span>{labels.you}</span>
       </p>
-    </section>
+    </div>
   )
 }
