@@ -2,18 +2,22 @@
    The scene is a WebGPU halftone of the knot; the outline knot is the fallback. */
 .hero-field { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 900ms ease-out; pointer-events: none; }
 .hero-field[data-ready] { opacity: 1; }
+/* The field and knot fade out before the hero ends, so the next section starts on plain ground. */
+.hero-field, .hero-knot { -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 96%); mask-image: linear-gradient(to bottom, #000 55%, transparent 96%); }
 .hero-field[data-ready] + .hero-knot { display: none; }
 .hero-name { position: relative; isolation: isolate; overflow: hidden; justify-content: center; min-height: min(900px, 100svh); padding-block: 72px 40px; }
 .hero-knot { position: absolute; z-index: -1; top: -56%; right: -22%; width: min(1100px, 82vw); height: auto; pointer-events: none; }
 .hero-knot path { fill: none; stroke: hsl(var(--accent)); stroke-width: 1.2; vector-effect: non-scaling-stroke; opacity: .35; stroke-dasharray: 1; stroke-dashoffset: 0; }
 .dark .hero-knot path { stroke: #f4d56d; opacity: .2; }
 .hero-eyebrow { display: flex; flex-wrap: wrap; gap: 6px 26px; font: 500 13px var(--font-label); letter-spacing: .08em; text-transform: uppercase; color: hsl(var(--muted-foreground)); }
-.hero-name h1 { margin-top: 24px; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(64px, 9.6vw, 140px); line-height: .92; letter-spacing: -.05em; white-space: nowrap; -webkit-text-stroke: .012em currentColor; paint-order: stroke fill; }
+.hero-name h1 { max-width: 13ch; margin-top: 24px; font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(56px, 7.4vw, 112px); line-height: .94; letter-spacing: -.045em; text-wrap: balance; -webkit-text-stroke: .012em currentColor; paint-order: stroke fill; }
+.hero-eyebrow-name { color: hsl(var(--foreground)); }
 .hero-claim { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px 48px; margin-top: 32px; }
 .hero-claim > p { max-width: 460px; font-size: 20px; line-height: 1.5; color: hsl(var(--muted-foreground)); text-wrap: pretty; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.hero-cta, .hero-cta-ghost { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 999px; font-size: 16px; font-weight: 500; transition: background-color 160ms ease-out, box-shadow 160ms ease-out, transform 120ms ease-out; }
+.hero-cta, .hero-cta-ghost { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 999px; font-size: 16px; font-weight: 500; transition: background-color 160ms ease-out, box-shadow 160ms ease-out, transform 120ms ease-out; }
 .hero-cta { background: #f4d56d; color: #20221d; }
+.hero-cta-glyph { width: 18px; height: 18px; flex-shrink: 0; }
 .hero-cta-ghost { box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .3); }
 .hero-cta:active, .hero-cta-ghost:active { transform: scale(.98); }
 @media (hover: hover) {
@@ -47,10 +51,11 @@
 }
 @media (max-width: 760px) {
   .hero-name { min-height: 0; padding-block: 40px 32px; }
-  .hero-name h1 { white-space: normal; font-size: clamp(56px, 17vw, 76px); line-height: .9; }
+  .hero-name h1 { font-size: clamp(44px, 12.4vw, 64px); line-height: .95; }
+  .hero-eyebrow { gap: 4px 18px; font-size: 12px; }
   .hero-knot { top: -10%; right: -70%; width: 160vw; }
   .hero-claim > p { font-size: 17px; }
-  .hero-actions { flex-direction: column; }
+  .hero-actions { flex-direction: column; gap: 10px; }
   .hero-cta, .hero-cta-ghost { justify-content: center; }
   .hero-proof { margin-top: 44px; }
 }

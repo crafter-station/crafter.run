@@ -8,7 +8,7 @@ Crafter is one spark with four directions:
 
 - **[Research](https://crafter.ing)**: open questions about AI, agents, and engineering.
 - **[Lab](https://github.com/crafter-lab)**: hardware, fabrication, and physical prototypes.
-- **[Games](https://games.crafter.run)**: worlds we build and play.
+- **[Games](https://crafter.games)**: worlds we build and play.
 - **[Station](https://crafter.run)**: the community, with Hot Reload meetups, Bounties, and Ships.
 
 This repo is the Station: the website at [crafter.run](https://crafter.run), its API, and the [`@crafter/cli`](https://www.npmjs.com/package/@crafter/cli).

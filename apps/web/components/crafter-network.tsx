@@ -47,7 +47,7 @@ export function NetworkCards({ locale, headingLevel = 3 }: { locale: Locale; hea
   return <div className="network-grid">
     {getNetwork(locale).map((area, index) => <Link key={area.id} href={area.href}
       className={`network-card network-${area.id}`}
-      style={{ "--network-color": area.color, "--network-surface": area.surface, "--network-ink": area.ink } as CSSProperties}
+      style={{ "--network-color": area.color, "--network-surface": area.surface, "--network-ink": area.ink, "--network-pastel": area.surface } as CSSProperties}
       aria-labelledby={`network-${area.id}-title`}
       {...(area.href.startsWith("https:") ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
       <div className="network-card-top"><span className="station-label">0{index + 1} / CRAFTER</span></div>

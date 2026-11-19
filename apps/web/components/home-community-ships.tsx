@@ -38,7 +38,10 @@ async function latestShips(): Promise<ShipSummary[]> {
     const response = await fetch(new URL("/v1/ships?limit=6", apiUrl), { next: { revalidate: 300 } })
     if (!response.ok) return []
     const parsed = listShipsResponseSchema.safeParse(await response.json())
-    return parsed.success ? parsed.data.ships.slice(0, 6) : []
+    if (!parsed.success) return []
+    // The bento shows three; ships with a cover go first so the tall card is never blank.
+    const ships = parsed.data.ships
+    return [...ships.filter((ship) => ship.imageUrl), ...ships.filter((ship) => !ship.imageUrl)].slice(0, 3)
   } catch {
     return []
   }
@@ -51,7 +54,7 @@ export async function StationCommunityShips({ locale }: { locale: Locale }) {
   if (ships.length === 0) return null
 
   return (
-    <section className="home-shipped" aria-labelledby="home-community-title">
+    <section className="home-shipped home-shipped-bento" aria-labelledby="home-community-title">
       <div className="home-shipped-intro">
         <div>
           <h2 id="home-community-title">{t.title}</h2>
@@ -67,11 +70,11 @@ export async function StationCommunityShips({ locale }: { locale: Locale }) {
               <span className="home-shipped-cover">
                 {ship.imageUrl ? <img src={ship.imageUrl} alt="" loading="lazy" className="h-full w-full object-cover" /> : null}
               </span>
-              <h3>{ship.name}</h3>
-              <p>{ship.tagline}</p>
-              <p className="text-sm text-muted-foreground">
-                {t.by} @{ship.owner.handle}
-              </p>
+              <span className="home-shipped-body">
+                <span className="home-shipped-kicker">{t.by} @{ship.owner.handle}</span>
+                <h3>{ship.name}</h3>
+                <p>{ship.tagline}</p>
+              </span>
             </Link>
           </li>
         ))}

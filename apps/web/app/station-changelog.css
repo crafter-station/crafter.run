@@ -85,4 +85,17 @@
 .home-shipped-grid h3 { font-size: 22px; line-height: 1.15; letter-spacing: -.03em; text-wrap: balance; }
 .home-shipped-grid p { font-size: 16px; line-height: 1.5; color: hsl(var(--muted-foreground)); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 @media (max-width: 900px) { .home-shipped-grid { grid-template-columns: minmax(0,1fr); gap: 32px; } .home-shipped-intro { align-items: start; flex-direction: column; gap: 12px; } }
+/* Tile row for the homepage release and community sections: three joined tiles on one hairline grid, square corners. */
+.home-shipped-bento { padding-block: 72px; }
+.home-shipped-bento .home-shipped-intro { margin-bottom: 36px; }
+.home-shipped-bento .home-shipped-grid { gap: 0; border: 1px solid hsl(var(--foreground) / .12); }
+.home-shipped-bento .home-shipped-grid > li + li { border-left: 1px solid hsl(var(--foreground) / .12); }
+.home-shipped-bento .home-shipped-grid a { gap: 0; height: 100%; transition: background-color 200ms ease-out; }
+.home-shipped-bento .home-shipped-grid a:hover { background: hsl(var(--foreground) / .035); }
+.home-shipped-bento .home-shipped-cover { border-radius: 0; aspect-ratio: 16 / 10; box-shadow: none; border-bottom: 1px solid hsl(var(--foreground) / .12); }
+.home-shipped-bento .home-shipped-body { display: grid; align-content: start; gap: 10px; padding: 24px 28px 32px; }
+.home-shipped-bento .home-shipped-grid :is(time, .home-shipped-kicker) { margin-top: 0; font: 13px var(--font-label); letter-spacing: .04em; color: hsl(var(--muted-foreground)); }
+.home-shipped-bento .home-shipped-grid h3 { font-family: var(--font-crafter), sans-serif; font-weight: 500; font-size: clamp(21px, 1.7vw, 25px); line-height: 1.15; }
+.home-shipped-bento .home-shipped-grid p { font-size: 15px; }
+@media (max-width: 900px) { .home-shipped-bento .home-shipped-grid > li + li { border-left: 0; border-top: 1px solid hsl(var(--foreground) / .12); } }
 @media (prefers-reduced-motion: reduce) { .home-shipped-cover img { transition: none; } }

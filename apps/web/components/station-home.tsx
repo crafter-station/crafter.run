@@ -25,20 +25,6 @@ function NotebookArt() {
   )
 }
 
-function ConversationArt() {
-  return (
-    <svg className="home-conversation-art" viewBox="0 0 350 230" fill="none" aria-hidden="true" focusable="false">
-      <g stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M44 51c-30 51-18 96 29 108l-13 41 55-34c66 6 107-12 115-59 9-49-61-88-129-78" />
-        <path d="M133 120c21 49 73 65 113 53l44 22-5-40c32-29 27-81-4-108-30-28-76-30-109-15" />
-        <path d="m106 83-21 21 21 18m54-40 22 17-20 23m-24-54-15 72" strokeWidth="4" />
-        <path d="m228 67-3 44m-20-24 44 4m-38-17 31 29m-4-33-29 34" />
-        <path d="M36 22 20 7m30 1-3 16m-22 9-18-1M315 152l20 5m-24 11 7 19" />
-      </g>
-    </svg>
-  )
-}
-
 export function StationPeople({ locale }: { locale: Locale }) {
   const t = homeCopy[locale]
   return (
@@ -110,7 +96,7 @@ export function StationJournal({ locale }: { locale: Locale }) {
             </div>
           </Link>
         </article>
-        <div className="home-journal-posts">
+        {posts.length > 0 ? <div className="home-journal-posts">
           {posts.map((post,i) => <article key={post.slug}>
             <Link href={withLocale(`/blog/${post.slug}`,post.locale)} lang={post.locale}>
               <div className="home-journal-meta station-label"><span>0{i+2} / {post.kind}</span><time dateTime={post.date}>{date(post.date)}</time></div>
@@ -120,42 +106,8 @@ export function StationJournal({ locale }: { locale: Locale }) {
             </Link>
           </article>)}
           <div className="home-journal-note"><p>{t.journalNote}</p></div>
-        </div>
+        </div> : null}
       </div>
     </section>
-  )
-}
-
-export function StationContact({ locale }: { locale: Locale }) {
-  const t = homeCopy[locale]
-  return (
-    <section id="contact" className="home-contact" aria-labelledby="home-contact-title">
-      <p className="station-label">{t.contactLabel}</p>
-      <div className="home-contact-layout">
-        <div className="home-contact-invitation">
-          <div className="home-contact-heading">
-            <h2 id="home-contact-title">{t.contactTitle.replaceAll("\n", " ")}</h2>
-            <ConversationArt />
-          </div>
-          <p>{t.contactBody}</p>
-          <div className="home-contact-links">
-            <a href="https://crafters.chat" target="_blank" rel="noopener noreferrer" className="home-secondary-link">{t.join}</a>
-            <Link href={withLocale("/contact#collaborate",locale)} className="home-secondary-link">{t.workWithUs}</Link>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-export function StationExplore({ locale }: { locale: Locale }) {
-  const t = homeCopy[locale]
-  return (
-    <nav className="home-explore" aria-label={t.explore}>
-      <p className="station-label">{t.explore}</p>
-      {[[t.community,"/crafters"],[t.ships,"/ships"],[t.docs,"/docs"],[t.workWithUs,"/contact#collaborate"]].map(([label,path]) =>
-        <Link key={path} href={withLocale(path,locale)}><span>{label}</span></Link>
-      )}
-    </nav>
   )
 }

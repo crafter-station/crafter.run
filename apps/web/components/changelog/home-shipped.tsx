@@ -24,7 +24,7 @@ export function StationShipped({ locale }: { locale: Locale }) {
   if (latest.length === 0) return null
 
   return (
-    <section className="home-shipped" aria-labelledby="home-shipped-title">
+    <section className="home-shipped home-shipped-bento" aria-labelledby="home-shipped-title">
       <div className="home-shipped-intro">
         <h2 id="home-shipped-title">{t.title}</h2>
         <Link href={changelogPath(locale)} className="home-action-link">{t.all}</Link>
@@ -34,11 +34,13 @@ export function StationShipped({ locale }: { locale: Locale }) {
           <li key={entry.slug} data-area={entry.area}>
             <Link href={entry.href} hrefLang={entry.locale}>
               <span className="home-shipped-cover">
-                <Image src={entry.image!} alt={entry.title} width={1600} height={1000} sizes="(min-width: 1024px) 360px, 100vw" />
+                <Image src={entry.image!} alt={entry.title} width={1600} height={1000} sizes="(min-width: 1024px) 720px, 100vw" />
               </span>
-              <time dateTime={entry.date}>{entry.dateShort}</time>
-              <h3>{entry.title}</h3>
-              <p>{entry.summary}</p>
+              <span className="home-shipped-body">
+                <time dateTime={entry.date}>{entry.dateShort}</time>
+                <h3>{entry.title}</h3>
+                <p>{entry.summary}</p>
+              </span>
             </Link>
           </li>
         ))}

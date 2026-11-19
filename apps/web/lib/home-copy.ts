@@ -14,7 +14,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
   es: {
     events: "Pantallas abajo.\nIdeas arriba.",
     eventsBody: "A veces, el siguiente paso de un proyecto es conocer a alguien.",
-    calendar: "Ver próximos encuentros", sponsor: "Organiza algo con nosotros",
+    calendar: "Ver próximos encuentros", sponsor: "Patrocina un evento",
     brew: "Café, código\ny una buena charla.", ship: "Una idea.\nUna tripulación.\nA construir.",
     people: "La gente detrás", peopleTitle: "Aquí siempre\ncabe alguien más.",
     peopleBody: "Ven con una idea, una pregunta o algo a medio hacer. Nos gusta compartir lo que aprendemos y conocer a quienes están construyendo.",
@@ -31,7 +31,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
   en: {
     events: "Screens down.\nIdeas up.",
     eventsBody: "Sometimes, the next step for a project is meeting someone.",
-    calendar: "See upcoming gatherings", sponsor: "Host something with us",
+    calendar: "See upcoming gatherings", sponsor: "Sponsor an event",
     brew: "Coffee, code,\nand a good conversation.", ship: "One idea.\nOne crew.\nLet’s build.",
     people: "The people behind it", peopleTitle: "There’s always\nroom for one more.",
     peopleBody: "Bring an idea, a question, or something half finished. We like sharing what we learn and meeting people who are making things.",
@@ -48,7 +48,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
   pt: {
     events: "Telas de lado.\nIdeias em alta.",
     eventsBody: "Às vezes, o próximo passo de um projeto é conhecer alguém.",
-    calendar: "Ver próximos encontros", sponsor: "Organize algo com a gente",
+    calendar: "Ver próximos encontros", sponsor: "Patrocine um evento",
     brew: "Café, código\ne uma boa conversa.", ship: "Uma ideia.\nUma equipe.\nVamos construir.",
     people: "Quem faz acontecer", peopleTitle: "Sempre cabe\nmais alguém.",
     peopleBody: "Traga uma ideia, uma pergunta ou algo pela metade. Gostamos de compartilhar o que aprendemos e conhecer quem está criando.",
@@ -65,7 +65,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
   zh: {
     events: "放下屏幕。\n点亮想法。",
     eventsBody: "有时，项目的下一步，是遇见一个人。",
-    calendar: "查看即将举行的活动", sponsor: "一起举办活动",
+    calendar: "查看即将举行的活动", sponsor: "赞助活动",
     brew: "咖啡、代码，\n聊点有趣的。", ship: "一个想法。\n一支团队。\n开始创造。",
     people: "背后的伙伴", peopleTitle: "这里总有\n你的位置。",
     peopleBody: "带上一个想法、一个问题，或一个未完成的作品。我们乐于分享所学，也想认识正在创造的人。",
@@ -82,7 +82,7 @@ export const homeCopy: Record<Locale, HomeCopy> = {
   ja: {
     events: "画面を閉じて。\nアイデアを広げて。",
     eventsBody: "プロジェクトの次の一歩は、誰かとの出会いかもしれません。",
-    calendar: "今後のイベントを見る", sponsor: "一緒にイベントを開こう",
+    calendar: "今後のイベントを見る", sponsor: "イベントに協賛する",
     brew: "コーヒーとコード、\nそしていい会話。", ship: "ひとつのアイデア。\nひとつのチーム。\nさあ、つくろう。",
     people: "つくる仲間たち", peopleTitle: "あなたの居場所も、\nここにある。",
     peopleBody: "アイデアでも、質問でも、つくりかけのものでも。学んだことを分かち合い、つくる人たちと出会いたい。",
