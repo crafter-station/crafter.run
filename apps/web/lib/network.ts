@@ -4,7 +4,7 @@ import { stationCopy } from "@/lib/station-copy"
 export const networkAreas = [
   { id: "research", name: "Research", domain: "crafter.ing", href: "https://crafter.ing", color: "#79ac65", surface: "#dce6c9", ink: "#304a32" },
   { id: "lab", name: "Lab", domain: "github.com/crafter-lab", href: "https://github.com/crafter-lab", color: "#6f9bce", surface: "#dce7ed", ink: "#324c60" },
-  { id: "games", name: "Games", domain: "games.crafter.run", href: "https://games.crafter.run", color: "#9d83d2", surface: "#e6def1", ink: "#554168" },
+  { id: "games", name: "Games", domain: "crafter.games", href: "https://crafter.games", color: "#9d83d2", surface: "#e6def1", ink: "#554168" },
   { id: "station", name: "Station", domain: "crafter.run", href: "/", color: "#f8e9a4", surface: "#f0e7bf", ink: "#554b27" },
 ] as const
 

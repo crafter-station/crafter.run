@@ -4,6 +4,8 @@ import { getTranslations } from "next-intl/server"
 import { CrafterStationLogo } from "@/components/crafter-station-logo"
 import { getNetwork, type NetworkArea } from "@/lib/network"
 import { type Locale, withLocale } from "@/lib/i18n"
+import { HomeHead } from "@/components/home-head"
+import { landingCopy } from "@/lib/landing-copy"
 
 // Original editorial diagrams. The navigation keeps the original Crafter mark.
 export function NetworkArtwork({ area }: { area: NetworkArea }) {
@@ -47,7 +49,7 @@ export function NetworkCards({ locale, headingLevel = 3 }: { locale: Locale; hea
   return <div className="network-grid">
     {getNetwork(locale).map((area, index) => <Link key={area.id} href={area.href}
       className={`network-card network-${area.id}`}
-      style={{ "--network-color": area.color, "--network-surface": area.surface, "--network-ink": area.ink } as CSSProperties}
+      style={{ "--network-color": area.color, "--network-surface": area.surface, "--network-ink": area.ink, "--network-pastel": area.surface } as CSSProperties}
       aria-labelledby={`network-${area.id}-title`}
       {...(area.href.startsWith("https:") ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
       <div className="network-card-top"><span className="station-label">0{index + 1} / CRAFTER</span></div>
@@ -60,13 +62,12 @@ export function NetworkCards({ locale, headingLevel = 3 }: { locale: Locale; hea
   </div>
 }
 
-export async function StationNetwork({ locale }: { locale: Locale }) {
+export async function StationNetwork({ locale, index }: { locale: Locale; index: number }) {
   const t = await getTranslations({ locale, namespace: "pages.network" })
   return <section className="home-network" id="family" aria-labelledby="home-network-title">
-    <div className="home-network-heading">
-      <div><h2 id="home-network-title">{t("eyebrow")}</h2><p>{t("description")}</p></div>
+    <HomeHead id="home-network-title" index={index} label={landingCopy[locale].sections.universe} title={t("eyebrow")} lede={t("description")}>
       <Link className="home-action-link" href={withLocale("/universe", locale)}>{t("exploreCta")}</Link>
-    </div>
+    </HomeHead>
     <NetworkCards locale={locale} />
   </section>
 }

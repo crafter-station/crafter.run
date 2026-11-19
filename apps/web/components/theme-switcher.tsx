@@ -76,3 +76,26 @@ export function ThemeSwitcher({ className, label = "Theme", locale = "en", compa
     </DropdownMenu>
   )
 }
+
+/** One-click theme choice for the sidebar: three square segments instead of a menu. */
+export function ThemeSegmented({ label = "Theme", locale = "en" }: { label?: string; locale?: Locale }) {
+  const t = stationCopy[locale]
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+  useEffect(() => setMounted(true), [])
+
+  return (
+    <div className="station-theme-segments" role="radiogroup" aria-label={label}>
+      {modes.map((mode) => {
+        const ModeIcon = mode.icon
+        const checked = mounted && (theme ?? "system") === mode.value
+        return (
+          <button key={mode.value} type="button" role="radio" aria-checked={checked} aria-label={t[mode.value]} title={t[mode.value]}
+            data-checked={checked || undefined} onClick={() => setTheme(mode.value)}>
+            <ModeIcon size={15} strokeWidth={1.7} aria-hidden="true" />
+          </button>
+        )
+      })}
+    </div>
+  )
+}

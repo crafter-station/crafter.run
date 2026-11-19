@@ -2,19 +2,16 @@ import Link from "next/link"
 import { Plus } from "lucide-react"
 import { faqCopy, faqDestinations } from "@/lib/faq-copy"
 import { type Locale, withLocale } from "@/lib/i18n"
+import { HomeHead } from "@/components/home-head"
+import { landingCopy } from "@/lib/landing-copy"
 
-export function StationFaq({ locale }: { locale: Locale }) {
+export function StationFaq({ locale, index }: { locale: Locale; index: number }) {
   const t = faqCopy[locale]
 
   return (
     <section className="home-faq" id="faq" aria-labelledby="home-faq-title">
-      <div className="home-faq-heading">
-        <p className="station-label">{t.eyebrow}</p>
-        <h2 id="home-faq-title">{t.title}</h2>
-        <p>{t.description}</p>
-        <span className="home-faq-mark" aria-hidden="true">?</span>
-      </div>
-      <div className="home-faq-list">
+      <HomeHead id="home-faq-title" index={index} label={landingCopy[locale].sections.faq} title={t.title} lede={t.description} />
+      <div className="home-faq-list home-frame">
         {t.items.map((item, index) => {
           const href = faqDestinations[item.id]
           const external = href.startsWith("https:")

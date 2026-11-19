@@ -38,44 +38,43 @@ async function latestShips(): Promise<ShipSummary[]> {
     const response = await fetch(new URL("/v1/ships?limit=6", apiUrl), { next: { revalidate: 300 } })
     if (!response.ok) return []
     const parsed = listShipsResponseSchema.safeParse(await response.json())
-    return parsed.success ? parsed.data.ships.slice(0, 6) : []
+    if (!parsed.success) return []
+    // The bento shows three; ships with a cover go first so the tall card is never blank.
+    const ships = parsed.data.ships
+    return [...ships.filter((ship) => ship.imageUrl), ...ships.filter((ship) => !ship.imageUrl)].slice(0, 3)
   } catch {
     return []
   }
 }
 
-/** Community Ships on the homepage, next to the team's own changelog. */
-export async function StationCommunityShips({ locale }: { locale: Locale }) {
+/** The three latest community Ships as joined tiles, plus the links that belong to them. */
+export async function CommunityShipsPanel({ locale }: { locale: Locale }) {
   const t = copy[locale]
   const ships = await latestShips()
   if (ships.length === 0) return null
 
   return (
-    <section className="home-shipped" aria-labelledby="home-community-title">
-      <div className="home-shipped-intro">
-        <div>
-          <h2 id="home-community-title">{t.title}</h2>
-          <p className="mt-2 text-muted-foreground">{t.lede}</p>
-        </div>
-        <Link href={`/${locale}/ships`} className="home-action-link">{t.all}</Link>
-        <Link href={`/${locale}/ships/new`} className="home-action-link">{t.add}</Link>
-      </div>
-      <ul className="home-shipped-grid">
+    <>
+      <ul className="home-shipped-grid home-frame">
         {ships.map((ship) => (
           <li key={ship.slug}>
             <Link href={`/${locale}/ships/${ship.slug}`}>
               <span className="home-shipped-cover">
                 {ship.imageUrl ? <img src={ship.imageUrl} alt="" loading="lazy" className="h-full w-full object-cover" /> : null}
               </span>
-              <h3>{ship.name}</h3>
-              <p>{ship.tagline}</p>
-              <p className="text-sm text-muted-foreground">
-                {t.by} @{ship.owner.handle}
-              </p>
+              <span className="home-shipped-body">
+                <span className="home-label-sm">{t.by} @{ship.owner.handle}</span>
+                <h3>{ship.name}</h3>
+                <p>{ship.tagline}</p>
+              </span>
             </Link>
           </li>
         ))}
       </ul>
-    </section>
+      <div className="home-panel-links">
+        <Link href={`/${locale}/ships`} className="home-action-link">{t.all}</Link>
+        <Link href={`/${locale}/ships/new`} className="home-secondary-link">{t.add}</Link>
+      </div>
+    </>
   )
 }

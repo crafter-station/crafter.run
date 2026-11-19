@@ -41,7 +41,7 @@ export function LanguageSwitcher({ currentLocale, className, label = "Language",
         )}
       >
         <Globe2 className="size-4" strokeWidth={1.6} aria-hidden="true" />
-        <span className={compact ? "station-control-label" : undefined}>{compact ? languageNames[currentLocale] : currentLocale.toUpperCase()}</span>
+        <span className={compact ? "station-control-code" : undefined}>{currentLocale.toUpperCase()}</span>
         <ChevronDown className="station-control-chevron size-3" aria-hidden="true" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" side="bottom" sideOffset={6} collisionPadding={12} className="station-preference-menu">
