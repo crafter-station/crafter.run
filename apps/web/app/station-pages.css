@@ -169,10 +169,11 @@
 .station-docs-page > h1 { font-size: clamp(32px,3.4vw,46px); font-weight: 500; line-height: 1.15; text-wrap: pretty; }
 .station-docs-page > p { font-size: 18px; line-height: 1.65; }
 .station-docs-tools > :is(a,button) { border: 0; border-radius: 0; min-height: 44px; padding: 10px 14px; background: hsl(var(--foreground) / .055); box-shadow: none; font-size: 16px; }
-.station-docs-page [data-card] { border: 0; border-radius: 0; padding: 24px; background: hsl(var(--muted)); box-shadow: none; }
-.station-docs-page [data-card]:hover { background: hsl(var(--foreground) / .09); }
-.station-docs-page [data-card] h3 { font-size: 23px; margin-bottom: 10px; }
-.station-docs-page [data-card] :is(p,div) { font-size: 16px; line-height: 1.65; }
+/* Cards only: heading anchors also carry data-card and must stay plain links. */
+.station-docs-page [data-card]:not(:is(h1,h2,h3,h4,h5,h6) > a) { border: 0; border-radius: 0; padding: 24px; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
+.station-docs-page [data-card]:not(:is(h1,h2,h3,h4,h5,h6) > a):hover { background: var(--home-hover); }
+.station-docs-page [data-card]:not(:is(h1,h2,h3,h4,h5,h6) > a) h3 { font-size: 23px; margin-bottom: 10px; }
+.station-docs-page [data-card]:not(:is(h1,h2,h3,h4,h5,h6) > a) :is(p,div) { font-size: 16px; line-height: 1.65; }
 
 @media (min-width: 1024px) {
   .station-shell-pages { --page-frame: max(200px,16vw,calc((100vw - 1120px) / 2)); }

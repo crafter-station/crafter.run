@@ -345,7 +345,7 @@
       "eyebrow": "コミュニティ",
       "title": "Crafters を紹介します。",
       "description": "Crafter コミュニティに登録しているビルダー、デザイナー、研究者、好奇心あふれる仲間たちです。",
-      "memberCount": "登録メンバー {count} 人",
+      "memberCount": "{count, plural, other {登録メンバー # 人}}",
       "emptyTitle": "登録済みの Crafter はまだいません。",
       "emptyDescription": "プロフィールを完成したコミュニティメンバーがここに表示されます。",
       "unavailableTitle": "メンバー一覧は一時的にオフラインです。",
@@ -548,7 +548,7 @@
       "description": "つくる、学ぶ、仲間を集める。Crafter と協力する方法を見つけましょう。"
     },
     "workshopQuestions": {
-      "eyebrow": "/workshops/questions",
+      "eyebrow": "ワークショップの質問",
       "title": "次の質問をどうぞ。",
       "description": "参加者が確認済みの質問を投稿し、名前を添えて、最も役立つトピックを上位に押し上げるリアルタイムのワークショップキューです。"
     },

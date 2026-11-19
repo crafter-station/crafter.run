@@ -345,7 +345,7 @@
       "eyebrow": "社区",
       "title": "认识 Crafters。",
       "description": "加入 Crafter 社区的开发者、设计师、研究者和充满好奇心的创造者。",
-      "memberCount": "{count} 位注册成员",
+      "memberCount": "{count, plural, other {# 位注册成员}}",
       "emptyTitle": "还没有注册的 Crafter。",
       "emptyDescription": "社区成员完成个人资料后会出现在这里。",
       "unavailableTitle": "成员目录暂时离线。",
@@ -548,7 +548,7 @@
       "description": "构建、学习、聚集你的社区。找到与 Crafter 合作的方式。"
     },
     "workshopQuestions": {
-      "eyebrow": "/workshops/questions",
+      "eyebrow": "工作坊提问",
       "title": "你的下一个问题。",
       "description": "一个实时工作坊队列：参与者提交经过验证的问题、留下名字，并把最有价值的话题投上去。"
     },
