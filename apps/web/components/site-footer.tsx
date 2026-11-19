@@ -6,6 +6,7 @@ import type { Locale } from "@/lib/i18n"
 import { navCopy } from "@/lib/navigation-copy"
 import { navSections, siteConfig } from "@/lib/site"
 import { stationCopy } from "@/lib/station-copy"
+import { workbenchCopy } from "@/lib/workbench-copy"
 
 type FooterLink = { label: string; href: string; external?: boolean }
 
@@ -35,6 +36,7 @@ export async function SiteFooter({ locale }: { locale: Locale }) {
       links: [
         { label: s.docs, href: "/docs" },
         { label: s.visualSystem, href: "/brand" },
+        { label: workbenchCopy[locale].navLabel, href: "/workbench" },
         { label: nav.communityCta, href: "https://crafters.chat", external: true },
         { label: "llms.txt", href: "/llms.txt", external: true },
       ],

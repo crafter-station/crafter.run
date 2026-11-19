@@ -92,7 +92,7 @@ function shapeField(shape: HeroFieldShape): Float32Array {
   return field
 }
 
-export function createHeroFieldRenderer({ canvas, palette, still, shape: shapeName = "knot" }: { canvas: HTMLCanvasElement; palette: HeroFieldPalette; still: boolean; shape?: HeroFieldShapeName }) {
+export function createHeroFieldRenderer({ canvas, palette, still, shape: shapeName = "knot", centered = false }: { canvas: HTMLCanvasElement; palette: HeroFieldPalette; still: boolean; shape?: HeroFieldShapeName; centered?: boolean }) {
   const shape = SHAPES[shapeName]
   let disposed = false
   let gpu: Gpu | undefined
@@ -128,7 +128,7 @@ export function createHeroFieldRenderer({ canvas, palette, still, shape: shapeNa
     pointer.y += (pointer.ty - pointer.y) * follow
     pointer.strength += (pointer.target - pointer.strength) * (1 - Math.exp(-dt * 3))
     const narrow = width < 760
-    const knot = shape.place(width, height, narrow)
+    const knot = centered ? [width / 2, height / 2, Math.min(width, height) * 0.86, -0.18] as [number, number, number, number] : shape.place(width, height, narrow)
     field.set({ params: {
       ...palette,
       knot,

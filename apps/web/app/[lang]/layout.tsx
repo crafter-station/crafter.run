@@ -7,6 +7,7 @@ import { notFound } from "next/navigation"
 import { setRequestLocale } from "next-intl/server"
 import { Analytics } from "@vercel/analytics/next"
 
+import { CommandPalette } from "@/components/command-palette"
 import { JsonLd } from "@/components/json-ld"
 import { SiteShell } from "@/components/site-shell"
 import { SiteFooter } from "@/components/site-footer"
@@ -88,6 +89,7 @@ export default async function LocaleLayout({
             <JsonLd data={[organizationSchema(lang), webSiteSchema(lang)]} />
             <SiteShell locale={lang} footer={<SiteFooter locale={lang} />}
               event={<StationEventTeaser locale={lang} />}>{children}</SiteShell>
+            <CommandPalette locale={lang} />
             <Analytics />
           </ThemeProvider>
         </ClerkProvider>

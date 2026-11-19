@@ -256,6 +256,10 @@
       "title": "Services",
       "description": "Hackathons, launches, workshops and open source for companies that want to reach LATAM builders. Book a free 30-min call."
     },
+    "workbench": {
+      "title": "Workbench",
+      "description": "Live demos built from Crafter Station open source and this site: a theme picker, a pixel pet, an agent file editor, Ships, a countdown and more."
+    },
     "ships": {
       "eyebrow": "Community ships",
       "title": "Made by Crafters.",

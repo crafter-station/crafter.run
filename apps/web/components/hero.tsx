@@ -9,10 +9,12 @@ import { agendaCity } from "@/lib/agenda-cities"
 import { listAllShips } from "@/lib/ships"
 import { landingCopy } from "@/lib/landing-copy"
 import { fetchHack0Calendar } from "@/lib/hack0-calendar"
-import { partitionHack0Events } from "@/lib/hack0-calendar-data"
+import { partitionHack0Events, teaserHack0Event } from "@/lib/hack0-calendar-data"
 import { BRAND_MARK_PATH } from "@/lib/brand"
+import { EventCountdown } from "@/components/event-countdown"
 import { HeroField } from "@/components/hero-field"
 import { partnerEvents, partners } from "@/lib/partners"
+import { workbenchCopy } from "@/lib/workbench-copy"
 
 export async function HeroContent({
   locale, eventsHref,
@@ -28,7 +30,8 @@ export async function HeroContent({
   const crafters = new Set(ships.map(ship => ship.owner.handle)).size
   const l = landingCopy[locale]
   const cities = new Set(calendar.events.map(event => agendaCity(event.location)?.key).filter(Boolean))
-  const next = partitionHack0Events(calendar.events).upcoming[0]
+  const next = teaserHack0Event(partitionHack0Events(calendar.events).upcoming)
+  const units = workbenchCopy[locale].ui
   const raised = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact", maximumFractionDigits: 0 })
     .format(partnerEvents.reduce((sum, event) => sum + event.raised, 0))
   const backerNames = featuredBackers.filter(name => partners.some(partner => partner.name === name)).join(", ")
@@ -55,6 +58,11 @@ export async function HeroContent({
             <span className="hero-cell-label">{nav.events}</span>
             <strong>{agenda.results.replace("{count}", String(calendar.events.length))}</strong>
             <span className="hero-cell-meta">{agenda.stamps.replace("{count}", String(cities.size))}{next ? ` · ${agenda.next}: ${eventTitle(next.title, locale)}` : ""}</span>
+            {next ? (
+              <span className="hero-cell-count">
+                <EventCountdown startAt={next.startAt} endAt={next.endAt} labels={{ days: units.days, hours: units.hours, minutes: units.minutes, seconds: units.seconds, live: units.live }} />
+              </span>
+            ) : null}
           </Link>
           <Link href={withLocale("/services#proof", locale)} className="hero-cell">
             <span className="hero-cell-label">{t.backedBy}</span>

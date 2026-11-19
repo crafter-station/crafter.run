@@ -13,7 +13,7 @@ export function SiteShell({ children, footer, event, locale }: { children: React
   const docs = pathname === `/${locale}/docs` || pathname.startsWith(`/${locale}/docs/`)
   const route = pathname.slice(locale.length + 1)
   // Routes that wear the homepage shell. Inner pages inherit its wash, grain and frame without per-page work.
-  const home = pathname === `/${locale}` || /^\/(services|jobs|ships|crafters|universe|oss|products|impact)(\/|$)/.test(route)
+  const home = pathname === `/${locale}` || /^\/(services|jobs|workbench|ships|crafters|universe|oss|products|impact)(\/|$)/.test(route)
   const agenda = pathname === `/${locale}/events`
   const journal = pathname === `/${locale}/blog` || pathname.startsWith(`/${locale}/blog/`)
     || pathname === `/${locale}/changelog` || pathname.startsWith(`/${locale}/changelog/`)
