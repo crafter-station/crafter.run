@@ -2,8 +2,37 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**"
+      ],
+      "env": [
+        "API_URL",
+        "CAL_API_KEY",
+        "CAL_WEBHOOK_SECRET",
+        "CLERK_SECRET_KEY",
+        "CLERK_WEBHOOK_SIGNING_SECRET",
+        "CRON_SECRET",
+        "CREDITS_SCREEN_TOKEN",
+        "DATABASE_URL",
+        "GITHUB_TOKEN",
+        "LUMA_API_KEY",
+        "LUMA_CODEX_API_KEY",
+        "LUMA_WEBHOOK_SECRET",
+        "R2_ACCOUNT_ID",
+        "R2_ACCESS_KEY_ID",
+        "R2_SECRET_ACCESS_KEY",
+        "R2_BUCKET",
+        "OPENAI_API_KEY",
+        "OSS_RADAR_INGEST_TOKEN",
+        "RESEND_API_KEY",
+        "RESEND_NEWSLETTER_SEGMENT_ID",
+        "PORTAL_SECRET"
+      ]
     },
     "dev": {
       "cache": false,
@@ -14,7 +43,9 @@
       "persistent": true
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     }
   }
 }
