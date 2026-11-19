@@ -13,8 +13,16 @@ import { env } from "@/env"
 
 export type ShipsPage = { ships: ShipSummary[]; pagination: ShipListPagination | null }
 
+// Static and ISR routes (the sitemap) pass a revalidate window; a no-store fetch there throws
+// a dynamic-usage error that the catch below would swallow, dropping every Ship.
+type FetchCaching = { revalidate?: number }
+
+function cacheOption(revalidate: number | undefined): RequestInit {
+  return revalidate === undefined ? { cache: "no-store" } : { next: { revalidate } }
+}
+
 export async function listShipsPage(
-  options: { limit?: number; offset?: number; handle?: string } = {},
+  options: { limit?: number; offset?: number; handle?: string } & FetchCaching = {},
 ): Promise<ShipsPage | null> {
   try {
     const apiUrl = env.API_URL ?? (process.env.NODE_ENV === "development" ? "http://localhost:3001" : null)
@@ -24,7 +32,7 @@ export async function listShipsPage(
     if (options.limit !== undefined) url.searchParams.set("limit", String(options.limit))
     if (options.offset) url.searchParams.set("offset", String(options.offset))
     if (options.handle) url.searchParams.set("handle", options.handle)
-    const response = await fetch(url, { cache: "no-store" })
+    const response = await fetch(url, cacheOption(options.revalidate))
 
     if (!response.ok) {
       console.warn(`Ships API returned ${response.status}.`)
@@ -45,13 +53,13 @@ export async function listShipsPage(
 }
 
 /** Every published Ship, read page by page so the showcase can sort and filter the whole set. */
-export async function listAllShips(): Promise<ShipsPage | null> {
-  const first = await listShipsPage({ limit: 100 })
+export async function listAllShips(options: FetchCaching = {}): Promise<ShipsPage | null> {
+  const first = await listShipsPage({ limit: 100, revalidate: options.revalidate })
   if (!first) return null
   const ships = [...first.ships]
   let offset = first.pagination?.nextOffset ?? null
   while (offset !== null) {
-    const next = await listShipsPage({ limit: 100, offset })
+    const next = await listShipsPage({ limit: 100, offset, revalidate: options.revalidate })
     if (!next) break
     ships.push(...next.ships)
     offset = next.pagination?.nextOffset ?? null

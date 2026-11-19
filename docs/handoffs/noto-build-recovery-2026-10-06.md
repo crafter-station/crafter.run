@@ -13,7 +13,7 @@ are identical except for asset URLs, including all three original weights,
 Unicode ranges, display behavior and adjusted Arial fallback metrics.
 Browsers still load only the subsets required by the rendered text.
 
-Assets, licenses, source URLs and SHA-256 hashes are in `app/fonts/noto/`.
+Assets, licenses, source URLs and SHA-256 hashes are in `apps/web/public/fonts/noto/`.
 Crafter Sans, existing OG fonts, font versions and typography rules did not
 change. No private response cache, environment values or local paths ship.
 The old `NEXT_FONT_GOOGLE_MOCKED_RESPONSES` workaround is no longer needed.

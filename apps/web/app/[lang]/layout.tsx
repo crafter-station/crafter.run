@@ -21,6 +21,9 @@ import "../globals.css"
 
 const authLocalizations = { en: enUS, es: esES, pt: ptBR, zh: zhCN, ja: jaJP }
 
+// Noto Sans SC/JP faces weigh ~600 KB of render-blocking CSS, so only CJK locales link them.
+const cjkLocales = new Set(["zh", "ja"])
+
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#F7F7F2" },
@@ -51,6 +54,7 @@ export default async function LocaleLayout({
       <body
         className={`flex min-h-full flex-col bg-background font-sans text-foreground antialiased`}
       >
+        {cjkLocales.has(lang) ? <link rel="stylesheet" href="/fonts/noto/noto.css" precedence="default" /> : null}
         <ClerkProvider
           localization={authLocalizations[lang]}
           appearance={{
