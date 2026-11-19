@@ -42,7 +42,7 @@ export async function HeroContent({
           <p>{b.hero}</p>
           <div className="hero-actions">
             <a href="https://crafters.chat" target="_blank" rel="noopener noreferrer" className="hero-cta"><WhatsAppGlyph />{t.join}</a>
-            <Link href={withLocale("/events/sponsors", locale)} className="hero-cta-ghost">{t.sponsorEvent}</Link>
+            <Link href={withLocale("/services", locale)} className="hero-cta-ghost">{t.workWithUs}</Link>
           </div>
         </div>
         <div className="hero-proof">
@@ -56,7 +56,7 @@ export async function HeroContent({
             <strong>{agenda.results.replace("{count}", String(calendar.events.length))}</strong>
             <span className="hero-cell-meta">{agenda.stamps.replace("{count}", String(cities.size))}{next ? ` · ${agenda.next}: ${eventTitle(next.title, locale)}` : ""}</span>
           </Link>
-          <Link href={withLocale("/events/sponsors", locale)} className="hero-cell">
+          <Link href={withLocale("/services#proof", locale)} className="hero-cell">
             <span className="hero-cell-label">{t.backedBy}</span>
             <strong>{`${raised} ${t.raised}`}</strong>
             <span className="hero-cell-meta">{`${partners.length} ${t.backers} · ${backerNames}`}</span>
