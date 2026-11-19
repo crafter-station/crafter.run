@@ -112,7 +112,9 @@ const nextConfig = {
       ["/work-with-us", "/contact"],
       ["/projects/next", "/oss#contribute"],
       ["/hackathon", "/events"],
-      ["/events-sponsors", "/events/sponsors"],
+      ["/events-sponsors", "/services#proof"],
+      ["/events/sponsors", "/services#proof"],
+      ["/hackathons", "/services#proof"],
     ];
     // Retired journal posts now resolve to the blog index.
     const retiredPosts = [

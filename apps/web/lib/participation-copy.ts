@@ -83,7 +83,7 @@ export const participationCopy: Record<Locale, ParticipationCopy> = {
   },
 }
 
-const participationDestinations = ["/oss#contribute", "/events#calendar", "/events/sponsors", "https://makeables.dev"] as const
+const participationDestinations = ["/oss#contribute", "/events#calendar", "/services", "https://makeables.dev"] as const
 
 export function getParticipationPaths(locale: Locale) {
   // Keep the localized copy for when Makeables promotion resumes.

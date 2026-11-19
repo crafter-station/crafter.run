@@ -248,12 +248,9 @@
       "noEvents": "[*] Nenhum evento encontrado. Volte em breve.",
       "noFilteredEvents": "Nenhum evento corresponde a este filtro."
     },
-    "events-sponsors": {
-      "eyebrow": "Eventos e parcerias",
-      "title": "Vamos criar o próximo encontro.",
-      "description": "Parcerias para encontros que deixam algo construído. Conecte sua organização aos workshops, hackathons e à comunidade Crafter.",
-      "section": "Vamos fazer o encontro valer a pena.",
-      "sectionDescription": "Colabore com espaços, ferramentas, conteúdo ou apoio para que mais pessoas aprendam e construam juntas. Cada encontro é pensado para sua comunidade."
+    "services": {
+      "title": "Serviços",
+      "description": "Hackathons, lançamentos, workshops e código aberto para empresas que querem alcançar os builders da LATAM. Agende uma conversa grátis de 30 min."
     },
     "ships": {
       "eyebrow": "Ships da comunidade",

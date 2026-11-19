@@ -6,8 +6,5 @@
 /** Site pages (landing, team, projects, ...). */
 export const CONTENT_UPDATED = "2026-10-06"
 
-/** Standalone hackathon portfolio. */
-export const HACKATHONS_UPDATED = "2026-09-04"
-
 /** Docs hub content under content/docs/. */
 export const DOCS_UPDATED = "2026-08-03"
