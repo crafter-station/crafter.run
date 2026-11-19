@@ -50,7 +50,7 @@ export const navSections = [
   {
     key: "workWithUs",
     items: [
-      { key: "brandPartnerships", href: "/events/sponsors" },
+      { key: "brandPartnerships", href: "/services" },
       { key: "contact", href: "/contact" },
     ],
   },

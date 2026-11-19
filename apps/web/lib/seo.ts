@@ -24,11 +24,10 @@ export function serpDescription(text: string): string {
 export const indexablePaths = [
   "/",
   "/crafters",
+  "/services",
   "/events",
   "/events/hot-reload",
   ...accessEvents.map(event => `/events/${event.slug}`),
-  "/events/sponsors",
-  "/hackathons",
   "/timeline",
   "/oss",
   "/oss/metrics",

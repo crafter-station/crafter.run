@@ -33,7 +33,7 @@ export function StationEvents({ locale, index }: { locale: Locale; index: number
         </Link>
       </div>
       <div className="home-panel-links">
-        <Link href={withLocale("/hackathons",locale)} className="home-secondary-link">{landingCopy[locale].backersLine(partners.length)}</Link>
+        <Link href={withLocale("/services#proof",locale)} className="home-secondary-link">{landingCopy[locale].backersLine(partners.length)}</Link>
       </div>
     </section>
   )

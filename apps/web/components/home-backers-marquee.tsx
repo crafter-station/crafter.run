@@ -15,7 +15,7 @@ export function HomeBackersMarquee({ locale }: { locale: Locale }) {
 
   return (
     <section className="home-marquee" aria-label={t.title}>
-      <Link href={withLocale("/events/sponsors", locale)} className="home-marquee-label station-label">
+      <Link href={withLocale("/services#proof", locale)} className="home-marquee-label station-label">
         {t.summary(partners.length, partnerEvents.length)}
       </Link>
       <div className="home-marquee-track">

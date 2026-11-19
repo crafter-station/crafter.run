@@ -59,3 +59,21 @@ export const fetchHack0Calendar = cache(async (): Promise<Hack0Calendar> => {
     return { events: [], status: "unavailable" }
   }
 })
+
+/** Luma serves each event's cover as og:image on the event page; the ICS feed carries none.
+ * Only https images on Luma's CDN are accepted; the 800×420 social crop is requested larger. */
+export const fetchHack0EventImage = cache(async (url: string): Promise<string | null> => {
+  try {
+    const response = await fetch(url, { next: { revalidate: 3600 }, signal: AbortSignal.timeout(5000) })
+    if (!response.ok) return null
+    const html = await response.text()
+    const tag = html.match(/<meta\b[^>]*\bproperty="og:image"[^>]*>/)?.[0]
+    const content = tag?.match(/\bcontent="([^"]+)"/)?.[1]?.replaceAll("&amp;", "&")
+    if (!content) return null
+    const image = new URL(content)
+    if (image.protocol !== "https:" || image.hostname !== "images.lumacdn.com") return null
+    return image.toString().replace("width=800,height=420", "width=1200,height=630")
+  } catch {
+    return null
+  }
+})

@@ -248,12 +248,9 @@
       "noEvents": "[*] 暂无活动，敬请期待。",
       "noFilteredEvents": "没有符合此筛选条件的活动。"
     },
-    "events-sponsors": {
-      "eyebrow": "活动与合作",
-      "title": "一起创造下一次相聚。",
-      "description": "让聚会留下真正的成果。让你的组织与 Crafter 的工作坊、黑客松和社区建立联系。",
-      "section": "让每一次相聚都有收获。",
-      "sectionDescription": "提供场地、工具、内容或支持，让更多人一起学习和构建。每一场聚会都围绕社区设计。"
+    "services": {
+      "title": "服务",
+      "description": "为想触达拉美开发者的企业提供黑客松、产品发布、工作坊和开源服务。预约免费 30 分钟通话。"
     },
     "ships": {
       "eyebrow": "社区作品",

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { createHeroFieldRenderer, type HeroFieldPalette } from "./renderer"
+import { createHeroFieldRenderer, type HeroFieldPalette, type HeroFieldShapeName } from "./renderer"
 
 function readPalette(): HeroFieldPalette {
   const probe = document.createElement("span")
@@ -21,10 +21,10 @@ function readPalette(): HeroFieldPalette {
 }
 
 /**
- * The knot as a halftone behind the landing name. Decoration only: without WebGPU the canvas
+ * A brand shape (the Crafter knot by default) as a halftone behind a hero. Decoration only: without WebGPU the canvas
  * never fades in and the outline knot stays; with reduced motion it draws one still frame.
  */
-export function HeroField() {
+export function HeroField({ shape = "knot" }: { shape?: HeroFieldShapeName }) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const [ready, setReady] = useState(false)
 
@@ -32,13 +32,13 @@ export function HeroField() {
     const element = canvas.current
     if (!element || !("gpu" in navigator)) return
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches
-    const renderer = createHeroFieldRenderer({ canvas: element, palette: readPalette(), still })
+    const renderer = createHeroFieldRenderer({ canvas: element, palette: readPalette(), still, shape })
     let cancelled = false
     renderer.ready.then(() => { if (!cancelled) setReady(true) }).catch(() => {})
     const theme = new MutationObserver(() => renderer.setPalette(readPalette()))
     theme.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "data-theme", "style"] })
     return () => { cancelled = true; theme.disconnect(); renderer.dispose() }
-  }, [])
+  }, [shape])
 
   return <canvas ref={canvas} aria-hidden="true" className="hero-field" data-ready={ready || undefined} />
 }

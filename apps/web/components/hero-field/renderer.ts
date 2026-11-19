@@ -1,4 +1,4 @@
-// Browser lifecycle for the landing hero's knot halftone. vgpu stays dynamically imported.
+// Browser lifecycle for the hero halftone (Crafter knot or hack0 mark). vgpu stays dynamically imported.
 import type { Effect, Gpu, Surface } from "vgpu"
 import { BRAND_MARK_PATH } from "@/lib/brand"
 import source from "./field.wgsl"
@@ -8,16 +8,56 @@ export type HeroFieldPalette = { background: Rgba; ink: Rgba }
 
 const GRID = 192
 
-/** Signed distance to the knot on a GRID×GRID lattice, in knot units (negative inside). */
-function knotField(): Float32Array {
+/** A shape the halftone can take: how to draw it in a `box`-unit square, and where it sits on the canvas. */
+export type HeroFieldShape = {
+  box: number
+  draw(ctx: CanvasRenderingContext2D): void
+  /** Shape centre x, centre y, size and rotation, in canvas px. */
+  place(width: number, height: number, narrow: boolean): [number, number, number, number]
+}
+export type HeroFieldShapeName = "knot" | "hack0"
+
+const SHAPES: Record<HeroFieldShapeName, HeroFieldShape> = {
+  // The knot sits behind the right half of the name; on phones it rises to the top right.
+  knot: {
+    box: 257,
+    draw: ctx => ctx.fill(new Path2D(BRAND_MARK_PATH)),
+    place: (width, height, narrow) => narrow
+      ? [width * 1.02, height * 0.15, width * 1.05, -0.18]
+      : [width * 0.8, height * 0.38, Math.min(height * 0.95, width * 0.56), -0.18],
+  },
+  // The hack0 mark (components/hack0-mark.tsx): a stadium outline broken by a slash.
+  hack0: {
+    box: 64,
+    draw: ctx => {
+      ctx.lineWidth = 8
+      ctx.beginPath()
+      ctx.roundRect(17, 6, 30, 52, 15)
+      ctx.stroke()
+      ctx.globalCompositeOperation = "destination-out"
+      ctx.lineWidth = 15
+      ctx.beginPath(); ctx.moveTo(10, 60); ctx.lineTo(54, 4); ctx.stroke()
+      ctx.globalCompositeOperation = "source-over"
+      ctx.lineWidth = 8
+      ctx.lineCap = "square"
+      ctx.beginPath(); ctx.moveTo(10, 60); ctx.lineTo(54, 4); ctx.stroke()
+    },
+    place: (width, height, narrow) => narrow
+      ? [width * 0.74, height * 0.42, Math.min(height * 0.9, width * 0.95), 0]
+      : [width * 0.8, height * 0.3, Math.min(height * 0.9, width * 0.38), 0],
+  },
+}
+
+/** Signed distance to the shape on a GRID×GRID lattice, in shape units (negative inside). */
+function shapeField(shape: HeroFieldShape): Float32Array {
   const canvas = document.createElement("canvas")
   canvas.width = canvas.height = GRID
   const ctx = canvas.getContext("2d")!
   const pad = GRID * 0.08
-  const scale = (GRID - pad * 2) / 257
+  const scale = (GRID - pad * 2) / shape.box
   ctx.translate(pad, pad)
   ctx.scale(scale, scale)
-  ctx.fill(new Path2D(BRAND_MARK_PATH))
+  shape.draw(ctx)
   const alpha = ctx.getImageData(0, 0, GRID, GRID).data
   const inside = new Uint8Array(GRID * GRID)
   for (let i = 0; i < inside.length; i++) inside[i] = alpha[i * 4 + 3] > 127 ? 1 : 0
@@ -52,7 +92,8 @@ function knotField(): Float32Array {
   return field
 }
 
-export function createHeroFieldRenderer({ canvas, palette, still }: { canvas: HTMLCanvasElement; palette: HeroFieldPalette; still: boolean }) {
+export function createHeroFieldRenderer({ canvas, palette, still, shape: shapeName = "knot" }: { canvas: HTMLCanvasElement; palette: HeroFieldPalette; still: boolean; shape?: HeroFieldShapeName }) {
+  const shape = SHAPES[shapeName]
   let disposed = false
   let gpu: Gpu | undefined
   let surface: Surface | undefined
@@ -87,10 +128,7 @@ export function createHeroFieldRenderer({ canvas, palette, still }: { canvas: HT
     pointer.y += (pointer.ty - pointer.y) * follow
     pointer.strength += (pointer.target - pointer.strength) * (1 - Math.exp(-dt * 3))
     const narrow = width < 760
-    // The knot sits behind the right half of the name; on phones it rises to the top right.
-    const knot = narrow
-      ? [width * 1.02, height * 0.15, width * 1.05, -0.18]
-      : [width * 0.8, height * 0.38, Math.min(height * 0.95, width * 0.56), -0.18]
+    const knot = shape.place(width, height, narrow)
     field.set({ params: {
       ...palette,
       knot,
@@ -125,10 +163,10 @@ export function createHeroFieldRenderer({ canvas, palette, still }: { canvas: HT
     if (disposed) { next.dispose(); return }
     gpu = next
     surface = vgpu.surface(gpu, canvas, { dpr: 1 })
-    const data = knotField()
+    const data = shapeField(shape)
     const buffer = vgpu.storage(gpu, data.byteLength, "read")
     buffer.write(data)
-    field = vgpu.effect(gpu, source, { label: "hero-knot" })
+    field = vgpu.effect(gpu, source, { label: `hero-${shapeName}` })
     field.set({ sdf: buffer })
     write(0)
     if (disposed) return
