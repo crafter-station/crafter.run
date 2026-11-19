@@ -4,18 +4,16 @@ import { useEffect, useMemo, useState } from "react"
 import { Search, X } from "lucide-react"
 import type { Locale } from "@/lib/i18n"
 import type { AgendaCopy } from "@/lib/agenda-copy"
-import { agendaCity, type AgendaCityKey } from "@/lib/agenda-cities"
-import { AgendaHorizon, type HorizonCity } from "@/components/agenda-horizon"
+import { agendaCity } from "@/lib/agenda-cities"
+import { HomeHead } from "@/components/home-head"
 import { HACK0_CALENDAR_URL, HACK0_TIME_ZONE, hack0DateParts, partitionHack0Events, type Hack0Event } from "@/lib/hack0-calendar-data"
 
 const PAGE_SIZE = 12
 const normalize = (text: string) => text.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase()
 
-export function AgendaCalendar({ events, initialNow, available, locale, t, cities, nextCity }: {
+export function AgendaCalendar({ events, initialNow, available, locale, t }: {
   events: Hack0Event[]; initialNow: number; available: boolean; locale: Locale; t: AgendaCopy
-  cities: HorizonCity[]; nextCity: AgendaCityKey | null
 }) {
-  const [hoverCity, setHoverCity] = useState<AgendaCityKey | null>(null)
   const [scope, setScope] = useState<"upcoming" | "past">("upcoming")
   const [query, setQuery] = useState("")
   const [limit, setLimit] = useState(PAGE_SIZE)
@@ -35,15 +33,16 @@ export function AgendaCalendar({ events, initialNow, available, locale, t, citie
   const visible = filtered.slice(0, limit)
   const reset = () => { setQuery(""); setLimit(PAGE_SIZE) }
 
-  return <section className="ev-list" id="calendar" aria-label={t.explore}>
-    {cities.length > 0 && <AgendaHorizon cities={cities} lit={hoverCity ?? nextCity} label={`${t.citiesLabel}: ${cities.map(c => `${c.name} ${c.count}`).join(", ")}`} />}
-    <div className="ev-bar">
+  return <section className="ev-list" id="calendar" aria-labelledby="calendar-title">
+    <HomeHead id="calendar-title" index={2} label={t.calendarLabel} title={t.explore}>
       <div className="ev-scopes" role="group" aria-label={t.explore}>
         {(["upcoming", "past"] as const).map(value => <button key={value} type="button" aria-pressed={scope === value} disabled={!available}
           onClick={() => { setScope(value); setLimit(PAGE_SIZE) }}>
           {t[value]}<span>{available ? (value === "past" ? past : upcoming).length : "—"}</span>
         </button>)}
       </div>
+    </HomeHead>
+    <div className="ev-bar">
       <label className="ev-search"><Search size={15} aria-hidden="true" />
         <input disabled={!available} aria-label={t.searchLabel} placeholder={t.search} value={query} onChange={e => { setQuery(e.target.value); setLimit(PAGE_SIZE) }} />
         {query && <button type="button" aria-label={t.reset} onClick={reset}><X size={14} /></button>}
@@ -63,9 +62,7 @@ export function AgendaCalendar({ events, initialNow, available, locale, t, citie
           const date = hack0DateParts(event, locale, timeZone)
           const city = agendaCity(event.location)
           const next = scope === "upcoming" && index === 0 && !query
-          return <li key={event.id}><a href={event.href} target="_blank" rel="noopener" className="ev-row" data-next={next || undefined}
-            onPointerEnter={() => city && setHoverCity(city.key)} onPointerLeave={() => setHoverCity(null)}
-            onFocus={() => city && setHoverCity(city.key)} onBlur={() => setHoverCity(null)}>
+          return <li key={event.id}><a href={event.href} target="_blank" rel="noopener" className="ev-row" data-next={next || undefined}>
             <time className="ev-row-date" dateTime={event.startAt}><span>{date.month}</span><strong>{date.day}</strong></time>
             <span className="ev-row-main">
               <span className="ev-row-title">{event.title}</span>
