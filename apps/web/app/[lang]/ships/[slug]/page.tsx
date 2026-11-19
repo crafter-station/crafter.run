@@ -16,22 +16,32 @@ import { ShipTimeline } from "@/components/ships/ship-timeline"
 import { ShipUpdateComposer } from "@/components/ships/ship-update-composer"
 import { isLocale, type Locale } from "@/lib/i18n"
 import { JsonLd } from "@/components/json-ld"
-import { absoluteUrl, buildMetadata, ogImageUrl } from "@/lib/seo"
+import { absoluteUrl, buildMetadata, communityLocales, ogImageUrl } from "@/lib/seo"
 import { crafterAffiliation, relativeTime } from "@/lib/ship-activity"
 import { shipDetailCopy } from "@/lib/ship-detail-copy"
 import { shipMetaDescription } from "@/lib/ship-markdown"
 import { breadcrumbList, shipSchema } from "@/lib/structured-data"
 import { getCrafterProfile, getPublishedShip, listPublishedShips } from "@/lib/ships"
 
+// Public ship data is cached for an hour; owner-only controls are client components, so the HTML is the same for everyone.
+export const revalidate = 3600
+// Ships and crafters are created at runtime, so unknown params render on demand.
+export const dynamicParams = true
+
+// No pages are built ahead of time: each is rendered on first request, then cached. New ones need no deploy.
+export function generateStaticParams() {
+  return []
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string; slug: string }> }) {
   const { lang, slug } = await params
   if (!isLocale(lang)) return {}
-  const ship = await getPublishedShip(slug)
+  const ship = await getPublishedShip(slug, { revalidate })
   if (!ship) return {}
   const path = `/ships/${ship.slug}`
   const description = shipMetaDescription(ship.tagline, ship.description)
   return buildMetadata({
-    locale: lang, path, title: ship.name, description,
+    locale: lang, path, title: ship.name, description, indexLocales: communityLocales,
     image: { url: ogImageUrl(ship.name, lang, undefined, { path, description: ship.tagline }), alt: `${ship.name}: ${ship.tagline}` },
   })
 }
@@ -64,13 +74,13 @@ function actionLinks(ship: ShipDetail, t: (typeof shipDetailCopy)[Locale]): { pr
 export default async function ShipPage({ params }: { params: Promise<{ lang: string; slug: string }> }) {
   const { lang, slug } = await params
   if (!isLocale(lang)) notFound()
-  const ship = await getPublishedShip(slug)
+  const ship = await getPublishedShip(slug, { revalidate })
   if (!ship) notFound()
 
   const [site, profile, ownerShips] = await Promise.all([
     getTranslations({ locale: lang, namespace: "pages.ships" }),
-    getCrafterProfile(ship.owner.handle),
-    listPublishedShips({ handle: ship.owner.handle }),
+    getCrafterProfile(ship.owner.handle, { revalidate }),
+    listPublishedShips({ handle: ship.owner.handle, revalidate }),
   ])
   const t = shipDetailCopy[lang]
   const now = Date.now()

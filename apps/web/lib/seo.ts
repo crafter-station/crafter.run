@@ -70,10 +70,13 @@ export function localizedUrl(path: string, locale: Locale) {
   return absoluteUrl(pathForLocale(path, locale))
 }
 
-export function languageAlternates(path: string) {
+/** Locales that serve community content in its own language; the others are noindex duplicates. */
+export const communityLocales: readonly Locale[] = ["en", "es"]
+
+export function languageAlternates(path: string, only: readonly Locale[] = locales) {
   return {
     ...Object.fromEntries(
-      locales.map((locale) => [locale, localizedUrl(path, locale)]),
+      only.map((locale) => [locale, localizedUrl(path, locale)]),
     ),
     "x-default": localizedUrl(path, defaultLocale),
   }
@@ -90,6 +93,7 @@ export function buildMetadata({
   description,
   image,
   video,
+  indexLocales,
 }: {
   locale: Locale
   path: string
@@ -98,6 +102,8 @@ export function buildMetadata({
   image?: { url: string; alt: string }
   /** An MP4 at 1200x630 whose first frame is `image`. Discord plays it inline; every other app shows the image. */
   video?: string
+  /** Locales that are indexed and listed in hreflang; any other locale gets noindex,follow. */
+  indexLocales?: readonly Locale[]
 }): Metadata {
   const url = localizedUrl(path, locale)
   const fullTitle =
@@ -111,8 +117,9 @@ export function buildMetadata({
     description: serpDescription(description),
     alternates: {
       canonical: url,
-      languages: languageAlternates(path),
+      languages: languageAlternates(path, indexLocales),
     },
+    ...(indexLocales && !indexLocales.includes(locale) ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: fullTitle,
       description,

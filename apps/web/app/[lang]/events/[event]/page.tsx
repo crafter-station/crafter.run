@@ -4,7 +4,9 @@ import { getAdmin } from "@/lib/admin"
 import { findAccessEvent } from "@/lib/access-events"
 import { eventAccessCopy } from "@/lib/event-access-copy"
 import { isLocale } from "@/lib/i18n"
-import { buildMetadata } from "@/lib/seo"
+import { JsonLd } from "@/components/json-ld"
+import { absoluteUrl, buildMetadata, localizedUrl } from "@/lib/seo"
+import { eventSchema } from "@/lib/structured-data"
 import { DevdayEventBody, DevdayHero } from "@/components/devday-event"
 import { EventBadgeTheme } from "@/components/event-badge-theme"
 import { findEventBadge } from "@/lib/event-badge"
@@ -22,9 +24,21 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const event = findAccessEvent(slug)
   if (!isLocale(lang) || !event) notFound()
   const t = eventAccessCopy[lang]
+  const schema = eventSchema({
+    name: event.title,
+    url: localizedUrl(`/events/${event.slug}`, lang),
+    description: t.intro,
+    startsAt: event.startsAt,
+    endsAt: event.endsAt,
+    image: absoluteUrl(event.cover),
+    venue: event.venue,
+    streetAddress: event.address,
+    registerUrl: event.lumaUrl,
+  })
   // Events with their own identity skip the station shell (site-shell.tsx) and bring their frame.
-  if (findEventBadge(event.slug)) return <EventBadgeTheme locale={lang} event={event}><DevdayHero event={event} locale={lang} admin={Boolean(await getAdmin())} /><DevdayEventBody event={event} locale={lang} /></EventBadgeTheme>
+  if (findEventBadge(event.slug)) return <EventBadgeTheme locale={lang} event={event}><JsonLd data={schema} /><DevdayHero event={event} locale={lang} admin={Boolean(await getAdmin())} /><DevdayEventBody event={event} locale={lang} /></EventBadgeTheme>
   return <main className="event-entry-page">
+    <JsonLd data={schema} />
     <AccessEventHeader event={event} locale={lang} />
     <section className="entry-steps">
       <h2>{t.flowTitle}</h2>
