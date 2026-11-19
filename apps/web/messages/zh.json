@@ -99,7 +99,7 @@
       "hack0": "hack0.dev",
       "shippingBible": "Shipping Bible"
     },
-    "copyright": "© {year} Crafter Station. {tagline}."
+    "copyright": "© {year} Crafter Station · {tagline}"
   },
   "pages": {
     "oss": {
@@ -567,7 +567,7 @@
     "network": {
       "eyebrow": "Crafter 的世界",
       "title": "同一份热情，四种方向。",
-      "description": "Research、Lab、Games 和 Station。一起研究、实验、游戏和构建的四种方式。",
+      "description": "Research、Lab、Games 与 Station：四种方式，一起研究、实验、游戏、构建。",
       "areasLabel": "Crafter 的四个领域",
       "exploreCta": "探索 Crafter 宇宙",
       "closing": "每个空间都有个性，共同的好奇心将我们连接。",
