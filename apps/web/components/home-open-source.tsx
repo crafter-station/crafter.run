@@ -4,14 +4,7 @@ import { type Locale, withLocale } from "@/lib/i18n"
 import { landingCopy } from "@/lib/landing-copy"
 import { getOssRepos } from "@/lib/oss"
 import { HomeHead } from "@/components/home-head"
-
-// Monochrome masks of each project's own icon, tinted with the accent in CSS.
-const logos = new Set(["petdex", "agentfiles", "tinte", "elements", "text0", "one-hunter-vscode"])
-
-function RepoLogo({ name, size }: { name: string; size: "sm" }) {
-  if (!logos.has(name)) return null
-  return <span className={`home-oss-logo home-oss-logo-${size}`} style={{ "--logo": `url(/oss/logos/${name}.png)` } as React.CSSProperties} aria-hidden="true" />
-}
+import { RepoLogo } from "@/components/oss-logo"
 
 /** Open source proof: total stars, a live bar chart of the top repositories and three featured cards. */
 export async function HomeOpenSource({ locale, index }: { locale: Locale; index: number }) {

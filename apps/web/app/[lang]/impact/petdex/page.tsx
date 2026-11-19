@@ -1,8 +1,6 @@
-import { StationPageHero } from "@/components/station-page-hero"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { ArrowLink } from "@/components/arrow-link"
-import { Container, SectionGap } from "@/components/grid-container"
+import { StatTiles } from "@/components/stat-tiles"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 
@@ -22,6 +20,7 @@ const copy = {
     packageBody: "The public npm API matches OSSCAR's cumulative series. The actual ratio is 75.99x. OSSCAR displays 28.9x because its methodology pads a new project's baseline to 1,000 downloads.",
     sources: "Primary sources",
     profile: "Founder profile",
+    sourceLabels: ["OSSCAR organization profile", "OSSCAR methodology", "Petdex npm range API", "Petdex contributors API", "Hermes Petdex integration", "Decrypt coverage"],
     metrics: [["28,875", "npm downloads"], ["3,218", "net new stars"], ["612", "founder contributions"], ["#86", "OSSCAR Emerging"]],
   },
   es: {
@@ -37,22 +36,24 @@ const copy = {
     packageBody: "La API pública de npm coincide con la serie acumulada de OSSCAR. El crecimiento real es 75.99x. OSSCAR muestra 28.9x porque normaliza el baseline de proyectos nuevos a 1,000 descargas.",
     sources: "Fuentes primarias",
     profile: "Perfil del fundador",
+    sourceLabels: ["Perfil de la organización en OSSCAR", "Metodología de OSSCAR", "API de rangos npm de Petdex", "API de contribuidores de Petdex", "Integración de Petdex en Hermes", "Cobertura de Decrypt"],
     metrics: [["28,875", "descargas npm"], ["3,218", "nuevas estrellas netas"], ["612", "contribuciones del fundador"], ["#86", "OSSCAR Emerging"]],
   },
   pt: {
     eyebrow: "Impacto · Petdex · Q2 2026",
     metaTitle: "Relatório de impacto do Petdex, Q2 2026",
-    title: "O projeto por tras de 96.72% do crescimento de estrelas da Crafter Station no Q2.",
-    description: "O Petdex gerou 28,875 downloads npm e 3,218 novas estrelas liquidas durante a janela Q2 publicada pela OSSCAR.",
-    githubEyebrow: "Atribuicao no GitHub",
-    githubTitle: "Quase todo o crescimento de estrelas da organizacao veio do Petdex.",
-    githubBody: "O Petdex cresceu de 70 para 3,288 estrelas enquanto a Crafter Station passou de 870 para 4,197. O calculo e (3,288 - 70) / (4,197 - 870) = 96.72%.",
+    title: "O projeto por trás de 96.72% do crescimento de estrelas da Crafter Station no Q2.",
+    description: "O Petdex gerou 28,875 downloads npm e 3,218 novas estrelas líquidas durante a janela Q2 publicada pela OSSCAR.",
+    githubEyebrow: "Atribuição no GitHub",
+    githubTitle: "Quase todo o crescimento de estrelas da organização veio do Petdex.",
+    githubBody: "O Petdex cresceu de 70 para 3,288 estrelas enquanto a Crafter Station passou de 870 para 4,197. O cálculo é (3,288 - 70) / (4,197 - 870) = 96.72%.",
     packageEyebrow: "Sinal do pacote",
-    packageTitle: "De 380 para 28,875 downloads em dez periodos semanais.",
-    packageBody: "A API publica do npm corresponde a serie acumulada da OSSCAR. O crescimento real e 75.99x. A OSSCAR mostra 28.9x porque normaliza o baseline de novos projetos para 1,000 downloads.",
-    sources: "Fontes primarias",
+    packageTitle: "De 380 para 28,875 downloads em dez períodos semanais.",
+    packageBody: "A API pública do npm corresponde à série acumulada da OSSCAR. O crescimento real é 75.99x. A OSSCAR mostra 28.9x porque normaliza o baseline de novos projetos para 1,000 downloads.",
+    sources: "Fontes primárias",
     profile: "Perfil do fundador",
-    metrics: [["28,875", "downloads npm"], ["3,218", "novas estrelas liquidas"], ["612", "contribuicoes do fundador"], ["#86", "OSSCAR Emerging"]],
+    sourceLabels: ["Perfil da organização no OSSCAR", "Metodologia da OSSCAR", "API de intervalos npm do Petdex", "API de contribuidores do Petdex", "Integração do Petdex no Hermes", "Cobertura da Decrypt"],
+    metrics: [["28,875", "downloads npm"], ["3,218", "novas estrelas líquidas"], ["612", "contribuições do fundador"], ["#86", "OSSCAR Emerging"]],
   },
   zh: {
     eyebrow: "影响力 · Petdex · 2026 年 Q2",
@@ -67,6 +68,7 @@ const copy = {
     packageBody: "npm 公开 API 与 OSSCAR 的累计序列一致。实际增长为 75.99 倍。OSSCAR 显示 28.9 倍，是因为其方法论会把新项目的基线填充到 1,000 次下载。",
     sources: "原始来源",
     profile: "创始人档案",
+    sourceLabels: ["OSSCAR 组织档案", "OSSCAR 方法论", "Petdex npm 区间 API", "Petdex 贡献者 API", "Hermes 的 Petdex 集成", "Decrypt 报道"],
     metrics: [["28,875", "npm 下载量"], ["3,218", "净新增 star"], ["612", "创始人贡献"], ["#86", "OSSCAR Emerging"]],
   },
   ja: {
@@ -82,17 +84,18 @@ const copy = {
     packageBody: "npm の公開 API は OSSCAR の累積系列と一致しています。実際の倍率は75.99倍です。OSSCAR は、新しいプロジェクトのベースラインを1,000ダウンロードに補正する方法論のため、28.9倍と表示しています。",
     sources: "一次情報",
     profile: "ファウンダープロフィール",
+    sourceLabels: ["OSSCAR のオーガニゼーションプロフィール", "OSSCAR の方法論", "Petdex の npm 範囲 API", "Petdex のコントリビューター API", "Hermes の Petdex 連携", "Decrypt の報道"],
     metrics: [["28,875", "npm ダウンロード"], ["3,218", "純増スター"], ["612", "ファウンダーのコントリビューション"], ["#86", "OSSCAR Emerging"]],
   },
 } as const
 
-const sources = [
-  ["OSSCAR organization profile", "https://osscar.dev/org/crafter-station"],
-  ["OSSCAR methodology", "https://osscar.dev/methodology"],
-  ["Petdex npm range API", "https://api.npmjs.org/downloads/range/2026-04-26:2026-07-04/petdex"],
-  ["Petdex contributors API", "https://api.github.com/repos/crafter-station/petdex/contributors?per_page=100"],
-  ["Hermes Petdex integration", "https://github.com/NousResearch/hermes-agent/blob/main/agent/pet/manifest.py"],
-  ["Decrypt coverage", "https://decrypt.co/es/372082/tu-agente-hermes-ahora-tiene-una-mascota-que-no-hace-absolutamente-nada-y-ese-es-el-punto"],
+const sourceLinks = [
+  "https://osscar.dev/org/crafter-station",
+  "https://osscar.dev/methodology",
+  "https://api.npmjs.org/downloads/range/2026-04-26:2026-07-04/petdex",
+  "https://api.github.com/repos/crafter-station/petdex/contributors?per_page=100",
+  "https://github.com/NousResearch/hermes-agent/blob/main/agent/pet/manifest.py",
+  "https://decrypt.co/es/372082/tu-agente-hermes-ahora-tiene-una-mascota-que-no-hace-absolutamente-nada-y-ese-es-el-punto",
 ] as const
 
 export function generateStaticParams() {
@@ -112,60 +115,49 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const t = copy[lang]
 
   return (
-    <>
-
-      <main className="flex-1">
-        <StationPageHero
-          eyebrow={t.eyebrow}
-          title="Petdex / Q2 2026"
-          description={t.description}
-          art="research"
-        />
-        <SectionGap />
-        <Container>
-          <section className="station-stat-strip station-stat-strip-four">
-            {t.metrics.map(([value, label], index) => (
-              <div key={label} className={`${index % 2 ? "border-l" : ""} ${index > 1 ? "border-t md:border-t-0" : ""} ${index > 0 ? "md:border-l" : ""} border-line px-6 py-8 md:px-8 md:py-10`}>
-                <p className="text-3xl font-semibold tracking-tight md:text-4xl">{value}</p>
-                <p className="mt-2 font-label text-xs text-muted-foreground">{label}</p>
-              </div>
-            ))}
-          </section>
-        </Container>
-        <SectionGap />
-        <Container>
-          <section className="station-card-grid">
-            <div className="border-b border-line p-8 lg:border-b-0 lg:border-r lg:p-10">
-              <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">{t.githubEyebrow}</p>
-              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{t.githubTitle}</h2>
-              <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{t.githubBody}</p>
-            </div>
-            <div className="p-8 lg:p-10">
-              <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">{t.packageEyebrow}</p>
-              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{t.packageTitle}</h2>
-              <p className="mt-6 text-sm leading-relaxed text-muted-foreground">{t.packageBody}</p>
-            </div>
-          </section>
-        </Container>
-        <SectionGap />
-        <Container innerClassName="grid grid-cols-1 border-b border-line lg:grid-cols-[0.7fr_1.3fr]">
-          <div className="border-b border-line p-8 lg:border-b-0 lg:border-r lg:p-10">
-            <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">{t.sources}</p>
-            <Link href={withLocale("/team/railly", lang)} className="group mt-8 inline-flex">
-              <ArrowLink>{t.profile}</ArrowLink>
-            </Link>
+    <main className="station-home petdex-impact flex-1">
+      <section className="inner-hero" aria-labelledby="petdex-title">
+        <p className="home-label">{t.eyebrow}</p>
+        <div className="inner-hero-grid">
+          <h1 id="petdex-title">{t.title}</h1>
+          <div className="inner-hero-side">
+            <p>{t.description}</p>
           </div>
-          <div className="divide-y divide-line p-8 lg:p-10">
-            {sources.map(([label, href]) => (
-              <Link key={href} href={href} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between gap-4 py-4 font-label text-xs text-muted-foreground transition-colors hover:text-foreground">
-                <span>{label}</span>
-                <span aria-hidden>↗</span>
-              </Link>
-            ))}
+        </div>
+        <StatTiles items={t.metrics} />
+      </section>
+      <section aria-label={t.githubEyebrow}>
+        <div className="petdex-pair tile-grid home-frame">
+          <div>
+            <p className="home-label">{t.githubEyebrow}</p>
+            <h2 className="tile-title">{t.githubTitle}</h2>
+            <p>{t.githubBody}</p>
           </div>
-        </Container>
-      </main>
-
-    </>
+          <div>
+            <p className="home-label">{t.packageEyebrow}</p>
+            <h2 className="tile-title">{t.packageTitle}</h2>
+            <p>{t.packageBody}</p>
+          </div>
+        </div>
+      </section>
+      <section aria-label={t.sources}>
+        <div className="petdex-sources tile-grid home-frame">
+          <div>
+            <p className="home-label">{t.sources}</p>
+            <Link href={withLocale("/team/railly", lang)} className="home-action-link tile-grid-link">{t.profile}</Link>
+          </div>
+          <ul className="petdex-source-list">
+            {sourceLinks.map((href, index) => (
+              <li key={href}>
+                <Link href={href} target="_blank" rel="noopener noreferrer">
+                  <span>{t.sourceLabels[index]}</span>
+                  <span aria-hidden>↗</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </main>
   )
 }

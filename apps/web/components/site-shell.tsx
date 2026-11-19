@@ -19,7 +19,7 @@ export function SiteShell({ children, footer, event, locale }: { children: React
     || pathname === `/${locale}/changelog` || pathname.startsWith(`/${locale}/changelog/`)
   const font = pathname === `/${locale}/font`
   const bounties = pathname === `/${locale}/bounties` || pathname.startsWith(`/${locale}/bounties/`)
-  const pages = !docs && !agenda && !journal && !bounties && !font && pathname !== `/${locale}` && !/^\/(services|jobs)(\/|$)/.test(route)
+  const pages = !docs && !agenda && !journal && !bounties && !font && pathname !== `/${locale}` && !/^\/(services|jobs|universe|oss|products|impact\/petdex)(\/|$)/.test(route)
   // Hot Reload carries its own identity end to end, without the station header or footer.
   if (/^\/events\/hot-reload(\/|$)/.test(route)) return <div id="site-content">{children}</div>
   // So do one-off events with their own identity (their pages wrap themselves in EventBadgeTheme).

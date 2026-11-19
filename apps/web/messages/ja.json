@@ -163,7 +163,7 @@
       "window": "同期間の比較ウィンドウ",
       "windowValue": "{days} 日",
       "signalEyebrow": "シグナル",
-      "signalTitle": "Factory は一日あたり、より多くの仕事を閉じています。",
+      "signalTitle": "チームは毎日、より多くの作業を完了しています。",
       "signalDescription": "ローンチ後の活動を、同じ長さのローンチ前期間と比較します。累積履歴や虚栄指標は使いません。",
       "before": "ローンチ前",
       "after": "ローンチ後",
