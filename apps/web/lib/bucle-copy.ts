@@ -50,7 +50,7 @@ export const bucleCopy: Record<Locale, BucleCopy> = {
     ossExplore: "探索所有开源项目",
     interfaces: "界面", companions: "数字伙伴", tools: "工具",
     brew: "咖啡、代码与社区。", ship: "一个想法。一支团队。一起发布。",
-    encounter: "相聚", make: "一起创造",
+    encounter: "线下相聚", make: "一起创造",
   },
   ja: {
     hero: "イベント、オープンソース、仕事、リリースしたプロジェクト。ラテンアメリカのビルダーと企業がともに働く場所。",

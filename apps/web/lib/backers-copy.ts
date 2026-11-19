@@ -28,7 +28,7 @@ const zh: typeof es = {
   title: "每场活动背后的支持者",
   summary: (partners, events) => `${events} 场黑客松，${partners} 家企业与机构。`,
   raised: (amount) => `筹集 ${amount}`,
-  backers: (n) => `${n} 家支持者`,
+  backers: (n) => `${n} 家支持方`,
   all: "查看全部黑客松",
 }
 

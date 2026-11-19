@@ -10,7 +10,7 @@ export function HomeHead({ id, index, label, title, lede, children }: {
   return (
     <header className="home-head">
       <div className="home-head-copy">
-        <p className="home-label">{String(index).padStart(2, "0")} / {label}</p>
+        <p className="home-label"><span className="home-label-n">{String(index).padStart(2, "0")}</span><span className="home-label-sep"> / </span>{label}</p>
         <h2 id={id}>{title}</h2>
         {lede ? <p className="home-head-lede">{lede}</p> : null}
       </div>

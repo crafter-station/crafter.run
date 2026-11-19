@@ -23,6 +23,7 @@
 @import './station-hot-reload.css';
 @import './station-auth.css';
 @import './station-onboarding.css';
+@import './station-zh.css';
 
 @custom-variant dark (&:is(.dark *));
 
