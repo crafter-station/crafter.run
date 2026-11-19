@@ -6,7 +6,7 @@ import { type Locale, withLocale } from "@/lib/i18n"
 import { partners, partnersByEvent } from "@/lib/partners"
 
 /** A ledger of the hackathons and who backed each one, every logo linked to its company. */
-export function StationBackers({ locale }: { locale: Locale }) {
+export function StationBackers({ locale, showAll = true }: { locale: Locale; showAll?: boolean }) {
   const t = backersCopy[locale]
   const groups = partnersByEvent()
   const money = new Intl.NumberFormat(locale, { style: "currency", currency: "USD", maximumFractionDigits: 0 })
@@ -42,9 +42,11 @@ export function StationBackers({ locale }: { locale: Locale }) {
           </li>
         ))}
       </ol>
-      <Link href={withLocale("/hackathons", locale)} className="home-secondary-link home-backers-all">
-        {t.all}
-      </Link>
+      {showAll ? (
+        <Link href={withLocale("/services#proof", locale)} className="home-secondary-link home-backers-all">
+          {t.all}
+        </Link>
+      ) : null}
     </div>
   )
 }

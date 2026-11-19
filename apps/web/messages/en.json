@@ -248,12 +248,9 @@
       "noEvents": "[*] No events found. Check back soon.",
       "noFilteredEvents": "No events match this filter."
     },
-    "events-sponsors": {
-      "eyebrow": "Events & partnerships",
-      "title": "Build the next gathering.",
-      "description": "Partnerships for gatherings that leave something built. Connect your organization with Crafter workshops, hackathons, and community.",
-      "section": "Make the gathering count.",
-      "sectionDescription": "Contribute spaces, tools, content, or support so more people can learn and build together. Each gathering is designed around its community."
+    "services": {
+      "title": "Services",
+      "description": "Hackathons, launches, workshops and open source for companies that want to reach LATAM builders. Book a free 30-min call."
     },
     "ships": {
       "eyebrow": "Community ships",

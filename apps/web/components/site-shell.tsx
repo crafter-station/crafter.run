@@ -17,7 +17,7 @@ export function SiteShell({ children, footer, event, locale }: { children: React
   const pathname = usePathname() ?? ""
   // Docs keeps its own navigation rail and Font needs the full width. Both use the compact site header.
   const docs = pathname === `/${locale}/docs` || pathname.startsWith(`/${locale}/docs/`)
-  const home = pathname === `/${locale}`
+  const home = pathname === `/${locale}` || pathname === `/${locale}/services`
   const oss = pathname === `/${locale}/oss`
   const universe = pathname === `/${locale}/universe`
   const agenda = pathname === `/${locale}/events`
@@ -36,7 +36,7 @@ export function SiteShell({ children, footer, event, locale }: { children: React
   if (eventSlug && findEventBadge(eventSlug)) return <div id="site-content">{children}</div>
   const tone = /^\/(oss|timeline|impact)(\/|$)/.test(route) ? "green"
     : /^\/(ships|workshops)(\/|$)/.test(route) ? "violet"
-      : /^\/(events|hackathons)(\/|$)/.test(route) ? "blue" : "warm"
+      : /^\/(events)(\/|$)/.test(route) ? "blue" : "warm"
   return (
     <div data-page-tone={pages ? tone : undefined} className={`station-shell${pages ? " station-shell-pages" : ""}${docs ? " station-shell-docs" : ""}${home ? " station-shell-home" : ""}${oss ? " station-shell-oss" : ""}${universe ? " station-shell-universe" : ""}${agenda ? " station-shell-agenda" : ""}${journal ? " station-shell-journal" : ""}${bounties ? " station-shell-bounties" : ""}${font ? " station-shell-font" : ""}`}>
       <a className="station-skip" href="#site-content">{stationCopy[locale].skip}</a>

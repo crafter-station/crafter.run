@@ -179,7 +179,7 @@ export async function EventsResearchPreview({ locale }: { locale: Locale }) {
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               {t("researchDescription")}
             </p>
-            <LocalizedLink href="/events/sponsors" locale={locale} className="group mt-6 inline-block">
+            <LocalizedLink href="/services" locale={locale} className="group mt-6 inline-block">
               <ArrowLink>{t("partnerCta")}</ArrowLink>
             </LocalizedLink>
           </div>

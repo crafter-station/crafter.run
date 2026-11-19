@@ -18,7 +18,7 @@ export function socialKind(path: string): SocialKind {
   if (path.startsWith("/oss/metrics") || path.startsWith("/impact") || path === "/timeline") return "metrics"
   if (path.startsWith("/oss")) return "oss"
   if (path === "/universe") return "universe"
-  if (path.startsWith("/ships") || path === "/hackathons") return "ships"
+  if (path.startsWith("/ships")) return "ships"
   if (path === "/brand") return "brand"
   return "contact"
 }
