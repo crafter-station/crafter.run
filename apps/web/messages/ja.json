@@ -402,7 +402,8 @@
         "allCommits": "すべてのコミット",
         "teamCommits": "Crafter チームのコミット",
         "stars": "GitHub スター",
-        "contributors": "コントリビューター"
+        "contributors": "コントリビューター",
+        "scope": "下で選択したプロジェクトと期間の合計です。"
       },
       "allContributors": "チームメンバーを選ぶと、その人のコミットとプロジェクトだけを表示します。",
       "coreTeam": "Crafter チーム",

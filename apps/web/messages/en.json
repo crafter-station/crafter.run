@@ -402,7 +402,8 @@
         "allCommits": "All commits",
         "teamCommits": "Crafter team commits",
         "stars": "GitHub stars",
-        "contributors": "Contributors"
+        "contributors": "Contributors",
+        "scope": "Totals for the projects and period selected below."
       },
       "allContributors": "Choose a team member to see only their commits and projects.",
       "coreTeam": "Crafter team",

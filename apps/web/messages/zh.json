@@ -402,7 +402,8 @@
         "allCommits": "全部提交",
         "teamCommits": "Crafter 团队提交",
         "stars": "GitHub star 数",
-        "contributors": "贡献者"
+        "contributors": "贡献者",
+        "scope": "以下所选项目与时间段的合计。"
       },
       "allContributors": "选择一位团队成员，只看其提交与项目。",
       "coreTeam": "Crafter 团队",

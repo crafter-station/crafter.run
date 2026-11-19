@@ -66,7 +66,6 @@
 @media (min-width: 640px) { .hot-reload-next { flex-direction: row; } }
 .hot-reload-next > .hot-reload-display:first-child { font-size: clamp(28px, 4vw, 36px); }
 .hot-reload-cta { display: inline-block; padding: 12px 24px; background: var(--hr-ink); color: var(--hr-paper); font-size: 24px; transition: transform 180ms; }
-.hot-reload-cta:hover { transform: rotate(-2deg); }
 
 .hot-reload-about { display: grid; align-items: center; gap: 40px; padding: 48px 0; }
 @media (min-width: 640px) { .hot-reload-about { grid-template-columns: 1fr 1fr; } }
@@ -189,7 +188,7 @@
 .hot-reload-posts-line { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; padding-top: 14px; border-top: 1px solid color-mix(in srgb, var(--hr-ink) 40%, transparent); }
 .hot-reload-posts-line > span { opacity: 0.65; }
 .hot-reload-posts-line a { display: inline-flex; align-items: center; gap: 6px; }
-.hot-reload-poster { width: 100%; max-width: min(420px, calc(100vh - 220px)); justify-self: center; transform: rotate(1.5deg); box-shadow: 0 18px 40px #0000004d; }
+.hot-reload-poster { width: 100%; max-width: min(420px, calc(100vh - 220px)); justify-self: center; box-shadow: 0 18px 40px #0000004d; }
 .hot-reload-edition h1 { font-size: clamp(56px, min(9vw, 12vh), 120px); }
 .hot-reload-edition-copy { gap: clamp(10px, 2vh, 18px); }
 .hot-reload-facts > div { padding: clamp(4px, 0.9vh, 8px) 0; }
@@ -444,7 +443,7 @@
 .event-badge-theme h1, .event-badge-theme h2 { font-weight: 400; line-height: 1.1; }
 .event-badge-theme .hot-reload-column { max-width: 88rem; z-index: auto; }
 .event-badge-theme .hot-reload-cta, .event-badge-theme .station-button, .event-badge-theme .entry-form button[type="submit"], .dd-pill {
-  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border: 1px solid var(--hr-ink); border-radius: 9999px;
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 22px; border: 1px solid var(--hr-ink); border-radius: 0;
   background: var(--hr-ink); color: var(--hr-paper); font: 500 16px/1 "OpenAI Sans", Arial, sans-serif; text-transform: none; transition: opacity 150ms;
 }
 .dd-pill-ghost { background: transparent; color: var(--hr-ink); border-color: var(--dd-line); }
@@ -484,8 +483,9 @@
 .dd-section { padding: clamp(56px, 10vh, 112px) 0 0; }
 .dd-split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 64px; align-items: start; }
 .dd-h2 { font-size: clamp(30px, 3vw, 44px) !important; }
-.dd-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 32px; padding: 0; list-style: none; }
-.dd-card { border: 1px solid var(--dd-line); border-radius: 4px; padding: 28px 24px; min-height: 180px; display: flex; flex-direction: column; gap: 12px; }
+.dd-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; margin-top: 32px; padding: 0; list-style: none; border: 1px solid var(--dd-line); background: var(--dd-line); }
+.dd-card { background: var(--hr-paper); }
+.dd-card { padding: 28px 24px; min-height: 180px; display: flex; flex-direction: column; gap: 12px; }
 .dd-card-n { font-size: 14px; }
 .dd-card:nth-child(1) .dd-card-n { color: var(--dd-blue); }
 .dd-card:nth-child(2) .dd-card-n { color: var(--dd-orange); }
@@ -628,3 +628,20 @@
   .dd-invite { gap: 12px; padding: 28px 20px 20px; }
   .dd-invite-mark { width: 5.5rem; height: 5.5rem; }
 }
+
+/* Site wordmark at the top-left, and home-label links, in the event's ink. */
+.hot-reload-wordmark { display: inline-flex; align-items: center; color: var(--hr-ink); text-transform: none; letter-spacing: normal; }
+.hot-reload-wordmark .station-wordmark svg { color: var(--hr-ink) !important; width: 26px; height: 26px; }
+.hot-reload-wordmark .wordmark-crafter { color: var(--hr-ink); font-size: 17px; text-transform: none; }
+.hot-reload-theme .hot-reload-foot .home-label { color: inherit; }
+
+/* DevDay landing: OpenAI Sans stays on the event title and the OpenAI mark; headers, labels and body use the station fonts. */
+.event-badge-theme:has(.dd-hero) { font-family: var(--font-sans), system-ui, sans-serif; }
+.event-badge-theme:has(.dd-hero) :is(h2, h3, .dd-h2) { font-family: var(--font-crafter), sans-serif; font-weight: 500; letter-spacing: -.02em; }
+.event-badge-theme:has(.dd-hero) .dd-brand { font-family: "OpenAI Sans", Arial, sans-serif; }
+.event-badge-theme:has(.dd-hero) :is(.dd-pill, .hot-reload-cta, .station-button) { font-family: var(--font-sans), system-ui, sans-serif; }
+.event-badge-theme:has(.dd-hero) :is(.dd-meta, .dd-card-n, .dd-poster figcaption, .dd-support) { font-family: var(--font-label), system-ui, sans-serif; }
+.event-badge-theme:has(.dd-hero) .dd-card-n { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.event-badge-theme:has(.dd-hero) .dd-support { text-transform: uppercase; letter-spacing: .08em; font-size: 13px; }
+.event-badge-theme:has(.dd-hero) .hot-reload-theme-toggle, .event-badge-theme:has(.dd-hero) .dd-foot :is([role="radiogroup"], button) { font-family: var(--font-sans), system-ui, sans-serif; }
+.event-badge-theme:has(.dd-hero) .dd-poster img { border-radius: 0; }

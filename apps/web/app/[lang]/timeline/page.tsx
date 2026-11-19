@@ -3,8 +3,9 @@ import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
 import type { CSSProperties } from "react"
 
-import { ArrowLink } from "@/components/arrow-link"
 import { Container, SectionGap } from "@/components/grid-container"
+import { HomeHead } from "@/components/home-head"
+import { StationPageHero } from "@/components/station-page-hero"
 import { LocalizedLink } from "@/components/localized-link"
 import {
   ProjectTimeline,
@@ -13,7 +14,6 @@ import {
 import { isLocale, locales } from "@/lib/i18n"
 import { getProjectTimeline } from "@/lib/project-timeline-cache"
 import { pageMetadata } from "@/lib/seo"
-import { cn } from "@/lib/utils"
 
 type SignalStyle = CSSProperties & {
   "--timeline-height": string
@@ -103,6 +103,7 @@ export default async function Page({
       allCommits: t("stats.allCommits"),
       teamCommits: t("stats.teamCommits"),
       stars: t("stats.stars"),
+      scope: t("stats.scope"),
       contributors: t("stats.contributors"),
     },
     allContributors: t("allContributors"),
@@ -145,109 +146,56 @@ export default async function Page({
     <>
 
       <main className="flex-1">
-        <Container innerClassName="station-page-intro station-report-intro">
-          <p className="font-label text-xs uppercase tracking-[0.35em] text-accent">
-                {t("eyebrow")}
-              </p>
-              <h1 className="mt-5 max-w-4xl text-balance text-5xl font-semibold tracking-[-0.055em] md:text-7xl">
-                {t("title")}
-              </h1>
-          <div className="station-data-hero">
-            <div className="px-6 py-16 md:px-10 md:py-24 lg:border-r lg:border-line">
-
-              <p className="mt-6 max-w-2xl text-balance text-lg leading-8 text-muted-foreground">
-                {t("description")}
-              </p>
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-                <a
-                  href="#timeline"
-                  className="group transition-transform duration-150 active:scale-[0.97]"
-                >
-                  <ArrowLink>{t("exploreCta")}</ArrowLink>
-                </a>
-                <Link
-                  href="https://github.com/crafter-station"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group transition-transform duration-150 active:scale-[0.97]"
-                >
-                  <ArrowLink>{t("githubCta")}</ArrowLink>
-                </Link>
-                <Link
-                  href="https://github.com/crafter-research"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group transition-transform duration-150 active:scale-[0.97]"
-                >
-                  <ArrowLink>{t("githubResearchCta")}</ArrowLink>
-                </Link>
-              </div>
+        <StationPageHero
+          eyebrow={t("eyebrow")}
+          title={t("title")}
+          description={t("description")}
+          actions={
+            <>
+              <a href="#timeline" className="hero-cta">{t("exploreCta")}</a>
+              <Link href="https://github.com/crafter-station" target="_blank" rel="noopener noreferrer" className="home-secondary-link">{t("githubCta")} ↗</Link>
+              <Link href="https://github.com/crafter-research" target="_blank" rel="noopener noreferrer" className="home-secondary-link">{t("githubResearchCta")} ↗</Link>
+            </>
+          }
+        >
+          <aside className="timeline-signal home-frame">
+            <div className="timeline-signal-head home-label">
+              <span>{t("signalLabel")}</span>
+              <span>{t("oneYear")}</span>
             </div>
-
-            <aside className="flex min-h-80 flex-col justify-between bg-secondary/15 p-6 md:p-10">
-              <div className="flex items-center justify-between gap-4 font-label text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                <span>{t("signalLabel")}</span>
-                <span>{t("oneYear")}</span>
-              </div>
-              <div
-                className="mt-10 flex h-36 items-end gap-px border-b border-line"
-                aria-label={t("signalLabel")}
-              >
-                {weeklyTotals.map((count, index) => (
-                  <span
-                    key={data.weeks[index]}
-                    className="timeline-signal-bar min-w-px flex-1 rounded-t-[1px] bg-foreground"
-                    style={{
-                      "--timeline-height": count
-                        ? `${Math.max(5, (count / maxWeek) * 100).toFixed(2)}%`
-                        : "1px",
-                      "--timeline-opacity": count ? "0.75" : "0.12",
-                    } as SignalStyle}
-                    title={`${data.weeks[index]}: ${count}`}
-                  />
-                ))}
-              </div>
-              <div className="station-stat-strip mt-8">
-                {[
-                  [formatNumber(activeProjects), t("heroStats.active")],
-                  [formatNumber(teamCommits), t("heroStats.commits")],
-                  [formatNumber(githubStars), t("heroStats.stars")],
-                ].map(([value, label], index) => (
-                  <div
-                    key={label}
-                    className={cn(
-                      "p-3 sm:p-4",
-                      index > 0 && "border-l border-line",
-                    )}
-                  >
-                    <p className="font-label text-lg tracking-tight sm:text-xl">{value}</p>
-                    <p className="mt-1 text-xs leading-tight text-muted-foreground">
-                      {label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </aside>
-          </div>
-        </Container>
-
-        <SectionGap />
+            <div className="timeline-signal-chart" aria-label={t("signalLabel")}>
+              {weeklyTotals.map((count, index) => (
+                <span
+                  key={data.weeks[index]}
+                  className="timeline-signal-bar min-w-px flex-1 rounded-t-[1px] bg-foreground"
+                  style={{
+                    "--timeline-height": count
+                      ? `${Math.max(5, (count / maxWeek) * 100).toFixed(2)}%`
+                      : "1px",
+                    "--timeline-opacity": count ? "0.75" : "0.12",
+                  } as SignalStyle}
+                  title={`${data.weeks[index]}: ${count}`}
+                />
+              ))}
+            </div>
+            <div className="station-stat-strip">
+              {[
+                [formatNumber(activeProjects), t("heroStats.active")],
+                [formatNumber(teamCommits), t("heroStats.commits")],
+                [formatNumber(githubStars), t("heroStats.stars")],
+              ].map(([value, label]) => (
+                <div key={label}>
+                  <p>{value}</p>
+                  <p className="home-label-sm">{label}</p>
+                </div>
+              ))}
+            </div>
+          </aside>
+        </StationPageHero>
 
         <div id="timeline" className="scroll-mt-24">
-          <Container innerClassName="border-b px-6 py-10 md:px-10">
-            <div className="grid gap-5 lg:grid-cols-[0.7fr_1.3fr] lg:items-end">
-              <div>
-                <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                  {t("timelineEyebrow")}
-                </p>
-                <h2 className="mt-3 text-3xl tracking-tight md:text-4xl">
-                  {t("timelineTitle")}
-                </h2>
-              </div>
-              <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground lg:justify-self-end">
-                {t("timelineDescription")}
-              </p>
-            </div>
+          <Container innerClassName="timeline-head">
+            <HomeHead id="timeline-title" index={1} label={t("timelineEyebrow")} title={t("timelineTitle")} lede={t("timelineDescription")} />
           </Container>
           <Container>
             <ProjectTimeline data={data} locale={lang} copy={copy} />
@@ -257,26 +205,16 @@ export default async function Page({
         <SectionGap />
 
         <Container>
-          <section className="station-card-grid">
+          <section className="station-card-grid timeline-method">
             {[
               ["01", t("method.barTitle"), t("method.barDescription")],
               ["02", t("method.intensityTitle"), t("method.intensityDescription")],
               ["03", t("method.coreTitle"), t("method.coreDescription")],
-            ].map(([number, title, description], index) => (
-              <div
-                key={number}
-                className={cn(
-                  "p-8 md:p-10",
-                  index > 0 && "border-t border-line md:border-l md:border-t-0",
-                )}
-              >
-                <p className="font-label text-xs tracking-[0.25em] text-accent">
-                  {number}
-                </p>
+            ].map(([number, title, description]) => (
+              <div key={number}>
+                <p className="home-label">{number}</p>
                 <h3 className="mt-5 text-xl tracking-tight">{title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                  {description}
-                </p>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{description}</p>
               </div>
             ))}
           </section>
@@ -285,22 +223,14 @@ export default async function Page({
         <SectionGap />
 
         <Container>
-          <section className="station-callout grid md:grid-cols-[1.2fr_0.8fr]">
-            <div className="border-b border-line p-8 md:border-b-0 md:border-r md:p-10">
-              <p className="font-label text-xs uppercase tracking-[0.3em] text-muted-foreground">
-                {t("catalogEyebrow")}
-              </p>
-              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">
-                {t("catalogTitle")}
-              </h2>
-              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                {t("catalogDescription")}
-              </p>
+          <section className="station-callout timeline-callout home-frame">
+            <div>
+              <p className="home-label">{t("catalogEyebrow")}</p>
+              <h2 className="mt-4 text-3xl tracking-tight md:text-4xl">{t("catalogTitle")}</h2>
+              <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted-foreground">{t("catalogDescription")}</p>
             </div>
-            <div className="flex items-center p-8 md:p-10">
-              <LocalizedLink href="/oss" locale={lang} className="group">
-                <ArrowLink>{t("catalogCta")}</ArrowLink>
-              </LocalizedLink>
+            <div>
+              <LocalizedLink href="/oss" locale={lang} className="home-action-link">{t("catalogCta")} →</LocalizedLink>
             </div>
           </section>
         </Container>
