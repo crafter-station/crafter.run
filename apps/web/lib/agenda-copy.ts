@@ -11,6 +11,7 @@ export type AgendaCopy = {
   invite: string; inviteBody: string; propose: string; collaborate: string; ecosystem: string; ecosystemLabel: string
   passport: string; passportTitle: string; passportBody: string; stamps: string
   subscribeLabel: string; crafterLabel: string; submitLabel: string; citiesLabel: string
+  calendarLabel: string; dateLabel: string; timeLabel: string; cityLabel: string; organizerLabel: string
 }
 
 export const agendaCopy: Record<Locale, AgendaCopy> = {
@@ -29,6 +30,7 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ecosystemLabel: "Ecosistema", ecosystem: "Startups, fondos y coworkings de Perú", propose: "Proponer un evento en Luma", collaborate: "Colabora con Crafter",
     passport: "PASAPORTE HACK0", passportTitle: "Ciudades donde ya nos vimos.", passportBody: "Cada sello es una ciudad del calendario, contada desde hack0. La próxima puede ser la tuya.", stamps: "{count} ciudades",
     subscribeLabel: "Suscribirse", crafterLabel: "Encuentros de Crafter", submitLabel: "¿Organizas algo?", citiesLabel: "Ciudades",
+    calendarLabel: "Calendario", dateLabel: "Fecha", timeLabel: "Hora", cityLabel: "Ciudad", organizerLabel: "Organiza",
   },
   en: {
     name: "hack0 Events", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["See you", "at hack0."],
@@ -45,6 +47,7 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ecosystemLabel: "Ecosystem", ecosystem: "Startups, funds and coworkings in Peru", propose: "Submit an event on Luma", collaborate: "Collaborate with Crafter",
     passport: "HACK0 PASSPORT", passportTitle: "Cities where we have already met.", passportBody: "Each stamp is a city on the calendar, counted from hack0. The next one could be yours.", stamps: "{count} cities",
     subscribeLabel: "Subscribe", crafterLabel: "Crafter gatherings", submitLabel: "Hosting something?", citiesLabel: "Cities",
+    calendarLabel: "Calendar", dateLabel: "Date", timeLabel: "Time", cityLabel: "City", organizerLabel: "Organizers",
   },
   pt: {
     name: "Eventos hack0", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["Nos vemos", "no hack0."],
@@ -61,6 +64,7 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ecosystemLabel: "Ecossistema", ecosystem: "Startups, fundos e coworkings do Peru", propose: "Propor um evento no Luma", collaborate: "Colabore com a Crafter",
     passport: "PASSAPORTE HACK0", passportTitle: "Cidades onde já nos encontramos.", passportBody: "Cada carimbo é uma cidade do calendário, contada a partir do hack0. A próxima pode ser a sua.", stamps: "{count} cidades",
     subscribeLabel: "Assinar", crafterLabel: "Encontros da Crafter", submitLabel: "Vai organizar algo?", citiesLabel: "Cidades",
+    calendarLabel: "Calendário", dateLabel: "Data", timeLabel: "Hora", cityLabel: "Cidade", organizerLabel: "Organização",
   },
   zh: {
     name: "hack0 活动", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["相聚", "在 hack0。"],
@@ -77,6 +81,7 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ecosystemLabel: "生态", ecosystem: "秘鲁的初创公司、基金和联合办公空间", propose: "在 Luma 提交活动", collaborate: "与 Crafter 合作",
     passport: "HACK0 护照", passportTitle: "我们已经相聚过的城市。", passportBody: "每个印章都是日历上的一座城市，数据来自 hack0。下一座也许就是你的城市。", stamps: "{count} 座城市",
     subscribeLabel: "订阅", crafterLabel: "Crafter 聚会", submitLabel: "想办活动？", citiesLabel: "城市",
+    calendarLabel: "日历", dateLabel: "日期", timeLabel: "时间", cityLabel: "城市", organizerLabel: "主办方",
   },
   ja: {
     name: "hack0 イベント", eyebrow: "HACK0 / BY CRAFTER STATION", title: ["会おう、", "hack0 で。"],
@@ -93,5 +98,6 @@ export const agendaCopy: Record<Locale, AgendaCopy> = {
     ecosystemLabel: "エコシステム", ecosystem: "ペルーのスタートアップ、ファンド、コワーキング", propose: "Luma でイベントを提案", collaborate: "Crafter と協力する",
     passport: "HACK0 パスポート", passportTitle: "これまでに集まった都市。", passportBody: "スタンプはカレンダーに載った都市で、hack0 から数えています。次はあなたの街かもしれません。", stamps: "{count} 都市",
     subscribeLabel: "購読", crafterLabel: "Crafter の集まり", submitLabel: "何か開催しますか？", citiesLabel: "都市",
+    calendarLabel: "カレンダー", dateLabel: "日付", timeLabel: "時間", cityLabel: "都市", organizerLabel: "主催",
   },
 }
