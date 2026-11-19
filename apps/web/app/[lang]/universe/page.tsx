@@ -42,7 +42,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         <p className="home-label">{t.eyebrow}</p>
         <div className="universe-hero-layout">
           <div className="universe-intro">
-            <h1 id="universe-title">{t.title[0]}<span>{t.title[1]}<i aria-hidden="true">✳</i></span></h1>
+            <h1 id="universe-title">{t.title[0]}<span>{t.title[1]}</span></h1>
             <p>{t.intro}</p>
             <a className="hero-cta-ghost" href="#areas">{t.directory}</a>
           </div>
