@@ -76,10 +76,10 @@ export const products: Product[] = [
   },
 ]
 
-export const productsCopy: Record<Locale, { name: string; eyebrow: string; title: string; description: string; madeBy: string }> = {
-  en: { name: "Products", eyebrow: "Products", title: "Tools we build and use every day.", description: "Apps made at Crafter Station for people who work with their computer and their agents.", madeBy: "Made by Crafter Station" },
-  es: { name: "Productos", eyebrow: "Productos", title: "Herramientas que construimos y usamos a diario.", description: "Apps hechas en Crafter Station para quienes trabajan con su computadora y sus agentes.", madeBy: "Hecho por Crafter Station" },
-  pt: { name: "Produtos", eyebrow: "Produtos", title: "Ferramentas que construímos e usamos todos os dias.", description: "Apps feitos na Crafter Station para quem trabalha com o computador e com seus agentes.", madeBy: "Feito pela Crafter Station" },
-  zh: { name: "产品", eyebrow: "产品", title: "我们打造并每天使用的工具。", description: "Crafter Station 为与电脑和代理协作的人打造的应用。", madeBy: "由 Crafter Station 打造" },
-  ja: { name: "プロダクト", eyebrow: "プロダクト", title: "私たちが作り、毎日使っているツール。", description: "コンピューターとエージェントで働く人のために Crafter Station が作ったアプリ。", madeBy: "Crafter Station 製" },
+export const productsCopy: Record<Locale, { name: string; eyebrow: string; title: string; description: string }> = {
+  en: { name: "Products", eyebrow: "Products", title: "Tools we build and use every day.", description: "Apps made at Crafter Station for people who work with their computer and their agents." },
+  es: { name: "Productos", eyebrow: "Productos", title: "Herramientas que construimos y usamos a diario.", description: "Apps hechas en Crafter Station para quienes trabajan con su computadora y sus agentes." },
+  pt: { name: "Produtos", eyebrow: "Produtos", title: "Ferramentas que construímos e usamos todos os dias.", description: "Apps feitos na Crafter Station para quem trabalha com o computador e com seus agentes." },
+  zh: { name: "产品", eyebrow: "产品", title: "我们打造并每天使用的工具。", description: "Crafter Station 为与电脑和代理协作的人打造的应用。" },
+  ja: { name: "プロダクト", eyebrow: "プロダクト", title: "私たちが作り、毎日使っているツール。", description: "コンピューターとエージェントで働く人のために Crafter Station が作ったアプリ。" },
 }

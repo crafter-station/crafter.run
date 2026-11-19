@@ -163,7 +163,7 @@
       "window": "ventana de comparación equivalente",
       "windowValue": "{days, plural, one {# día} other {# días}}",
       "signalEyebrow": "La señal",
-      "signalTitle": "La factory está cerrando más trabajo por día.",
+      "signalTitle": "El equipo está cerrando más trabajo cada día.",
       "signalDescription": "La actividad post-launch se compara contra una ventana pre-launch del mismo tamaño. Sin histórico acumulado ni denominadores de vanity.",
       "before": "Antes del launch",
       "after": "Después del launch",

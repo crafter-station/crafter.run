@@ -163,7 +163,7 @@
       "window": "等长对比窗口",
       "windowValue": "{days} 天",
       "signalEyebrow": "核心信号",
-      "signalTitle": "软件工厂每天关闭的工作更多了。",
+      "signalTitle": "团队每天完成的工作更多了。",
       "signalDescription": "发布后的活动与完全等长的发布前窗口比较。不使用累积历史，也不使用虚荣指标。",
       "before": "发布前",
       "after": "发布后",

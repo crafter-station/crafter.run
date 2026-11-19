@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { getTranslations } from "next-intl/server"
-import { GitBranch, GitPullRequest, Lightbulb, MessageCircle, Star } from "lucide-react"
+import { GitBranch, GitPullRequest, MessageCircle } from "lucide-react"
 import { OssRepoGrid } from "@/components/oss-repo-grid"
-import { ContributionPath, OpenStamp, RepoGlyph, repoTone } from "@/components/oss-art"
+import { HomeHead } from "@/components/home-head"
+import { StatTiles } from "@/components/stat-tiles"
 import { JsonLd } from "@/components/json-ld"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { getOssRepos } from "@/lib/oss"
@@ -37,42 +38,26 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         repositoryListSchema({ repos, locale: lang, name: nav("oss"), path: "/oss" }),
         breadcrumbList(lang, [{ name: "Crafter Station", path: "/" }, { name: nav("oss"), path: "/oss" }]),
       ]} />
-      <main className="oss-page">
-        <section className="oss-hero" aria-labelledby="oss-title">
-          <div className="oss-hero-glow" aria-hidden="true"><i /><i /><i /><i /></div>
-          <OpenStamp text="BUILT IN THE OPEN · MADE IN LATAM · " />
-          <div className="oss-hero-topline">
-            <span className="station-label">Crafter / Open Source</span>
-            <span className="oss-open-note"><i aria-hidden="true" />{t("heroNote")}</span>
-          </div>
-          <h1 className="oss-display-title" id="oss-title"><span>{t("heroLine1")}</span>{" "}<span>{t("heroLine2")}</span></h1>
-          <div className="oss-hero-layout">
-            <div className="oss-hero-copy">
+      <main className="station-home oss-page flex-1">
+        <section className="inner-hero" aria-labelledby="oss-title">
+          <p className="home-label">{t("eyebrow")}</p>
+          <div className="inner-hero-grid">
+            <h1 id="oss-title">{t("heroLine1")} {t("heroLine2")}</h1>
+            <div className="inner-hero-side">
               <p>{t("description")}</p>
-              <div className="oss-hero-actions">
-                <a href="#repositories" className="oss-button">{t("exploreCta")}</a>
-                <Link href="https://github.com/crafter-station/" target="_blank" rel="noopener noreferrer" className="oss-inline-link">
+              <div className="inner-hero-actions">
+                <a href="#repositories" className="hero-cta">{t("exploreCta")}</a>
+                <Link href="https://github.com/crafter-station/" target="_blank" rel="noopener noreferrer" className="home-secondary-link">
                   {t("githubCta")}
                 </Link>
               </div>
             </div>
-            <div className="oss-impact">
-              <dl>
-                <div className="oss-impact-stars"><dt>{t("panelStars")} <span>GitHub</span></dt><dd>{stars.toLocaleString(lang)}<Star size={29} strokeWidth={1.2} aria-hidden="true" /></dd></div>
-                <div><dt>{t("panelRepos")}</dt><dd>{repos.length.toLocaleString(lang)}</dd></div>
-                <div><dt>{t("panelIssues")}</dt><dd>{issues.toLocaleString(lang)}</dd></div>
-              </dl>
-              <Link href={withLocale("/oss/metrics", lang)} className="oss-inline-link">{t("metricsCta")}</Link>
-            </div>
+          </div>
+          <div className="oss-hero-stats">
+            <StatTiles items={[[stars.toLocaleString(lang), t("panelStars")], [repos.length.toLocaleString(lang), t("panelRepos")], [issues.toLocaleString(lang), t("panelIssues")]]} />
+            <Link href={withLocale("/oss/metrics", lang)} className="home-secondary-link mt-4">{t("metricsCta")}</Link>
           </div>
         </section>
-        <div className="oss-marquee" aria-hidden="true">
-          <div className="oss-marquee-track">
-            {[0, 1].map(copy => <div key={copy}>{repos.map(repo => (
-              <span key={repo.repo} style={{ color: repoTone(repo.repo).ink }}><RepoGlyph repo={repo.repo} />{repo.name}</span>
-            ))}</div>)}
-          </div>
-        </div>
         <OssRepoGrid
           locale={lang} eyebrow={t("reposEyebrow")} title={t("reposTitle")} intro={t("reposDescription")}
           starsLabel={t("panelStars")}
@@ -80,41 +65,38 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           allLabel={t("filterAll")} filterLabel={t("filterLabel")} descriptionPending={t("descriptionPending")} repoCta={t("repoCta")}
         />
         <section id="contribute" className="oss-contribute" aria-labelledby="oss-contribute-title">
-          <div className="oss-contribute-intro">
-            <div><p className="station-label">{t("howEyebrow")}</p><h2 id="oss-contribute-title">{t("howTitle")}</h2></div>
-            <ContributionPath />
-          </div>
-          <ol className="oss-steps">
-            {(["step1", "step2", "step3"] as const).map((step, index) => {
-              const Icon = steps[index]
-              return <li key={step}>
-                <div className="oss-step-top"><span className="station-label">0{index + 1}</span><Icon size={20} strokeWidth={1.5} aria-hidden="true" /></div>
-                <h3>{t(`${step}Title`)}</h3><p>{t(`${step}Description`)}</p>
-              </li>
-            })}
-          </ol>
-          <div className="oss-activity">
-            <GitBranch size={24} strokeWidth={1.5} aria-hidden="true" />
-            <div><h3>{t("timelineTitle")}</h3><p>{t("timelineDescription")}</p>
-              <div className="mt-4 flex flex-wrap gap-4">
-                <Link href={withLocale("/timeline", lang)} className="oss-inline-link oss-soft-link">{t("timelineCta")}</Link>
-                <Link href={withLocale("/impact/petdex", lang)} className="oss-inline-link oss-soft-link">{participationCopy[lang].impact}</Link>
+          <HomeHead id="oss-contribute-title" index={2} label={t("howEyebrow")} title={t("howTitle")} />
+          <div className="oss-tiles home-frame">
+            <ol className="oss-steps">
+              {(["step1", "step2", "step3"] as const).map((step, index) => {
+                const Icon = steps[index]
+                return <li key={step}>
+                  <div className="oss-step-top"><span className="home-label-sm">0{index + 1}</span><Icon size={20} strokeWidth={1.5} aria-hidden="true" /></div>
+                  <h3>{t(`${step}Title`)}</h3><p>{t(`${step}Description`)}</p>
+                </li>
+              })}
+            </ol>
+            <div className="oss-activity">
+              <GitBranch size={24} strokeWidth={1.5} aria-hidden="true" />
+              <div><h3>{t("timelineTitle")}</h3><p>{t("timelineDescription")}</p>
+                <div className="home-panel-links">
+                  <Link href={withLocale("/timeline", lang)} className="home-action-link">{t("timelineCta")}</Link>
+                  <Link href={withLocale("/impact/petdex", lang)} className="home-action-link">{participationCopy[lang].impact}</Link>
+                </div>
               </div>
             </div>
           </div>
         </section>
-        <section className="oss-invitations" aria-label={t("suggestEyebrow")}>
-          <div className="oss-idea-note">
-            <div className="oss-note-top"><span className="station-label">{t("suggestEyebrow")}</span><Lightbulb size={28} strokeWidth={1.2} aria-hidden="true" /></div>
-            <h2>{t("suggestTitle")}</h2><p>{t("suggestDescription")}</p>
-            <a href="#repositories" className="oss-inline-link oss-soft-link">{t("suggestBoardCta")}</a>
-          </div>
-          <div className="oss-community">
-            <p className="station-label">{t("programEyebrow")}</p>
-            <h2>{t("programTitle")}</h2><p>{t("programDescription")}</p>
-            <div className="oss-community-actions"><Link href={withLocale("/contact", lang)} className="oss-inline-link oss-soft-link">{t("programCta")}</Link>
-              <Link href="https://crafters.chat" target="_blank" rel="noopener noreferrer" className="oss-inline-link">{t("communityCta")}</Link></div>
-          </div>
+        <section className="oss-head-only" aria-labelledby="oss-suggest-title">
+          <HomeHead id="oss-suggest-title" index={3} label={t("suggestEyebrow")} title={t("suggestTitle")} lede={t("suggestDescription")}>
+            <a href="#repositories" className="home-action-link">{t("suggestBoardCta")}</a>
+          </HomeHead>
+        </section>
+        <section className="oss-head-only" aria-labelledby="oss-program-title">
+          <HomeHead id="oss-program-title" index={4} label={t("programEyebrow")} title={t("programTitle")} lede={t("programDescription")}>
+            <Link href={withLocale("/contact", lang)} className="home-action-link">{t("programCta")}</Link>
+            <Link href="https://crafters.chat" target="_blank" rel="noopener noreferrer" className="home-secondary-link">{t("communityCta")}</Link>
+          </HomeHead>
         </section>
       </main>
     </>

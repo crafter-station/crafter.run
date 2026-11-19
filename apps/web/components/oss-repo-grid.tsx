@@ -7,15 +7,9 @@ import type { Locale } from "@/lib/i18n"
 import type { OssRepo } from "@/lib/oss"
 import { filterOssRepos } from "@/lib/oss-filter"
 import { stationCopy } from "@/lib/station-copy"
-import { OssProjectArt, RepoGlyph, repoTone } from "@/components/oss-art"
+import { HomeHead } from "@/components/home-head"
+import { RepoLogo } from "@/components/oss-logo"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-
-const featuredArt: Record<string, string> = {
-  "crafter-station/petdex": "petdex",
-  "Railly/agentfiles": "agentfiles",
-  "Railly/tinte": "tinte",
-  "crafter-station/elements": "elements",
-}
 
 export function OssRepoGrid({ repos, eyebrow, title, intro, starsLabel, allLabel, filterLabel, descriptionPending, repoCta, locale }: {
   repos: (OssRepo & { openIssuesLabel: string })[]; eyebrow: string; title: string; intro: string;
@@ -35,13 +29,11 @@ export function OssRepoGrid({ repos, eyebrow, title, intro, starsLabel, allLabel
   const reset = () => { setQuery(""); setOwner("all"); setLanguage("all") }
   const filtered = query.trim() !== "" || owner !== "all" || language !== "all"
 
+  const lastSpan = (columns: number) => 1 + ((columns - (visible.length % columns)) % columns)
+
   return (
     <section className="oss-catalog" id="repositories" aria-labelledby="oss-catalog-title">
-      <div className="oss-catalog-heading">
-        <p className="station-label">{eyebrow}</p>
-        <h2 id="oss-catalog-title">{title}</h2>
-        <p className="oss-catalog-intro">{intro}</p>
-      </div>
+      <HomeHead id="oss-catalog-title" index={1} label={eyebrow} title={title} lede={intro} />
       <div className="oss-filter-bar" role="search" aria-label={t.search}>
         <div className="oss-search"><Search size={17} aria-hidden="true" />
           <label className="sr-only" htmlFor="oss-search">{t.search}</label>
@@ -58,35 +50,31 @@ export function OssRepoGrid({ repos, eyebrow, title, intro, starsLabel, allLabel
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className="oss-chips" role="group" aria-label={filterLabel}>
+      <div className="home-tabs oss-owner-tabs" role="group" aria-label={filterLabel}>
         <button type="button" aria-pressed={owner === "all"} onClick={() => setOwner("all")}>{allLabel}<span>{repos.length}</span></button>
         {owners.map(([name, count]) => <button key={name} type="button" aria-pressed={owner === name} onClick={() => setOwner(owner === name ? "all" : name)}>{name}<span>{count}</span></button>)}
       </div>
-      <div className="oss-results">
+      <div className="oss-results home-label-sm">
         <p role="status" aria-live="polite" aria-atomic="true">{visible.length} / {repos.length} {t.results}</p>
         {filtered && <button type="button" onClick={reset}>{t.reset}<X size={13} aria-hidden="true" /></button>}
       </div>
-      <div className={`oss-repo-grid${filtered ? " is-filtered" : ""}`}>
-        {visible.map(repo => {
-          const art = featuredArt[repo.repo]
-          const tone = repoTone(repo.repo)
-          return (
-            <article key={repo.repo} className={`oss-repo-card${art ? ` oss-card-${art} has-art` : ""}`} style={art ? undefined : { "--oss-tone": tone.bg, "--oss-tone-ink": tone.ink } as CSSProperties}>
-              <Link className="oss-repo-card-link" href={repo.url} target="_blank" rel="noopener noreferrer" aria-label={`${repoCta}: ${repo.repo}`}>
-                <div className="oss-card-top"><span>{repo.repo.split("/")[0]}</span><span className="oss-star-count"><Star size={12} aria-hidden="true" /><span>{repo.stars.toLocaleString(locale)}<span className="sr-only"> {starsLabel}</span></span></span></div>
-                {art ? <div className="oss-project-art"><OssProjectArt name={art} /></div> : <RepoGlyph repo={repo.repo} />}
-                <h3>{repo.name}</h3>
-                <p className="oss-card-description">{repo.description ?? descriptionPending}</p>
-                <div className="oss-card-footer">
-                  {repo.language && <span className="oss-language-tag"><i aria-hidden="true" />{repo.language}</span>}
-                  <span className="oss-issues" title={repo.openIssuesLabel}>{repo.openIssuesLabel}</span>
-                </div>
-                <span className="oss-card-action">{repoCta}</span>
-              </Link>
-            </article>
-          )
-        })}
-        {visible.length === 0 && <div className="oss-empty"><Search size={28} strokeWidth={1} aria-hidden="true" /><p>{t.empty}</p><button className="oss-button" onClick={reset} type="button">{t.reset}</button></div>}
+      <div className="oss-repo-grid tile-grid home-frame" style={{ "--s3": lastSpan(3), "--s2": lastSpan(2) } as CSSProperties}>
+        {visible.map(repo => (
+          <article key={repo.repo} className="oss-repo-card">
+            <Link className="oss-repo-card-link" href={repo.url} target="_blank" rel="noopener noreferrer" aria-label={`${repoCta}: ${repo.repo}`}>
+              <div className="oss-card-top home-label-sm"><span>{repo.repo.split("/")[0]}</span><span className="oss-star-count"><Star size={12} aria-hidden="true" /><span>{repo.stars.toLocaleString(locale)}<span className="sr-only"> {starsLabel}</span></span></span></div>
+              <RepoLogo name={repo.name} size="lg" />
+              <h3>{repo.name}</h3>
+              <p className="oss-card-description">{repo.description ?? descriptionPending}</p>
+              <div className="oss-card-footer home-label-sm">
+                {repo.language && <span className="oss-language-tag"><i aria-hidden="true" />{repo.language}</span>}
+                <span className="oss-issues" title={repo.openIssuesLabel}>{repo.openIssuesLabel}</span>
+              </div>
+              <span className="oss-card-action home-secondary-link">{repoCta}</span>
+            </Link>
+          </article>
+        ))}
+        {visible.length === 0 && <div className="oss-empty"><Search size={28} strokeWidth={1} aria-hidden="true" /><p>{t.empty}</p><button className="hero-cta" onClick={reset} type="button">{t.reset}</button></div>}
       </div>
     </section>
   )
