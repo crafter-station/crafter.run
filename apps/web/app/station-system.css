@@ -1,0 +1,25 @@
+/* Site-wide system, shared by the homepage and every inner page. Imported first so page CSS can still override. */
+.station-shell { --gold: hsl(var(--accent)); --home-line: hsl(var(--foreground) / .12); --home-hover: hsl(var(--foreground) / .035); }
+
+/* One button system site-wide. Primary: soft yellow, the People plate color. Secondary: hairline on an opaque ground so it reads over the hero field. Tertiary stays a text link. Square corners everywhere. */
+.station-shell :is(.hero-cta, .hero-cta-ghost, .home-hire-primary, .home-hire-secondary, .home-action-link, .station-button) { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 0; border-radius: 0; font: 500 16px/1.2 var(--font-sans); white-space: nowrap; transform: none; transition: background-color 160ms ease-out, box-shadow 160ms ease-out; }
+.station-shell :is(.hero-cta, .home-hire-primary, .station-button) { background: #f8e9a4; color: #20221d; box-shadow: none; opacity: 1; }
+.station-shell :is(.hero-cta, .home-hire-primary, .station-button):where(:hover, :focus-visible) { background: #f4d56d; transform: none; opacity: 1; }
+.station-shell :is(.hero-cta-ghost, .home-hire-secondary, .home-action-link) { background: hsl(var(--background)); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .28); }
+/* Secondary hover: same text, an opaque lifted ground and a full-contrast hairline, so it reads over the hero field. */
+.station-shell :is(.hero-cta-ghost, .home-hire-secondary, .home-action-link):where(:hover, :focus-visible) { background: color-mix(in srgb, hsl(var(--foreground)) 12%, hsl(var(--background))); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .85); }
+/* On the light ground the soft yellow washes out; light mode uses the full brand yellow for the primary fill. */
+:root:not(.dark) .station-shell :is(.hero-cta, .home-hire-primary, .station-button) { background: #f4d56d; }
+:root:not(.dark) .station-shell :is(.hero-cta, .home-hire-primary, .station-button):where(:hover, :focus-visible) { background: #ecc94b; }
+
+/* Labels: one size, one tracking, uppercase. */
+.station-label { font: 500 13px/1.4 var(--font-label); letter-spacing: .08em; text-transform: uppercase; }
+:where(.station-shell) .station-label { color: hsl(var(--muted-foreground)); }
+:where(.station-shell) :is(.home-label, .home-label-sm) { color: hsl(var(--muted-foreground)); }
+
+/* Legacy button names map onto the same system. */
+.station-shell .station-button-yellow { background: #f8e9a4; border-color: transparent; }
+.station-shell .station-button:disabled { opacity: .6; cursor: default; }
+
+/* A text link inside an anchor underlines when the anchor is hovered. */
+a:where(:hover, :focus-visible) .home-secondary-link { text-decoration-color: currentColor; }

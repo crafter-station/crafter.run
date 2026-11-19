@@ -138,7 +138,6 @@
 .home-people-footer { display: flex; flex-direction: column; gap: 18px; margin-top: 20px; align-items: start; }
 .home-people-footer > p { font-size: 16px; line-height: var(--station-leading-copy); max-width: 570px; color: hsl(var(--muted-foreground)); }
 .home-people-footer > div { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
-.home-people-footer .station-button { font-size: 16px; min-height: 42px; }
 .home-people-footer .station-text-link { font-size: 16px; line-height: 1.5; }
 
 .dark :is(.home-org, .home-orbit-point) { --org-ink: var(--org-color); }
@@ -411,16 +410,6 @@
 /* Dark mode keeps the pastel identities as ink on a tinted ground, never as a bright slab. */
 .dark .home-journal-feature { background: color-mix(in srgb, #e5dfee 7%, hsl(var(--background))); color: #e5dfee; box-shadow: inset 0 0 0 1px color-mix(in srgb, #e5dfee 22%, transparent); }
 
-/* One button system for the whole homepage. Primary: soft yellow, the People plate color. Secondary: hairline on an opaque ground so it reads over the hero field. Tertiary stays a text link. Square corners everywhere. */
-.station-home :is(.hero-cta, .hero-cta-ghost, .home-hire-primary, .home-hire-secondary, .home-action-link, .station-button) { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 22px; border: 0; border-radius: 0; font: 500 16px/1.2 var(--font-sans); white-space: nowrap; transform: none; transition: background-color 160ms ease-out, box-shadow 160ms ease-out; }
-.station-home :is(.hero-cta, .home-hire-primary, .station-button) { background: #f8e9a4; color: #20221d; box-shadow: none; opacity: 1; }
-.station-home :is(.hero-cta, .home-hire-primary, .station-button):where(:hover, :focus-visible) { background: #f4d56d; transform: none; opacity: 1; }
-.station-home :is(.hero-cta-ghost, .home-hire-secondary, .home-action-link) { background: hsl(var(--background)); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .28); }
-/* Secondary hover: same text, an opaque lifted ground and a full-contrast hairline, so it reads over the hero field. */
-.station-home :is(.hero-cta-ghost, .home-hire-secondary, .home-action-link):where(:hover, :focus-visible) { background: color-mix(in srgb, hsl(var(--foreground)) 12%, hsl(var(--background))); color: hsl(var(--foreground)); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .85); }
-/* On the light ground the soft yellow washes out; light mode uses the full brand yellow for the primary fill. */
-:root:not(.dark) .station-home :is(.hero-cta, .home-hire-primary, .station-button) { background: #f4d56d; }
-:root:not(.dark) .station-home :is(.hero-cta, .home-hire-primary, .station-button):where(:hover, :focus-visible) { background: #ecc94b; }
 /* Bounties poster: the ticket art sits where the boat was, same footprint. */
 .home-poster-bounty h3 { display: block; }
 .home-poster-bounty .bounty-artwork { display: block; width: 100%; height: 130px; transition: transform 220ms; }
