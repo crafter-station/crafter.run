@@ -411,3 +411,17 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
 /* The nav column is as wide as its longest label, so the hover block never runs past the text. */
 .station-sidebar .station-nav { width: max-content; max-width: 100%; }
 .station-sidebar .station-auth-link, .station-drawer .station-auth-link, .station-sidebar .station-auth-link:hover, .station-drawer .station-auth-link:hover { text-decoration: none; border-radius: 0; }
+
+/* Sidebar preferences: sign-in and a square theme toggle on one row. Language lives in the footer. */
+.station-sidebar .station-preferences.station-preferences-row, .station-drawer .station-preferences.station-preferences-row { display: flex; align-items: stretch; gap: 8px; width: max-content; max-width: none; }
+.station-preferences-row .station-auth { flex: 1; }
+.station-theme-toggle { display: grid; place-items: center; width: 36px; height: 36px; flex-shrink: 0; color: inherit; box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .22); transition: background-color 140ms, box-shadow 140ms; }
+.station-theme-toggle:hover { background: hsl(var(--foreground) / .08); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .5); }
+.station-theme-toggle svg { transition: transform 300ms cubic-bezier(.2,.7,.2,1); }
+.station-theme-toggle:active svg { transform: rotate(-30deg) scale(.9); }
+.station-footer-language { width: fit-content; margin-top: 4px; }
+.station-footer .station-footer-language.station-control { min-height: 32px; padding: 0 10px; gap: 6px; border-radius: 0; box-shadow: inset 0 0 0 1px hsl(var(--foreground) / .22); color: hsl(var(--muted-foreground)); }
+.station-footer .station-footer-language.station-control:hover { color: hsl(var(--foreground)); background: hsl(var(--foreground) / .06); }
+.station-preferences.station-preferences-row .station-auth, .station-preferences.station-preferences-row .station-auth:has(.station-auth-link) { flex: 0 1 auto; flex-basis: auto; grid-column: auto; width: auto; }
+.station-preferences-row .station-auth-link { width: auto; gap: 14px; }
+.station-footer .station-footer-language.station-control { margin-left: 0; }
