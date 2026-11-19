@@ -256,6 +256,10 @@
       "title": "Servicios",
       "description": "Hackathons, lanzamientos, workshops y código abierto para empresas que quieren llegar a los builders de LATAM. Agenda una llamada gratis de 30 min."
     },
+    "workbench": {
+      "title": "Workbench",
+      "description": "Demos vivas hechas con el código abierto de Crafter Station y este sitio: selector de temas, una mascota pixelada, un editor de archivos de agente, Ships, una cuenta atrás y más."
+    },
     "ships": {
       "eyebrow": "Ships de la comunidad",
       "title": "Hecho por Crafters.",

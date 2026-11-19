@@ -24,7 +24,7 @@ function readPalette(): HeroFieldPalette {
  * A brand shape (the Crafter knot by default) as a halftone behind a hero. Decoration only: without WebGPU the canvas
  * never fades in and the outline knot stays; with reduced motion it draws one still frame.
  */
-export function HeroField({ shape = "knot" }: { shape?: HeroFieldShapeName }) {
+export function HeroField({ shape = "knot", centered = false }: { shape?: HeroFieldShapeName; centered?: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const [ready, setReady] = useState(false)
 
@@ -32,13 +32,13 @@ export function HeroField({ shape = "knot" }: { shape?: HeroFieldShapeName }) {
     const element = canvas.current
     if (!element || !("gpu" in navigator)) return
     const still = matchMedia("(prefers-reduced-motion: reduce)").matches
-    const renderer = createHeroFieldRenderer({ canvas: element, palette: readPalette(), still, shape })
+    const renderer = createHeroFieldRenderer({ canvas: element, palette: readPalette(), still, shape, centered })
     let cancelled = false
     renderer.ready.then(() => { if (!cancelled) setReady(true) }).catch(() => {})
     const theme = new MutationObserver(() => renderer.setPalette(readPalette()))
     theme.observe(document.documentElement, { attributes: true, attributeFilter: ["class", "data-theme", "style"] })
     return () => { cancelled = true; theme.disconnect(); renderer.dispose() }
-  }, [shape])
+  }, [shape, centered])
 
   return <canvas ref={canvas} aria-hidden="true" className="hero-field" data-ready={ready || undefined} />
 }

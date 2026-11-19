@@ -6,10 +6,12 @@ import { Drawer, DrawerBackdrop, DrawerClose, DrawerContent, DrawerDescription, 
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { AuthActions } from "@/components/auth-actions"
+import { OPEN_PALETTE_EVENT, PaletteHint } from "@/components/command-palette"
 import { SiteWordmark } from "@/components/site-wordmark"
 import { ThemeSwitcher, ThemeToggle } from "@/components/theme-switcher"
 import { StationSocials } from "@/components/station-socials"
 import { type Locale, withLocale } from "@/lib/i18n"
+import { commandPaletteCopy } from "@/lib/command-palette-copy"
 import { navCopy } from "@/lib/navigation-copy"
 import { stationCopy } from "@/lib/station-copy"
 
@@ -39,6 +41,10 @@ export function SiteHeader({ locale, compact = false, event }: { locale: Locale;
           </Link>
         ))}
       </nav>
+      <button type="button" className="station-cmdk" aria-label={commandPaletteCopy[locale].title}
+        onClick={() => { setOpen(false); window.dispatchEvent(new Event(OPEN_PALETTE_EVENT)) }}>
+        <span>{commandPaletteCopy[locale].trigger}</span><PaletteHint />
+      </button>
       <div className="station-side-bottom">
         <div className="station-preferences station-preferences-row">
           <AuthActions locale={locale} />

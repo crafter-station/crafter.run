@@ -256,6 +256,10 @@
       "title": "服务",
       "description": "为想触达拉美开发者的企业提供黑客松、产品发布、工作坊和开源服务。预约免费 30 分钟通话。"
     },
+    "workbench": {
+      "title": "Workbench",
+      "description": "用 Crafter Station 的开源项目和本站搭出的实时演示：主题切换、像素宠物、agent 文件编辑器、Ships、倒计时等。"
+    },
     "ships": {
       "eyebrow": "社区作品",
       "title": "Crafters 的作品。",
