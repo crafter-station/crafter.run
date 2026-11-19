@@ -122,8 +122,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           <h2>{t.submitLabel}</h2>
           <ul>
             <li><a href={HACK0_LUMA_URL} target="_blank" rel="noopener noreferrer">{t.propose}</a></li>
-            <li><Link href={withLocale("/events/sponsors", lang)}>{t.collaborate}</Link></li>
-            <li><Link href={withLocale("/hackathons", lang)}>{participation.history}</Link></li>
+            <li><Link href={withLocale("/services", lang)}>{t.collaborate}</Link></li>
+            <li><Link href={withLocale("/services#proof", lang)}>{participation.history}</Link></li>
           </ul>
         </div>
       </footer>
