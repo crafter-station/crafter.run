@@ -24,7 +24,10 @@
 
 /* Hero: the halftone hack0 mark is the ground; the next event is the face. */
 .ev-hero { position: relative; isolation: isolate; overflow: hidden; margin-inline: calc(-1 * var(--agenda-frame)); padding: 32px var(--agenda-frame) 72px; }
-.ev-field { position: absolute; z-index: -1; top: 0; left: 0; right: 0; height: min(640px, 100%); pointer-events: none; }
+/* The page has top padding; the field starts above it so the window edge, not the container, crops the mark. */
+.ev-page:has(> .ev-hero:first-child) { padding-top: 0; }
+.ev-hero:first-child { padding-top: 78px; }
+.ev-field { position: absolute; z-index: -1; top: 0; left: 0; right: 0; height: min(700px, 100%); pointer-events: none; }
 .ev-mark { position: absolute; top: 6%; right: 8%; height: 88%; width: auto; max-width: 90%; fill: none; stroke: var(--gold); stroke-width: 1.2; vector-effect: non-scaling-stroke; opacity: .4; }
 .ev-mark :is(rect, line) { vector-effect: non-scaling-stroke; }
 .ev-field :is(.hero-field, .ev-mark) { -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 99%); mask-image: linear-gradient(to bottom, #000 62%, transparent 99%); }
@@ -136,4 +139,13 @@
 @media (prefers-reduced-motion: reduce) {
   .ev-primary, .ev-secondary, .ev-row-title, .ev-row-arrow, .ev-scopes button { transition: none; }
   .ev-row:hover .ev-row-arrow { transform: none; }
+}
+
+/* Featured event: cover and details side by side, so the title and CTA sit in the first screen. */
+@media (min-width: 900px) {
+  .ev-feature { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+  .ev-feature .ev-cover { height: 100%; aspect-ratio: auto; border-bottom: 0; border-right: 1px solid hsl(var(--foreground) / .28); background: #0d0d0c; }
+  .ev-feature .ev-cover > img { object-fit: contain; }
+  .ev-feature .ev-feature-body { grid-template-columns: minmax(0, 1fr); align-content: space-between; }
+  .ev-feature h2 { font-size: clamp(28px, 2.6vw, 40px); }
 }

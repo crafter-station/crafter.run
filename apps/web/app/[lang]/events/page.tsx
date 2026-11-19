@@ -2,14 +2,14 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 import { AgendaCalendar } from "@/components/agenda-calendar"
 import { HeroField } from "@/components/hero-field"
-import { CrafterStationLogo } from "@/components/crafter-station-logo"
+import { navCopy } from "@/lib/navigation-copy"
 import { Hack0Mark, Hack0Wordmark } from "@/components/hack0-mark"
 import { JsonLd } from "@/components/json-ld"
 import { agendaCity } from "@/lib/agenda-cities"
 import { agendaCopy } from "@/lib/agenda-copy"
 import { accessEventDay, accessEvents } from "@/lib/access-events"
 import { fetchHack0Calendar, fetchHack0EventImage } from "@/lib/hack0-calendar"
-import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, HACK0_LUMA_URL, HACK0_SITE_URL, hack0DateParts, partitionHack0Events } from "@/lib/hack0-calendar-data"
+import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, HACK0_LUMA_URL, HACK0_SITE_URL, hack0DateParts, partitionHack0Events, teaserHack0Event } from "@/lib/hack0-calendar-data"
 import { isLocale, locales, withLocale } from "@/lib/i18n"
 import { participationCopy } from "@/lib/participation-copy"
 import { buildMetadata } from "@/lib/seo"
@@ -38,7 +38,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const participation = participationCopy[lang]
   const calendar = await fetchHack0Calendar()
   const now = Date.now()
-  const next = partitionHack0Events(calendar.events, now).upcoming[0]
+  // The featured event is the same one the sidebar ticket promotes.
+  const next = teaserHack0Event(partitionHack0Events(calendar.events, now).upcoming)
   const nextCity = next ? agendaCity(next.location) : null
   const nextDate = next ? hack0DateParts(next, lang) : null
   const nextImage = next ? await fetchHack0EventImage(next.url) : null
@@ -67,11 +68,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
         </div>
         <div className="home-head ev-head">
           <div className="home-head-copy">
-            <p className="home-label ev-lockup">
-              <span><CrafterStationLogo decorative />crafter station</span>
-              <span className="ev-times" aria-hidden="true">×</span>
-              <a href={HACK0_CALENDAR_URL} target="_blank" rel="noopener"><Hack0Wordmark /></a>
-            </p>
+            <p className="home-label">{navCopy[lang].events}</p>
             <h1><span className="sr-only">{t.name}. </span>{t.title[0]} {withWordmark(t.title[1])}</h1>
             <p className="home-head-lede">{t.description}</p>
           </div>
