@@ -52,9 +52,20 @@ export function organizationSchema(locale: Locale = defaultLocale) {
       "@type": "Organization",
       "@id": "https://hack0.dev/#organization",
       name: "hack0",
+      alternateName: "hack0.dev",
       url: "https://hack0.dev",
+      sameAs: [
+        "https://luma.com/hack0",
+        "https://www.linkedin.com/company/hack0-dev",
+        "https://github.com/crafter-station/hack0",
+      ],
     },
-    sameAs: [...socials.map((social) => social.href), "https://daily.dev/squads/crafterstation"],
+    // The Luma calendar is hack0's profile, so it sits on the sub-organization rather than here.
+    sameAs: [
+      ...socials.filter((social) => social.label !== "Luma").map((social) => social.href),
+      "https://www.linkedin.com/company/crafter-station",
+      "https://daily.dev/squads/crafterstation",
+    ],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "General enquiries",

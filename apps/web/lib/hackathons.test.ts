@@ -33,5 +33,7 @@ describe("organizationSchema", () => {
     expect(org.subOrganization["@id"]).toBe("https://hack0.dev/#organization")
     expect(org.sameAs).not.toContain("https://hack0.dev")
     expect(org.sameAs).toContain("https://daily.dev/squads/crafterstation")
+    expect(org.sameAs).toContain("https://www.linkedin.com/company/crafter-station")
+    expect(org.sameAs).not.toContain("https://luma.com/hack0")
   })
 })
