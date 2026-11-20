@@ -5,7 +5,7 @@ import { ProductArt, ProductsHeroArt } from "@/components/product-art"
 import { isLocale, locales } from "@/lib/i18n"
 import { products, productsCopy } from "@/lib/products"
 import { buildMetadata } from "@/lib/seo"
-import { breadcrumbList } from "@/lib/structured-data"
+import { breadcrumbList, productListSchema } from "@/lib/structured-data"
 
 export const dynamicParams = false
 export function generateStaticParams() { return locales.map(lang => ({ lang })) }
@@ -23,6 +23,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
 
   return <>
     <JsonLd data={breadcrumbList(lang, [{ name: "Crafter Station", path: "/" }, { name: t.name, path: "/products" }])} />
+    <JsonLd data={productListSchema(products, lang)} />
     <main className="station-home products flex-1">
       <section className="inner-hero" aria-labelledby="products-title">
         <p className="home-label">{t.eyebrow}</p>

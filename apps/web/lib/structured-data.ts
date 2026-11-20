@@ -1,5 +1,6 @@
 import { defaultLocale, locales, type Locale } from "@/lib/i18n"
 import type { OssRepo } from "@/lib/oss"
+import type { Product } from "@/lib/products"
 import { baseUrl, localizedUrl } from "@/lib/seo"
 import { siteConfig, socials } from "@/lib/site"
 import { getTeamMember, primaryLink, type TeamMember } from "@/lib/team"
@@ -153,6 +154,36 @@ export function softwareApplicationSchema({
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     author: organizationRef,
     publisher: organizationRef,
+  }
+}
+
+/**
+ * The products page as an ItemList of SoftwareApplication nodes. Each node reuses
+ * the @id its own landing publishes, when there is one, so the product, its
+ * maker and this organization resolve to one entity across sites.
+ */
+export function productListSchema(items: Product[], locale: Locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((product, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": "SoftwareApplication",
+        ...(product.entityId ? { "@id": product.entityId } : {}),
+        name: product.name,
+        url: product.url,
+        description: product.description[locale],
+        applicationCategory: "ProductivityApplication",
+        operatingSystem: product.platform,
+        ...(product.price ? { offers: { "@type": "Offer", price: product.price, priceCurrency: "USD", url: product.url } } : {}),
+        ...(product.maker
+          ? { author: { "@type": "Person", "@id": product.maker.id, name: product.maker.name, url: product.maker.url } }
+          : { author: organizationRef }),
+        publisher: organizationRef,
+      },
+    })),
   }
 }
 
