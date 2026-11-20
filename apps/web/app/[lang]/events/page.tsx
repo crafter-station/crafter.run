@@ -8,6 +8,7 @@ import { JsonLd } from "@/components/json-ld"
 import { agendaCity } from "@/lib/agenda-cities"
 import { agendaCopy } from "@/lib/agenda-copy"
 import { accessEventDay, accessEvents } from "@/lib/access-events"
+import { hackathons, hackathonPath } from "@/lib/hackathons"
 import { fetchHack0Calendar, fetchHack0EventImage } from "@/lib/hack0-calendar"
 import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, HACK0_LUMA_URL, HACK0_SITE_URL, hack0DateParts, partitionHack0Events, teaserHack0Event } from "@/lib/hack0-calendar-data"
 import { isLocale, locales, withLocale } from "@/lib/i18n"
@@ -56,6 +57,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
     { href: withLocale("/events/hot-reload", lang), label: "Hot Reload" },
     ...accessEvents.filter(event => Date.parse(event.endsAt) > now)
       .map(event => ({ href: withLocale(`/events/${event.slug}`, lang), label: `${event.title} · ${accessEventDay(event, lang)}` })),
+    ...hackathons.map(hackathon => ({ href: hackathonPath(lang, hackathon), label: hackathon.name })),
   ]
 
   return <>

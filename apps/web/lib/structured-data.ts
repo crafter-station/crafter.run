@@ -1,3 +1,4 @@
+import type { Hackathon } from "@/lib/hackathons"
 import { defaultLocale, locales, type Locale } from "@/lib/i18n"
 import type { OssRepo } from "@/lib/oss"
 import { baseUrl, localizedUrl } from "@/lib/seo"
@@ -35,7 +36,24 @@ export function organizationSchema(locale: Locale = defaultLocale) {
     description: siteConfig.description[locale],
     knowsLanguage: [...locales],
     areaServed: { "@type": "Place", name: "Latin America" },
-    sameAs: socials.map((social) => social.href),
+    founder: {
+      "@type": "Person",
+      name: "Railly Hugo",
+      url: localizedUrl("/team/railly", locale),
+      sameAs: ["https://railly.dev", "https://github.com/Railly"],
+    },
+    foundingLocation: {
+      "@type": "Place",
+      name: "Lima, Peru",
+      address: { "@type": "PostalAddress", addressLocality: "Lima", addressCountry: "PE" },
+    },
+    subOrganization: {
+      "@type": "Organization",
+      "@id": "https://hack0.dev/#organization",
+      name: "hack0",
+      url: "https://hack0.dev",
+    },
+    sameAs: [...socials.map((social) => social.href), "https://daily.dev/squads/crafterstation"],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "General enquiries",
@@ -667,5 +685,36 @@ export function eventSchema(event: EventSchemaInput) {
       priceCurrency: "PEN",
       url: event.registerUrl ?? event.url,
     },
+  }
+}
+
+/** An Event for a hackathon Crafter Station organized or co-organized. */
+export function hackathonSchema(hackathon: Hackathon, locale: Locale, description: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: hackathon.name,
+    url: localizedUrl(`/events/hackathons/${hackathon.slug}`, locale),
+    description,
+    startDate: hackathon.startDate,
+    ...(hackathon.endDate ? { endDate: hackathon.endDate } : {}),
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    location: hackathon.places.map((name) => ({
+      "@type": "Place",
+      name,
+      ...(hackathon.country ? { address: { "@type": "PostalAddress", addressCountry: hackathon.country } } : {}),
+    })),
+    organizer: organizationRef,
+    ...(hackathon.officialUrl ? { sameAs: hackathon.officialUrl } : {}),
+    ...(hackathon.judges
+      ? {
+          contributor: hackathon.judges.map((judge) => ({
+            "@type": "Person",
+            name: judge.name,
+            jobTitle: judge.role,
+          })),
+        }
+      : {}),
   }
 }
