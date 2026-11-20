@@ -211,6 +211,9 @@ export function productListSchema(items: Product[], locale: Locale) {
           ? { author: { "@type": "Person", "@id": product.maker.id, name: product.maker.name, url: product.maker.url } }
           : { author: organizationRef }),
         publisher: organizationRef,
+        ...(product.repository
+          ? { isAccessibleForFree: true, license: `${product.repository}/blob/main/LICENSE`, sameAs: [product.repository] }
+          : {}),
       },
     })),
   }

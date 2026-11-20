@@ -39,6 +39,43 @@ export function ProductArt({ slug }: { slug: Product["slug"] }) {
       <text x="176" y="223" textAnchor="middle" fill="#f3efe7" fontSize="17" fontFamily="system-ui">⌘</text>
     </svg>
   )
+  if (slug === "muelle") return (
+    <svg viewBox="0 0 420 260" fill="none" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="muelle-glow" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#f97c03" />
+          <stop offset="1" stopColor="#f9cd5a" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="210" cy="236" rx="150" ry="11" fill="#161412" opacity=".1" />
+      <g stroke="#161412" strokeWidth="1.6" strokeLinejoin="round">
+        <g transform="rotate(-4 170 100)">
+          <rect x="70" y="30" width="200" height="128" rx="14" fill="#fff" />
+          <path d="M70 52h200" />
+          <circle cx="86" cy="41" r="3.5" fill="#ff5f57" />
+          <circle cx="98" cy="41" r="3.5" fill="#febc2e" />
+          <circle cx="110" cy="41" r="3.5" fill="#28c840" />
+          <path d="M90 76h110M90 92h84M90 108h100M90 124h60" opacity=".35" />
+        </g>
+        <rect x="236" y="54" width="118" height="26" rx="13" fill="#161412" />
+        <rect x="248" y="63" width="52" height="8" rx="4" fill="url(#muelle-glow)" stroke="none" />
+        <path d="M312 67h28" stroke="#f3efe7" strokeWidth="2.2" strokeLinecap="round" opacity=".7" />
+        <rect x="58" y="168" width="304" height="58" rx="22" fill="#fbfaf6" fillOpacity=".9" />
+      </g>
+      <g stroke="#161412" strokeWidth="1.4">
+        <rect x="78" y="186" width="30" height="30" rx="9" fill="#f3efe7" />
+        <rect x="116" y="180" width="36" height="36" rx="10" fill="#fff" />
+        <rect x="160" y="158" width="58" height="58" rx="16" fill="url(#muelle-glow)" />
+        <rect x="226" y="180" width="36" height="36" rx="10" fill="#fff" />
+        <rect x="270" y="186" width="30" height="30" rx="9" fill="#f3efe7" />
+        <rect x="314" y="186" width="30" height="30" rx="9" fill="#161412" />
+      </g>
+      <path d="M180 183c6-8 12-8 18 0M175 195c10 9 18 9 28 0" stroke="#161412" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="189" cy="223" r="2.4" fill="#161412" />
+      <circle cx="134" cy="223" r="2" fill="#161412" opacity=".55" />
+      <path d="M200 136l10 14 4-6 8 2" stroke="#161412" strokeWidth="1.6" strokeLinejoin="round" fill="#fff" />
+    </svg>
+  )
   return (
     <svg viewBox="0 0 420 260" fill="none" aria-hidden="true" focusable="false">
       <ellipse cx="210" cy="236" rx="150" ry="11" fill="#141413" opacity=".25" />

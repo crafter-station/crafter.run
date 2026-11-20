@@ -3,7 +3,7 @@ import type { Locale } from "@/lib/i18n"
 type Text = Record<Locale, string>
 
 export type Product = {
-  slug: "ojito" | "maca"
+  slug: "ojito" | "maca" | "muelle"
   name: string
   url: string
   platform: string
@@ -18,6 +18,10 @@ export type Product = {
   price?: string
   /** The person who makes it, as the Person node their own site publishes. */
   maker?: { name: string; id: string; url: string }
+  /** Public source repository, for open source products. */
+  repository?: string
+  /** SPDX id of the license, for open source products. */
+  license?: string
 }
 
 /** Products built and shipped by Crafter Station. Copy follows each product's own landing. */
@@ -82,6 +86,40 @@ export const products: Product[] = [
       ja: ["ひとつのキー：押して話し、離して貼り付け", "Mac のすべてのアプリで使えます", "言いよどみを整えて、伝えたい内容に"],
     },
     cta: { en: "Try Maca", es: "Probar Maca", pt: "Experimentar Maca", zh: "试用 Maca", ja: "Maca を試す" },
+  },
+  {
+    slug: "muelle",
+    name: "Muelle",
+    url: "https://muelle.crafter.run",
+    platform: "Windows",
+    status: { en: "Open source", es: "Open source", pt: "Open source", zh: "开源", ja: "オープンソース" },
+    tagline: {
+      en: "The macOS Dock, made for Windows.",
+      es: "El Dock de macOS, hecho para Windows.",
+      pt: "O Dock do macOS, feito para Windows.",
+      zh: "为 Windows 打造的 macOS 程序坞。",
+      ja: "Windows のための macOS Dock。",
+    },
+    description: {
+      en: "A free dock for Windows 10 and 11, written in Rust. It replaces the taskbar with icons that grow under the cursor and shows your AI plan limits in the menu bar.",
+      es: "Un dock gratis para Windows 10 y 11, escrito en Rust. Reemplaza la barra de tareas con íconos que crecen bajo el cursor y muestra los límites de tu plan de IA en la barra de menú.",
+      pt: "Um dock gratuito para Windows 10 e 11, escrito em Rust. Substitui a barra de tarefas por ícones que crescem sob o cursor e mostra os limites do seu plano de IA na barra de menus.",
+      zh: "一款用 Rust 编写的免费 Windows 10 和 11 程序坞。它用随光标放大的图标取代任务栏，并在菜单栏显示你的 AI 套餐用量。",
+      ja: "Rust で書かれた Windows 10 と 11 向けの無料 Dock。タスクバーをカーソルの下で拡大するアイコンに置き換え、メニューバーに AI プランの使用量を表示します。",
+    },
+    features: {
+      en: ["Genie effect and live window thumbnails", "Claude Code, Codex and Gemini limits in the menu bar", "MIT licensed, the taskbar comes back when it quits"],
+      es: ["Efecto Genie y miniaturas en vivo de ventanas", "Límites de Claude Code, Codex y Gemini en la barra de menú", "Licencia MIT, la barra de tareas vuelve al cerrarlo"],
+      pt: ["Efeito Genie e miniaturas de janelas ao vivo", "Limites do Claude Code, Codex e Gemini na barra de menus", "Licença MIT, a barra de tarefas volta ao fechar"],
+      zh: ["神灯效果与实时窗口缩略图", "菜单栏显示 Claude Code、Codex 和 Gemini 用量", "MIT 许可，退出后任务栏自动恢复"],
+      ja: ["ジニーエフェクトとライブのウィンドウサムネイル", "Claude Code、Codex、Gemini の上限をメニューバーに表示", "MIT ライセンス、終了するとタスクバーが戻ります"],
+    },
+    cta: { en: "Download Muelle", es: "Descargar Muelle", pt: "Baixar Muelle", zh: "下载 Muelle", ja: "Muelle をダウンロード" },
+    entityId: "https://muelle.crafter.run/#app",
+    price: "0",
+    maker: { name: "Cristian Olivera Chávez", id: "https://crafter.run/en/team/cristianolivera1#person", url: "https://crafter.run/en/team/cristianolivera1" },
+    repository: "https://github.com/crafter-station/Muelle",
+    license: "MIT",
   },
 ]
 
