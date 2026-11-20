@@ -12,6 +12,12 @@ export type Product = {
   description: Text
   features: Record<Locale, string[]>
   cta: Text
+  /** The SoftwareApplication @id the product's own landing publishes. */
+  entityId?: string
+  /** Offer price in USD, when the product sells one. */
+  price?: string
+  /** The person who makes it, as the Person node their own site publishes. */
+  maker?: { name: string; id: string; url: string }
 }
 
 /** Products built and shipped by Crafter Station. Copy follows each product's own landing. */
@@ -44,6 +50,9 @@ export const products: Product[] = [
       ja: ["⌘⌘ でスクリーンショットではなく内容ごと保存", "⌥⌥ で書かれていた言葉から探せる", "どのコーディングエージェントにも使える MCP"],
     },
     cta: { en: "Join the beta", es: "Únete a la beta", pt: "Entre no beta", zh: "加入内测", ja: "ベータに参加" },
+    entityId: "https://ojito.dev/#app",
+    price: "39",
+    maker: { name: "Railly Hugo", id: "https://www.railly.dev/#person", url: "https://railly.dev" },
   },
   {
     slug: "maca",
