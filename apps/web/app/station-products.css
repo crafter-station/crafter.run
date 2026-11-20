@@ -11,6 +11,8 @@
 .product-card-ojito .product-card-art { background: #f3efe7; }
 .dark .product-card-ojito .product-card-art { background: color-mix(in srgb, #ff5a1f 7%, hsl(var(--background))); }
 .product-card-maca .product-card-art { background: #141413; }
+.product-card-muelle .product-card-art { background: #f5f3ec; }
+.dark .product-card-muelle .product-card-art { background: color-mix(in srgb, #f97c03 7%, hsl(var(--background))); }
 .product-card-body { display: flex; flex-direction: column; gap: 12px; padding: 32px; }
 .product-card-meta { display: flex; align-items: center; gap: 12px; }
 .product-status { color: var(--gold); }
