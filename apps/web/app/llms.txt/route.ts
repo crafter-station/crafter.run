@@ -1,47 +1,52 @@
-import { getIndexPosts } from "@/lib/blog"
-import { blogPostPath, blogSitemapMdPath } from "@/lib/blog-paths"
-import { getIndexEntries } from "@/lib/changelog"
-import { changelogEntryPath, changelogFeedPath, changelogSitemapMdPath } from "@/lib/changelog-paths"
-import { source } from "@/lib/source"
+import { blogSitemapMdPath } from "@/lib/blog-paths"
+import { changelogFeedPath, changelogSitemapMdPath } from "@/lib/changelog-paths"
+import { hackathons, hackathonPath } from "@/lib/hackathons"
 import { baseUrl } from "@/lib/seo"
 
 export const revalidate = false
 
 export function GET() {
-  const posts = getIndexPosts("en")
-  const changes = getIndexEntries("en")
-
   const lines = [
-    "# Crafter Station Docs",
+    "# Crafter Station",
     "",
-    "> Documentation for Crafter Station open source developer tools: CLIs and libraries installable from npm, designed for humans and AI coding agents.",
+    "> Crafter Station is an open source community of builders from Peru, working across Latin America. More than 1,000 engineers, designers and founders take part through WhatsApp, events, open source and shipped projects.",
     "",
-    "## Docs",
+    "## What we do",
     "",
-    ...source
-      .getPages()
-      .map(
-        (page) =>
-          `- [${page.data.title}](${baseUrl}${page.url}): ${page.data.description ?? ""}`,
-      ),
+    "- Hackathons: we co-organize AI hackathons in Peru and run the v0 x Crafter Station hackathon across Lima, Medellín, Bogotá and Arequipa.",
+    `- Meetups: [Hot Reload](${baseUrl}/en/events/hot-reload) and [DevDay Lima](${baseUrl}/en/events/devday-lima).`,
+    `- Bounties: numbered challenges where community members build something and win prizes, at [crafter.run/bounties](${baseUrl}/en/bounties).`,
+    `- Ships: projects built by community members, published at [crafter.run/ships](${baseUrl}/en/ships).`,
+    `- Open source: more than 200 public repositories at [github.com/crafter-station](https://github.com/crafter-station), listed at [crafter.run/oss](${baseUrl}/en/oss).`,
+    `- Jobs: companies hire LATAM builders who already ship, at [crafter.run/jobs](${baseUrl}/en/jobs).`,
     "",
-    "## Blog",
+    "## Hackathons",
     "",
-    `Engineering notes and community stories. Every post is readable as markdown at its URL plus \`.md\`; the full index is at ${baseUrl}${blogSitemapMdPath("en")}.`,
-    "",
-    ...posts.map(
-      (post) =>
-        `- [${post.title}](${baseUrl}${blogPostPath(post.locale, post.slug)}.md): ${post.summary}`,
+    ...hackathons.map(
+      (hackathon) => `- [${hackathon.name}](${baseUrl}${hackathonPath("en", hackathon)}): ${hackathon.copy.en.summary}`,
     ),
     "",
-    "## Changelog",
+    "## hack0, our calendar",
     "",
-    `What Crafter Station ships, newest first: products, tools, events and site updates from the crafter-station, crafter-research, crafter-lab and crafter-games organizations, each with the crafters who built it and its public sources. Every entry is readable as markdown at its URL plus \`.md\`; the full index is at ${baseUrl}${changelogSitemapMdPath("en")}, the Atom feed at ${baseUrl}${changelogFeedPath("en")}, and agents can ask the \`whats_new\` tool on ${baseUrl}/mcp for entries since a date.`,
+    "- [hack0](https://hack0.dev) is the Crafter Station calendar of hackathons, meetups and tech events in Latin America. It is open source (Apache-2.0, [github.com/crafter-station/hack0](https://github.com/crafter-station/hack0)) and was created by Railly Hugo and Ignacio Velásquez.",
+    `- Follow it on [Luma](https://luma.com/hack0) or read it inside Crafter Station at [crafter.run/events](${baseUrl}/en/events).`,
     "",
-    ...changes.map(
-      (entry) =>
-        `- [${entry.title}](${baseUrl}${changelogEntryPath(entry.locale, entry.slug)}.md): ${entry.summary}`,
-    ),
+    "## Sponsor or contact us",
+    "",
+    `- [Contact](${baseUrl}/en/contact): brand partnerships and event sponsorship, hosting an event with us, collaborations and joining the community.`,
+    `- [Services](${baseUrl}/en/services): what companies can do with Crafter Station.`,
+    "",
+    "## People",
+    "",
+    `- [Team](${baseUrl}/en/team): the core team and crew. Founder: Railly Hugo.`,
+    "",
+    "## More",
+    "",
+    "- [daily.dev squad](https://daily.dev/squads/crafterstation): our official squad on daily.dev.",
+    `- [Docs](${baseUrl}/en/docs): documentation for our open source CLIs and libraries. Full text for agents at ${baseUrl}/llms-full.txt.`,
+    `- [Blog](${baseUrl}/en/blog): index at ${baseUrl}${blogSitemapMdPath("en")}.`,
+    `- [Changelog](${baseUrl}/en/changelog): index at ${baseUrl}${changelogSitemapMdPath("en")}, feed at ${baseUrl}${changelogFeedPath("en")}.`,
+    `- [Agent surface](${baseUrl}/agents.md): MCP server at ${baseUrl}/mcp.`,
   ]
 
   return new Response(lines.join("\n"), {

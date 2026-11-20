@@ -5,6 +5,7 @@ import { defaultLocale, isLocale, locales, type Locale } from "@/lib/i18n"
 import { siteConfig } from "@/lib/site"
 import { socialImageUrl } from "@/lib/og"
 import { accessEvents } from "@/lib/access-events"
+import { hackathonRoute, hackathons } from "@/lib/hackathons"
 
 export const baseUrl = siteConfig.url
 
@@ -30,6 +31,7 @@ export const indexablePaths = [
   "/events",
   "/events/hot-reload",
   ...accessEvents.map(event => `/events/${event.slug}`),
+  ...hackathons.map(hackathonRoute),
   "/timeline",
   "/oss",
   "/oss/metrics",
