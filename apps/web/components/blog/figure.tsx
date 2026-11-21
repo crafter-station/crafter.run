@@ -9,21 +9,35 @@ export function Figure({
   src,
   alt,
   caption,
+  href,
+  linkLabel,
   size,
   wide = false,
 }: {
   src: string
   alt: string
   caption?: string
+  href?: string
+  linkLabel?: string
   size: string
   wide?: boolean
 }) {
   const [width, height] = size.split("x").map(Number)
   if (!width || !height) throw new Error(`Figure ${src}: size must be WIDTHxHEIGHT, got "${size}"`)
+  const img = <Image src={src} alt={alt} width={width} height={height} sizes="(min-width: 1024px) 960px, 100vw" />
   return (
     <figure className={wide ? "journal-figure journal-figure-wide" : "journal-figure"}>
-      <Image src={src} alt={alt} width={width} height={height} sizes="(min-width: 1024px) 860px, 100vw" />
-      {caption && <figcaption>{caption}</figcaption>}
+      {href ? <a href={href} target="_blank" rel="noopener noreferrer">{img}</a> : img}
+      {(caption || (href && linkLabel)) && (
+        <figcaption>
+          {caption}
+          {href && linkLabel ? (
+            <a href={href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline", textUnderlineOffset: "3px" }}>
+              {linkLabel}
+            </a>
+          ) : null}
+        </figcaption>
+      )}
     </figure>
   )
 }

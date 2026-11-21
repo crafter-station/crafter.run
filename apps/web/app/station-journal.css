@@ -140,10 +140,18 @@
 
 }
 
-/* Post page: one brand-colour band for the header, then the page. Fixed chrome
-   switches ink per item while it sits over the band (components/blog/band-chrome). */
-.station-shell-journal { --band: #f4d56d; --band-ink: #20221d; --band-soft: rgb(32 34 29 / .72); }
-.journal-band { position: relative; background: var(--band); color: var(--band-ink); box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(-100vmax -100vmax 0); padding: 56px 0 64px; }
+/* Post page: calm editorial header surface with subtle tint and hairline border in both light and dark modes. */
+.station-shell-journal {
+  --band: color-mix(in srgb, hsl(var(--foreground)) 3%, hsl(var(--background)));
+  --band-ink: hsl(var(--foreground));
+  --band-soft: hsl(var(--muted-foreground));
+}
+.dark .station-shell-journal {
+  --band: color-mix(in srgb, hsl(var(--foreground)) 3.5%, hsl(var(--background)));
+  --band-ink: hsl(var(--foreground));
+  --band-soft: hsl(var(--muted-foreground));
+}
+.journal-band { position: relative; background: var(--band); color: var(--band-ink); box-shadow: 0 0 0 100vmax var(--band); clip-path: inset(-100vmax -100vmax 0); border-bottom: 1px solid hsl(var(--line)); padding: 56px 0 64px; }
 .journal-band-crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; font: 500 13px/1.4 var(--font-label); text-transform: uppercase; letter-spacing: .08em; color: var(--band-soft); }
 .journal-band-crumbs a { display: inline-flex; align-items: center; min-height: 44px; }
 .journal-band-crumbs a:hover { color: var(--band-ink); text-decoration: underline; text-underline-offset: 4px; }
@@ -171,11 +179,8 @@
 .station-shell-journal [data-on-band] { color: var(--band-ink); }
 .station-rail-cta { display: none; }
 @media (min-width: 1024px) {
-  .station-shell-journal .station-rail-cta { position: fixed; top: 36px; right: var(--station-edge); z-index: 40; display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 0; background: #f8e9a4; color: #20221d; font-size: 16px; font-weight: 500; transition: background-color 160ms ease-out; }
-  :root:not(.dark) .station-shell-journal .station-rail-cta { background: #f4d56d; }
-  :root .station-shell-journal .station-rail-cta[data-on-band] { background: var(--band-ink); color: var(--band); }
-  .station-shell-journal .station-rail-cta:hover { background: #f4d56d; opacity: 1; }
-  :root:not(.dark) .station-shell-journal .station-rail-cta:hover { background: #ecc94b; }
+  .station-shell-journal .station-rail-cta { position: fixed; top: 36px; right: var(--station-edge); z-index: 40; display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border-radius: 0; background: hsl(var(--foreground)); color: hsl(var(--background)); font-size: 14px; font-weight: 500; transition: opacity 160ms ease-out; }
+  .station-shell-journal .station-rail-cta:hover { opacity: 0.86; }
 }
 @media (max-width: 760px) {
   .journal-band { padding: 32px 0 44px; }
