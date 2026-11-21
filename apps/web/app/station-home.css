@@ -58,12 +58,6 @@
   .station-shell-home { --station-frame-inset: max(200px, 16vw, calc((100vw - 1120px) / 2)); }
   .station-shell-home .station-content { margin-inline: 0; }
   .station-home > :is(section, nav) { padding-inline: var(--station-frame-inset); }
-  .station-shell-home .station-featured-bar {
-    top: 12px;
-    margin: 20px var(--station-frame-inset) 0;
-    padding: 10px 14px 10px 16px;
-    border: 1px solid color-mix(in srgb, #ff5a1f 30%, hsl(var(--foreground) / .12));
-  }
   .station-shell-home .station-footer { padding-inline: var(--station-frame-inset); }
   .station-shell-home .station-footer-inner { padding-inline: 0; }
 }

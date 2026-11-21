@@ -426,9 +426,21 @@ button[data-open] > .station-control-chevron { transform: rotate(180deg); }
 .station-preferences-row .station-auth-link { width: auto; gap: 14px; }
 .station-footer .station-footer-language.station-control { margin-left: 0; }
 
-/* Top featured topic strip: sticky at the head of .station-content across all pages. */
-.station-featured-bar { position: sticky; top: 0; z-index: 40; padding: 10px var(--station-gutter); border-bottom: 1px solid hsl(var(--foreground) / .1); background: color-mix(in srgb, #ff5a1f 6%, hsl(var(--background) / .92)); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+/* Top featured topic strip: fixed & centered between side rails on desktop across every page; sticky on mobile. */
+.station-featured-bar { position: sticky; top: 0; z-index: 60; padding: 10px var(--station-gutter); border-bottom: 1px solid hsl(var(--foreground) / .1); background: color-mix(in srgb, #ff5a1f 6%, hsl(var(--background) / .92)); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 .dark .station-featured-bar { background: color-mix(in srgb, #ff5a1f 9%, hsl(var(--background) / .92)); }
+@media (min-width: 1024px) {
+  .station-featured-bar {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(calc(100vw - 440px), 780px);
+    padding: 9px 12px 9px 16px;
+    border: 1px solid color-mix(in srgb, #ff5a1f 32%, hsl(var(--foreground) / .14));
+    box-shadow: 0 12px 32px -16px rgb(0 0 0 / .45);
+  }
+}
 .station-featured-inner { display: flex; align-items: center; gap: 10px; }
 .station-featured-link { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 12px 20px; min-height: 24px; color: hsl(var(--foreground)); text-decoration: none; }
 .station-featured-close { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; background: transparent; color: hsl(var(--foreground) / .55); cursor: pointer; transition: color 140ms ease-out, background 140ms ease-out; }
