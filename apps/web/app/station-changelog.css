@@ -25,13 +25,13 @@
 .changelog-ships a:hover { color: hsl(var(--foreground)); background: var(--home-hover); }
 .changelog-ships a::before { content: "ship / "; opacity: .55; white-space: pre; }
 /* Permalink */
-.changelog-facts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px 48px; max-width: 680px; padding-block: 40px 8px; border-top: 1px solid hsl(var(--line)); margin-top: 48px; }
+.changelog-facts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px 48px; max-width: 960px; padding-block: 40px 8px; border-top: 1px solid hsl(var(--line)); margin-top: 48px; }
 .changelog-facts h2, .changelog-sources h2 { font: 500 11px/1.4 var(--font-label); text-transform: uppercase; letter-spacing: .08em; color: hsl(var(--muted-foreground)); margin-bottom: 12px; }
 .changelog-facts section > h2:not(:first-child) { margin-top: 22px; }
 .changelog-facts ul { display: flex; flex-direction: column; gap: 6px; list-style: none; font-size: 16px; }
 .changelog-facts ul a { text-decoration: underline; text-decoration-color: hsl(var(--muted-foreground) / .5); text-underline-offset: 4px; }
 .changelog-facts ul a:hover { text-decoration-color: currentColor; }
-.changelog-sources { max-width: 680px; padding-block: 28px 0; }
+.changelog-sources { max-width: 960px; padding-block: 28px 0; }
 .changelog-sources ul { display: flex; flex-direction: column; gap: 4px; list-style: none; }
 .changelog-sources a { font: 13px/1.7 var(--font-label); color: hsl(var(--muted-foreground)); text-decoration: underline; text-decoration-color: hsl(var(--muted-foreground) / .35); text-underline-offset: 3px; overflow-wrap: anywhere; }
 .changelog-sources a:hover { color: hsl(var(--foreground)); }

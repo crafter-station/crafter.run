@@ -1,0 +1,66 @@
+---
+title: "Ojito 0.2.4: Spanish native app, one-click Claude Desktop and Windows core"
+summary: "Ojito 0.2.4 ships to 126 macOS beta users with a native Spanish app, Sparkle-safe one-click Claude Desktop setup, stricter local privacy locks, native menubar feedback and a green Rust Windows core."
+date: 2026-11-21
+area: station
+kind: update
+crafters:
+  - railly
+links:
+  - label: "Visit ojito.dev"
+    url: "https://ojito.dev"
+  - label: "Read the Ojito 0.2.4 changelog"
+    url: "https://ojito.dev/changelog#v0-2-4"
+  - label: "Connect your agent (MCP docs)"
+    url: "https://ojito.dev/docs/mcp"
+  - label: "Windows waitlist & download"
+    url: "https://ojito.dev/download#windows"
+image: /changelog/ojito-0-2-4/cover.webp
+evidence:
+  - "https://ojito.dev/changelog#v0-2-4"
+  - "https://ojito.dev/docs/mcp"
+  - "https://ojito.dev/download#windows"
+  - "https://ojito.dev"
+---
+
+Ojito keeps its two eyes in your macOS menu bar so everything you saw on screen stays one `⌘⌘` away. With `0.2.4`, that memory just got sharper, bilingual and harder to trip up, shipping today to 126 beta users on macOS.
+
+<div className="journal-invitation-links" style={{ marginBlock: "20px 28px", display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
+  <a className="home-action-link" href="https://ojito.dev/changelog#v0-2-4" target="_blank" rel="noopener noreferrer">Explore Ojito 0.2.4 on ojito.dev</a>
+  <a className="home-secondary-link" href="https://ojito.dev/docs/mcp" target="_blank" rel="noopener noreferrer">MCP setup guide</a>
+  <a className="home-secondary-link" href="https://ojito.dev/download#windows" target="_blank" rel="noopener noreferrer">Windows waitlist</a>
+</div>
+
+<Figure src="/changelog/ojito-0-2-4/changelog-page.webp" alt="Ojito 0.2.4 changelog page on ojito.dev showing release history and macOS download" size="1440x900" caption="The new /changelog on ojito.dev covering every release from 0.2.0 to 0.2.4 with Sparkle auto-updates." />
+
+## Native Spanish, inside the app
+
+Ojito now speaks Spanish natively across menus, settings, onboarding and search. No half-translated strings or awkward fallback labels: if your Mac runs in Spanish, Ojito feels at home from the first capture.
+
+## Claude Desktop in one click (and Sparkle-safe)
+
+Connecting Ojito's local MCP server to Claude Desktop now takes a single click. Under the hood, the MCP path is now Sparkle-safe, so auto-updates no longer break your agent config when a new build lands. Full setup instructions with copyable snippets for Claude Desktop, Claude Code, Cursor and Codex now live at [ojito.dev/docs/mcp](https://ojito.dev/docs/mcp).
+
+<Figure src="/changelog/ojito-0-2-4/mcp-docs.webp" alt="Ojito MCP documentation at ojito.dev/docs/mcp with snippets for Claude Desktop, Claude Code, Cursor and Codex" size="1440x900" caption="One-click setup or manual snippets for connecting local coding agents to Ojito's MCP server." />
+
+## Local-first privacy locks
+
+What stays hidden on your Mac should stay hidden from every tool too. In `0.2.4`, `get_item` never exposes hidden items over MCP, and Obsidian auto-export now waits for privacy checks before writing anything to your vault. Your local index stays yours.
+
+## Native menubar feedback, MCP drafts and opt-out telemetry
+
+You can now send feedback straight from the macOS menubar, or ask your agent to open a prefilled feedback draft over MCP so you can review it and click Send yourself. This release also adds daily aggregate telemetry with a 1-click opt-out in `Settings → Privacy` so we can spot update regressions early without touching what you capture.
+
+## Phase 0 of the Rust Windows port is green
+
+Windows users have been asking since day one. Phase 0 of the Rust port is done: `ojito-core` (SQLite/FTS5, Ed25519 licenses and the `--mcp` stdio server) compiles and passes CI cleanly on `windows-latest`. You can join the Windows waitlist now to get early access first.
+
+<Figure src="/changelog/ojito-0-2-4/windows-waitlist.webp" alt="Windows 11 waitlist card at ojito.dev/download#windows" size="1440x900" caption="The Windows 11 waitlist is now live at ojito.dev/download#windows." />
+
+## Try it now
+
+<div className="journal-invitation-links" style={{ marginBlock: "16px 8px", display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
+  <a className="home-action-link" href="https://ojito.dev" target="_blank" rel="noopener noreferrer">Join the beta at ojito.dev</a>
+  <a className="home-secondary-link" href="https://ojito.dev/changelog#v0-2-4" target="_blank" rel="noopener noreferrer">Read full changelog</a>
+  <a className="home-secondary-link" href="https://ojito.dev/download#windows" target="_blank" rel="noopener noreferrer">Notify me for Windows</a>
+</div>

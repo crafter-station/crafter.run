@@ -1,0 +1,66 @@
+---
+title: "Ojito 0.2.4: app nativa en español, Claude Desktop en un clic y core en Windows"
+summary: "Ojito 0.2.4 llega a 126 usuarios beta en macOS con app nativa en español, conexión a Claude Desktop en un clic a prueba de Sparkle, candados de privacidad locales, feedback desde la barra de menú y el core en Rust corriendo en Windows."
+date: 2026-11-21
+area: station
+kind: update
+crafters:
+  - railly
+links:
+  - label: "Ir a ojito.dev"
+    url: "https://ojito.dev/es"
+  - label: "Ver el changelog de Ojito 0.2.4"
+    url: "https://ojito.dev/es/changelog#v0-2-4"
+  - label: "Conectar tu agente (docs MCP)"
+    url: "https://ojito.dev/es/docs/mcp"
+  - label: "Lista de espera para Windows"
+    url: "https://ojito.dev/es/download#windows"
+image: /changelog/ojito-0-2-4/cover.webp
+evidence:
+  - "https://ojito.dev/es/changelog#v0-2-4"
+  - "https://ojito.dev/es/docs/mcp"
+  - "https://ojito.dev/es/download#windows"
+  - "https://ojito.dev"
+---
+
+Ojito vive en tu barra de menú de macOS mirando lo que importa para que todo lo que viste en pantalla quede a un `⌘⌘`. Con `0.2.4`, esa memoria ahora es bilingüe, más segura y más fácil de conectar a tus agentes, llegando hoy a 126 usuarios beta en macOS.
+
+<div className="journal-invitation-links" style={{ marginBlock: "20px 28px", display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
+  <a className="home-action-link" href="https://ojito.dev/es/changelog#v0-2-4" target="_blank" rel="noopener noreferrer">Explorar Ojito 0.2.4 en ojito.dev</a>
+  <a className="home-secondary-link" href="https://ojito.dev/es/docs/mcp" target="_blank" rel="noopener noreferrer">Guía MCP</a>
+  <a className="home-secondary-link" href="https://ojito.dev/es/download#windows" target="_blank" rel="noopener noreferrer">Lista Windows</a>
+</div>
+
+<Figure src="/changelog/ojito-0-2-4/changelog-page.webp" alt="Página de changelog de Ojito 0.2.4 en ojito.dev mostrando las novedades y descarga para macOS" size="1440x900" caption="El nuevo /changelog en ojito.dev con todo el historial desde 0.2.0 hasta 0.2.4 y actualización directa por Sparkle." />
+
+## Español nativo en toda la app
+
+Ojito ahora habla español de forma nativa en menús, ajustes, onboarding y búsqueda. Si tu Mac está en español, la app se siente en casa desde la primera captura, sin textos a medias.
+
+## Claude Desktop en un clic (y a prueba de Sparkle)
+
+Conectar el servidor MCP local de Ojito a Claude Desktop ahora toma un solo clic. Por debajo, la ruta del binario MCP es estable frente a actualizaciones de Sparkle, así que cada update deja intacta la configuración de tu agente. Las guías con snippets copiables para Claude Desktop, Claude Code, Cursor y Codex ya viven en [ojito.dev/es/docs/mcp](https://ojito.dev/es/docs/mcp).
+
+<Figure src="/changelog/ojito-0-2-4/mcp-docs.webp" alt="Documentación MCP de Ojito en ojito.dev/es/docs/mcp con snippets para Claude Desktop, Claude Code, Cursor y Codex" size="1440x900" caption="Configuración en 1 clic o snippets manuales para conectar tus agentes locales al servidor MCP de Ojito." />
+
+## Candados de privacidad local-first
+
+Lo que marcas como oculto en tu Mac también queda oculto para tus herramientas. En `0.2.4`, `get_item` nunca expone elementos ocultos vía MCP y la exportación automática a Obsidian espera a las reglas de privacidad antes de escribir nada en tu bóveda.
+
+## Feedback desde la barra de menú, borradores MCP y telemetría opt-out
+
+Ahora puedes mandar feedback directo desde la barra de menú de macOS o pedirle a tu agente que abra un borrador prellenado vía MCP para revisarlo y enviarlo tú mismo. Esta versión suma además telemetría diaria agregada con opt-out en `Configuración → Privacidad` para cuidar la salud de cada release sin tocar lo que capturas.
+
+## Fase 0 del port en Rust para Windows en verde
+
+Quienes usan Windows lo pidieron desde el día uno. La Fase 0 del port en Rust ya está lista: `ojito-core` (SQLite/FTS5, licencias Ed25519 y servidor `--mcp`) compila y pasa CI en verde sobre `windows-latest`. Ya puedes anotarte para entrar primero a la beta de Windows.
+
+<Figure src="/changelog/ojito-0-2-4/windows-waitlist.webp" alt="Tarjeta de lista de espera para Windows 11 en ojito.dev/es/download#windows" size="1440x900" caption="La lista de espera de Windows 11 ya está abierta en ojito.dev/es/download#windows." />
+
+## Pruébalo ahora
+
+<div className="journal-invitation-links" style={{ marginBlock: "16px 8px", display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center" }}>
+  <a className="home-action-link" href="https://ojito.dev/es" target="_blank" rel="noopener noreferrer">Únete a la beta en ojito.dev</a>
+  <a className="home-secondary-link" href="https://ojito.dev/es/changelog#v0-2-4" target="_blank" rel="noopener noreferrer">Ver changelog completo</a>
+  <a className="home-secondary-link" href="https://ojito.dev/es/download#windows" target="_blank" rel="noopener noreferrer">Avísame para Windows</a>
+</div>
