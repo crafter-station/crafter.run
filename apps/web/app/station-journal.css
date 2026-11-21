@@ -154,7 +154,8 @@
 .journal-band-art-frame { --gold: var(--band-ink); margin-top: 48px; max-width: 1040px; }
 .journal-band-art { display: block; width: 100%; height: auto; border-radius: 0; }
 .journal-article-body { min-width: 0; padding-block: 64px 8px; }
-.journal-article .blog-body { max-width: 680px; font-size: 19px; line-height: 1.8; }
+.journal-article .blog-body { max-width: 960px; font-size: 19px; line-height: 1.8; }
+.journal-article .blog-body > :is(p, ul, ol, h2, h3, blockquote) { max-width: 72ch; }
 .journal-article .blog-body :is(h2, h3) { font-family: var(--font-crafter), sans-serif; font-weight: 500; letter-spacing: -.03em; }
 .journal-article .blog-body h2 { font-size: 32px; line-height: 1.2; }
 .journal-article .blog-body h3 { font-size: 24px; line-height: 1.3; }
