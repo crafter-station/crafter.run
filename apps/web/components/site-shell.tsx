@@ -3,6 +3,7 @@
 import type { ReactNode } from "react"
 import { usePathname } from "next/navigation"
 import { SiteHeader } from "@/components/site-header"
+import { StationFeaturedBar } from "@/components/station-featured-bar"
 import { findEventBadge } from "@/lib/event-badge"
 import type { Locale } from "@/lib/i18n"
 import { stationCopy } from "@/lib/station-copy"
@@ -30,6 +31,7 @@ export function SiteShell({ children, footer, event, locale }: { children: React
       <a className="station-skip" href="#site-content">{stationCopy[locale].skip}</a>
       <SiteHeader locale={locale} compact={docs || font} event={event} />
       <div className="station-content">
+        <StationFeaturedBar locale={locale} />
         <div id="site-content" tabIndex={-1}>{children}</div>
         {footer}
       </div>
