@@ -25,6 +25,10 @@
 .changelog-ships a:hover { color: hsl(var(--foreground)); background: var(--home-hover); }
 .changelog-ships a::before { content: "ship / "; opacity: .55; white-space: pre; }
 /* Permalink */
+.changelog-article :is(.journal-band, .journal-article-body, .changelog-facts, .changelog-sources, .changelog-pager) { width: 100%; max-width: 760px; margin-inline: auto; }
+.changelog-article .journal-band { border-bottom: 0; }
+.changelog-article .journal-band-art-frame { max-width: none; }
+.changelog-article .blog-body, .changelog-article .blog-body > :is(p, ul, ol, h2, h3, blockquote) { max-width: none; }
 .changelog-facts { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 28px 48px; max-width: 960px; padding-block: 40px 8px; border-top: 1px solid hsl(var(--line)); margin-top: 48px; }
 .changelog-facts h2, .changelog-sources h2 { font: 500 11px/1.4 var(--font-label); text-transform: uppercase; letter-spacing: .08em; color: hsl(var(--muted-foreground)); margin-bottom: 12px; }
 .changelog-facts section > h2:not(:first-child) { margin-top: 22px; }
@@ -57,6 +61,7 @@
 @media (prefers-reduced-motion: reduce) { .changelog-cover img { transition: none; } }
 /* Body media: product clips, galleries and outside mentions. */
 .changelog-clip video { display: block; width: 100%; height: auto; border-radius: 0; background: var(--home-hover); box-shadow: 0 0 0 1px var(--home-line); }
+.changelog-film { display: block; width: 100%; max-width: 420px; height: auto; margin-inline: auto; background: var(--home-hover); box-shadow: 0 0 0 1px var(--home-line); }
 .changelog-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; width: 100%; }
 .changelog-gallery .journal-figure { margin: 0; }
 .changelog-mention { width: 100%; max-width: 60ch; padding: 22px 24px; border-radius: 0; background: transparent; box-shadow: inset 0 0 0 1px var(--home-line); }
