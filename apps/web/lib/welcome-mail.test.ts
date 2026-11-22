@@ -1,7 +1,8 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
-import { OJITO_CODE, OJITO_URL, sendInviteWelcome, TASTE_CODE, welcomeHtml } from "@/lib/welcome-mail"
+import { ojitoUrl, sendInviteWelcome, welcomeHtml } from "@/lib/welcome-mail"
 
-const config = { apiKey: "re_test", segmentId: "seg_1" }
+const codes = { ojitoCode: "TESTOJITO", tasteCode: "TESTTASTE" }
+const config = { apiKey: "re_test", segmentId: "seg_1", ...codes }
 const realFetch = globalThis.fetch
 
 type Call = { url: string; method: string; headers: Record<string, string>; body: unknown }
@@ -65,24 +66,25 @@ describe("sendInviteWelcome", () => {
     expect(calls).toHaveLength(1)
   })
 
-  test("without an API key nothing is sent", async () => {
+  test("without an API key or the codes nothing is sent", async () => {
     mockFetch(() => json({}))
-    expect(await sendInviteWelcome(invited, { segmentId: "seg_1" })).toEqual({ status: "unavailable" })
+    expect(await sendInviteWelcome(invited, { segmentId: "seg_1", ...codes })).toEqual({ status: "unavailable" })
+    expect(await sendInviteWelcome(invited, { apiKey: "re_test", segmentId: "seg_1" })).toEqual({ status: "unavailable" })
     expect(calls).toHaveLength(0)
   })
 })
 
 describe("welcomeHtml", () => {
   test("carries both codes and the Ojito link with the crafter ref", () => {
-    const html = welcomeHtml("Ada")
-    expect(html).toContain(OJITO_CODE)
-    expect(html).toContain(TASTE_CODE)
-    expect(html).toContain(OJITO_URL)
-    expect(OJITO_URL).toContain("ref=crafter")
+    const html = welcomeHtml("Ada", codes)
+    expect(html).toContain("TESTOJITO")
+    expect(html).toContain("TESTTASTE")
+    expect(html).toContain("https://ojito.dev/es?code=TESTOJITO&amp;ref=crafter#beta")
+    expect(ojitoUrl("TESTOJITO")).toBe("https://ojito.dev/es?code=TESTOJITO&ref=crafter#beta")
   })
 
   test("escapes the first name and falls back when it is missing", () => {
-    expect(welcomeHtml("<b>Ada</b>")).toContain("Hola &lt;b&gt;Ada&lt;/b&gt;,")
-    expect(welcomeHtml(null)).toContain("Hola,</p>")
+    expect(welcomeHtml("<b>Ada</b>", codes)).toContain("Hola &lt;b&gt;Ada&lt;/b&gt;,")
+    expect(welcomeHtml(null, codes)).toContain("Hola,</p>")
   })
 })

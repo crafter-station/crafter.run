@@ -19,9 +19,11 @@ export async function POST(request: NextRequest) {
     const result = await sendInviteWelcome(event.data as unknown as ClerkUserCreated, {
       apiKey: env.RESEND_API_KEY,
       segmentId: env.RESEND_NEWSLETTER_SEGMENT_ID,
+      ojitoCode: env.WELCOME_OJITO_CODE,
+      tasteCode: env.WELCOME_TASTE_CODE,
     })
     if (result.status === "failed") return new Response("Welcome mail failed", { status: 502 })
-    if (result.status === "unavailable") console.error("Invite welcome skipped because RESEND_API_KEY is not configured.")
+    if (result.status === "unavailable") console.error("Invite welcome skipped because RESEND_API_KEY or the WELCOME_* codes are not configured.")
     return new Response(null, { status: 204 })
   }
 
