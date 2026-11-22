@@ -25,6 +25,7 @@ export const env = createEnv({
     RESEND_NEWSLETTER_SEGMENT_ID: z.string().min(1).optional(),
     WELCOME_OJITO_CODE: z.string().min(1).optional(),
     WELCOME_TASTE_CODE: z.string().min(1).optional(),
+    MAIL_SUPPRESS: z.string().optional(),
     PORTAL_SECRET: z.string().startsWith("sk_").optional(),
   },
   client: {
@@ -58,6 +59,7 @@ export const env = createEnv({
     RESEND_NEWSLETTER_SEGMENT_ID: process.env.RESEND_NEWSLETTER_SEGMENT_ID,
     WELCOME_OJITO_CODE: process.env.WELCOME_OJITO_CODE,
     WELCOME_TASTE_CODE: process.env.WELCOME_TASTE_CODE,
+    MAIL_SUPPRESS: process.env.MAIL_SUPPRESS,
     PORTAL_SECRET: process.env.PORTAL_SECRET,
   },
   emptyStringAsUndefined: true,

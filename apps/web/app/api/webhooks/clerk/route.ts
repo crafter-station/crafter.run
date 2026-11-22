@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
       segmentId: env.RESEND_NEWSLETTER_SEGMENT_ID,
       ojitoCode: env.WELCOME_OJITO_CODE,
       tasteCode: env.WELCOME_TASTE_CODE,
+      suppress: env.MAIL_SUPPRESS,
     })
     if (result.status === "failed") return new Response("Welcome mail failed", { status: 502 })
     if (result.status === "unavailable") console.error("Invite welcome skipped because RESEND_API_KEY or the WELCOME_* codes are not configured.")

@@ -6,6 +6,7 @@ export async function POST(req: Request) {
   const result = await subscribe(body, {
     apiKey: env.RESEND_API_KEY,
     segmentId: env.RESEND_NEWSLETTER_SEGMENT_ID,
+    suppress: env.MAIL_SUPPRESS,
   })
   return Response.json(result, { status: statusCode(result) })
 }

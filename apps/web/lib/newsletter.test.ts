@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
+import { createHash } from "node:crypto"
 import { statusCode, subscribe } from "@/lib/newsletter"
 
 const config = { apiKey: "re_test", segmentId: "seg_1" }
@@ -21,6 +22,13 @@ beforeEach(() => { calls = [] })
 afterEach(() => { globalThis.fetch = realFetch })
 
 describe("subscribe", () => {
+  test("a suppressed address gets a quiet success and Resend is never called", async () => {
+    mockFetch(() => json({}))
+    const suppress = createHash("sha256").update("hidden@example.com").digest("hex")
+    expect(await subscribe({ email: "Hidden@Example.com", locale: "es" }, { ...config, suppress })).toEqual({ status: "subscribed" })
+    expect(calls).toHaveLength(0)
+  })
+
   test("creates the contact in the segment with locale and source", async () => {
     mockFetch(call => (call.method === "GET" ? json({ name: "not_found" }, 404) : json({ object: "contact", id: "c_1" })))
     const result = await subscribe({ email: " Ada@Example.com ", locale: "es" }, config)

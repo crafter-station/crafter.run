@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { locales } from "@/lib/i18n"
+import { isSuppressed } from "@/lib/mail-suppress"
 
 /**
  * Newsletter signup against the Resend REST API (https://resend.com/docs/api-reference).
@@ -26,9 +27,9 @@ export type SubscribeResult =
   | { status: "invalid" }
   | { status: "unavailable" }
 
-export type NewsletterConfig = { apiKey?: string; segmentId?: string }
+export type NewsletterConfig = { apiKey?: string; segmentId?: string; suppress?: string }
 
-function resend(config: Required<NewsletterConfig>, path: string, init: RequestInit = {}) {
+function resend(config: Required<Omit<NewsletterConfig, "suppress">>, path: string, init: RequestInit = {}) {
   return fetch(`${RESEND_API}${path}`, {
     ...init,
     headers: {
@@ -46,9 +47,10 @@ export async function subscribe(input: unknown, config: NewsletterConfig): Promi
 
   // A bot filled the hidden field: answer like a success, store nothing, call nothing.
   if (company) return { status: "subscribed" }
+  if (isSuppressed(email, config.suppress)) return { status: "subscribed" }
 
   if (!config.apiKey || !config.segmentId) return { status: "unavailable" }
-  const resolved = { apiKey: config.apiKey, segmentId: config.segmentId }
+  const resolved: Required<Omit<NewsletterConfig, "suppress">> = { apiKey: config.apiKey, segmentId: config.segmentId }
 
   try {
     // Retrieve Contact: https://resend.com/docs/api-reference/contacts/get-contact (id or email in the path)
