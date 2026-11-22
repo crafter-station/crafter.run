@@ -6,6 +6,8 @@
  * (https://resend.com/docs/api-reference/emails/send-email) and adds the person to the newsletter segment.
  */
 
+import { isSuppressed } from "@/lib/mail-suppress"
+
 const RESEND_API = "https://api.resend.com"
 
 export const INVITE_SOURCE = "crafter-invite"
@@ -23,7 +25,7 @@ export type ClerkUserCreated = {
   public_metadata?: Record<string, unknown> | null
 }
 
-export type WelcomeConfig = { apiKey?: string; segmentId?: string; ojitoCode?: string; tasteCode?: string }
+export type WelcomeConfig = { apiKey?: string; segmentId?: string; ojitoCode?: string; tasteCode?: string; suppress?: string }
 export type WelcomeCodes = { ojitoCode: string; tasteCode: string }
 export type WelcomeResult = { status: "sent" } | { status: "skipped" } | { status: "unavailable" } | { status: "failed" }
 
@@ -102,7 +104,7 @@ function resend(apiKey: string, path: string, init: RequestInit & { headers?: Re
 
 export async function sendInviteWelcome(user: ClerkUserCreated, config: WelcomeConfig): Promise<WelcomeResult> {
   const email = primaryEmail(user)
-  if (!isInvited(user) || !email) return { status: "skipped" }
+  if (!isInvited(user) || !email || isSuppressed(email, config.suppress)) return { status: "skipped" }
   if (!config.apiKey || !config.ojitoCode || !config.tasteCode) return { status: "unavailable" }
   const codes = { ojitoCode: config.ojitoCode, tasteCode: config.tasteCode }
 

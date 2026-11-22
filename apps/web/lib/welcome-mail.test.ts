@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, test } from "bun:test"
+import { createHash } from "node:crypto"
 import { ojitoUrl, sendInviteWelcome, welcomeHtml } from "@/lib/welcome-mail"
 
 const codes = { ojitoCode: "TESTOJITO", tasteCode: "TESTTASTE" }
@@ -52,6 +53,13 @@ describe("sendInviteWelcome", () => {
     mockFetch(call => (call.url.endsWith("/contacts") ? json({ name: "validation_error" }, 409) : json({ id: "x" })))
     expect(await sendInviteWelcome(invited, config)).toEqual({ status: "sent" })
     expect(calls[2].url).toBe("https://api.resend.com/contacts/ada%40example.com/segments/seg_1")
+  })
+
+  test("a suppressed invitee gets nothing", async () => {
+    mockFetch(() => json({}))
+    const suppress = createHash("sha256").update("ada@example.com").digest("hex")
+    expect(await sendInviteWelcome(invited, { ...config, suppress })).toEqual({ status: "skipped" })
+    expect(calls).toHaveLength(0)
   })
 
   test("people who signed up on their own get nothing", async () => {
