@@ -1,8 +1,10 @@
 import { verifyWebhook } from "@clerk/nextjs/webhooks"
 import type { NextRequest } from "next/server"
 
+import { env } from "@/env"
 import { syncClerkAvatar } from "@/lib/clerk-avatar"
 import { getDb } from "@/lib/db"
+import { type ClerkUserCreated, sendInviteWelcome } from "@/lib/welcome-mail"
 
 export async function POST(request: NextRequest) {
   let event
@@ -11,6 +13,16 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Clerk webhook verification failed.", error)
     return new Response("Invalid webhook signature", { status: 400 })
+  }
+
+  if (event.type === "user.created") {
+    const result = await sendInviteWelcome(event.data as unknown as ClerkUserCreated, {
+      apiKey: env.RESEND_API_KEY,
+      segmentId: env.RESEND_NEWSLETTER_SEGMENT_ID,
+    })
+    if (result.status === "failed") return new Response("Welcome mail failed", { status: 502 })
+    if (result.status === "unavailable") console.error("Invite welcome skipped because RESEND_API_KEY is not configured.")
+    return new Response(null, { status: 204 })
   }
 
   if (event.type !== "user.updated") return new Response(null, { status: 204 })
