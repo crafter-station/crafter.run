@@ -1,5 +1,7 @@
 import { MapPin } from "lucide-react"
 import Link from "next/link"
+import { RecapBlock } from "@/components/hot-reload-recap"
+import { eventGalleryItems, findEventRecap } from "@/lib/event-recap"
 import { type AccessEvent, accessEventDay, accessEventHours } from "@/lib/access-events"
 import { findEventBadge } from "@/lib/event-badge"
 import { eventAccessCopy } from "@/lib/event-access-copy"
@@ -44,8 +46,20 @@ export function DevdayHero({ event, locale, entry = false, admin = false }: { ev
 /** Steps as hairline cards, then what to bring next to the event poster. */
 export function DevdayEventBody({ event, locale }: { event: AccessEvent; locale: Locale }) {
   const t = eventAccessCopy[locale]
+  const recap = findEventRecap(event.slug)
   return (
     <>
+      {recap ? (
+        <RecapBlock
+          picks={eventGalleryItems(event.slug, recap, locale, recap.bento)}
+          total={recap.photos.length}
+          galleryHref={`/${locale}/events/${event.slug}/gallery`}
+          journalHref={`/${locale}/blog/${recap.journalSlug}`}
+          personalUrl={recap.personalUrl}
+          locale={locale}
+          allHref={`/${locale}/events/gallery`}
+        />
+      ) : null}
       <section className="dd-section">
         <h2 className="dd-h2">{t.flowTitle}</h2>
         <ol className="dd-cards">

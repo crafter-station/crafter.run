@@ -3,10 +3,13 @@ import { notFound } from "next/navigation"
 
 import { HotReloadBrindis } from "@/components/hot-reload-brindis"
 import { HotReloadMark } from "@/components/hot-reload-mark"
+import { RecapBento } from "@/components/hot-reload-recap"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
 import { hotReloadDate, hotReloadTime, hotReloadStatus, hotReloadEditions } from "@/lib/hot-reload"
 import { hotReloadCopy, hotReloadIdentity, hotReloadText } from "@/lib/hot-reload-copy"
 import { bandFade, lineFade } from "@/lib/hot-reload-fade"
+import { eventsGalleryCopy } from "@/lib/event-albums"
+import { allBentoItems, allRecapItems, findRecap, recapCopy, toGalleryItems } from "@/lib/hot-reload-recap"
 import { hotReloadMetadata } from "@/lib/hot-reload-seo"
 import { isLocale, withLocale } from "@/lib/i18n"
 
@@ -32,6 +35,8 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const next = hotReloadEditions.find((edition) => ["upcoming", "live", "unannounced"].includes(hotReloadStatus(edition)))
   const latest = hotReloadEditions.at(-1)
   const number = (edition: { number: number }) => String(edition.number).padStart(2, "0")
+  const r = recapCopy[lang]
+  const photos = allRecapItems()
 
   return (
     <HotReloadTheme locale={lang}>
@@ -91,7 +96,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
                     <span className="hot-reload-display">{edition.city}</span>
                   </span>
                   <span className="hot-reload-caps hot-reload-wide">{hotReloadDate(edition, lang) ?? t.unannounced}</span>
-                  <span className="hot-reload-caps hot-reload-status" data-next={status === "upcoming" || status === "live" ? "" : undefined}>{t[status]}</span>
+                  <span className="hot-reload-caps hot-reload-status" data-next={status === "upcoming" || status === "live" ? "" : undefined} data-recap={status === "past" && findRecap(edition.number) ? "" : undefined}>{status === "past" && findRecap(edition.number) ? r.recapAvailable : t[status]}</span>
                 </Link>
               </li>
             )
@@ -109,6 +114,21 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
           ))}
         </ul>
       </section>
+
+      {photos.length ? (
+        <section className="hot-reload-editions hr-landing-gallery" aria-labelledby="hr-landing-gallery-title">
+          <h2 id="hr-landing-gallery-title" className="hot-reload-display">{r.gallery}</h2>
+          <div className="hr-bento-wrap">
+            <RecapBento items={toGalleryItems(allBentoItems(), lang)} total={photos.length} galleryHref={withLocale("/events/hot-reload/gallery", lang)} locale={lang} />
+            <div className="hr-recap-foot">
+              <Link href={withLocale("/events/hot-reload/gallery", lang)} className="hot-reload-display hot-reload-cta">
+                {r.viewGallery} · {r.photos.replace("{count}", String(photos.length))}
+              </Link>
+              <Link href={withLocale("/events/gallery", lang)} className="hot-reload-caps hr-recap-all">{eventsGalleryCopy(lang).viewAll} ↗</Link>
+            </div>
+          </div>
+        </section>
+      ) : null}
     </HotReloadTheme>
   )
 }

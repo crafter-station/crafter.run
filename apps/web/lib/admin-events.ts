@@ -22,7 +22,7 @@ export const adminEvents: AdminEvent[] = [
     lumaEventId: event.lumaEventId, calendar: event.lumaCalendar, access: event,
   })),
   ...hotReloadEditions.filter(edition => getEventMenu(edition)).map(edition => ({
-    slug: eventOrderSlug(edition), title: `Hot Reload #${String(edition.number).padStart(2, "0")} · ${edition.venue}`,
+    slug: eventOrderSlug(edition), title: `Hot Reload #${String(edition.number).padStart(2, "0")} · ${edition.venue ?? edition.city}`,
     startsAt: edition.startsAt, timeZone: edition.timeZone, lumaEventId: edition.lumaEventId, calendar: "default" as const, orders: edition,
   })),
 ].sort((a, b) => (b.startsAt ?? "").localeCompare(a.startsAt ?? ""))

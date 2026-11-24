@@ -11,6 +11,9 @@ import { agendaCopy } from "@/lib/agenda-copy"
 import { agendaCity } from "@/lib/agenda-cities"
 import { fetchHack0Calendar } from "@/lib/hack0-calendar"
 import { HACK0_CALENDAR_URL, hack0DateParts, partitionHack0Events } from "@/lib/hack0-calendar-data"
+import { RecapBento } from "@/components/hot-reload-recap"
+import { albumPhotos, eventsGalleryCopy, mixedBento } from "@/lib/event-albums"
+import { recapCopy } from "@/lib/hot-reload-recap"
 
 export async function StationEvents({ locale, index }: { locale: Locale; index: number }) {
   const t = homeCopy[locale]
@@ -39,6 +42,7 @@ export async function StationEvents({ locale, index }: { locale: Locale; index: 
           <div className="home-poster-bottom station-label">BUILD / SHARE / WIN</div>
         </Link>
       </div>
+      <HomeGallery locale={locale} />
       <div className="home-hack0">
         <div className="home-hack0-head">
           <p className="home-label">{t.hack0Upcoming}</p>
@@ -74,5 +78,21 @@ export async function StationEvents({ locale, index }: { locale: Locale; index: 
         <Link href={withLocale("/services#proof",locale)} className="home-secondary-link">{landingCopy[locale].backersLine(partners.length)}</Link>
       </div>
     </section>
+  )
+}
+
+function HomeGallery({ locale }: { locale: Locale }) {
+  const photos = albumPhotos(locale)
+  if (!photos.length) return null
+  const t = eventsGalleryCopy(locale)
+  const href = withLocale("/events/gallery", locale)
+  return (
+    <div className="home-gallery ev-photo-scope">
+      <div className="home-gallery-head">
+        <p className="home-label">{t.title}</p>
+        <Link href={href} className="home-secondary-link">{t.viewAll} · {recapCopy[locale].photos.replace("{count}", String(photos.length))}</Link>
+      </div>
+      <RecapBento items={mixedBento(locale)} total={photos.length} galleryHref={href} locale={locale} />
+    </div>
   )
 }

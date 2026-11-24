@@ -115,8 +115,9 @@ describe("social previews", () => {
   })
 
   test("Hot Reload previews read future editions from the public catalog without per-edition OG code", async () => {
+    const venue = "Future venue"
     const future: HotReloadEdition = {
-      number: 42, venue: "Future venue", city: "Another city", partner: "Community",
+      number: 42, venue, city: "Another city", partner: "Community",
       startsAt: "2030-10-17T15:00:00Z", endsAt: "2030-10-17T17:00:00Z", timeZone: "America/Lima",
       poster: "/events/hot-reload/future.avif", menu: "don-salazar", lumaEventId: "future-fixture",
     }
@@ -129,7 +130,7 @@ describe("social previews", () => {
       params.set("description", "Old venue")
       const data = await resolveSocialCard(params)
       expect(data.title).toBe("Hot Reload #42")
-      expect(data.description).toContain(future.venue)
+      expect(data.description).toContain(venue)
       expect(data.detail).toContain("2030")
       expect(data.detail).toContain("10:00")
       expect(data.detail).toContain("Another city")
@@ -140,7 +141,7 @@ describe("social previews", () => {
       const menu = await resolveSocialCard(new URLSearchParams({ path: "/events/hot-reload/42/menu", lang: "es" }))
       expect(menu.title).toBe("Elige tu pedido")
       expect(menu.eyebrow).toBe("Hot Reload #42")
-      expect(menu.description).toContain(future.venue)
+      expect(menu.description).toContain(venue)
       expect(menu.poster).toBe(future.socialPoster)
 
       delete future.startsAt
