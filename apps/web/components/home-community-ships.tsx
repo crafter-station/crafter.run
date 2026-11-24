@@ -48,13 +48,23 @@ async function latestShips(): Promise<ShipSummary[]> {
 }
 
 /** The three latest community Ships as joined tiles, plus the links that belong to them. */
-export async function CommunityShipsPanel({ locale }: { locale: Locale }) {
+export async function CommunityShipsPanel({ locale, label, sub }: { locale: Locale; label: string; sub: string }) {
   const t = copy[locale]
   const ships = await latestShips()
   if (ships.length === 0) return null
 
   return (
-    <>
+    <div className="home-shipped-group">
+      <div className="home-gallery-head home-shipped-group-head">
+        <div>
+          <h3 className="home-label">{label}</h3>
+          <p className="home-shipped-sub">{sub}</p>
+        </div>
+        <div className="home-shipped-group-links">
+        <Link href={`/${locale}/ships`} className="home-secondary-link">{t.all}</Link>
+        <Link href={`/${locale}/ships/new`} className="home-secondary-link">{t.add}</Link>
+        </div>
+      </div>
       <ul className="home-shipped-grid home-frame">
         {ships.map((ship) => (
           <li key={ship.slug}>
@@ -71,10 +81,6 @@ export async function CommunityShipsPanel({ locale }: { locale: Locale }) {
           </li>
         ))}
       </ul>
-      <div className="home-panel-links">
-        <Link href={`/${locale}/ships`} className="home-action-link">{t.all}</Link>
-        <Link href={`/${locale}/ships/new`} className="home-secondary-link">{t.add}</Link>
-      </div>
-    </>
+    </div>
   )
 }

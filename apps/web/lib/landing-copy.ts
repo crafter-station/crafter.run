@@ -10,6 +10,8 @@ type LandingCopy = {
   shippedLede: string
   tabCommunity: string
   tabStation: string
+  stationSub: string
+  communitySub: string
   backersLine: (count: number) => string
   shipsLabel: string
   shipsMeta: (crafters: number) => string
@@ -38,7 +40,7 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     sections: { shipped: "Shipped", services: "Services", openSource: "Open source", universe: "Universe", events: "Events", journal: "Journal", faq: "FAQ", contact: "Contact" },
     shippedTitle: "Recently shipped",
     shippedLede: "What the community and the Station put out this month.",
-    tabCommunity: "Community", tabStation: "Station",
+    tabCommunity: "Community", tabStation: "Station", stationSub: "What the Station team launches, straight from the changelog.", communitySub: "Projects crafters publish as Ships.",
     backersLine: (count) => `${count} backers across our hackathons. See every hackathon`,
     shipsLabel: "Ships", shipsMeta: (crafters) => `published by ${crafters} crafters`,
     meetTeam: "Meet the team",
@@ -69,7 +71,7 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     sections: { shipped: "Shipped", services: "Servicios", openSource: "Código abierto", universe: "Universo", events: "Eventos", journal: "Journal", faq: "Preguntas", contact: "Contacto" },
     shippedTitle: "Lo último que shipeamos",
     shippedLede: "Lo que la comunidad y la Station publicaron este mes.",
-    tabCommunity: "Comunidad", tabStation: "Station",
+    tabCommunity: "Comunidad", tabStation: "Station", stationSub: "Lo que lanza el equipo de la Station, directo del changelog.", communitySub: "Proyectos que los crafters publican como Ships.",
     backersLine: (count) => `${count} aliados en nuestros hackathons. Ver todos los hackathons`,
     shipsLabel: "Ships", shipsMeta: (crafters) => `publicados por ${crafters} crafters`,
     meetTeam: "Conoce al equipo",
@@ -100,7 +102,7 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     sections: { shipped: "Shipped", services: "Serviços", openSource: "Código aberto", universe: "Universo", events: "Eventos", journal: "Journal", faq: "Perguntas", contact: "Contato" },
     shippedTitle: "O que lançamos por último",
     shippedLede: "O que a comunidade e a Station publicaram este mês.",
-    tabCommunity: "Comunidade", tabStation: "Station",
+    tabCommunity: "Comunidade", tabStation: "Station", stationSub: "O que o time da Station lança, direto do changelog.", communitySub: "Projetos que os crafters publicam como Ships.",
     backersLine: (count) => `${count} apoiadores nos nossos hackathons. Ver todos os hackathons`,
     shipsLabel: "Ships", shipsMeta: (crafters) => `publicados por ${crafters} crafters`,
     meetTeam: "Conheça a equipe",
@@ -131,7 +133,7 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     sections: { shipped: "发布", services: "服务", openSource: "开源", universe: "宇宙", events: "活动", journal: "日志", faq: "常见问题", contact: "联系" },
     shippedTitle: "最近发布",
     shippedLede: "社区与 Station 本月发布的作品。",
-    tabCommunity: "社区", tabStation: "Station",
+    tabCommunity: "社区", tabStation: "Station", stationSub: "Station 团队的最新发布，来自更新日志。", communitySub: "Crafter 们以 Ship 形式发布的项目。",
     backersLine: (count) => `${count} 家支持方参与过我们的黑客松，查看全部黑客松`,
     shipsLabel: "Ships", shipsMeta: (crafters) => `由 ${crafters} 位开发者发布`,
     meetTeam: "认识团队",
@@ -162,7 +164,7 @@ export const landingCopy: Record<Locale, LandingCopy> = {
     sections: { shipped: "シップ", services: "サービス", openSource: "オープンソース", universe: "ユニバース", events: "イベント", journal: "ジャーナル", faq: "よくある質問", contact: "お問い合わせ" },
     shippedTitle: "最近のリリース",
     shippedLede: "コミュニティと Station が今月公開したもの。",
-    tabCommunity: "コミュニティ", tabStation: "Station",
+    tabCommunity: "コミュニティ", tabStation: "Station", stationSub: "Station チームのリリース。チェンジログから。", communitySub: "クラフターが Ship として公開したプロジェクト。",
     backersLine: (count) => `${count} 社がハッカソンを支援。すべてのハッカソンを見る`,
     shipsLabel: "Ships", shipsMeta: (crafters) => `${crafters} 人のクラフターが公開`,
     meetTeam: "チームを見る",
