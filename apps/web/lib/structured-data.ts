@@ -88,6 +88,19 @@ export function webSiteSchema(locale: Locale = defaultLocale) {
   }
 }
 
+/** FAQPage for a visible list of questions; the text must match what the page shows. */
+export function faqPageSchema(items: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  }
+}
+
 export function breadcrumbList(locale: Locale, trail: { name: string; path: string }[]) {
   return {
     "@context": "https://schema.org",

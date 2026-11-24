@@ -104,8 +104,8 @@
   "pages": {
     "oss": {
       "eyebrow": "オープンソース",
-      "title": "オープンソース、コントリビューター歓迎。",
-      "description": "CLI、インターフェース、小さな実験。誰かが使い、試し、改善することで育つツールたち。",
+      "title": "ペルーのオープンソースコミュニティ：コントリビュートできるプロジェクト",
+      "description": "Crafter Station はペルーのリマで生まれたオープンソースコミュニティです。ラテンアメリカでつくる CLI、インターフェース、小さな実験に、最初のコントリビュートを。",
       "githubCta": "GitHub の Crafter",
       "metricsCta": "指標を見る",
       "reposEyebrow": "カタログ",
@@ -142,8 +142,8 @@
       "suggestTitle": "ほしいツールがある？",
       "suggestDescription": "関連するプロジェクトを見つけ、問題、背景、試したことを issue に書いてください。開発が進む場所で会話を始めましょう。",
       "suggestBoardCta": "リポジトリを探す",
-      "heroLine1": "コードを開き、",
-      "heroLine2": "一緒につくる。",
+      "heroLine1": "ペルー発の",
+      "heroLine2": "オープンソース。",
       "heroNote": "分かち合うためにつくる",
       "exploreCta": "コードを探す"
     },
