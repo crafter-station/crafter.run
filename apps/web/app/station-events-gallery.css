@@ -55,3 +55,8 @@
 @media (prefers-reduced-motion: reduce) { .ev-stamp { transition: none; } :is(.hr-bento-tile, .hr-gallery-item, .ev-album):hover .ev-stamp { rotate: -9deg; scale: 1; } }
 .hr-gallery-item:has(.ev-stamp) .hr-gallery-tag { display: none; }
 .ev-gallery .hr-gallery-item .ev-stamp { width: clamp(30px, 2.6vw, 40px); top: 8px; left: 8px; }
+.privacy-body { display: flex; flex-direction: column; gap: 32px; max-width: 760px; margin-inline: auto; padding-block: 40px 96px; }
+.privacy-updated { color: hsl(var(--muted-foreground)); }
+.privacy-section { display: flex; flex-direction: column; gap: 12px; }
+.privacy-section h2 { font-family: var(--font-crafter), sans-serif; font-size: 24px; font-weight: 500; letter-spacing: -.02em; }
+.privacy-section p { font-size: 17px; line-height: 1.75; color: hsl(var(--foreground) / .85); }
