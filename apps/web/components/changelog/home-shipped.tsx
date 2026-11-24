@@ -15,7 +15,7 @@ const copy: Record<Locale, { title: string; all: string }> = {
 }
 
 /** The three newest changelog entries with a cover, as joined tiles. */
-export function StationReleasesPanel({ locale }: { locale: Locale }) {
+export function StationReleasesPanel({ locale, label, sub }: { locale: Locale; label: string; sub: string }) {
   const t = copy[locale]
   const latest = getIndexEntries(locale)
     .filter((entry) => entry.image)
@@ -24,7 +24,16 @@ export function StationReleasesPanel({ locale }: { locale: Locale }) {
   if (latest.length === 0) return null
 
   return (
-    <>
+    <div className="home-shipped-group">
+      <div className="home-gallery-head home-shipped-group-head">
+        <div>
+          <h3 className="home-label">{label}</h3>
+          <p className="home-shipped-sub">{sub}</p>
+        </div>
+        <div className="home-shipped-group-links">
+        <Link href={changelogPath(locale)} className="home-secondary-link">{t.all}</Link>
+        </div>
+      </div>
       <ul className="home-shipped-grid home-frame">
         {latest.map((entry) => (
           <li key={entry.slug} data-area={entry.area}>
@@ -41,9 +50,6 @@ export function StationReleasesPanel({ locale }: { locale: Locale }) {
           </li>
         ))}
       </ul>
-      <div className="home-panel-links">
-        <Link href={changelogPath(locale)} className="home-action-link">{t.all}</Link>
-      </div>
-    </>
+    </div>
   )
 }

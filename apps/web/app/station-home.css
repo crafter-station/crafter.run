@@ -613,3 +613,9 @@
 @media (max-width:760px) { .home-journal-spread .home-journal-posts { border-left: 0; border-top: 1px solid var(--home-line); padding-inline: 24px; } }
 @media (max-width:520px) { .home-journal-spread .home-journal-posts a:has(.home-journal-post-media) { grid-template-columns: 104px minmax(0, 1fr); } }
 .home-journal-feature-media + h3 { margin-top: 20px; }
+.home-shipped-groups { display: flex; flex-direction: column; gap: 56px; }
+.home-shipped-group { display: flex; flex-direction: column; gap: 14px; }
+.home-shipped-group-head { align-items: flex-end; }
+.home-shipped-group-head .home-label { margin: 0; }
+.home-shipped-sub { margin: 4px 0 0; color: var(--muted-foreground); font-size: 15px; }
+.home-shipped-group-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
