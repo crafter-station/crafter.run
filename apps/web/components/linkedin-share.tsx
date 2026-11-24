@@ -202,8 +202,17 @@ export function LinkedInShare({
 									<span>{new URL(article.url).host}</span>
 								</div>
 							) : null}
-							<fieldset className="li-share-visibility">
-								<legend>{t.visibility}</legend>
+							<div
+								className="li-share-visibility"
+								role="radiogroup"
+								aria-labelledby={`${id}-visibility-label`}
+							>
+								<span
+									id={`${id}-visibility-label`}
+									className="li-share-visibility-label"
+								>
+									{t.visibility}
+								</span>
 								<label>
 									<input
 										type="radio"
@@ -222,7 +231,7 @@ export function LinkedInShare({
 									/>
 									{t.connections}
 								</label>
-							</fieldset>
+							</div>
 							<p className="li-share-hint">
 								{canPost ? t.hint : t.connectHint}
 							</p>

@@ -17,7 +17,7 @@ export type ReviewShip = {
   updatedAt: string
   publishedAt: string | null
   featuredAt: string | null
-  owner: { id: string; handle: string; displayName: string; trust: "new" | "trusted" | "blocked"; createdAt: string }
+  owner: { id: string; handle: string; displayName: string; avatarUrl: string | null; publishedShips: number; trust: "new" | "trusted" | "blocked"; createdAt: string }
   links: { type: string; url: string }[]
 }
 
@@ -57,6 +57,8 @@ async function load(
       ownerId: members.id,
       ownerHandle: members.handle,
       ownerDisplayName: members.displayName,
+      ownerAvatarUrl: members.avatarUrl,
+      ownerPublishedShips: sql<number>`(select count(*)::int from ${ships} as owned where owned.owner_member_id = ${members.id} and owned.status = 'published')`,
       ownerTrust: members.trust,
       ownerCreatedAt: members.createdAt,
     })
@@ -86,7 +88,15 @@ async function load(
     updatedAt: row.updatedAt,
     publishedAt: row.publishedAt,
     featuredAt: row.featuredAt,
-    owner: { id: row.ownerId, handle: row.ownerHandle, displayName: row.ownerDisplayName, trust: row.ownerTrust, createdAt: row.ownerCreatedAt },
+    owner: {
+      id: row.ownerId,
+      handle: row.ownerHandle,
+      displayName: row.ownerDisplayName,
+      avatarUrl: row.ownerAvatarUrl,
+      publishedShips: Number(row.ownerPublishedShips ?? 0),
+      trust: row.ownerTrust,
+      createdAt: row.ownerCreatedAt,
+    },
     links: links.filter((link) => link.shipId === row.id).map(({ type, url }) => ({ type, url })),
   }))
 }
@@ -134,13 +144,20 @@ export async function approveShip(shipId: string) {
     .update(ships)
     .set({ status: "published", publishedAt: now, reviewNote: null, updatedAt: now })
     .where(and(eq(ships.id, shipId), eq(ships.status, "pending")))
-    .returning({ ownerMemberId: ships.ownerMemberId })
-  if (!ship) return false
-  await db
+    .returning({
+      ownerMemberId: ships.ownerMemberId,
+      slug: ships.slug,
+      name: ships.name,
+      tagline: ships.tagline,
+      imageUrl: ships.imageUrl,
+    })
+  if (!ship) return null
+  const [owner] = await db
     .update(members)
     .set({ trust: "trusted", updatedAt: now })
     .where(and(eq(members.id, ship.ownerMemberId), ne(members.trust, "blocked")))
-  return true
+    .returning({ clerkUserId: members.clerkUserId, displayName: members.displayName })
+  return { shipId, slug: ship.slug, name: ship.name, tagline: ship.tagline, imageUrl: ship.imageUrl, owner: owner ?? null }
 }
 
 /** Sends a pending Ship back to its owner's drafts with a note explaining why. */

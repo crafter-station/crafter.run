@@ -6,6 +6,7 @@ import { isLocale } from "@/lib/i18n"
 import { loadReviewBoard, type ReviewShip, syncRosterTrust } from "@/lib/ship-review"
 import { getUnmatchedTopicRepos } from "@/lib/ship-topic-scan"
 
+import { ApproveForm, PendingButton } from "./review-buttons"
 import { approveAction, blockAction, featureAction, hideAction, sendBackAction, trustAction, unfeatureAction, unhideAction } from "./actions"
 
 export const metadata = { title: "Ships review", robots: { index: false } }
@@ -43,18 +44,16 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
               <ShipHeader ship={ship} lang={lang} />
               <p className="mt-4 whitespace-pre-wrap text-sm leading-6">{ship.description}</p>
               <div className="mt-6 flex flex-wrap items-end gap-3">
-                <form action={approveAction.bind(null, ship.id)}>
-                  <button className="bg-accent px-5 py-2 text-sm font-semibold text-accent-foreground">Approve and publish</button>
-                </form>
+                <ApproveForm action={approveAction.bind(null, ship.id)} />
                 <form action={sendBackAction.bind(null, ship.id)} className="flex flex-wrap items-end gap-2">
                   <label className="grid gap-1 text-sm">
                     <span className="label">Note to the owner</span>
                     <input name="note" required maxLength={500} placeholder="What to fix before publishing" className="input w-72" />
                   </label>
-                  <button className="border border-line px-5 py-2 text-sm">Send back</button>
+                  <PendingButton pendingLabel="Sending back…" className="border border-line px-5 py-2 text-sm">Send back</PendingButton>
                 </form>
                 <form action={blockAction.bind(null, ship.owner.id)}>
-                  <button className="border border-red-600 px-5 py-2 text-sm text-red-600">Block @{ship.owner.handle}</button>
+                  <PendingButton pendingLabel="Blocking…" className="border border-red-600 px-5 py-2 text-sm text-red-600">Block @{ship.owner.handle}</PendingButton>
                 </form>
               </div>
             </article>
@@ -73,7 +72,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
               <ShipHeader ship={featured} lang={lang} compact />
               <form action={unfeatureAction.bind(null, featured.id)}>
-                <button className="border border-line px-4 py-2 text-sm">Unfeature</button>
+                <PendingButton pendingLabel="Unfeaturing…" className="border border-line px-4 py-2 text-sm">Unfeature</PendingButton>
               </form>
             </div>
           ) : (
@@ -87,20 +86,20 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
               <div className="flex gap-2">
                 {ship.id === featured?.id ? (
                   <form action={unfeatureAction.bind(null, ship.id)}>
-                    <button className="border border-line px-4 py-2 text-sm">Unfeature</button>
+                    <PendingButton pendingLabel="Unfeaturing…" className="border border-line px-4 py-2 text-sm">Unfeature</PendingButton>
                   </form>
                 ) : (
                   <form action={featureAction.bind(null, ship.id)}>
-                    <button className="bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground">Feature</button>
+                    <PendingButton pendingLabel="Featuring…" className="bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground">Feature</PendingButton>
                   </form>
                 )}
                 {ship.owner.trust === "new" ? (
                   <form action={trustAction.bind(null, ship.owner.id)}>
-                    <button className="border border-line px-4 py-2 text-sm">Trust @{ship.owner.handle}</button>
+                    <PendingButton pendingLabel="Trusting…" className="border border-line px-4 py-2 text-sm">Trust @{ship.owner.handle}</PendingButton>
                   </form>
                 ) : null}
                 <form action={hideAction.bind(null, ship.id)}>
-                  <button className="border border-line px-4 py-2 text-sm">Hide</button>
+                  <PendingButton pendingLabel="Hiding…" className="border border-line px-4 py-2 text-sm">Hide</PendingButton>
                 </form>
               </div>
             </article>
@@ -139,7 +138,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
               <article key={ship.id} className="flex flex-wrap items-center justify-between gap-3 border border-line p-4">
                 <ShipHeader ship={ship} lang={lang} compact />
                 <form action={unhideAction.bind(null, ship.id)}>
-                  <button className="border border-line px-4 py-2 text-sm">Show again</button>
+                  <PendingButton pendingLabel="Showing…" className="border border-line px-4 py-2 text-sm">Show again</PendingButton>
                 </form>
               </article>
             ))}
@@ -159,9 +158,22 @@ function ShipHeader({ ship, lang, compact = false }: { ship: ReviewShip; lang: s
           {ship.status === "published" ? <Link href={`/${lang}/ships/${ship.slug}`}>{ship.name}</Link> : ship.name}
         </h3>
         <p className="text-sm text-muted-foreground">{ship.tagline}</p>
+        <Link href={`/${lang}/crafters/${ship.owner.handle}`} className="mt-2 flex items-center gap-2 text-sm">
+          {ship.owner.avatarUrl ? (
+            <img src={ship.owner.avatarUrl} alt="" width={24} height={24} className="size-6 rounded-full border border-line object-cover" />
+          ) : (
+            <span aria-hidden="true" className="grid size-6 place-items-center rounded-full border border-line text-[10px] uppercase">
+              {ship.owner.displayName.slice(0, 1)}
+            </span>
+          )}
+          <span className="font-medium">{ship.owner.displayName}</span>
+          <span className="text-muted-foreground">@{ship.owner.handle}</span>
+          <span className="border border-line px-1.5 py-0.5 text-[11px] text-muted-foreground">
+            {ship.owner.publishedShips} {ship.owner.publishedShips === 1 ? "Ship" : "Ships"} published
+          </span>
+        </Link>
         <p className="mt-1 text-xs text-muted-foreground">
-          <Link href={`/${lang}/crafters/${ship.owner.handle}`}>@{ship.owner.handle}</Link> · member since {date(ship.owner.createdAt, lang)} ·{" "}
-          {ship.owner.trust} · {date(ship.publishedAt ?? ship.updatedAt, lang)}
+          member since {date(ship.owner.createdAt, lang)} · {ship.owner.trust} · {date(ship.publishedAt ?? ship.updatedAt, lang)}
         </p>
         {!compact && ship.links.length ? (
           <p className="mt-2 flex flex-wrap gap-3 text-xs">

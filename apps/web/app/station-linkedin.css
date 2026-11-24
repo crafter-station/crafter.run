@@ -1,36 +1,53 @@
-/* LinkedIn share dialog: a neutral card so it reads the same inside the station, Hot Reload and DevDay themes. */
-.li-share { width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 0; border-radius: 12px; background: transparent; color: #1d2226; overflow: visible; }
-.li-share::backdrop { background: rgb(0 0 0 / 55%); backdrop-filter: blur(2px); }
-.li-share[open] { animation: li-share-in 200ms cubic-bezier(.2, .7, .2, 1); }
-@keyframes li-share-in { from { opacity: 0; transform: translateY(8px) scale(.985); } }
-.li-share-card { display: flex; flex-direction: column; gap: 14px; padding: 18px 20px 20px; border-radius: 12px; background: #ffffff; box-shadow: 0 24px 64px rgb(0 0 0 / 35%); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.5; text-transform: none; letter-spacing: normal; }
+/* LinkedIn share dialog. Native look: system font and LinkedIn's own light and dark colors, never the route's theme. */
+.li-share {
+  --li-bg: #ffffff; --li-text: rgb(0 0 0 / 90%); --li-muted: rgb(0 0 0 / 60%); --li-line: rgb(0 0 0 / 15%); --li-field: #ffffff;
+  --li-soft: #f3f2ef; --li-hover: rgb(0 0 0 / 8%); --li-primary: #0a66c2; --li-primary-hover: #004182; --li-on-primary: #ffffff;
+  --li-error-bg: #fdecea; --li-error: #b42318;
+  width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--li-text); overflow: visible; color-scheme: light;
+}
+:where(.dark) .li-share {
+  --li-bg: #1b1f23; --li-text: rgb(255 255 255 / 90%); --li-muted: rgb(255 255 255 / 60%); --li-line: rgb(255 255 255 / 20%); --li-field: #1b1f23;
+  --li-soft: #38434f; --li-hover: rgb(255 255 255 / 8%); --li-primary: #71b7fb; --li-primary-hover: #a8d4ff; --li-on-primary: #000000;
+  --li-error-bg: rgb(180 35 24 / 25%); --li-error: #ffb4ab;
+  color-scheme: dark;
+}
+.li-share::backdrop { background: rgb(0 0 0 / 60%); }
+.li-share[open] { animation: li-share-in 180ms ease-out; }
+@keyframes li-share-in { from { opacity: 0; transform: translateY(6px); } }
+.li-share { --li-font: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Lucida Grande", Helvetica, Arial, sans-serif; }
+.li-share :is(h2, p, span, label, button, a, textarea, strong) { font-family: var(--li-font); text-transform: none; letter-spacing: normal; }
+.li-share-card { text-align: left; font-family: var(--li-font); display: flex; flex-direction: column; gap: 14px; padding: 16px 20px 20px; border-radius: 8px; background: var(--li-bg); color: var(--li-text); box-shadow: 0 0 0 1px var(--li-line), 0 12px 40px rgb(0 0 0 / 30%); font-size: 14px; line-height: 1.43; }
 .li-share-head { display: flex; align-items: center; gap: 10px; }
-.li-share-head h2 { flex: 1; margin: 0; font-family: inherit; font-size: 17px; font-weight: 600; line-height: 1.3; text-transform: none; letter-spacing: normal; color: #1d2226; }
-.li-share-mark { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 5px; background: #0a66c2; color: #ffffff; font-weight: 700; font-size: 15px; font-family: inherit; }
-.li-share-x { width: 32px; height: 32px; border: 0; border-radius: 999px; background: transparent; color: #5e6670; cursor: pointer; }
-.li-share-x:hover { background: #eef3f8; }
+.li-share .li-share-head h2 { font-family: var(--li-font); flex: 1; margin: 0; font-size: 20px; font-weight: 400; line-height: 1.4; text-transform: none; letter-spacing: normal; color: var(--li-text); }
+.li-share-mark { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 4px; background: #0a66c2; color: #ffffff; font-weight: 700; font-size: 14px; }
+.li-share-x { display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 999px; background: transparent; color: var(--li-muted); font-size: 16px; cursor: pointer; }
+.li-share-x:hover { background: var(--li-hover); color: var(--li-text); }
 .li-share-text { position: relative; display: block; }
-.li-share-text textarea { width: 100%; min-height: 140px; padding: 12px 12px 26px; border: 1px solid #c9ced3; border-radius: 8px; background: #ffffff; color: #1d2226; font: inherit; resize: vertical; }
-.li-share-text textarea:focus { outline: 2px solid #0a66c2; outline-offset: 1px; border-color: transparent; }
-.li-share-count { position: absolute; right: 10px; bottom: 8px; font-size: 12px; color: #5e6670; font-variant-numeric: tabular-nums; }
-.li-share-image { display: block; width: 100%; max-height: 280px; object-fit: contain; border-radius: 8px; background: #f3f2ef; }
-.li-share-article { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border: 1px solid #e0e3e6; border-radius: 8px; background: #f3f2ef; }
-.li-share-article span { font-size: 13px; color: #5e6670; }
-.li-share-visibility { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin: 0; padding: 0; border: 0; }
-.li-share-visibility legend { float: left; margin-right: 6px; font-size: 13px; color: #5e6670; }
-.li-share-visibility label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
-.li-share-visibility input { accent-color: #0a66c2; }
-.li-share-hint { margin: 0; font-size: 13px; color: #5e6670; }
-.li-share-error { margin: 0; padding: 10px 12px; border-radius: 8px; background: #fdecea; color: #b42318; font-size: 14px; }
+.li-share-text textarea { width: 100%; min-height: 140px; padding: 12px 12px 28px; border: 1px solid var(--li-line); border-radius: 8px; background: var(--li-field); color: var(--li-text); font-size: 16px; line-height: 1.5; resize: vertical; }
+.li-share-text textarea:focus { outline: 2px solid var(--li-primary); outline-offset: -1px; }
+.li-share-count { position: absolute; right: 12px; bottom: 8px; font-size: 12px; color: var(--li-muted); font-variant-numeric: tabular-nums; }
+.li-share-image { display: block; width: 100%; max-height: 300px; object-fit: contain; border-radius: 8px; background: var(--li-soft); }
+.li-share-article { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border-radius: 8px; background: var(--li-soft); }
+.li-share-article strong { font-weight: 600; }
+.li-share-article span { font-size: 12px; color: var(--li-muted); }
+.li-share-visibility { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+.li-share-visibility-label { font-size: 14px; font-weight: 600; color: var(--li-text); }
+.li-share .li-share-visibility label { display: inline-flex; align-items: center; gap: 8px; padding: 0; background: none; color: var(--li-text); font-size: 14px; cursor: pointer; }
+.li-share-visibility input { width: 16px; height: 16px; margin: 0; accent-color: var(--li-primary); }
+.li-share-hint { margin: 0; font-size: 12px; color: var(--li-muted); }
+.li-share-error { margin: 0; padding: 10px 12px; border-radius: 8px; background: var(--li-error-bg); color: var(--li-error); }
 .li-share-gate { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
-.li-share-gate p { margin: 0; }
-.li-share-actions { display: flex; justify-content: flex-end; gap: 10px; }
-.li-share-primary, .li-share-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 6px 18px; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 160ms ease; }
-.li-share-primary { border: 0; background: #0a66c2; color: #ffffff; }
-.li-share-primary:hover { background: #004182; }
-.li-share-primary:disabled { background: #c9ced3; cursor: not-allowed; }
-.li-share-secondary { border: 1px solid #5e6670; background: transparent; color: #1d2226; }
-.li-share-secondary:hover { background: #eef3f8; }
-:is(.li-share-primary, .li-share-secondary, .li-share-x):focus-visible { outline: 2px solid #0a66c2; outline-offset: 2px; }
+.li-share-gate p { margin: 0; font-size: 16px; }
+.li-share-actions { display: flex; justify-content: flex-end; gap: 8px; padding-top: 4px; border-top: 1px solid var(--li-line); padding-top: 14px; }
+.li-share .li-share-primary, .li-share .li-share-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 6px 16px; border-radius: 999px; font-size: 16px; font-weight: 600; line-height: 1.25; cursor: pointer; text-decoration: none; transition: background 120ms ease, box-shadow 120ms ease; }
+.li-share .li-share-primary { border: 0; background: var(--li-primary); color: var(--li-on-primary); }
+.li-share .li-share-primary:hover { background: var(--li-primary-hover); }
+.li-share .li-share-primary:disabled { background: var(--li-hover); color: var(--li-muted); cursor: not-allowed; }
+.li-share .li-share-secondary { border: 0; background: transparent; color: var(--li-muted); box-shadow: inset 0 0 0 1px var(--li-muted); }
+.li-share .li-share-secondary:hover { background: var(--li-hover); color: var(--li-text); box-shadow: inset 0 0 0 2px var(--li-text); }
+.li-share :is(.li-share-primary, .li-share-secondary, .li-share-x):focus-visible { outline: 2px solid var(--li-primary); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { .li-share[open] { animation: none; } }
 .bounty-winners-share { margin-top: 20px; padding: 0; border: 0; background: none; font: inherit; cursor: pointer; }
+/* Trigger buttons keep the route's type: in Hot Reload, the display font like the X link next to it. */
+.hot-reload-theme button.hot-reload-display { font-family: var(--hr-display), sans-serif; }
+.event-badge-theme button.hot-reload-display { font-family: "OpenAI Sans", Arial, sans-serif; }
