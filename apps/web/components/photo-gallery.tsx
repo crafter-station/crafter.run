@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { EventStamp } from "@/components/event-stamp";
 import { RecapImage } from "@/components/hot-reload-recap-image";
+import { LinkedInShare } from "@/components/linkedin-share";
 import { recapCopy } from "@/lib/hot-reload-recap";
 import type { Locale } from "@/lib/i18n";
 import type { GalleryItem } from "@/lib/photo-gallery";
@@ -167,6 +168,15 @@ export function PhotoGallery({
 							<a href={current.src} target="_blank" rel="noopener noreferrer">
 								{t.download} ↗
 							</a>
+							{current.share ? (
+								<LinkedInShare
+									id={`photo-${current.key}`}
+									locale={locale}
+									text={current.share}
+									image={{ path: current.src, alt: current.alt }}
+									className="hr-lightbox-share"
+								/>
+							) : null}
 						</figcaption>
 					</figure>
 				) : null}

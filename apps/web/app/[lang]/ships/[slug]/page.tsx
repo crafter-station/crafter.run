@@ -4,6 +4,7 @@ import type { ReactNode } from "react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { getTranslations } from "next-intl/server"
+import { ShipLinkedInShare } from "@/components/ships/ship-linkedin-share"
 
 import { HomeHead } from "@/components/home-head"
 import { ShipUpvote } from "@/components/ship-upvote"
@@ -128,6 +129,15 @@ export default async function ShipPage({ params }: { params: Promise<{ lang: str
                   {link.label}
                 </a>
               ))}
+              <ShipLinkedInShare
+                locale={lang}
+                slug={ship.slug}
+                name={ship.name}
+                tagline={ship.tagline}
+                ownerHandle={ship.owner.handle}
+                ownerName={ship.owner.displayName}
+                className="hero-cta-ghost"
+              />
             </div>
           </div>
           <div className="inner-hero-extra">

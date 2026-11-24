@@ -6,6 +6,7 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
+import { LinkedInShare } from "@/components/linkedin-share"
 
 import { BountySubmissionForm } from "@/components/bounty-submission-form"
 import { BountyPoster } from "@/components/bounty-artwork"
@@ -15,7 +16,7 @@ import { bountyContent, bountyCopy, bountyDate } from "@/lib/bounty-copy"
 import { breadcrumbList } from "@/lib/structured-data"
 import { bountyQuestionsForumUrl, getBounty, isBountyOpen } from "@/lib/bounties"
 import { getDb } from "@/lib/db"
-import { isLocale, withLocale } from "@/lib/i18n"
+import { isLocale, type Locale, withLocale } from "@/lib/i18n"
 import { buildMetadata } from "@/lib/seo"
 import { socials } from "@/lib/site"
 
@@ -99,6 +100,13 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
             <div className="bounty-winner-links">{winner.links.map(link => <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer">{link.label}<ArrowUpRight size={14} aria-hidden="true" /></a>)}</div>
           </div>
         </li>)}</ol>
+        <LinkedInShare
+          id={`bounty-${bounty.slug}-winners`}
+          locale={lang}
+          text={`${winnersShare[lang].replace("{n}", bounty.slug.padStart(2, "0")).replace("{list}", bounty.winners.map((winner) => `${winner.project} (${winner.name})`).join(", "))}\n\nhttps://crafter.run/${lang}/bounties/${bounty.slug}`}
+          article={{ url: `https://crafter.run/${lang}/bounties/${bounty.slug}`, title: content.title, description: content.summary }}
+          className="home-secondary-link bounty-winners-share"
+        />
         {bounty.invited?.length ? <div className="bounty-invited">
           <h3>{t.invitedTitle}</h3><p>{t.invitedBody}</p>
           <ul>{bounty.invited.map(person => <li key={person.url}><a href={person.url} target="_blank" rel="noopener noreferrer">{person.name}<ArrowUpRight size={14} aria-hidden="true" /></a></li>)}</ul>
@@ -133,4 +141,12 @@ export default async function BountyPage({ params }: { params: Promise<{ lang: s
       <section className="bounty-community bounty-help"><div><h2>{t.questions}</h2><p>{t.questionsBody}</p></div><div className="bounty-actions"><a className="home-action-link" href={bountyQuestionsForumUrl} target="_blank" rel="noopener noreferrer">{t.forum}</a><a className="home-action-link" href={discordInviteUrl} target="_blank" rel="noopener noreferrer">{t.join}</a></div></section>
     </main>
   </>
+}
+
+const winnersShare: Record<Locale, string> = {
+  en: "Congrats to the winners of Crafter Station Bounty #{n}: {list}.",
+  es: "Felicitaciones a los ganadores del Bounty #{n} de Crafter Station: {list}.",
+  pt: "Parabéns aos vencedores do Bounty #{n} da Crafter Station: {list}.",
+  zh: "恭喜 Crafter Station Bounty #{n} 的获胜者：{list}。",
+  ja: "Crafter Station Bounty #{n}の受賞者の皆さん、おめでとうございます：{list}。",
 }
