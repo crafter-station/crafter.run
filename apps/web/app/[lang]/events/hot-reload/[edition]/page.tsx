@@ -2,7 +2,9 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 import { HotReloadByline, VenueLink } from "@/components/hot-reload-hero"
+import { HotReloadRecapSection } from "@/components/hot-reload-recap"
 import { HotReloadTheme } from "@/components/hot-reload-theme"
+import { findRecap, recapCopy } from "@/lib/hot-reload-recap"
 import { findEdition, hotReloadDate, hotReloadStatus, hotReloadTime, ordersOpen } from "@/lib/hot-reload"
 import { hotReloadCopy, hotReloadIdentity, hotReloadText } from "@/lib/hot-reload-copy"
 import { getEventMenu } from "@/lib/event-menu"
@@ -40,6 +42,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
   const status = hotReloadStatus(edition)
   const date = hotReloadDate(edition, lang)
   const preview = hotReloadPreview(lang, edition)
+  const recap = findRecap(edition.number)
   const schema = eventSchema({
     name: preview.title,
     url: localizedUrl(preview.path, lang),
@@ -69,13 +72,17 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             </div>
             <div>
               <dt>{id.where}</dt>
-              <dd><VenueLink edition={edition} /> · {edition.city}</dd>
+              <dd>{edition.venue ? <><VenueLink edition={edition} /> · </> : null}{edition.city}</dd>
             </div>
             <div>
               <dt>{id.spots}</dt>
               <dd>
                 {edition.seats ? hotReloadText(t.seats, { count: edition.seats }) : "—"}
-                <span className="hot-reload-status" data-next={status === "upcoming" || status === "live" ? "" : undefined}>{t[status]}</span>
+                {status === "past" && recap ? (
+                  <a href="#recap" className="hot-reload-status" data-recap="">{recapCopy[lang].recapAvailable} ↓</a>
+                ) : (
+                  <span className="hot-reload-status" data-next={status === "upcoming" || status === "live" ? "" : undefined}>{t[status]}</span>
+                )}
               </dd>
             </div>
             {edition.partner ? (
@@ -123,6 +130,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
           />
         ) : null}
       </section>
+      {recap ? <HotReloadRecapSection edition={edition.number} recap={recap} locale={lang} /> : null}
     </HotReloadTheme>
   )
 }

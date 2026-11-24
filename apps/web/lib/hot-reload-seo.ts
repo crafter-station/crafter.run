@@ -15,7 +15,7 @@ export function hotReloadPreview(locale: Locale, edition?: HotReloadEdition, men
     path: hotReloadPath(edition, menu),
     title: menu ? t.menu : name,
     description: edition
-      ? menu ? hotReloadText(t.menuDescription, { venue: edition.venue }) : `${t.tagline} · ${edition.venue}, ${edition.city}.`
+      ? menu ? hotReloadText(t.menuDescription, { venue: edition.venue ?? edition.city }) : `${t.tagline} · ${[edition.venue, edition.city].filter(Boolean).join(", ")}.`
       : t.description,
     eyebrow: menu ? name : edition?.partner ? `Crafter Station × ${edition.partner}` : t.tagline,
     detail: edition

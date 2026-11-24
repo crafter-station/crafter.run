@@ -7,7 +7,8 @@ export type Announcement = { author: string; role: string; url: string }
 
 export type HotReloadEdition = {
   number: number
-  venue: string
+  /** Omit until the venue is confirmed; the city still shows. */
+  venue?: string
   venueUrl?: string
   city: string
   startsAt?: string
@@ -65,6 +66,24 @@ export const hotReloadEditions: HotReloadEdition[] = [
       },
     ],
     menu: "don-salazar",
+  },
+  {
+    number: 2,
+    city: "Jesús María, Lima",
+    startsAt: "2026-12-12T15:00:00.000Z",
+    endsAt: "2026-12-12T18:00:00.000Z",
+    timeZone: "America/Lima",
+    description: {
+      en: "Bring your project: a short pitch and one question, \"how can we help?\". The goal is to leave with someone to build it with. Coffee is on us.",
+      es: "Trae tu proyecto: un pitch corto y una pregunta, \"¿en qué te ayudamos?\". La idea es salir con alguien con quien construirlo. El café va por nuestra cuenta.",
+      pt: "Traga seu projeto: um pitch curto e uma pergunta, \"como podemos ajudar?\". A ideia é sair com alguém para construir junto. O café é por nossa conta.",
+      zh: "带上你的项目：一段简短的介绍，再加一个问题：“我们能帮你什么？”目标是找到一起把它做出来的人。咖啡由我们招待。",
+      ja: "プロジェクトを持ってきてください。短いピッチと「何を手伝えるか」という質問をひとつ。一緒に作る仲間を見つけるのが目的です。コーヒーはこちらで用意します。",
+    },
+    partner: "Vercel",
+    poster: "/events/hot-reload/02.webp",
+    socialPoster: "/events/hot-reload/02-social.png",
+    lumaUrl: "https://luma.com/hack0-5u0o",
   },
 ]
 

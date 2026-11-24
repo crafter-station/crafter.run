@@ -25,6 +25,7 @@ export function HotReloadByline({ partner }: { partner?: string }) {
 }
 
 export function VenueLink({ edition }: { edition: HotReloadEdition }) {
+  if (!edition.venue) return null
   return edition.venueUrl ? (
     <a href={edition.venueUrl} target="_blank" rel="noopener noreferrer" className="text-foreground underline decoration-line underline-offset-4 hover:decoration-foreground">
       {edition.venue}
@@ -82,7 +83,7 @@ export function HotReloadHero({
               <span>{t[hotReloadStatus(edition)]}</span>
             </p>
           ) : null}
-          {edition ? <p className="mt-3"><VenueLink edition={edition} /></p> : null}
+          {edition?.venue ? <p className="mt-3"><VenueLink edition={edition} /></p> : null}
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">{description}</p>
           {children ? <div className="mt-7 flex flex-wrap items-center gap-4">{children}</div> : null}
         </div>

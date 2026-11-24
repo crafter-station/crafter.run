@@ -11,10 +11,12 @@ import { accessEventDay, accessEvents } from "@/lib/access-events"
 import { hackathons, hackathonPath } from "@/lib/hackathons"
 import { fetchHack0Calendar, fetchHack0EventImage } from "@/lib/hack0-calendar"
 import { HACK0_CALENDAR_URL, HACK0_ICAL_URL, HACK0_LUMA_URL, HACK0_SITE_URL, hack0DateParts, partitionHack0Events, teaserHack0Event } from "@/lib/hack0-calendar-data"
-import { isLocale, locales, withLocale } from "@/lib/i18n"
+import { isLocale, type Locale, locales, withLocale } from "@/lib/i18n"
 import { participationCopy } from "@/lib/participation-copy"
 import { buildMetadata } from "@/lib/seo"
 import { breadcrumbList } from "@/lib/structured-data"
+import { AlbumCards } from "@/components/event-albums"
+import { eventAlbums, eventsGalleryCopy } from "@/lib/event-albums"
 
 export const revalidate = 1800
 export const dynamicParams = false
@@ -108,6 +110,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       <AgendaCalendar events={calendar.events} initialNow={now} available={calendar.status === "available"} locale={lang} t={t} />
 
       {/* Calendar subscriptions and hosting, as one framed panel; site-wide links live in the global footer. */}
+      <AgendaAlbums locale={lang} />
       <section className="ev-foot home-frame" aria-label={t.subscribeLabel}>
         <div className="ev-foot-cell">
           <p className="home-label">{t.subscribeLabel}</p>
@@ -122,4 +125,19 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
       </section>
     </main>
   </>
+}
+
+function AgendaAlbums({ locale }: { locale: Locale }) {
+  const albums = eventAlbums()
+  if (!albums.length) return null
+  const t = eventsGalleryCopy(locale)
+  return (
+    <section className="agenda-albums ev-photo-scope" aria-labelledby="agenda-albums-title">
+      <div className="agenda-albums-head">
+        <h2 id="agenda-albums-title" className="home-label">{t.title}</h2>
+        <Link href={withLocale("/events/gallery", locale)} className="home-secondary-link">{t.viewAll} ↗</Link>
+      </div>
+      <AlbumCards albums={albums} locale={locale} />
+    </section>
+  )
 }

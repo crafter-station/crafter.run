@@ -1,0 +1,68 @@
+---
+title: "Crafter Gallery junta las fotos de todos los eventos"
+summary: "Una galería en crafter.run/events/gallery con las fotos de Hot Reload 01 y DevDay Exchange Lima, con filtro por evento y en Full HD."
+date: 2026-11-24
+area: station
+kind: ship
+crafters:
+  - railly
+repos:
+  - crafter-station/crafter.run
+links:
+  - label: "Abrir la galería"
+    url: "https://crafter.run/es/events/gallery"
+  - label: "Galería de Hot Reload 01"
+    url: "https://crafter.run/es/events/hot-reload/1/gallery"
+  - label: "Galería de DevDay Exchange Lima"
+    url: "https://crafter.run/es/events/devday-lima/gallery"
+image: /changelog/crafter-gallery/cover.webp
+evidence:
+  - "https://github.com/crafter-station/crafter.run/pull/257"
+  - "https://crafter.run/es/events/gallery"
+  - "https://crafter.run/es/events/hot-reload/1/gallery"
+  - "https://crafter.run/es/events/devday-lima/gallery"
+  - "https://crafter.run/es/blog/hot-reload-01-recap"
+  - "https://crafter.run/es/blog/devday-exchange-lima-recap"
+---
+
+Crafter Gallery reúne en un solo lugar las fotos de cada evento de Crafter Station. Arranca con 38 fotos de dos eventos, Hot Reload 01 y DevDay Exchange Community: Lima. Ábrela en [crafter.run/events/gallery](https://crafter.run/es/events/gallery).
+
+<Clip src="/changelog/crafter-gallery/demo.mp4" poster="/changelog/crafter-gallery/demo.webp" size="1280x800" alt="Filtrando la galería por Hot Reload, abriendo una foto en el lightbox, pasando a las dos siguientes con las flechas y cerrándolo" caption="Filtra por evento y recorre las fotos con las flechas del teclado." />
+
+## Un álbum por evento
+
+Cada evento tiene su álbum, con portada, fecha, ciudad y cantidad de fotos. Una estampilla en la esquina de cada foto indica de qué evento es, y los chips sobre la grilla la filtran a un solo evento. El filtro queda en la URL, así que un link con `?event=hot-reload` abre solo esas fotos.
+
+<Figure src="/changelog/crafter-gallery/albums.webp" alt="Página de la galería con dos álbumes, DevDay Exchange Community: Lima con 22 fotos y Hot Reload 01 con 16 fotos" size="1280x800" caption="Cada álbum lleva a la galería de su evento." />
+
+## En Full HD y sin pantallas vacías
+
+Cada foto se abre en un lightbox a 1920 píxeles y tiene su propio link. Primero carga una vista previa borrosa y la foto aparece con un fundido cuando está lista, así que con una conexión lenta se ve la imagen correcta en lugar de un recuadro vacío. Mientras miras una, las de al lado se cargan por detrás.
+
+<Figure src="/changelog/crafter-gallery/grid.webp" alt="Grilla de la galería con chips para Todas, Hot Reload y DevDay Exchange, y fotos con la estampilla de DevDay" size="1280x800" caption="La estampilla dice de qué evento es cada foto." />
+
+## Cada evento con su estilo
+
+Las galerías de cada evento mantienen su identidad. Las fotos de Hot Reload tienen un tono cálido con grano, en los colores de su marca. Las de DevDay usan un tono frío y apagado, en la línea del estilo de OpenAI DevDay. Los dos recaps del blog enlazan a su galería.
+
+<Gallery>
+  <Figure src="/changelog/crafter-gallery/hot-reload.webp" alt="Galería de Hot Reload Edición 01 con fotos cálidas y con grano del café" size="1280x800" caption="Hot Reload 01, con el tema de Hot Reload." />
+  <Figure src="/changelog/crafter-gallery/devday.webp" alt="Galería de DevDay Exchange Community: Lima en blanco y negro con los logos de OpenAI y UNMSM" size="1280x800" caption="DevDay Exchange Lima, con el tema de DevDay." />
+</Gallery>
+
+## En la portada
+
+La sección Eventos de la portada ahora muestra las fotos más recientes en una grilla que lleva a la galería completa, y la agenda de eventos lista todos los álbumes.
+
+<Figure src="/changelog/crafter-gallery/home.webp" alt="Sección Eventos de la portada con una grilla de fotos y un link para ver la galería completa de 38 fotos" size="1280x800" caption="La grilla de la portada abre la galería." />
+
+## Pruébala
+
+Abre [crafter.run/events/gallery](https://crafter.run/es/events/gallery), o entra directo a [Hot Reload 01](https://crafter.run/es/events/hot-reload/1/gallery) o a [DevDay Exchange Lima](https://crafter.run/es/events/devday-lima/gallery).
+
+## Qué cambió
+
+- Nueva galería en `/events/gallery`, con álbumes, filtros por evento y un lightbox en Full HD ([#257](https://github.com/crafter-station/crafter.run/pull/257)).
+- Nuevas galerías de Hot Reload 01 y DevDay Exchange Lima, cada una con el tema de su evento ([#257](https://github.com/crafter-station/crafter.run/pull/257)).
+- Una grilla de fotos en la sección Eventos de la portada y una fila de álbumes en la agenda ([#257](https://github.com/crafter-station/crafter.run/pull/257)).
+- Los recaps de Hot Reload 01 y DevDay Exchange Lima enlazan a su galería ([#257](https://github.com/crafter-station/crafter.run/pull/257)).

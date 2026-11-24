@@ -119,7 +119,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
             </div>
             <div>
               <dt>{id.treat}</dt>
-              <dd>{hotReloadText(t.menuIntro, { venue: edition.venue, amount: eventMoney(menu.maxTotal, lang, menu.currency) })}</dd>
+              <dd>{hotReloadText(t.menuIntro, { venue: edition.venue ?? edition.city, amount: eventMoney(menu.maxTotal, lang, menu.currency) })}</dd>
             </div>
             {deadline !== null ? (
               <div>

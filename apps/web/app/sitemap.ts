@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next"
 import { bounties } from "@/lib/bounties"
 import { hotReloadEditions } from "@/lib/hot-reload"
 import { hotReloadPath } from "@/lib/hot-reload-seo"
+import { eventAlbums } from "@/lib/event-albums"
 
 import { blogUpdated, getPost, getSlugs, pageCount, postLanguageAlternates, postLocales } from "@/lib/blog"
 import { changelogUpdated, entryLanguageAlternates, entryLocales, getEntry, getSlugs as getChangelogSlugs } from "@/lib/changelog"
@@ -39,7 +40,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       page.slugs.length > 0 ? `/docs/${page.slugs.join("/")}` : "/docs",
     )
   const bountyPaths = bounties.map(bounty => `/bounties/${bounty.slug}`)
-  const eventPaths = hotReloadEditions.map(edition => hotReloadPath(edition))
+  const eventPaths = [
+    ...hotReloadEditions.map(edition => hotReloadPath(edition)),
+    "/events/gallery",
+    ...eventAlbums().map(album => album.galleryPath),
+    ...(eventAlbums().some(album => album.series === "hot-reload") ? ["/events/hot-reload/gallery"] : []),
+  ]
   const paths = [...staticPaths, ...memberPaths, ...docsPaths, ...bountyPaths, ...eventPaths]
 
   const localizedEntries = paths.flatMap((path) =>
