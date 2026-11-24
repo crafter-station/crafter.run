@@ -83,6 +83,8 @@ export default async function Page({ params }: { params: Params }) {
             editPath={user?.id === badge.clerkUserId ? path : null}
             description={hotReloadText(b.shareDescription, values)}
             labels={b}
+            locale={lang}
+            imageAlt={hotReloadText(b.shareDescription, values)}
           />
         </HotReloadBadgeView>
       </section>

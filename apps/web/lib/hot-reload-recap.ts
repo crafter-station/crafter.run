@@ -1,5 +1,5 @@
 import type { Locale } from "@/lib/i18n";
-import type { GalleryItem } from "@/lib/photo-gallery";
+import { type GalleryItem, photoShareText } from "@/lib/photo-gallery";
 
 export type RecapPhoto = {
 	id: string;
@@ -335,5 +335,10 @@ export function toGalleryItems(
 		height: item.photo.height,
 		alt: recapAlt(item.photo, locale),
 		tag: tagEdition ? `#${String(item.edition).padStart(2, "0")}` : undefined,
+		share: photoShareText(
+			locale,
+			`Hot Reload #${String(item.edition).padStart(2, "0")}`,
+			`/events/hot-reload/${item.edition}/gallery#${photoKey(item)}`,
+		),
 	}));
 }

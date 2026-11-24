@@ -99,5 +99,6 @@ export const config = {
     "/__clerk/(.*)",
     // Route handlers that read the session with auth().
     "/api/ship-import/:path*",
+    "/api/linkedin/:path*",
   ],
 }

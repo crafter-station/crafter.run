@@ -1,0 +1,36 @@
+/* LinkedIn share dialog: a neutral card so it reads the same inside the station, Hot Reload and DevDay themes. */
+.li-share { width: min(560px, calc(100vw - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 0; border-radius: 12px; background: transparent; color: #1d2226; overflow: visible; }
+.li-share::backdrop { background: rgb(0 0 0 / 55%); backdrop-filter: blur(2px); }
+.li-share[open] { animation: li-share-in 200ms cubic-bezier(.2, .7, .2, 1); }
+@keyframes li-share-in { from { opacity: 0; transform: translateY(8px) scale(.985); } }
+.li-share-card { display: flex; flex-direction: column; gap: 14px; padding: 18px 20px 20px; border-radius: 12px; background: #ffffff; box-shadow: 0 24px 64px rgb(0 0 0 / 35%); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 15px; line-height: 1.5; text-transform: none; letter-spacing: normal; }
+.li-share-head { display: flex; align-items: center; gap: 10px; }
+.li-share-head h2 { flex: 1; margin: 0; font-family: inherit; font-size: 17px; font-weight: 600; line-height: 1.3; text-transform: none; letter-spacing: normal; color: #1d2226; }
+.li-share-mark { display: grid; place-items: center; width: 26px; height: 26px; border-radius: 5px; background: #0a66c2; color: #ffffff; font-weight: 700; font-size: 15px; font-family: inherit; }
+.li-share-x { width: 32px; height: 32px; border: 0; border-radius: 999px; background: transparent; color: #5e6670; cursor: pointer; }
+.li-share-x:hover { background: #eef3f8; }
+.li-share-text { position: relative; display: block; }
+.li-share-text textarea { width: 100%; min-height: 140px; padding: 12px 12px 26px; border: 1px solid #c9ced3; border-radius: 8px; background: #ffffff; color: #1d2226; font: inherit; resize: vertical; }
+.li-share-text textarea:focus { outline: 2px solid #0a66c2; outline-offset: 1px; border-color: transparent; }
+.li-share-count { position: absolute; right: 10px; bottom: 8px; font-size: 12px; color: #5e6670; font-variant-numeric: tabular-nums; }
+.li-share-image { display: block; width: 100%; max-height: 280px; object-fit: contain; border-radius: 8px; background: #f3f2ef; }
+.li-share-article { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border: 1px solid #e0e3e6; border-radius: 8px; background: #f3f2ef; }
+.li-share-article span { font-size: 13px; color: #5e6670; }
+.li-share-visibility { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; margin: 0; padding: 0; border: 0; }
+.li-share-visibility legend { float: left; margin-right: 6px; font-size: 13px; color: #5e6670; }
+.li-share-visibility label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.li-share-visibility input { accent-color: #0a66c2; }
+.li-share-hint { margin: 0; font-size: 13px; color: #5e6670; }
+.li-share-error { margin: 0; padding: 10px 12px; border-radius: 8px; background: #fdecea; color: #b42318; font-size: 14px; }
+.li-share-gate { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.li-share-gate p { margin: 0; }
+.li-share-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.li-share-primary, .li-share-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 36px; padding: 6px 18px; border-radius: 999px; font: inherit; font-weight: 600; cursor: pointer; text-decoration: none; transition: background 160ms ease; }
+.li-share-primary { border: 0; background: #0a66c2; color: #ffffff; }
+.li-share-primary:hover { background: #004182; }
+.li-share-primary:disabled { background: #c9ced3; cursor: not-allowed; }
+.li-share-secondary { border: 1px solid #5e6670; background: transparent; color: #1d2226; }
+.li-share-secondary:hover { background: #eef3f8; }
+:is(.li-share-primary, .li-share-secondary, .li-share-x):focus-visible { outline: 2px solid #0a66c2; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .li-share[open] { animation: none; } }
+.bounty-winners-share { margin-top: 20px; padding: 0; border: 0; background: none; font: inherit; cursor: pointer; }

@@ -1,6 +1,7 @@
+import { findAccessEvent } from "@/lib/access-events";
 import type { RecapPhoto } from "@/lib/hot-reload-recap";
 import type { Locale } from "@/lib/i18n";
-import type { GalleryItem } from "@/lib/photo-gallery";
+import { type GalleryItem, photoShareText } from "@/lib/photo-gallery";
 
 export type EventRecap = {
 	journalSlug: string;
@@ -261,5 +262,10 @@ export function eventGalleryItems(
 		width: photo.width,
 		height: photo.height,
 		alt: locale === "es" ? photo.alt.es : photo.alt.en,
+		share: photoShareText(
+			locale,
+			findAccessEvent(slug)?.title ?? slug,
+			`/events/${slug}/gallery#${photo.id}`,
+		),
 	}));
 }
