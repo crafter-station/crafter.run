@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { useMemo, useState, type ReactNode } from "react"
 import { AuthorByline } from "@/components/blog/avatar"
@@ -9,6 +10,12 @@ import { BlogNav, type KindFilter, type NavCopy } from "@/components/blog/nav"
 import type { BlogKind } from "@/lib/blog"
 
 /** Every article is server-rendered. Only search and topic filters hydrate. */
+function isLoneLast(index: number, count: number, filtered: boolean) {
+  if (index !== count - 1) return false
+  if (filtered) return index % 2 === 0
+  return index === 1 || (index >= 4 && (index - 4) % 2 === 0)
+}
+
 export function BlogIndex({ entries, kindOrder, t, children }: {
   entries: EntryView[]; kindOrder: readonly BlogKind[]
   t: NavCopy & { searchEmpty: string; readPost: string; empty: string }; children?: ReactNode
@@ -34,10 +41,10 @@ export function BlogIndex({ entries, kindOrder, t, children }: {
       {filtered && <button type="button" onClick={() => { setKind("all"); setQuery("") }}>{t.reset}</button>}
     </div> : <div className={`journal-grid${filtered ? " journal-grid-filtered" : ""}`}>
       {visible.map((entry, index) => <article key={`${entry.locale}-${entry.slug}`}
-        className={`journal-card journal-cover-${journalCover(entry.slug)}${!filtered && index === 0 ? " journal-card-lead" : ""}${!filtered && index === 3 ? " journal-card-wide" : ""}`}>
+        className={`journal-card journal-cover-${journalCover(entry.slug)}${!filtered && index === 0 ? " journal-card-lead" : ""}${(!filtered && index === 3) || isLoneLast(index, visible.length, filtered) ? " journal-card-wide" : ""}`}>
         <Link href={entry.href} hrefLang={entry.locale} className="journal-card-link">
           <div className="journal-card-visual"><span className="journal-topic">{entry.kindLabel}</span>
-            <JournalArtwork slug={entry.slug} /></div>
+            {entry.image ? <Image className="journal-card-photo" src={entry.image} alt="" width={1536} height={1024} sizes="(min-width: 1024px) 50vw, 100vw" /> : <JournalArtwork slug={entry.slug} />}</div>
           <div className="journal-card-body">
             <div className="journal-card-meta"><time dateTime={entry.date}>{entry.dateShort}</time><span>{entry.reading}</span></div>
             <h2>{entry.title}</h2><p className="journal-summary">{entry.summary}</p>

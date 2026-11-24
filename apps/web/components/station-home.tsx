@@ -1,9 +1,11 @@
+import Image from "next/image"
 import Link from "next/link"
 import { type Locale, withLocale } from "@/lib/i18n"
 import { homeCopy } from "@/lib/home-copy"
-import { teamMembers } from "@/lib/team"
 import { getIndexPosts } from "@/lib/blog"
 import { HomeHead } from "@/components/home-head"
+import { AuthorByline } from "@/components/blog/avatar"
+import { byline, entryAuthors } from "@/components/blog/format"
 import { landingCopy } from "@/lib/landing-copy"
 
 // Original decorative drawings for Station's editorial spread.
@@ -65,7 +67,6 @@ export function StationJournal({ locale, index }: { locale: Locale; index: numbe
   const date = (value: string) => new Intl.DateTimeFormat(locale, {
     year: "numeric", month: "short", day: "numeric", timeZone: "UTC",
   }).format(new Date(`${value}T00:00:00Z`))
-  const authors = (ids: string[]) => ids.map(id => teamMembers.find(p => p.username === id)?.name).filter(Boolean).join(" · ")
   return (
     <section className="home-journal" aria-labelledby="home-journal-title">
       <HomeHead id="home-journal-title" index={index} label={landingCopy[locale].sections.journal} title={t.journal}>
@@ -75,11 +76,15 @@ export function StationJournal({ locale, index }: { locale: Locale; index: numbe
         <article className="home-journal-feature">
           <Link href={withLocale(`/blog/${featured.slug}`,featured.locale)} lang={featured.locale}>
             <div className="home-journal-meta home-label-sm"><span>01 / {featured.kind}</span><time dateTime={featured.date}>{date(featured.date)}</time></div>
-            <NotebookArt />
+            {featured.image ? (
+              <div className="home-journal-feature-media">
+                <Image src={featured.image} alt="" width={1536} height={1024} sizes="(min-width: 1024px) 560px, 100vw" />
+              </div>
+            ) : <NotebookArt />}
             <h3>{featured.title}</h3>
             <p>{featured.summary}</p>
             <div className="home-journal-feature-bottom">
-              <span className="home-journal-author">{authors(featured.authors)}{featured.locale !== locale ? ` / ${featured.locale.toUpperCase()}` : ""}</span>
+              <span className="home-journal-author"><AuthorByline authors={entryAuthors(featured)} label={`${byline(featured.authors, locale)}${featured.locale !== locale ? ` / ${featured.locale.toUpperCase()}` : ""}`} /></span>
             </div>
           </Link>
         </article>
@@ -87,9 +92,14 @@ export function StationJournal({ locale, index }: { locale: Locale; index: numbe
           {posts.map((post,i) => <article key={post.slug}>
             <Link href={withLocale(`/blog/${post.slug}`,post.locale)} lang={post.locale}>
               <div className="home-journal-meta home-label-sm"><span>0{i+2} / {post.kind}</span><time dateTime={post.date}>{date(post.date)}</time></div>
+              {post.image ? (
+                <div className="home-journal-post-media">
+                  <Image src={post.image} alt="" width={1536} height={1024} sizes="(min-width: 1024px) 520px, 100vw" />
+                </div>
+              ) : null}
               <h3>{post.title}</h3>
               <p>{post.summary}</p>
-              <span className="home-journal-author">{authors(post.authors)}{post.locale !== locale ? ` / ${post.locale.toUpperCase()}` : ""}</span>
+              <span className="home-journal-author"><AuthorByline authors={entryAuthors(post)} label={`${byline(post.authors, locale)}${post.locale !== locale ? ` / ${post.locale.toUpperCase()}` : ""}`} /></span>
             </Link>
           </article>)}
           <div className="home-journal-note"><p>{t.journalNote}</p></div>
