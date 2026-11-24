@@ -206,3 +206,38 @@
   .journal-related-card:only-child h3 { font-size: clamp(26px, 2.4vw, 34px); }
 }
 @media (prefers-reduced-motion: reduce) { .journal-related-card:hover .journal-related-media img { transform: none; } }
+.journal-card-photo { display: block; width: 100%; height: 228px; object-fit: cover; }
+.journal-card-lead .journal-card-visual:has(.journal-card-photo) { align-items: stretch; }
+.journal-card-lead .journal-card-photo { height: 100%; min-height: 320px; }
+.journal-card-wide .journal-card-photo { height: 244px; }
+@media (max-width:760px) { .journal-card-lead .journal-card-photo { height: 220px; min-height: 0; } }
+.journal-card-visual:has(.journal-card-photo) .journal-topic { z-index: 1; padding: 4px 10px; background: rgb(20 22 18 / 72%); color: #f3f3e9; backdrop-filter: blur(4px); }
+.journal-article:not(.changelog-article) :is(.journal-band, .journal-article-body) { width: 100%; max-width: 760px; margin-inline: auto; }
+.journal-article:not(.changelog-article) .journal-band { border-bottom: 0; }
+.journal-article:not(.changelog-article) .journal-band-art-frame { max-width: none; }
+.journal-article:not(.changelog-article) .blog-body, .journal-article:not(.changelog-article) .blog-body > :is(p, ul, ol, h2, h3, blockquote) { max-width: none; }
+.linkedin-post { margin: 40px auto; max-width: 560px; border: 1px solid var(--home-line); background: hsl(var(--foreground) / .025); font-size: 16px; line-height: 1.55; }
+.linkedin-post a { text-decoration: none; color: inherit; }
+.linkedin-post-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 18px 20px 0; }
+.linkedin-post-author { display: flex; gap: 12px; min-width: 0; }
+.linkedin-post-avatar { width: 48px; height: 48px; aspect-ratio: 1; align-self: flex-start; border-radius: 999px; object-fit: cover; flex: none; }
+.linkedin-post-who { display: flex; flex-direction: column; min-width: 0; }
+.linkedin-post-name { font-weight: 600; line-height: 1.3; }
+.linkedin-post-author:where(:hover, :focus-visible) .linkedin-post-name { text-decoration: underline; text-underline-offset: 3px; }
+.linkedin-post-headline, .linkedin-post-date { font-size: 13px; line-height: 1.4; color: hsl(var(--muted-foreground)); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.linkedin-post-logo { flex: none; color: #0a66c2; }
+.dark .linkedin-post-logo { color: #71b7fb; }
+.linkedin-post-mark { width: 22px; height: 22px; display: block; }
+.linkedin-post-text { padding: 14px 20px 16px; }
+.linkedin-post-text p { margin: 0; white-space: pre-line; }
+.linkedin-post-text p + p { margin-top: 12px; }
+.linkedin-post-media { position: relative; display: block; border-block: 1px solid var(--home-line); overflow: hidden; }
+.journal-article .linkedin-post .linkedin-post-media img { display: block; width: 100%; height: auto; }
+.linkedin-post-play { position: absolute; inset: 0; margin: auto; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 999px; background: rgb(0 0 0 / 62%); color: #fff; transition: transform 200ms ease, background 200ms ease; }
+.linkedin-post-play svg { width: 28px; height: 28px; margin-left: 3px; }
+.linkedin-post-media:where(:hover, :focus-visible) .linkedin-post-play { transform: scale(1.06); background: rgb(0 0 0 / 78%); }
+@media (prefers-reduced-motion: reduce) { .linkedin-post-play { transition: none; } .linkedin-post-media:where(:hover, :focus-visible) .linkedin-post-play { transform: none; } }
+.linkedin-post-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; padding: 12px 20px 14px; font-size: 14px; color: hsl(var(--muted-foreground)); }
+.linkedin-post-counts { display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.linkedin-post-counts strong { color: hsl(var(--foreground)); font-weight: 600; }
+.linkedin-post a.linkedin-post-cta { color: hsl(var(--foreground)); text-decoration: underline; text-decoration-color: hsl(var(--muted-foreground) / .6); text-underline-offset: 4px; }
