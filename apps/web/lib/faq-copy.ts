@@ -33,7 +33,7 @@ export const faqCopy: Record<Locale, FaqCopy> = {
     title: "Buenas preguntas.",
     description: "Sobre lo que hacemos, por qué lo hacemos y cómo encontrar tu lugar.",
     items: [
-      { id: "crafter", question: "¿Qué es Crafter Station?", answer: "Un punto de encuentro para quienes quieren construir cosas con tecnología. Compartimos herramientas, proyectos y lo que aprendemos por el camino, desde Latinoamérica y con curiosidad por lo que viene.", cta: "Conoce nuestro universo" },
+      { id: "crafter", question: "¿Qué es Crafter Station?", answer: "Una comunidad open source de builders nacida en Lima, Perú, con crafters en toda Latinoamérica. Compartimos herramientas, proyectos y lo que aprendemos por el camino, con curiosidad por lo que viene.", cta: "Conoce nuestro universo" },
       { id: "open", question: "¿Por qué hacen open source?", answer: "Porque una herramienta puede servirle a mucha más gente cuando su código está abierto. Nos permite aprender de otros, recibir ideas que no habíamos considerado y devolver algo de lo que la comunidad nos ha dado.", cta: "Explora el código" },
       { id: "community", question: "¿Cómo puedo ser parte de la comunidad?", answer: "Entra a la conversación, preséntate y comparte algo que te dé curiosidad. Puedes venir con un proyecto, una pregunta o ganas de conocer a otras personas que también están construyendo.", cta: "Entra a la comunidad" },
       { id: "skills", question: "¿Tengo que saber programar para aportar?", answer: "Hay mucho por hacer además de escribir código: diseño, documentación, pruebas, traducciones o compartir una buena explicación. Empieza por lo que sabes y por lo que te gustaría aprender.", cta: "Encuentra con quién empezar" },
@@ -50,7 +50,7 @@ export const faqCopy: Record<Locale, FaqCopy> = {
     title: "Good questions.",
     description: "What we make, why we make it, and where you fit in.",
     items: [
-      { id: "crafter", question: "What is Crafter Station?", answer: "A meeting point for people who want to make things with technology. We share tools, projects, and what we learn along the way, from Latin America with curiosity about what comes next.", cta: "Meet our universe" },
+      { id: "crafter", question: "What is Crafter Station?", answer: "An open source community of builders founded in Lima, Peru, with crafters across Latin America. We share tools, projects, and what we learn along the way, with curiosity about what comes next.", cta: "Meet our universe" },
       { id: "open", question: "Why do you build open source?", answer: "Because a tool can help many more people when its code is open. It lets us learn from others, hear ideas we had not considered, and give something back to the community we learn from.", cta: "Explore the code" },
       { id: "community", question: "How can I join the community?", answer: "Join the conversation, introduce yourself, and share something you are curious about. Bring a project, a question, or an interest in meeting other people who are making things.", cta: "Join the community" },
       { id: "skills", question: "Do I need to know how to code to contribute?", answer: "There is plenty to do beyond writing code: design, documentation, testing, translations, or sharing a clear explanation. Start with what you know and what you want to learn.", cta: "Find people to start with" },
@@ -67,7 +67,7 @@ export const faqCopy: Record<Locale, FaqCopy> = {
     title: "Boas perguntas.",
     description: "O que fazemos, por que fazemos e onde você pode participar.",
     items: [
-      { id: "crafter", question: "O que é a Crafter Station?", answer: "Um ponto de encontro para quem quer criar com tecnologia. Compartilhamos ferramentas, projetos e o que aprendemos pelo caminho, da América Latina e com curiosidade pelo que vem a seguir.", cta: "Conheça nosso universo" },
+      { id: "crafter", question: "O que é a Crafter Station?", answer: "Uma comunidade open source de builders fundada em Lima, Peru, com crafters em toda a América Latina. Compartilhamos ferramentas, projetos e o que aprendemos pelo caminho, com curiosidade pelo que vem a seguir.", cta: "Conheça nosso universo" },
       { id: "open", question: "Por que vocês fazem open source?", answer: "Porque uma ferramenta pode ajudar muito mais gente quando seu código é aberto. Podemos aprender com outras pessoas, receber ideias que não tínhamos considerado e retribuir um pouco do que a comunidade nos deu.", cta: "Explore o código" },
       { id: "community", question: "Como posso participar da comunidade?", answer: "Entre na conversa, apresente-se e compartilhe algo que desperte sua curiosidade. Traga um projeto, uma pergunta ou vontade de conhecer outras pessoas que também estão criando.", cta: "Entre na comunidade" },
       { id: "skills", question: "Preciso saber programar para contribuir?", answer: "Há muito a fazer além de escrever código: design, documentação, testes, traduções ou uma boa explicação. Comece pelo que você sabe e pelo que gostaria de aprender.", cta: "Encontre com quem começar" },
@@ -84,7 +84,7 @@ export const faqCopy: Record<Locale, FaqCopy> = {
     title: "好问题，聊一聊。",
     description: "我们在做什么、为什么做，以及你可以如何参与。",
     items: [
-      { id: "crafter", question: "Crafter Station 是什么？", answer: "这里汇聚了想用技术创造事物的人。我们从拉丁美洲出发，分享工具、项目和一路学到的东西，也对接下来会发生什么充满好奇。", cta: "认识我们的世界" },
+      { id: "crafter", question: "Crafter Station 是什么？", answer: "一个诞生于秘鲁利马的开源创作者社区，成员遍布拉丁美洲。我们分享工具、项目和一路学到的东西，也对接下来会发生什么充满好奇。", cta: "认识我们的世界" },
       { id: "open", question: "为什么做开源？", answer: "工具的代码开放后，就有机会帮助更多人。我们可以向他人学习，听到未曾想到的点子，也把从社区获得的帮助传递下去。", cta: "探索代码" },
       { id: "community", question: "如何加入社区？", answer: "加入讨论，介绍一下自己，分享让你好奇的事情。可以带着项目、问题，或只是想认识同样在创造的人。", cta: "加入社区" },
       { id: "skills", question: "不会编程也能参与吗？", answer: "当然有代码之外的贡献方式：设计、文档、测试、翻译，或把一个概念解释清楚。从你会的事情和想学的事情开始。", cta: "找到一起开始的伙伴" },
@@ -101,7 +101,7 @@ export const faqCopy: Record<Locale, FaqCopy> = {
     title: "いい質問から。",
     description: "何を、なぜつくるのか。そして、どう参加できるのか。",
     items: [
-      { id: "crafter", question: "Crafter Station とは？", answer: "テクノロジーで何かをつくりたい人が出会う場所です。ラテンアメリカから、ツールやプロジェクト、学んだことを共有し、次に何ができるかを探っています。", cta: "Crafter の世界を知る" },
+      { id: "crafter", question: "Crafter Station とは？", answer: "ペルーのリマで生まれた、ビルダーのためのオープンソースコミュニティです。ラテンアメリカ各地のメンバーと、ツールやプロジェクト、学んだことを共有し、次に何ができるかを探っています。", cta: "Crafter の世界を知る" },
       { id: "open", question: "なぜオープンソースをつくるのですか？", answer: "コードを公開すると、ツールがより多くの人の役に立つからです。ほかの人から学び、思いつかなかったアイデアに出会い、コミュニティから得たものを少しずつ返していけます。", cta: "コードを見る" },
       { id: "community", question: "コミュニティにはどう参加できますか？", answer: "会話に加わり、自己紹介と気になっていることを聞かせてください。プロジェクトでも質問でも、ものをつくる仲間に会ってみたいという気持ちだけでも。", cta: "コミュニティに参加" },
       { id: "skills", question: "プログラミングができなくても貢献できますか？", answer: "コード以外にも、デザイン、ドキュメント、テスト、翻訳、わかりやすい説明など、できることはたくさんあります。得意なことや学びたいことから始めてください。", cta: "一緒に始める仲間を探す" },

@@ -3,11 +3,13 @@ import Link from "next/link"
 import { getTranslations } from "next-intl/server"
 import { GitBranch, GitPullRequest, MessageCircle } from "lucide-react"
 import { OssRepoGrid } from "@/components/oss-repo-grid"
+import { FaqSection } from "@/components/faq-section"
 import { HomeHead } from "@/components/home-head"
 import { StatTiles } from "@/components/stat-tiles"
 import { JsonLd } from "@/components/json-ld"
 import { isLocale, withLocale } from "@/lib/i18n"
 import { getOssRepos } from "@/lib/oss"
+import { ossFaq } from "@/lib/oss-faq"
 import { pageMetadata } from "@/lib/seo"
 import { breadcrumbList, repositoryListSchema } from "@/lib/structured-data"
 import { participationCopy } from "@/lib/participation-copy"
@@ -31,6 +33,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
   const stars = repos.reduce((sum, repo) => sum + repo.stars, 0)
   const issues = repos.reduce((sum, repo) => sum + repo.openIssues, 0)
   const steps = [GitBranch, MessageCircle, GitPullRequest]
+  const faq = ossFaq(lang, { repos: repos.length, stars, issues })
 
   return (
     <>
@@ -98,6 +101,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string 
             <Link href="https://crafters.chat" target="_blank" rel="noopener noreferrer" className="home-secondary-link">{t("communityCta")}</Link>
           </HomeHead>
         </section>
+        <FaqSection locale={lang} id="oss-faq" index={5} label={faq.label} title={faq.title} items={faq.items} />
       </main>
     </>
   )

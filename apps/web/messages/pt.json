@@ -104,8 +104,8 @@
   "pages": {
     "oss": {
       "eyebrow": "Código aberto",
-      "title": "Código aberto, aberto a contribuidores.",
-      "description": "CLIs, interfaces e pequenos experimentos que crescem quando outras pessoas usam, testam e melhoram.",
+      "title": "Comunidade open source no Peru: projetos para contribuir",
+      "description": "A Crafter Station é uma comunidade open source fundada em Lima, Peru: CLIs, interfaces e experimentos feitos na América Latina, abertos à sua primeira contribuição.",
       "githubCta": "Crafter no GitHub",
       "metricsCta": "Ver as métricas",
       "reposEyebrow": "O catálogo",
@@ -142,8 +142,8 @@
       "suggestTitle": "Está faltando uma ferramenta?",
       "suggestDescription": "Encontre um projeto relacionado e abra uma issue com o problema, o contexto e o que já tentou. A conversa começa onde o trabalho acontece.",
       "suggestBoardCta": "Encontrar um repositório",
-      "heroLine1": "Código",
-      "heroLine2": "aberto.",
+      "heroLine1": "Código aberto",
+      "heroLine2": "do Peru.",
       "heroNote": "Feito para compartilhar",
       "exploreCta": "Explorar o código"
     },

@@ -104,8 +104,8 @@
   "pages": {
     "oss": {
       "eyebrow": "开源",
-      "title": "开源项目，欢迎贡献者。",
-      "description": "命令行工具、界面组件与小实验，在更多人的使用、测试和改进中成长。",
+      "title": "秘鲁开源社区：欢迎贡献的开源项目",
+      "description": "Crafter Station 是诞生于秘鲁利马的开源社区：在拉丁美洲打造的命令行工具、界面组件与小实验，欢迎你的第一次贡献。",
       "githubCta": "GitHub 上的 Crafter",
       "metricsCta": "查看指标",
       "reposEyebrow": "项目目录",
@@ -142,8 +142,8 @@
       "suggestTitle": "缺少一件工具？",
       "suggestDescription": "找到相关项目并提交 issue，说明问题、背景和已尝试的方法。在项目开展的地方发起讨论。",
       "suggestBoardCta": "寻找代码仓库",
-      "heroLine1": "开放代码，",
-      "heroLine2": "一起创造。",
+      "heroLine1": "来自秘鲁的",
+      "heroLine2": "开源项目。",
       "heroNote": "为分享而创造",
       "exploreCta": "探索代码"
     },
