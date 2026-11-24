@@ -37,6 +37,7 @@ export type EntryView = {
   href: string
   title: string
   summary: string
+  image?: string
   kind: BlogKind
   kindLabel: string
   /** Machine-readable date for `<time datetime>`. */
