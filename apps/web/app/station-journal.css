@@ -232,7 +232,7 @@
 .linkedin-post-text p { margin: 0; white-space: pre-line; }
 .linkedin-post-text p + p { margin-top: 12px; }
 .linkedin-post-media { position: relative; display: block; border-block: 1px solid var(--home-line); overflow: hidden; }
-.journal-article .linkedin-post .linkedin-post-media img { display: block; width: 100%; height: auto; }
+.journal-article .linkedin-post .linkedin-post-media img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
 .linkedin-post-play { position: absolute; inset: 0; margin: auto; width: 64px; height: 64px; display: grid; place-items: center; border-radius: 999px; background: rgb(0 0 0 / 62%); color: #fff; transition: transform 200ms ease, background 200ms ease; }
 .linkedin-post-play svg { width: 28px; height: 28px; margin-left: 3px; }
 .linkedin-post-media:where(:hover, :focus-visible) .linkedin-post-play { transform: scale(1.06); background: rgb(0 0 0 / 78%); }
@@ -241,3 +241,5 @@
 .linkedin-post-counts { display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .linkedin-post-counts strong { color: hsl(var(--foreground)); font-weight: 600; }
 .linkedin-post a.linkedin-post-cta { color: hsl(var(--foreground)); text-decoration: underline; text-decoration-color: hsl(var(--muted-foreground) / .6); text-underline-offset: 4px; }
+.linkedin-post a.linkedin-post-more { color: hsl(var(--muted-foreground)); }
+.linkedin-post a.linkedin-post-more:where(:hover, :focus-visible) { color: hsl(var(--foreground)); text-decoration: underline; text-underline-offset: 3px; }

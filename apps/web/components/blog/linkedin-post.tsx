@@ -27,6 +27,7 @@ const LABELS: Record<
 		comments: string;
 		reposts: string;
 		play: string;
+		more: string;
 	}
 > = {
 	es: {
@@ -35,6 +36,7 @@ const LABELS: Record<
 		comments: "comentarios",
 		reposts: "veces compartido",
 		play: "Ver el video en LinkedIn",
+		more: "ver más",
 	},
 	en: {
 		view: "View on LinkedIn",
@@ -42,6 +44,7 @@ const LABELS: Record<
 		comments: "comments",
 		reposts: "reposts",
 		play: "Watch the video on LinkedIn",
+		more: "more",
 	},
 	pt: {
 		view: "Ver no LinkedIn",
@@ -49,6 +52,7 @@ const LABELS: Record<
 		comments: "comentários",
 		reposts: "compartilhamentos",
 		play: "Ver o vídeo no LinkedIn",
+		more: "ver mais",
 	},
 	zh: {
 		view: "在 LinkedIn 查看",
@@ -56,6 +60,7 @@ const LABELS: Record<
 		comments: "条评论",
 		reposts: "次转发",
 		play: "在 LinkedIn 观看视频",
+		more: "更多",
 	},
 	ja: {
 		view: "LinkedInで見る",
@@ -63,6 +68,7 @@ const LABELS: Record<
 		comments: "件のコメント",
 		reposts: "件のリポスト",
 		play: "LinkedInで動画を見る",
+		more: "もっと見る",
 	},
 };
 
@@ -82,6 +88,27 @@ function LinkedInMark() {
 	);
 }
 
+const PREVIEW_CHARS = 180;
+
+function preview(text: string) {
+	const shown: string[] = [];
+	let used = 0;
+	for (const paragraph of text.split(/\n{2,}/)) {
+		if (used + paragraph.length <= PREVIEW_CHARS) {
+			shown.push(paragraph);
+			used += paragraph.length;
+			continue;
+		}
+		const room = PREVIEW_CHARS - used;
+		if (room > 40) {
+			const cut = paragraph.slice(0, room);
+			shown.push(cut.slice(0, cut.lastIndexOf(" ")).replace(/[,.;:]$/, ""));
+		}
+		return { shown, truncated: true };
+	}
+	return { shown, truncated: false };
+}
+
 export function LinkedInPost({
 	href,
 	name,
@@ -99,6 +126,7 @@ export function LinkedInPost({
 	locale,
 }: LinkedInPostProps) {
 	const t = LABELS[locale] ?? LABELS.en;
+	const body = preview(text);
 	const isVideo = video === true || video === "" || video === "true";
 	const [width, height] = mediaSize.split("x").map(Number);
 	const dateLabel = new Intl.DateTimeFormat(locale, {
@@ -150,8 +178,23 @@ export function LinkedInPost({
 				</a>
 			</header>
 			<div className="linkedin-post-text" lang="es">
-				{text.split(/\n{2,}/).map((paragraph) => (
-					<p key={paragraph.slice(0, 32)}>{paragraph}</p>
+				{body.shown.map((paragraph, index) => (
+					<p key={paragraph.slice(0, 32)}>
+						{paragraph}
+						{body.truncated && index === body.shown.length - 1 ? (
+							<>
+								{"… "}
+								<a
+									href={href}
+									target="_blank"
+									rel="noreferrer"
+									className="linkedin-post-more"
+								>
+									{t.more}
+								</a>
+							</>
+						) : null}
+					</p>
 				))}
 			</div>
 			{media ? (
