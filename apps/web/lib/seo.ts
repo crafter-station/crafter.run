@@ -24,6 +24,7 @@ export function serpDescription(text: string): string {
 
 export const indexablePaths = [
   "/",
+  "/privacy",
   "/crafters",
   "/services",
   "/jobs",
