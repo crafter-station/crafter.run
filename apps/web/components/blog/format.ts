@@ -125,6 +125,7 @@ export function toEntryViews(posts: readonly BlogPost[], locale: Locale): EntryV
     href: blogPostPath(post.locale, post.slug),
     title: post.title,
     summary: post.summary,
+    ...(post.image ? { image: post.image } : {}),
     kind: post.kind,
     kindLabel: t.kinds[post.kind],
     date: post.date,

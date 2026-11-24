@@ -29,7 +29,8 @@ export function generateStaticParams() {
   return getSlugs().flatMap((slug) => postLocales(slug).map((lang) => ({ lang, slug })))
 }
 
-function cardImage(post: { slug: string; title: string; summary: string }, locale: Locale) {
+function cardImage(post: { slug: string; title: string; summary: string; og?: string }, locale: Locale) {
+  if (post.og) return post.og.startsWith("https://") ? post.og : absoluteUrl(post.og)
   return absoluteUrl(ogImageUrl(post.title, locale, "Crafter Journal", {
     path: `/blog/${post.slug}`, description: post.summary,
   }))
@@ -186,6 +187,12 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
                     hrefLang={entry.locale}
                     className="journal-related-card"
                   >
+                    {entry.image && (
+                      <div className="journal-related-media">
+                        <Image src={entry.image} alt="" width={1536} height={1024} sizes="(min-width: 1024px) 50vw, 100vw" />
+                      </div>
+                    )}
+                    <div className="journal-related-body">
                     <p className="home-label-sm">
                       {entry.kindLabel}
                       {entry.languageNote ? ` · ${entry.languageNote}` : ""}
@@ -197,6 +204,7 @@ export default async function Page({ params }: { params: Promise<{ lang: string;
                         {entry.dateLong}
                       </time>
                       <span className="text-sm">{t.readPost}</span>
+                    </div>
                     </div>
                   </Link>
                 ))}
