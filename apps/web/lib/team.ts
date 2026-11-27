@@ -521,7 +521,7 @@ export const teamMembers: TeamMember[] = [
     skills: ["Automation", "AI", "Notion", "Product Hunt", "Growth Hacking", "Content Marketing"],
     github: "https://github.com/TheVeller",
     linkedin: "https://www.linkedin.com/in/ignacio-vel%C3%A1squez-franco-3a5765204/",
-    website: "https://theveller.gumroad.com/",
+    website: "https://theveller.dev/",
     cal: "https://cal.com/ignacio-velasquez-franco/30min",
     joinedYear: 2025,
   },
@@ -541,6 +541,7 @@ export const teamMembers: TeamMember[] = [
     skills: ["Go", "Python", "PostgreSQL", "Docker", "REST APIs", "Distributed Systems"],
     github: "https://github.com/Jibaru",
     linkedin: "https://www.linkedin.com/in/ignacior97/",
+    website: "https://jibaru.dev",
     cal: "https://cal.com/irueda/30min",
     joinedYear: 2024,
     software: [
