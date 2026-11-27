@@ -4,7 +4,7 @@ import type { OssRepo } from "@/lib/oss"
 import type { Product } from "@/lib/products"
 import { baseUrl, localizedUrl } from "@/lib/seo"
 import { siteConfig, socials } from "@/lib/site"
-import { getTeamMember, primaryLink, type TeamMember } from "@/lib/team"
+import { getTeamMember, primaryLink, teamMembers, type TeamMember } from "@/lib/team"
 
 /**
  * schema.org builders. Structured data is the only description of this site a
@@ -51,6 +51,18 @@ export function organizationSchema(locale: Locale = defaultLocale) {
       url: localizedUrl("/team/railly", locale),
       sameAs: ["https://railly.dev", "https://github.com/Railly"],
     },
+    member: teamMembers
+      .filter((m) => !m.alumni && !m.hiddenFromRoster)
+      .map((m) => {
+        const sameAs = [m.website, m.github].filter((link): link is string => Boolean(link))
+        return {
+          "@type": "Person" as const,
+          "@id": teamPersonId(m.username),
+          name: m.name,
+          url: localizedUrl(`/team/${m.username}`, locale),
+          ...(sameAs.length > 0 ? { sameAs } : {}),
+        }
+      }),
     foundingLocation: {
       "@type": "Place",
       name: "Lima, Peru",

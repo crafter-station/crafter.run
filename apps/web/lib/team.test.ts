@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { GET as links } from "@/app/links.json/route"
 import { entryAuthors } from "@/components/blog/format"
 import { type BlogPost, getAuthor } from "@/lib/blog"
-import { blogPostingSchema, personSchema } from "@/lib/structured-data"
+import { blogPostingSchema, organizationSchema, personSchema } from "@/lib/structured-data"
 import { activeTeamMembers, alumniTeamMembers, featuredTeamMembers, getTeamMember } from "./team"
 
 const formerUsernames = ["cuevaio", "emmy", "gabriel", "juan", "shiara"]
@@ -73,5 +73,49 @@ describe("current team and historical credits", () => {
     })
     expect(postSchema.author[0]["@id"]).toBe("https://www.railly.dev/#person")
     expect(postSchema.author[1]["@id"]).toBe("https://crafter.run/en/team/edward#person")
+  })
+
+  test("emits active roster members in organizationSchema with canonical @ids and websites", () => {
+    const org = organizationSchema()
+    expect(org.member.length).toBe(activeTeamMembers.length)
+
+    const byName = new Map(org.member.map((m) => [m.name, m]))
+
+    const railly = byName.get("Railly Hugo")
+    expect(railly).toEqual({
+      "@type": "Person",
+      "@id": "https://www.railly.dev/#person",
+      name: "Railly Hugo",
+      url: "https://crafter.run/en/team/railly",
+      sameAs: ["https://railly.dev", "https://github.com/Railly"],
+    })
+
+    const ignacio = byName.get("Ignacio Rueda")
+    expect(ignacio).toEqual({
+      "@type": "Person",
+      "@id": "https://crafter.run/en/team/ignacio#person",
+      name: "Ignacio Rueda",
+      url: "https://crafter.run/en/team/ignacio",
+      sameAs: ["https://jibaru.dev", "https://github.com/Jibaru"],
+    })
+
+    const nacho = byName.get("Ignacio Velásquez")
+    expect(nacho).toEqual({
+      "@type": "Person",
+      "@id": "https://crafter.run/en/team/nacho#person",
+      name: "Ignacio Velásquez",
+      url: "https://crafter.run/en/team/nacho",
+      sameAs: ["https://theveller.dev/", "https://github.com/TheVeller"],
+    })
+
+    const orgEs = organizationSchema("es")
+    const nachoEs = orgEs.member.find((m) => m.name === "Ignacio Velásquez")
+    expect(nachoEs?.["@id"]).toBe("https://crafter.run/en/team/nacho#person")
+    expect(nachoEs?.url).toBe("https://crafter.run/es/team/nacho")
+
+    for (const username of formerUsernames) {
+      const former = getTeamMember(username)!
+      expect(byName.has(former.name)).toBe(false)
+    }
   })
 })
