@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { GET as links } from "@/app/links.json/route"
 import { entryAuthors } from "@/components/blog/format"
 import { type BlogPost, getAuthor } from "@/lib/blog"
-import { blogPostingSchema } from "@/lib/structured-data"
+import { blogPostingSchema, personSchema } from "@/lib/structured-data"
 import { activeTeamMembers, alumniTeamMembers, featuredTeamMembers, getTeamMember } from "./team"
 
 const formerUsernames = ["cuevaio", "emmy", "gabriel", "juan", "shiara"]
@@ -53,5 +53,25 @@ describe("current team and historical credits", () => {
       expect(schema.author[0].url).toBe(author.path)
       expect(schema.author[0]).not.toHaveProperty("worksFor")
     }
+  })
+
+  test("pins team member Person @ids to /en/team/<handle>#person with canonical override for Railly", () => {
+    const railly = getTeamMember("railly")!
+    const edward = getTeamMember("edward")!
+
+    expect(personSchema(railly, "en").mainEntity["@id"]).toBe("https://www.railly.dev/#person")
+    expect(personSchema(railly, "es").mainEntity["@id"]).toBe("https://www.railly.dev/#person")
+    expect(personSchema(edward, "en").mainEntity["@id"]).toBe("https://crafter.run/en/team/edward#person")
+    expect(personSchema(edward, "es").mainEntity["@id"]).toBe("https://crafter.run/en/team/edward#person")
+
+    const postSchema = blogPostingSchema({
+      post: { title: "Post", summary: "Summary", date: "2026-10-01", kind: "engineering" },
+      authors: [railly, edward],
+      locale: "es",
+      url: "https://crafter.run/es/blog/example",
+      imageUrl: "https://crafter.run/og/example.png",
+    })
+    expect(postSchema.author[0]["@id"]).toBe("https://www.railly.dev/#person")
+    expect(postSchema.author[1]["@id"]).toBe("https://crafter.run/en/team/edward#person")
   })
 })

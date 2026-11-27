@@ -28,6 +28,8 @@ describe("hackathons", () => {
 describe("organizationSchema", () => {
   test("names the founder, the founding place and hack0", () => {
     const org = organizationSchema("en")
+    expect(org["@id"]).toBe("https://crafter.run/#organization")
+    expect(org.founder["@id"]).toBe("https://www.railly.dev/#person")
     expect(org.founder.name).toBe("Railly Hugo")
     expect(org.foundingLocation.name).toBe("Lima, Peru")
     expect(org.subOrganization["@id"]).toBe("https://hack0.dev/#organization")

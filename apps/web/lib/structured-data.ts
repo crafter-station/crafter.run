@@ -15,6 +15,13 @@ import { getTeamMember, primaryLink, type TeamMember } from "@/lib/team"
 
 const ORGANIZATION_ID = `${baseUrl}/#organization`
 const WEBSITE_ID = `${baseUrl}/#website`
+const CANONICAL_PERSON_IDS: Record<string, string> = {
+  railly: "https://www.railly.dev/#person",
+}
+
+export function teamPersonId(username: string): string {
+  return CANONICAL_PERSON_IDS[username] ?? `${localizedUrl(`/team/${username}`, defaultLocale)}#person`
+}
 
 /** A reference to the organization node, for pages that should not repeat it. */
 export const organizationRef = { "@id": ORGANIZATION_ID }
@@ -39,6 +46,7 @@ export function organizationSchema(locale: Locale = defaultLocale) {
     areaServed: { "@type": "Place", name: "Latin America" },
     founder: {
       "@type": "Person",
+      "@id": teamPersonId("railly"),
       name: "Railly Hugo",
       url: localizedUrl("/team/railly", locale),
       sameAs: ["https://railly.dev", "https://github.com/Railly"],
@@ -283,7 +291,7 @@ export function personSchema(member: TeamMember, locale: Locale) {
     inLanguage: locale,
     mainEntity: {
       "@type": "Person",
-      "@id": `${profileUrl}#person`,
+      "@id": teamPersonId(member.username),
       name: member.name,
       alternateName: member.username,
       jobTitle: member.role,
@@ -331,9 +339,12 @@ function authorNodes(authors: readonly BlogAuthorNode[], locale: Locale) {
     const profileUrl = member?.alumni
       ? (primaryLink(member) ?? localizedUrl("/team", locale))
       : localizedUrl(`/team/${author.username}`, locale)
+    const id = member?.alumni
+      ? `${primaryLink(member) ?? localizedUrl("/team", defaultLocale)}#person`
+      : teamPersonId(author.username)
     return {
       "@type": "Person" as const,
-      "@id": `${profileUrl}#person`,
+      "@id": id,
       name: author.name,
       jobTitle: author.role,
       url: profileUrl,
